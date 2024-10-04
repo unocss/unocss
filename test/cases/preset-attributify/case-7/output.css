@@ -1,0 +1,7 @@
+/* layer: default */
+[border~="\~"]{border-width:1px;}
+[border~="red\:10"],
+[border~="red\/10"]{border-color:rgb(248 113 113 / 0.1);}
+[border~="hover\:red\:10"]:hover{border-color:rgb(248 113 113 / 0.1);}
+[hover~="text-blue\:10"]:hover{color:rgb(96 165 250 / 0.1);}
+[active~="text-green\/10"]:active{color:rgb(74 222 128 / 0.1);}

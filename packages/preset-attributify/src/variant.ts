@@ -27,7 +27,17 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
 
       const content = match[2]
 
-      const [, variants = '', body = content] = content.match(variantsRE) || []
+      let [, variants = '', body = content] = content.match(variantsRE) || []
+
+      // For special case like `<div border="~ red:10">`
+      // `border-red:10` should not consider `border-red:` as a variant
+      if (variants && body.match(/^[\d.]+$/)) {
+        const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
+        body = variantParts.pop() + body
+        variants = variantParts.join('')
+      }
+
+      // Expend attributify self-referencing `~`
       if (body === '~' || (trueToNonValued && body === 'true') || !body)
         return `${variants}${name}`
 
@@ -44,6 +54,9 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
         if (bracketValue)
           return `${bodyVariant}${variants}${name}-${bracketValue}`
       }
+
+      // if (body.match(/^[\d.]+$/))
+      //   return `${variants}${name}:${body}`
 
       return `${variants}${name}-${body}`
     },

@@ -1,0 +1,6 @@
+[border~="~"]
+[border~="red:10"]
+[border~="red/10"]
+[hover~="text-blue:10"]
+[active~="text-green/10"]
+[border~="hover:red:10"]
