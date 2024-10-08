@@ -27,19 +27,12 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
 
       const content = match[2]
 
-      let [, variants = '', body = content] = content.match(variantsRE) || []
-
-      // For special case like `<div border="~ red:10">`
-      // `border-red:10` should not consider `border-red:` as a variant
-      if (variants && body.match(/^[\d.]+$/)) {
-        const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
-        body = variantParts.pop() + body
-        variants = variantParts.join('')
-      }
+      const [, variants = '', body = content] = content.match(variantsRE) || []
 
       // Expend attributify self-referencing `~`
-      if (body === '~' || (trueToNonValued && body === 'true') || !body)
+      if (body === '~' || (trueToNonValued && body === 'true') || !body) {
         return `${variants}${name}`
+      }
 
       if (variantsValueRE == null) {
         const separators = generator?.config?.separators?.join('|')
@@ -55,8 +48,13 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
           return `${bodyVariant}${variants}${name}-${bracketValue}`
       }
 
-      // if (body.match(/^[\d.]+$/))
-      //   return `${variants}${name}:${body}`
+      // For special case like `<div border="~ red:10">`
+      // `border-red:10` should not consider `border-red:` as a variant
+      // if (variants && body.match(/^[\d.]+$/)) {
+      //   const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
+      //   body = variantParts.pop() + body
+      //   variants = variantParts.join('')
+      // }
 
       return `${variants}${name}-${body}`
     },
