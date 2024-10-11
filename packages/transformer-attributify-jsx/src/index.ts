@@ -64,7 +64,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
 
   const idFilter = createFilter(
     options.include || [/\.[jt]sx$/, /\.mdx$/],
-    options.exclude || [],
+    options.exclude || [/node_modules/],
   )
 
   return {
