@@ -7,7 +7,8 @@ describe('processExpressions', () => {
     const body = `font-bold {bar ? 'text-red-600' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo {baz ? 'italic ' : ''}`
 
     it('combined', async () => {
-      expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+      expect(await processExpressions(body, {}, unoMock, 'Foo.svelte'))
+        .toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
           "rulesToGenerate": {
@@ -32,7 +33,14 @@ describe('processExpressions', () => {
     })
 
     it('uncombined', async () => {
-      expect(await processExpressions(body, { combine: false }, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+      expect(
+        await processExpressions(
+          body,
+          { combine: false },
+          unoMock,
+          'Foo.svelte',
+        ),
+      ).toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold  underline foo",
           "rulesToGenerate": {
@@ -63,7 +71,8 @@ describe('processExpressions', () => {
 
   it('handles expression as only part of a class', async () => {
     const body = 'mr-1 pr{os}e bg-{color}'
-    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte'))
+      .toMatchInlineSnapshot(`
         {
           "restOfBody": "mr-1",
           "rulesToGenerate": {},
@@ -77,7 +86,8 @@ describe('processExpressions', () => {
 
   it('handles empty string in expression', async () => {
     const body = 'font-bold {grid ? \'\' : \'mr-1\'}'
-    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte')).toMatchInlineSnapshot(`
+    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte'))
+      .toMatchInlineSnapshot(`
         {
           "restOfBody": "font-bold",
           "rulesToGenerate": {
@@ -87,6 +97,54 @@ describe('processExpressions', () => {
           },
           "updatedExpressions": [
             "{grid ? '' : 'uno-76ckap'}",
+          ],
+        }
+      `)
+  })
+
+  it('ignores ternary condition', async () => {
+    const body
+      = `{variant === 'outline' ? 'text-red-600' : 'text-green-600'}`
+    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte'))
+      .toMatchInlineSnapshot(`
+        {
+          "restOfBody": "",
+          "rulesToGenerate": {
+            "uno-7bxjda": [
+              "text-green-600",
+            ],
+            "uno-ffvc5a": [
+              "text-red-600",
+            ],
+          },
+          "updatedExpressions": [
+            "{variant === 'outline' ? 'uno-ffvc5a' : 'uno-7bxjda'}",
+          ],
+        }
+      `)
+  })
+
+  it('handles multiple nested ternary expressions', async () => {
+    const body = `font-bold {variant === 'outline' ? 'text-red-600' : variant === 'default' ? 'italic ' : 'text-green-600 ${shortcutName} text-lg boo'} underline foo`
+    expect(await processExpressions(body, {}, unoMock, 'Foo.svelte'))
+      .toMatchInlineSnapshot(`
+        {
+          "restOfBody": "font-bold  underline foo",
+          "rulesToGenerate": {
+            "uno-br1nw8": [
+              "italic",
+            ],
+            "uno-ffvc5a": [
+              "text-red-600",
+            ],
+            "uno-oaete6": [
+              "text-green-600",
+              "my-shortcut",
+              "text-lg",
+            ],
+          },
+          "updatedExpressions": [
+            "{variant === 'outline' ? 'uno-ffvc5a' : variant === 'default' ? 'uno-br1nw8' : 'uno-oaete6 boo'}",
           ],
         }
       `)
