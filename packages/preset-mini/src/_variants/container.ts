@@ -1,6 +1,5 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { warnOnce } from '@unocss/core'
 import { h, variantGetParameter } from '../utils'
 
 export const variantContainerQuery: VariantObject = {
@@ -24,8 +23,6 @@ export const variantContainerQuery: VariantObject = {
       }
 
       if (container) {
-        warnOnce('The container query variant is experimental and may not follow semver.')
-
         let order = 1000 + Object.keys(ctx.theme.containers ?? {}).indexOf(match)
 
         if (label)

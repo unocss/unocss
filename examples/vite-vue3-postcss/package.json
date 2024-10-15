@@ -11,7 +11,7 @@
     "vue": "^3.5.10"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.2.0",
+    "@iconify-json/logos": "^1.2.1",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^5.1.4",
     "typescript": "^5.6.2",
