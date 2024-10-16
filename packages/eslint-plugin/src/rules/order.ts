@@ -19,15 +19,19 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    function checkLiteral(node: TSESTree.Literal) {
+    function checkLiteral(node: TSESTree.Literal, addSpace: boolean = false) {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
-      const sorted = syncAction(
+      let sorted = syncAction(
         context.settings.unocss?.configPath,
         'sort',
         input,
       ).trim()
+
+      if (addSpace)
+        sorted += ' '
+
       if (sorted !== input) {
         context.report({
           node,
@@ -51,8 +55,29 @@ export default createRule({
       },
       SvelteAttribute(node: any) {
         if (node.key.name === 'class') {
-          if (node.value?.[0].type === 'SvelteLiteral')
-            checkLiteral(node.value[0])
+          if (!node.value.length)
+            return
+
+          function checkExpressionRecursively(expression: any) {
+            if (expression.consequent) {
+              checkLiteral(expression.consequent)
+            }
+            if (expression.alternate) {
+              if (expression.alternate.consequent) {
+                checkExpressionRecursively(expression.alternate)
+              }
+              else {
+                checkLiteral(expression.alternate)
+              }
+            }
+          }
+
+          (node.value as any[]).forEach((obj, i) => {
+            if (obj.type === 'SvelteMustacheTag')
+              checkExpressionRecursively(node.value[i].expression)
+            else if (obj.type === 'SvelteLiteral')
+              checkLiteral(obj, node.value?.[i + 1]?.type === 'SvelteMustacheTag')
+          })
         }
       },
     }
