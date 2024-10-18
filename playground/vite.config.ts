@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import Inspect from 'vite-plugin-inspect'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from '@unocss/vite'
+import Vue from '@vitejs/plugin-vue'
 import SimpleGit from 'simple-git'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
+import Inspect from 'vite-plugin-inspect'
 import { alias } from '../alias'
 
 const git = SimpleGit()

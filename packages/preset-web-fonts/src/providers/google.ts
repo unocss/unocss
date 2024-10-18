@@ -19,7 +19,8 @@ export function createGoogleCompatibleProvider(name: WebFontsProviders, host: st
               : `:wght@${i.weights.join(';')}`
           }
           return `family=${name}`
-        }).join('&')
+        })
+        .join('&')
       return `${host}/css2?${strings}&display=swap`
     },
   }

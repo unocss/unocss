@@ -1,11 +1,11 @@
-import path from 'path'
 import type { DecorationOptions, Disposable, ExtensionContext, StatusBarItem, TextEditor } from 'vscode'
+import type { ContextLoader } from './contextLoader'
+import path from 'path'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
-import { INCLUDE_COMMENT_IDE, defaultIdeMatchExclude, defaultIdeMatchInclude, getMatchedPositionsFromCode, isCssId } from './integration'
+import { useConfigurations } from './configuration'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude, getMatchedPositionsFromCode, INCLUDE_COMMENT_IDE, isCssId } from './integration'
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, throttle } from './utils'
-import type { ContextLoader } from './contextLoader'
-import { useConfigurations } from './configuration'
 
 export async function registerAnnotations(
   contextLoader: ContextLoader,

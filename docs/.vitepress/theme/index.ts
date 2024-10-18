@@ -1,10 +1,9 @@
-// https://vitepress.dev/guide/custom-theme
-import { h, watch } from 'vue'
 import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
-import UnoCSSLayout from './UnoCSSLayout.vue'
+import DefaultTheme from 'vitepress/theme'
+import { h, watch } from 'vue'
 import RainbowAnimationSwitcher from './components/RainbowAnimationSwitcher.vue'
+import UnoCSSLayout from './UnoCSSLayout.vue'
 
 import '@shikijs/vitepress-twoslash/style.css'
 

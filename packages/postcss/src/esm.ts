@@ -1,20 +1,20 @@
 // ESM-entry, lazy loaded the actual the plugin entry.
 
+import type { UnoGenerator } from '@unocss/core'
+import type { Result, Root } from 'postcss'
+import type { UnoPostcssPluginOptions } from './types'
 import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
 import process from 'node:process'
-import type { UnoGenerator } from '@unocss/core'
-import { glob } from 'tinyglobby'
-import type { Result, Root } from 'postcss'
-import postcss from 'postcss'
-import { createGenerator } from '@unocss/core'
 import { createRecoveryConfigLoader } from '@unocss/config'
+import { createGenerator } from '@unocss/core'
 import { hasThemeFn } from '@unocss/rule-utils'
+import postcss from 'postcss'
+import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
-import { parseTheme } from './theme'
 import { parseScreen } from './screen'
-import type { UnoPostcssPluginOptions } from './types'
+import { parseTheme } from './theme'
 
 export function createPlugin(options: UnoPostcssPluginOptions) {
   const {
@@ -136,19 +136,19 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     for (let i = 0; i < entries.length; i += BATCH_SIZE) {
       const batch = entries.slice(i, i + BATCH_SIZE)
       promises.push(...batch.map(async (file) => {
-        const { mtimeMs } = await stat(file)
-
-        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
-          return
-
-        fileMap.set(file, mtimeMs)
-
         result.messages.push({
           type: 'dependency',
           plugin: directiveMap.unocss,
           file: normalize(file),
           parent: from,
         })
+
+        const { mtimeMs } = await stat(file)
+
+        if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
+          return
+
+        fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {

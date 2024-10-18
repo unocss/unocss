@@ -12,7 +12,7 @@ UnoCSS runtime provide a CDN build that runs the UnoCSS right in the browser. It
 
 Add the following line to your `index.html`:
 
-```html
+```html [index.html]
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
@@ -102,6 +102,27 @@ npm i @unocss/runtime
 import initUnocssRuntime from '@unocss/runtime'
 
 initUnocssRuntime({ /* options */ })
+```
+
+A UnoCSS config can be provided using the `defaults` property:
+
+```ts
+import initUnocssRuntime from '@unocss/runtime'
+import config from './uno.config'
+
+initUnocssRuntime({ defaults: config })
+```
+
+Presets can be imported from `esm.sh`:
+
+```ts
+import { defineConfig } from '@unocss/runtime'
+import presetIcons from 'https://esm.sh/@unocss/preset-icons/browser'
+import presetUno from 'https://esm.sh/@unocss/preset-uno'
+
+export default defineConfig({
+  presets: [presetUno(), presetIcons({ cdn: 'https://esm.sh/' })],
+})
 ```
 
 ## Preventing FOUC

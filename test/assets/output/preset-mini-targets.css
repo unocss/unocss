@@ -566,6 +566,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-\[calc\(10\%\+10px\)\]{background-position:calc(10% + 10px);}
 .bg-\[calc\(10vw\+10px\)\]{background-position:calc(10vw + 10px);}
 .bg-\[conic-gradient\(red\,blue\)\]{background-image:conic-gradient(red,blue);}
+.bg-\[image\:\$variable\]{background-image:var(--variable);}
+.bg-\[image\:https\:\/\/test\.unocss\.png\]{background-image:url(https://test.unocss.png);}
 .bg-\[length\:--variable\],
 .bg-\[size\:--variable\]{background-size:var(--variable);}
 .bg-\[length\:1\/2_20rem\],
@@ -845,6 +847,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
 .group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
 .font-050,
 .font-50,
 .fw-050,

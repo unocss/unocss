@@ -1,5 +1,5 @@
-import { expect, it } from 'vitest'
 import { getStringComponent } from '@unocss/rule-utils'
+import { expect, it } from 'vitest'
 
 it('getComponents', () => {
   const fn1 = (s: string) => getStringComponent(s, '(', ')', ',')

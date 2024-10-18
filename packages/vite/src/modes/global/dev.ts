@@ -1,10 +1,10 @@
-import process from 'node:process'
-import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
+import type { Plugin, Update, ViteDevServer } from 'vite'
+import type { VitePluginConfig } from '../../types'
+import process from 'node:process'
 import { notNull } from '@unocss/core'
 import MagicString from 'magic-string'
-import type { VitePluginConfig } from '../../types'
-import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
+import { getHash, getPath, LAYER_MARK_ALL, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'

@@ -1,17 +1,17 @@
-import { describe, expect, it } from 'vitest'
-import { preprocess } from 'svelte/compiler'
-import { format as prettier } from 'prettier'
-import fs from 'fs-extra'
-
-// @ts-expect-error missing types
-import prettierSvelte from 'prettier-plugin-svelte'
-import presetUno from '@unocss/preset-uno'
+import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-import UnocssSveltePreprocess from '../src/preprocess'
-import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
-import { replaceGlobalStylesPlaceholder } from '../src/_vite/global'
+import presetUno from '@unocss/preset-uno'
+
+import fs from 'fs-extra'
+import { format as prettier } from 'prettier'
+import { preprocess } from 'svelte/compiler'
+import { describe, expect, it } from 'vitest'
+// @ts-expect-error missing types
+import prettierSvelte from 'prettier-plugin-svelte'
 import { GLOBAL_STYLES_PLACEHOLDER } from '../src/_vite/constants'
+import { replaceGlobalStylesPlaceholder } from '../src/_vite/global'
+import UnocssSveltePreprocess from '../src/preprocess'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {

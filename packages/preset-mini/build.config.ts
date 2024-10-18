@@ -1,5 +1,5 @@
-import { defineBuildConfig } from 'unbuild'
 import { isWindows } from 'std-env'
+import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [

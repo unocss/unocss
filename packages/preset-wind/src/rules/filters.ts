@@ -1,7 +1,7 @@
 import type { CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import { colorResolver, colorableShadows, globalKeywords, h } from '@unocss/preset-mini/utils'
 import { varEmpty } from '@unocss/preset-mini/rules'
+import { colorableShadows, colorResolver, globalKeywords, h } from '@unocss/preset-mini/utils'
 
 export const filterBase = {
   '--un-blur': varEmpty,

@@ -12,6 +12,7 @@ const bgUrlRE = /^\[url\(.+\)\]$/
 const bgLengthRE = /^\[(?:length|size):.+\]$/
 const bgPositionRE = /^\[position:.+\]$/
 const bgGradientRE = /^\[(?:linear|conic|radial)-gradient\(.+\)\]$/
+const bgImageRE = /^\[image:.+\]$/
 
 export const bgColors: Rule[] = [
   [/^bg-(.+)$/, (...args) => {
@@ -22,8 +23,13 @@ export const bgColors: Rule[] = [
       return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
     if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
       return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-    if (bgGradientRE.test(d))
-      return { 'background-image': h.bracket(d) }
+    if (bgGradientRE.test(d) || bgImageRE.test(d)) {
+      const s = h.bracket(d)
+      if (s) {
+        const url = s.startsWith('http') ? `url(${s})` : h.cssvar(s)
+        return { 'background-image': url ?? s }
+      }
+    }
     return colorResolver('background-color', 'bg', 'backgroundColor')(...args)
   }, { autocomplete: 'bg-$colors' }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],

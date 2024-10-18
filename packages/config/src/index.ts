@@ -1,8 +1,8 @@
-import { dirname, resolve } from 'node:path'
-import fs from 'node:fs'
-import process from 'node:process'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
+import fs from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import process from 'node:process'
 import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }

@@ -1,10 +1,10 @@
 import { join, resolve } from 'node:path'
 import process from 'node:process'
 import { execa } from 'execa'
-import { build } from 'vite'
-import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
+import { build } from 'vite'
+import { describe, expect, it } from 'vitest'
 
 const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'

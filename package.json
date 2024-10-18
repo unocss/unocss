@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "0.62.3",
+  "version": "0.63.4",
   "private": true,
-  "packageManager": "pnpm@9.8.0",
+  "packageManager": "pnpm@9.11.0",
   "scripts": {
     "postinstall": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -117,6 +117,7 @@
     "terser": "catalog:",
     "tinyglobby": "catalog:",
     "tsup": "catalog:",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "unocss": "workspace:*",

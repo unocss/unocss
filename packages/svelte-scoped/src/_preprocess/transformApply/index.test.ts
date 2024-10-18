@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import MagicString from 'magic-string'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
 import { describe, expect, it } from 'vitest'
-import MagicString from 'magic-string'
 import { transformApply } from '.'
 
 describe('transformApply', () => {

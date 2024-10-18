@@ -11,9 +11,9 @@ npm i -D @unocss/transformer-compile-class
 ```
 
 ```ts
+import transformerCompileClass from '@unocss/transformer-compile-class'
 // uno.config.ts
 import { defineConfig } from 'unocss'
-import transformerCompileClass from '@unocss/transformer-compile-class'
 
 export default defineConfig({
   // ...

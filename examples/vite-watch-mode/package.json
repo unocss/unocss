@@ -11,17 +11,17 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.44",
-    "@types/react": "^18.3.4",
+    "@iconify-json/logos": "^1.2.1",
+    "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
     "cross-env": "^7.0.3",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.4.2"
+    "vite": "^5.4.8"
   },
   "stackblitz": {
     "installDependencies": false,

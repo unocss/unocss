@@ -78,7 +78,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
   // Provides backwards compatibility. We either accept a trigger string which
   // gets turned into a regexp (like previously) or a regex literal directly.
   const regexp = typeof trigger === 'string'
-    ? RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+    ? new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
     : trigger
 
   return {

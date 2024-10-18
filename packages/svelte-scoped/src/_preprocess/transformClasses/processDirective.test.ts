@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
 import type { FoundClass } from './findClasses'
+import type { ProcessResult } from './processClasses'
+import { describe, expect, it } from 'vitest'
 import { processDirective } from './processDirective'
 import { shortcutName, unoMock } from './unoMock'
-import type { ProcessResult } from './processClasses'
 
 describe('processDirective', () => {
   it('ignores non-utility', async () => {

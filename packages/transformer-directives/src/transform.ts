@@ -1,13 +1,13 @@
-import { toArray } from '@unocss/core'
 import type { UnoGenerator } from '@unocss/core'
 import type { CssNode, List, ListItem } from 'css-tree'
-import { parse, walk } from 'css-tree'
 import type MagicString from 'magic-string'
-import { hasThemeFn as hasThemeFunction } from '@unocss/rule-utils'
-import { handleScreen } from './screen'
+import type { TransformerDirectivesContext, TransformerDirectivesOptions } from './types'
+import { toArray } from '@unocss/core'
+import { hasIconFn, hasThemeFn } from '@unocss/rule-utils'
+import { parse, walk } from 'css-tree'
 import { handleApply } from './apply'
 import { handleFunction } from './functions'
-import type { TransformerDirectivesContext, TransformerDirectivesOptions } from './types'
+import { handleScreen } from './screen'
 
 export async function transformDirectives(
   code: MagicString,
@@ -29,9 +29,9 @@ export async function transformDirectives(
   const parseCode = originalCode || code.original
   const hasApply = parseCode.includes('@apply') || applyVariable.some(s => parseCode.includes(s))
   const hasScreen = parseCode.includes('@screen')
-  const hasThemeFn = hasThemeFunction(parseCode)
+  const hasFn = hasThemeFn(parseCode) || hasIconFn(parseCode)
 
-  if (!hasApply && !hasThemeFn && !hasScreen)
+  if (!hasApply && !hasFn && !hasScreen)
     return
 
   const ast = parse(parseCode, {
@@ -61,7 +61,7 @@ export async function transformDirectives(
       handleScreen(ctx, node)
 
     if (node.type === 'Function')
-      handleFunction(ctx, node)
+      await handleFunction(ctx, node)
 
     if (hasApply && node.type === 'Rule')
       await handleApply(ctx, node)

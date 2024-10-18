@@ -1,4 +1,4 @@
-import type { UniversalIconLoader } from '@iconify/utils/lib/loader/types'
+import type { UniversalIconLoader } from '@iconify/utils'
 import { $fetch } from 'ofetch'
 import { createCDNFetchLoader } from './core'
 

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-typography",
   "type": "module",
-  "version": "0.62.3",
+  "version": "0.63.4",
   "description": "Typography preset for UnoCSS",
   "author": "Jeff Yang",
   "license": "MIT",
