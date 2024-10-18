@@ -13,9 +13,9 @@
   },
   "devDependencies": {
     "@astrojs/vue": "^4.5.1",
-    "@iconify-json/logos": "^1.2.0",
+    "@iconify-json/logos": "^1.2.1",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^4.15.9",
+    "astro": "^4.15.10",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {

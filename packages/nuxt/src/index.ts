@@ -5,7 +5,7 @@ import type { UnocssNuxtOptions } from './types'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendWebpackConfig, findPath, isNuxt2, isNuxt3 } from '@nuxt/kit'
+import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import VitePlugin from '@unocss/vite'
 import WebpackPlugin from '@unocss/webpack'
@@ -95,15 +95,9 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
         },
         write: true,
       })
-      nuxt.hook('app:templatesGenerated', async () => {
-        await loadUnoConfig()
-      })
-    }
-    else {
-      await loadUnoConfig()
     }
 
-    async function loadUnoConfig() {
+    nuxt.hook('build:before', async () => {
       const { config: unoConfig } = await loadConfig(
         process.cwd(),
         { configFile: options.configFile },
@@ -111,6 +105,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
         options,
       )
 
+      // Override cssnano config
       if (
         isNuxt3()
         && nuxt.options.builder === '@nuxt/vite-builder'
@@ -120,21 +115,26 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
         const preset = nuxt.options.postcss.plugins.cssnano.preset
         nuxt.options.postcss.plugins.cssnano = {
           preset: [preset?.[0] || 'default', Object.assign(
+            // Following optimizations result in invalid CSS if the directives not transformed yet
             { mergeRules: false, normalizeWhitespace: false, discardComments: false },
             preset?.[1],
           )],
         }
       }
-      return unoConfig
-    }
 
-    nuxt.hook('vite:extend', async ({ config }) => {
-      const unoConfig = await loadUnoConfig()
       await nuxt.callHook('unocss:config', unoConfig)
-      config.plugins = config.plugins || []
-      config.plugins.unshift(...VitePlugin({
-        mode: options.mode,
-      }, unoConfig))
+
+      extendViteConfig(async (config) => {
+        config.plugins = config.plugins || []
+        config.plugins.unshift(...VitePlugin({
+          mode: options.mode,
+        }, unoConfig))
+      })
+
+      extendWebpackConfig(async (config) => {
+        config.plugins = config.plugins || []
+        config.plugins.unshift(WebpackPlugin({}, unoConfig))
+      })
     })
 
     if (nuxt.options.dev) {
@@ -162,12 +162,6 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
           config.plugins = [plugin]
       })
     }
-
-    extendWebpackConfig(async (config) => {
-      const unoConfig = await loadUnoConfig()
-      config.plugins = config.plugins || []
-      config.plugins.unshift(WebpackPlugin({}, unoConfig))
-    })
   },
 })
 

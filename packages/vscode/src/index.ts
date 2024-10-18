@@ -1,6 +1,7 @@
 import type { FilterPattern } from '@rollup/pluginutils'
 import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import path, { dirname } from 'path'
+import process from 'process'
 import { createFilter } from '@rollup/pluginutils'
 import { toArray } from '@unocss/core'
 import { findUp } from 'find-up'
@@ -11,6 +12,10 @@ import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 import { log } from './log'
 
 export async function activate(ext: ExtensionContext) {
+  // Neither Jiti2 nor Tsx supports running in VS Code yet
+  // We have to use Jiti1 for now
+  process.env.IMPORTX_LOADER = 'jiti-v1'
+
   log.appendLine(`⚪️ UnoCSS for VS Code v${version}\n`)
 
   const projectPath = workspace.workspaceFolders?.[0].uri.fsPath

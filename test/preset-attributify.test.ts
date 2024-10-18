@@ -39,8 +39,11 @@ describe('attributify', async () => {
     const cases = import.meta.glob('./cases/preset-attributify/*/input.html', { as: 'raw' })
     for (const [path, input] of Object.entries(cases)) {
       it(path, async () => {
-        const { css } = await uno.generate(await input(), { preflights: false })
-        await expect(css).toMatchFileSnapshot(path.replace('input.html', 'output.css'))
+        const { css, matched } = await uno.generate(await input(), { preflights: false })
+        await expect(`${[...matched].join('\n')}\n`)
+          .toMatchFileSnapshot(path.replace('input.html', 'matched.txt'))
+        await expect(css)
+          .toMatchFileSnapshot(path.replace('input.html', 'output.css'))
       })
     }
   })
