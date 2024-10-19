@@ -10,6 +10,7 @@ interface Grouped {
 
 const props = defineProps<{
   selectors: MatchedSelector[]
+  icons: MatchedSelector[]
   colors: MatchedColor[]
 }>()
 
@@ -58,6 +59,7 @@ const grouped = computed(() => {
         </div>
       </div>
     </div>
+
     <div v-if="colors.length">
       <div uppercase text-sm mb-4 op50>
         Color Palette
@@ -73,6 +75,19 @@ const grouped = computed(() => {
         </span>
       </div>
     </div>
+
+    <div v-if="icons.length">
+      <div uppercase text-sm mb-4 op50>
+        Icon Set
+        <sup op50 text-sm>{{ icons.length }}</sup>
+      </div>
+      <div flex flex-wrap gap-2>
+        <span v-for="(item, i) in icons" :key="i">
+          <AnalyzerItem :item="item" />
+        </span>
+      </div>
+    </div>
+
     <div>
       <div mb-4 op50 uppercase text-sm>
         Utilities Usage
