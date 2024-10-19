@@ -8,7 +8,7 @@ export type { Theme }
 export interface PresetUnoOptions extends PresetMiniOptions {}
 
 /**
- * The defult UnoCSS preset, provide Tailwind-like utilities with some additional features.
+ * The default UnoCSS preset, provide Tailwind-like utilities with some additional features.
  *
  * @see https://unocss.dev/presets/uno
  */
