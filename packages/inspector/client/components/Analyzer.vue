@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { MatchedColor, MatchedSelector } from '../../types'
 import { computed } from 'vue'
+import { FlowLayout } from 'vue-flow-layout'
 
 interface Grouped {
   name: string
@@ -92,7 +93,7 @@ const grouped = computed(() => {
       <div mb-4 op50 uppercase text-sm>
         Utilities Usage
       </div>
-      <div v-if="grouped.length" grid="~ cols-1 md:cols-2 gap-4">
+      <FlowLayout v-if="grouped.length" :cols="2" :gap="16">
         <div v-for="(group, key) in grouped" :key="key" p-4 bg-active>
           <div text-sm pb-4>
             <span capitalize>{{ group.name }}</span><sup op50 ml-1>{{ group.count }}</sup>
@@ -101,7 +102,7 @@ const grouped = computed(() => {
             <AnalyzerItem v-for="(item, i) in group.items" :key="i" :item="item" />
           </div>
         </div>
-      </div>
+      </FlowLayout>
       <div v-else op50>
         No utilities found.
       </div>
