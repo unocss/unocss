@@ -72,6 +72,9 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   const pipelineIncludes: FilterPattern[] = []
   const pipelineExcludes: FilterPattern[] = []
   let pipelineDisabled = false
+  const filesystem: ContentOptions['filesystem'][] = []
+  const inline: ContentOptions['inline'][] = []
+  const plain: ContentOptions['plain'][] = []
 
   for (const options of optionsArray) {
     if (options.pipeline === false) {
@@ -86,37 +89,34 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
         pipelineExcludes.push(options.pipeline.exclude)
       }
     }
-  }
 
-  const mergedContent: ContentOptions = {}
-
-  const filesystem = uniq(optionsArray.flatMap(options => options.filesystem ?? []))
-  if (filesystem.length > 0) {
-    mergedContent.filesystem = filesystem
-  }
-
-  const inline = uniq(optionsArray.flatMap(options => options.inline ?? []))
-  if (inline.length > 0) {
-    mergedContent.inline = inline
-  }
-
-  const plain = uniq(optionsArray.flatMap(options => options.plain ?? []))
-  if (plain.length > 0) {
-    mergedContent.plain = plain
-  }
-
-  if (!pipelineDisabled) {
-    const include = uniq(mergeFilterPatterns(...pipelineIncludes))
-    const exclude = uniq(mergeFilterPatterns(...pipelineExcludes))
-    if (include.length > 0 || exclude.length > 0) {
-      mergedContent.pipeline = {
-        include,
-        exclude,
-      }
+    if (options.filesystem) {
+      filesystem.push(options.filesystem)
+    }
+    if (options.inline) {
+      inline.push(options.inline)
+    }
+    if (options.plain) {
+      plain.push(options.plain)
     }
   }
-  else {
-    mergedContent.pipeline = false
+
+  const mergedContent: ContentOptions = {
+    pipeline: pipelineDisabled
+      ? false
+      : {
+          include: mergeFilterPatterns(...pipelineIncludes),
+          exclude: mergeFilterPatterns(...pipelineExcludes),
+        },
+  }
+  if (filesystem.length) {
+    mergedContent.filesystem = uniq(filesystem.flat()) as ContentOptions['filesystem']
+  }
+  if (inline.length) {
+    mergedContent.inline = uniq(inline.flat()) as ContentOptions['inline']
+  }
+  if (plain.length) {
+    mergedContent.plain = uniq(plain.flat()) as ContentOptions['plain']
   }
 
   return mergedContent
