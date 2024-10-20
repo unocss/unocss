@@ -88,38 +88,38 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
     }
   }
 
-  const result: ContentOptions = {}
+  const mergedContent: ContentOptions = {}
 
   const filesystem = uniq(optionsArray.flatMap(options => options.filesystem ?? []))
   if (filesystem.length > 0) {
-    result.filesystem = filesystem
+    mergedContent.filesystem = filesystem
   }
 
   const inline = uniq(optionsArray.flatMap(options => options.inline ?? []))
   if (inline.length > 0) {
-    result.inline = inline
+    mergedContent.inline = inline
   }
 
   const plain = uniq(optionsArray.flatMap(options => options.plain ?? []))
   if (plain.length > 0) {
-    result.plain = plain
+    mergedContent.plain = plain
   }
 
   if (!pipelineDisabled) {
     const include = uniq(mergeFilterPatterns(...pipelineIncludes))
     const exclude = uniq(mergeFilterPatterns(...pipelineExcludes))
     if (include.length > 0 || exclude.length > 0) {
-      result.pipeline = {
+      mergedContent.pipeline = {
         include,
         exclude,
       }
     }
   }
   else {
-    result.pipeline = false
+    mergedContent.pipeline = false
   }
 
-  return result
+  return mergedContent
 }
 
 export function resolveConfig<Theme extends object = object>(
