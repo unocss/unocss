@@ -105,8 +105,8 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
     pipeline: pipelineDisabled
       ? false
       : {
-          include: mergeFilterPatterns(...pipelineIncludes),
-          exclude: mergeFilterPatterns(...pipelineExcludes),
+          include: uniq(mergeFilterPatterns(...pipelineIncludes)),
+          exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
         },
   }
   if (filesystem.length) {
