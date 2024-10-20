@@ -76,24 +76,50 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   for (const options of optionsArray) {
     if (options.pipeline === false) {
       pipelineDisabled = true
+      break
     }
     else {
-      pipelineIncludes.push(options.pipeline?.include ?? [])
-      pipelineExcludes.push(options.pipeline?.exclude ?? [])
+      if (options.pipeline?.include) {
+        pipelineIncludes.push(options.pipeline.include)
+      }
+      if (options.pipeline?.exclude) {
+        pipelineExcludes.push(options.pipeline.exclude)
+      }
     }
   }
 
-  return {
-    filesystem: uniq(optionsArray.flatMap(options => options.filesystem ?? [])),
-    inline: uniq(optionsArray.flatMap(options => options.inline ?? [])),
-    plain: uniq(optionsArray.flatMap(options => options.plain ?? [])),
-    pipeline: pipelineDisabled
-      ? false
-      : {
-          include: uniq(mergeFilterPatterns(...pipelineIncludes)),
-          exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
-        },
+  const result: ContentOptions = {}
+
+  const filesystem = uniq(optionsArray.flatMap(options => options.filesystem ?? []))
+  if (filesystem.length > 0) {
+    result.filesystem = filesystem
   }
+
+  const inline = uniq(optionsArray.flatMap(options => options.inline ?? []))
+  if (inline.length > 0) {
+    result.inline = inline
+  }
+
+  const plain = uniq(optionsArray.flatMap(options => options.plain ?? []))
+  if (plain.length > 0) {
+    result.plain = plain
+  }
+
+  if (!pipelineDisabled) {
+    const include = uniq(mergeFilterPatterns(...pipelineIncludes))
+    const exclude = uniq(mergeFilterPatterns(...pipelineExcludes))
+    if (include.length > 0 || exclude.length > 0) {
+      result.pipeline = {
+        include,
+        exclude,
+      }
+    }
+  }
+  else {
+    result.pipeline = false
+  }
+
+  return result
 }
 
 export function resolveConfig<Theme extends object = object>(
