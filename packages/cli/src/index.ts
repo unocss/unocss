@@ -8,7 +8,7 @@ import { consola } from 'consola'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { glob } from 'tinyglobby'
-import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
+import { SKIP_COMMENT_RE, SKIP_UNO_COMMENT_RE } from '../../shared-integration/src/constants'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { version } from '../package.json'
@@ -143,7 +143,7 @@ export async function build(_options: CliOptions) {
 
     for (const file of afterPostTrans) {
       const { matched } = await ctx.uno.generate(
-        (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, ''),
+        (file.transformedCode || file.code).replace(SKIP_UNO_COMMENT_RE, '').replace(SKIP_COMMENT_RE, ''),
         {
           preflights: false,
           minify: true,

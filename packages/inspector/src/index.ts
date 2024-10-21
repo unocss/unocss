@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { BetterMap, CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
 import sirv from 'sirv'
-import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
+import { SKIP_COMMENT_RE, SKIP_UNO_COMMENT_RE } from '../../shared-integration/src/constants'
 import { analyzer } from './analyzer'
 
 const _dirname = typeof __dirname !== 'undefined'
@@ -52,7 +52,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         }
 
         const tokens = new CountableSet<string>()
-        await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
+        await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, '').replace(SKIP_UNO_COMMENT_RE, ''), id, tokens)
 
         const result = await ctx.uno.generate(tokens, { id, extendedInfo: true, preflights: false })
         const analyzed = await analyzer(new BetterMap([[id, code]]), ctx)

@@ -3,7 +3,6 @@ import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
 import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, warnOnce } from '../utils'
-import { skipComment } from '../utils/comment'
 import { createNanoEvents } from '../utils/events'
 
 export const symbols: ControlSymbols = {
@@ -181,7 +180,7 @@ export class UnoGenerator<Theme extends object = object> {
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
-        skipComment(input),
+        input,
         id,
         extendedInfo
           ? new CountableSet<string>()
