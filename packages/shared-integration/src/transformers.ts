@@ -21,7 +21,7 @@ export async function applyTransformers(
   const skipMap = new Map<string, string>()
   let code = original
   let skipCode = transformSkipCode(code, skipMap, SKIP_UNO_COMMENT_RE, '@unocss-skip-uno-comment-placeholder-')
-  skipCode = transformSkipCode(code, skipMap, SKIP_COMMENT_RE, '@unocss-skip-comment-placeholder-')
+  skipCode = transformSkipCode(skipCode, skipMap, SKIP_COMMENT_RE, '@unocss-skip-comment-placeholder-')
   let s = new MagicString(skipCode)
   const maps: EncodedSourceMap[] = []
 

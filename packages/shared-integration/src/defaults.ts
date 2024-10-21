@@ -27,6 +27,6 @@ export const defaultIdeMatchInclude: RegExp[] = [
  * Default match includes in getMatchedPositions for IDE
  */
 export const defaultIdeMatchExclude: RegExp[] = [
-  SKIP_COMMENT_RE,
   SKIP_UNO_COMMENT_RE,
+  SKIP_COMMENT_RE,
 ]

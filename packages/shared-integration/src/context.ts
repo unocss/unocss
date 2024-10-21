@@ -53,7 +53,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
         { resolve: typeof configOrPath === 'string' ? configOrPath : root },
       )
     tokens.clear()
-    await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, '').replace(SKIP_UNO_COMMENT_RE, ''), id, tokens)))
+    await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_UNO_COMMENT_RE, '').replace(SKIP_COMMENT_RE, ''), id, tokens)))
     invalidate()
     dispatchReload()
 
@@ -91,7 +91,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     if (id)
       modules.set(id, code)
     const len = tokens.size
-    await uno.applyExtractors(code.replace(SKIP_COMMENT_RE, '').replace(SKIP_UNO_COMMENT_RE, ''), id, tokens)
+    await uno.applyExtractors(code.replace(SKIP_UNO_COMMENT_RE, '').replace(SKIP_COMMENT_RE, ''), id, tokens)
     if (tokens.size > len)
       invalidate()
   }
