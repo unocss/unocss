@@ -46,7 +46,7 @@ run({
 })
 
 run({
-  name: 'order',
+  name: 'order-svelte',
   rule,
   languageOptions: {
     parser: svelteParser,
