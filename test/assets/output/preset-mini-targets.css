@@ -606,7 +606,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:is-first\:checked\:bg-true-gray\/10:checked:is(:first-child):hover{background-color:rgb(163 163 163 / 0.1);}
 .hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:rgb(248 113 113 / 0.1);}
 .hover\:not-first\:checked\:bg-true-gray\/10:checked:not(:first-child):hover{background-color:rgb(163 163 163 / 0.1);}
-.marker\:bg-violet-200 ::marker{--un-bg-opacity:1;background-color:rgb(221 214 254 / var(--un-bg-opacity));}
+.marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgb(221 214 254 / var(--un-bg-opacity));}
 .file\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgb(245 243 255 / var(--un-bg-opacity));}
 .bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
