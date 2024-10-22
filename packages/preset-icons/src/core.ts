@@ -80,8 +80,8 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         parseIconWithLoader,
       },
       rules: [[
-        /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
-        async (matcher) => {
+        /^([a-z0-9:_-]+)(?:\?(mask|bg|auto|marker))?$/,
+        async function (matcher, { symbols }) {
           let [full, body, _mode = mode] = matcher as [string, string, IconsOptions['mode']]
 
           iconLoader = iconLoader || await lookupIconLoader(options)
@@ -112,6 +112,14 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
               'background-color': 'currentColor',
               // for Safari https://github.com/elk-zone/elk/pull/264
               'color': 'inherit',
+              ...usedProps,
+            }
+          }
+          else if (_mode === 'marker') {
+            cssObject = {
+              [symbols.selector]: (selector: any) => `${selector}::marker`,
+              '--un-icon': url,
+              'content': 'var(--un-icon)',
               ...usedProps,
             }
           }

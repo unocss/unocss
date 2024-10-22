@@ -8,6 +8,7 @@ describe('preset-icons', () => {
     '<button class="i-carbon-sun dark:i-carbon-moon" />',
     '<button class="i-carbon-sun?bg dark:i-carbon-moon?bg" />',
     '<button class="i-carbon-sun?bg dark:i-carbon-moon?auto" />',
+    '<li class="i-carbon-sun?marker" />',
   ]
 
   const uno = createGenerator({

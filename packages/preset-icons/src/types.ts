@@ -32,7 +32,7 @@ export interface IconsOptions {
    * @default 'auto'
    * @see https://antfu.me/posts/icons-in-pure-css
    */
-  mode?: 'mask' | 'bg' | 'auto'
+  mode?: 'mask' | 'bg' | 'auto' | 'marker'
 
   /**
    * Class prefix for matching icon rules.
