@@ -146,6 +146,7 @@ catalog:
   vitest: ^2.1.1
   vue: ^3.5.10
   vue-eslint-parser: ^9.4.3
+  vue-flow-layout: ^0.0.5
   vue-router: ^4.4.5
   vue-virtual-scroller: 2.0.0-beta.8
   webpack: ^5.95.0

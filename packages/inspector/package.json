@@ -1,7 +1,7 @@
 {
   "name": "@unocss/inspector",
   "type": "module",
-  "version": "0.63.4",
+  "version": "0.63.6",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "gzip-size": "catalog:",
-    "sirv": "catalog:"
+    "sirv": "catalog:",
+    "vue-flow-layout": "catalog:"
   }
 }

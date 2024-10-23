@@ -72,21 +72,36 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   const pipelineIncludes: FilterPattern[] = []
   const pipelineExcludes: FilterPattern[] = []
   let pipelineDisabled = false
+  const filesystem: ContentOptions['filesystem'][] = []
+  const inline: ContentOptions['inline'][] = []
+  const plain: ContentOptions['plain'][] = []
 
   for (const options of optionsArray) {
     if (options.pipeline === false) {
       pipelineDisabled = true
+      break
     }
     else {
-      pipelineIncludes.push(options.pipeline?.include ?? [])
-      pipelineExcludes.push(options.pipeline?.exclude ?? [])
+      if (options.pipeline?.include) {
+        pipelineIncludes.push(options.pipeline.include)
+      }
+      if (options.pipeline?.exclude) {
+        pipelineExcludes.push(options.pipeline.exclude)
+      }
+    }
+
+    if (options.filesystem) {
+      filesystem.push(options.filesystem)
+    }
+    if (options.inline) {
+      inline.push(options.inline)
+    }
+    if (options.plain) {
+      plain.push(options.plain)
     }
   }
 
-  return {
-    filesystem: uniq(optionsArray.flatMap(options => options.filesystem ?? [])),
-    inline: uniq(optionsArray.flatMap(options => options.inline ?? [])),
-    plain: uniq(optionsArray.flatMap(options => options.plain ?? [])),
+  const mergedContent: ContentOptions = {
     pipeline: pipelineDisabled
       ? false
       : {
@@ -94,6 +109,17 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
           exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
         },
   }
+  if (filesystem.length) {
+    mergedContent.filesystem = uniq(filesystem.flat()) as ContentOptions['filesystem']
+  }
+  if (inline.length) {
+    mergedContent.inline = uniq(inline.flat()) as ContentOptions['inline']
+  }
+  if (plain.length) {
+    mergedContent.plain = uniq(plain.flat()) as ContentOptions['plain']
+  }
+
+  return mergedContent
 }
 
 export function resolveConfig<Theme extends object = object>(
