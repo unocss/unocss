@@ -38,14 +38,14 @@ describe('transformer-variant-group', () => {
     }
   })
 
-  it('vue file with strict sep', async () => {
+  it('vue file with strict sep right-side-group', async () => {
     async function transform(code: string) {
       const s = new MagicString(code)
       expandVariantGroup(s, [':'])
       return s.toString()
     }
 
-    const file = await readFile('./test/assets/variant-group.vue', 'utf-8')
+    const file = await readFile('./test/assets/variant-group-right.vue', 'utf-8')
     const result = await transform(file)
     expect(result).toMatchInlineSnapshot(`
       "<script setup lang="ts">
@@ -62,6 +62,31 @@ describe('transformer-variant-group', () => {
         <div class="sm:p-1 sm:p-2" />
         <div class="dark:lg:p-1 dark:lg:p-2" />
         <div class="hover:bg-red hover:text-green hover:dark:bg-cyan hover:dark:text-pink" />
+      </template>
+      "
+    `)
+  })
+
+  it('vue file with strict sep left-side-group', async () => {
+    async function transform(code: string) {
+      const s = new MagicString(code)
+      expandVariantGroup(s, [':', '-'])
+      return s.toString()
+    }
+
+    const file = await readFile('./test/assets/variant-group-left.vue', 'utf-8')
+    const result = await transform(file)
+    expect(result).toMatchInlineSnapshot(`
+      "<script setup lang="ts">
+      const a = 1
+      const b = 2
+      // eslint-disable-next-line style/space-infix-ops
+      const _c = a-b a--a a--b
+      </script>
+
+      <template>
+        <div class="first-border-0 last-border-0" />
+        <div class="first:border-0 last:border-0" />
       </template>
       "
     `)
