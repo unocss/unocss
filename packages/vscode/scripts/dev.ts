@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from 'fs-extra'
 
 async function run() {
@@ -8,6 +7,7 @@ async function run() {
   if (json.name !== 'unocss') {
     json.name = 'unocss'
     await fs.writeJSON(new URL('../package.json', import.meta.url), json, { spaces: 2, EOL: '\n' })
+
     console.log('Update package.json name to "unocss"')
   }
 }

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import { cartesian, searchUsageBoundary } from '@unocss/autocomplete'
+import { describe, expect, it } from 'vitest'
 
 describe('searchUsageBoundary', () => {
   it('works', () => {

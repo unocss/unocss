@@ -1,8 +1,8 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { TransformClassesOptions } from '../types'
 import type { FoundClass } from './findClasses'
-import { processDirective } from './processDirective'
 import { processClassBody } from './processClassBody'
+import { processDirective } from './processDirective'
 
 export interface ProcessResult {
   rulesToGenerate: RuleToStylesMap

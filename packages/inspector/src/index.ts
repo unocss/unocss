@@ -1,11 +1,11 @@
+import type { UnocssPluginContext } from '@unocss/core'
+import type { Plugin, ViteDevServer } from 'vite'
+import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import sirv from 'sirv'
-import type { Plugin, ViteDevServer } from 'vite'
-import type { UnocssPluginContext } from '@unocss/core'
 import { BetterMap, CountableSet } from '@unocss/core'
 import gzipSize from 'gzip-size'
-import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
+import sirv from 'sirv'
 import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { analyzer } from './analyzer'
 
@@ -59,6 +59,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const mod: ModuleInfo = {
           ...result,
           ...analyzed,
+          layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
           gzipSize: await gzipSize(result.css),
           code,
           id,
@@ -92,9 +93,9 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
 
         const mod: OverviewInfo = {
           ...result,
-          colors: analyzed.colors.map(s => ({ ...s, modules: [...s.modules] })),
-          matched: analyzed.matched.map(s => ({ ...s, modules: [...s.modules] })),
+          ...analyzed,
           gzipSize: await gzipSize(result.css),
+          layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
         }
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(mod, null, 2))

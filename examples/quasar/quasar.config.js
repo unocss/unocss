@@ -1,8 +1,8 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 const UnoCSS = require('unocss/vite').default
-const { presetAttributify, presetUno } = require('unocss')
 const { configure } = require('quasar/wrappers')
+const { presetAttributify, presetUno } = require('unocss')
 
 module.exports = configure(() => {
   return {

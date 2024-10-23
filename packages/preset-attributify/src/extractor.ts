@@ -1,6 +1,6 @@
 import type { Extractor, ExtractorContext } from '@unocss/core'
-import { isValidSelector } from '@unocss/core'
 import type { AttributifyOptions } from '.'
+import { isValidSelector } from '@unocss/core'
 
 const strippedPrefixes = [
   'v-bind:',

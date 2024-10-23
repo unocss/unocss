@@ -1,6 +1,6 @@
 import { createGenerator, toEscapedSelector as e } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import { autocompleteExtractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
+import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('attributify', async () => {
@@ -39,8 +39,11 @@ describe('attributify', async () => {
     const cases = import.meta.glob('./cases/preset-attributify/*/input.html', { as: 'raw' })
     for (const [path, input] of Object.entries(cases)) {
       it(path, async () => {
-        const { css } = await uno.generate(await input(), { preflights: false })
-        await expect(css).toMatchFileSnapshot(path.replace('input.html', 'output.css'))
+        const { css, matched } = await uno.generate(await input(), { preflights: false })
+        await expect(`${[...matched].join('\n')}\n`)
+          .toMatchFileSnapshot(path.replace('input.html', 'matched.txt'))
+        await expect(css)
+          .toMatchFileSnapshot(path.replace('input.html', 'output.css'))
       })
     }
   })

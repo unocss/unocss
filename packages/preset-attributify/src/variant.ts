@@ -1,6 +1,6 @@
 import type { VariantObject } from '@unocss/core'
-import { isAttributifySelector } from '@unocss/core'
 import type { AttributifyOptions } from './types'
+import { isAttributifySelector } from '@unocss/core'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 export const variantsRE = /^(?!.*\[[^:]+:.+\]$)((?:.+:)?!?)(.*)$/
@@ -28,8 +28,11 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
       const content = match[2]
 
       const [, variants = '', body = content] = content.match(variantsRE) || []
-      if (body === '~' || (trueToNonValued && body === 'true') || !body)
+
+      // Expend attributify self-referencing `~`
+      if (body === '~' || (trueToNonValued && body === 'true') || !body) {
         return `${variants}${name}`
+      }
 
       if (variantsValueRE == null) {
         const separators = generator?.config?.separators?.join('|')
@@ -44,6 +47,14 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
         if (bracketValue)
           return `${bodyVariant}${variants}${name}-${bracketValue}`
       }
+
+      // For special case like `<div border="~ red:10">`
+      // `border-red:10` should not consider `border-red:` as a variant
+      // if (variants && body.match(/^[\d.]+$/)) {
+      //   const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
+      //   body = variantParts.pop() + body
+      //   variants = variantParts.join('')
+      // }
 
       return `${variants}${name}-${body}`
     },

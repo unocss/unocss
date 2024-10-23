@@ -1,15 +1,15 @@
-import process from 'node:process'
-import type { Plugin } from 'vite'
-import { createGenerator } from '@unocss/core'
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
-import { createRecoveryConfigLoader } from '@unocss/config'
-import presetUno from '@unocss/preset-uno'
+import type { Plugin } from 'vite'
 import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
-import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
-import { GlobalStylesPlugin } from './globalStylesPlugin'
-import { createCssTransformerPlugins } from './createCssTransformerPlugins'
+import process from 'node:process'
+import { createRecoveryConfigLoader } from '@unocss/config'
+import { createGenerator } from '@unocss/core'
+import presetUno from '@unocss/preset-uno'
 import { ConfigHMRPlugin } from './config-hmr'
+import { createCssTransformerPlugins } from './createCssTransformerPlugins'
+import { GlobalStylesPlugin } from './globalStylesPlugin'
+import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 
 export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)

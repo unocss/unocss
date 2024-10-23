@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { UserConfig } from '@unocss/core'
+import { evaluateUserConfig } from '@unocss/shared-docs'
 
 const CodeMirror = defineAsyncComponent(() => import('../../packages/inspector/client/components/CodeMirror.vue'))
 

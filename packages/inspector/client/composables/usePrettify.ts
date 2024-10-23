@@ -1,10 +1,10 @@
-import prettier from 'prettier/standalone'
-import parserCSS from 'prettier/parser-postcss'
-import parserHTML from 'prettier/parser-html'
-import parserBabel from 'prettier/parser-babel'
-import { toValue } from '@vueuse/core'
-import { computed } from 'vue'
 import type { MaybeRefOrGetter } from '@vueuse/core'
+import { toValue } from '@vueuse/core'
+import parserBabel from 'prettier/parser-babel'
+import parserHTML from 'prettier/parser-html'
+import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
+import { computed } from 'vue'
 
 export function usePrettify(content: MaybeRefOrGetter<string | undefined>, toggle: MaybeRefOrGetter<boolean>, type: 'css' | 'babel' | 'html') {
   const plugins = {

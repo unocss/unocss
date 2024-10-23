@@ -1,6 +1,6 @@
+import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { uniq } from '@unocss/core'
 import { Fzf } from 'fzf'
-import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { cartesian } from './utils'
 
 export const shorthands: Record<string, string> = {
@@ -198,8 +198,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
     //   }
     // }
 
-    return combinations.map(i => matched.map(m => m + i)).flat()
-      .filter(i => i.length >= input.length)
+    return combinations.map(i => matched.map(m => m + i)).flat().filter(i => i.length >= input.length)
   }
 }
 

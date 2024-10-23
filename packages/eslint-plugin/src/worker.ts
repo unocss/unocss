@@ -1,6 +1,6 @@
+import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
-import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
 import { sortRules } from '../../shared-integration/src/sort-rules'

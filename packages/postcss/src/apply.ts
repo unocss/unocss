@@ -1,9 +1,9 @@
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { Root } from 'postcss'
-import postcss from 'postcss'
 import type { Rule, Selector, SelectorList } from 'css-tree'
-import { clone, generate, parse } from 'css-tree'
+import type { Root } from 'postcss'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
+import { clone, generate, parse } from 'css-tree'
+import postcss from 'postcss'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -21,7 +21,8 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
       const utils = (await Promise.all(
         classNames.map(i => uno.parseToken(i, '-')),
       ))
-        .filter(notNull).flat()
+        .filter(notNull)
+        .flat()
         .sort((a, b) => a[0] - b[0])
         .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
         .reduce((acc, item) => {

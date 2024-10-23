@@ -1,8 +1,8 @@
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { SvelteScopedContext } from '../preprocess'
-import { checkTransformPageChunkHook, generateGlobalCss, isServerHooksFile, replaceGlobalStylesPlaceholder } from './global'
-import { DEV_GLOBAL_STYLES_DATA_TITLE, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import type { UnocssSvelteScopedViteOptions } from './types'
+import { DEV_GLOBAL_STYLES_DATA_TITLE, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
+import { checkTransformPageChunkHook, generateGlobalCss, isServerHooksFile, replaceGlobalStylesPlaceholder } from './global'
 
 export function GlobalStylesPlugin({ ready, uno }: SvelteScopedContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
   let isSvelteKit: boolean

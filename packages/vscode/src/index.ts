@@ -1,15 +1,15 @@
+import type { FilterPattern } from '@rollup/pluginutils'
+import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
 import path, { dirname } from 'path'
 import process from 'process'
-import type { ExtensionContext, StatusBarItem, WorkspaceConfiguration } from 'vscode'
-import { Position, StatusBarAlignment, commands, window, workspace } from 'vscode'
-import { findUp } from 'find-up'
-import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
 import { toArray } from '@unocss/core'
+import { findUp } from 'find-up'
+import { commands, Position, StatusBarAlignment, window, workspace } from 'vscode'
 import { version } from '../package.json'
-import { log } from './log'
 import { ContextLoader } from './contextLoader'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
+import { log } from './log'
 
 export async function activate(ext: ExtensionContext) {
   // Neither Jiti2 nor Tsx supports running in VS Code yet

@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
+import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('preprocess', () => {

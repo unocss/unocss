@@ -26,7 +26,8 @@ for (const file of files) {
     const imports = submodules
       .filter(i => i !== file)
       .map(i => relative(dirname(file), i))
-      .map(i => `export * from './${basename(i, extname(i))}'`).join('\n')
+      .map(i => `export * from './${basename(i, extname(i))}'`)
+      .join('\n')
     content = `${content.slice(0, index) + exportSubmodules}\n${imports}\n`
     await fs.writeFile(file, content, 'utf-8')
   }

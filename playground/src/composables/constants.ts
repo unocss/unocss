@@ -1,5 +1,5 @@
-import defaultConfigRaw from '../../../packages/shared-docs/src/default-config.ts?raw'
 import { version as bundleVersion } from '../../../package.json'
+import defaultConfigRaw from '../../../packages/shared-docs/src/default-config.ts?raw'
 
 export const defaultHTML = `
 <div h-full text-center flex select-none all:transition-400>
@@ -26,8 +26,8 @@ export const defaultHTML = `
 `.trim()
 
 export {
-  defaultConfigRaw,
   bundleVersion,
+  defaultConfigRaw,
 }
 
 export const defaultCSS = `

@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { version } from '../../package.json'
 
@@ -150,6 +150,7 @@ const Nav: DefaultTheme.NavItem[] = [
   },
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
   { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
   {
     text: `v${version}`,
     items: [

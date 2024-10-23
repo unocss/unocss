@@ -1,7 +1,7 @@
 import { defineNuxtModule } from '@nuxt/kit'
-import Markdown from 'unplugin-vue-markdown/vite'
-import LinkAttributes from 'markdown-it-link-attributes'
 import Shiki from '@shikijs/markdown-it'
+import LinkAttributes from 'markdown-it-link-attributes'
+import Markdown from 'unplugin-vue-markdown/vite'
 
 export default defineNuxtModule({
   async setup(_, nuxt) {

@@ -7,7 +7,7 @@
     "start": "nuxt start"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.37",
+    "@iconify-json/carbon": "^1.2.1",
     "@unocss/core": "link:../../packages/core",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",

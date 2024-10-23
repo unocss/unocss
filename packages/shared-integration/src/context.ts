@@ -1,8 +1,8 @@
+import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
+import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
-import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import { createRecoveryConfigLoader } from '@unocss/config'
-import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { BetterMap, createGenerator } from '@unocss/core'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { defaultPipelineExclude, defaultPipelineInclude } from './defaults'
@@ -56,17 +56,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
     invalidate()
     dispatchReload()
-
-    // check preset duplication
-    const presets = new Set<string>()
-    uno.config.presets.forEach((i) => {
-      if (!i.name)
-        return
-      if (presets.has(i.name))
-        console.warn(`[unocss] duplication of preset ${i.name} found, there might be something wrong with your config.`)
-      else
-        presets.add(i.name)
-    })
 
     return result
   }

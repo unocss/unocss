@@ -1,6 +1,6 @@
 import type { VariantObject } from '@unocss/core'
-import { escapeRegExp, escapeSelector, warnOnce } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
+import { escapeRegExp, escapeSelector } from '@unocss/core'
 import { getBracket, h, variantGetBracket } from '../_utils'
 
 /**
@@ -70,7 +70,7 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['before', '::before'],
   ['after', '::after'],
   ['selection', ' ::selection'],
-  ['marker', ' ::marker'],
+  ['marker', '::marker'],
   ['file', '::file-selector-button'],
 ].map(key => Array.isArray(key) ? key : [key, `:${key}`]))
 
@@ -178,9 +178,7 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
       if (!result)
         return
 
-      const [label, matcher, prefix, pseudoName = ''] = result
-      if (label !== '')
-        warnOnce('The labeled variant is experimental and may not follow semver.')
+      const [_label, matcher, prefix, pseudoName = ''] = result
 
       return {
         matcher,

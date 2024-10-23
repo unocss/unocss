@@ -24,21 +24,21 @@
   },
   "svelte": "./dist/index.js",
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.44",
-    "@sveltejs/adapter-auto": "^3.2.4",
-    "@sveltejs/kit": "^2.5.24",
-    "@sveltejs/package": "^2.3.4",
+    "@iconify-json/logos": "^1.2.1",
+    "@sveltejs/adapter-auto": "^3.2.5",
+    "@sveltejs/kit": "^2.6.1",
+    "@sveltejs/package": "^2.3.5",
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "@unocss/core": "link:../../packages/core",
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages/svelte-scoped",
-    "publint": "^0.2.10",
+    "publint": "^0.2.11",
     "svelte": "^4.2.19",
     "svelte-check": "^3.8.6",
     "tslib": "^2.7.0",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.4.2"
+    "vite": "^5.4.8"
   },
   "stackblitz": {
     "installDependencies": false,

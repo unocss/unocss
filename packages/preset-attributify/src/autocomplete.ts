@@ -1,6 +1,6 @@
 import type { AutoCompleteExtractor } from '@unocss/core'
-import { variantsRE } from './variant'
 import type { AttributifyOptions } from '.'
+import { variantsRE } from './variant'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/no-dupe-disjunctions
 const elementRE = /(<\w[\w:.$-]*\s)((?:'[^>']*'|"[^>"]*"|`[^>`]*`|\{[^>}]*\}|[^>]*?)*)/g

@@ -1,8 +1,8 @@
 import type { UnoGenerator } from '@unocss/core'
-import { expandVariantGroup } from '@unocss/core'
 import type { TransformClassesOptions } from '../types'
 import type { FoundClass } from './findClasses'
 import type { ProcessResult } from './processClasses'
+import { expandVariantGroup } from '@unocss/core'
 
 import { processExpressions } from './processExpressions'
 import { sortClassesIntoCategories } from './sortClassesIntoCategories'

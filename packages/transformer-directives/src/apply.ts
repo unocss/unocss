@@ -1,10 +1,10 @@
 import type { StringifiedUtil } from '@unocss/core'
-import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import type { CssNode, Rule, Selector, SelectorList } from 'css-tree'
-import { List, clone, generate, parse } from 'css-tree'
 import type { VitePluginConfig } from '../../vite/src/types'
-import { transformDirectives } from './transform'
 import type { TransformerDirectivesContext } from './types'
+import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
+import { clone, generate, List, parse } from 'css-tree'
+import { transformDirectives } from './transform'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -56,7 +56,8 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
     await Promise.all(
       classNames.map(i => uno.parseToken(i, '-')),
     ))
-    .filter(notNull).flat()
+    .filter(notNull)
+    .flat()
     .sort((a, b) => a[0] - b[0])
     .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
     .reduce((acc, item) => {

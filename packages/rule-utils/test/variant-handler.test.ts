@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
 import { variantMatcher } from '@unocss/rule-utils'
+import { describe, expect, it } from 'vitest'
 
 describe('variants', () => {
   it('variant context is propagated', async () => {

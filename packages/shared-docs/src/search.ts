@@ -1,11 +1,11 @@
 import type { Rule, UnoGenerator, Variant } from '@unocss/core'
+import type { Ref } from 'vue'
+import type { DocItem, GuideItem, ResultItem, RuleItem } from './types'
+import { createAutocomplete } from '@unocss/autocomplete'
 import { notNull, uniq } from '@unocss/core'
 import { watchAtMost } from '@vueuse/core'
 import Fuse from 'fuse.js'
-import { createAutocomplete } from '@unocss/autocomplete'
-import type { Ref } from 'vue'
 import { computed, shallowReactive, toRaw } from 'vue'
-import type { DocItem, GuideItem, ResultItem, RuleItem } from './types'
 import { extractColors, formatCSS, sampleArray } from './utils'
 
 export interface SearchState {

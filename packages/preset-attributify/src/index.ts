@@ -1,14 +1,14 @@
+import type { AttributifyOptions } from './types'
 import { definePreset } from '@unocss/core'
 import { autocompleteExtractorAttributify } from './autocomplete'
 import { defaultIgnoreAttributes, extractorAttributify } from './extractor'
-import type { AttributifyOptions } from './types'
 import { variantAttributify } from './variant'
 
 export * from './autocomplete'
 export * from './extractor'
-export * from './variant'
-export * from './types'
 export * from './jsx'
+export * from './types'
+export * from './variant'
 
 /**
  * This enables the attributify mode for other presets.
