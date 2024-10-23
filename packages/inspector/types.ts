@@ -8,9 +8,11 @@ export interface ProjectInfo {
   configSources?: string[]
 }
 
-export interface Result extends Omit<GenerateResult, 'matched'> {
+export interface Result extends Omit<GenerateResult, 'matched' | 'layers'> {
   matched: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
+  icons: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
   colors: (Omit<MatchedColor, 'modules'> & { modules: string[] })[]
+  layers: { name: string, css: string }[]
 }
 
 export interface ModuleInfo extends Result {

@@ -267,8 +267,6 @@ describe('mergeConfigs', () => {
       .toMatchInlineSnapshot(`
         {
           "content": {
-            "filesystem": [],
-            "inline": [],
             "pipeline": {
               "exclude": [],
               "include": [
@@ -278,7 +276,6 @@ describe('mergeConfigs', () => {
                 "array2",
               ],
             },
-            "plain": [],
           },
         }
       `)
@@ -303,10 +300,7 @@ describe('mergeConfigs', () => {
       .toMatchInlineSnapshot(`
         {
           "content": {
-            "filesystem": [],
-            "inline": [],
             "pipeline": false,
-            "plain": [],
           },
         }
       `)
@@ -329,8 +323,6 @@ describe('mergeConfigs', () => {
     expect(uno.config.content).toMatchObject({
       filesystem: ['foo/bar.css', 'foo.js'],
       inline: ['bg-blue-1'],
-      pipeline: { include: [], exclude: [] },
-      plain: [],
     })
   })
 
