@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types'
 import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
-import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
+import { AST_NODES_WITH_QUOTES, ATTRIBUTIFY_PREFIXES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
 export default createRule({
@@ -59,7 +59,7 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
-        if (node.key.name === 'class') {
+        if (node.key.name === 'class' || ATTRIBUTIFY_PREFIXES.some((prefix: string) => node.key.name.startsWith(prefix))) {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
         }
