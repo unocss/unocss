@@ -113,6 +113,7 @@
     "simple-git-hooks": "catalog:",
     "splitpanes": "catalog:",
     "std-env": "catalog:",
+    "svelte-eslint-parser": "catalog:",
     "taze": "catalog:",
     "terser": "catalog:",
     "tinyglobby": "catalog:",
