@@ -71,19 +71,19 @@ In cases you might want to leverage CSS rules fallback to use new CSS features w
 
 ```ts
 rules: [
-  [/^w-(\d+)dvh$/, ([_, d]) => {
+  [/^h-(\d+)dvh$/, ([_, d]) => {
     return [
-      ['width', `${d}vh`],
-      ['width', `${d}dvh`],
+      ['height', `${d}vh`],
+      ['height', `${d}dvh`],
     ]
   }],
 ]
 ```
 
-Which will make `w-100dvh` generates:
+Which will make `h-100dvh` generates:
 
 ```css
-.w-100dvh { width: 100vh; width: 100dvh; }
+.h-100dvh { height: 100vh; height: 100dvh; }
 ```
 
 ## Ordering
