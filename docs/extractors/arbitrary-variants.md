@@ -34,7 +34,7 @@ import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [
-    extractorArbitrary(),
+    extractorArbitrary,
   ],
 })
 ```
