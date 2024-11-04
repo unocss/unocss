@@ -10,7 +10,7 @@
     "lint:fix": "nr lint --fix"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.1",
+    "@iconify-json/carbon": "^1.2.4",
     "@unocss/core": "link:../../packages/core",
     "@unocss/eslint-plugin": "link:../../packages/eslint-plugin",
     "@unocss/nuxt": "link:../../packages/nuxt",
