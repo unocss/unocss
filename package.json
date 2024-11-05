@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.63.6",
   "private": true,
-  "packageManager": "pnpm@9.11.0",
+  "packageManager": "pnpm@9.12.3",
   "scripts": {
     "postinstall": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",

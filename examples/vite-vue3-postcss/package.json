@@ -8,15 +8,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.10"
+    "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.2.1",
+    "@iconify-json/logos": "^1.2.3",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^5.1.4",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^5.4.8"
+    "vite": "^5.4.10"
   },
   "stackblitz": {
     "installDependencies": false,
