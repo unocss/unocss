@@ -76,6 +76,13 @@ export default defineNuxtModule<UnocssNuxtOptions>({
       })
     }
 
+    if (options.configFile) {
+      nuxt.options.watch.push(options.configFile)
+    }
+    else {
+      nuxt.options.watch.push(/uno\.config\.[^./]+/, /unocss\.config\.[^./]+/)
+    }
+
     if (options.nuxtLayers) {
       addTemplate({
         filename: 'uno.config.mjs',
