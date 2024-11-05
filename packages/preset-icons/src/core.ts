@@ -80,7 +80,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         parseIconWithLoader,
       },
       rules: [[
-        /^([a-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
+        /^([A-Za-z0-9:_-]+)(?:\?(mask|bg|auto))?$/,
         async (matcher) => {
           let [full, body, _mode = mode] = matcher as [string, string, IconsOptions['mode']]
 
