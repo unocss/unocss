@@ -137,7 +137,7 @@ export interface ExtractorContext {
   envMode?: 'dev' | 'build'
 }
 
-export interface PreflightContext<Theme extends object = object> {
+interface BaseContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
@@ -148,7 +148,14 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
-export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> {
+  /**
+   * Used preflight keys
+   */
+  keys: Set<string>
+}
+
+export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
 
 export interface Extractor {
   name: string
@@ -202,6 +209,11 @@ export interface RuleMeta {
    * @private
    */
   __hash?: string
+
+  /**
+   * Depend on preflight keys
+   */
+  preflightKeys?: Arrayable<string>
 }
 
 export type CSSValue = CSSObject | CSSEntries

@@ -214,6 +214,7 @@ export class UnoGenerator<Theme extends object = object> {
 
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
+    const preflightKeySet = new Set<string>()
 
     const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
@@ -236,11 +237,14 @@ export class UnoGenerator<Theme extends object = object> {
       for (const item of payload) {
         const parent = item[3] || ''
         const layer = item[4]?.layer
+        const preflightKeys = item[4]?.preflightKeys
         if (!sheet.has(parent))
           sheet.set(parent, [])
         sheet.get(parent)!.push(item)
         if (layer)
           layerSet.add(layer)
+        if (preflightKeys)
+          toArray(preflightKeys).forEach(i => preflightKeySet.add(i))
       }
     })
 
@@ -252,6 +256,7 @@ export class UnoGenerator<Theme extends object = object> {
       const preflightContext: PreflightContext<Theme> = {
         generator: this,
         theme: this.config.theme,
+        keys: preflightKeySet,
       }
 
       const preflightLayerSet = new Set<string>([])

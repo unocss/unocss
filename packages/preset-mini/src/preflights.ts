@@ -5,11 +5,14 @@ import { entriesToCss, toArray } from '@unocss/core'
 export const preflights: Preflight<Theme>[] = [
   {
     layer: 'preflights',
-    getCSS(ctx) {
-      if (ctx.theme.preflightBase) {
-        const css = entriesToCss(Object.entries(ctx.theme.preflightBase))
-        const roots = toArray(ctx.theme.preflightRoot ?? ['*,::before,::after', '::backdrop'])
-        return roots.map(root => `${root}{${css}}`).join('')
+    getCSS({ theme, keys }) {
+      if (theme.preflightBase) {
+        const entries = Object.entries(theme.preflightBase).filter(([k]) => keys.has(k))
+        if (entries.length > 0) {
+          const css = entriesToCss(entries)
+          const roots = toArray(theme.preflightRoot ?? ['*,::before,::after', '::backdrop'])
+          return roots.map(root => `${root}{${css}}`).join('')
+        }
       }
     },
   },

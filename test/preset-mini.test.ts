@@ -490,3 +490,43 @@ describe('preset-mini', () => {
     `)
   })
 })
+
+describe('preset-mini: on demand generate preflights', () => {
+  it('basic', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+    })
+    const { css } = await uno.generate('text-red')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
+    `)
+  })
+
+  it('custom depends', async () => {
+    const uno = createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      rules: [
+        [
+          'custom-rule',
+          { blur: 'var(--un-shadow)' },
+          // depend on `--shadow` from presetMini
+          { preflightKeys: '--un-shadow' },
+        ],
+      ],
+    })
+    const { css } = await uno.generate('custom-rule')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: preflights */
+      *,::before,::after{--un-shadow:0 0 rgb(0 0 0 / 0);}::backdrop{--un-shadow:0 0 rgb(0 0 0 / 0);}
+      /* layer: default */
+      .custom-rule{blur:var(--un-shadow);}"
+    `)
+  })
+})
