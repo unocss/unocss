@@ -79,7 +79,7 @@ const plainTeamMembers: CoreTeam[] = [
     name: 'Joaquín Sánchez',
     github: 'userquin',
     webtools: 'userquin',
-    x: 'userquin',
+    bluesky: 'userquin.bsky.social',
     title: 'A fullstack and android developer',
     desc: 'Vite\'s fanatical follower',
   },
