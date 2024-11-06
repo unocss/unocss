@@ -379,8 +379,8 @@ catalogs:
       specifier: ^1.9.3
       version: 1.9.3
     vitepress:
-      specifier: ^1.4.5
-      version: 1.4.5
+      specifier: ^1.5.0
+      version: 1.5.0
     vitepress-plugin-group-icons:
       specifier: ^1.3.0
       version: 1.3.0
@@ -806,7 +806,7 @@ importers:
         version: link:../packages/unocss
       vitepress:
         specifier: 'catalog:'
-        version: 1.4.5(@algolia/client-search@5.12.0)(@types/node@22.8.7)(@types/react@18.3.12)(change-case@5.4.4)(fuse.js@7.0.0)(postcss@8.4.47)(react@18.3.1)(search-insights@2.17.2)(terser@5.36.0)(typescript@5.6.3)
+        version: 1.5.0(@algolia/client-search@5.12.0)(@types/node@22.8.7)(@types/react@18.3.12)(change-case@5.4.4)(fuse.js@7.0.0)(postcss@8.4.47)(react@18.3.1)(search-insights@2.17.2)(terser@5.36.0)(typescript@5.6.3)
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
         version: 1.3.0
@@ -3114,6 +3114,9 @@ packages:
 
   '@iconify-json/ri@1.2.3':
     resolution: {integrity: sha512-UVKofd5xkSevGd5K01pvO4NWsu+2C9spu+GxnMZUYymUiaWmpCAxtd22MFSpm6MGf0MP4GCwhDCo1Q8L8oZ9wg==}
+
+  '@iconify-json/simple-icons@1.2.11':
+    resolution: {integrity: sha512-AHCGDtBRqP+JzAbBzgO8uN/08CXxEmuaC6lQQZ3b5burKhRU12AJnJczwbUw2K5Mb/U85EpSUNhYMG3F28b8NA==}
 
   '@iconify-json/tabler@1.2.7':
     resolution: {integrity: sha512-q6FbDeC5caOC7i7/dcJOv7PdovHWItd84hCvsnlD/mzsrl5Nhol6eSQOMRv1bIpyxykGEiSDbOsVK5f23j/aFg==}
@@ -9977,8 +9980,8 @@ packages:
   vitepress-plugin-group-icons@1.3.0:
     resolution: {integrity: sha512-E6Up5HyWh0gxmy2v1v1VVzQpL9UOZuHgoqOmSNBMTRv2rSwg6nk8MeIiJD0tJ0xtWrY5dwG69ENZPyFoD+fVoA==}
 
-  vitepress@1.4.5:
-    resolution: {integrity: sha512-9K0k8kvdEbeowVCpKF/x0AySSq0Pr9pM8xufLgQcKMjsifwxtDjXJjcFhZv4LYw2dcpdYiBq2j7PnWi0tCaMCg==}
+  vitepress@1.5.0:
+    resolution: {integrity: sha512-q4Q/G2zjvynvizdB3/bupdYkCJe2umSAMv9Ju4d92E6/NXJ59z70xB0q5p/4lpRyAwflDsbwy1mLV9Q5+nlB+g==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -11968,6 +11971,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/ri@1.2.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/simple-icons@1.2.11':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -20298,10 +20305,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vitepress@1.4.5(@algolia/client-search@5.12.0)(@types/node@22.8.7)(@types/react@18.3.12)(change-case@5.4.4)(fuse.js@7.0.0)(postcss@8.4.47)(react@18.3.1)(search-insights@2.17.2)(terser@5.36.0)(typescript@5.6.3):
+  vitepress@1.5.0(@algolia/client-search@5.12.0)(@types/node@22.8.7)(@types/react@18.3.12)(change-case@5.4.4)(fuse.js@7.0.0)(postcss@8.4.47)(react@18.3.1)(search-insights@2.17.2)(terser@5.36.0)(typescript@5.6.3):
     dependencies:
       '@docsearch/css': 3.6.3
       '@docsearch/js': 3.6.3(@algolia/client-search@5.12.0)(@types/react@18.3.12)(react@18.3.1)(search-insights@2.17.2)
+      '@iconify-json/simple-icons': 1.2.11
       '@shikijs/core': 1.22.2
       '@shikijs/transformers': 1.22.2
       '@shikijs/types': 1.22.2
