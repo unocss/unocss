@@ -4,15 +4,16 @@ import { directionSize } from '@unocss/preset-mini/utils'
 export const scrollSnapTypeBase = {
   '--un-scroll-snap-strictness': 'proximity',
 }
+const preflightKeys = Object.keys(scrollSnapTypeBase)
 
 export const scrolls: Rule[] = [
   // snap type
   [/^snap-(x|y)$/, ([, d]) => ({
     'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
-  }), { autocomplete: 'snap-(x|y|both)' }],
+  }), { preflightKeys, autocomplete: 'snap-(x|y|both)' }],
   [/^snap-both$/, () => ({
     'scroll-snap-type': 'both var(--un-scroll-snap-strictness)',
-  })],
+  }), { preflightKeys }],
   ['snap-mandatory', { '--un-scroll-snap-strictness': 'mandatory' }],
   ['snap-proximity', { '--un-scroll-snap-strictness': 'proximity' }],
   ['snap-none', { 'scroll-snap-type': 'none' }],

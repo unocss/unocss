@@ -8,6 +8,7 @@ export const fontVariantNumericBase = {
   '--un-numeric-spacing': varEmpty,
   '--un-numeric-fraction': varEmpty,
 }
+const preflightKeys = Object.keys(fontVariantNumericBase)
 function toEntries(entry: any) {
   return {
     ...entry,
@@ -16,13 +17,13 @@ function toEntries(entry: any) {
 }
 
 export const fontVariantNumeric: Rule[] = [
-  [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' }), { autocomplete: 'ordinal' }],
-  [/^slashed-zero$/, () => toEntries({ '--un-slashed-zero': 'slashed-zero' }), { autocomplete: 'slashed-zero' }],
-  [/^lining-nums$/, () => toEntries({ '--un-numeric-figure': 'lining-nums' }), { autocomplete: 'lining-nums' }],
-  [/^oldstyle-nums$/, () => toEntries({ '--un-numeric-figure': 'oldstyle-nums' }), { autocomplete: 'oldstyle-nums' }],
-  [/^proportional-nums$/, () => toEntries({ '--un-numeric-spacing': 'proportional-nums' }), { autocomplete: 'proportional-nums' }],
-  [/^tabular-nums$/, () => toEntries({ '--un-numeric-spacing': 'tabular-nums' }), { autocomplete: 'tabular-nums' }],
-  [/^diagonal-fractions$/, () => toEntries({ '--un-numeric-fraction': 'diagonal-fractions' }), { autocomplete: 'diagonal-fractions' }],
-  [/^stacked-fractions$/, () => toEntries({ '--un-numeric-fraction': 'stacked-fractions' }), { autocomplete: 'stacked-fractions' }],
+  [/^ordinal$/, () => toEntries({ '--un-ordinal': 'ordinal' }), { preflightKeys, autocomplete: 'ordinal' }],
+  [/^slashed-zero$/, () => toEntries({ '--un-slashed-zero': 'slashed-zero' }), { preflightKeys, autocomplete: 'slashed-zero' }],
+  [/^lining-nums$/, () => toEntries({ '--un-numeric-figure': 'lining-nums' }), { preflightKeys, autocomplete: 'lining-nums' }],
+  [/^oldstyle-nums$/, () => toEntries({ '--un-numeric-figure': 'oldstyle-nums' }), { preflightKeys, autocomplete: 'oldstyle-nums' }],
+  [/^proportional-nums$/, () => toEntries({ '--un-numeric-spacing': 'proportional-nums' }), { preflightKeys, autocomplete: 'proportional-nums' }],
+  [/^tabular-nums$/, () => toEntries({ '--un-numeric-spacing': 'tabular-nums' }), { preflightKeys, autocomplete: 'tabular-nums' }],
+  [/^diagonal-fractions$/, () => toEntries({ '--un-numeric-fraction': 'diagonal-fractions' }), { preflightKeys, autocomplete: 'diagonal-fractions' }],
+  [/^stacked-fractions$/, () => toEntries({ '--un-numeric-fraction': 'stacked-fractions' }), { preflightKeys, autocomplete: 'stacked-fractions' }],
   ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]

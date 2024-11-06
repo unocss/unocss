@@ -492,7 +492,7 @@ describe('preset-mini', () => {
 })
 
 describe('preset-mini: on demand generate preflights', () => {
-  it('basic', async () => {
+  it('no default preflights', async () => {
     const uno = createGenerator({
       presets: [
         presetMini(),
