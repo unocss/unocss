@@ -32,7 +32,7 @@
 # Community frameworks
 
 - [Anu](https://github.com/jd-solanki/anu) - DX focused utility based vue component library by [@jd-solanki](https://github.com/jd-solanki).
-- [Onu UI](https://github.com/onu-ui/onu-ui) - Bullheaded and lightweight UnoCSS ui library by [@zyyv](https://github.com/zyyv), [@yzh990918](https://github.com/yzh990918).
+- [Onu UI](https://github.com/onu-ui/onu-ui) - Opinionated and lightweight UnoCSS ui library by [@zyyv](https://github.com/zyyv), [@yzh990918](https://github.com/yzh990918).
 - [AtoUI](https://github.com/bennymi/ato-ui) - Elemental UI library for Svelte offering an easily themeable design system by [@bennymi](https://github.com/bennymi).
 - [Una UI](https://unaui.com/) - The atomic UI Framework for Nuxt 3, powered by UnoCSS engine by [@phojie](https://github.com/phojie).
 
@@ -42,6 +42,7 @@
 - [unocss-transformer-alias](https://github.com/zyyv/unocss-transformer-alias) - Transform alias for UnoCSS shortcuts by [@zyyv](https://github.com/zyyv).
 - [CSS to UnoCss](https://github.com/Simon-He95/transformToUnoCSS) - Transform CSS to Unocss by [@Simon-He95](https://github.com/Simon-He95).
 - [unocss-transformer-classnames-minifier](https://github.com/alisobirjanov/unocss-transformer-classnames-minifier) - Transform UnoCSS classnames minifier by [@alisobirjanov](https://github.com/alisobirjanov).
+- [unocss-transformer-hash](https://github.com/unpreset/unocss-transformer-hash) - Hash UnoCSS utilities by [@zyyv](https://github.com/zyyv).
 
 # Community tools
 
