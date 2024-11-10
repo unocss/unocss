@@ -1,5 +1,6 @@
 # Community presets
 
+- [unocss-preset-tailwindcss-motion](https://github.com/whatnickcodes/unocss-preset-tailwindcss-motion) - Ridiculously awesome animations via unnoffical [Tailwind Motion](https://rombo.co/tailwind) port, by [@whatnicktweets](https://x.com/whatnicktweets)
 - [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/).
 - [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12).
 - [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
