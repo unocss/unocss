@@ -1,6 +1,5 @@
 # Community presets
 
-- [unocss-preset-tailwindcss-motion](https://github.com/whatnickcodes/unocss-preset-tailwindcss-motion) - Ridiculously awesome animations via unnoffical [Tailwind Motion](https://rombo.co/tailwind) port, by [@whatnicktweets](https://x.com/whatnicktweets)
 - [unocss-preset-scalpel](https://github.com/macheteHot/unocss-preset-scalpel) - Scalpel Preset by [@macheteHot](https://github.com/macheteHot/).
 - [unocss-preset-chroma](https://github.com/chu121su12/unocss-preset-chroma) - Gradient Preset by [@chu121su12](https://github.com/chu121su12).
 - [unocss-preset-scrollbar](https://github.com/action-hong/unocss-preset-scrollbar) - Scrollbar Preset by [@action-hong](https://github.com/action-hong).
@@ -29,6 +28,7 @@
 - [unocss-preset-shadcn](https://github.com/hyoban/unocss-preset-shadcn#readme) - Use [shadcn/ui](https://ui.shadcn.com) with UnoCSS by [@zouhang](https://github.com/zouhangwithsweet) and [@hyoban](https://github.com/hyoban).
 - [@yeungkc/unocss-preset-safe-area](https://github.com/YeungKC/unocss-preset-safe-area) - Use safe area with Unocss by [YeungKC](https://github.com/YeungKC)
 - [@unifydev/unify-preset](https://github.com/unify-ui-dev/unify-preset/blob/main/README.md) - Atomic Theming UI Libray Powered By UnoCSS, like DaisyUI but customizable. By [@johnkat-mj](https://github.com/Johnkat-Mj)
+- [unocss-preset-tailwindcss-motion](https://github.com/whatnickcodes/unocss-preset-tailwindcss-motion) - Ridiculously awesome animations via unoffical [Tailwind Motion](https://rombo.co/tailwind) port, by [@whatnicktweets](https://x.com/whatnicktweets)
 
 # Community frameworks
 
