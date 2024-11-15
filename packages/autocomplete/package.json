@@ -1,7 +1,7 @@
 {
   "name": "@unocss/autocomplete",
   "type": "module",
-  "version": "0.64.0",
+  "version": "0.64.1",
   "description": "Autocomplete utils for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
