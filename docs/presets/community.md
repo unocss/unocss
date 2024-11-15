@@ -29,6 +29,7 @@
 - [@yeungkc/unocss-preset-safe-area](https://github.com/YeungKC/unocss-preset-safe-area) - Use safe area with Unocss by [YeungKC](https://github.com/YeungKC)
 - [@unifydev/unify-preset](https://github.com/unify-ui-dev/unify-preset/blob/main/README.md) - Atomic Theming UI Libray Powered By UnoCSS, like DaisyUI but customizable. By [@johnkat-mj](https://github.com/Johnkat-Mj)
 - [unocss-preset-tailwindcss-motion](https://github.com/whatnickcodes/unocss-preset-tailwindcss-motion) - Ridiculously awesome animations via unoffical [Tailwind Motion](https://rombo.co/tailwind) port, by [@whatnicktweets](https://x.com/whatnicktweets)
+- [unocss-preset-magicss](https://github.com/unpreset/unocss-preset-magicss) - Integrate magic css animation preset by [@zyyv](https://github.com/zyyv)
 
 # Community frameworks
 
