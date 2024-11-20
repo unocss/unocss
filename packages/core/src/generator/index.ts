@@ -1,6 +1,4 @@
 import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
-import { Theme } from '@unocss/preset-mini'
-import unoConfig from '../../../inspector/uno.config'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
