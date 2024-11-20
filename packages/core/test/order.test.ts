@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('order', () => {
   it('static', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar1' }],
         ['foo', { name: 'bar2' }],
@@ -17,7 +17,7 @@ describe('order', () => {
   })
 
   it('dynamic', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         [/^foo$/, () => ({ name: 'bar1' })],
         [/^foo$/, () => ({ name: 'bar2' })],
@@ -29,7 +29,7 @@ describe('order', () => {
   })
 
   it('variant ordering', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ name: m })],
       ],
@@ -61,7 +61,7 @@ describe('order', () => {
   })
 
   it('variant ordering reversed', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ name: m })],
       ],
@@ -93,7 +93,7 @@ describe('order', () => {
   })
 
   it('multiple variant sorting', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -110,7 +110,7 @@ describe('order', () => {
   })
 
   it('pseudo-elements sorting', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -125,7 +125,7 @@ describe('order', () => {
   })
 
   it('variant sorting', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         [/^foo-.$/, ([m]) => ({ foo: m })],
       ],
@@ -159,7 +159,7 @@ describe('order', () => {
   })
 
   it('fully controlled rules merged and sorted by body', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['uno', { '--var': 'uno' }],
         [/^foo-(.+)$/, ([, match]) => {

@@ -14,7 +14,7 @@ describe('config', () => {
     })
   }
   it('theme', async () => {
-    const uno = createUno({
+    const uno = await createUno({
       theme: {
         colors: {
           red: {
@@ -32,7 +32,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return extend', async () => {
-    const uno = createUno({
+    const uno = await createUno({
       extendTheme(mergedTheme) {
         return {
           ...mergedTheme,
@@ -48,7 +48,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return', async () => {
-    const unocss = createGenerator<Theme>({
+    const unocss = await createGenerator<Theme>({
       extendTheme: () => {
         return {
           colors: {
@@ -70,7 +70,7 @@ describe('config', () => {
   })
 
   it('extendTheme with mutation', async () => {
-    const unocss = createGenerator<Theme>({
+    const unocss = await createGenerator<Theme>({
       extendTheme: (theme) => {
         // @ts-expect-error test
         theme.colors.red[100] = 'green'
@@ -114,7 +114,7 @@ describe('config', () => {
       ],
     }
 
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetB,
       ],
@@ -138,7 +138,7 @@ describe('config', () => {
     const presetB: Preset = { name: 'presetB' }
     const presetC: Preset = { name: 'presetC', presets: [presetA] }
 
-    const unoA = createGenerator({
+    const unoA = await createGenerator({
       presets: [
         presetA,
         presetB,
@@ -148,7 +148,7 @@ describe('config', () => {
 
     expect(unoA.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB'])
 
-    const unoB = createGenerator({
+    const unoB = await createGenerator({
       presets: [
         presetA,
         presetB,
@@ -306,8 +306,8 @@ describe('mergeConfigs', () => {
       `)
   })
 
-  it('content', () => {
-    const uno = createGenerator({
+  it('content', async () => {
+    const uno = await createGenerator({
       presets: [{
         name: 'test',
         content: {
@@ -326,8 +326,8 @@ describe('mergeConfigs', () => {
     })
   })
 
-  it('merge transformers', () => {
-    const uno = createGenerator({
+  it('merge transformers', async () => {
+    const uno = await createGenerator({
       presets: [
         {
           name: 'preset-foo',

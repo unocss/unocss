@@ -4,7 +4,7 @@ import { variantPseudoClassesAndElements } from './pseudo'
 
 // https://github.com/unocss/unocss/issues/2713
 it('pseudo variant order', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     variants: [
       variantPseudoClassesAndElements(),
     ],
@@ -51,7 +51,7 @@ it('pseudo variant order', async () => {
 
 // https://github.com/unocss/unocss/issues/2733
 it('focus-visible:', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     variants: [
       variantPseudoClassesAndElements(),
     ],

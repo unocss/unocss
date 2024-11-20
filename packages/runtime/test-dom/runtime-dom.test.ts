@@ -3,13 +3,13 @@
 import presetUno from '@unocss/preset-uno'
 import initUnocssRuntime from '@unocss/runtime'
 
-describe('runtime dom manipulation', () => {
+describe('runtime dom manipulation', async () => {
   afterEach(() => {
     window.document.documentElement.innerHTML = ''
   })
 
-  function initRuntime(options?: any) {
-    initUnocssRuntime({
+  async function initRuntime(options?: any) {
+    await initUnocssRuntime({
       defaults: {
         presets: [
           presetUno(),
