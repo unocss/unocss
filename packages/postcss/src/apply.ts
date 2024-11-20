@@ -82,7 +82,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
           css.walkDecls((declaration) => {
             declaration.source = source
           })
-          rule.parent.append(css)
+          rule.parent.insertAfter(rule, css)
         }
       }
       rule.parent.after(parentAfterNodes)
