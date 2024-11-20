@@ -14,8 +14,8 @@ export { defaultConfigRaw }
 export const isCompact = useLocalStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
 
-const uno = await createGenerator({}, defaultConfig)
-export const searcher = createSearch({ uno, docs, guides })
+const _uno = createGenerator({}, defaultConfig)
+export const searcher = createSearch({ uno: _uno, docs, guides })
 
 const initParams = new URLSearchParams(location.search)
 
@@ -47,8 +47,8 @@ async function load() {
   }
 }
 
-watch(userConfig, () => {
-  uno.setConfig(userConfig.value || {}, defaultConfig)
+watch(userConfig, async () => {
+  (await _uno).setConfig(userConfig.value || {}, defaultConfig)
 })
 
 load()

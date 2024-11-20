@@ -34,6 +34,6 @@ export interface UnocssAutocomplete {
   suggestInFile: (content: string, cursor: number) => Promise<SuggestResult | undefined>
   templates: (string | AutoCompleteFunction)[]
   cache: LRUCache<string, string[]>
-  reset: () => void
+  reset: () => Promise<void>
   enumerate: () => Promise<Set<string>>
 }
