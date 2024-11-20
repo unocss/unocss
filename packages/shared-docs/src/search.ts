@@ -9,16 +9,16 @@ import { computed, shallowReactive, toRaw } from 'vue'
 import { extractColors, formatCSS, sampleArray } from './utils'
 
 export interface SearchState {
-  uno: UnoGenerator | Promise<UnoGenerator>
+  uno: UnoGenerator
   docs: Ref<DocItem[]>
   guides: GuideItem[]
   limit?: number
 }
 
 export function createSearch(
-  { uno: _uno, docs, guides, limit = 25 }: SearchState,
+  { uno, docs, guides, limit = 25 }: SearchState,
 ) {
-  const ac = createAutocomplete(_uno)
+  const ac = createAutocomplete(uno)
   const matchedMap = shallowReactive(new Map<string, RuleItem>())
   const featuresMap = shallowReactive(new Map<string, Set<RuleItem>>())
 
@@ -61,9 +61,7 @@ export function createSearch(
 
   const az09 = Array.from('abcdefghijklmnopqrstuvwxyz01234567890')
 
-  Promise.resolve(_uno).then((uno) => {
-    uno.events.on('config', reset)
-  })
+  uno.events.on('config', reset)
 
   let _fusePrepare: Promise<void> | undefined
   async function search(input: string) {
@@ -161,7 +159,6 @@ export function createSearch(
     if (matchedMap.has(input))
       return matchedMap.get(input)
 
-    const uno = await _uno
     const token = await uno.parseToken(input)
     if (!token?.length)
       return

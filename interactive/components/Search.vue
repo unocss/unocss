@@ -53,7 +53,7 @@ async function executeSearch() {
   if (input.value)
     isSearching.value = true
   try {
-    searchResult.value = mapSearch(await searcher.search(input.value))
+    searchResult.value = mapSearch(await searcher.value?.search(input.value) || [])
   }
   catch (e) {
     console.error(e)
@@ -126,7 +126,7 @@ async function openItem(item: ResultItem) {
   if (isMobile.value && !isModalOpen.value)
     isModalOpen.value = true
   else
-    input.value = await searcher.getItemId(item)
+    input.value = await searcher.value.getItemId(item)
 }
 
 function selectItem(item: ResultItem) {
