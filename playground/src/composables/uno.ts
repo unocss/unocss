@@ -11,7 +11,7 @@ export const init = ref(false)
 export const customConfigError = ref<Error>()
 export const customCSSWarn = ref<Error>()
 
-export const __uno = createGenerator({}, defaultConfig.value)
+const __uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
 export const annotations = shallowRef<HighlightAnnotation[]>()
 
