@@ -15,7 +15,7 @@ const string = 'var(--cm-string)'
 const darkBackground = 'var(--cm-background)'
 const highlightBackground = 'var(--cm-line-highlight-background)'
 const background = 'var(--cm-background)'
-const tooltipBackground = '#242222'
+const tooltipBackground = 'var(--cm-tooltip-background)'
 const selection = 'var(--cm-selection-background)'
 const cursor = '#888'
 
@@ -95,7 +95,7 @@ export const vitesseTheme = EditorView.theme({
   },
   '.cm-tooltip-autocomplete': {
     '& > ul > li[aria-selected]': {
-      backgroundColor: '#ffffff14',
+      backgroundColor: selection,
       color: '#c2beb3',
     },
   },

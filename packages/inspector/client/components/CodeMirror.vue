@@ -92,6 +92,7 @@ grammarly-desktop-integration {
   --cm-foreground: #393a3480;
   --cm-background: #fdfdfd;
   --cm-comment: #a0ada0;
+  --cm-tooltip-background: #ffffff;
   --cm-string: #b56959;
   --cm-number: #296aa3;
   --cm-variable: #59873a;
@@ -113,6 +114,7 @@ html.dark {
   --cm-foreground: #d4cfbf80;
   --cm-background: #121212;
   --cm-comment: #758575;
+  --cm-tooltip-background: #242222;
   --cm-string: #d48372;
   --cm-keyword: #4d9375;
   --cm-number: #6394bf;
