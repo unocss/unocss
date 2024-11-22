@@ -86,13 +86,17 @@ grammarly-desktop-integration {
 .cm-content {
   cursor: text !important;
 }
+.cm-tooltip {
+  background-color: var(--cm-background) !important;
+  border: 1px solid var(--cm-border) !important;
+  border-radius: 4px;
+}
 
 :root {
   --cm-font-family: 'Fira Code', monospace;
   --cm-foreground: #393a3480;
   --cm-background: #fdfdfd;
   --cm-comment: #a0ada0;
-  --cm-tooltip-background: #ffffff;
   --cm-string: #b56959;
   --cm-number: #296aa3;
   --cm-variable: #59873a;
@@ -104,6 +108,7 @@ grammarly-desktop-integration {
   --cm-line-highlight-background: #c9c9c910;
   --cm-line-highlight-border: #b0b0b030;
   --cm-selection-background: #eeeeee;
+  --cm-border: #9ca3af1a;
   /* scrollbars colors */
   --cm-ttc-c-thumb: #eee;
   --cm-ttc-c-track: white;
@@ -114,7 +119,6 @@ html.dark {
   --cm-foreground: #d4cfbf80;
   --cm-background: #121212;
   --cm-comment: #758575;
-  --cm-tooltip-background: #242222;
   --cm-string: #d48372;
   --cm-keyword: #4d9375;
   --cm-number: #6394bf;
