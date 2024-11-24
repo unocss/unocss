@@ -145,4 +145,10 @@ describe('postcss', () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  it('inline media node type', async () => {
+    const { root, css } = await pcssLite().process(`.test { @apply bg-green [@media(hover:hover)]:bg-red; }`, processOptions)
+    expect(css).toMatchSnapshot()
+    expect(root.nodes.every(({ type }) => ['atrule', 'comment', 'decl', 'rule'].includes(type))).toBeTruthy()
+  })
 })
