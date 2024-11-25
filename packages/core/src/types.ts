@@ -62,7 +62,7 @@ export interface RuleContext<Theme extends object = object> {
   /**
    * Active rules for current selector.
    */
-  activeRules?: Set<Rule<Theme>>
+  activeRules: Set<Rule<Theme>>
   /**
    * Available only when `details` option is enabled.
    */
@@ -862,8 +862,8 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: [number, ...DynamicRule<Theme>][]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
+  rulesDynamic: [number, ...DynamicRule<Theme>, Rule<Theme>][]
+  rulesStaticMap: Record<string, [number, string, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]

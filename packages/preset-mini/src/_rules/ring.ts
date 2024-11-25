@@ -25,7 +25,7 @@ export const rings: Rule<Theme>[] = [
         'box-shadow': 'var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
       }
     }
-  }, { preflightKeys, autocomplete: 'ring-$ringWidth' }],
+  }, { custom: { preflightKeys }, autocomplete: 'ring-$ringWidth' }],
 
   // size
   [/^ring-(?:width-|size-)(.+)$/, handleWidth, { autocomplete: 'ring-(width|size)-$lineWidth' }],

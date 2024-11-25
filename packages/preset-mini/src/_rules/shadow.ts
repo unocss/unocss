@@ -26,7 +26,7 @@ export const boxShadows: Rule<Theme>[] = [
       }
     }
     return colorResolver('--un-shadow-color', 'shadow', 'shadowColor')(match, context)
-  }, { preflightKeys, autocomplete: ['shadow-$colors', 'shadow-$boxShadow'] }],
+  }, { custom: { preflightKeys }, autocomplete: ['shadow-$colors', 'shadow-$boxShadow'] }],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset

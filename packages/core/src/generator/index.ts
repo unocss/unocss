@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -533,13 +533,14 @@ export class UnoGenerator<Theme extends object = object> {
     // use map to for static rules
     const staticMatch = this.config.rulesStaticMap[processed]
     if (staticMatch) {
-      if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+      if (staticMatch[2] && (internal || !staticMatch[3]?.internal)) {
+        context.activeRules.add(staticMatch[4])
         if (this.config.details)
-          context.rules!.push(staticMatch[3])
+          context.rules!.push(staticMatch[4])
 
         const index = staticMatch[0]
-        const entry = normalizeCSSEntries(staticMatch[1])
-        const meta = staticMatch[2]
+        const entry = normalizeCSSEntries(staticMatch[2])
+        const meta = staticMatch[3]
         if (isString(entry))
           return [[index, entry, meta]]
         else
@@ -552,7 +553,7 @@ export class UnoGenerator<Theme extends object = object> {
     const { rulesDynamic } = this.config
 
     // match rules
-    for (const [i, matcher, handler, meta] of rulesDynamic) {
+    for (const [i, matcher, handler, meta, self] of rulesDynamic) {
       // ignore internal rules
       if (meta?.internal && !internal)
         continue
@@ -583,8 +584,9 @@ export class UnoGenerator<Theme extends object = object> {
       if (!result)
         continue
 
+      context.activeRules.add(self)
       if (this.config.details)
-        context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+        context.rules!.push(self)
 
       // Handle generator result
       if (typeof result !== 'string') {

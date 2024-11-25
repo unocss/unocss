@@ -523,7 +523,7 @@ describe('preset-mini: on demand generate preflights', () => {
           'custom-rule',
           { blur: 'var(--un-shadow)' },
           // depend on `--shadow` from presetMini
-          { preflightKeys: '--un-shadow' },
+          { custom: { preflightKeys: '--un-shadow' } },
         ],
       ],
     })

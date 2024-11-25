@@ -99,25 +99,25 @@ export const transforms: Rule[] = [
   }],
 
   // modifiers
-  [/^(?:transform-)?translate-()(.+)$/, handleTranslate, { preflightKeys }],
-  [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate, { preflightKeys }],
-  [/^(?:transform-)?rotate-()(.+)$/, handleRotate, { preflightKeys }],
-  [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate, { preflightKeys }],
-  [/^(?:transform-)?skew-()(.+)$/, handleSkew, { preflightKeys }],
-  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { preflightKeys, autocomplete: ['transform-skew-(x|y)-<percent>', 'skew-(x|y)-<percent>'] }],
-  [/^(?:transform-)?scale-()(.+)$/, handleScale, { preflightKeys }],
-  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { preflightKeys, autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`, `(${transformValues.join('|')})-<percent>`, `(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
+  [/^(?:transform-)?translate-()(.+)$/, handleTranslate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?rotate-()(.+)$/, handleRotate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?skew-()(.+)$/, handleSkew, { custom: { preflightKeys } }],
+  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { custom: { preflightKeys }, autocomplete: ['transform-skew-(x|y)-<percent>', 'skew-(x|y)-<percent>'] }],
+  [/^(?:transform-)?scale-()(.+)$/, handleScale, { custom: { preflightKeys } }],
+  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { custom: { preflightKeys }, autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`, `(${transformValues.join('|')})-<percent>`, `(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
 
   // style
   [/^(?:transform-)?preserve-3d$/, () => ({ 'transform-style': 'preserve-3d' })],
   [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
-  ['transform', { transform }, { preflightKeys }],
+  ['transform', { transform }, { custom: { preflightKeys } }],
   ['transform-cpu', { transform: transformCpu }, {
-    preflightKeys: ['--un-translate-x', '--un-translate-y', '--un-rotate', '--un-rotate-z', '--un-skew-x', '--un-skew-y', '--un-scale-x', '--un-scale-y'],
+    custom: { preflightKeys: ['--un-translate-x', '--un-translate-y', '--un-rotate', '--un-rotate-z', '--un-skew-x', '--un-skew-y', '--un-scale-x', '--un-scale-y'] },
   }],
-  ['transform-gpu', { transform: transformGpu }, { preflightKeys }],
+  ['transform-gpu', { transform: transformGpu }, { custom: { preflightKeys } }],
   ['transform-none', { transform: 'none' }],
   ...makeGlobalStaticRules('transform'),
 ]
