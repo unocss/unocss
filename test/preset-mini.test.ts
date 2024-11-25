@@ -495,7 +495,7 @@ describe('preset-mini: on demand generate preflights', () => {
   it('default preflights', async () => {
     const uno = createGenerator({
       presets: [
-        presetMini(),
+        presetMini({ preflight: 'on-demand' }),
       ],
     })
     const { css: noPreflightCSS } = await uno.generate('text-red')
@@ -516,7 +516,7 @@ describe('preset-mini: on demand generate preflights', () => {
   it('custom depends', async () => {
     const uno = createGenerator({
       presets: [
-        presetMini(),
+        presetMini({ preflight: 'on-demand' }),
       ],
       rules: [
         [

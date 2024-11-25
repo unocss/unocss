@@ -122,11 +122,6 @@
 .clear-both{clear:both;}
 .clear-none{clear:none;}
 .clear-revert{clear:revert;}
-.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
-.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
-.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
-.previous:is(div)+.previous-is-\[div\]\:m-1,
-.has-\[\:hover\]\:m-1:has(:hover){margin:0.25rem;}
 .-m-lg,
 .m--lg{margin:calc(var(--spacing-lg) * -1);}
 .-m-md,
@@ -142,6 +137,11 @@
 .children\:m-auto>*,
 .m-auto{margin:auto;}
 .all\:m1\/1 *{margin:100%;}
+.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
+.has-\[\:hover\]\:m-1:has(:hover),
+.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
+.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
+.previous:is(div)+.previous-is-\[div\]\:m-1{margin:0.25rem;}
 .m-\[3em\]{margin:3em;}
 .m-0,
 .m-none{margin:0;}
@@ -672,10 +672,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group-aria:focus .group-aria-focus\:p-4,
 .group:focus .group-focus\:p-4{padding:1rem;}
 .first\:p-2:first-child{padding:0.5rem;}
+.\!hover\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-x,
 .px{padding-left:1rem;padding-right:1rem;}
 .px-1{padding-left:0.25rem;padding-right:0.25rem;}
-.\!hover\:px-10:hover{padding-left:2.5rem !important;padding-right:2.5rem !important;}
 .p-t-2,
 .pt-2,
 .pt2{padding-top:0.5rem;}
@@ -940,10 +940,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-shadow-color-red-300{--un-text-shadow-opacity:1;--un-text-shadow-color:rgb(252 165 165 / var(--un-text-shadow-opacity));}
 .text-shadow-color-op-\$opacity-variable{--un-text-shadow-opacity:var(--opacity-variable);}
 .text-shadow-color-op-30{--un-text-shadow-opacity:0.3;}
+.disabled\:op50:disabled{opacity:0.5;}
 .op-10{opacity:0.1;}
 .opacity-\$opa{opacity:var(--opa);}
 .opacity-0{opacity:0;}
-.disabled\:op50:disabled{opacity:0.5;}
 .placeholder-opacity-60::placeholder{opacity:0.6;}
 .backdrop\:shadow-green::backdrop{--un-shadow-opacity:1;--un-shadow-color:rgb(74 222 128 / var(--un-shadow-opacity));}
 .shadow{--un-shadow:var(--un-shadow-inset) 0 1px 3px 0 var(--un-shadow-color, rgb(0 0 0 / 0.1)),var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
@@ -990,8 +990,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .outline-inherit{outline-style:inherit;}
 .outline-revert-layer{outline-style:revert-layer;}
 .outline-unset{outline-style:unset;}
-.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .focus-visible\:outline-none:focus-visible{outline:2px solid transparent;outline-offset:2px;}
+.outline-none{outline:2px solid transparent;outline-offset:2px;}
 .ring{--un-ring-width:3px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-10{--un-ring-width:10px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-none{--un-ring-width:0;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
@@ -1071,6 +1071,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .content-visibility-hidden{content-visibility:hidden;}
 .content-visibility-auto{content-visibility:auto;}
 .content-visibility-unset{content-visibility:unset;}
+.before\:\[\&\[data-active\=\'true\'\]\]\:content-\[\'test\'\][data-active='true']::before{content:'test';}
+.after\:content-\[quoted\:unocss\]::after{content:"unocss";}
 .content-\[\'quoted_with_space\'\]{content:'quoted with space';}
 .content-\[\'quoted1\'\]{content:'quoted1';}
 .content-\[\"quoted2\"\]{content:"quoted2";}
@@ -1080,8 +1082,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .content-\[string\:attr\(dashed-attr\)\]{content:attr(dashed-attr);}
 .content-\[string\:attr\(underlined\\_attr\)\]{content:attr(underlined_attr);}
 .content-\$unocss-var{content:var(--unocss-var);}
-.before\:\[\&\[data-active\=\'true\'\]\]\:content-\[\'test\'\][data-active='true']::before{content:'test';}
-.after\:content-\[quoted\:unocss\]::after{content:"unocss";}
 .content-empty{content:"";}
 .content-none{content:none;}
 .\@container{container-type:inline-size;}

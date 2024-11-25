@@ -29,23 +29,27 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          ${result[0][0]},
+          90,
           ".\\-",
           "margin-bottom:0.25rem;margin-right:0.25rem;",
           undefined,
           {
+            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
+            "1": [Function],
             "layer": undefined,
-            "sort": undefined,
+            "sort": [Function],
           },
           undefined,
           undefined,
         ],
         [
-          ${result[0][0]},
+          90,
           ".\\-:hover",
           "margin-right:0.5rem;",
           undefined,
           {
+            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
+            "1": [Function],
             "layer": undefined,
             "sort": 24,
           },
@@ -64,11 +68,13 @@ describe('getUtils', async () => {
     expect(result).toMatchInlineSnapshot(`
       [
         [
-          ${result[0][0]},
+          90,
           ".\\-:hover",
           "margin-right:0.25rem;font-weight:500;",
           undefined,
           {
+            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
+            "1": [Function],
             "layer": undefined,
             "sort": 24,
           },
