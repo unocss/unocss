@@ -60,6 +60,10 @@ export interface RuleContext<Theme extends object = object> {
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
   /**
+   * Active rules for current selector.
+   */
+  activeRules?: Set<Rule<Theme>>
+  /**
    * Available only when `details` option is enabled.
    */
   rules?: Rule<Theme>[]
@@ -150,9 +154,9 @@ interface BaseContext<Theme extends object = object> {
 
 export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> {
   /**
-   * Used preflight keys
+   * All active rules
    */
-  keys: Set<string>
+  activeRules: Set<Rule<Theme>>
 }
 
 export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
@@ -211,9 +215,9 @@ export interface RuleMeta {
   __hash?: string
 
   /**
-   * Depend on preflight keys
+   * Custom metadata
    */
-  preflightKeys?: Arrayable<string>
+  custom?: Record<string, any>
 }
 
 export type CSSValue = CSSObject | CSSEntries

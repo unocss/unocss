@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -89,7 +89,7 @@ export class UnoGenerator<Theme extends object = object> {
     return extracted
   }
 
-  makeContext(raw: string, applied: VariantMatchedResult<Theme>): RuleContext<Theme> {
+  makeContext(raw: string, applied: VariantMatchedResult<Theme>, activeRules: Set<Rule<Theme>> = new Set()): RuleContext<Theme> {
     const context: RuleContext<Theme> = {
       rawSelector: raw,
       currentSelector: applied[1],
@@ -99,6 +99,7 @@ export class UnoGenerator<Theme extends object = object> {
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
+      activeRules,
     }
     return context
   }
@@ -106,6 +107,7 @@ export class UnoGenerator<Theme extends object = object> {
   async parseToken(
     raw: string,
     alias?: string,
+    activeRules: Set<Rule<Theme>> = new Set(),
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
     if (this.blocked.has(raw))
       return
@@ -134,7 +136,7 @@ export class UnoGenerator<Theme extends object = object> {
       return
     }
 
-    const context = this.makeContext(raw, [alias || applied[0], applied[1], applied[2], applied[3]])
+    const context = this.makeContext(raw, [alias || applied[0], applied[1], applied[2], applied[3]], activeRules)
 
     if (this.config.details)
       context.variants = [...applied[3]]
@@ -214,13 +216,13 @@ export class UnoGenerator<Theme extends object = object> {
 
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
-    const preflightKeySet = new Set<string>()
+    const activeRules: Set<Rule<Theme>> = new Set()
 
     const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
 
-      const payload = await this.parseToken(raw)
+      const payload = await this.parseToken(raw, undefined, activeRules)
       if (payload == null)
         return
 
@@ -237,14 +239,11 @@ export class UnoGenerator<Theme extends object = object> {
       for (const item of payload) {
         const parent = item[3] || ''
         const layer = item[4]?.layer
-        const preflightKeys = item[4]?.preflightKeys
         if (!sheet.has(parent))
           sheet.set(parent, [])
         sheet.get(parent)!.push(item)
         if (layer)
           layerSet.add(layer)
-        if (preflightKeys)
-          toArray(preflightKeys).forEach(i => preflightKeySet.add(i))
       }
     })
 
@@ -256,7 +255,7 @@ export class UnoGenerator<Theme extends object = object> {
       const preflightContext: PreflightContext<Theme> = {
         generator: this,
         theme: this.config.theme,
-        keys: preflightKeySet,
+        activeRules,
       }
 
       const preflightLayerSet = new Set<string>([])
