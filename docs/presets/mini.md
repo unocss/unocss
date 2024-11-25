@@ -178,7 +178,11 @@ Prefix for CSS custom properties.
 Utils prefix.
 
 ### preflight
-- **Type:** `boolean`
+- **Type:** `boolean` | `on-demand`
 - **Default:** `true`
 
-Generate preflight.
+Generate preflight css. It can be:
+
+- `true`: always generate preflight.
+- `false`: no preflight.
+- `on-demand`: only generate preflight for used utilities.

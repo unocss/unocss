@@ -113,18 +113,3 @@ export function VarPrefixPostprocessor(prefix: string): Postprocessor | undefine
     }
   }
 }
-
-// export function normalizePreflights<Theme extends object>(options: PresetMiniOptions): Preflight<Theme>[] {
-//   // if (variablePrefix !== 'un-') {
-//   //   return preflights.map(p => ({
-//   //     ...p,
-//   //     getCSS: (() => async (ctx: PreflightContext<Theme>) => {
-//   //       const css = await p.getCSS(ctx)
-//   //       if (css)
-//   //         return css.replace(/--un-/g, `--${variablePrefix}`)
-//   //     })(),
-//   //   }))
-//   // }
-
-//   return preflights.map(p => p(options))
-// }
