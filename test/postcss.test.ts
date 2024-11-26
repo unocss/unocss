@@ -129,6 +129,11 @@ describe('postcss', () => {
       const { css } = await pcssLite().process('div{@apply sm:bg-red lg:bg-pink xl:bg-white md:bg-blue}', processOptions)
       expect(css).toMatchSnapshot()
     })
+
+    it('order', async () => {
+      const { css } = await pcssLite().process('.test {@apply bg-red; @supports (color: color-mix(in oklab, black, black)) {background: green;} }', processOptions)
+      expect(css).toMatchSnapshot()
+    })
   })
 
   it('theme()', async () => {
