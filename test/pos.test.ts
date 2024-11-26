@@ -11,7 +11,7 @@ import { getMatchedPositionsFromCode as match } from '../packages/shared-common/
 
 describe('matched-positions', async () => {
   it('attributify', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true }),
         presetUno({ attributifyPseudo: true }),
@@ -56,7 +56,7 @@ describe('matched-positions', async () => {
   })
 
   it('attributify position', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true }),
         presetUno({ attributifyPseudo: true }),
@@ -86,7 +86,7 @@ describe('matched-positions', async () => {
   })
 
   it('css-directive', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -116,7 +116,7 @@ describe('matched-positions', async () => {
   })
 
   it('class-based', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -158,7 +158,7 @@ describe('matched-positions', async () => {
   })
 
   it('arbitrary property', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -187,7 +187,7 @@ describe('matched-positions', async () => {
   })
 
   it('variant-group', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -232,7 +232,7 @@ describe('matched-positions', async () => {
   })
 
   it('colon highlighting #2460', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -251,7 +251,7 @@ describe('matched-positions', async () => {
   })
 
   it('with include and exclude', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -360,7 +360,7 @@ let transition = 'ease-in-out duration-300'
   })
 
   it('with include and exclude in attributify', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
         presetAttributify(),
@@ -437,7 +437,7 @@ describe('matched-positions-pug', async () => {
 </template>`, 'App.vue')
   }
 
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
       presetAttributify({ strict: true }),
@@ -524,7 +524,7 @@ describe('matched-positions-pug', async () => {
   })
 
   it('attributify `><`', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify(),
         presetUno(),

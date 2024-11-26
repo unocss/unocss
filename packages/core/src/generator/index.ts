@@ -13,22 +13,29 @@ export const symbols: ControlSymbols = {
   layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
 }
 
-export class UnoGenerator<Theme extends object = object> {
+class UnoGeneratorInternal<Theme extends object = object> {
   public version = version
   private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
-  public config: ResolvedConfig<Theme>
+  public config: ResolvedConfig<Theme> = undefined!
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
   public events = createNanoEvents<{
     config: (config: ResolvedConfig<Theme>) => void
   }>()
 
-  constructor(
+  protected constructor(
     public userConfig: UserConfig<Theme> = {},
     public defaults: UserConfigDefaults<Theme> = {},
-  ) {
-    this.config = resolveConfig(userConfig, defaults)
-    this.events.emit('config', this.config)
+  ) {}
+
+  static async create<Theme extends object = object>(
+    userConfig: UserConfig<Theme> = {},
+    defaults: UserConfigDefaults<Theme> = {},
+  ): Promise<UnoGeneratorInternal<Theme>> {
+    const uno = new UnoGeneratorInternal(userConfig, defaults)
+    uno.config = resolveConfig(uno.userConfig, uno.defaults)
+    uno.events.emit('config', uno.config)
+    return uno
   }
 
   setConfig(
@@ -837,8 +844,24 @@ export class UnoGenerator<Theme extends object = object> {
   }
 }
 
-export function createGenerator<Theme extends object = object>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
-  return new UnoGenerator<Theme>(config, defaults)
+export class UnoGenerator<Theme extends object = object> extends UnoGeneratorInternal<Theme> {
+  /**
+   * @deprecated `new UnoGenerator` is deprecated, please use `createGenerator()` instead
+   */
+  constructor(
+    userConfig: UserConfig<Theme> = {},
+    defaults: UserConfigDefaults<Theme> = {},
+  ) {
+    super(userConfig, defaults)
+    console.warn('`new UnoGenerator()` is deprecated, please use `createGenerator()` instead')
+  }
+}
+
+export async function createGenerator<Theme extends object = object>(
+  config?: UserConfig<Theme>,
+  defaults?: UserConfigDefaults<Theme>,
+): Promise<UnoGenerator<Theme>> {
+  return await UnoGeneratorInternal.create(config, defaults)
 }
 
 export const regexScopePlaceholder = /\s\$\$\s+/g

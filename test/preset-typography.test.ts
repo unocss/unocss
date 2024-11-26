@@ -127,7 +127,7 @@ const testConfigs: {
 describe('typography', () => {
   for (const tc of testConfigs) {
     it(tc.name, async () => {
-      const generator = createGenerator({
+      const generator = await createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),
           presetUno({ preflight: false }),

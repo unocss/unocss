@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('preflights', () => {
   it('basic', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       preflights: [
         {
           getCSS() {
@@ -30,7 +30,7 @@ describe('preflights', () => {
 
   it('no preflights with preset', async () => {
     const cssArray = [presetMini, presetUno, presetWind].map(async (preset) => {
-      const uno = createGenerator({
+      const uno = await createGenerator({
         presets: [preset({ preflight: false })],
       })
       const { css } = await uno.generate('')
@@ -46,7 +46,7 @@ describe('preflights', () => {
   })
 
   it('preflight root can be customized with string', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -59,7 +59,7 @@ describe('preflights', () => {
   })
 
   it('preflight root can be customized with array', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -72,7 +72,7 @@ describe('preflights', () => {
   })
 
   it('preflight root can be disabled using empty array', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -85,7 +85,7 @@ describe('preflights', () => {
   })
 
   it('preflight with variablePrefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({
           variablePrefix: 'test-',
@@ -97,7 +97,7 @@ describe('preflights', () => {
   })
 
   it('preflight with empty variablePrefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({
           variablePrefix: '',

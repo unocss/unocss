@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { searcher } from '~/composables/state'
 
-const colors = await searcher.getThemeColors()
+const colors = await searcher.value.getThemeColors()
 </script>
 
 <template>

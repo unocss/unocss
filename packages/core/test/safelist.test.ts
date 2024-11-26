@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('safelist', () => {
   it('basic', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],

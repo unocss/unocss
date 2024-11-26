@@ -4,7 +4,7 @@ import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('attributify', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetAttributify({ strict: true }),
       presetUno({ attributifyPseudo: true }),
@@ -68,7 +68,7 @@ describe('attributify', async () => {
   })
 
   it('prefixedOnly', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true, prefix: 'un-', prefixedOnly: true }),
         presetUno({ attributifyPseudo: true }),
@@ -189,7 +189,7 @@ describe('attributify', async () => {
   })
 
   it('with trueToNonValued', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ trueToNonValued: true }),
         presetUno(),
@@ -215,7 +215,7 @@ describe('attributify', async () => {
   })
 
   it('support inline arrow functions', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify(),
         presetUno(),

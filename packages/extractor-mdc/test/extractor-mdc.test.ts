@@ -3,7 +3,7 @@ import { expect, it } from 'vitest'
 import extractorMdc from '../src/index'
 
 it('extractorMdc', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     extractors: [
       extractorMdc(),
     ],
