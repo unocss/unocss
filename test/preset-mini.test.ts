@@ -493,7 +493,7 @@ describe('preset-mini', () => {
 
 describe('preset-mini: on demand generate preflights', () => {
   it('default preflights', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({ preflight: 'on-demand' }),
       ],
@@ -514,7 +514,7 @@ describe('preset-mini: on demand generate preflights', () => {
   })
 
   it('custom depends', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({ preflight: 'on-demand' }),
       ],
