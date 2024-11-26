@@ -3,7 +3,7 @@ import { expect, it } from 'vitest'
 
 it('rule-first', async () => {
   const order: number[] = []
-  const uno = createGenerator({
+  const uno = await createGenerator({
     rules: [
       [/^rule$/, () => new Promise(resolve => setTimeout(() => {
         order.push(1)
@@ -25,7 +25,7 @@ it('rule-first', async () => {
 
 it('preflight at the end', async () => {
   const order: number[] = []
-  const uno = createGenerator({
+  const uno = await createGenerator({
     rules: [
       [/^rule$/, () => new Promise(resolve => setTimeout(() => {
         order.push(1)

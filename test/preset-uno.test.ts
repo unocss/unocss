@@ -3,7 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import { expect, it } from 'vitest'
 import { nonTargets, targets, targets2 } from './assets/preset-uno-targets'
 
-const uno = createGenerator({
+const uno = await createGenerator({
   presets: [
     presetUno({
       dark: 'media',
@@ -57,7 +57,7 @@ it('non-targets', async () => {
 })
 
 it('custom var prefix', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno({
         variablePrefix: 'hi-',
@@ -75,7 +75,7 @@ it('custom var prefix', async () => {
 })
 
 it('empty prefix', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno({
         variablePrefix: '',
@@ -93,7 +93,7 @@ it('empty prefix', async () => {
 })
 
 it('define breakpoints with irregular sorting', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
     ],

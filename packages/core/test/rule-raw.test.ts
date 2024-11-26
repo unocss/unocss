@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('rule-raw', () => {
   it('basic', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [],
       rules: [
         ['before', { content: 'before' }],

@@ -39,7 +39,7 @@ describe('preset-mini color utils', () => {
     // invalid
   })
 
-  it('parses color token', () => {
+  it('parses color token', async () => {
     const context: RuleContext = {
       theme: {
         colors: {
@@ -51,7 +51,7 @@ describe('preset-mini color utils', () => {
       symbols,
       rawSelector: '',
       currentSelector: '',
-      generator: createGenerator(),
+      generator: await createGenerator(),
       variantHandlers: [],
       variantMatch: ['', '', [], new Set()],
       constructCSS: () => '',

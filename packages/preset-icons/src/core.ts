@@ -201,16 +201,30 @@ export async function parseIconWithLoader(body: string, loader: UniversalIconLoa
   let name = ''
   let svg: string | undefined
 
+  const allCollections = [
+    ...icons,
+    ...Object.keys(options.customCollections || {}),
+  ]
+
   if (body.includes(':')) {
     [collection, name] = body.split(':')
+
+    if (!allCollections.includes(collection))
+      return
+
     svg = await loader(collection, name, options)
   }
   else {
     const parts = body.split(/-/g)
     for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
       collection = parts.slice(0, i).join('-')
+
+      if (!allCollections.includes(collection))
+        continue
+
       name = parts.slice(i).join('-')
       svg = await loader(collection, name, options)
+
       if (svg)
         break
     }

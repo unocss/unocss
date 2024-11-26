@@ -3,21 +3,21 @@ import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
-describe('preset-icons', () => {
+describe('preset-icons', async () => {
   const fixtures = [
     '<button class="i-carbon-sun dark:i-carbon-moon" />',
     '<button class="i-carbon-sun?bg dark:i-carbon-moon?bg" />',
     '<button class="i-carbon-sun?bg dark:i-carbon-moon?auto" />',
   ]
 
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetIcons(),
       presetUno(),
     ],
   })
 
-  const unoWithUnit = createGenerator({
+  const unoWithUnit = await createGenerator({
     presets: [
       presetIcons({
         unit: 'rem',
@@ -64,7 +64,7 @@ describe('preset-icons', () => {
   })
 
   it('custom the usedProps in propsProcessor', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
         presetIcons({

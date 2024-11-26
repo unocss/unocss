@@ -17,7 +17,7 @@ export const fixture = new Set([
   'scope-[.variant]:c-red',
 ])
 
-const uno = createGenerator({
+const uno = await createGenerator({
   presets: [
     presetUno(),
   ],

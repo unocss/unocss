@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('use-css-layer', () => {
   it('static', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['a', { name: 'bar1' }, { layer: 'a' }],
         ['b', { name: 'bar2' }, { layer: 'b' }],
@@ -23,7 +23,7 @@ describe('use-css-layer', () => {
   })
 
   it('change layer name', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [presetUno()],
       shortcuts: {
         'custom-shortcut': 'text-lg text-orange hover:text-teal',

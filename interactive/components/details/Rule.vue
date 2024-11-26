@@ -10,7 +10,7 @@ const { item } = defineProps<{
 }>()
 
 const docs = computed(() => getDocs(item))
-const alias = computed(() => searcher.getAliasOf(item))
+const alias = computed(() => searcher.value?.getAliasOf(item) || [])
 const variantSteps = computed(() => {
   const steps: {
     variant?: Variant
@@ -48,7 +48,7 @@ const guides = computed(() => {
   return items
 })
 
-const sameRules = computed(() => searcher.getSameRules(item))
+const sameRules = computed(() => searcher.value.getSameRules(item))
 
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`
@@ -97,7 +97,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
               >
                 <PresetLabel
                   op50 hover:op100
-                  :preset="searcher.getPresetOfVariant(s.variant)"
+                  :preset="searcher?.getPresetOfVariant(s.variant)"
                   fallback="(inline)"
                 />
                 <span op30>></span>
@@ -201,7 +201,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div border="~ main">
           <template v-for="g, idx of guides" :key="g.title">
             <div v-if="idx" divider />
-            <RouterLink :to="{ query: { s: searcher.getItemId(g) } }">
+            <RouterLink :to="{ query: { s: searcher?.getItemId(g) || '' } }">
               <ResultItem :item="g" />
             </RouterLink>
           </template>
