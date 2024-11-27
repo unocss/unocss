@@ -320,7 +320,7 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
+export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | VariantHandler[] | undefined>
 
 export interface VariantObject<Theme extends object = object> {
   /**
@@ -865,7 +865,7 @@ export interface GenerateResult<T = Set<string>> {
   matched: T
 }
 
-export type VariantMatchedResult<Theme extends object = object> = readonly [
+export type VariantMatchedResult<Theme extends object = object> = [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],
