@@ -108,3 +108,54 @@ it('variants with multiple returns with selector modifier', async () => {
     .hover\\:v-text-red:foo:hover{color:green;}"
   `)
 })
+
+it('variants with multiple returns with partial match', async () => {
+  const uno = await createGenerator({
+    rules: [
+      ['text-red', { color: 'red' }],
+      ['text-green', { color: 'green' }],
+    ],
+    variants: [
+      {
+        name: 'hover',
+        match: (matcher) => {
+          if (matcher.startsWith('hover:')) {
+            return {
+              matcher: matcher.slice(6),
+              selector: input => `${input}:hover`,
+            }
+          }
+        },
+      },
+      {
+        name: 'foo',
+        multiPass: false,
+        match: (matcher) => {
+          if (matcher.startsWith('v-')) {
+            return [
+              {
+                // use this variant to trigger another variant
+                matcher: `hover:${matcher.slice(2)}`,
+              },
+              {
+                matcher: `hover:${matcher.slice(2).replace('red', 'green')}`,
+                selector: input => `${input}:foo`,
+              },
+              {
+                // this doesn't match, but the rest should still work
+                matcher: `hover:${matcher.slice(2).replace('red', 'blue')}`,
+              },
+            ]
+          }
+        },
+      },
+    ],
+  })
+
+  const { css } = await uno.generate('v-text-red', { preflights: false })
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .v-text-red:hover{color:red;}
+    .v-text-red:hover:foo{color:green;}"
+  `)
+})
