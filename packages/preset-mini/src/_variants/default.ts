@@ -34,7 +34,7 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
     variantBreakpoints(),
     ...variantCombinators,
 
-    variantPseudoClassesAndElements(),
+    ...variantPseudoClassesAndElements(),
     variantPseudoClassFunctions(),
     ...variantTaggedPseudoClasses(options),
 
