@@ -380,11 +380,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      return includes
-        .filter(i => !excludes?.includes(i))
-        .map(i => getLayer(i) || '')
-        .filter(Boolean)
-        .join(nl)
+      return [
+        outputCssLayers && layers.length > 0 ? `@layer ${layers.join(', ')};` : undefined,
+        ...includes
+          .filter(i => !excludes?.includes(i))
+          .map(i => getLayer(i) || ''),
+      ].filter(Boolean).join(nl)
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
