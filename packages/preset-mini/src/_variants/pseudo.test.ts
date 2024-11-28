@@ -6,7 +6,7 @@ import { variantPseudoClassesAndElements } from './pseudo'
 it('pseudo variant order', async () => {
   const uno = await createGenerator({
     variants: [
-      variantPseudoClassesAndElements(),
+      ...variantPseudoClassesAndElements(),
     ],
     rules: [
       [/^foo-(\d)$/, ([_, a]) => ({ text: `foo-${a}` })],
@@ -53,7 +53,7 @@ it('pseudo variant order', async () => {
 it('focus-visible:', async () => {
   const uno = await createGenerator({
     variants: [
-      variantPseudoClassesAndElements(),
+      ...variantPseudoClassesAndElements(),
     ],
     rules: [
       [/^foo-(\d)$/, ([_, a]) => ({ text: `foo-${a}` })],
