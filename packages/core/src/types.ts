@@ -461,7 +461,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Presets
    */
-  presets?: (PresetOrFactory<Theme> | PresetOrFactory<Theme>[])[]
+  presets?: (PresetOrFactoryAwaitable<Theme> | PresetOrFactoryAwaitable<Theme>[])[]
 
   /**
    * Additional options for auto complete
@@ -605,7 +605,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
 
+export type PresetFactoryAwaitable<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Awaitable<Preset<Theme>>
+
 export type PresetOrFactory<Theme extends object = object> = Preset<Theme> | PresetFactory<Theme, any>
+
+export type PresetOrFactoryAwaitable<Theme extends object = object> = PresetOrFactory<Theme> | Promise<Preset<Theme>> | PresetFactoryAwaitable<Theme>
 
 export interface GeneratorOptions {
   /**
@@ -838,7 +842,7 @@ export interface UserConfigDefaults<Theme extends object = object> extends Confi
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
   RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-  'rules' | 'shortcuts' | 'autocomplete'
+  'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]

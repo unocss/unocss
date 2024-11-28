@@ -33,15 +33,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
     defaults: UserConfigDefaults<Theme> = {},
   ): Promise<UnoGeneratorInternal<Theme>> {
     const uno = new UnoGeneratorInternal(userConfig, defaults)
-    uno.config = resolveConfig(uno.userConfig, uno.defaults)
+    uno.config = await resolveConfig(uno.userConfig, uno.defaults)
     uno.events.emit('config', uno.config)
     return uno
   }
 
-  setConfig(
+  async setConfig(
     userConfig?: UserConfig<Theme>,
     defaults?: UserConfigDefaults<Theme>,
-  ): void {
+  ): Promise<void> {
     if (!userConfig)
       return
     if (defaults)
@@ -50,7 +50,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.blocked.clear()
     this.parentOrders.clear()
     this._cache.clear()
-    this.config = resolveConfig(userConfig, this.defaults)
+    this.config = await resolveConfig(userConfig, this.defaults)
     this.events.emit('config', this.config)
   }
 
