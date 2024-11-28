@@ -58,12 +58,12 @@ describe('attributify', async () => {
     })
 
     const promises = Array.from(await uno.applyExtractors(fixture1) || [])
-      .map(async (i) => {
-        const r = await variant.match(i, {} as any)
-        return typeof r === 'string' ? r : r ? r.matcher : r
-      })
+      .map(async i => await variant.match(i, {} as any))
 
-    expect(await Promise.all(promises))
+    expect((await Promise.all(promises))
+      .flat()
+      .map(r => typeof r === 'string' ? r : r ? r.matcher : r),
+    )
       .toMatchSnapshot()
   })
 

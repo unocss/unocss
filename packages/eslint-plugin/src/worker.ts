@@ -59,7 +59,7 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
   const matchBlocked = async (raw: string) => {
     if (blocked.has(raw))
       return
-    let rule = uno.getBlocked(raw)
+    const rule = uno.getBlocked(raw)
     if (rule) {
       blocked.set(raw, getMeta(raw, rule[1]))
       return
@@ -67,10 +67,13 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
     let current = raw
     for (const p of uno.config.preprocess)
       current = p(raw)!
-    const applied = await uno.matchVariants(raw, current)
-    rule = applied && uno.getBlocked(applied[1])
-    if (rule)
-      blocked.set(raw, getMeta(raw, rule[1]))
+    const results = await uno.matchVariants(raw, current)
+    const rules = results.map(r => r && uno.getBlocked(r[1]))
+
+    for (const rule of rules) {
+      if (rule)
+        blocked.set(raw, getMeta(raw, rule[1]))
+    }
   }
 
   await Promise.all(values.map(matchBlocked))
