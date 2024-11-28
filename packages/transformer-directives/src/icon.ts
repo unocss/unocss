@@ -4,7 +4,7 @@ import type { IconsAPI, IconsOptions } from '@unocss/preset-icons'
 import { toArray } from '@unocss/core'
 
 export async function transformIconString(uno: UnoGenerator, icon: string, color?: string) {
-  const presetIcons = uno.userConfig.presets?.flat()?.find(i => i.name === '@unocss/preset-icons') as Preset | undefined
+  const presetIcons = uno.config.presets?.flat()?.find(i => i.name === '@unocss/preset-icons') as Preset | undefined
 
   if (!presetIcons) {
     console.warn('@unocss/preset-icons not found, icon() directive will be keep as-is')
