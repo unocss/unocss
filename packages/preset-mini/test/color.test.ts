@@ -55,7 +55,6 @@ describe('preset-mini color utils', () => {
       variantHandlers: [],
       variantMatch: ['', '', [], new Set()],
       constructCSS: () => '',
-      activeRules: new Set(),
     }
 
     const fn = (body: string) => colorResolver('prop', 'v')(['', body], context)
