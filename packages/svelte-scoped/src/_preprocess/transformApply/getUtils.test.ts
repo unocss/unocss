@@ -34,10 +34,8 @@ describe('getUtils', async () => {
           "margin-bottom:0.25rem;margin-right:0.25rem;",
           undefined,
           {
-            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
-            "1": [Function],
             "layer": undefined,
-            "sort": [Function],
+            "sort": undefined,
           },
           undefined,
           undefined,
@@ -48,8 +46,6 @@ describe('getUtils', async () => {
           "margin-right:0.5rem;",
           undefined,
           {
-            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
-            "1": [Function],
             "layer": undefined,
             "sort": 24,
           },
@@ -73,8 +69,6 @@ describe('getUtils', async () => {
           "margin-right:0.25rem;font-weight:500;",
           undefined,
           {
-            "0": /\\^m-\\?\\(\\[rltbse\\]\\)\\(\\?:-\\?\\(\\.\\+\\)\\)\\?\\$/,
-            "1": [Function],
             "layer": undefined,
             "sort": 24,
           },
