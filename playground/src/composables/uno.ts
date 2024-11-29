@@ -29,7 +29,7 @@ export async function generate() {
 
 async function reGenerate() {
   const uno = await __uno
-  uno.setConfig(customConfig, defaultConfig.value)
+  await uno.setConfig(customConfig, defaultConfig.value)
   await detectTransformer()
   generate()
   autocomplete = Promise.resolve(createAutocomplete(uno))

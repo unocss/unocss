@@ -80,28 +80,32 @@ export function createAutocomplete(
         ? input.slice(attributifyPrefix.length)
         : input.replace(`:${attributifyPrefix}`, ':')
       : input
+
     // match and ignore existing variants
-    const [, processed, , variants] = await uno.matchVariants(_input)
+    const matched = await uno.matchVariants(_input)
 
-    let idx = processed ? input.search(escapeRegExp(processed)) : input.length
-    // This input contains variants that modifies the processed part,
-    // autocomplete will need to reverse it which is not possible
-    if (idx === -1)
-      idx = 0
-    const variantPrefix = input.slice(0, idx)
-    const variantSuffix = input.slice(idx + input.length)
+    let result = (await Promise.all(matched.map(async ([, processed, , variants]) => {
+      let idx = processed ? input.search(escapeRegExp(processed)) : input.length
+      // This input contains variants that modifies the processed part,
+      // autocomplete will need to reverse it which is not possible
+      if (idx === -1)
+        idx = 0
+      const variantPrefix = input.slice(0, idx)
+      const variantSuffix = input.slice(idx + input.length)
 
-    let result = processSuggestions(
-      await Promise.all([
-        suggestSelf(processed),
-        suggestStatic(processed),
-        suggestUnoCache(processed),
-        ...suggestFromPreset(processed),
-        ...suggestVariant(processed, variants),
-      ]),
-      variantPrefix,
-      variantSuffix,
-    )
+      const result = processSuggestions(
+        await Promise.all([
+          suggestSelf(processed),
+          suggestStatic(processed),
+          suggestUnoCache(processed),
+          ...suggestFromPreset(processed),
+          ...suggestVariant(processed, variants),
+        ]),
+        variantPrefix,
+        variantSuffix,
+      )
+      return result
+    }))).flat()
 
     if (matchType === 'fuzzy') {
       const fzf = new Fzf(result, {
