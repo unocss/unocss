@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { presetMiniNonTargets, presetMiniTargets, specialPresetMiniTargets } from './assets/preset-mini-targets'
 import { presetWindTargets } from './assets/preset-wind-targets'
 
-const uno = createGenerator({
+const uno = await createGenerator({
   presets: [
     presetMini({
       dark: 'media',
@@ -36,7 +36,7 @@ const uno = createGenerator({
 
 describe('preset-mini', () => {
   it('dark customizing selector', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({
           dark: {
@@ -112,7 +112,7 @@ describe('preset-mini', () => {
   })
 
   it('custom var prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({
           variablePrefix: 'hi-',
@@ -130,7 +130,7 @@ describe('preset-mini', () => {
   })
 
   it('empty prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini({
           variablePrefix: '',
@@ -178,7 +178,7 @@ describe('preset-mini', () => {
   })
 
   it('fontSize theme', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -205,7 +205,7 @@ describe('preset-mini', () => {
   })
 
   it('fontWeight theme', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -228,7 +228,7 @@ describe('preset-mini', () => {
   })
 
   it('dark class', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -245,7 +245,7 @@ describe('preset-mini', () => {
   })
 
   it('the :active pseudo is sorted and separated after other pseudo', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -263,7 +263,7 @@ describe('preset-mini', () => {
   })
 
   it('css variable with `{` `}` will not generate css ', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -280,7 +280,7 @@ describe('preset-mini', () => {
   })
 
   it('define breakpoints with other unit', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -318,7 +318,7 @@ describe('preset-mini', () => {
   })
 
   it('theme for zIndex', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -337,7 +337,7 @@ describe('preset-mini', () => {
   })
 
   it('theme font-size with letter-space', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -365,7 +365,7 @@ describe('preset-mini', () => {
   })
 
   it('override colors differently', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -392,7 +392,7 @@ describe('preset-mini', () => {
   })
 
   it('account custom color for shadow theme', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -423,7 +423,7 @@ describe('preset-mini', () => {
   })
 
   it('support new color notation using css variables for compatibility', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
       ],
@@ -459,5 +459,34 @@ describe('preset-mini', () => {
     .border-primary{--un-border-opacity:1;border-color:var(--base-primary, oklch(var(--primary) / var(--un-border-opacity)));}
     .border-opacity-50{--un-border-opacity:0.5;}"
   `)
+  })
+
+  it('`containers` key of theme', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        containers: {
+          tablet: '352px',
+          desktop: '768px',
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      '@tablet:text-sm',
+      '@desktop/name:text-lg',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      @container (min-width: 352px){
+      .\\@tablet\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
+      }
+      @container name (min-width: 768px){
+      .\\@desktop\\/name\\:text-lg{font-size:1.125rem;line-height:1.75rem;}
+      }"
+    `)
   })
 })

@@ -4,8 +4,8 @@ import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 
-describe('shortcuts', () => {
-  const uno = createGenerator({
+describe('shortcuts', async () => {
+  const uno = await createGenerator({
     shortcuts: [
       {
         sh1: 'px-2 py-3 sh3',

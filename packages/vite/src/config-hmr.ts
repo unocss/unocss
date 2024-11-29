@@ -2,17 +2,16 @@ import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 
 export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
-  const { ready, uno } = ctx
+  const { ready } = ctx
   return {
     name: 'unocss:config',
     async configResolved(config) {
       await ctx.updateRoot(config.root)
     },
     async configureServer(server) {
-      uno.config.envMode = 'dev'
-
       const { sources } = await ready
 
+      ctx.uno.config.envMode = 'dev'
       if (!sources.length)
         return
 

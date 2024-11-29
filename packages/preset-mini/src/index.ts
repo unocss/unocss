@@ -95,7 +95,7 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
       : [],
     extractorDefault: options.arbitraryVariants === false
       ? undefined
-      : extractorArbitraryVariants,
+      : extractorArbitraryVariants(),
     autocomplete: {
       shorthands,
     },

@@ -3,7 +3,7 @@ import presetWind from '@unocss/preset-wind'
 import { describe, expect, it } from 'vitest'
 import { presetWindNonTargets, presetWindTargets } from './assets/preset-wind-targets'
 
-const uno = createGenerator({
+const uno = await createGenerator({
   presets: [
     presetWind({
       dark: 'media',
@@ -71,7 +71,7 @@ describe('preset-wind', () => {
   })
 
   it('centered containers', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetWind(),
       ],
@@ -94,7 +94,7 @@ describe('preset-wind', () => {
   })
 
   it('containers with max width', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetWind(),
       ],
@@ -124,7 +124,7 @@ describe('preset-wind', () => {
   })
 
   it('custom var prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetWind({
           variablePrefix: 'hi-',
@@ -143,7 +143,7 @@ describe('preset-wind', () => {
 
   describe('important', () => {
     it(`should add " !important" at the end when "true" unless it's already marked important`, async () => {
-      const uno = createGenerator({
+      const uno = await createGenerator({
         presets: [
           presetWind({
             important: true,
@@ -162,7 +162,7 @@ describe('preset-wind', () => {
     })
 
     it(`should prefix selector with provided important string and wrap the original selector in ":is()"`, async () => {
-      const uno = createGenerator({
+      const uno = await createGenerator({
         presets: [
           presetWind({
             important: '#app',
@@ -185,7 +185,7 @@ describe('preset-wind', () => {
 })
 
 it('empty prefix', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetWind({
         variablePrefix: '',

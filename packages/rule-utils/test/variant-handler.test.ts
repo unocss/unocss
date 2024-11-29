@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('variants', () => {
   it('variant context is propagated', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],
@@ -42,7 +42,7 @@ describe('variants', () => {
   })
 
   it('selector section is merged in order', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],
@@ -65,7 +65,7 @@ describe('variants', () => {
   })
 
   it('variant can stack', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],
@@ -116,7 +116,7 @@ describe('variants', () => {
   })
 
   it('noMerge on variant', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],
@@ -150,7 +150,7 @@ describe('variants', () => {
   })
 
   it('noMerge variant with shortcut', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],
@@ -184,7 +184,7 @@ describe('variants', () => {
   })
 
   it('selector match can be ordered', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       rules: [
         ['foo', { name: 'bar' }],
       ],

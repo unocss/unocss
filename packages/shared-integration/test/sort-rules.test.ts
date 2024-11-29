@@ -3,8 +3,8 @@ import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 import { sortRules } from '../src/sort-rules'
 
-describe('sort rules', () => {
-  const uno = createGenerator({
+describe('sort rules', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno(),
     ],

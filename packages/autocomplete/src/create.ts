@@ -6,7 +6,10 @@ import { LRUCache } from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 
-export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
+export function createAutocomplete(
+  _uno: UnoGenerator | Promise<UnoGenerator>,
+  options: AutocompleteOptions = {},
+): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
 
@@ -16,7 +19,9 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
 
   const matchType = options.matchType ?? 'prefix'
 
-  reset()
+  let uno: UnoGenerator
+
+  const ready = reset()
 
   return {
     suggest,
@@ -62,6 +67,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   }
 
   async function suggest(input: string, allowsEmptyInput = false) {
+    await ready
     if (!allowsEmptyInput && input.length < 1)
       return []
     if (cache.has(input))
@@ -74,28 +80,32 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
         ? input.slice(attributifyPrefix.length)
         : input.replace(`:${attributifyPrefix}`, ':')
       : input
+
     // match and ignore existing variants
-    const [, processed, , variants] = await uno.matchVariants(_input)
+    const matched = await uno.matchVariants(_input)
 
-    let idx = processed ? input.search(escapeRegExp(processed)) : input.length
-    // This input contains variants that modifies the processed part,
-    // autocomplete will need to reverse it which is not possible
-    if (idx === -1)
-      idx = 0
-    const variantPrefix = input.slice(0, idx)
-    const variantSuffix = input.slice(idx + input.length)
+    let result = (await Promise.all(matched.map(async ([, processed, , variants]) => {
+      let idx = processed ? input.search(escapeRegExp(processed)) : input.length
+      // This input contains variants that modifies the processed part,
+      // autocomplete will need to reverse it which is not possible
+      if (idx === -1)
+        idx = 0
+      const variantPrefix = input.slice(0, idx)
+      const variantSuffix = input.slice(idx + input.length)
 
-    let result = processSuggestions(
-      await Promise.all([
-        suggestSelf(processed),
-        suggestStatic(processed),
-        suggestUnoCache(processed),
-        ...suggestFromPreset(processed),
-        ...suggestVariant(processed, variants),
-      ]),
-      variantPrefix,
-      variantSuffix,
-    )
+      const result = processSuggestions(
+        await Promise.all([
+          suggestSelf(processed),
+          suggestStatic(processed),
+          suggestUnoCache(processed),
+          ...suggestFromPreset(processed),
+          ...suggestVariant(processed, variants),
+        ]),
+        variantPrefix,
+        variantSuffix,
+      )
+      return result
+    }))).flat()
 
     if (matchType === 'fuzzy') {
       const fzf = new Fzf(result, {
@@ -108,6 +118,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   }
 
   async function suggestInFile(content: string, cursor: number): Promise<SuggestResult | undefined> {
+    await ready
     const isInsideAttrValue = searchAttrKey(content, cursor) !== undefined
 
     // try resolve by extractors
@@ -183,9 +194,14 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
         : getParsed(fn)(input, matchType))
   }
 
-  function reset() {
+  async function reset() {
     templateCache.clear()
     cache.clear()
+
+    if (!uno) {
+      uno = await Promise.resolve(_uno)
+    }
+
     staticUtils = [
       ...Object.keys(uno.config.rulesStaticMap),
       ...uno.config.shortcuts.filter(i => typeof i[0] === 'string').map(i => i[0] as string),
