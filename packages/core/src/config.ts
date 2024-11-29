@@ -171,13 +171,13 @@ export async function resolveConfig<Theme extends object = object>(
       if (isStaticRule(rule)) {
         const prefixes = toArray(rule[2]?.prefix || '')
         prefixes.forEach((prefix) => {
-          rulesStaticMap[prefix + rule[0]] = [i, ...rule, rule]
+          rulesStaticMap[prefix + rule[0]] = [i, rule[0], rule[1], rule[2], rule]
         })
         // delete static rules so we can't skip them in matching
         // but keep the order
         return undefined
       }
-      return [i, ...rule, rule]
+      return [i, rule[0], rule[1], rule[2], rule]
     })
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
