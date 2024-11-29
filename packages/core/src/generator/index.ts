@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -19,6 +19,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
   public config: ResolvedConfig<Theme> = undefined!
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
+  public activatedRules = new Set<Rule<Theme>>()
   public events = createNanoEvents<{
     config: (config: ResolvedConfig<Theme>) => void
   }>()
@@ -49,6 +50,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.userConfig = userConfig
     this.blocked.clear()
     this.parentOrders.clear()
+    this.activatedRules.clear()
     this._cache.clear()
     this.config = await resolveConfig(userConfig, this.defaults)
     this.events.emit('config', this.config)
@@ -96,7 +98,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     return extracted
   }
 
-  makeContext(raw: string, applied: VariantMatchedResult<Theme>, activeRules: Set<Rule<Theme>> = new Set()): RuleContext<Theme> {
+  makeContext(raw: string, applied: VariantMatchedResult<Theme>): RuleContext<Theme> {
     const context: RuleContext<Theme> = {
       rawSelector: raw,
       currentSelector: applied[1],
@@ -106,7 +108,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       variantHandlers: applied[2],
       constructCSS: (...args) => this.constructCustomCSS(context, ...args),
       variantMatch: applied,
-      activeRules,
     }
     return context
   }
@@ -114,7 +115,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
   async parseToken(
     raw: string,
     alias?: string,
-    activeRules: Set<Rule<Theme>> = new Set(),
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
     if (this.blocked.has(raw))
       return
@@ -228,13 +228,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
-    const activeRules: Set<Rule<Theme>> = new Set()
 
     const tokenPromises = Array.from(tokens).map(async (raw) => {
       if (matched.has(raw))
         return
 
-      const payload = await this.parseToken(raw, undefined, activeRules)
+      const payload = await this.parseToken(raw, undefined)
       if (payload == null)
         return
 
@@ -267,7 +266,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const preflightContext: PreflightContext<Theme> = {
         generator: this,
         theme: this.config.theme,
-        activeRules,
       }
 
       const preflightLayerSet = new Set<string>([])
@@ -578,13 +576,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
-        if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+        if (staticMatch[2] && (internal || !staticMatch[3]?.internal)) {
+          context.generator.activatedRules.add(staticMatch[4])
           if (this.config.details)
-            context.rules!.push(staticMatch[3])
+            context.rules!.push(staticMatch[4])
 
           const index = staticMatch[0]
-          const entry = normalizeCSSEntries(staticMatch[1])
-          const meta = staticMatch[2]
+          const entry = normalizeCSSEntries(staticMatch[2])
+          const meta = staticMatch[3]
           if (isString(entry))
             return [[index, entry, meta]]
           else
@@ -597,7 +596,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const { rulesDynamic } = this.config
 
       // match rules
-      for (const [i, matcher, handler, meta] of rulesDynamic) {
+      for (const [i, matcher, handler, meta, rule] of rulesDynamic) {
         // ignore internal rules
         if (meta?.internal && !internal)
           continue
@@ -628,8 +627,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (!result)
           continue
 
+        context.generator.activatedRules.add(rule)
         if (this.config.details)
-          context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+          context.rules!.push(rule as DynamicRule<Theme>)
 
         // Handle generator result
         if (typeof result !== 'string') {

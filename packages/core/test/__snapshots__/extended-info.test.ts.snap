@@ -15,33 +15,6 @@ Map {
           "sort": undefined,
         },
         {
-          "activeRules": Set {
-            [
-              "a",
-              {
-                "name": "bar1",
-              },
-              {
-                "layer": "a",
-              },
-            ],
-            [
-              "b",
-              {
-                "name": "bar2",
-              },
-              {
-                "layer": "b",
-              },
-            ],
-            [
-              /\\^c\\(\\\\d\\+\\)\\$/,
-              [Function],
-              {
-                "layer": "c",
-              },
-            ],
-          },
           "currentSelector": "a",
           "rawSelector": "a",
           "rules": [
@@ -89,33 +62,6 @@ Map {
           "sort": undefined,
         },
         {
-          "activeRules": Set {
-            [
-              "a",
-              {
-                "name": "bar1",
-              },
-              {
-                "layer": "a",
-              },
-            ],
-            [
-              "b",
-              {
-                "name": "bar2",
-              },
-              {
-                "layer": "b",
-              },
-            ],
-            [
-              /\\^c\\(\\\\d\\+\\)\\$/,
-              [Function],
-              {
-                "layer": "c",
-              },
-            ],
-          },
           "currentSelector": "b",
           "rawSelector": "b",
           "rules": [
@@ -163,33 +109,6 @@ Map {
           "sort": undefined,
         },
         {
-          "activeRules": Set {
-            [
-              "a",
-              {
-                "name": "bar1",
-              },
-              {
-                "layer": "a",
-              },
-            ],
-            [
-              "b",
-              {
-                "name": "bar2",
-              },
-              {
-                "layer": "b",
-              },
-            ],
-            [
-              /\\^c\\(\\\\d\\+\\)\\$/,
-              [Function],
-              {
-                "layer": "c",
-              },
-            ],
-          },
           "currentSelector": "c1",
           "rawSelector": "c1",
           "rules": [

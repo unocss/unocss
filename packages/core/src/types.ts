@@ -60,10 +60,6 @@ export interface RuleContext<Theme extends object = object> {
    */
   constructCSS: (body: CSSEntries | CSSObject, overrideSelector?: string) => string
   /**
-   * Active rules for current selector.
-   */
-  activeRules: Set<Rule<Theme>>
-  /**
    * Available only when `details` option is enabled.
    */
   rules?: Rule<Theme>[]
@@ -152,12 +148,7 @@ interface BaseContext<Theme extends object = object> {
   theme: Theme
 }
 
-export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> {
-  /**
-   * All active rules
-   */
-  activeRules: Set<Rule<Theme>>
-}
+export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> { }
 
 export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
 
