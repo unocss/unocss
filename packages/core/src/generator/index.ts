@@ -233,7 +233,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       if (matched.has(raw))
         return
 
-      const payload = await this.parseToken(raw, undefined)
+      const payload = await this.parseToken(raw)
       if (payload == null)
         return
 

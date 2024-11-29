@@ -44,8 +44,8 @@ exports[`order > variant ordering reversed 1`] = `
 
 exports[`order > variant sorting 1`] = `
 "/* layer: default */
-any .any\\:foo-1,
 pre .pre\\:foo-1,
-post .post\\:foo-1,
-zzz .zzz\\:foo-1{foo:foo-1;}"
+any .any\\:foo-1,
+zzz .zzz\\:foo-1,
+post .post\\:foo-1{foo:foo-1;}"
 `;
