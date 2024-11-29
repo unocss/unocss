@@ -650,9 +650,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        const index = this.config.rules.indexOf(rule)
         const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
         if (entries.length) {
+          const index = this.config.rules.indexOf(rule)
           return entries.map((css): ParsedUtil | RawUtil => {
             if (isString(css))
               return [index, css, meta]
