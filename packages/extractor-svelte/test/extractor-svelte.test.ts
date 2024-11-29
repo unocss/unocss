@@ -3,7 +3,7 @@ import extractorSvelte from '@unocss/extractor-svelte'
 import { expect, it } from 'vitest'
 
 it('extractorSvelte uses regular split with non .svelte files', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     extractors: [
       extractorSvelte(),
     ],
@@ -25,7 +25,7 @@ it('extractorSvelte uses regular split with non .svelte files', async () => {
 })
 
 it('extractorSvelte uses svelte-specific split with .svelte files', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     extractors: [
       extractorSvelte(),
     ],

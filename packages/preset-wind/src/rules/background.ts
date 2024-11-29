@@ -87,7 +87,7 @@ export const backgroundStyles: Rule[] = [
   [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
     if (d in positionMap) {
       return {
-        '--un-gradient-shape': `to ${positionMap[d]}`,
+        '--un-gradient-shape': `to ${positionMap[d]} in oklch`,
         '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
         'background-image': 'linear-gradient(var(--un-gradient))',
       }
@@ -97,7 +97,7 @@ export const backgroundStyles: Rule[] = [
     const v = d in positionMap ? `to ${positionMap[d]}` : h.bracket(d)
     if (v != null) {
       return {
-        '--un-gradient-shape': v,
+        '--un-gradient-shape': `${v} in oklch`,
         '--un-gradient': 'var(--un-gradient-shape), var(--un-gradient-stops)',
       }
     }

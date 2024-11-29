@@ -129,6 +129,11 @@ describe('postcss', () => {
       const { css } = await pcssLite().process('div{@apply sm:bg-red lg:bg-pink xl:bg-white md:bg-blue}', processOptions)
       expect(css).toMatchSnapshot()
     })
+
+    it('order', async () => {
+      const { css } = await pcssLite().process('.test {@apply bg-red; @supports (color: color-mix(in oklab, black, black)) {background: green;} }', processOptions)
+      expect(css).toMatchSnapshot()
+    })
   })
 
   it('theme()', async () => {
@@ -144,5 +149,11 @@ describe('postcss', () => {
     }`, processOptions)
 
     expect(css).toMatchSnapshot()
+  })
+
+  it('inline media node type', async () => {
+    const { root, css } = await pcssLite().process(`.test { @apply bg-green [@media(hover:hover)]:bg-red; }`, processOptions)
+    expect(css).toMatchSnapshot()
+    expect(root.nodes.every(({ type }) => ['atrule', 'comment', 'decl', 'rule'].includes(type))).toBeTruthy()
   })
 })

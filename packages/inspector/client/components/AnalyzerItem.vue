@@ -8,10 +8,12 @@ const props = defineProps<{
   item: MatchedSelector
 }>()
 
-const isAttributify = computed(() => isAttributifySelector(props.item.name))
-const name = computed(() => isAttributify.value
-  ? `[${props.item.name.slice(1, -1).replace(/=""$/, '').replace(/~="/, '="')}]`
-  : props.item.name)
+const name = computed(() => {
+  const isAttributify = isAttributifySelector(props.item.name)
+  return isAttributify
+    ? `[${props.item.name.slice(1, -1).replace(/=""$/, '').replace(/~="/, '="')}]`
+    : props.item.name
+})
 
 function openEditor(id: string) {
   fetch(`/__open-in-editor?file=${encodeURIComponent(id)}`)
@@ -21,13 +23,21 @@ function openEditor(id: string) {
 <template>
   <Dropdown :distance="10">
     <span
-      font-mono text-sm cursor-pointer
-      border="b transparent hover:current"
       op="50 hover:100"
+      :class="item.variants?.includes('dark') ? 'op-20! dark:op-80!' : ''"
     >
-      <span text-sm of-ellipsis>{{ name }}</span>
+      <span
+        font-mono text-sm cursor-pointer
+        border="b transparent hover:current"
+        :class="item.category === 'icons' ? 'border-b-0' : ''"
+      >
+        <i v-if="item.category === 'icons'" :class="[item.baseSelector, item.name]" />
+        <span v-else>
+          {{ name }}
+        </span>
+      </span>
+      <sup text-xs ml-0.5>{{ item.count }}</sup>
     </span>
-    <sup text-xs ml-0.5 op30>{{ item.count }}</sup>
     <template #popper>
       <div space-x-4 px4 py3>
         <Copy v-slot="{ copy, copied }">

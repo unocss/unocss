@@ -34,7 +34,7 @@ const classes = new Set([
 ])
 
 it('web-fonts (inline: false)', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -49,7 +49,7 @@ it('web-fonts (inline: false)', async () => {
 })
 
 it('web-fonts (inline: true)', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -64,7 +64,7 @@ it('web-fonts (inline: true)', async () => {
 })
 
 it('web-fonts weight sort', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -90,7 +90,7 @@ it('web-fonts weight sort', async () => {
 })
 
 it('web-fonts weight deduplicate', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -116,7 +116,7 @@ it('web-fonts weight deduplicate', async () => {
 })
 
 it('createLocalFontProcessor', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -155,7 +155,7 @@ describe('fontsource provider', async () => {
   }
 
   it.each(Object.entries(fontMap))('%s', async (_, fonts) => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
         presetWebFonts({
@@ -174,7 +174,7 @@ describe('fontsource provider', async () => {
   })
 
   it('custom wght', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
         presetWebFonts({
@@ -199,7 +199,7 @@ describe('fontsource provider', async () => {
   })
 
   it('custom variable', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
         presetWebFonts({

@@ -3,7 +3,7 @@ import presetUno from '@unocss/preset-uno'
 import { expect, it } from 'vitest'
 
 it('split string with custom separator', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
     ],
@@ -15,7 +15,7 @@ it('split string with custom separator', async () => {
 })
 
 it('unable to generate token variant with explicit separator without dash', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
     ],

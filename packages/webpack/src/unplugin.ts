@@ -31,23 +31,13 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       envMode: process.env.NODE_ENV === 'development' ? 'dev' : 'build',
       ...defaults,
     })
-    const { uno, tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
+    const { tokens, filter, extract, onInvalidate, tasks, flushTasks } = ctx
 
     let timer: ReturnType<typeof setTimeout>
     onInvalidate(() => {
       clearTimeout(timer)
       timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
     })
-
-    const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
-    if (nonPreTransformers?.length) {
-      console.warn(
-        // eslint-disable-next-line prefer-template
-        '[unocss] webpack integration only supports "pre" enforce transformers currently.'
-        + 'the following transformers will be ignored\n'
-        + nonPreTransformers.map(i => ` - ${i.name}`).join('\n'),
-      )
-    }
 
     // TODO: detect webpack's watch mode and enable watcher
     tasks.push(setupContentExtractor(ctx, typeof configOrPath === 'object' && configOrPath?.watch))
@@ -99,6 +89,16 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
           await ctx.ready
+
+          const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
+          if (nonPreTransformers?.length) {
+            console.warn(
+              // eslint-disable-next-line prefer-template
+              '[unocss] webpack integration only supports "pre" enforce transformers currently.'
+              + 'the following transformers will be ignored\n'
+              + nonPreTransformers.map(i => ` - ${i.name}`).join('\n'),
+            )
+          }
         })
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
@@ -107,10 +107,11 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
           || /* webpack 4 */ compilation.hooks.optimizeAssets
 
           optimizeAssetsHook.tapPromise(PLUGIN_NAME, async () => {
+            await ctx.ready
             const files = Object.keys(compilation.assets)
 
             await flushTasks()
-            const result = await uno.generate(tokens, { minify: true })
+            const result = await ctx.uno.generate(tokens, { minify: true })
 
             for (const file of files) {
               // https://github.com/unocss/unocss/pull/1428
@@ -149,7 +150,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         return
 
       await flushTasks()
-      const result = await uno.generate(tokens)
+      const result = await ctx.uno.generate(tokens)
       if (lastTokenSize === tokens.size)
         return
 

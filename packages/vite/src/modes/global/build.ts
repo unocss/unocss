@@ -26,7 +26,7 @@ function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
 }
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
-  const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
+  const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let viteConfig: ResolvedConfig
@@ -59,7 +59,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     await flushTasks()
     if (lastResult && lastTokenSize === tokens.size)
       return lastResult
-    lastResult = await uno.generate(tokens, { minify: true })
+    lastResult = await ctx.uno.generate(tokens, { minify: true })
     lastTokenSize = tokens.size
     return lastResult
   }
@@ -224,6 +224,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
           return null
         }
+
         const result = await generateAll()
         const importsLayer = result.getLayer(LAYER_IMPORTS) ?? ''
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`

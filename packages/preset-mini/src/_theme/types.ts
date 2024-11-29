@@ -6,6 +6,7 @@ export interface ThemeAnimation {
   timingFns?: Record<string, string>
   properties?: Record<string, object>
   counts?: Record<string, string | number>
+  category?: Record<string, string>
 }
 
 export interface Colors {

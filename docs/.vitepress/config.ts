@@ -310,6 +310,7 @@ export default defineConfig({
       text: 'Suggest changes to this page',
     },
     socialLinks: [
+      { icon: 'bluesky', link: 'https://bsky.app/profile/unocss.dev' },
       { icon: 'github', link: 'https://github.com/unocss/unocss' },
       { icon: 'discord', link: 'https://chat.antfu.me' },
     ],

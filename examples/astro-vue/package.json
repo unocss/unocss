@@ -9,13 +9,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "vue": "^3.5.10"
+    "vue": "^3.5.12"
   },
   "devDependencies": {
-    "@astrojs/vue": "^4.5.1",
-    "@iconify-json/logos": "^1.2.1",
+    "@astrojs/vue": "^4.5.2",
+    "@iconify-json/logos": "^1.2.3",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^4.15.10",
+    "astro": "^4.16.8",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {

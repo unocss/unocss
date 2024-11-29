@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('extended-info', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     rules: [
       ['a', { name: 'bar1' }, { layer: 'a' }],
       ['b', { name: 'bar2' }, { layer: 'b' }],
