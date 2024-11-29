@@ -190,8 +190,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       extendedInfo = false,
     } = options
 
-    const outputCssLayers = this.config.outputToCssLayers
-
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
         input,
@@ -296,6 +294,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
       .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
 
     const layerCache: Record<string, string> = {}
+    const outputCssLayers = this.config.outputToCssLayers
+    const getLayerAlias = (layer: string) => {
+      let alias: string | undefined | null = layer
+      if (typeof outputCssLayers === 'object') {
+        alias = outputCssLayers.cssLayerName?.(layer)
+      }
+      return alias === null ? null : alias ?? layer
+    }
+
     const getLayer = (layer: string = LAYER_DEFAULT) => {
       if (layerCache[layer])
         return layerCache[layer]
@@ -369,29 +376,24 @@ class UnoGeneratorInternal<Theme extends object = object> {
           .join(nl)
       }
 
+      let alias
       if (outputCssLayers && css) {
-        let cssLayer = typeof outputCssLayers === 'object'
-          ? (outputCssLayers.cssLayerName?.(layer))
-          : undefined
-
-        if (cssLayer !== null) {
-          if (!cssLayer)
-            cssLayer = layer
-
-          css = `@layer ${cssLayer}{${nl}${css}${nl}}`
+        alias = getLayerAlias(layer)
+        if (alias !== null) {
+          css = `@layer ${alias}{${nl}${css}${nl}}`
         }
       }
 
-      const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
+      const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
       return layerCache[layer] = css ? layerMark + css : ''
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      return includes
-        .filter(i => !excludes?.includes(i))
-        .map(i => getLayer(i) || '')
-        .filter(Boolean)
-        .join(nl)
+      const layers = includes.filter(i => !excludes?.includes(i))
+      return [
+        outputCssLayers && layers.length > 0 ? `@layer ${layers.map(getLayerAlias).filter(notNull).join(', ')};` : undefined,
+        ...layers.map(i => getLayer(i) || ''),
+      ].filter(Boolean).join(nl)
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
