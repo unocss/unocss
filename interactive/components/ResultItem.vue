@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ResultItem, RuleItem } from '~/types'
+import type { ResultItem } from '~/types'
 
 const { item, compact = undefined, index } = defineProps<{
-  item: ResultItem | RuleItem
+  item: ResultItem
   index?: number
   compact?: boolean | undefined
 }>()
@@ -63,13 +63,13 @@ const classes = computed(() => ([
         S
       </div>
       <div
-        v-else-if="item.context?.variants?.length"
+        v-else-if="item.context?.variants.length"
         badge-square-pink :class="badgeStyle" title="Variants"
       >
         V
       </div>
       <div
-        v-else-if="item.context?.rules?.every(i => typeof i[0] === 'string')"
+        v-else-if="item.context?.rules.every(i => typeof i[0] === 'string')"
         badge-square-gray :class="badgeStyle" title="Static Rule"
       >
         T

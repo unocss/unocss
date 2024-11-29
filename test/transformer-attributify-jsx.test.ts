@@ -63,8 +63,8 @@ const tagCouldBeAttrCode = `
 </div>
 `.trim()
 
-describe('transformerAttributifyJsx', async () => {
-  const uno = await createGenerator({
+describe('transformerAttributifyJsx', () => {
+  const uno = createGenerator({
     presets: [
       presetUno(),
       presetAttributify(),
@@ -286,8 +286,8 @@ describe('transformerAttributifyJsx', async () => {
   })
 })
 
-describe('transformerAttributifyJsxBabel', async () => {
-  const uno = await createGenerator({
+describe('transformerAttributifyJsxBabel', () => {
+  const uno = createGenerator({
     presets: [
       presetUno(),
       presetAttributify(),

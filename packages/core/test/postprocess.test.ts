@@ -8,7 +8,7 @@ it('postprocess', async () => {
     'scale-100',
   ]
 
-  const uno = await createGenerator({
+  const uno = createGenerator({
     presets: [
       presetUno(),
       {

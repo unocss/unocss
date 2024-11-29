@@ -14,7 +14,7 @@ describe('config', () => {
     })
   }
   it('theme', async () => {
-    const uno = await createUno({
+    const uno = createUno({
       theme: {
         colors: {
           red: {
@@ -32,7 +32,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return extend', async () => {
-    const uno = await createUno({
+    const uno = createUno({
       extendTheme(mergedTheme) {
         return {
           ...mergedTheme,
@@ -48,7 +48,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return', async () => {
-    const unocss = await createGenerator<Theme>({
+    const unocss = createGenerator<Theme>({
       extendTheme: () => {
         return {
           colors: {
@@ -70,7 +70,7 @@ describe('config', () => {
   })
 
   it('extendTheme with mutation', async () => {
-    const unocss = await createGenerator<Theme>({
+    const unocss = createGenerator<Theme>({
       extendTheme: (theme) => {
         // @ts-expect-error test
         theme.colors.red[100] = 'green'
@@ -114,7 +114,7 @@ describe('config', () => {
       ],
     }
 
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetB,
       ],
@@ -138,7 +138,7 @@ describe('config', () => {
     const presetB: Preset = { name: 'presetB' }
     const presetC: Preset = { name: 'presetC', presets: [presetA] }
 
-    const unoA = await createGenerator({
+    const unoA = createGenerator({
       presets: [
         presetA,
         presetB,
@@ -148,7 +148,7 @@ describe('config', () => {
 
     expect(unoA.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB'])
 
-    const unoB = await createGenerator({
+    const unoB = createGenerator({
       presets: [
         presetA,
         presetB,
@@ -267,6 +267,8 @@ describe('mergeConfigs', () => {
       .toMatchInlineSnapshot(`
         {
           "content": {
+            "filesystem": [],
+            "inline": [],
             "pipeline": {
               "exclude": [],
               "include": [
@@ -276,6 +278,7 @@ describe('mergeConfigs', () => {
                 "array2",
               ],
             },
+            "plain": [],
           },
         }
       `)
@@ -300,14 +303,17 @@ describe('mergeConfigs', () => {
       .toMatchInlineSnapshot(`
         {
           "content": {
+            "filesystem": [],
+            "inline": [],
             "pipeline": false,
+            "plain": [],
           },
         }
       `)
   })
 
-  it('content', async () => {
-    const uno = await createGenerator({
+  it('content', () => {
+    const uno = createGenerator({
       presets: [{
         name: 'test',
         content: {
@@ -323,11 +329,13 @@ describe('mergeConfigs', () => {
     expect(uno.config.content).toMatchObject({
       filesystem: ['foo/bar.css', 'foo.js'],
       inline: ['bg-blue-1'],
+      pipeline: { include: [], exclude: [] },
+      plain: [],
     })
   })
 
-  it('merge transformers', async () => {
-    const uno = await createGenerator({
+  it('merge transformers', () => {
+    const uno = createGenerator({
       presets: [
         {
           name: 'preset-foo',

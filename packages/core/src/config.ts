@@ -1,4 +1,4 @@
-import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, FilterPattern, Preset, PresetFactory, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { DEFAULT_LAYERS } from './constants'
 import { extractorSplit } from './extractors'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
@@ -16,10 +16,10 @@ const __RESOLVED = '_uno_resolved'
 /**
  * Resolve a single preset, nested presets are ignored
  */
-export async function resolvePreset<Theme extends object = object>(presetInput: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>> {
+export function resolvePreset<Theme extends object = object>(presetInput: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme> {
   let preset = typeof presetInput === 'function'
-    ? await presetInput()
-    : await presetInput
+    ? presetInput()
+    : presetInput
 
   if (__RESOLVED in preset)
     return preset
@@ -55,11 +55,11 @@ export async function resolvePreset<Theme extends object = object>(presetInput: 
 /**
  * Resolve presets with nested presets
  */
-export async function resolvePresets<Theme extends object = object>(preset: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>[]> {
-  const root = await resolvePreset(preset)
+export function resolvePresets<Theme extends object = object>(preset: Preset<Theme> | PresetFactory<Theme, any>): Preset<Theme>[] {
+  const root = resolvePreset(preset)
   if (!root.presets)
     return [root]
-  const nested = (await Promise.all((root.presets || []).flatMap(toArray).flatMap(resolvePresets))).flat()
+  const nested = (root.presets || []).flatMap(toArray).flatMap(resolvePresets)
   return [root, ...nested]
 }
 
@@ -72,36 +72,21 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   const pipelineIncludes: FilterPattern[] = []
   const pipelineExcludes: FilterPattern[] = []
   let pipelineDisabled = false
-  const filesystem: ContentOptions['filesystem'][] = []
-  const inline: ContentOptions['inline'][] = []
-  const plain: ContentOptions['plain'][] = []
 
   for (const options of optionsArray) {
     if (options.pipeline === false) {
       pipelineDisabled = true
-      break
     }
     else {
-      if (options.pipeline?.include) {
-        pipelineIncludes.push(options.pipeline.include)
-      }
-      if (options.pipeline?.exclude) {
-        pipelineExcludes.push(options.pipeline.exclude)
-      }
-    }
-
-    if (options.filesystem) {
-      filesystem.push(options.filesystem)
-    }
-    if (options.inline) {
-      inline.push(options.inline)
-    }
-    if (options.plain) {
-      plain.push(options.plain)
+      pipelineIncludes.push(options.pipeline?.include ?? [])
+      pipelineExcludes.push(options.pipeline?.exclude ?? [])
     }
   }
 
-  const mergedContent: ContentOptions = {
+  return {
+    filesystem: uniq(optionsArray.flatMap(options => options.filesystem ?? [])),
+    inline: uniq(optionsArray.flatMap(options => options.inline ?? [])),
+    plain: uniq(optionsArray.flatMap(options => options.plain ?? [])),
     pipeline: pipelineDisabled
       ? false
       : {
@@ -109,28 +94,14 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
           exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
         },
   }
-  if (filesystem.length) {
-    mergedContent.filesystem = uniq(filesystem.flat()) as ContentOptions['filesystem']
-  }
-  if (inline.length) {
-    mergedContent.inline = uniq(inline.flat()) as ContentOptions['inline']
-  }
-  if (plain.length) {
-    mergedContent.plain = uniq(plain.flat()) as ContentOptions['plain']
-  }
-
-  return mergedContent
 }
 
-export async function resolveConfig<Theme extends object = object>(
+export function resolveConfig<Theme extends object = object>(
   userConfig: UserConfig<Theme> = {},
   defaults: UserConfigDefaults<Theme> = {},
-): Promise<ResolvedConfig<Theme>> {
+): ResolvedConfig<Theme> {
   const config = Object.assign({}, defaults, userConfig) as UserConfigDefaults<Theme>
-  const rawPresets = uniqueBy(
-    (await Promise.all((config.presets || []).flatMap(toArray).flatMap(resolvePresets))).flat(),
-    (a, b) => a.name === b.name,
-  )
+  const rawPresets = uniqueBy((config.presets || []).flatMap(toArray).flatMap(resolvePresets), (a, b) => a.name === b.name)
 
   const sortedPresets = [
     ...rawPresets.filter(p => p.enforce === 'pre'),

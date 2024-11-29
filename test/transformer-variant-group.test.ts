@@ -100,18 +100,4 @@ describe('transformer-variant-group', () => {
       }
     `)
   })
-
-  it('ignore regex', async () => {
-    const result = await transform(`
-      word.replace(/-(\w)/g)
-    `)
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "annotations": [],
-        "transformed": "
-            word.replace(/-(w)/g)
-          ",
-      }
-    `)
-  })
 })

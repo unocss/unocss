@@ -2,7 +2,7 @@
 import { currentTab, isCompact, toggleCompact } from '~/composables/state'
 
 const tab = currentTab
-const info = searcher.value.getInfo()
+const info = await searcher.getInfo()
 </script>
 
 <template>

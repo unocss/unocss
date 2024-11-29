@@ -38,7 +38,7 @@ const targets = [
 
 describe('runtime auto prefixer', () => {
   it('without autoprefixer', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -49,7 +49,7 @@ describe('runtime auto prefixer', () => {
   })
 
   it('using autoprefixer', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -63,7 +63,7 @@ describe('runtime auto prefixer', () => {
   })
 
   it('runtime tagify', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
         presetTagify(),

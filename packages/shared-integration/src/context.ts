@@ -1,5 +1,5 @@
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import type { UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import process from 'node:process'
 import { createFilter } from '@rollup/pluginutils'
 import { createRecoveryConfigLoader } from '@unocss/config'
@@ -17,12 +17,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let root = process.cwd()
   let rawConfig = {} as Config
   let configFileList: string[] = []
-  let uno: UnoGenerator
-  const _uno = createGenerator(rawConfig, defaults)
-    .then((r) => {
-      uno = r
-      return r
-    })
+  const uno = createGenerator(rawConfig, defaults)
   let rollupFilter = createFilter(
     defaultPipelineInclude,
     defaultPipelineExclude,
@@ -42,14 +37,13 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   let ready = reloadConfig()
 
   async function reloadConfig() {
-    await _uno
     const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
     deprecationCheck(result.config)
 
     rawConfig = result.config
     configFileList = result.sources
-    await uno.setConfig(rawConfig)
+    uno.setConfig(rawConfig)
     uno.config.envMode = 'dev'
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
@@ -62,6 +56,17 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
     invalidate()
     dispatchReload()
+
+    // check preset duplication
+    const presets = new Set<string>()
+    uno.config.presets.forEach((i) => {
+      if (!i.name)
+        return
+      if (presets.has(i.name))
+        console.warn(`[unocss] duplication of preset ${i.name} found, there might be something wrong with your config.`)
+      else
+        presets.add(i.name)
+    })
 
     return result
   }
@@ -83,7 +88,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   }
 
   async function extract(code: string, id?: string) {
-    const uno = await _uno
     if (id)
       modules.set(id, code)
     const len = tokens.size
@@ -128,11 +132,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     onReload(fn: () => void) {
       reloadListeners.push(fn)
     },
-    get uno() {
-      if (!uno)
-        throw new Error('Run `await context.ready` before accessing `context.uno`')
-      return uno
-    },
+    uno,
     extract,
     getConfig,
     get root() {

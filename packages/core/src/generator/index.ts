@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -13,35 +13,28 @@ export const symbols: ControlSymbols = {
   layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
 }
 
-class UnoGeneratorInternal<Theme extends object = object> {
+export class UnoGenerator<Theme extends object = object> {
   public version = version
   private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
-  public config: ResolvedConfig<Theme> = undefined!
+  public config: ResolvedConfig<Theme>
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
   public events = createNanoEvents<{
     config: (config: ResolvedConfig<Theme>) => void
   }>()
 
-  protected constructor(
+  constructor(
     public userConfig: UserConfig<Theme> = {},
     public defaults: UserConfigDefaults<Theme> = {},
-  ) {}
-
-  static async create<Theme extends object = object>(
-    userConfig: UserConfig<Theme> = {},
-    defaults: UserConfigDefaults<Theme> = {},
-  ): Promise<UnoGeneratorInternal<Theme>> {
-    const uno = new UnoGeneratorInternal(userConfig, defaults)
-    uno.config = await resolveConfig(uno.userConfig, uno.defaults)
-    uno.events.emit('config', uno.config)
-    return uno
+  ) {
+    this.config = resolveConfig(userConfig, defaults)
+    this.events.emit('config', this.config)
   }
 
-  async setConfig(
+  setConfig(
     userConfig?: UserConfig<Theme>,
     defaults?: UserConfigDefaults<Theme>,
-  ): Promise<void> {
+  ): void {
     if (!userConfig)
       return
     if (defaults)
@@ -50,7 +43,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.blocked.clear()
     this.parentOrders.clear()
     this._cache.clear()
-    this.config = await resolveConfig(userConfig, this.defaults)
+    this.config = resolveConfig(userConfig, this.defaults)
     this.events.emit('config', this.config)
   }
 
@@ -133,34 +126,29 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return
     }
 
-    const variantResults = await this.matchVariants(raw, current)
+    const applied = await this.matchVariants(raw, current)
 
-    if (variantResults.every(i => !i || this.isBlocked(i[1]))) {
+    if (!applied || this.isBlocked(applied[1])) {
       this.blocked.add(raw)
       this._cache.set(cacheKey, null)
       return
     }
 
-    const handleVariantResult = async (matched: VariantMatchedResult<Theme>) => {
-      const context = this.makeContext(raw, [alias || matched[0], matched[1], matched[2], matched[3]])
+    const context = this.makeContext(raw, [alias || applied[0], applied[1], applied[2], applied[3]])
 
-      if (this.config.details)
-        context.variants = [...matched[3]]
+    if (this.config.details)
+      context.variants = [...applied[3]]
 
-      // expand shortcuts
-      const expanded = await this.expandShortcut(context.currentSelector, context)
-      const utils = expanded
-        ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
-        // no shortcuts
-        : (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
+    // expand shortcuts
+    const expanded = await this.expandShortcut(context.currentSelector, context)
+    const utils = expanded
+      ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
+      // no shortcuts
+      : (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
 
+    if (utils?.length) {
+      this._cache.set(cacheKey, utils)
       return utils
-    }
-
-    const result = (await Promise.all(variantResults.map(i => handleVariantResult(i)))).flat().filter(x => !!x)
-    if (result?.length) {
-      this._cache.set(cacheKey, result)
-      return result
     }
 
     // set null cache for unmatched result
@@ -187,6 +175,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       minify = false,
       extendedInfo = false,
     } = options
+
+    const outputCssLayers = this.config.outputToCssLayers
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
@@ -292,15 +282,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
 
     const layerCache: Record<string, string> = {}
-    const outputCssLayers = this.config.outputToCssLayers
-    const getLayerAlias = (layer: string) => {
-      let alias: string | undefined | null = layer
-      if (typeof outputCssLayers === 'object') {
-        alias = outputCssLayers.cssLayerName?.(layer)
-      }
-      return alias === null ? null : alias ?? layer
-    }
-
     const getLayer = (layer: string = LAYER_DEFAULT) => {
       if (layerCache[layer])
         return layerCache[layer]
@@ -374,24 +355,29 @@ class UnoGeneratorInternal<Theme extends object = object> {
           .join(nl)
       }
 
-      let alias
       if (outputCssLayers && css) {
-        alias = getLayerAlias(layer)
-        if (alias !== null) {
-          css = `@layer ${alias}{${nl}${css}${nl}}`
+        let cssLayer = typeof outputCssLayers === 'object'
+          ? (outputCssLayers.cssLayerName?.(layer))
+          : undefined
+
+        if (cssLayer !== null) {
+          if (!cssLayer)
+            cssLayer = layer
+
+          css = `@layer ${cssLayer}{${nl}${css}${nl}}`
         }
       }
 
-      const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
+      const layerMark = minify ? '' : `/* layer: ${layer} */${nl}`
       return layerCache[layer] = css ? layerMark + css : ''
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
-      const layers = includes.filter(i => !excludes?.includes(i))
-      return [
-        outputCssLayers && layers.length > 0 ? `@layer ${layers.map(getLayerAlias).filter(notNull).join(', ')};` : undefined,
-        ...layers.map(i => getLayer(i) || ''),
-      ].filter(Boolean).join(nl)
+      return includes
+        .filter(i => !excludes?.includes(i))
+        .map(i => getLayer(i) || '')
+        .filter(Boolean)
+        .join(nl)
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
@@ -413,76 +399,46 @@ class UnoGeneratorInternal<Theme extends object = object> {
   async matchVariants(
     raw: string,
     current?: string,
-  ): Promise<readonly VariantMatchedResult<Theme>[]> {
+  ): Promise<VariantMatchedResult<Theme>> {
+    // process variants
+    const variants = new Set<Variant<Theme>>()
+    const handlers: VariantHandler[] = []
+    let processed = current || raw
+    let applied = true
+
     const context: VariantContext<Theme> = {
       rawSelector: raw,
       theme: this.config.theme,
       generator: this,
     }
 
-    const match = async (result: VariantMatchedResult<Theme>): Promise<VariantMatchedResult<Theme>[]> => {
-      let applied = true
-      const [,, handlers, variants] = result
-      while (applied) {
-        applied = false
-        const processed = result[1]
-        for (const v of this.config.variants) {
-          if (!v.multiPass && variants.has(v))
+    while (applied) {
+      applied = false
+      for (const v of this.config.variants) {
+        if (!v.multiPass && variants.has(v))
+          continue
+        let handler = await v.match(processed, context)
+        if (!handler)
+          continue
+        if (isString(handler)) {
+          if (handler === processed)
             continue
-          let handler = await v.match(processed, context)
-          if (!handler)
-            continue
-          if (isString(handler)) {
-            if (handler === processed)
-              continue
-            handler = { matcher: handler }
-          }
-
-          // If variant return an array of handlers,
-          // we clone the matched result and branch the matching items
-          if (Array.isArray(handler)) {
-            if (!handler.length)
-              continue
-            if (handler.length === 1) {
-              handler = handler[0]
-            }
-            else {
-              if (v.multiPass)
-                throw new Error('multiPass can not be used together with array return variants')
-
-              const clones = handler.map((h): VariantMatchedResult<Theme> => {
-                const _processed = h.matcher ?? processed
-                const _handlers = [h, ...handlers]
-                const _variants = new Set(variants)
-                _variants.add(v)
-                return [result[0], _processed, _handlers, _variants]
-              })
-              return (await Promise.all(clones.map(c => match(c)))).flat()
-            }
-          }
-
-          result[1] = handler.matcher ?? processed
-          handlers.unshift(handler)
-          variants.add(v)
-          applied = true
-          break
+          handler = { matcher: handler }
         }
-        if (!applied)
-          break
-
-        if (handlers.length > 500)
-          throw new Error(`Too many variants applied to "${raw}"`)
+        processed = handler.matcher ?? processed
+        handlers.unshift(handler)
+        variants.add(v)
+        applied = true
+        break
       }
+      if (!applied)
+        break
 
-      return [result]
+      if (handlers.length > 500)
+        throw new Error(`Too many variants applied to "${raw}"`)
     }
 
-    return await match([
-      raw,
-      current || raw,
-      [],
-      new Set<Variant<Theme>>(),
-    ])
+    return [raw, processed, handlers, variants]
   }
 
   private applyVariants(
@@ -563,134 +519,124 @@ class UnoGeneratorInternal<Theme extends object = object> {
     internal = false,
     shortcutPrefix?: string | string[] | undefined,
   ): Promise<(ParsedUtil | RawUtil)[] | undefined> {
-    const variantResults = isString(input)
+    const [raw, processed, variantHandlers] = isString(input)
       ? await this.matchVariants(input)
-      : [input]
+      : input
 
-    const parse = async (
-      [raw, processed, variantHandlers]: VariantMatchedResult<Theme>,
-    ): Promise<(ParsedUtil | RawUtil)[] | undefined> => {
-      if (this.config.details)
-        context.rules = context.rules ?? []
+    if (this.config.details)
+      context.rules = context.rules ?? []
 
-      // use map to for static rules
-      const staticMatch = this.config.rulesStaticMap[processed]
-      if (staticMatch) {
-        if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-          if (this.config.details)
-            context.rules!.push(staticMatch[3])
-
-          const index = staticMatch[0]
-          const entry = normalizeCSSEntries(staticMatch[1])
-          const meta = staticMatch[2]
-          if (isString(entry))
-            return [[index, entry, meta]]
-          else
-            return [[index, raw, entry, meta, variantHandlers]]
-        }
-      }
-
-      context.variantHandlers = variantHandlers
-
-      const { rulesDynamic } = this.config
-
-      // match rules
-      for (const [i, matcher, handler, meta] of rulesDynamic) {
-        // ignore internal rules
-        if (meta?.internal && !internal)
-          continue
-
-        // match prefix
-        let unprefixed = processed
-        if (meta?.prefix) {
-          const prefixes = toArray(meta.prefix)
-          if (shortcutPrefix) {
-            const shortcutPrefixes = toArray(shortcutPrefix)
-            if (!prefixes.some(i => shortcutPrefixes.includes(i)))
-              continue
-          }
-          else {
-            const prefix = prefixes.find(i => processed.startsWith(i))
-            if (prefix == null)
-              continue
-            unprefixed = processed.slice(prefix.length)
-          }
-        }
-
-        // match rule
-        const match = unprefixed.match(matcher)
-        if (!match)
-          continue
-
-        let result = await handler(match, context)
-        if (!result)
-          continue
-
+    // use map to for static rules
+    const staticMatch = this.config.rulesStaticMap[processed]
+    if (staticMatch) {
+      if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
         if (this.config.details)
-          context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+          context.rules!.push(staticMatch[3])
 
-        // Handle generator result
-        if (typeof result !== 'string') {
-          if (Symbol.asyncIterator in result) {
-            const entries: (CSSValueInput | string)[] = []
-            for await (const r of result) {
-              if (r)
-                entries.push(r)
-            }
-            result = entries
-          }
-          else if (Symbol.iterator in result && !Array.isArray(result)) {
-            result = Array.from(result)
-              .filter(notNull)
-          }
-        }
-
-        const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
-        if (entries.length) {
-          return entries.map((css): ParsedUtil | RawUtil => {
-            if (isString(css))
-              return [i, css, meta]
-
-            // Extract variants from special symbols
-            let variants = variantHandlers
-            for (const entry of css) {
-              if (entry[0] === symbols.variants) {
-                variants = [
-                  ...toArray(entry[1]),
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.parent) {
-                variants = [
-                  { parent: entry[1] },
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.selector) {
-                variants = [
-                  { selector: entry[1] },
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.layer) {
-                variants = [
-                  { layer: entry[1] },
-                  ...variants,
-                ]
-              }
-            }
-
-            return [i, raw, css as CSSEntries, meta, variants]
-          })
-        }
+        const index = staticMatch[0]
+        const entry = normalizeCSSEntries(staticMatch[1])
+        const meta = staticMatch[2]
+        if (isString(entry))
+          return [[index, entry, meta]]
+        else
+          return [[index, raw, entry, meta, variantHandlers]]
       }
     }
 
-    const parsed = (await Promise.all(variantResults.map(i => parse(i)))).flat().filter(x => !!x)
-    if (!parsed.length)
-      return undefined
+    context.variantHandlers = variantHandlers
 
-    return parsed
+    const { rulesDynamic } = this.config
+
+    // match rules
+    for (const [i, matcher, handler, meta] of rulesDynamic) {
+      // ignore internal rules
+      if (meta?.internal && !internal)
+        continue
+
+      // match prefix
+      let unprefixed = processed
+      if (meta?.prefix) {
+        const prefixes = toArray(meta.prefix)
+        if (shortcutPrefix) {
+          const shortcutPrefixes = toArray(shortcutPrefix)
+          if (!prefixes.some(i => shortcutPrefixes.includes(i)))
+            continue
+        }
+        else {
+          const prefix = prefixes.find(i => processed.startsWith(i))
+          if (prefix == null)
+            continue
+          unprefixed = processed.slice(prefix.length)
+        }
+      }
+
+      // match rule
+      const match = unprefixed.match(matcher)
+      if (!match)
+        continue
+
+      let result = await handler(match, context)
+      if (!result)
+        continue
+
+      if (this.config.details)
+        context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+
+      // Handle generator result
+      if (typeof result !== 'string') {
+        if (Symbol.asyncIterator in result) {
+          const entries: (CSSValueInput | string)[] = []
+          for await (const r of result) {
+            if (r)
+              entries.push(r)
+          }
+          result = entries
+        }
+        else if (Symbol.iterator in result && !Array.isArray(result)) {
+          result = Array.from(result)
+            .filter(notNull)
+        }
+      }
+
+      const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
+      if (entries.length) {
+        return entries.map((css): ParsedUtil | RawUtil => {
+          if (isString(css))
+            return [i, css, meta]
+
+          // Extract variants from special symbols
+          let variants = variantHandlers
+          for (const entry of css) {
+            if (entry[0] === symbols.variants) {
+              variants = [
+                ...toArray(entry[1]),
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.parent) {
+              variants = [
+                { parent: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.selector) {
+              variants = [
+                { selector: entry[1] },
+                ...variants,
+              ]
+            }
+            else if (entry[0] === symbols.layer) {
+              variants = [
+                { layer: entry[1] },
+                ...variants,
+              ]
+            }
+          }
+
+          return [i, raw, css as CSSEntries, meta, variants]
+        })
+      }
+    }
   }
 
   stringifyUtil(
@@ -780,14 +726,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     // expand nested shortcuts with variants
     if (!result) {
-      const matched = isString(input) ? await this.matchVariants(input) : [input]
-      for (const match of matched) {
-        const [raw, inputWithoutVariant] = match
-        if (raw !== inputWithoutVariant) {
-          const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
-          if (expanded)
-            result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
-        }
+      const [raw, inputWithoutVariant] = isString(input) ? await this.matchVariants(input) : input
+      if (raw !== inputWithoutVariant) {
+        const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
+        if (expanded)
+          result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
       }
     }
 
@@ -801,7 +744,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           : undefined
       ) || [r])))
         .flat(1)
-        .filter(x => !!x),
+        .filter(Boolean),
       meta,
     ]
   }
@@ -894,24 +837,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
   }
 }
 
-export class UnoGenerator<Theme extends object = object> extends UnoGeneratorInternal<Theme> {
-  /**
-   * @deprecated `new UnoGenerator` is deprecated, please use `createGenerator()` instead
-   */
-  constructor(
-    userConfig: UserConfig<Theme> = {},
-    defaults: UserConfigDefaults<Theme> = {},
-  ) {
-    super(userConfig, defaults)
-    console.warn('`new UnoGenerator()` is deprecated, please use `createGenerator()` instead')
-  }
-}
-
-export async function createGenerator<Theme extends object = object>(
-  config?: UserConfig<Theme>,
-  defaults?: UserConfigDefaults<Theme>,
-): Promise<UnoGenerator<Theme>> {
-  return await UnoGeneratorInternal.create(config, defaults)
+export function createGenerator<Theme extends object = object>(config?: UserConfig<Theme>, defaults?: UserConfigDefaults<Theme>) {
+  return new UnoGenerator<Theme>(config, defaults)
 }
 
 export const regexScopePlaceholder = /\s\$\$\s+/g

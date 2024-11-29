@@ -45,12 +45,12 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   return result
 }
 
-export function extractorArbitraryVariants(): Extractor {
-  return {
-    name: '@unocss/extractor-arbitrary-variants',
-    order: 0,
-    extract({ code }) {
-      return splitCodeWithArbitraryVariants(removeSourceMap(code))
-    },
-  }
+export const extractorArbitraryVariants: Extractor = {
+  name: '@unocss/extractor-arbitrary-variants',
+  order: 0,
+  extract({ code }) {
+    return splitCodeWithArbitraryVariants(removeSourceMap(code))
+  },
 }
+
+export default extractorArbitraryVariants

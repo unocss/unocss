@@ -3,8 +3,8 @@ import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
 
-describe('autocomplete-fuzzy', async () => {
-  const uno = await createGenerator({
+describe('autocomplete-fuzzy', () => {
+  const uno = createGenerator({
     presets: [
       presetMini(),
     ],

@@ -2,8 +2,8 @@ import { createGenerator } from '@unocss/core'
 import { variantMatcher } from '@unocss/preset-mini/utils'
 import { describe, expect, it } from 'vitest'
 
-describe('selector', async () => {
-  const uno = await createGenerator({
+describe('selector', () => {
+  const uno = createGenerator({
     rules: [
       [/^to-merge$/, () => [{ merged: 1 }]],
       [/^merge-candidate$/, () => ({ merged: 1 })],
@@ -17,8 +17,8 @@ describe('selector', async () => {
   })
 })
 
-describe('variant', async () => {
-  const uno = await createGenerator({
+describe('variant', () => {
+  const uno = createGenerator({
     shortcuts: [
       [/^m1-(.+)$/, ([, s]) => `moz:${s} webkit:${s}`],
       [/^m2-(.+)$/, ([, s]) => `moz:${s} merge-candidate`],

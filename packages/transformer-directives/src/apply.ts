@@ -59,20 +59,20 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
     .flat()
     .sort((a, b) => a[0] - b[0])
     .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
-    .reduce<Writeable<StringifiedUtil>[]>((acc, item) => {
+    .reduce((acc, item) => {
       const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
       if (target)
         target[2] += item[2]
       else
         // use spread operator to prevent reassign to uno internal cache
-        acc.push([...item])
+        acc.push([...item] as Writeable<StringifiedUtil>)
       return acc
-    }, [])
+    }, [] as Writeable<StringifiedUtil>[])
 
   if (!utils.length)
     return
 
-  let semicolonOffset = original[childNode.loc!.end.offset] === ';'
+  let simicolonOffset = original[childNode.loc!.end.offset] === ';'
     ? 1
     : original[childNode.loc!.end.offset] === '@'
       ? -1
@@ -108,7 +108,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
       if (parent)
         css = `${parent}{${css}}`
-      semicolonOffset = 0
+      simicolonOffset = 0
       code.appendLeft(node.loc!.end.offset, css)
     }
     else {
@@ -116,12 +116,12 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       if (body.includes('@'))
         code.appendRight(original.length, body)
       else
-        code.appendRight(childNode!.loc!.end.offset + semicolonOffset, body)
+        code.appendRight(childNode!.loc!.end.offset + simicolonOffset, body)
     }
   }
   code.remove(
     childNode!.loc!.start.offset,
-    childNode!.loc!.end.offset + semicolonOffset,
+    childNode!.loc!.end.offset + simicolonOffset,
   )
 }
 

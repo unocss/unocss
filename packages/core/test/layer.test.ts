@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 describe('layers', () => {
   it('static', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       rules: [
         ['a', { name: 'bar1' }, { layer: 'a' }],
         ['b', { name: 'bar2' }, { layer: 'b' }],
@@ -23,7 +23,7 @@ describe('layers', () => {
   })
 
   it('@import layer', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetMini(),
         presetWebFonts({

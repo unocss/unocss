@@ -26,7 +26,7 @@ The core engine of UnoCSS without any presets: `@unocss/core`. It can be used as
 ```ts
 import { createGenerator } from '@unocss/core'
 
-const generator = await createGenerator(
+const generator = createGenerator(
   { /* user options */ },
   { /* default options */ }
 )

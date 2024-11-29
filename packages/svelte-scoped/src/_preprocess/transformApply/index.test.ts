@@ -6,8 +6,8 @@ import parserCSS from 'prettier/parser-postcss'
 import { describe, expect, it } from 'vitest'
 import { transformApply } from '.'
 
-describe('transformApply', async () => {
-  const uno = await createGenerator({
+describe('transformApply', () => {
+  const uno = createGenerator({
     presets: [
       presetUno(),
     ],

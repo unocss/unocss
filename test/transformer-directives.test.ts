@@ -10,8 +10,8 @@ import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
-describe('transformer-directives', async () => {
-  const uno = await createGenerator({
+describe('transformer-directives', () => {
+  const uno = createGenerator({
     presets: [
       presetUno({
         dark: 'media',
@@ -247,7 +247,7 @@ describe('transformer-directives', async () => {
   })
 
   it('dark class', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno({
           dark: 'class',
@@ -679,8 +679,8 @@ div {
   })
 })
 
-describe('transformer-directives with important', async () => {
-  const uno = await createGenerator({
+describe('transformer-directives with important', () => {
+  const uno = createGenerator({
     presets: [
       presetUno({
         dark: 'media',
@@ -1389,7 +1389,7 @@ describe('icon directive', () => {
   }
 
   it('icon()', async () => {
-    const uno = await createUno()
+    const uno = createUno()
 
     const result = await transform(
       `.icon {
@@ -1414,7 +1414,7 @@ describe('icon directive', () => {
   })
 
   it('icon() without extra properties', async () => {
-    const uno = await createUno({
+    const uno = createUno({
       extraProperties: {
         'display': 'inline-block',
         'vertical-align': 'middle',

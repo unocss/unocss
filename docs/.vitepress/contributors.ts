@@ -10,8 +10,7 @@ export interface CoreTeam extends Partial<DefaultTheme.TeamMember> {
   name: string
   // required to download avatars from GitHub
   github: string
-  x?: string
-  bluesky?: string
+  twitter?: string
   webtools?: string
   discord?: string
   youtube?: string
@@ -29,10 +28,7 @@ function createLinks(tm: CoreTeam): CoreTeam {
     tm.links.push({ icon: 'discord', link: tm.discord })
   if (tm.youtube)
     tm.links.push({ icon: 'youtube', link: `https://www.youtube.com/@${tm.youtube}` })
-  if (tm.x)
-    tm.links.push({ icon: 'x', link: `https://x.com/${tm.x}` })
-  if (tm.bluesky)
-    tm.links.push({ icon: 'bluesky', link: `https://bsky.app/profile/${tm.bluesky}` })
+  tm.links.push({ icon: 'twitter', link: `https://twitter.com/${tm.twitter}` })
   return tm
 }
 
@@ -44,8 +40,7 @@ const plainTeamMembers: CoreTeam[] = [
     webtools: 'antfu',
     youtube: 'antfu',
     discord: 'https://chat.antfu.me',
-    x: 'antfu7',
-    bluesky: 'antfu.me',
+    twitter: 'antfu7',
     sponsor: 'https://github.com/sponsors/antfu',
     title: 'A fanatical open sourceror, working',
     org: 'NuxtLabs',
@@ -62,16 +57,14 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/zyyv.png',
     name: 'Chris',
     github: 'zyyv',
-    x: 'chris_zyyv',
-    bluesky: 'zyyv.bsky.social',
+    twitter: 'chris_zyyv',
     title: 'Regardless of the past, do not ask the future.',
-    desc: 'Creator of @Onu-UI, @unpreset',
   },
   {
     avatar: 'https://github.com/sibbng.png',
     name: 'sibbng',
     github: 'sibbng',
-    x: 'sibbng',
+    twitter: 'sibbng',
     title: 'Designer / Developer',
   },
   {
@@ -79,7 +72,7 @@ const plainTeamMembers: CoreTeam[] = [
     name: 'Joaquín Sánchez',
     github: 'userquin',
     webtools: 'userquin',
-    bluesky: 'userquin.bsky.social',
+    twitter: 'userquin',
     title: 'A fullstack and android developer',
     desc: 'Vite\'s fanatical follower',
   },
@@ -87,7 +80,7 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/QiroNT.png',
     name: 'Chino Moca',
     github: 'QiroNT',
-    x: 'QiroNT',
+    twitter: 'QiroNT',
     title: 'Balance & Tradeoff',
   },
   {
@@ -101,13 +94,13 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/ydcjeff.png',
     name: 'Jeff Yang',
     github: 'ydcjeff',
-    x: 'ydcjeff',
+    twitter: 'ydcjeff',
   },
   {
     avatar: 'https://github.com/sudongyuer.png',
     name: 'Tsuki Su',
     github: 'sudongyuer',
-    x: 'sudongyuer',
+    twitter: 'sudongyuer',
     title: 'A zealous open sourceror & Full Stack Developer & Junior designer',
     desc: 'Previously worked at Tencent, now starting a business',
   },
@@ -115,7 +108,7 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/jacob-8.png',
     name: 'Jacob Bowdoin',
     github: 'jacob-8',
-    x: 'jacobbowdoin',
+    twitter: 'jacobbowdoin',
     title: 'Svelte, i18n',
     org: 'Polylingual Development',
     orgLink: 'https://polylingual.dev/',
@@ -124,14 +117,14 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/Dunqing.png',
     name: 'Dunqing',
     github: 'Dunqing',
-    x: 'dunqingg',
+    twitter: 'dunqingg',
     title: 'Passionate about open source',
   },
   {
     avatar: 'https://github.com/Simon-He95.png',
     name: 'Simon He',
     github: 'Simon-He95',
-    x: 'simon_he1995',
+    twitter: 'simon_he1995',
     title: 'Passionate about open source & FE Developer',
     desc: '@webview-use author, vscode plugin master, open source magician, antfu’s number one fan',
   },
@@ -139,7 +132,7 @@ const plainTeamMembers: CoreTeam[] = [
     avatar: 'https://github.com/henrikvilhelmberglund.png',
     name: 'Henrik Berglund',
     github: 'henrikvilhelmberglund',
-    x: 'henrikvberglund',
+    twitter: 'henrikvberglund',
     title: 'Frontend Developer',
     desc: 'Loves Svelte, Vite and open source, author of the UnoCSS tutorial',
   },

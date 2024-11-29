@@ -24,7 +24,7 @@ describe('preprocess', () => {
       'i-carbon-moon',
     ]
 
-    const uno = await createGenerator({
+    const uno = createGenerator({
       preprocess: m => m.startsWith('uno:') ? m.substr(4) : '',
       presets: [
         presetUno(),
@@ -59,7 +59,7 @@ describe('preprocess', () => {
     ]
 
     const prefixRE = /uno[:-]/
-    const uno = await createGenerator({
+    const uno = createGenerator({
       preprocess: m => prefixRE.test(m) ? m.replace(prefixRE, '') : '',
       presets: [
         presetUno(),

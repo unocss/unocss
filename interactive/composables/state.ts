@@ -1,5 +1,4 @@
 import type { UserConfig } from '@unocss/core'
-import type { Ref } from 'vue'
 import { createGenerator } from '@unocss/core'
 import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
 import { breakpointsTailwind } from '@vueuse/core'
@@ -15,14 +14,8 @@ export { defaultConfigRaw }
 export const isCompact = useLocalStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
 
-export const searcher: Ref<ReturnType<typeof createSearch>> = shallowRef()
-
-const _uno = createGenerator({}, defaultConfig)
-
-_uno.then((uno) => {
-  const search = createSearch({ uno, docs, guides })
-  searcher.value = search
-})
+const uno = createGenerator({}, defaultConfig)
+export const searcher = createSearch({ uno, docs, guides })
 
 const initParams = new URLSearchParams(location.search)
 
@@ -54,8 +47,8 @@ async function load() {
   }
 }
 
-watch(userConfig, async () => {
-  (await _uno).setConfig(userConfig.value || {}, defaultConfig)
+watch(userConfig, () => {
+  uno.setConfig(userConfig.value || {}, defaultConfig)
 })
 
 load()

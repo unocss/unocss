@@ -10,7 +10,7 @@ const targets = [
 ]
 
 it('options properties does not override each other', async () => {
-  const uno1 = await createGenerator({
+  const uno1 = createGenerator({
     presets: [
       presetAttributify({ prefix: 'uno-' }),
       presetUno(),
@@ -22,7 +22,7 @@ it('options properties does not override each other', async () => {
 
   expect(css1).toMatchFileSnapshot('./assets/output/preset-prefixes-1.css')
 
-  const uno2 = await createGenerator({
+  const uno2 = createGenerator({
     presets: [
       presetIcons({ prefix: 'icon-' }),
       presetUno(),

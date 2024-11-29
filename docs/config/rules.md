@@ -65,27 +65,6 @@ the corresponding CSS will be generated:
 
 Congratulations! Now you've got your own powerful atomic CSS utilities. Enjoy!
 
-## CSS Rules Fallback
-
-In cases you might want to leverage CSS rules fallback to use new CSS features while also able to fallback to support old browsers, you can optionally return a 2D-array as the CSS representation for rules with the same keys. For example:
-
-```ts
-rules: [
-  [/^h-(\d+)dvh$/, ([_, d]) => {
-    return [
-      ['height', `${d}vh`],
-      ['height', `${d}dvh`],
-    ]
-  }],
-]
-```
-
-Which will make `h-100dvh` generates:
-
-```css
-.h-100dvh { height: 100vh; height: 100dvh; }
-```
-
 ## Ordering
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.

@@ -4,8 +4,8 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
-describe('autocomplete', async () => {
-  const uno = await createGenerator({
+describe('autocomplete', () => {
+  const uno = createGenerator({
     presets: [
       presetAttributify(),
       presetUno(),
@@ -113,7 +113,7 @@ describe('autocomplete', async () => {
   })
 
   it('should not suggest blocked rules', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -208,8 +208,8 @@ describe('autocomplete', async () => {
   })
 })
 
-describe('autocomplete with attributify prefix', async () => {
-  const uno = await createGenerator({
+describe('autocomplete with attributify prefix', () => {
+  const uno = createGenerator({
     presets: [
       presetAttributify({
         prefix: 'u-',
@@ -306,7 +306,7 @@ describe('autocomplete with attributify prefix', async () => {
   })
 
   it('should not suggest blocked rules', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -351,8 +351,8 @@ describe('autocomplete with attributify prefix', async () => {
   })
 })
 
-describe('use uno cache', async () => {
-  const uno = await createGenerator({
+describe('use uno cache', () => {
+  const uno = createGenerator({
     presets: [
       presetUno(),
     ],

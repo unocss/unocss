@@ -10,8 +10,7 @@ const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
+export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
@@ -26,7 +25,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     let result: GenerateResult
     let tokensSize = tokens.size
     do {
-      result = await ctx.uno.generate(tokens)
+      result = await uno.generate(tokens)
       // to capture new tokens created during generation
       if (tokensSize === tokens.size)
         break
@@ -125,7 +124,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       },
       buildStart() {
         // warm up for preflights
-        ctx.uno.generate([], { preflights: true })
+        uno.generate([], { preflights: true })
       },
       transform(code, id) {
         if (filter(code, id))

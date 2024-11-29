@@ -3,8 +3,8 @@ import presetMini from '@unocss/preset-mini'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 import { describe, expect, it } from 'vitest'
 
-describe('rem-to-px', async () => {
-  const uno = await createGenerator({
+describe('rem-to-px', () => {
+  const uno = createGenerator({
     presets: [
       presetMini(),
       presetRemToPx(),

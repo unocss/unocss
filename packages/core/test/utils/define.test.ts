@@ -46,7 +46,7 @@ describe('definePreset', () => {
       }
     })
 
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetFn1(),
         presetFn2, // presetFn2 is a factory that will be evaluated by uno

@@ -17,7 +17,7 @@ describe('getUtils', async () => {
     vi.restoreAllMocks()
   })
 
-  const uno = await createGenerator({
+  const uno = createGenerator({
     presets: [
       presetUno(),
     ],

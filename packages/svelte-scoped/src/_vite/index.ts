@@ -1,4 +1,4 @@
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { Plugin } from 'vite'
 import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
@@ -41,28 +41,18 @@ const defaults: UserConfigDefaults = {
 }
 
 function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteScopedContext {
-  let uno: UnoGenerator
-  const _uno = createGenerator()
-    .then((r) => {
-      uno = r
-      return r
-    })
+  const uno = createGenerator()
   const loadConfig = createRecoveryConfigLoader()
   const ready = reloadConfig()
 
   async function reloadConfig() {
-    await _uno
     const { config, sources } = await loadConfig(process.cwd(), configOrPath)
-    await uno.setConfig(config, defaults)
+    uno.setConfig(config, defaults)
     return { config, sources }
   }
 
   return {
-    get uno() {
-      if (!uno)
-        throw new Error('Run `await ctx.ready` before accessing to `ctx.uno`')
-      return uno
-    },
+    uno,
     ready,
   }
 }

@@ -14,7 +14,7 @@ function generateUno(options: LegacyCompatOptions = {}) {
 
 describe('preset-legacy-compat', () => {
   it('with commaStyleColorFunction', async () => {
-    const uno = await generateUno({
+    const uno = generateUno({
       commaStyleColorFunction: true,
     })
 

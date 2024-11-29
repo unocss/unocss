@@ -14,7 +14,9 @@ export const variantContainerQuery: VariantObject = {
       const unbracket = h.bracket(match)
       let container: string | undefined
       if (unbracket) {
-        container = h.numberWithUnit(unbracket)
+        const minWidth = h.numberWithUnit(unbracket)
+        if (minWidth)
+          container = `(min-width: ${minWidth})`
       }
       else {
         container = ctx.theme.containers?.[match] ?? ''
@@ -30,7 +32,7 @@ export const variantContainerQuery: VariantObject = {
           matcher: rest,
           handle: (input, next) => next({
             ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}(min-width: ${container})`,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}${container}`,
             parentOrder: order,
           }),
         }

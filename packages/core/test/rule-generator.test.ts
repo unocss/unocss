@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('rule-generator', async () => {
-  const uno = await createGenerator({
+  const uno = createGenerator({
     rules: [
       [/^rule$/, function* () {
         yield {
@@ -23,7 +23,7 @@ it('rule-generator', async () => {
 })
 
 it('rule-generator async', async () => {
-  const uno = await createGenerator({
+  const uno = createGenerator({
     rules: [
       [/^rule$/, async function* () {
         yield {
@@ -49,7 +49,7 @@ it('rule-generator async', async () => {
 })
 
 it('rule-generator bail out', async () => {
-  const uno = await createGenerator({
+  const uno = createGenerator({
     rules: [
       [/^rule-(.*)$/, function () {
         return {

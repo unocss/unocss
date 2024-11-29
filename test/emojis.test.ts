@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import { describe, expect, it } from 'vitest'
 
-describe('emojis', async () => {
+describe('emojis', () => {
   const fixture1 = `
     <button 
     🦉 class="🦉" 🦉="1" 🥝-2 type="button"
@@ -10,7 +10,7 @@ describe('emojis', async () => {
     Button
     </button>
   `
-  const uno = await createGenerator({
+  const uno = createGenerator({
     presets: [
       presetAttributify({ strict: true }),
     ],

@@ -6,7 +6,7 @@ import { runAsync, setGenerator } from '../packages/eslint-plugin/src/worker'
 
 describe('worker', () => {
   it('blocklist', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -26,7 +26,7 @@ describe('worker', () => {
     ])
   })
   it('sort', async () => {
-    const uno = await createGenerator({
+    const uno = createGenerator({
       presets: [
         presetUno(),
       ],
@@ -37,12 +37,12 @@ describe('worker', () => {
   })
 
   it('sort presetMini should be same as presetUno', async () => {
-    const uno1 = await createGenerator({
+    const uno1 = createGenerator({
       presets: [
         presetMini(),
       ],
     })
-    const uno2 = await createGenerator({
+    const uno2 = createGenerator({
       presets: [
         presetUno(),
       ],
