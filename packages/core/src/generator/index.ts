@@ -578,14 +578,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
-        if (staticMatch[2] && (internal || !staticMatch[3]?.internal)) {
-          context.generator.activatedRules.add(staticMatch[4])
+        if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+          context.generator.activatedRules.add(staticMatch)
           if (this.config.details)
-            context.rules!.push(staticMatch[4])
+            context.rules!.push(staticMatch)
 
-          const index = staticMatch[0]
-          const entry = normalizeCSSEntries(staticMatch[2])
-          const meta = staticMatch[3]
+          const index = this.config.rules.indexOf(staticMatch)
+          const entry = normalizeCSSEntries(staticMatch[1])
+          const meta = staticMatch[2]
           if (isString(entry))
             return [[index, entry, meta]]
           else
@@ -598,7 +598,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const { rulesDynamic } = this.config
 
       // match rules
-      for (const [i, matcher, handler, meta, rule] of rulesDynamic) {
+      for (const rule of rulesDynamic) {
+        const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
           continue
@@ -649,11 +650,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
+        const index = this.config.rules.indexOf(rule)
         const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
         if (entries.length) {
           return entries.map((css): ParsedUtil | RawUtil => {
             if (isString(css))
-              return [i, css, meta]
+              return [index, css, meta]
 
             // Extract variants from special symbols
             let variants = variantHandlers
@@ -684,7 +686,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
               }
             }
 
-            return [i, raw, css as CSSEntries, meta, variants]
+            return [index, raw, css as CSSEntries, meta, variants]
           })
         }
       }

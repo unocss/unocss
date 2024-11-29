@@ -167,17 +167,17 @@ export async function resolveConfig<Theme extends object = object>(
   const rulesSize = rules.length
 
   const rulesDynamic = rules
-    .map((rule, i) => {
+    .map((rule) => {
       if (isStaticRule(rule)) {
         const prefixes = toArray(rule[2]?.prefix || '')
         prefixes.forEach((prefix) => {
-          rulesStaticMap[prefix + rule[0]] = [i, rule[0], rule[1], rule[2], rule]
+          rulesStaticMap[prefix + rule[0]] = rule
         })
         // delete static rules so we can't skip them in matching
         // but keep the order
         return undefined
       }
-      return [i, rule[0], rule[1], rule[2], rule]
+      return rule
     })
     .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
@@ -213,6 +213,7 @@ export async function resolveConfig<Theme extends object = object>(
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,
     theme,
+    rules,
     rulesSize,
     rulesDynamic,
     rulesStaticMap,
