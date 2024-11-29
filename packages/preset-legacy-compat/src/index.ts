@@ -43,7 +43,7 @@ export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {
           i[1] = value
 
         if (legacyColorSpace) {
-          i[1] = i[1].replace(/in (oklch|oklab)/g, '')
+          i[1] = i[1].replace(/\s*in (oklch|oklab)/g, '')
         }
       })
     },
