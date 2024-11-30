@@ -167,19 +167,16 @@ export async function resolveConfig<Theme extends object = object>(
   const rulesSize = rules.length
 
   const rulesDynamic = rules
-    .map((rule, i) => {
-      if (isStaticRule(rule)) {
-        const prefixes = toArray(rule[2]?.prefix || '')
-        prefixes.forEach((prefix) => {
-          rulesStaticMap[prefix + rule[0]] = [i, rule[0], rule[1], rule[2], rule]
-        })
-        // delete static rules so we can't skip them in matching
-        // but keep the order
-        return undefined
-      }
-      return [i, rule[0], rule[1], rule[2], rule]
+    .filter((rule) => {
+      if (!isStaticRule(rule))
+        return true
+      // Put static rules into the map for faster lookup
+      const prefixes = toArray(rule[2]?.prefix || '')
+      prefixes.forEach((prefix) => {
+        rulesStaticMap[prefix + rule[0]] = rule
+      })
+      return false
     })
-    .filter(Boolean)
     .reverse() as ResolvedConfig<Theme>['rulesDynamic']
 
   let theme: Theme = mergeThemes(sources.map(p => p.theme))
@@ -213,6 +210,7 @@ export async function resolveConfig<Theme extends object = object>(
     shortcutsLayer: config.shortcutsLayer || 'shortcuts',
     layers,
     theme,
+    rules,
     rulesSize,
     rulesDynamic,
     rulesStaticMap,
