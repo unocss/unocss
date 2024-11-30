@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -19,6 +19,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
   public config: ResolvedConfig<Theme> = undefined!
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
+  public activatedRules = new Set<Rule<Theme>>()
   public events = createNanoEvents<{
     config: (config: ResolvedConfig<Theme>) => void
   }>()
@@ -49,6 +50,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.userConfig = userConfig
     this.blocked.clear()
     this.parentOrders.clear()
+    this.activatedRules.clear()
     this._cache.clear()
     this.config = await resolveConfig(userConfig, this.defaults)
     this.events.emit('config', this.config)
@@ -577,10 +579,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
         if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+          context.generator.activatedRules.add(staticMatch)
           if (this.config.details)
-            context.rules!.push(staticMatch[3])
+            context.rules!.push(staticMatch)
 
-          const index = staticMatch[0]
+          const index = this.config.rules.indexOf(staticMatch)
           const entry = normalizeCSSEntries(staticMatch[1])
           const meta = staticMatch[2]
           if (isString(entry))
@@ -595,7 +598,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const { rulesDynamic } = this.config
 
       // match rules
-      for (const [i, matcher, handler, meta] of rulesDynamic) {
+      for (const rule of rulesDynamic) {
+        const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
           continue
@@ -626,8 +630,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (!result)
           continue
 
+        context.generator.activatedRules.add(rule)
         if (this.config.details)
-          context.rules!.push([matcher, handler, meta] as DynamicRule<Theme>)
+          context.rules!.push(rule as DynamicRule<Theme>)
 
         // Handle generator result
         if (typeof result !== 'string') {
@@ -647,9 +652,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
         const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
         if (entries.length) {
+          const index = this.config.rules.indexOf(rule)
           return entries.map((css): ParsedUtil | RawUtil => {
             if (isString(css))
-              return [i, css, meta]
+              return [index, css, meta]
 
             // Extract variants from special symbols
             let variants = variantHandlers
@@ -680,7 +686,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
               }
             }
 
-            return [i, raw, css as CSSEntries, meta, variants]
+            return [index, raw, css as CSSEntries, meta, variants]
           })
         }
       }

@@ -137,7 +137,7 @@ export interface ExtractorContext {
   envMode?: 'dev' | 'build'
 }
 
-export interface PreflightContext<Theme extends object = object> {
+interface BaseContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
@@ -148,7 +148,9 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
-export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> { }
+
+export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
 
 export interface Extractor {
   name: string
@@ -202,6 +204,11 @@ export interface RuleMeta {
    * @private
    */
   __hash?: string
+
+  /**
+   * Custom metadata
+   */
+  custom?: Record<string, any>
 }
 
 export type CSSValue = CSSObject | CSSEntries
@@ -850,8 +857,9 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: [number, ...DynamicRule<Theme>][]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
+  rules: readonly Rule<Theme>[]
+  rulesDynamic: readonly DynamicRule<Theme>[]
+  rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]

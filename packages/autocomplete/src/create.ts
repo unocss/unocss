@@ -209,7 +209,7 @@ export function createAutocomplete(
     templates.length = 0
     templates.push(
       ...uno.config.autocomplete.templates || [],
-      ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[3]?.autocomplete || [])),
+      ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
       ...uno.config.shortcuts.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
     )
   }
