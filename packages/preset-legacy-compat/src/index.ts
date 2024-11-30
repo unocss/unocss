@@ -11,6 +11,13 @@ export interface LegacyCompatOptions {
    * @default false
    */
   commaStyleColorFunction?: boolean
+
+  /**
+   * Enable legacy color space conversion.
+   *
+   * @default false
+   */
+  legacyColorSpace?: boolean
 }
 
 /**
@@ -19,6 +26,7 @@ export interface LegacyCompatOptions {
 export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {}) => {
   const {
     commaStyleColorFunction = false,
+    legacyColorSpace = false,
   } = options
 
   return {
@@ -28,10 +36,15 @@ export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {
         let value = i[1]
         if (typeof value !== 'string')
           return
+
         if (commaStyleColorFunction)
           value = toCommaStyleColorFunction(value)
         if (value !== i[1])
           i[1] = value
+
+        if (legacyColorSpace) {
+          i[1] = i[1].replace(/\s*in (oklch|oklab)/g, '')
+        }
       })
     },
   }
