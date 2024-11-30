@@ -1,6 +1,6 @@
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { Rule, Selector, SelectorList } from 'css-tree'
-import type { Root } from 'postcss'
+import type { ChildNode, Root } from 'postcss'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import { clone, generate, parse } from 'css-tree'
 import postcss from 'postcss'
@@ -38,7 +38,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
       if (!utils.length)
         return
 
-      const parentAfterNodes: Root[] = []
+      const parentAfterNodes: ChildNode[] = []
 
       for (const i of utils) {
         const [, _selector, body, parent] = i
@@ -66,7 +66,6 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
             })
             newSelector = generate(prelude)
           }
-
           let css = `${newSelector}{${body}}`
           if (parent)
             css = `${parent}{${css}}`
@@ -75,14 +74,14 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
           css_parsed.walkDecls((declaration) => {
             declaration.source = source
           })
-          parentAfterNodes.push(css_parsed)
+          parentAfterNodes.push(...css_parsed.nodes)
         }
         else {
           const css = postcss.parse(body)
           css.walkDecls((declaration) => {
             declaration.source = source
           })
-          rule.parent.append(css)
+          rule.parent.insertAfter(rule, css)
         }
       }
       rule.parent.after(parentAfterNodes)

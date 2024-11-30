@@ -595,6 +595,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .bg-teal-400\/\[\.55\]{background-color:rgb(45 212 191 / .55);}
 .bg-teal-500\/\[55\%\]{background-color:rgb(20 184 166 / 55%);}
 .first-letter\:bg-green-400::first-letter{--un-bg-opacity:1;background-color:rgb(74 222 128 / var(--un-bg-opacity));}
+.marker\:bg-violet-200 *::marker,
+.marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgb(221 214 254 / var(--un-bg-opacity));}
 .first-line\:bg-green-400::first-line{--un-bg-opacity:1;background-color:rgb(74 222 128 / var(--un-bg-opacity));}
 .peer-aria:checked~.peer-aria-checked\:bg-blue-500,
 .peer:checked~.peer-checked\:bg-blue-500{--un-bg-opacity:1;background-color:rgb(59 130 246 / var(--un-bg-opacity));}
@@ -606,7 +608,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:is-first\:checked\:bg-true-gray\/10:checked:is(:first-child):hover{background-color:rgb(163 163 163 / 0.1);}
 .hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:rgb(248 113 113 / 0.1);}
 .hover\:not-first\:checked\:bg-true-gray\/10:checked:not(:first-child):hover{background-color:rgb(163 163 163 / 0.1);}
-.marker\:bg-violet-200 ::marker{--un-bg-opacity:1;background-color:rgb(221 214 254 / var(--un-bg-opacity));}
 .file\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgb(245 243 255 / var(--un-bg-opacity));}
 .bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
@@ -816,13 +817,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .color-blue-gray\/10,
 .color-bluegray-400\/10,
 .color-bluegray\/10{color:rgb(148 163 184 / 0.1);}
+.selection\:color-\[var\(--select-color\)\] *::selection,
+.selection\:color-\[var\(--select-color\)\]::selection{color:var(--select-color);}
 .open\:color-pink-100[open]{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .placeholder-shown-color-transparent:placeholder-shown{color:transparent;}
 .in-range\:color-pink-100:in-range{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .out-of-range\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .placeholder-color-red-1::placeholder{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
 .placeholder\:color-transparent::placeholder{color:transparent;}
-.selection\:color-\[var\(--select-color\)\] ::selection{color:var(--select-color);}
 .color-inherit,
 .text-inherit{color:inherit;}
 .color-initial{color:initial;}

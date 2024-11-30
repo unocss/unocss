@@ -19,6 +19,7 @@ function uniq<T>(array: T[]) {
 
 export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPluginContext) {
   const matched: MatchedSelector[] = []
+  const icons: MatchedSelector[] = []
   const colors: MatchedColor[] = []
   const tokensInfo = new Map<string, ExtendedTokenInfo & { modules: string[] }>()
 
@@ -48,8 +49,29 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
       const body = baseSelector
         .replace(/^ring-offset|outline-solid|outline-dotted/, 'head')
         .replace(/^\w+-/, '')
-      const parsedColor = parseColor(body, ctx.uno.config.theme, 'colors')
 
+      if (category === 'icons') {
+        const existing = icons.find(i => i.baseSelector === baseSelector)
+        if (existing) {
+          existing.count += count
+          existing.modules = uniq([...existing.modules, ..._modules])
+        }
+        else {
+          icons.push({
+            name: rawSelector,
+            rawSelector,
+            baseSelector,
+            category,
+            variants,
+            count,
+            ruleMeta,
+            modules: _modules,
+          })
+        }
+        continue
+      }
+
+      const parsedColor = parseColor(body, ctx.uno.config.theme, 'colors')
       if (parsedColor?.color && !ignoredColors.includes(parsedColor?.color)) {
         const existing = colors.find(c => c.name === parsedColor.name && c.no === parsedColor.no)
 
@@ -95,5 +117,6 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
   return {
     matched,
     colors,
+    icons,
   }
 }

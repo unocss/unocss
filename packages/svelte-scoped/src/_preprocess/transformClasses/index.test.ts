@@ -8,9 +8,9 @@ import { describe, expect, it } from 'vitest'
 import prettierSvelte from 'prettier-plugin-svelte'
 import { transformClasses } from '.'
 
-describe('transform', () => {
+describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
       presetIcons({

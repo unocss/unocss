@@ -13,7 +13,7 @@ const caniuseItem = computed<DocItem>(() => ({
   url: `https://caniuse.com/?search=${encodeURIComponent(item.title)}`,
 }))
 
-const relatives = computed(() => searcher.getUtilsOfFeature(item.title))
+const relatives = computed(() => searcher.value?.getUtilsOfFeature(item.title) || [])
 </script>
 
 <template>

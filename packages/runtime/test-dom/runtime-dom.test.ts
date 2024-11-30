@@ -3,13 +3,13 @@
 import presetUno from '@unocss/preset-uno'
 import initUnocssRuntime from '@unocss/runtime'
 
-describe('runtime dom manipulation', () => {
+describe('runtime dom manipulation', async () => {
   afterEach(() => {
     window.document.documentElement.innerHTML = ''
   })
 
-  function initRuntime(options?: any) {
-    initUnocssRuntime({
+  async function initRuntime(options?: any) {
+    await initUnocssRuntime({
       defaults: {
         presets: [
           presetUno(),
@@ -25,7 +25,7 @@ describe('runtime dom manipulation', () => {
   }
 
   it('runtime generates multiple styles', async () => {
-    const runtime = initRuntime()
+    const runtime = await initRuntime()
 
     await runtime?.extract('container mt0')
     const result = await runtime?.update()
@@ -42,7 +42,7 @@ describe('runtime dom manipulation', () => {
   })
 
   it('runtime can retrieve styles ordered by layer', async () => {
-    const runtime = initRuntime({
+    const runtime = await initRuntime({
       layers: {
         pre: -10,
         default: 10,
@@ -59,7 +59,7 @@ describe('runtime dom manipulation', () => {
   })
 
   it('runtime styles is placed in order', async () => {
-    const runtime = initRuntime()
+    const runtime = await initRuntime()
 
     await runtime?.extract('ring-red')
     const result = await runtime?.update()

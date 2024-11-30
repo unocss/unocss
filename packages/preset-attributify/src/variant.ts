@@ -48,13 +48,18 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
           return `${bodyVariant}${variants}${name}-${bracketValue}`
       }
 
-      // For special case like `<div border="~ red:10">`
-      // `border-red:10` should not consider `border-red:` as a variant
-      // if (variants && body.match(/^[\d.]+$/)) {
-      //   const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
-      //   body = variantParts.pop() + body
-      //   variants = variantParts.join('')
-      // }
+      // For special case like `<div border="red:10">` and `<div border="hover:10">`
+      // It's ambiguous to resolve to `border-red:10`/`border-hover:10` or `red:border-10`/`hover:border-10`
+      // So we branch out for both possibilities to be processed
+      if (variants && body.match(/^[\d.]+$/)) {
+        const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
+        const _body = variantParts.pop() + body
+        const _variants = variantParts.join('')
+        return [
+          { matcher: `${variants}${name}-${body}` },
+          { matcher: `${_variants}${name}-${_body}` },
+        ]
+      }
 
       return `${variants}${name}-${body}`
     },

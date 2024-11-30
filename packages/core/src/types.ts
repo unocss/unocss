@@ -137,7 +137,7 @@ export interface ExtractorContext {
   envMode?: 'dev' | 'build'
 }
 
-export interface PreflightContext<Theme extends object = object> {
+interface BaseContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
@@ -148,7 +148,9 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
-export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> { }
+
+export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
 
 export interface Extractor {
   name: string
@@ -202,6 +204,11 @@ export interface RuleMeta {
    * @private
    */
   __hash?: string
+
+  /**
+   * Custom metadata
+   */
+  custom?: Record<string, any>
 }
 
 export type CSSValue = CSSObject | CSSEntries
@@ -320,7 +327,7 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
+export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | VariantHandler[] | undefined>
 
 export interface VariantObject<Theme extends object = object> {
   /**
@@ -461,7 +468,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Presets
    */
-  presets?: (PresetOrFactory<Theme> | PresetOrFactory<Theme>[])[]
+  presets?: (PresetOrFactoryAwaitable<Theme> | PresetOrFactoryAwaitable<Theme>[])[]
 
   /**
    * Additional options for auto complete
@@ -605,7 +612,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
 
+export type PresetFactoryAwaitable<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Awaitable<Preset<Theme>>
+
 export type PresetOrFactory<Theme extends object = object> = Preset<Theme> | PresetFactory<Theme, any>
+
+export type PresetOrFactoryAwaitable<Theme extends object = object> = PresetOrFactory<Theme> | Promise<Preset<Theme>> | PresetFactoryAwaitable<Theme>
 
 export interface GeneratorOptions {
   /**
@@ -838,7 +849,7 @@ export interface UserConfigDefaults<Theme extends object = object> extends Confi
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
   RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-  'rules' | 'shortcuts' | 'autocomplete'
+  'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]
@@ -846,8 +857,9 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: [number, ...DynamicRule<Theme>][]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
+  rules: readonly Rule<Theme>[]
+  rulesDynamic: readonly DynamicRule<Theme>[]
+  rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
@@ -865,7 +877,7 @@ export interface GenerateResult<T = Set<string>> {
   matched: T
 }
 
-export type VariantMatchedResult<Theme extends object = object> = readonly [
+export type VariantMatchedResult<Theme extends object = object> = [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],

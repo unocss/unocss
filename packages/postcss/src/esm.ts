@@ -88,12 +88,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     try {
       const cfg = await config
       if (!uno) {
-        uno = createGenerator(cfg.config)
+        uno = await createGenerator(cfg.config)
       }
       else if (cfg.sources.length) {
         const config_mtime = (await stat(cfg.sources[0])).mtimeMs
         if (config_mtime > last_config_mtime) {
-          uno = createGenerator((await loadConfig()).config)
+          uno = await createGenerator((await loadConfig()).config)
           last_config_mtime = config_mtime
         }
       }

@@ -3,7 +3,7 @@ import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('shortcuts-no-merge', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color]) {
         yield {
@@ -29,7 +29,7 @@ it('shortcuts-no-merge', async () => {
       .shortcut{color:red;font-weight:bold;background-color:red;}"
     `)
 
-  const uno2 = createGenerator({
+  const uno2 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -59,7 +59,7 @@ it('shortcuts-no-merge', async () => {
 })
 
 it('variants', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -104,7 +104,7 @@ it('variants', async () => {
 })
 
 it('parent', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -136,7 +136,7 @@ it('parent', async () => {
 })
 
 it('selector', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -158,7 +158,7 @@ it('selector', async () => {
 })
 
 it('layer', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -176,7 +176,7 @@ it('layer', async () => {
 })
 
 it('layer string', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {

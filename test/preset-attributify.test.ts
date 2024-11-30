@@ -4,7 +4,7 @@ import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('attributify', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetAttributify({ strict: true }),
       presetUno({ attributifyPseudo: true }),
@@ -58,17 +58,17 @@ describe('attributify', async () => {
     })
 
     const promises = Array.from(await uno.applyExtractors(fixture1) || [])
-      .map(async (i) => {
-        const r = await variant.match(i, {} as any)
-        return typeof r === 'string' ? r : r ? r.matcher : r
-      })
+      .map(async i => await variant.match(i, {} as any))
 
-    expect(await Promise.all(promises))
+    expect((await Promise.all(promises))
+      .flat()
+      .map(r => typeof r === 'string' ? r : r ? r.matcher : r),
+    )
       .toMatchSnapshot()
   })
 
   it('prefixedOnly', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true, prefix: 'un-', prefixedOnly: true }),
         presetUno({ attributifyPseudo: true }),
@@ -189,7 +189,7 @@ describe('attributify', async () => {
   })
 
   it('with trueToNonValued', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify({ trueToNonValued: true }),
         presetUno(),
@@ -215,7 +215,7 @@ describe('attributify', async () => {
   })
 
   it('support inline arrow functions', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetAttributify(),
         presetUno(),

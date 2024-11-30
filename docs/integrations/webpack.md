@@ -12,6 +12,10 @@ The webpack plugin for UnoCSS: `@unocss/webpack`. Currently, this plugin only su
 This plugin does not come with any default presets.
 :::
 
+## Prerequisite
+
+`@unocss/webpack` requires `style-loader` and `css-loader` to handle CSS files.
+
 ## Installation
 
 ::: code-group

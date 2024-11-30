@@ -66,10 +66,15 @@ export const transformBase = {
   '--un-translate-y': 0,
   '--un-translate-z': 0,
 }
+const preflightKeys = Object.keys(transformBase)
 
 export const transforms: Rule[] = [
   // origins
-  [/^(?:transform-)?origin-(.+)$/, ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) }), { autocomplete: [`transform-origin-(${Object.keys(positionMap).join('|')})`, `origin-(${Object.keys(positionMap).join('|')})`] }],
+  [
+    /^(?:transform-)?origin-(.+)$/,
+    ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) }),
+    { autocomplete: [`transform-origin-(${Object.keys(positionMap).join('|')})`, `origin-(${Object.keys(positionMap).join('|')})`] },
+  ],
 
   // perspectives
   [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s]) => {
@@ -94,23 +99,25 @@ export const transforms: Rule[] = [
   }],
 
   // modifiers
-  [/^(?:transform-)?translate-()(.+)$/, handleTranslate],
-  [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate],
-  [/^(?:transform-)?rotate-()(.+)$/, handleRotate],
-  [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate],
-  [/^(?:transform-)?skew-()(.+)$/, handleSkew],
-  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { autocomplete: ['transform-skew-(x|y)-<percent>', 'skew-(x|y)-<percent>'] }],
-  [/^(?:transform-)?scale-()(.+)$/, handleScale],
-  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`, `(${transformValues.join('|')})-<percent>`, `(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
+  [/^(?:transform-)?translate-()(.+)$/, handleTranslate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?translate-([xyz])-(.+)$/, handleTranslate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?rotate-()(.+)$/, handleRotate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?rotate-([xyz])-(.+)$/, handleRotate, { custom: { preflightKeys } }],
+  [/^(?:transform-)?skew-()(.+)$/, handleSkew, { custom: { preflightKeys } }],
+  [/^(?:transform-)?skew-([xy])-(.+)$/, handleSkew, { custom: { preflightKeys }, autocomplete: ['transform-skew-(x|y)-<percent>', 'skew-(x|y)-<percent>'] }],
+  [/^(?:transform-)?scale-()(.+)$/, handleScale, { custom: { preflightKeys } }],
+  [/^(?:transform-)?scale-([xyz])-(.+)$/, handleScale, { custom: { preflightKeys }, autocomplete: [`transform-(${transformValues.join('|')})-<percent>`, `transform-(${transformValues.join('|')})-(x|y|z)-<percent>`, `(${transformValues.join('|')})-<percent>`, `(${transformValues.join('|')})-(x|y|z)-<percent>`] }],
 
   // style
   [/^(?:transform-)?preserve-3d$/, () => ({ 'transform-style': 'preserve-3d' })],
   [/^(?:transform-)?preserve-flat$/, () => ({ 'transform-style': 'flat' })],
 
   // base
-  ['transform', { transform }],
-  ['transform-cpu', { transform: transformCpu }],
-  ['transform-gpu', { transform: transformGpu }],
+  ['transform', { transform }, { custom: { preflightKeys } }],
+  ['transform-cpu', { transform: transformCpu }, {
+    custom: { preflightKeys: ['--un-translate-x', '--un-translate-y', '--un-rotate', '--un-rotate-z', '--un-skew-x', '--un-skew-y', '--un-scale-x', '--un-scale-y'] },
+  }],
+  ['transform-gpu', { transform: transformGpu }, { custom: { preflightKeys } }],
   ['transform-none', { transform: 'none' }],
   ...makeGlobalStaticRules('transform'),
 ]

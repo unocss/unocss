@@ -25,7 +25,7 @@ describe('tagify', () => {
   })
 
   it('preset', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       shortcuts: [
         ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
       ],
@@ -68,7 +68,7 @@ describe('tagify', () => {
   })
 
   it('exclude tags', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
         presetTagify({
@@ -95,7 +95,7 @@ describe('tagify', () => {
   })
 
   it('extraProperties', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetIcons(),
         presetTagify({
@@ -113,7 +113,7 @@ describe('tagify', () => {
   })
 
   it('prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetMini(),
         presetTagify({

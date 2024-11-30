@@ -143,7 +143,7 @@ declare global {
   }
 }
 
-export default function init(inlineConfig: RuntimeOptions = {}) {
+export default async function init(inlineConfig: RuntimeOptions = {}): Promise<void> {
   if (typeof window == 'undefined') {
     console.warn('@unocss/runtime been used in non-browser environment, skipped.')
     return
@@ -163,7 +163,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
-  const uno = createGenerator(userConfig, userConfigDefaults)
+  const uno = await createGenerator(userConfig, userConfigDefaults)
   const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
   const rootElement = () => runtimeOptions.rootElement ? runtimeOptions.rootElement() : defaultDocument.body
   const styleElements = new Map<string, HTMLStyleElement>()

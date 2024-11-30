@@ -3,7 +3,7 @@ import { searcher } from '~/composables/state'
 
 const isDefault = computed(() => (userConfigRaw.value || defaultConfigRaw) === defaultConfigRaw)
 
-const info = await searcher.getInfo()
+const info = searcher.value.getInfo()
 </script>
 
 <template>
