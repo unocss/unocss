@@ -3,10 +3,11 @@ import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
+import { type Arrayable, toArray } from '@unocss/core'
 import { AST_NODES_WITH_QUOTES, ATTRIBUTIFY_PREFIXES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
-export default createRule({
+export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-order'>({
   name: 'order',
   meta: {
     type: 'layout',
@@ -19,9 +20,19 @@ export default createRule({
     },
     schema: [],
   },
-  defaultOptions: [],
-  create(context) {
-    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
+  defaultOptions: [{ attributifyPrefix: ATTRIBUTIFY_PREFIXES }],
+  create(context, [mergedOptions]) {
+    const unoConfig = syncAction(
+      context.settings.unocss?.configPath,
+      'config',
+    )
+    const presetAttributify = unoConfig?.presets.find(p => p.name === '@unocss/preset-attributify')
+    const prefixes = new Set([
+      presetAttributify?.options?.prefix as string | undefined,
+      ...toArray(mergedOptions.attributifyPrefix!),
+    ].filter(Boolean)) as Set<string>
+
+    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after') {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
@@ -98,7 +109,7 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
-        if (node.key.name === 'class' || ATTRIBUTIFY_PREFIXES.some((prefix: string) => node.key.name.startsWith(prefix))) {
+        if (node.key.name === 'class' || Array.from(prefixes).some((prefix: string) => node.key.name.startsWith(prefix))) {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
         }

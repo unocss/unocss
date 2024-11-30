@@ -1,4 +1,4 @@
-import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
+import type { BlocklistMeta, ResolvedConfig, UnoGenerator } from '@unocss/core'
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
@@ -81,6 +81,12 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
   return [...blocked]
 }
 
+async function actionUnoConfig(configPath: string | undefined): Promise<ResolvedConfig> {
+  const uno = await getGenerator(configPath)
+  return uno.config
+}
+
+export function runAsync(configPath: string | undefined, action: 'config', key?: string): Promise<ResolvedConfig>
 export function runAsync(configPath: string | undefined, action: 'sort', classes: string): Promise<string>
 export function runAsync(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]>
 export async function runAsync(configPath: string | undefined, action: string, ...args: any[]): Promise<any> {
@@ -91,9 +97,13 @@ export async function runAsync(configPath: string | undefined, action: string, .
     case 'blocklist':
       // @ts-expect-error cast
       return actionBlocklist(configPath, ...args)
+    case 'config':
+      // @ts-expect-error cast
+      return actionUnoConfig(configPath, ...args)
   }
 }
 
+export function run(configPath: string | undefined, action: 'config', key?: string): ResolvedConfig
 export function run(configPath: string | undefined, action: 'sort', classes: string): string
 export function run(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(configPath: string | undefined, action: string, ...args: any[]): any {
