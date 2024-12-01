@@ -3,11 +3,10 @@ import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
-import { type Arrayable, toArray } from '@unocss/core'
-import { AST_NODES_WITH_QUOTES, ATTRIBUTIFY_PREFIXES, CLASS_FIELDS } from '../constants'
+import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
-export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-order'>({
+export default createRule({
   name: 'order',
   meta: {
     type: 'layout',
@@ -20,19 +19,9 @@ export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-
     },
     schema: [],
   },
-  defaultOptions: [{ attributifyPrefix: ATTRIBUTIFY_PREFIXES }],
-  create(context, [mergedOptions]) {
-    const unoConfig = syncAction(
-      context.settings.unocss?.configPath,
-      'config',
-    )
-    const presetAttributify = unoConfig?.presets.find(p => p.name === '@unocss/preset-attributify')
-    const prefixes = new Set([
-      presetAttributify?.options?.prefix as string | undefined,
-      ...toArray(mergedOptions.attributifyPrefix!),
-    ].filter(Boolean)) as Set<string>
-
-    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after') {
+  defaultOptions: [],
+  create(context) {
+    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, attribute?: string, addSpace?: 'before' | 'after') {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
@@ -40,6 +29,7 @@ export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-
         context.settings.unocss?.configPath,
         'sort',
         input,
+        attribute,
       ).trim()
 
       if (addSpace === 'before')
@@ -93,14 +83,13 @@ export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-
             }
           }
 
-          (node.value).forEach((obj, i) => {
-            if (obj.type === 'SvelteMustacheTag') {
-              checkExpressionRecursively(obj.expression)
+          (node.value).forEach((subNode, i) => {
+            if (subNode.type === 'SvelteMustacheTag') {
+              checkExpressionRecursively(subNode.expression)
             }
-            else if (obj.type === 'SvelteLiteral') {
+            else if (subNode.type === 'SvelteLiteral') {
               const addSpace: 'before' | 'after' | undefined = node.value?.[i - 1]?.type === 'SvelteMustacheTag' ? 'before' : node.value?.[i + 1]?.type === 'SvelteMustacheTag' ? 'after' : undefined
-
-              checkLiteral(obj, addSpace)
+              checkLiteral(subNode, node.key.name, addSpace)
             }
           })
         }
@@ -109,9 +98,25 @@ export default createRule<[{ attributifyPrefix?: Arrayable<string> }], 'invalid-
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
-        if (node.key.name === 'class' || Array.from(prefixes).some((prefix: string) => node.key.name.startsWith(prefix))) {
+        const config = syncAction(
+          context.settings.unocss?.configPath,
+          'config',
+        )
+        const presetAttributify = config?.presets?.find(p => p.name === '@unocss/preset-attributify')
+        const attributePrefix: string | undefined = presetAttributify?.options?.prefix
+
+        if (node.key.name === 'class') {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
+        }
+        else if (attributePrefix != null) {
+          // For enable attributify mode
+          if (node.value.type === 'VLiteral') {
+            checkLiteral(
+              node.value,
+              node.key.name.startsWith(attributePrefix) ? node.key.name.slice(attributePrefix.length) : node.key.name,
+            )
+          }
         }
       },
     }

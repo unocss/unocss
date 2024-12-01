@@ -36,8 +36,16 @@ export function setGenerator(generator: Awaited<UnoGenerator<any>>, configPath?:
   promises.set(configPath, Promise.resolve(generator))
 }
 
-async function actionSort(configPath: string | undefined, classes: string) {
-  return await sortRules(classes, await getGenerator(configPath))
+async function actionSort(configPath: string | undefined, classes: string, attribute = 'class') {
+  const prefix = attribute.replace(/class(name)?/i, '')
+  if (prefix) {
+    classes = classes.split(/\s+/g).map(i => `${prefix}-${i}`).join(' ')
+  }
+  let sorted = await sortRules(classes, await getGenerator(configPath))
+  if (prefix) {
+    sorted = sorted.split(/\s+/g).map(i => i.replace(new RegExp(`^${prefix}-`), '')).join(' ')
+  }
+  return sorted
 }
 
 async function actionBlocklist(configPath: string | undefined, classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]> {
@@ -86,9 +94,9 @@ async function actionUnoConfig(configPath: string | undefined): Promise<Resolved
   return uno.config
 }
 
-export function runAsync(configPath: string | undefined, action: 'config', key?: string): Promise<ResolvedConfig>
-export function runAsync(configPath: string | undefined, action: 'sort', classes: string): Promise<string>
+export function runAsync(configPath: string | undefined, action: 'sort', classes: string, attribute?: string): Promise<string>
 export function runAsync(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]>
+export function runAsync(configPath: string | undefined, action: 'config'): Promise<ResolvedConfig>
 export async function runAsync(configPath: string | undefined, action: string, ...args: any[]): Promise<any> {
   switch (action) {
     case 'sort':
@@ -103,9 +111,9 @@ export async function runAsync(configPath: string | undefined, action: string, .
   }
 }
 
-export function run(configPath: string | undefined, action: 'config', key?: string): ResolvedConfig
-export function run(configPath: string | undefined, action: 'sort', classes: string): string
+export function run(configPath: string | undefined, action: 'sort', classes: string, attribute?: string): string
 export function run(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
+export function run(configPath: string | undefined, action: 'config'): ResolvedConfig
 export function run(configPath: string | undefined, action: string, ...args: any[]): any {
   // @ts-expect-error cast
   return runAsync(configPath, action, ...args)
