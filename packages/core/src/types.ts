@@ -78,6 +78,7 @@ declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
 declare const SymbolLayer: unique symbol
+declare const SymbolSort: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -100,6 +101,10 @@ export interface ControlSymbols {
    * Layer modifier
    */
   layer: typeof SymbolLayer
+  /**
+   * Sort modifier
+   */
+  sort: typeof SymbolSort
 }
 
 export interface ControlSymbolsValue {
@@ -108,6 +113,7 @@ export interface ControlSymbolsValue {
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
+  [SymbolSort]: number
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]

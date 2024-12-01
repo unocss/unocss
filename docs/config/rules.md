@@ -143,6 +143,7 @@ Will generate:
 - `symbols.layer`: A string/function/regex match that sets the UnoCSS layer of the generated CSS rule
 - `symbols.variants`: An array of variant handler that are applied to the current CSS object
 - `symbols.shortcutsNoMerge`: A boolean to disable the merging of the current rule in shortcuts
+- `symbols.sort`: A number to overwrite sorting order of the current CSS object
 
 ## Multi-selector rules
 
