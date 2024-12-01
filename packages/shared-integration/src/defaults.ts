@@ -18,7 +18,7 @@ export const defaultIdeMatchInclude: RegExp[] = [
   // eslint-disable-next-line no-control-regex
   /(['"`])[^\x01]*?\1/g,
   // HTML tags
-  /<[^/?<>0-9$_!](?:"[^"]*"|'[^']*'|[^>])+>/g,
+  /<[^/?<>0-9$_!"'](?:"[^"]*"|'[^']*'|[^>])+>/g,
   // CSS directives
   /(@apply|--uno|--at-apply)[^;]*;/g,
 ]
