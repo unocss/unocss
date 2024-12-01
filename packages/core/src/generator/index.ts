@@ -660,7 +660,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
             // Extract variants from special symbols
             let variants = variantHandlers
-            let entryMeta = { ...meta }
+            let entryMeta = meta
             for (const entry of css) {
               if (entry[0] === symbols.variants) {
                 variants = [
