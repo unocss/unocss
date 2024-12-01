@@ -1,5 +1,5 @@
 {
-  "version": "0.65.0-beta.2",
+  "version": "0.65.0-beta.3",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
