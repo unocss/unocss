@@ -55,13 +55,13 @@ catalog:
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.5.13
   '@typescript-eslint/utils': ^8.17.0
-  '@vitejs/plugin-legacy': ^5.4.3
+  '@vitejs/plugin-legacy': ^6.0.0
   '@vitejs/plugin-vue': ^5.2.1
   '@vitest/ui': ^2.1.8
   '@vue/reactivity': ^3.5.13
-  '@vueuse/core': ^11.3.0
-  '@vueuse/math': ^11.3.0
-  '@vueuse/nuxt': ^11.3.0
+  '@vueuse/core': ^12.0.0
+  '@vueuse/math': ^12.0.0
+  '@vueuse/nuxt': ^12.0.0
   astro: ^4.16.16
   autoprefixer: ^10.4.20
   brotli-size: ^4.0.0
@@ -86,7 +86,7 @@ catalog:
   fuse.js: ^7.0.0
   fzf: ^0.5.2
   gzip-size: ^6.0.0
-  jiti: ^1.21.6
+  jiti: ^2.4.1
   js-yaml: ^4.1.0
   jsdom: ^25.0.1
   knitwork: ^1.1.0
@@ -106,7 +106,7 @@ catalog:
   perfect-debounce: ^1.0.0
   pnpm: 8.9.2
   postcss: ^8.4.49
-  postcss-nested: ^6.2.0
+  postcss-nested: ^7.0.2
   prettier: ^2.8.8
   prettier-plugin-svelte: ^2.10.1
   pug: ^3.0.3
@@ -118,14 +118,14 @@ catalog:
   shiki: ^1.24.0
   simple-git: ^3.27.0
   simple-git-hooks: ^2.11.1
-  sirv: ^2.0.4
+  sirv: ^3.0.0
   splitpanes: ^3.1.5
   std-env: ^3.8.0
   svelte: ^4.2.19
   svelte-eslint-parser: ^0.42.0
   synckit: ^0.9.2
   tailwindcss: ^3.4.16
-  taze: ^0.17.2
+  taze: ^0.18.0
   terser: ^5.36.0
   theme-vitesse: ^0.8.3
   tinyglobby: ^0.2.10
@@ -133,13 +133,13 @@ catalog:
   tsx: ^4.19.2
   typescript: ^5.7.2
   unbuild: ^2.0.0
-  unconfig: ~0.5.5
+  unconfig: ~0.6.0
   unplugin: ^1.16.0
   unplugin-auto-import: ^0.18.6
   unplugin-vue-components: ^0.27.5
-  unplugin-vue-markdown: ^0.26.3
+  unplugin-vue-markdown: ^0.27.1
   vite: ^6.0.2
-  vite-plugin-inspect: ^0.8.9
+  vite-plugin-inspect: ^0.10.3
   vite-plugin-pages: ^0.32.4
   vite-plugin-windicss: ^1.9.4
   vitepress: ^1.5.0
