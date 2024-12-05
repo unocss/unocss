@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import type { ResultItem } from '~/types'
+
 import { onBeforeRouteUpdate } from 'vue-router'
 
 // @ts-expect-error missing types
 import { RecycleScroller } from 'vue-virtual-scroller'
-
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import type { ResultItem } from '~/types'
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 const route = useRoute()
 const router = useRouter()
@@ -53,7 +53,7 @@ async function executeSearch() {
   if (input.value)
     isSearching.value = true
   try {
-    searchResult.value = mapSearch(await searcher.search(input.value))
+    searchResult.value = mapSearch(await searcher.value?.search(input.value) || [])
   }
   catch (e) {
     console.error(e)
@@ -126,7 +126,7 @@ async function openItem(item: ResultItem) {
   if (isMobile.value && !isModalOpen.value)
     isModalOpen.value = true
   else
-    input.value = await searcher.getItemId(item)
+    input.value = await searcher.value.getItemId(item)
 }
 
 function selectItem(item: ResultItem) {
@@ -152,7 +152,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div relative border="~ rounded base" shadow font-200 text-2xl>
+  <div relative border="~ rounded main" shadow font-200 text-2xl>
     <div v-if="userConfigLoading" p="x6 y4" gap2 row items-center animate-pulse>
       <div i-carbon-circle-dash w-7 h-7 animate-spin />
       <div op50>
@@ -182,7 +182,7 @@ watchEffect(() => {
     </button>
   </div>
   <div v-if="searchResult.length || isSearching" class="search-container">
-    <div border="l b r base" mx2 class="scrolls" flex-auto>
+    <div border="l b r main" mx2 class="scrolls" flex-auto>
       <template v-if="isSearching">
         <ItemBase>
           <template #badge>

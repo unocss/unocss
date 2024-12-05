@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, Shortcut, VariantHandlerContext } from '@unocss/core'
-import { isString } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { isString } from '@unocss/core'
 import { resolveBreakpoints } from '@unocss/preset-mini/utils'
 
 const queryMatcher = /@media \(min-width: (.+)\)/

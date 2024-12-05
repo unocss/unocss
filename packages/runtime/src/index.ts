@@ -1,6 +1,14 @@
 import type { GenerateResult, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { Theme } from '@unocss/preset-uno'
 import { createGenerator, isString, toArray } from '@unocss/core'
 import { autoPrefixer, decodeHtml } from './utils'
+
+/**
+ * Define UnoCSS config
+ */
+export function defineConfig<T extends object = Theme>(config: UserConfig<T>) {
+  return config
+}
 
 export interface RuntimeGenerateResult extends GenerateResult {
   getStyleElement: (name: string) => HTMLStyleElement | undefined
@@ -135,7 +143,7 @@ declare global {
   }
 }
 
-export default function init(inlineConfig: RuntimeOptions = {}) {
+export default async function init(inlineConfig: RuntimeOptions = {}): Promise<void> {
   if (typeof window == 'undefined') {
     console.warn('@unocss/runtime been used in non-browser environment, skipped.')
     return
@@ -155,7 +163,7 @@ export default function init(inlineConfig: RuntimeOptions = {}) {
   }
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
-  const uno = createGenerator(userConfig, userConfigDefaults)
+  const uno = await createGenerator(userConfig, userConfigDefaults)
   const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
   const rootElement = () => runtimeOptions.rootElement ? runtimeOptions.rootElement() : defaultDocument.body
   const styleElements = new Map<string, HTMLStyleElement>()

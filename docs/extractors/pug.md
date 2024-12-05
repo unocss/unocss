@@ -21,9 +21,9 @@ Support extracting classes from Pug template.
   ```
 :::
 
-```ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import extractorPug from '@unocss/extractor-pug'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   extractors: [

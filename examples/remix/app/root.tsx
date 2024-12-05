@@ -1,4 +1,3 @@
-import reset from '@unocss/reset/tailwind.css?url'
 import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
@@ -7,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import reset from '@unocss/reset/tailwind.css?url'
 import unocss from '~/uno.css?url'
 
 export const meta: MetaFunction = () => [

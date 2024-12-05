@@ -1,0 +1,15 @@
+/* layer: default */
+[border~="\~"]{border-width:1px;}
+[border~="red\:10"],
+[border~="red\/10"]{border-color:rgb(248 113 113 / 0.1);}
+[border~="hover\:red\:10"]:hover{border-color:rgb(248 113 113 / 0.1);}
+[text~="\31 2"]{font-size:3rem;}
+[text~="lg\:30"]{font-size:1.125rem;line-height:7.5rem;}
+.dark [text-red~="dark\:200"]{--un-text-opacity:1;color:rgb(254 202 202 / var(--un-text-opacity));}
+[hover~="text-blue\:10"]{--un-text-opacity:1;color:rgb(96 165 250 / var(--un-text-opacity));}
+[text-red~="\31 00"]{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
+[hover~="text-blue\:10"]:hover{color:rgb(96 165 250 / 0.1);}
+[active~="text-green\/10"]:active{color:rgb(74 222 128 / 0.1);}
+@media (min-width: 1024px){
+[text~="lg\:30"]{font-size:7.5rem;}
+}

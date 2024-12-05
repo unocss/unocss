@@ -11,9 +11,9 @@ npm i -D @unocss/transformer-directives
 ```
 
 ```ts
+import transformerDirectives from '@unocss/transformer-directives'
 // uno.config.ts
 import { defineConfig } from 'unocss'
-import transformerDirectives from '@unocss/transformer-directives'
 
 export default defineConfig({
   // ...

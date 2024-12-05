@@ -33,8 +33,7 @@ The Vite plugin ships with the `unocss` package.
 
 Install the plugin:
 
-```ts
-// vite.config.ts
+```ts [vite.config.ts]
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
@@ -47,8 +46,7 @@ export default defineConfig({
 
 Create a `uno.config.ts` file:
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -58,8 +56,7 @@ export default defineConfig({
 
 Add `virtual:uno.css` to your main entry:
 
-```ts
-// main.ts
+```ts [main.ts]
 import 'virtual:uno.css'
 ```
 
@@ -122,10 +119,9 @@ When using VanillaJS or TypeScript, you need to add `js` and `ts` files extensio
 
 If you're using `@vitejs/plugin-react`:
 
-```ts
-// vite.config.js
-import UnoCSS from 'unocss/vite'
+```ts [vite.config.ts]
 import React from '@vitejs/plugin-react'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -139,10 +135,9 @@ If you're using `@unocss/preset-attributify` you should remove `tsc` from the `b
 
 If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you must add the plugin before `@vitejs/plugin-react`.
 
-```ts
-// vite.config.js
-import UnoCSS from 'unocss/vite'
+```ts [vite.config.ts]
 import React from '@vitejs/plugin-react'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -160,8 +155,7 @@ You have a `React` example project on [examples/vite-react](https://github.com/u
 
 If you're using `@preact/preset-vite`:
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import Preact from '@preact/preset-vite'
 import UnoCSS from 'unocss/vite'
 
@@ -175,8 +169,7 @@ export default {
 
 or if you're using `@prefresh/vite`:
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import Prefresh from '@prefresh/vite'
 import UnoCSS from 'unocss/vite'
 
@@ -202,11 +195,10 @@ To support `class:foo` and `class:foo={bar}` add the plugin and configure `extra
 
 You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shortcuts` to include multiples rules, see `src/App.svelte` on linked example project below.
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import UnoCSS from 'unocss/vite'
 import extractorSvelte from '@unocss/extractor-svelte'
+import UnoCSS from 'unocss/vite'
 
 export default {
   plugins: [
@@ -229,11 +221,10 @@ To support `class:foo` and `class:foo={bar}` add the plugin and configure `extra
 
 You can use simple rules with `class:`, for example `class:bg-red-500={foo}` or using `shortcuts` to include multiples rules, see `src/routes/+layout.svelte` on linked example project below.
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import { sveltekit } from '@sveltejs/kit/vite'
-import UnoCSS from 'unocss/vite'
 import extractorSvelte from '@unocss/extractor-svelte'
+import UnoCSS from 'unocss/vite'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -261,8 +252,7 @@ To work with web components you need to enable `shadow-dom` mode on the plugin.
 
 Don't forget to remove the import for `uno.css` since the `shadow-dom` mode will not expose it and the application will not work.
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import UnoCSS from 'unocss/vite'
 
 export default {
@@ -312,8 +302,7 @@ The `part-[<part-name>]:<rule|shortcut>` will work only with this plugin using t
 
 The plugin uses `nth-of-type` to avoid collisions with multiple parts in the same web component and for the same parts on distinct web components, you don't need to worry about it, the plugin will take care for you.
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
 import UnoCSS from 'unocss/vite'
 
 export default {
@@ -362,10 +351,9 @@ template.innerHTML = `
 
 You need to add the `vite-plugin-solid` plugin after UnoCSS's plugin.
 
-```ts
-// vite.config.js
-import solidPlugin from 'vite-plugin-solid'
+```ts [vite.config.ts]
 import UnoCSS from 'unocss/vite'
+import solidPlugin from 'vite-plugin-solid'
 
 export default {
   plugins: [
@@ -383,11 +371,10 @@ export default {
 
 You need to add the `vite-plugin-elm` plugin before UnoCSS's plugin.
 
-```ts
-// vite.config.js
+```ts [vite.config.ts]
+import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import Elm from 'vite-plugin-elm'
-import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
   plugins: [
@@ -404,11 +391,11 @@ export default defineConfig({
 If `@vitejs/plugin-legacy` with `renderModernChunks: false`, your need add it to `unocss` option
 
 ```ts
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Unocss from 'unocss/vite'
-import { presetUno } from 'unocss'
 import legacy from '@vitejs/plugin-legacy'
+import vue from '@vitejs/plugin-vue'
+import { presetUno } from 'unocss'
+import Unocss from 'unocss/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

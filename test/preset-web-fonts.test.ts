@@ -1,8 +1,8 @@
+import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
-import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import presetWebFonts from '@unocss/preset-web-fonts'
-import { expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { createLocalFontProcessor } from '../packages/preset-web-fonts/src/local'
 
 const options: WebFontsOptions = {
@@ -34,7 +34,7 @@ const classes = new Set([
 ])
 
 it('web-fonts (inline: false)', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -49,7 +49,7 @@ it('web-fonts (inline: false)', async () => {
 })
 
 it('web-fonts (inline: true)', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -64,7 +64,7 @@ it('web-fonts (inline: true)', async () => {
 })
 
 it('web-fonts weight sort', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -90,7 +90,7 @@ it('web-fonts weight sort', async () => {
 })
 
 it('web-fonts weight deduplicate', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -116,7 +116,7 @@ it('web-fonts weight deduplicate', async () => {
 })
 
 it('createLocalFontProcessor', async () => {
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetWebFonts({
@@ -146,4 +146,84 @@ it('createLocalFontProcessor', async () => {
 
   expect(css)
     .toMatchFileSnapshot('./assets/output/preset-web-fonts-local.css')
+})
+
+describe('fontsource provider', async () => {
+  const fontMap = {
+    staticFonts: ['Fira Mono'],
+    variableFonts: ['Dm Sans'],
+  }
+
+  it.each(Object.entries(fontMap))('%s', async (_, fonts) => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: fonts.reduce((acc, font) => {
+            acc[font.toLowerCase().replace(/\s+/g, '-')] = font
+            return acc
+          }, {} as any),
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate(classes)
+
+    expect(css).toMatchSnapshot()
+  })
+
+  it('custom wght', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            fm: 'Fira Mono:400,700',
+            dm: {
+              name: 'Dm Sans',
+              // When use variable font, `weights` will be ignored
+              // So it not produce any `@font-face` for `400` and `800`
+              weights: ['400', '800'],
+              italic: true,
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-fm')
+
+    expect(css).toMatchSnapshot()
+  })
+
+  it('custom variable', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            dm: {
+              name: 'Dm Sans',
+              italic: true,
+              variable: {
+                wght: {
+                  default: '400',
+                  min: '200',
+                  max: '800',
+                  step: '1',
+                },
+              },
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-dm')
+
+    expect(css).toMatchSnapshot()
+  })
 })

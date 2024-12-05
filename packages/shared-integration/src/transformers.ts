@@ -1,7 +1,7 @@
-import type { SourceCodeTransformerEnforce, UnocssPluginContext } from '@unocss/core'
-import MagicString from 'magic-string'
 import type { EncodedSourceMap } from '@ampproject/remapping'
+import type { SourceCodeTransformerEnforce, UnocssPluginContext } from '@unocss/core'
 import remapping from '@ampproject/remapping'
+import MagicString from 'magic-string'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { restoreSkipCode, transformSkipCode } from './utils'
 

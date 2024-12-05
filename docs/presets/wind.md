@@ -28,10 +28,9 @@ This preset inherits [`@unocss/preset-mini`](/presets/mini).
   ```
 :::
 
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import presetWind from '@unocss/preset-wind'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -72,6 +71,73 @@ The Wind preset will instead interpret `center_top_1rem` as a color. Use a `posi
 ```html
 <div class="bg-[position:center_top_1rem]">
 ```
+
+### Animates
+
+Tailwind CSS has fewer built-in animations, we fully support its animation rules, and internally integrate [Animate.css](https://github.com/animate-css/animate.css) to provide more animation effects.
+
+You can use the `animate-` prefix to guide IntelliSense to find the animation you need quickly.
+
+:::tip
+We don't merge conflicting animation names from Tailwind and Animate.css. If you need to use the animation name from Animate.css, please use `animate-<name>-alt`.
+:::
+
+For example
+
+| Tailwind CSS | Animate.css |
+|:--:|:--:|
+| `animate-bounce` | `animate-bounce-alt` |
+| <div w-full flex="~ items-center justify-center"><div class="animate-bounce bg-white dark:bg-slate-800 p-2 w-10 h-10 ring-1 ring-purple-900/5 dark:ring-purple-200/20 shadow-lg rounded-full flex items-center justify-center"><div text-purple size-5 i-carbon-arrow-down></div></div></div> | <div w-full flex="~ items-center justify-center"><div class="animate-bounce-alt bg-white dark:bg-slate-800 p-2 w-10 h-10 ring-1 ring-purple-900/5 dark:ring-purple-200/20 shadow-lg rounded-full flex items-center justify-center"><div text-purple size-5 i-carbon-arrow-down></div></div></div> |
+
+If you want to customize or modify the animation effect, we provide highly customizable configuration items. You can modify the duration, delay, speed curve, etc. of the animation through the configuration item.
+
+```ts [uno.config.ts]
+export default defineConfig({
+  theme: {
+    animation: {
+      keyframes: {
+        custom: '{0%, 100% { transform: scale(0.5); } 50% { transform: scale(1); }}',
+      },
+      durations: {
+        custom: '1s',
+      },
+      timingFns: {
+        custom: 'cubic-bezier(0.4,0,.6,1)',
+      },
+      properties: {
+        custom: { 'transform-origin': 'center' },
+      },
+      counts: {
+        custom: 'infinite',
+      },
+    }
+  }
+})
+```
+
+Preview the custom animation:
+
+<div class="animate-custom bg-white dark:bg-slate-800 p-2 w-fit ring-1 ring-purple-900/5 dark:ring-purple-200/20 shadow-lg rounded-md flex items-center justify-center">animate-custom</div>
+
+:::tip
+You can also add `category` to group animations for better management. This will make it easier for downstream tools to consume animation effects.
+
+```ts [uno.config.ts] {9}
+export default defineConfig({
+  theme: {
+    animation: {
+      keyframes: {
+        custom: '{0%, 100% { transform: scale(0.5); } 50% { transform: scale(1); }}',
+      },
+      // ...
+      category: {
+        custom: 'Zooming',
+      },
+    }
+  }
+})
+```
+:::
 
 ## Differences from Windi CSS
 
@@ -136,10 +202,9 @@ However, setting `important` to `true` can introduce some issues when incorporat
 
 To get around this, you can set important to an ID selector like `#app` instead:
 
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import presetWind from '@unocss/preset-wind'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [

@@ -1,5 +1,4 @@
 import type { VariantContext, VariantObject } from '@unocss/core'
-import { warnOnce } from '@unocss/core'
 import type { Theme } from '../theme'
 import { h, variantGetParameter } from '../utils'
 
@@ -15,17 +14,13 @@ export const variantContainerQuery: VariantObject = {
       const unbracket = h.bracket(match)
       let container: string | undefined
       if (unbracket) {
-        const minWidth = h.numberWithUnit(unbracket)
-        if (minWidth)
-          container = `(min-width: ${minWidth})`
+        container = h.numberWithUnit(unbracket)
       }
       else {
         container = ctx.theme.containers?.[match] ?? ''
       }
 
       if (container) {
-        warnOnce('The container query variant is experimental and may not follow semver.')
-
         let order = 1000 + Object.keys(ctx.theme.containers ?? {}).indexOf(match)
 
         if (label)
@@ -35,7 +30,7 @@ export const variantContainerQuery: VariantObject = {
           matcher: rest,
           handle: (input, next) => next({
             ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}${container}`,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}(min-width: ${container})`,
             parentOrder: order,
           }),
         }

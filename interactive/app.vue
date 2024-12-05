@@ -14,6 +14,7 @@ useHead({
     { lang: 'en-US' },
   ],
   meta: [
+    { name: 'robots', content: 'noindex, nofollow' },
     { property: 'og:type', content: 'website' },
     { name: 'og:title', content: title },
     { name: 'og:description', content: description },

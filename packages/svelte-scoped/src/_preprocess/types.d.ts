@@ -1,7 +1,7 @@
-import type { UnoGenerator, UserConfig } from '@unocss/core'
 import type { LoadConfigResult } from '@unocss/config'
+import type { UnoGenerator, UserConfig } from '@unocss/core'
 
-export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions {
+export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions, TransformDirectivesOptions {
   /**
    * UnoCSS config or path to config file. If not provided, will load unocss.config.ts/js. It's recommended to use the separate config file if you are having trouble with the UnoCSS extension in VSCode.
    */
@@ -35,6 +35,19 @@ export interface TransformApplyOptions {
    * @default ['--at-apply', '@apply']
    */
   applyVariables?: string | string[] | false
+}
+
+export interface TransformDirectivesOptions {
+  /**
+   * Transform the `theme()` directive (recommended for CSS syntax compatibility).
+   *
+   * Disable for TailwindCss compatibility.
+   *
+   * Pass `false` to disable.
+   *
+   * @default true
+   */
+  transformThemeDirective?: boolean
 }
 
 export interface SvelteScopedContext {

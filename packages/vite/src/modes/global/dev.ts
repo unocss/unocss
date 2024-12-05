@@ -1,16 +1,17 @@
-import process from 'node:process'
-import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
+import type { Plugin, Update, ViteDevServer } from 'vite'
+import type { VitePluginConfig } from '../../types'
+import process from 'node:process'
 import { notNull } from '@unocss/core'
 import MagicString from 'magic-string'
-import type { VitePluginConfig } from '../../types'
-import { LAYER_MARK_ALL, getHash, getPath, resolveId, resolveLayer } from '../../integration'
+import { getHash, getPath, LAYER_MARK_ALL, resolveId, resolveLayer } from '../../integration'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig }: UnocssPluginContext): Plugin[] {
+export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
+  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
@@ -25,7 +26,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
     let result: GenerateResult
     let tokensSize = tokens.size
     do {
-      result = await uno.generate(tokens)
+      result = await ctx.uno.generate(tokens)
       // to capture new tokens created during generation
       if (tokensSize === tokens.size)
         break
@@ -124,7 +125,7 @@ export function GlobalModeDevPlugin({ uno, tokens, tasks, flushTasks, affectedMo
       },
       buildStart() {
         // warm up for preflights
-        uno.generate([], { preflights: true })
+        ctx.uno.generate([], { preflights: true })
       },
       transform(code, id) {
         if (filter(code, id))

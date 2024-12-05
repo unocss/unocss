@@ -1,7 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { ViteDevServer } from 'vite'
-import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_PLACEHOLDER, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import type { UnocssSvelteScopedViteOptions } from './types'
+import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_PLACEHOLDER, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import { getReset } from './getReset'
 
 /**

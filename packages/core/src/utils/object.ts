@@ -37,7 +37,7 @@ export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => value != null ? `${key}:${value};` : undefined)
+    .map(([key, value]) => (value != null && typeof value !== 'function') ? `${key}:${value};` : undefined)
     .filter(Boolean)
     .join('')
 }
@@ -76,7 +76,7 @@ export function clone<T>(val: T): T {
   let k: any, out: any, tmp: any
 
   if (Array.isArray(val)) {
-    out = Array(k = val.length)
+    out = Array.from({ length: k = val.length })
     // eslint-disable-next-line no-cond-assign
     while (k--) out[k] = ((tmp = val[k]) && typeof tmp === 'object') ? clone(tmp) : tmp
     return out as any

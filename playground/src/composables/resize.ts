@@ -1,6 +1,6 @@
-import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 import type { MaybeElementRef, MaybeRef } from '@vueuse/core'
 import { clamp, createEventHook, tryOnScopeDispose, unrefElement, useEventListener } from '@vueuse/core'
+import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 
 type Edges = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left' | 'right' | 'top' | 'bottom'
 
@@ -304,7 +304,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     if (
       (((currentY - top) < 0 ? Math.abs(currentY - top) < edgeWidthOutside : (currentY - top) <= edgeWidthInside)
-      && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) <= edgeWidthInside))
+        && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) <= edgeWidthInside))
       && isEdgeActive('top-left')
       && isOnForeground(left, top, true, 1, 1)
     ) {
@@ -313,7 +313,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentY - top) < 0 ? Math.abs(currentY - top) < edgeWidthOutside : (currentY - top) < edgeWidthInside)
-      && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
+        && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
       && isEdgeActive('top-right')
       && isOnForeground(right, top, true, -1, 1)
     ) {
@@ -322,7 +322,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
-      && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) < edgeWidthInside))
+        && ((currentX - left) < 0 ? Math.abs(currentX - left) < edgeWidthOutside : (currentX - left) < edgeWidthInside))
       && isEdgeActive('bottom-left')
       && isOnForeground(left, bottom, true, 1, -1)
     ) {
@@ -331,7 +331,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentY - bottom) > 0 ? Math.abs(currentY - bottom) < edgeWidthOutside : Math.abs(currentY - bottom) < edgeWidthInside)
-      && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
+        && ((currentX - right) > 0 ? Math.abs(currentX - right) < edgeWidthOutside : Math.abs(currentX - right) < edgeWidthInside))
       && isEdgeActive('bottom-right')
       && isOnForeground(right, bottom, true, -1, -1)
     ) {
@@ -340,7 +340,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentY - bottom) > 0 && Math.abs(currentY - bottom) < edgeWidthOutside)
-      || ((currentY - bottom) <= 0 && Math.abs(currentY - bottom) <= edgeWidthInside))
+        || ((currentY - bottom) <= 0 && Math.abs(currentY - bottom) <= edgeWidthInside))
       && currentX > left
       && currentX < right
       && isEdgeActive('bottom')
@@ -351,7 +351,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentY - top) < 0 && Math.abs(currentY - top) < edgeWidthOutside)
-      || ((currentY - top) >= 0 && Math.abs(currentY - top) <= edgeWidthInside))
+        || ((currentY - top) >= 0 && Math.abs(currentY - top) <= edgeWidthInside))
       && currentX > left
       && currentX < right
       && isEdgeActive('top')
@@ -362,7 +362,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentX - left) < 0 && Math.abs(currentX - left) < edgeWidthOutside)
-      || ((currentX - left) >= 0 && Math.abs(currentX - left) <= edgeWidthInside))
+        || ((currentX - left) >= 0 && Math.abs(currentX - left) <= edgeWidthInside))
       && currentY > top
       && currentY < bottom
       && isEdgeActive('left')
@@ -373,7 +373,7 @@ export function useResize(element: MaybeElementRef, options: UseResizeOptions = 
 
     else if (
       (((currentX - right) > 0 && Math.abs(currentX - right) < edgeWidthOutside)
-      || ((currentX - right) <= 0 && Math.abs(currentX - right) <= edgeWidthInside))
+        || ((currentX - right) <= 0 && Math.abs(currentX - right) <= edgeWidthInside))
       && currentY > top
       && currentY < bottom
       && isEdgeActive('right')

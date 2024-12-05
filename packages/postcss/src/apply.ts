@@ -1,9 +1,9 @@
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
-import type { Root } from 'postcss'
-import postcss from 'postcss'
 import type { Rule, Selector, SelectorList } from 'css-tree'
-import { clone, generate, parse } from 'css-tree'
+import type { ChildNode, Root } from 'postcss'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
+import { clone, generate, parse } from 'css-tree'
+import postcss from 'postcss'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] }
 
@@ -21,7 +21,8 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
       const utils = (await Promise.all(
         classNames.map(i => uno.parseToken(i, '-')),
       ))
-        .filter(notNull).flat()
+        .filter(notNull)
+        .flat()
         .sort((a, b) => a[0] - b[0])
         .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
         .reduce((acc, item) => {
@@ -37,7 +38,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
       if (!utils.length)
         return
 
-      const parentAfterNodes: Root[] = []
+      const parentAfterNodes: ChildNode[] = []
 
       for (const i of utils) {
         const [, _selector, body, parent] = i
@@ -65,7 +66,6 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
             })
             newSelector = generate(prelude)
           }
-
           let css = `${newSelector}{${body}}`
           if (parent)
             css = `${parent}{${css}}`
@@ -74,14 +74,14 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
           css_parsed.walkDecls((declaration) => {
             declaration.source = source
           })
-          parentAfterNodes.push(css_parsed)
+          parentAfterNodes.push(...css_parsed.nodes)
         }
         else {
           const css = postcss.parse(body)
           css.walkDecls((declaration) => {
             declaration.source = source
           })
-          rule.parent.append(css)
+          rule.parent.insertAfter(rule, css)
         }
       }
       rule.parent.after(parentAfterNodes)

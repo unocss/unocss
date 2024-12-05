@@ -1,23 +1,24 @@
-import { isAbsolute, resolve } from 'node:path'
-import type { Plugin, ResolvedConfig } from 'vite'
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
+import type { Plugin, ResolvedConfig } from 'vite'
+import type { VitePluginConfig } from '../../types'
+import { isAbsolute, resolve } from 'node:path'
+import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '../../../../core/src/constants'
+import { setupContentExtractor } from '../../../../shared-integration/src/content'
+import { applyTransformers } from '../../../../shared-integration/src/transformers'
 import {
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  RESOLVED_ID_RE,
   getHash,
   getHashPlaceholder,
   getLayerPlaceholder,
   getPath,
+  HASH_PLACEHOLDER_RE,
+  LAYER_MARK_ALL,
+  LAYER_PLACEHOLDER_RE,
   replaceAsync,
+  RESOLVED_ID_RE,
   resolveId,
   resolveLayer,
 } from '../../integration'
-import type { VitePluginConfig } from '../../types'
-import { setupContentExtractor } from '../../../../shared-integration/src/content'
-import { LAYER_IMPORTS } from '../../../../core/src/constants'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -25,7 +26,7 @@ function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
 }
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
-  const { uno, ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
+  const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Set<string>()
   const layerImporterMap = new Map<string, string>()
   let viteConfig: ResolvedConfig
@@ -58,7 +59,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     await flushTasks()
     if (lastResult && lastTokenSize === tokens.size)
       return lastResult
-    lastResult = await uno.generate(tokens, { minify: true })
+    lastResult = await ctx.uno.generate(tokens, { minify: true })
     lastTokenSize = tokens.size
     return lastResult
   }
@@ -223,16 +224,35 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
           return null
         }
-        const result = await generateAll()
-        const mappedVfsLayer = Array.from(vfsLayers).map(layer => layer === LAYER_MARK_ALL ? layer : layer.replace(/^_/, ''))
-        const importStatements = result.getLayer(LAYER_IMPORTS)
-        const cssWithLayers = Array.from(vfsLayers).map(layer => `${importStatements ?? ''}#--unocss-layer-start--${layer}--{start:${layer}} ${layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [...mappedVfsLayer, LAYER_IMPORTS])
-            : (result.getLayer(layer.replace(/^_/, '')) || '')
-          } #--unocss-layer-end--${layer}--{end:${layer}}`).join('')
 
+        const result = await generateAll()
+        const importsLayer = result.getLayer(LAYER_IMPORTS) ?? ''
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
-        const css = await applyCssTransform(cssWithLayers, fakeCssId, options.dir, this)
+        const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
+
+        await Promise.all(preflightLayers.map(i => result.setLayer(i!, async (layerContent) => {
+          const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
+          const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
+          const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
+          return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
+        })))
+
+        const cssWithLayers = await Promise.all(Array.from(vfsLayers).map(async (layer) => {
+          const layerStart = `#--unocss-layer-start--${layer}--{start:${layer}}`
+          const layerEnd = `#--unocss-layer-end--${layer}--{end:${layer}}`
+
+          let layerContent
+          if (layer === LAYER_MARK_ALL) {
+            layerContent = result.getLayers(undefined, [...vfsLayers, LAYER_IMPORTS])
+          }
+          else {
+            layerContent = result.getLayer(layer) || ''
+          }
+
+          return `${importsLayer}${layerStart} ${layerContent} ${layerEnd}`
+        }))
+
+        const css = await applyCssTransform(cssWithLayers.join(''), fakeCssId, options.dir, this)
         const transformHandler = 'handler' in cssPost.transform!
           ? cssPost.transform.handler
           : cssPost.transform!

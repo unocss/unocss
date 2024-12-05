@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import presetTagify from '@unocss/preset-tagify'
+import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 import { autoPrefixer, decodeHtml } from '../src/utils'
 
@@ -38,7 +38,7 @@ const targets = [
 
 describe('runtime auto prefixer', () => {
   it('without autoprefixer', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -49,7 +49,7 @@ describe('runtime auto prefixer', () => {
   })
 
   it('using autoprefixer', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -63,7 +63,7 @@ describe('runtime auto prefixer', () => {
   })
 
   it('runtime tagify', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
         presetTagify(),

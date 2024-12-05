@@ -6,6 +6,7 @@ export const borderSpacingBase = {
   '--un-border-spacing-x': 0,
   '--un-border-spacing-y': 0,
 }
+const custom = { preflightKeys: Object.keys(borderSpacingBase) }
 const borderSpacingProperty = 'var(--un-border-spacing-x) var(--un-border-spacing-y)'
 
 export const tables: Rule<Theme>[] = [
@@ -34,7 +35,7 @@ export const tables: Rule<Theme>[] = [
         'border-spacing': borderSpacingProperty,
       }
     }
-  }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
+  }, { custom, autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
 
   [/^border-spacing-([xy])-(.+)$/, ([, d, s], { theme }) => {
     const v = theme.spacing?.[s] ?? h.bracket.cssvar.global.auto.fraction.rem(s)
@@ -44,7 +45,7 @@ export const tables: Rule<Theme>[] = [
         'border-spacing': borderSpacingProperty,
       }
     }
-  }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
+  }, { custom, autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
 
   ['caption-top', { 'caption-side': 'top' }],
   ['caption-bottom', { 'caption-side': 'bottom' }],

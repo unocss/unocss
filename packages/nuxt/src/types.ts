@@ -1,10 +1,10 @@
 import type { UserConfig } from '@unocss/core'
-import type { PresetUnoOptions } from '@unocss/preset-uno'
 import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { IconsOptions } from '@unocss/preset-icons'
-import type { WebFontsOptions } from '@unocss/preset-web-fonts'
-import type { TypographyOptions } from '@unocss/preset-typography'
 import type { TagifyOptions } from '@unocss/preset-tagify'
+import type { TypographyOptions } from '@unocss/preset-typography'
+import type { PresetUnoOptions } from '@unocss/preset-uno'
+import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import type { PresetWindOptions } from '@unocss/preset-wind'
 import type { VitePluginConfig } from '@unocss/vite'
 

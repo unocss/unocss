@@ -1,42 +1,45 @@
-import type { GenerateResult, UserConfig } from 'unocss'
-import { createGenerator } from 'unocss'
-import { createAutocomplete } from '@unocss/autocomplete'
-import MagicString from 'magic-string'
-import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
-import { evaluateUserConfig } from '@unocss/shared-docs'
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
+import type { GenerateResult, UserConfig } from 'unocss'
+import { createAutocomplete } from '@unocss/autocomplete'
+import { evaluateUserConfig } from '@unocss/shared-docs'
+import MagicString from 'magic-string'
+import { createGenerator } from 'unocss'
+import { unocssBundle } from '../../../packages/shared-docs/src/unocss-bundle'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
 export const customCSSWarn = ref<Error>()
 
-export const uno = createGenerator({}, defaultConfig.value)
+const __uno = createGenerator({}, defaultConfig.value)
 export const output = shallowRef<GenerateResult>()
 export const annotations = shallowRef<HighlightAnnotation[]>()
 
 let customConfig: UserConfig = {}
-let autocomplete = createAutocomplete(uno)
+let autocomplete = (async () => createAutocomplete(await __uno))()
 let initial = true
 
 const { transformedHTML, transformed, getTransformed, transformedCSS } = useTransformer()
 
 export async function generate() {
-  output.value = await uno.generate(transformedHTML.value || '')
+  output.value = await (await __uno).generate(transformedHTML.value || '')
   annotations.value = transformed.value?.annotations || []
   init.value = true
 }
 
-function reGenerate() {
-  uno.setConfig(customConfig, defaultConfig.value)
+async function reGenerate() {
+  const uno = await __uno
+  await uno.setConfig(customConfig, defaultConfig.value)
+  await detectTransformer()
   generate()
-  autocomplete = createAutocomplete(uno)
+  autocomplete = Promise.resolve(createAutocomplete(uno))
 }
 
 export async function getHint(context: CompletionContext): Promise<CompletionResult | null> {
   const cursor = context.pos
-  const result = await autocomplete.suggestInFile(context.state.doc.toString(), cursor)
+  const result = await (await autocomplete).suggestInFile(context.state.doc.toString(), cursor)
 
-  if (!result.suggestions?.length)
+  if (!result?.suggestions?.length)
     return null
 
   const resolved = result.resolveReplacement(result.suggestions[0][0])
@@ -56,10 +59,11 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
 debouncedWatch(
   [customConfigRaw, customCSS],
   async () => {
+    const uno = await __uno
     customConfigError.value = undefined
     customCSSWarn.value = undefined
     try {
-      const result = await evaluateUserConfig(customConfigRaw.value)
+      const result = await evaluateUserConfig(customConfigRaw.value, unocssBundle)
       if (result) {
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({
@@ -69,8 +73,7 @@ debouncedWatch(
 
         result.preflights = preflights
         customConfig = result
-        reGenerate()
-        await detectTransformer()
+        await reGenerate()
 
         if (initial) {
           const { transformers = [] } = uno.config
@@ -100,6 +103,7 @@ function useTransformer() {
   const transformedCSS = computedAsync(async () => (await getTransformed('css')).output)
 
   async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {
+    const uno = await __uno
     let { transformers } = uno.config
     transformers = (transformers ?? []).filter(i => i.enforce === enforce)
 
@@ -134,6 +138,7 @@ function useTransformer() {
 }
 
 async function detectTransformer() {
+  const uno = await __uno
   const { transformers = [] } = uno.config
   if (!transformers.some(t => t.name === '@unocss/transformer-directives')) {
     const msg = 'Using directives requires \'@unocss/transformer-directives\' to be installed.'
@@ -145,7 +150,7 @@ async function detectTransformer() {
   }
 }
 
-export { transformedHTML, transformedCSS }
+export { transformedCSS, transformedHTML }
 
 function cleanOutput(code: string) {
   return code.replace(/\/\*[\s\S]*?\*\//g, '')

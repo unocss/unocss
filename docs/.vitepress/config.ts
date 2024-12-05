@@ -1,6 +1,7 @@
-import { defineConfig } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/types'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { defineConfig } from 'vitepress'
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
@@ -149,6 +150,7 @@ const Nav: DefaultTheme.NavItem[] = [
   },
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
   { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
   {
     text: `v${version}`,
     items: [
@@ -281,6 +283,9 @@ export default defineConfig({
         processHoverInfo: info => info.replace(/_unocss_core\./g, ''),
       }),
     ],
+    config(md) {
+      md.use(groupIconMdPlugin)
+    },
   },
 
   themeConfig: {
@@ -305,6 +310,7 @@ export default defineConfig({
       text: 'Suggest changes to this page',
     },
     socialLinks: [
+      { icon: 'bluesky', link: 'https://bsky.app/profile/unocss.dev' },
       { icon: 'github', link: 'https://github.com/unocss/unocss' },
       { icon: 'discord', link: 'https://chat.antfu.me' },
     ],

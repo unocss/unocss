@@ -1,10 +1,10 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
-import presetRemToPx from '@unocss/preset-rem-to-px'
 import presetMini from '@unocss/preset-mini'
+import presetRemToPx from '@unocss/preset-rem-to-px'
+import { describe, expect, it } from 'vitest'
 
-describe('rem-to-px', () => {
-  const uno = createGenerator({
+describe('rem-to-px', async () => {
+  const uno = await createGenerator({
     presets: [
       presetMini(),
       presetRemToPx(),
@@ -18,10 +18,10 @@ describe('rem-to-px', () => {
     )).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
-        .-p2{padding:-8px;}
         .m4{margin:16px;}
         .mx2{margin-left:8px;margin-right:8px;}
-        .gap2{gap:8px;}"
+        .gap2{gap:8px;}
+        .-p2{padding:-8px;}"
       `)
   })
 
@@ -32,10 +32,10 @@ describe('rem-to-px', () => {
     )).css)
       .toMatchInlineSnapshot(`
         "/* layer: default */
-        .\\!-p2{padding:-8px !important;}
         .\\!m4{margin:16px !important;}
         .\\!mx2{margin-left:8px !important;margin-right:8px !important;}
-        .\\!gap2{gap:8px !important;}"
+        .\\!gap2{gap:8px !important;}
+        .\\!-p2{padding:-8px !important;}"
       `)
   })
 })

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, watch } from 'vue'
 import { useLocalStorage, useMediaQuery } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
+import { computed, watch } from 'vue'
 
 defineProps<{ text?: string, screenMenu?: boolean }>()
 
@@ -117,9 +117,5 @@ const switchTitle = computed(() => {
 .RainbowAnimationSwitcher[aria-checked="false"] :deep(.check) {
   /*rtl:ignore*/
   transform: translateX(18px);
-}
-
-html.browser-firefox .group {
-  display: none !important;
 }
 </style>

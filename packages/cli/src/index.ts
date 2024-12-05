@@ -1,20 +1,20 @@
+import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
+import type { CliOptions, ResolvedCliOptions } from './types'
 import { existsSync, promises as fs } from 'node:fs'
 import process from 'node:process'
-import { basename, dirname, normalize, relative, resolve } from 'pathe'
-import fg from 'fast-glob'
-import { consola } from 'consola'
-import { cyan, dim, green } from 'colorette'
-import { debounce } from 'perfect-debounce'
 import { toArray } from '@unocss/core'
-import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
+import { cyan, dim, green } from 'colorette'
+import { consola } from 'consola'
+import { basename, dirname, normalize, relative, resolve } from 'pathe'
+import { debounce } from 'perfect-debounce'
+import { glob } from 'tinyglobby'
+import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { createContext } from '../../shared-integration/src/context'
 import { applyTransformers } from '../../shared-integration/src/transformers'
 import { version } from '../package.json'
-import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
 import { defaultConfig } from './config'
-import { PrettyError, handleError } from './errors'
+import { handleError, PrettyError } from './errors'
 import { getWatcher } from './watcher'
-import type { CliOptions, ResolvedCliOptions } from './types'
 
 const name = 'unocss'
 
@@ -41,7 +41,7 @@ export async function build(_options: CliOptions) {
   }
 
   const { ctx, configSources } = await loadConfig()
-  const files = await fg(options.patterns, { cwd, absolute: true })
+  const files = await glob(options.patterns, { cwd, absolute: true, expandDirectories: false })
   await Promise.all(
     files.map(async (file) => {
       fileCache.set(file, await fs.readFile(file, 'utf8'))

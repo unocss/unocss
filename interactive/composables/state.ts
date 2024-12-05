@@ -1,21 +1,28 @@
 import type { UserConfig } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
-import { breakpointsTailwind } from '@vueuse/core'
-import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
-import defaultConfigRaw from '../../packages/shared-docs/src/defaultConfig.ts?raw'
+import type { Ref } from 'vue'
 import type { ResultItem } from '~/types'
-import { mdnIndex as docs } from '~/data/mdn-index'
+import { createGenerator } from '@unocss/core'
+import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
+import { breakpointsTailwind } from '@vueuse/core'
 import { guideIndex as guides } from '~/data/guides'
-
+import { mdnIndex as docs } from '~/data/mdn-index'
 import { defaultConfig } from '~/uno.config'
+import defaultConfigRaw from '../../packages/shared-docs/src/default-config.ts?raw'
+import { unocssBundle } from '../../packages/shared-docs/src/unocss-bundle'
 
 export { defaultConfigRaw }
 
 export const isCompact = useLocalStorage('uno-interact-compact', false)
 export const toggleCompact = useToggle(isCompact)
 
-const uno = createGenerator({}, defaultConfig)
-export const searcher = createSearch({ uno, docs, guides })
+export const searcher: Ref<ReturnType<typeof createSearch>> = shallowRef()
+
+const _uno = createGenerator({}, defaultConfig)
+
+_uno.then((uno) => {
+  const search = createSearch({ uno, docs, guides })
+  searcher.value = search
+})
 
 const initParams = new URLSearchParams(location.search)
 
@@ -37,7 +44,7 @@ export const userConfig = ref<UserConfig | undefined>()
 async function load() {
   userConfigLoading.value = true
   try {
-    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigRaw)
+    userConfig.value = await evaluateUserConfig(userConfigRaw.value || defaultConfigRaw, unocssBundle)
   }
   catch (e) {
     console.error(e)
@@ -47,8 +54,8 @@ async function load() {
   }
 }
 
-watch(userConfig, () => {
-  uno.setConfig(userConfig.value || {}, defaultConfig)
+watch(userConfig, async () => {
+  (await _uno).setConfig(userConfig.value || {}, defaultConfig)
 })
 
 load()

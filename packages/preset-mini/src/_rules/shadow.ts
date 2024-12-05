@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, colorableShadows, h, hasParseableColor } from '../utils'
+import { colorableShadows, colorResolver, h, hasParseableColor } from '../utils'
 import { varEmpty } from './static'
 
 export const boxShadowsBase = {
@@ -9,6 +9,7 @@ export const boxShadowsBase = {
   '--un-shadow-inset': varEmpty,
   '--un-shadow': '0 0 rgb(0 0 0 / 0)',
 }
+const preflightKeys = Object.keys(boxShadowsBase)
 
 export const boxShadows: Rule<Theme>[] = [
   // color
@@ -25,7 +26,7 @@ export const boxShadows: Rule<Theme>[] = [
       }
     }
     return colorResolver('--un-shadow-color', 'shadow', 'shadowColor')(match, context)
-  }, { autocomplete: ['shadow-$colors', 'shadow-$boxShadow'] }],
+  }, { custom: { preflightKeys }, autocomplete: ['shadow-$colors', 'shadow-$boxShadow'] }],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset

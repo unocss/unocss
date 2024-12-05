@@ -1,6 +1,8 @@
-import { readFile } from 'node:fs/promises'
 import type { UnoGenerator } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
+import type { IconsOptions } from '@unocss/preset-icons'
+import { readFile } from 'node:fs/promises'
+import { createGenerator, mergeDeep } from '@unocss/core'
+import presetIcons from '@unocss/preset-icons'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
@@ -8,8 +10,8 @@ import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { transformDirectives } from '../packages/transformer-directives/src/transform'
 
-describe('transformer-directives', () => {
-  const uno = createGenerator({
+describe('transformer-directives', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno({
         dark: 'media',
@@ -245,7 +247,7 @@ describe('transformer-directives', () => {
   })
 
   it('dark class', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno({
           dark: 'class',
@@ -341,6 +343,28 @@ describe('transformer-directives', () => {
 
     await expect(result)
       .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
+  })
+
+  it('multiple apply in one class', async () => {
+    const result = await transform(
+      `nav {
+        --at-apply: border font-mono text-lg;
+        
+        .test-a {
+          @apply shadow-lg;@apply rounded-md bg-slate-300 shadow-amber-500;
+        }
+        .test-b {
+          @apply shadow-lg;font-size:20px;@apply rounded-md bg-slate-300 shadow-amber-500;
+        }
+        a {
+          --at-apply: px-2;
+          --uno: "hover:underline";
+        }
+      }`,
+    )
+
+    await expect(result)
+      .toMatchFileSnapshot('./assets/output/transformer-directives-multiple-apply-in-one-class.css')
   })
 
   it('declaration for apply variable', async () => {
@@ -496,15 +520,13 @@ describe('transformer-directives', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
         `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -512,8 +534,7 @@ describe('transformer-directives', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {
@@ -658,8 +679,8 @@ div {
   })
 })
 
-describe('transformer-directives with important', () => {
-  const uno = createGenerator({
+describe('transformer-directives with important', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno({
         dark: 'media',
@@ -675,6 +696,10 @@ describe('transformer-directives with important', () => {
         hsla: 'hsl(210, 50%, 50%, )',
         rgb: 'rgb(255, 0, 0)',
         rgba: 'rgba(255 0 0 / 0.5)',
+        primary: {
+          500: '#222',
+          DEFAULT: '#ccc',
+        },
       },
       breakpoints: {
         xs: '320px',
@@ -1132,15 +1157,13 @@ describe('transformer-directives with important', () => {
         `.btn {
         color: theme("color.none.500");
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
       expect(async () => await transform(
-          `.btn {
+        `.btn {
           font-size: theme("size.lg");
           }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
     })
 
     it('args', async () => {
@@ -1148,8 +1171,7 @@ describe('transformer-directives with important', () => {
         `.btn {
           color: theme();
         }`,
-      )).rejects
-        .toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
+      )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
     })
 
     it('with @apply', async () => {
@@ -1192,6 +1214,26 @@ div {
           color: rgba(255, 0, 0, 50%);
           color: hsl(210 50% 50% / 0.6);
           color: hsl(210 50% 50% / 60%);
+        }
+        "
+      `)
+    })
+
+    it('color with DEFAULT', async () => {
+      const result = await transform(`
+        div {
+          color: theme('colors.primary');
+          color: theme('colors.primary.DEFAULT');
+          color: theme('colors.primary / 50%');
+          color: theme('colors.primary.500');
+        }`)
+
+      expect(result).toMatchInlineSnapshot(`
+        "div {
+          color: #ccc;
+          color: #ccc;
+          color: rgb(204 204 204 / 50%);
+          color: #222;
         }
         "
       `)
@@ -1316,5 +1358,77 @@ div {
         }
         "
       `)
+  })
+})
+
+describe('icon directive', () => {
+  function createUno(iconsOptions?: IconsOptions) {
+    const defaultOptions = {
+      collections: {
+        ph: {
+          check: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentcolor" viewBox="0 0 24 24"><path d="ph:check"/></svg>`,
+        },
+      },
+    }
+
+    return createGenerator({
+      presets: [
+        presetUno(),
+        presetIcons(mergeDeep(defaultOptions, iconsOptions ?? {})),
+      ],
+    })
+  }
+
+  async function transform(code: string, _uno: UnoGenerator) {
+    const s = new MagicString(code)
+    await transformDirectives(s, _uno, {})
+    return prettier.format(s.toString(), {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+  }
+
+  it('icon()', async () => {
+    const uno = await createUno()
+
+    const result = await transform(
+      `.icon {
+          background-image: icon('i-ph-check');
+          background-image: icon('i-ph:check', '#fff') no-repeat;
+          background-image: icon('i-ph:check', 'theme("colors.red.500")');
+          background-image: icon('i-carbon-sun');
+        }`,
+      uno,
+    )
+
+    expect(result).toMatchInlineSnapshot(`
+      ".icon {
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='currentcolor' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E")
+          no-repeat;
+        background-image: url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='%23ef4444' viewBox='0 0 24 24'%3E%3Cpath d='ph:check'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 32 32' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6M5.394 6.813L6.81 5.399l3.505 3.506L8.9 10.319zM2 15.005h5v2H2zm3.394 10.193L8.9 21.692l1.414 1.414l-3.505 3.506zM15 25.005h2v5h-2zm6.687-1.9l1.414-1.414l3.506 3.506l-1.414 1.414zm3.313-8.1h5v2h-5zm-3.313-6.101l3.506-3.506l1.414 1.414l-3.506 3.506zM15 2.005h2v5h-2z'/%3E%3C/svg%3E");
+      }
+      "
+    `)
+  })
+
+  it('icon() without extra properties', async () => {
+    const uno = await createUno({
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
+    })
+
+    const result = await transform(
+      `.icon {
+          background-image: icon('i-ph-check');
+        }`,
+      uno,
+    )
+
+    expect(result).not.toContain(`display='inline-block'`)
+    expect(result).not.toContain(`vertical-align='middle'`)
   })
 })

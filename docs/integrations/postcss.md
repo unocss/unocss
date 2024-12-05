@@ -27,8 +27,7 @@ This package is in an experimental state right now. It doesn't follow semver, an
   ```
 :::
 
-```ts
-// postcss.config.mjs
+```ts [postcss.config.mjs]
 import UnoCSS from '@unocss/postcss'
 
 export default {
@@ -38,8 +37,7 @@ export default {
 }
 ```
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
@@ -54,8 +52,7 @@ export default defineConfig({
 })
 ```
 
-```css
-/* style.css */
+```css [style.css]
 @unocss;
 ```
 
@@ -67,8 +64,7 @@ export default defineConfig({
 
 You can also inject each layer individually:
 
-```css
-/* style.css */
+```css [style.css]
 @unocss preflights;
 @unocss default;
 

@@ -3,7 +3,7 @@ import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('shortcuts-no-merge', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color]) {
         yield {
@@ -29,7 +29,7 @@ it('shortcuts-no-merge', async () => {
       .shortcut{color:red;font-weight:bold;background-color:red;}"
     `)
 
-  const uno2 = createGenerator({
+  const uno2 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -59,7 +59,7 @@ it('shortcuts-no-merge', async () => {
 })
 
 it('variants', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -104,7 +104,7 @@ it('variants', async () => {
 })
 
 it('parent', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -136,7 +136,7 @@ it('parent', async () => {
 })
 
 it('selector', async () => {
-  const uno1 = createGenerator({
+  const uno1 = await createGenerator({
     rules: [
       [/^color-(.*)$/, function * ([, color], ctx) {
         yield {
@@ -154,5 +154,66 @@ it('selector', async () => {
       "/* layer: default */
       .color-red{color:red;}
       .color-red:hover{color:lighten(red, 10%);}"
+    `)
+})
+
+it('layer', async () => {
+  const uno1 = await createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * ([, color], ctx) {
+        yield {
+          color,
+          [ctx.symbols.layer]: color,
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: red */
+      .color-red{color:red;}"
+    `)
+})
+
+it('layer string', async () => {
+  const uno1 = await createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * ([, color], ctx) {
+        yield {
+          color,
+          [ctx.symbols.layer]: 'custom-layer',
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: custom-layer */
+      .color-red{color:red;}"
+    `)
+})
+
+it('sort', async () => {
+  const uno1 = await createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * (_, ctx) {
+        yield {
+          color: 'green',
+          [ctx.symbols.selector]: () => '.a',
+          [ctx.symbols.sort]: 2,
+        }
+        yield {
+          color: 'red',
+          [ctx.symbols.selector]: () => '.b',
+          [ctx.symbols.sort]: 1,
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .b{color:red;}
+      .a{color:green;}"
     `)
 })

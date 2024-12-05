@@ -4,12 +4,12 @@ import { describe, expect, it } from 'vitest'
 
 describe('blocklist', () => {
   it('basic', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
     })
-    const dos = createGenerator({
+    const dos = await createGenerator({
       warn: false,
       blocklist: [
         'block',

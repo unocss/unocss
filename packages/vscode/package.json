@@ -2,7 +2,8 @@
   "publisher": "antfu",
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
-  "version": "0.61.6",
+  "type": "module",
+  "version": "0.65.1",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -14,7 +15,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "preview": true,
   "icon": "res/logo.png",
   "engines": {
@@ -120,6 +121,11 @@
           ],
           "description": "The matching type for autocomplete"
         },
+        "unocss.autocomplete.strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show autocomplete"
+        },
         "unocss.autocomplete.maxItems": {
           "type": "number",
           "default": 1000,
@@ -138,11 +144,11 @@
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "esno": "^4.7.0",
-    "find-up": "^6.3.0",
-    "jiti": "^1.21.6",
-    "prettier": "^2.8.8",
-    "tsup": "^8.2.3",
-    "unconfig": "^0.3.13"
+    "esno": "catalog:",
+    "find-up": "catalog:",
+    "jiti": "catalog:",
+    "prettier": "catalog:",
+    "tsup": "catalog:",
+    "unconfig": "catalog:"
   }
 }

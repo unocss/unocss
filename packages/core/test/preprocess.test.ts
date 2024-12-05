@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
 import presetIcons from '@unocss/preset-icons'
+import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 
 describe('preprocess', () => {
@@ -24,7 +24,7 @@ describe('preprocess', () => {
       'i-carbon-moon',
     ]
 
-    const uno = createGenerator({
+    const uno = await createGenerator({
       preprocess: m => m.startsWith('uno:') ? m.substr(4) : '',
       presets: [
         presetUno(),
@@ -59,7 +59,7 @@ describe('preprocess', () => {
     ]
 
     const prefixRE = /uno[:-]/
-    const uno = createGenerator({
+    const uno = await createGenerator({
       preprocess: m => prefixRE.test(m) ? m.replace(prefixRE, '') : '',
       presets: [
         presetUno(),

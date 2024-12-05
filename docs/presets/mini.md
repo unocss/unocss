@@ -24,10 +24,9 @@ The basic preset for UnoCSS, with only the most essential utilities.
   ```
 :::
 
-```ts
-// uno.config.ts
-import { defineConfig } from 'unocss'
+```ts [uno.config.ts]
 import presetMini from '@unocss/preset-mini'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -116,16 +115,18 @@ will generate:
 ### Theme
 You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
 
-<!--eslint-skip-->
+:::warning
+`breakpoints` property isn't deeply merged, but overridden, see [Breakpoints](/config/theme#breakpoints).
+:::
 
 ```ts
 presetMini({
   theme: {
     // ...
     colors: {
-      'veryCool': '#0000ff', // class="text-very-cool"
-      'brand': {
-        'primary': 'hsl(var(--hue, 217) 78% 51%)', //class="bg-brand-primary"
+      veryCool: '#0000ff', // class="text-very-cool"
+      brand: {
+        primary: 'hsl(var(--hue, 217) 78% 51%)', // class="bg-brand-primary"
       }
     },
   }
@@ -177,7 +178,11 @@ Prefix for CSS custom properties.
 Utils prefix.
 
 ### preflight
-- **Type:** `boolean`
+- **Type:** `boolean` | `on-demand`
 - **Default:** `true`
 
-Generate preflight.
+Generate preflight css. It can be:
+
+- `true`: always generate preflight.
+- `false`: no preflight.
+- `on-demand`: only generate preflight for used utilities.

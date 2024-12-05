@@ -1,13 +1,13 @@
-import process from 'node:process'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
-import { type UnoGenerator, type UserConfig, type UserConfigDefaults, createGenerator, warnOnce } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
-import { createRecoveryConfigLoader } from '@unocss/config'
-import { transformClasses } from './transformClasses'
-import { checkForApply, transformStyle } from './transformStyle'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
-import { themeRE } from './transformTheme'
+import process from 'node:process'
+import { createRecoveryConfigLoader } from '@unocss/config'
+import { createGenerator, type UnoGenerator, type UserConfig, type UserConfigDefaults, warnOnce } from '@unocss/core'
+import presetUno from '@unocss/preset-uno'
+import { transformClasses } from './transformClasses'
 import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
+import { checkForApply, transformStyle } from './transformStyle'
+import { themeRE } from './transformTheme'
 
 export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
@@ -46,7 +46,9 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       }
 
       const { hasApply, applyVariables } = checkForApply(content, options.applyVariables)
-      const hasThemeFn = !!content.match(themeRE)
+      const hasThemeFn = options.transformThemeDirective === false
+        ? false
+        : !!content.match(themeRE)
 
       const changeNeeded = addPreflights || addSafelist || hasApply || hasThemeFn
       if (!changeNeeded)
@@ -68,7 +70,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
           filename,
           prepend: preflightsSafelistCss,
           applyVariables,
-          hasThemeFn,
+          transformThemeFn: hasThemeFn,
         })
       }
 

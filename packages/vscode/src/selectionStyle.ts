@@ -1,13 +1,13 @@
-import { MarkdownString, Position, Range, window } from 'vscode'
+import type { ExtensionContext, TextEditorSelectionChangeEvent } from 'vscode'
+import type { ContextLoader } from './contextLoader'
+import { regexScopePlaceholder, TwoKeyMap } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
-import type { ExtensionContext, TextEditorSelectionChangeEvent } from 'vscode'
-import { TwoKeyMap, regexScopePlaceholder } from '@unocss/core'
+import { MarkdownString, Position, Range, window } from 'vscode'
+import { useConfigurations } from './configuration'
+import { getMatchedPositionsFromCode } from './integration'
 import { log } from './log'
 import { addRemToPxComment, throttle } from './utils'
-import type { ContextLoader } from './contextLoader'
-import { getMatchedPositionsFromCode } from './integration'
-import { useConfigurations } from './configuration'
 
 export async function registerSelectionStyle(contextLoader: ContextLoader, ext: ExtensionContext) {
   const { configuration } = useConfigurations(ext)

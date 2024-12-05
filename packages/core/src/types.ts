@@ -1,5 +1,5 @@
-import type { LoadConfigResult } from 'unconfig'
 import type MagicString from 'magic-string'
+import type { LoadConfigResult } from 'unconfig'
 import type { UnoGenerator } from './generator'
 import type { BetterMap, CountableSet } from './utils'
 
@@ -77,6 +77,8 @@ declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
+declare const SymbolLayer: unique symbol
+declare const SymbolSort: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -95,6 +97,14 @@ export interface ControlSymbols {
    * Selector modifier
    */
   selector: typeof SymbolSelector
+  /**
+   * Layer modifier
+   */
+  layer: typeof SymbolLayer
+  /**
+   * Sort modifier
+   */
+  sort: typeof SymbolSort
 }
 
 export interface ControlSymbolsValue {
@@ -102,6 +112,8 @@ export interface ControlSymbolsValue {
   [SymbolVariants]: VariantHandler[]
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
+  [SymbolLayer]: string
+  [SymbolSort]: number
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
@@ -131,7 +143,7 @@ export interface ExtractorContext {
   envMode?: 'dev' | 'build'
 }
 
-export interface PreflightContext<Theme extends object = object> {
+interface BaseContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
@@ -142,7 +154,9 @@ export interface PreflightContext<Theme extends object = object> {
   theme: Theme
 }
 
-export interface SafeListContext<Theme extends object = object> extends PreflightContext<Theme> { }
+export interface PreflightContext<Theme extends object = object> extends BaseContext<Theme> { }
+
+export interface SafeListContext<Theme extends object = object> extends BaseContext<Theme> { }
 
 export interface Extractor {
   name: string
@@ -196,6 +210,11 @@ export interface RuleMeta {
    * @private
    */
   __hash?: string
+
+  /**
+   * Custom metadata
+   */
+  custom?: Record<string, any>
 }
 
 export type CSSValue = CSSObject | CSSEntries
@@ -206,19 +225,19 @@ export type DynamicMatcher<Theme extends object = object> =
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
   ) =>
-  | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
-  | Generator<CSSValueInput | string | undefined>
-  | AsyncGenerator<CSSValueInput | string | undefined>
+    | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
+    | Generator<CSSValueInput | string | undefined>
+    | AsyncGenerator<CSSValueInput | string | undefined>
 
-export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>] | [RegExp, DynamicMatcher<Theme>, RuleMeta]
-export type StaticRule = [string, CSSObject | CSSEntries] | [string, CSSObject | CSSEntries, RuleMeta]
+export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>, RuleMeta?]
+export type StaticRule = [string, CSSObject | CSSEntries, RuleMeta?]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcutMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
 
-export type StaticShortcut = [string, string | ShortcutValue[]] | [string, string | ShortcutValue[], RuleMeta]
+export type StaticShortcut = [string, string | ShortcutValue[], RuleMeta?]
 export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
-export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>] | [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta]
+export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta?]
 export type UserShortcuts<Theme extends object = object> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends object = object> = StaticShortcut | DynamicShortcut<Theme>
 export type ShortcutValue = string | CSSValue
@@ -314,7 +333,7 @@ export interface VariantHandler {
   layer?: string | undefined
 }
 
-export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | undefined>
+export type VariantFunction<Theme extends object = object> = (matcher: string, context: Readonly<VariantContext<Theme>>) => Awaitable<string | VariantHandler | VariantHandler[] | undefined>
 
 export interface VariantObject<Theme extends object = object> {
   /**
@@ -455,7 +474,7 @@ export interface ConfigBase<Theme extends object = object> {
   /**
    * Presets
    */
-  presets?: (PresetOrFactory<Theme> | PresetOrFactory<Theme>[])[]
+  presets?: (PresetOrFactoryAwaitable<Theme> | PresetOrFactoryAwaitable<Theme>[])[]
 
   /**
    * Additional options for auto complete
@@ -495,6 +514,17 @@ export interface ConfigBase<Theme extends object = object> {
    * @default `true` when `envMode` is `dev`, otherwise `false`
    */
   details?: boolean
+
+  /**
+   * Options for sources to be extracted as utilities usages.
+   *
+   */
+  content?: ContentOptions
+
+  /**
+   * Custom transformers to the source code.
+   */
+  transformers?: SourceCodeTransformer[]
 }
 
 export interface OutputCssLayersOptions {
@@ -580,11 +610,19 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Apply layer to all utilities and shortcuts
    */
   layer?: string
+  /**
+   * Custom API endpoint for cross-preset communication
+   */
+  api?: any
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
 
+export type PresetFactoryAwaitable<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Awaitable<Preset<Theme>>
+
 export type PresetOrFactory<Theme extends object = object> = Preset<Theme> | PresetFactory<Theme, any>
+
+export type PresetOrFactoryAwaitable<Theme extends object = object> = PresetOrFactory<Theme> | Promise<Preset<Theme>> | PresetFactoryAwaitable<Theme>
 
 export interface GeneratorOptions {
   /**
@@ -817,7 +855,7 @@ export interface UserConfigDefaults<Theme extends object = object> extends Confi
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
   RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
-  'rules' | 'shortcuts' | 'autocomplete'
+  'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]
   shortcuts: Shortcut<Theme>[]
@@ -825,8 +863,9 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   preprocess: Preprocessor[]
   postprocess: Postprocessor[]
   rulesSize: number
-  rulesDynamic: [number, ...DynamicRule<Theme>][]
-  rulesStaticMap: Record<string, [number, CSSObject | CSSEntries, RuleMeta | undefined, Rule<Theme>] | undefined>
+  rules: readonly Rule<Theme>[]
+  rulesDynamic: readonly DynamicRule<Theme>[]
+  rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
@@ -840,10 +879,11 @@ export interface GenerateResult<T = Set<string>> {
   layers: string[]
   getLayer: (name?: string) => string | undefined
   getLayers: (includes?: string[], excludes?: string[]) => string
+  setLayer: (layer: string, callback: (content: string) => Promise<string>) => Promise<string>
   matched: T
 }
 
-export type VariantMatchedResult<Theme extends object = object> = readonly [
+export type VariantMatchedResult<Theme extends object = object> = [
   raw: string,
   current: string,
   variantHandlers: VariantHandler[],

@@ -1,18 +1,18 @@
-import type { Postprocessor, Preflight, PreflightContext, PresetOptions } from '@unocss/core'
+import type { Postprocessor, PresetOptions } from '@unocss/core'
+import type { Theme, ThemeAnimation } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
 import { preflights } from './preflights'
 import { rules } from './rules'
-import type { Theme, ThemeAnimation } from './theme'
+import { shorthands } from './shorthands'
 import { theme } from './theme'
 import { variants } from './variants'
-import { shorthands } from './shorthands'
 
 export { preflights } from './preflights'
-export { theme, colors } from './theme'
+export { colors, theme } from './theme'
 export { parseColor } from './utils'
 
-export type { ThemeAnimation, Theme }
+export type { Theme, ThemeAnimation }
 
 export interface DarkModeSelectors {
   /**
@@ -60,7 +60,7 @@ export interface PresetMiniOptions extends PresetOptions {
    *
    * @default true
    */
-  preflight?: boolean
+  preflight?: boolean | 'on-demand'
 
   /**
    * Enable arbitrary variants, for example `<div class="[&>*]:m-1 [&[open]]:p-2"></div>`.
@@ -90,12 +90,10 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
     options,
     prefix: options.prefix,
     postprocess: VarPrefixPostprocessor(options.variablePrefix),
-    preflights: options.preflight
-      ? normalizePreflights(preflights, options.variablePrefix)
-      : [],
+    preflights: preflights(options),
     extractorDefault: options.arbitraryVariants === false
       ? undefined
-      : extractorArbitraryVariants,
+      : extractorArbitraryVariants(),
     autocomplete: {
       shorthands,
     },
@@ -114,19 +112,4 @@ export function VarPrefixPostprocessor(prefix: string): Postprocessor | undefine
       })
     }
   }
-}
-
-export function normalizePreflights<Theme extends object>(preflights: Preflight<Theme>[], variablePrefix: string) {
-  if (variablePrefix !== 'un-') {
-    return preflights.map(p => ({
-      ...p,
-      getCSS: (() => async (ctx: PreflightContext<Theme>) => {
-        const css = await p.getCSS(ctx)
-        if (css)
-          return css.replace(/--un-/g, `--${variablePrefix}`)
-      })(),
-    }))
-  }
-
-  return preflights
 }

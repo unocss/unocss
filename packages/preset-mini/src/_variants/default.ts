@@ -1,20 +1,21 @@
 import type { Variant } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
+import { variantAria, variantTaggedAriaAttributes } from './aria'
 import { variantBreakpoints } from './breakpoints'
+import { variantChildren } from './children'
 import { variantCombinators } from './combinators'
+import { variantContainerQuery } from './container'
 import { variantColorsMediaOrClass } from './dark'
+import { variantDataAttribute, variantTaggedDataAttributes } from './data'
 import { variantLanguageDirections } from './directions'
-import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantTheme, variantVariables } from './misc'
-import { variantNegative } from './negative'
 import { variantImportant } from './important'
 import { variantCustomMedia, variantPrint } from './media'
+import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantTheme, variantVariables } from './misc'
+import { variantNegative } from './negative'
+import { variantPartClasses, variantPseudoClassesAndElements, variantPseudoClassFunctions, variantTaggedPseudoClasses } from './pseudo'
+import { variantStartingStyle } from './startingstyle'
 import { variantSupports } from './supports'
-import { variantPartClasses, variantPseudoClassFunctions, variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
-import { variantAria, variantTaggedAriaAttributes } from './aria'
-import { variantDataAttribute, variantTaggedDataAttributes } from './data'
-import { variantContainerQuery } from './container'
-import { variantChildren } from './children'
 
 export function variants(options: PresetMiniOptions): Variant<Theme>[] {
   return [
@@ -25,6 +26,7 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
     variantSelector,
     variantInternalLayer,
     variantNegative,
+    variantStartingStyle,
     variantImportant(),
     variantSupports,
     variantPrint,
@@ -32,7 +34,7 @@ export function variants(options: PresetMiniOptions): Variant<Theme>[] {
     variantBreakpoints(),
     ...variantCombinators,
 
-    variantPseudoClassesAndElements(),
+    ...variantPseudoClassesAndElements(),
     variantPseudoClassFunctions(),
     ...variantTaggedPseudoClasses(options),
 

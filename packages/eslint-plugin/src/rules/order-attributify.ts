@@ -1,6 +1,6 @@
+import type { TSESTree } from '@typescript-eslint/types'
 import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
-import type { TSESTree } from '@typescript-eslint/types'
 import MagicString from 'magic-string'
 import { createRule, syncAction } from './_'
 
@@ -13,7 +13,6 @@ export default createRule({
     fixable: 'code',
     docs: {
       description: 'Order of UnoCSS attributes',
-      recommended: 'recommended',
     },
     messages: {
       'invalid-order': 'UnoCSS attributes are not ordered',

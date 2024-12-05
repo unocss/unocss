@@ -1,16 +1,16 @@
 import { basename, parse } from 'node:path'
+import { objectMap } from '@antfu/utils'
 import fs from 'fs-extra'
-import fg from 'fast-glob'
 import YAML from 'js-yaml'
 import { genArrayFromRaw, genObjectFromRaw } from 'knitwork'
-import { objectMap } from '@antfu/utils'
+import { globSync } from 'tinyglobby'
 
 const { writeFileSync } = fs
 
 await fs.ensureDir('guides/vendor/')
 
 const code = genArrayFromRaw(
-  fg.sync('guides/**/*.{md,vue}')
+  globSync(['guides/**/*.{md,vue}'], { expandDirectories: false })
     .map((file) => {
       const ext = parse(file).ext
       const yml = `${file.slice(0, -ext.length)}.yml`

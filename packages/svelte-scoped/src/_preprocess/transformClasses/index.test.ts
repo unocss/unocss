@@ -1,16 +1,16 @@
 import { createGenerator } from '@unocss/core'
-import { format as prettier } from 'prettier'
-import { describe, expect, it } from 'vitest'
+import presetIcons from '@unocss/preset-icons'
+import presetUno from '@unocss/preset-uno'
 
+import { format as prettier } from 'prettier'
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
-import presetUno from '@unocss/preset-uno'
-import presetIcons from '@unocss/preset-icons'
+import { describe, expect, it } from 'vitest'
 import { transformClasses } from '.'
 
-describe('transform', () => {
+describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'
-  const uno = createGenerator({
+  const uno = await createGenerator({
     presets: [
       presetUno(),
       presetIcons({

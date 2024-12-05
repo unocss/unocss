@@ -1,20 +1,20 @@
 // ESM-entry, lazy loaded the actual the plugin entry.
 
+import type { UnoGenerator } from '@unocss/core'
+import type { Result, Root } from 'postcss'
+import type { UnoPostcssPluginOptions } from './types'
 import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
 import process from 'node:process'
-import type { UnoGenerator } from '@unocss/core'
-import fg from 'fast-glob'
-import type { Result, Root } from 'postcss'
-import postcss from 'postcss'
-import { createGenerator } from '@unocss/core'
 import { createRecoveryConfigLoader } from '@unocss/config'
+import { createGenerator } from '@unocss/core'
 import { hasThemeFn } from '@unocss/rule-utils'
+import postcss from 'postcss'
+import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '../../shared-integration/src/defaults'
 import { parseApply } from './apply'
-import { parseTheme } from './theme'
 import { parseScreen } from './screen'
-import type { UnoPostcssPluginOptions } from './types'
+import { parseTheme } from './theme'
 
 export function createPlugin(options: UnoPostcssPluginOptions) {
   const {
@@ -88,12 +88,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     try {
       const cfg = await config
       if (!uno) {
-        uno = createGenerator(cfg.config)
+        uno = await createGenerator(cfg.config)
       }
       else if (cfg.sources.length) {
         const config_mtime = (await stat(cfg.sources[0])).mtimeMs
         if (config_mtime > last_config_mtime) {
-          uno = createGenerator((await loadConfig()).config)
+          uno = await createGenerator((await loadConfig()).config)
           last_config_mtime = config_mtime
         }
       }
@@ -105,12 +105,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
     const plainContent = uno.config.content?.inline ?? []
 
-    const entries = await fg(isScanTarget ? globs : from, {
+    const entries = await glob(isScanTarget ? globs : [from], {
       cwd,
       absolute: true,
       ignore: ['**/node_modules/**'],
-      stats: true,
-    }) as unknown as { path: string, mtimeMs: number }[]
+      expandDirectories: false,
+    })
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)
@@ -135,7 +135,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
 
     for (let i = 0; i < entries.length; i += BATCH_SIZE) {
       const batch = entries.slice(i, i + BATCH_SIZE)
-      promises.push(...batch.map(async ({ path: file, mtimeMs }) => {
+      promises.push(...batch.map(async (file) => {
         result.messages.push({
           type: 'dependency',
           plugin: directiveMap.unocss,
@@ -143,11 +143,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
           parent: from,
         })
 
+        const { mtimeMs } = await stat(file)
+
         if (fileMap.has(file) && mtimeMs <= fileMap.get(file))
           return
 
-        else
-          fileMap.set(file, mtimeMs)
+        fileMap.set(file, mtimeMs)
 
         const content = await readFile(file, 'utf8')
         const { matched } = await uno.generate(content, {

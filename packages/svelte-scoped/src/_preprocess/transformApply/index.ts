@@ -1,10 +1,10 @@
 import type { UnoGenerator } from '@unocss/core'
-import type MagicString from 'magic-string'
 import type { CssNode, Rule } from 'css-tree'
+import type MagicString from 'magic-string'
 import { parse, walk } from 'css-tree'
+import { getUtils } from './getUtils'
 import { removeOuterQuotes } from './removeOuterQuotes'
 import { writeUtilStyles } from './writeUtilStyles'
-import { getUtils } from './getUtils'
 
 interface TransformApplyContext {
   s: MagicString

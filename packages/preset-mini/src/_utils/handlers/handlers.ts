@@ -8,6 +8,8 @@ const cssProps = [
   'color',
   'border-color',
   'background-color',
+  'outline-color',
+  'text-decoration-color',
   'flex-grow',
   'flex',
   'flex-shrink',

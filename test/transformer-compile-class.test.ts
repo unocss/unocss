@@ -1,10 +1,10 @@
-import { describe, expect, it, vi } from 'vitest'
 import type { UnoGenerator } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
-import MagicString from 'magic-string'
 import type { CompileClassOptions } from '@unocss/transformer-compile-class'
-import transformerCompileClass from '@unocss/transformer-compile-class'
+import { createGenerator } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import transformerCompileClass from '@unocss/transformer-compile-class'
+import MagicString from 'magic-string'
+import { describe, expect, it, vi } from 'vitest'
 
 const CUSTOM_TRIGGER = /(["'`]):custom-?(?<name>[^\s\\1]+)?:\s([^\\1]*?)\1/g
 
@@ -20,7 +20,8 @@ describe('transformer-compile-class', () => {
     })
   }
 
-  async function transform(code: string, uno: UnoGenerator = createUno(), invalidate = () => 0) {
+  async function transform(code: string, uno?: UnoGenerator, invalidate = () => 0) {
+    uno ||= await createUno()
     const s = new MagicString(code)
     invalidate = invalidate || vi.fn()
 
@@ -76,7 +77,7 @@ describe('transformer-compile-class', () => {
   it('custom class name trigger (without class name)', async () => {
     const result = await transform(
       '<div class=":custom: bg-red-500 text-xl">'.trim(),
-      createUno({ trigger: CUSTOM_TRIGGER }),
+      await createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
     expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-trmz0g">"`)
@@ -90,7 +91,7 @@ describe('transformer-compile-class', () => {
   it('custom class name trigger (with basic class name)', async () => {
     const result = await transform(
       '<div class=":custom-foo: bg-red-500 text-xl">'.trim(),
-      createUno({
+      await createUno({
         trigger: CUSTOM_TRIGGER,
         classPrefix: 'something-',
       }),
@@ -107,7 +108,7 @@ describe('transformer-compile-class', () => {
   it('custom class name trigger (with complex class name)', async () => {
     const result = await transform(
       '<div class=":custom-foo_bar-baz: bg-red-500 text-xl">'.trim(),
-      createUno({ trigger: CUSTOM_TRIGGER }),
+      await createUno({ trigger: CUSTOM_TRIGGER }),
     )
 
     expect(result.code.trim()).toMatchInlineSnapshot(`"<div class="uno-foo_bar-baz">"`)
@@ -124,8 +125,7 @@ describe('transformer-compile-class', () => {
       <div class=":uno-foo: w-1"/>
       <div class=":uno-foo: w-2"/>
     `.trim())
-    }).rejects
-      .toMatchInlineSnapshot(`[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1". Please choose different class name or set 'alwaysHash' to 'true'.]`)
+    }).rejects.toMatchInlineSnapshot(`[Error: Duplicated compile class name "uno-foo". One is "w-2" and the other is "w-1". Please choose different class name or set 'alwaysHash' to 'true'.]`)
   })
 
   it('custom class name should not conflict when the content is the same', async () => {
@@ -161,7 +161,7 @@ describe('transformer-compile-class', () => {
 
   it('css should be updated exact times when compiled class changes', async () => {
     const invalidateFn = vi.fn()
-    const uno = createUno()
+    const uno = await createUno()
 
     await transform(`
     <div class=":uno: w-1 h-1"/>

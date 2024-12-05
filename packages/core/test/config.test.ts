@@ -1,6 +1,6 @@
 import type { Preset, UserConfig } from '@unocss/core'
-import { createGenerator, mergeConfigs } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import { createGenerator, mergeConfigs, noop } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
 
@@ -14,7 +14,7 @@ describe('config', () => {
     })
   }
   it('theme', async () => {
-    const uno = createUno({
+    const uno = await createUno({
       theme: {
         colors: {
           red: {
@@ -32,7 +32,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return extend', async () => {
-    const uno = createUno({
+    const uno = await createUno({
       extendTheme(mergedTheme) {
         return {
           ...mergedTheme,
@@ -48,7 +48,7 @@ describe('config', () => {
   })
 
   it('extendTheme with return', async () => {
-    const unocss = createGenerator<Theme>({
+    const unocss = await createGenerator<Theme>({
       extendTheme: () => {
         return {
           colors: {
@@ -70,7 +70,7 @@ describe('config', () => {
   })
 
   it('extendTheme with mutation', async () => {
-    const unocss = createGenerator<Theme>({
+    const unocss = await createGenerator<Theme>({
       extendTheme: (theme) => {
         // @ts-expect-error test
         theme.colors.red[100] = 'green'
@@ -114,7 +114,7 @@ describe('config', () => {
       ],
     }
 
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetB,
       ],
@@ -138,7 +138,7 @@ describe('config', () => {
     const presetB: Preset = { name: 'presetB' }
     const presetC: Preset = { name: 'presetC', presets: [presetA] }
 
-    const unoA = createGenerator({
+    const unoA = await createGenerator({
       presets: [
         presetA,
         presetB,
@@ -148,7 +148,7 @@ describe('config', () => {
 
     expect(unoA.config.presets.map(i => i.name)).toEqual(['presetA', 'presetB'])
 
-    const unoB = createGenerator({
+    const unoB = await createGenerator({
       presets: [
         presetA,
         presetB,
@@ -194,6 +194,7 @@ describe('mergeConfigs', () => {
         }
       `)
   })
+
   it('theme', () => {
     expect(mergeConfigs([
       {
@@ -238,5 +239,118 @@ describe('mergeConfigs', () => {
           },
         }
       `)
+  })
+
+  it('content.pipeline', () => {
+    expect(mergeConfigs([
+      {
+        content: {
+          pipeline: { include: 'string' },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: /regex/ },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: ['array1'] },
+        },
+      },
+      {
+        content: {
+          pipeline: { include: ['array2'] },
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "content": {
+            "pipeline": {
+              "exclude": [],
+              "include": [
+                "string",
+                /regex/,
+                "array1",
+                "array2",
+              ],
+            },
+          },
+        }
+      `)
+
+    expect(mergeConfigs([
+      {
+        content: {
+          pipeline: { include: 'string' },
+        },
+      },
+      {
+        content: {
+          pipeline: { exclude: /regex/ },
+        },
+      },
+      {
+        content: {
+          pipeline: false,
+        },
+      },
+    ]))
+      .toMatchInlineSnapshot(`
+        {
+          "content": {
+            "pipeline": false,
+          },
+        }
+      `)
+  })
+
+  it('content', async () => {
+    const uno = await createGenerator({
+      presets: [{
+        name: 'test',
+        content: {
+          filesystem: ['foo/bar.css'],
+          inline: ['bg-blue-1'],
+        },
+      }],
+      content: {
+        filesystem: ['foo.js'],
+      },
+    })
+
+    expect(uno.config.content).toMatchObject({
+      filesystem: ['foo/bar.css', 'foo.js'],
+      inline: ['bg-blue-1'],
+    })
+  })
+
+  it('merge transformers', async () => {
+    const uno = await createGenerator({
+      presets: [
+        {
+          name: 'preset-foo',
+          transformers: [
+            {
+              name: 'transformer-foo',
+              transform: noop,
+            },
+            {
+              name: 'transformer-bar',
+              transform: noop,
+            },
+          ],
+        },
+      ],
+      transformers: [
+        {
+          name: 'transformer-bar',
+          transform: noop,
+        },
+      ],
+    })
+
+    expect(uno.config.transformers?.map(i => i.name)).toEqual(['transformer-foo', 'transformer-bar'])
   })
 })

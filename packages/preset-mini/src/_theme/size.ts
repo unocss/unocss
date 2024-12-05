@@ -39,4 +39,4 @@ export const maxHeight = {
   screen: '100vh',
 } satisfies Theme['maxHeight']
 
-export const containers = Object.fromEntries(Object.entries(baseSize).map(([k, v]) => [k, `(min-width: ${v})`])) satisfies Theme['containers']
+export const containers = { ...baseSize } satisfies Theme['containers']

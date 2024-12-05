@@ -10,7 +10,7 @@ const { item } = defineProps<{
 }>()
 
 const docs = computed(() => getDocs(item))
-const alias = computed(() => searcher.getAliasOf(item))
+const alias = computed(() => searcher.value?.getAliasOf(item) || [])
 const variantSteps = computed(() => {
   const steps: {
     variant?: Variant
@@ -30,7 +30,7 @@ const variantSteps = computed(() => {
       steps.push({
         variant: v,
         name: v?.name,
-        result: h.matcher,
+        result: h.matcher!,
       })
     })
   }
@@ -48,7 +48,7 @@ const guides = computed(() => {
   return items
 })
 
-const sameRules = computed(() => searcher.getSameRules(item))
+const sameRules = computed(() => searcher.value.getSameRules(item))
 
 function getRegex101Link(regex: RegExp, text: string) {
   return `https://regex101.com/?regex=${encodeURIComponent(regex.source)}&flag=${encodeURIComponent(regex.flags)}&testString=${encodeURIComponent(text)}`
@@ -72,7 +72,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Shortcuts
         </div>
-        <div border="~ base">
+        <div border="~ main">
           <template v-for="r, idx of item.context.shortcuts" :key="idx">
             <div v-if="idx" divider />
             <div row gap2 px4 py2 items-center font-mono op80>
@@ -85,7 +85,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Variants
         </div>
-        <div border="~ base" of-auto grid="~ cols-[max-content_1fr]">
+        <div border="~ main" of-auto grid="~ cols-[max-content_1fr]">
           <template v-for="s, idx of variantSteps" :key="idx">
             <div v-if="idx" divider />
             <div v-if="idx" divider />
@@ -97,7 +97,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
               >
                 <PresetLabel
                   op50 hover:op100
-                  :preset="searcher.getPresetOfVariant(s.variant)"
+                  :preset="searcher?.getPresetOfVariant(s.variant)"
                   fallback="(inline)"
                 />
                 <span op30>></span>
@@ -114,7 +114,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Rules
         </div>
-        <div border="~ base" of-auto>
+        <div border="~ main" of-auto>
           <template v-for="r, idx of item.context.rules" :key="idx">
             <div v-if="idx" divider />
             <div row flex-wrap gap2 px4 py2 items-center>
@@ -142,7 +142,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Layers
         </div>
-        <div row border="~ base" relative of-hidden font-mono>
+        <div row border="~ main" relative of-hidden font-mono>
           <div v-for="l of item.layers" :key="l" op50 px4 py2>
             {{ l }}
           </div>
@@ -152,7 +152,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           CSS
         </div>
-        <div border="~ base" p4 relative of-hidden>
+        <div border="~ main" p4 relative of-hidden>
           <pre of-auto w-full v-html="highlightCSS(item.css)" />
         </div>
       </div>
@@ -166,7 +166,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
             flex="wrap" gap-2
             text-lg items-center
           >
-            <img border="~ base" max-w-40 max-h-40 min-w-15 :src="c" p2>
+            <img border="~ main" max-w-40 max-h-40 min-w-15 :src="c" p2>
           </div>
         </div>
       </div>
@@ -177,12 +177,20 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div>
           <div
             v-for="c of item.colors" :key="c" row
-            w-20 h-10 border="~ base" flex="~ gap-2"
-            text-lg items-center justify-center
-            :style="{ background: c }"
+            border="~ main" flex="~ inline" text-lg w-max
           >
-            <span text-white>A</span>
-            <span text-black>A</span>
+            <div flex items-center justify-center h-10 w-10 :style="{ background: c }">
+              <span text-white>A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 :style="{ background: c }">
+              <span text-black>A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 bg-white>
+              <span :style="{ color: c }">A</span>
+            </div>
+            <div flex items-center justify-center h-10 w-10 bg-black>
+              <span :style="{ color: c }">A</span>
+            </div>
           </div>
         </div>
       </div>
@@ -190,10 +198,10 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Guides
         </div>
-        <div border="~ base">
+        <div border="~ main">
           <template v-for="g, idx of guides" :key="g.title">
             <div v-if="idx" divider />
-            <RouterLink :to="{ query: { s: searcher.getItemId(g) } }">
+            <RouterLink :to="{ query: { s: searcher?.getItemId(g) || '' } }">
               <ResultItem :item="g" />
             </RouterLink>
           </template>
@@ -203,7 +211,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           MDN Docs
         </div>
-        <div border="~ base">
+        <div border="~ main">
           <template v-for="doc, idx of docs" :key="doc.url">
             <div v-if="idx" divider />
             <a :href="doc.url" target="_blank">
@@ -222,7 +230,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Alias
         </div>
-        <div border="~ base">
+        <div border="~ main">
           <template v-for="a, idx of alias" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">
@@ -235,7 +243,7 @@ function getGitHubCodeSearchLink(key: RegExp | string, repo = 'unocss/unocss') {
         <div op30 mb1>
           Same Rule
         </div>
-        <div border="~ base">
+        <div border="~ main">
           <template v-for="a, idx of sameRules" :key="a.class">
             <div v-if="idx" divider />
             <RouterLink :to="{ query: { s: a.class } }">

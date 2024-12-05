@@ -1,10 +1,10 @@
 import { createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
 import presetUno from '@unocss/preset-uno'
+import { describe, expect, it } from 'vitest'
 
 describe('prefix', () => {
   it('preset prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno({ prefix: 'h-' }),
       ],
@@ -47,7 +47,7 @@ describe('prefix', () => {
   })
 
   it('uses first truthy prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno({
           prefix: ['', 'h-'],
@@ -59,7 +59,7 @@ describe('prefix', () => {
   })
 
   it('generate tagged attributify', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno({
           prefix: 'h-',
@@ -72,7 +72,7 @@ describe('prefix', () => {
   })
 
   it('multiple preset prefix', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno({ prefix: ['h-', 'x-'] }),
       ],

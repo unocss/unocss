@@ -28,7 +28,7 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   // Convert the information in [] in advance to prevent incorrect separation
   const skipMap = new Map<string, string>()
   const skipFlag = '@unocss-skip-arbitrary-brackets'
-  code = transformSkipCode(code, skipMap, /-\[[^\]]*\]/g, skipFlag)
+  code = transformSkipCode(code, skipMap, /-\[(?!&.+?;)[^\]]*\]/g, skipFlag)
 
   if (!code)
     return result
@@ -45,12 +45,12 @@ export function splitCodeWithArbitraryVariants(code: string): string[] {
   return result
 }
 
-export const extractorArbitraryVariants: Extractor = {
-  name: '@unocss/extractor-arbitrary-variants',
-  order: 0,
-  extract({ code }) {
-    return splitCodeWithArbitraryVariants(removeSourceMap(code))
-  },
+export function extractorArbitraryVariants(): Extractor {
+  return {
+    name: '@unocss/extractor-arbitrary-variants',
+    order: 0,
+    extract({ code }) {
+      return splitCodeWithArbitraryVariants(removeSourceMap(code))
+    },
+  }
 }
-
-export default extractorArbitraryVariants

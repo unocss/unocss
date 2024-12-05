@@ -25,7 +25,7 @@
 [bg-gradient~="from-yellow-400"]{--un-gradient-from-position:0%;--un-gradient-from:rgb(250 204 21 / var(--un-from-opacity, 1)) var(--un-gradient-from-position);--un-gradient-to-position:100%;--un-gradient-to:rgb(250 204 21 / 0) var(--un-gradient-to-position);--un-gradient-stops:var(--un-gradient-from), var(--un-gradient-to);}
 [bg-gradient~="via-red-500"]{--un-gradient-via-position:50%;--un-gradient-to:rgb(239 68 68 / 0);--un-gradient-stops:var(--un-gradient-from), rgb(239 68 68 / var(--un-via-opacity, 1)) var(--un-gradient-via-position), var(--un-gradient-to);}
 [bg-gradient~="to-pink-500"]{--un-gradient-to-position:100%;--un-gradient-to:rgb(236 72 153 / var(--un-to-opacity, 1)) var(--un-gradient-to-position);}
-[bg-gradient~="to-r"]{--un-gradient-shape:to right;--un-gradient:var(--un-gradient-shape), var(--un-gradient-stops);background-image:linear-gradient(var(--un-gradient));}
+[bg-gradient~="to-r"]{--un-gradient-shape:to right in oklch;--un-gradient:var(--un-gradient-shape), var(--un-gradient-stops);background-image:linear-gradient(var(--un-gradient));}
 [p-10=""]{padding:2.5rem;}
 [px-4=""]{padding-left:1rem;padding-right:1rem;}
 [pt-4=""]{padding-top:1rem;}
@@ -50,8 +50,8 @@
 [op-20=""]{opacity:0.2;}
 [group=""]:hover [group-hover~="op-50"]{opacity:0.5;}
 [backdrop-element~="filter"]::backdrop{filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}
-[all\:transition-400=""] *{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
-[transition~="\32 00"]{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
+[all\:transition-400=""] *{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:400ms;}
+[transition~="\32 00"]{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:200ms;}
 [before-content~="\[quoted\:\!\]"]::before{content:"!";}
 [after~="content-\[string\:\!\]"]::after{content:!;}
 @media (max-width: 767.9px){

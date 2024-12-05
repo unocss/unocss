@@ -1,10 +1,10 @@
 import { createAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
 import presetMini from '@unocss/preset-mini'
+import { describe, expect, it } from 'vitest'
 
-describe('autocomplete-fuzzy', () => {
-  const uno = createGenerator({
+describe('autocomplete-fuzzy', async () => {
+  const uno = await createGenerator({
     presets: [
       presetMini(),
     ],

@@ -1,11 +1,11 @@
+import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
+import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
-import { createAutocomplete, parseAutocomplete } from '@unocss/autocomplete'
-import presetAttributify from '@unocss/preset-attributify'
 
-describe('autocomplete', () => {
-  const uno = createGenerator({
+describe('autocomplete', async () => {
+  const uno = await createGenerator({
     presets: [
       presetAttributify(),
       presetUno(),
@@ -48,7 +48,8 @@ describe('autocomplete', () => {
       .toMatchInlineSnapshot(`"m-1"`)
 
     expect((await ac.suggest('invalid'))[0])
-      .not.toBe('invalid')
+      .not
+      .toBe('invalid')
   })
 
   it('should provide autocomplete', async () => {
@@ -112,7 +113,7 @@ describe('autocomplete', () => {
   })
 
   it('should not suggest blocked rules', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -207,8 +208,8 @@ describe('autocomplete', () => {
   })
 })
 
-describe('autocomplete with attributify prefix', () => {
-  const uno = createGenerator({
+describe('autocomplete with attributify prefix', async () => {
+  const uno = await createGenerator({
     presets: [
       presetAttributify({
         prefix: 'u-',
@@ -240,7 +241,8 @@ describe('autocomplete with attributify prefix', () => {
       .toMatchInlineSnapshot(`"m-1"`)
 
     expect((await ac.suggest('invalid'))[0])
-      .not.toBe('invalid')
+      .not
+      .toBe('invalid')
   })
 
   it('should provide autocomplete', async () => {
@@ -304,7 +306,7 @@ describe('autocomplete with attributify prefix', () => {
   })
 
   it('should not suggest blocked rules', async () => {
-    const uno = createGenerator({
+    const uno = await createGenerator({
       presets: [
         presetUno(),
       ],
@@ -349,8 +351,8 @@ describe('autocomplete with attributify prefix', () => {
   })
 })
 
-describe('use uno cache', () => {
-  const uno = createGenerator({
+describe('use uno cache', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno(),
     ],

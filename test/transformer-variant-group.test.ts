@@ -1,8 +1,8 @@
 import { readFile } from 'node:fs/promises'
-import { describe, expect, it } from 'vitest'
-import { type UnocssPluginContext, expandVariantGroup } from '@unocss/core'
-import MagicString from 'magic-string'
+import { expandVariantGroup, type UnocssPluginContext } from '@unocss/core'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
+import MagicString from 'magic-string'
+import { describe, expect, it } from 'vitest'
 
 const transformer = transformerVariantGroup()
 
@@ -96,6 +96,20 @@ describe('transformer-variant-group', () => {
                 console.log('ok')
               },
             }
+          ",
+      }
+    `)
+  })
+
+  it('ignore regex', async () => {
+    const result = await transform(`
+      word.replace(/-(\w)/g)
+    `)
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "annotations": [],
+        "transformed": "
+            word.replace(/-(w)/g)
           ",
       }
     `)

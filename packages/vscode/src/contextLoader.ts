@@ -1,19 +1,19 @@
+import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { readdir } from 'fs/promises'
 import path from 'path'
-import { exists } from 'fs-extra'
-import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import { notNull } from '@unocss/core'
-import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import presetUno from '@unocss/preset-uno'
-import type { ExtensionContext, StatusBarItem } from 'vscode'
-import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
+import { exists } from 'fs-extra'
+import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createNanoEvents } from '../../core/src/utils/events'
-import { createContext, isCssId } from './integration'
-import { isSubdir } from './utils'
-import { log } from './log'
+import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
+import { createContext, isCssId } from './integration'
+import { log } from './log'
 import { registerSelectionStyle } from './selectionStyle'
+import { isSubdir } from './utils'
 
 const frameworkConfigRE = /^(?:vite|svelte|astro|iles|nuxt|unocss|uno)\.config/
 const unoConfigRE = /\buno(?:css)?\.config\./
@@ -47,7 +47,7 @@ export class ContextLoader {
   }
 
   isTarget(id: string) {
-    return !this.contextsMap.get(this.cwd) || isSubdir(this.cwd, id)
+    return Array.from(this.contextsMap.keys()).some(cwd => isSubdir(cwd, id))
   }
 
   get contexts() {
@@ -205,8 +205,10 @@ export class ContextLoader {
 
       this.events.emit('contextLoaded', context)
 
+      const uno = await context.uno
+
       log.appendLine(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
-      log.appendLine(`ℹ️ ${context.uno.config.presets.length} presets, ${context.uno.config.rulesSize} rules, ${context.uno.config.shortcuts.length} shortcuts, ${context.uno.config.variants.length} variants, ${context.uno.config.transformers?.length || 0} transformers loaded`)
+      log.appendLine(`ℹ️ ${uno.config.presets.length} presets, ${uno.config.rulesSize} rules, ${uno.config.shortcuts.length} shortcuts, ${uno.config.variants.length} variants, ${uno.config.transformers?.length || 0} transformers loaded`)
 
       if (!sources.some(i => unoConfigRE.test(i))) {
         log.appendLine('💡 To have the best IDE experience, it\'s recommended to move UnoCSS configurations into a standalone `uno.config.ts` file at the root of your project.')

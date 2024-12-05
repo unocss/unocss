@@ -1,10 +1,10 @@
-import MagicString from 'magic-string'
+import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { createGenerator } from '@unocss/core'
+import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
-import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx-babel/src'
+import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 
 const originalCode = `
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>
@@ -63,8 +63,8 @@ const tagCouldBeAttrCode = `
 </div>
 `.trim()
 
-describe('transformerAttributifyJsx', () => {
-  const uno = createGenerator({
+describe('transformerAttributifyJsx', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno(),
       presetAttributify(),
@@ -286,8 +286,8 @@ describe('transformerAttributifyJsx', () => {
   })
 })
 
-describe('transformerAttributifyJsxBabel', () => {
-  const uno = createGenerator({
+describe('transformerAttributifyJsxBabel', async () => {
+  const uno = await createGenerator({
     presets: [
       presetUno(),
       presetAttributify(),

@@ -11,9 +11,9 @@ npm i -D @unocss/transformer-variant-group
 ```
 
 ```ts
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 // uno.config.ts
 import { defineConfig } from 'unocss'
-import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 export default defineConfig({
   // ...

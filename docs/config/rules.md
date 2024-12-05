@@ -65,6 +65,27 @@ the corresponding CSS will be generated:
 
 Congratulations! Now you've got your own powerful atomic CSS utilities. Enjoy!
 
+## CSS Rules Fallback
+
+In cases you might want to leverage CSS rules fallback to use new CSS features while also able to fallback to support old browsers, you can optionally return a 2D-array as the CSS representation for rules with the same keys. For example:
+
+```ts
+rules: [
+  [/^h-(\d+)dvh$/, ([_, d]) => {
+    return [
+      ['height', `${d}vh`],
+      ['height', `${d}dvh`],
+    ]
+  }],
+]
+```
+
+Which will make `h-100dvh` generates:
+
+```css
+.h-100dvh { height: 100vh; height: 100dvh; }
+```
+
 ## Ordering
 
 UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
@@ -119,8 +140,10 @@ Will generate:
 
 - `symbols.parent`: The parent wrapper of the generated CSS rule (eg. `@supports`, `@media`, etc.)
 - `symbols.selector`: A function to modify the selector of the generated CSS rule (see the example below)
+- `symbols.layer`: A string/function/regex match that sets the UnoCSS layer of the generated CSS rule
 - `symbols.variants`: An array of variant handler that are applied to the current CSS object
 - `symbols.shortcutsNoMerge`: A boolean to disable the merging of the current rule in shortcuts
+- `symbols.sort`: A number to overwrite sorting order of the current CSS object
 
 ## Multi-selector rules
 
@@ -164,8 +187,7 @@ When you really need some advanced rules that aren't covered by the combination 
 
 It allows you to return a string from the dynamic rule's body function which will be **directly** passed to the generated CSS (this also means you need to take care of things like CSS escaping, variant applying, CSS constructing, and so on).
 
-```ts
-// uno.config.ts
+```ts [uno.config.ts]
 import { defineConfig, toEscapedSelector as e } from 'unocss'
 
 export default defineConfig({
