@@ -56,9 +56,9 @@ export interface IconsOptions {
   warn?: boolean
 
   /**
-   * Safe `@iconify-json` collections to use (will be also auto installed when missing and `autoInstall` enabled).
+   * `@iconify-json` collections to use (will be also auto installed when missing and `autoInstall` enabled).
    *
-   * This options should be used only when there are new `@iconify-json` collections not listed in the default icons preset collection names.
+   * This option should be used only when there are new `@iconify-json` collections not listed in the default icons preset collection names.
    *
    * Adding external collections will not work, you should use `FileSystemIconLoader` from
    * `@iconify/utils/lib/loader/fs` or `createExternalPackageIconLoader` from
