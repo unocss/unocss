@@ -56,6 +56,11 @@ export interface IconsOptions {
   warn?: boolean
 
   /**
+   * Safe collections to use (will be also auto installed when missing and `autoInstall` enabled).
+   */
+  safeCollectionsNames?: string[]
+
+  /**
    * In Node.js environment, the preset will search for the installed iconify dataset automatically.
    * When using in the browser, this options is provided to provide dataset with custom loading mechanism.
    */
