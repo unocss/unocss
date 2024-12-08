@@ -56,7 +56,16 @@ export interface IconsOptions {
   warn?: boolean
 
   /**
-   * Safe collections to use (will be also auto installed when missing and `autoInstall` enabled).
+   * Safe `@iconify-json` collections to use (will be also auto installed when missing and `autoInstall` enabled).
+   *
+   * This should be used only when default there are new collections not listed in the default icons preset collections.
+   *
+   * Adding external collections will not work, you should use `FileSystemIconLoader` from
+   * `@iconify/utils/lib/loader/fs` or `createExternalPackageIconLoader` from
+   * `@iconify/utils/lib/loader/external-pkg` instead.
+   *
+   * @see https://unocss.dev/presets/icons#filesystemiconloader
+   * @see https://unocss.dev/presets/icons#externalpackageiconloader
    */
   safeCollectionsNames?: string[]
 
