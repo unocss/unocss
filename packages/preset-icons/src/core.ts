@@ -32,7 +32,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       mode = 'auto',
       prefix = 'i-',
       warn = false,
-      safeCollectionsNames,
+      iconifyCollectionsNames,
       collections: customCollections,
       extraProperties = {},
       customizations = {},
@@ -92,7 +92,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             body,
             iconLoader,
             { ...loaderOptions, usedProps },
-            safeCollectionsNames,
+            iconifyCollectionsNames,
           )
 
           if (!parsed) {

@@ -67,7 +67,7 @@ export interface IconsOptions {
    * @see https://unocss.dev/presets/icons#filesystemiconloader
    * @see https://unocss.dev/presets/icons#externalpackageiconloader
    */
-  safeCollectionsNames?: string[]
+  iconifyCollectionsNames?: string[]
 
   /**
    * In Node.js environment, the preset will search for the installed iconify dataset automatically.
