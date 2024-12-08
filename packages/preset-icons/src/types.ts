@@ -56,6 +56,20 @@ export interface IconsOptions {
   warn?: boolean
 
   /**
+   * `@iconify-json` collections to use (will be also auto installed when missing and `autoInstall` enabled).
+   *
+   * This option should be used only when there are new `@iconify-json` collections not listed in the default icons preset collection names.
+   *
+   * Adding external collections will not work, you should use `FileSystemIconLoader` from
+   * `@iconify/utils/lib/loader/fs` or `createExternalPackageIconLoader` from
+   * `@iconify/utils/lib/loader/external-pkg` instead.
+   *
+   * @see https://unocss.dev/presets/icons#filesystemiconloader
+   * @see https://unocss.dev/presets/icons#externalpackageiconloader
+   */
+  iconifyCollectionsNames?: string[]
+
+  /**
    * In Node.js environment, the preset will search for the installed iconify dataset automatically.
    * When using in the browser, this options is provided to provide dataset with custom loading mechanism.
    */
