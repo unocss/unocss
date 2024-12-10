@@ -38,6 +38,7 @@ export default defineConfig({
     presetLegacyCompat({
       // options
       commaStyleColorFunction: true,
+      legacyColorSpace: true
     }),
   ],
 })
@@ -57,3 +58,12 @@ For examples:
 - `rgb(255 0 0)` -> `rgb(255, 0, 0)`
 - `rgb(255 0 0 / 50%)` -> `rgba(255, 0, 0, 50%)`
 - `hsl(0 100% 50% / 50%)` -> `hsla(0, 100%, 50%, 50%)`
+
+### `legacyColorSpace`
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Removes color space keywords such as `in oklch` and `in oklab` from the generated styles. This is useful for ensuring compatibility with legacy browsers that do not support these modern color spaces.
+
+To enable this feature, set the `legacyColorSpace` option to `true`.

@@ -3,8 +3,8 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
-import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 import transformerAttributifyJsxBabel from '../packages/transformer-attributify-jsx-babel/src'
+import transformerAttributifyJsx from '../packages/transformer-attributify-jsx/src'
 
 const originalCode = `
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>

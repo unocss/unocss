@@ -14,9 +14,6 @@ import { PassPreprocessToSveltePlugin } from './passPreprocessToSveltePlugin'
 export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
   const context = createSvelteScopedContext(options.configOrPath)
 
-  if (context.uno.config.transformers?.length)
-    throw new Error('Due to the differences in normal UnoCSS global usage and Svelte Scoped usage, "config.transformers" will be ignored. You can still use transformers in CSS files with the "cssFileTransformers" option.')
-
   if (!options.classPrefix)
     options.classPrefix = 'uno-'
 
@@ -45,6 +42,8 @@ function createSvelteScopedContext(configOrPath?: UserConfig | string): SvelteSc
   const _uno = createGenerator()
     .then((r) => {
       uno = r
+      if (uno.config.transformers?.length)
+        throw new Error('Due to the differences in normal UnoCSS global usage and Svelte Scoped usage, "config.transformers" will be ignored. You can still use transformers in CSS files with the "cssFileTransformers" option.')
       return r
     })
   const loadConfig = createRecoveryConfigLoader()

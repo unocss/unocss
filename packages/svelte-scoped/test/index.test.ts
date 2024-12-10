@@ -5,10 +5,10 @@ import presetUno from '@unocss/preset-uno'
 
 import fs from 'fs-extra'
 import { format as prettier } from 'prettier'
-import { preprocess } from 'svelte/compiler'
-import { describe, expect, it } from 'vitest'
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
+import { preprocess } from 'svelte/compiler'
+import { describe, expect, it } from 'vitest'
 import { GLOBAL_STYLES_PLACEHOLDER } from '../src/_vite/constants'
 import { replaceGlobalStylesPlaceholder } from '../src/_vite/global'
 import UnocssSveltePreprocess from '../src/preprocess'

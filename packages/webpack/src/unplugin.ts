@@ -157,7 +157,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       lastTokenSize = tokens.size
       Array.from(plugin.__vfsModules)
         .forEach((id) => {
-          let path = decodeURIComponent(id.slice(plugin.__virtualModulePrefix.length))
+          let path = decodeURIComponent(id.startsWith(plugin.__virtualModulePrefix) ? id.slice(plugin.__virtualModulePrefix.length) : id)
           // unplugin changes the id in the `load` hook, follow it
           // https://github.com/unjs/unplugin/pull/145/files#diff-2b106437404a793ee5b8f3823344656ce880f698d3d8cb6a7cf785e36fb4bf5cR27
           path = normalizeAbsolutePath(path)

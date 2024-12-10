@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { ResultItem } from '~/types'
+
 import { onBeforeRouteUpdate } from 'vue-router'
 
 // @ts-expect-error missing types
 import { RecycleScroller } from 'vue-virtual-scroller'
-
 import { input, isSearching, searchResult, selectIndex, userConfigLoading } from '~/composables/state'
-import type { ResultItem } from '~/types'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 const route = useRoute()

@@ -1,5 +1,5 @@
-import { qwikVite } from '@builder.io/qwik/optimizer'
 import { qwikCity } from '@builder.io/qwik-city/vite'
+import { qwikVite } from '@builder.io/qwik/optimizer'
 import { presetAttributify, presetIcons, presetUno } from 'unocss'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'

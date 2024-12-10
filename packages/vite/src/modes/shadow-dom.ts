@@ -2,7 +2,7 @@ import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { CSS_PLACEHOLDER } from '../integration'
 
-export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin {
+export function ShadowDomModuleModePlugin(ctx: UnocssPluginContext): Plugin {
   const partExtractorRegex = /^part-\[(.+)\]:/
   // eslint-disable-next-line regexp/no-super-linear-backtracking
   const nameRegexp = /<([^\s^!>]+)\s*([^>]*)>/
@@ -50,7 +50,8 @@ export function ShadowDomModuleModePlugin({ uno }: UnocssPluginContext): Plugin 
     if (!code.match(CSS_PLACEHOLDER))
       return code
 
-    let { css, matched } = await uno.generate(code, {
+    await ctx.ready
+    let { css, matched } = await ctx.uno.generate(code, {
       preflights: true,
       safelist: true,
     })

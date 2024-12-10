@@ -1,6 +1,6 @@
 export {
   defaultSplitRE,
-  extractorSplit,
   extractorSplit as extractorDefault,
+  extractorSplit,
   splitWithVariantGroupRE,
 } from './split'
