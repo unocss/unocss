@@ -52,7 +52,8 @@
   },
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "postcss": "^8.4.21"

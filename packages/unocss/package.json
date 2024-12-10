@@ -111,7 +111,8 @@
   },
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "@unocss/webpack": "workspace:*",
