@@ -18,6 +18,9 @@ catalogs:
     '@antfu/utils':
       specifier: ^0.7.10
       version: 0.7.10
+    '@arethetypeswrong/cli':
+      specifier: 0.17.1
+      version: 0.17.1
     '@babel/core':
       specifier: ^7.26.0
       version: 7.26.0
@@ -447,7 +450,7 @@ importers:
         specifier: 'catalog:'
         version: 0.23.1
       '@arethetypeswrong/cli':
-        specifier: 0.17.1
+        specifier: 'catalog:'
         version: 0.17.1(patch_hash=47djpt4ggp3hvscmr4v6hmcsxm)
       '@codemirror/lang-css':
         specifier: 'catalog:'

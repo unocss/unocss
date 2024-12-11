@@ -25,12 +25,12 @@
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
-    "test:attw": "pnpm --filter=./packages/* --filter=!cli --filter=!core --filter=!reset --filter=!shared-* test:attw"
+    "test:attw": "pnpm --filter=./packages/* --filter=!cli --filter=!reset --filter=!shared-* test:attw"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
     "@antfu/ni": "catalog:",
-    "@arethetypeswrong/cli": "0.17.1",
+    "@arethetypeswrong/cli": "catalog:",
     "@codemirror/lang-css": "catalog:",
     "@codemirror/lang-html": "catalog:",
     "@codemirror/lang-javascript": "catalog:",
