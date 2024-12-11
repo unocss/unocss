@@ -210,7 +210,10 @@ export function shouldProvideAutocomplete(code: string, id: string, offset: numb
     ? [...code.matchAll(styleTagsRe)]
         .map(v => [v.index, v.index + v[0].length])
         .some(([start, end]) => offset > start && offset < end)
-    : false
+    : true
+
+  if (isInStyleTag)
+    return true
 
   const codeStripStrings = code
     .slice(offset)
@@ -218,5 +221,5 @@ export function shouldProvideAutocomplete(code: string, id: string, offset: numb
 
   const isInStartTag = /^[^<>]*>/.test(codeStripStrings)
 
-  return isInStartTag || isInStyleTag
+  return isInStartTag
 }
