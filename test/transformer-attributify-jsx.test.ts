@@ -150,6 +150,38 @@ describe('transformerAttributifyJsx', async () => {
     `)
   })
 
+  it('transform test3', async () => {
+    const code = new MagicString(`
+     return <li
+    onPointerUp={() => {
+      if (Math.abs(swipeAmount) >= SWIPE_TRESHOLD) {
+      }
+      toastRef?.style.setProperty("--swipe-amount", "0px");
+    }}
+    onPointerMove={(event) => {
+        toastRef?.style.setProperty("--swipe-amount", \`\${yPosition}px\`);
+    }}
+  />}
+      `)
+
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "
+           return <li
+          onPointerUp={() => {
+            if (Math.abs(swipeAmount) >= SWIPE_TRESHOLD) {
+            }
+            toastRef?.style.setProperty("--swipe-amount", "0px");
+          }}
+          onPointerMove={(event) => {
+              toastRef?.style.setProperty("--swipe-amount", \`\${yPosition}px\`);
+          }}
+        />}
+            "
+    `)
+  })
+
   it('blocklist', async () => {
     const code = new MagicString(originalCode)
     const blocklist: (string | RegExp)[] = ['flex', 'absolute']
