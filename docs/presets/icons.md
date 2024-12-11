@@ -442,6 +442,13 @@ Extra CSS properties applied to the generated CSS.
 
 Emit warning when missing icons are matched.
 
+### iconifyCollectionsNames
+
+- Type: `string[]`
+- Default: `undefined`
+
+Additional `@iconify-json` collections to use. This option should be used when there are new `@iconify-json` collections not listed in the default icons preset collection names.
+
 ### collections
 
 - Type: `Record<string, (() => Awaitable<IconifyJSON>) | undefined | CustomIconLoader | InlineCollection>`

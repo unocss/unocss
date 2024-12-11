@@ -17,6 +17,7 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
     collections: customCollections,
     customizations = {},
     autoInstall = false,
+    iconifyCollectionsNames,
     collectionsNodeResolvePath,
     unit,
   } = presetIcons.options as IconsOptions
@@ -51,7 +52,12 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
   for (const p of toArray(prefix)) {
     if (icon.startsWith(p)) {
       icon = icon.slice(p.length)
-      const parsed = await api.parseIconWithLoader(icon, loader, loaderOptions)
+      const parsed = await api.parseIconWithLoader(
+        icon,
+        loader,
+        loaderOptions,
+        iconifyCollectionsNames,
+      )
       if (parsed)
         return `url("data:image/svg+xml;utf8,${color ? api.encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : api.encodeSvgForCss(parsed.svg)}")`
     }
