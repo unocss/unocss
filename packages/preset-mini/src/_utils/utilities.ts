@@ -128,26 +128,21 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
 
   let no = 'DEFAULT'
   if (!color) {
-    let colorData
+    let keys = colors
+    let _no
     const [scale] = colors.slice(-1)
+
     if (/^\d+$/.test(scale)) {
-      no = scale
-      colorData = getThemeColor(theme, colors.slice(0, -1), key)
-      if (!colorData || typeof colorData === 'string')
-        color = undefined
-      else
-        color = colorData[no] as string
+      no = _no = scale
+      keys = colors.slice(0, -1)
     }
-    else {
-      colorData = getThemeColor(theme, colors, key)
-      if (!colorData && colors.length <= 2) {
-        [, no = no] = colors
-        colorData = getThemeColor(theme, [name], key)
-      }
-      if (typeof colorData === 'string')
-        color = colorData
-      else if (no && colorData)
-        color = colorData[no] as string
+
+    const colorData = getThemeColor(theme, keys, key)
+    if (typeof colorData === 'object') {
+      color = colorData[_no ?? no] as string
+    }
+    else if (typeof colorData === 'string' && !_no) {
+      color = colorData
     }
   }
 
