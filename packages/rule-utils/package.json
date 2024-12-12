@@ -35,7 +35,7 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub",
-    "test:attw": "attw --pack"
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/core": "workspace:^",

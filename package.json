@@ -25,7 +25,7 @@
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
-    "test:attw": "pnpm --filter=./packages/* --filter=!cli --filter=!reset --filter=!shared-* test:attw"
+    "test:attw": "pnpm --filter=./packages/* --filter=!cli --filter=!reset --filter=!shared-* --filter=!vscode test:attw"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",

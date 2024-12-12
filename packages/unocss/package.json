@@ -112,7 +112,7 @@
   "scripts": {
     "build": "unbuild",
     "stub": "unbuild --stub",
-    "test:attw": "attw --pack"
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
     "@unocss/webpack": "workspace:*",
