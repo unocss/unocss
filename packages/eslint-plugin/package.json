@@ -37,7 +37,8 @@
   "scripts": {
     "build": "unbuild",
     "typecheck": "tsc --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src"
+    "lint": "nr build && cd ./fixtures && eslint ./src",
+    "test:attw": "attw --pack"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:",

@@ -50,7 +50,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
