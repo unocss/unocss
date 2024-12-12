@@ -140,14 +140,12 @@ export function parseColor(body: string, theme: Theme, key?: ThemeColorKeys): Pa
     }
     else {
       colorData = getThemeColor(theme, colors, key)
-      if (!colorData && colors.length <= 2) {
-        [, no = no] = colors
-        colorData = getThemeColor(theme, [name], key)
+      if (colorData) {
+        if (typeof colorData === 'string')
+          color = colorData
+        else
+          color = colorData[no] as string
       }
-      if (typeof colorData === 'string')
-        color = colorData
-      else if (no && colorData)
-        color = colorData[no] as string
     }
   }
 
