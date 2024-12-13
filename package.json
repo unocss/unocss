@@ -24,11 +24,13 @@
     "test": "vitest",
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
-    "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration"
+    "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
+    "test:attw": "pnpm --filter=./packages/* --filter=!cli --filter=!reset --filter=!shared-* --filter=!vscode test:attw"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
     "@antfu/ni": "catalog:",
+    "@arethetypeswrong/cli": "catalog:",
     "@codemirror/lang-css": "catalog:",
     "@codemirror/lang-html": "catalog:",
     "@codemirror/lang-javascript": "catalog:",
@@ -141,6 +143,9 @@
       "object.assign": "npm:@nolyfill/object.assign@^1.0.28",
       "side-channel": "npm:@nolyfill/side-channel@^1.0.29",
       "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.29"
+    },
+    "patchedDependencies": {
+      "@arethetypeswrong/cli@0.17.1": "patches/@arethetypeswrong__cli@0.17.1.patch"
     }
   },
   "resolutions": {

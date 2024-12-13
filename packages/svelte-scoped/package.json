@@ -53,7 +53,8 @@
     "build": "unbuild",
     "stub": "unbuild --stub",
     "bench": "vitest bench",
-    "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test"
+    "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/config": "workspace:*",

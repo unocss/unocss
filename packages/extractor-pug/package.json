@@ -35,7 +35,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
     "pug": "^3.0.0"

@@ -52,7 +52,8 @@
   },
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
     "postcss": "^8.4.21"

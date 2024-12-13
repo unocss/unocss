@@ -40,7 +40,8 @@
     "build:node": "tsup --config tsup.node-config.ts",
     "build:presets": "tsup src/presets/*.ts --format iife --minify --out-dir .",
     "watch": "tsup src/cdn/*.ts --format iife --watch src --out-dir .",
-    "dev": "nr watch & live-server --open=/play"
+    "dev": "nr watch & live-server --open=/play",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

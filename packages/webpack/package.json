@@ -45,12 +45,21 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "webpack": "^4 || ^5"
