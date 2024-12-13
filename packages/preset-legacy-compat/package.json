@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-legacy-compat",
-  "version": "0.65.0-beta.2",
+  "version": "0.65.1",
   "description": "Collections of legacy compatibility utilities.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -33,7 +33,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack"
   },
   "dependencies": {
     "@unocss/core": "workspace:*"

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/extractor-pug",
   "type": "module",
-  "version": "0.65.0-beta.2",
+  "version": "0.65.1",
   "description": "UnoCSS extractor for Pug",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -35,7 +35,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
     "pug": "^3.0.0"

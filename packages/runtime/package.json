@@ -1,7 +1,7 @@
 {
   "name": "@unocss/runtime",
   "type": "module",
-  "version": "0.65.0-beta.2",
+  "version": "0.65.1",
   "description": "CSS-in-JS Runtime for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -40,7 +40,8 @@
     "build:node": "tsup --config tsup.node-config.ts",
     "build:presets": "tsup src/presets/*.ts --format iife --minify --out-dir .",
     "watch": "tsup src/cdn/*.ts --format iife --watch src --out-dir .",
-    "dev": "nr watch & live-server --open=/play"
+    "dev": "nr watch & live-server --open=/play",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

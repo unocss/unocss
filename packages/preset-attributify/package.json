@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-attributify",
   "type": "module",
-  "version": "0.65.0-beta.2",
+  "version": "0.65.1",
   "description": "Attributify preset for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -34,7 +34,8 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/core": "workspace:*"

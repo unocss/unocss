@@ -11,6 +11,7 @@ export const symbols: ControlSymbols = {
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
   layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
+  sort: '$$symbol-sort' as unknown as ControlSymbols['sort'],
 }
 
 class UnoGeneratorInternal<Theme extends object = object> {
@@ -659,6 +660,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
             // Extract variants from special symbols
             let variants = variantHandlers
+            let entryMeta = meta
             for (const entry of css) {
               if (entry[0] === symbols.variants) {
                 variants = [
@@ -684,9 +686,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
                   ...variants,
                 ]
               }
+              else if (entry[0] === symbols.sort) {
+                entryMeta = {
+                  ...entryMeta,
+                  sort: entry[1],
+                }
+              }
             }
 
-            return [index, raw, css as CSSEntries, meta, variants]
+            return [index, raw, css as CSSEntries, entryMeta, variants]
           })
         }
       }

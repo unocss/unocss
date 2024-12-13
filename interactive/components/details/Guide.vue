@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { isDark } from '#imports'
 import type { GuideItem } from '~/types'
+import { isDark } from '#imports'
 
 const { item } = defineProps<{
   item: GuideItem

@@ -1,0 +1,31 @@
+diff --git a/dist/index.js b/dist/index.js
+index 0504e767daf256ff705961e1d9052763fa910f41..293115cff91a39f1877a695174095f16474621b5 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -34,7 +34,7 @@ program
+     .description(`${chalk.bold.blue("Are the Types Wrong?")} attempts to analyze npm package contents for issues with their TypeScript types,
+ particularly ESM-related module resolution issues.`)
+     .argument("[file-directory-or-package-spec]", "the packed .tgz, or directory containing package.json with --pack, or package spec with --from-npm")
+-    .option("-P, --pack", "Run `npm pack` in the specified directory and delete the resulting .tgz file afterwards")
++    .option("-P, --pack", "Run `pnpm pack` in the specified directory and delete the resulting .tgz file afterwards")
+     .option("-p, --from-npm", "Read from the npm registry instead of a local file")
+     .addOption(new Option("--definitely-typed [version]", "Specify the version range of @types to use").default(true))
+     .option("--no-definitely-typed", "Don't include @types")
+@@ -130,7 +130,7 @@ particularly ESM-related module resolution issues.`)
+                     }
+                     const rl = readline.createInterface(process.stdin, process.stdout);
+                     const answer = await new Promise((resolve) => {
+-                        rl.question(`Run \`npm pack\`? (Pass -P/--pack to skip) (Y/n) `, resolve);
++                        rl.question(`Run \`pnpm pack\`? (Pass -P/--pack to skip) (Y/n) `, resolve);
+                     });
+                     rl.close();
+                     if (answer.trim() && !answer.trim().toLowerCase().startsWith("y")) {
+@@ -141,7 +141,7 @@ particularly ESM-related module resolution issues.`)
+                 fileName = deleteTgz = path.join(fileOrDirectory, 
+                 // https://github.com/npm/cli/blob/f875caa86900122819311dd77cde01c700fd1817/lib/utils/tar.js#L123-L125
+                 `${manifest.name.replace("@", "").replace("/", "-")}-${manifest.version}.tgz`);
+-                execSync("npm pack", { cwd: fileOrDirectory, encoding: "utf8", stdio: "ignore" });
++                execSync("pnpm pack", { cwd: fileOrDirectory, encoding: "utf8", stdio: "ignore" });
+             }
+             const file = await readFile(fileName);
+             const data = new Uint8Array(file);

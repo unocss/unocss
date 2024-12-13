@@ -6,7 +6,7 @@ import { getHash, getPath, resolveId, resolveLayer } from '../integration'
 const VIRTUAL_PREFIX = '/@unocss/'
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
-export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugin[] {
+export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
   const moduleMap = new Map<string, [string, string]>()
   let server: ViteDevServer | undefined
 
@@ -43,7 +43,8 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
         if (!layer)
           return null
 
-        const { css } = await uno.generate('', { preflights: true })
+        await ctx.ready
+        const { css } = await ctx.uno.generate('', { preflights: true })
         if (!css)
           return null
 
@@ -53,12 +54,13 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
         }
       },
       async transform(code, id) {
-        if (!filter(code, id))
+        await ctx.ready
+        if (!ctx.filter(code, id))
           return
         const hash = getHash(id)
         const hasScope = SCOPE_IMPORT_RE.test(code)
 
-        const { css } = await uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
+        const { css } = await ctx.uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
         if (!css && !hasScope)
           return null
         if (hasScope)
@@ -77,7 +79,8 @@ export function PerModuleModePlugin({ uno, filter }: UnocssPluginContext): Plugi
         server = _server
       },
       async transform(code, id) {
-        if (!filter(code, id))
+        await ctx.ready
+        if (!ctx.filter(code, id))
           return
 
         const hash = getHash(id)

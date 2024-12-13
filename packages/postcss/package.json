@@ -1,7 +1,7 @@
 {
   "name": "@unocss/postcss",
   "type": "module",
-  "version": "0.65.0-beta.2",
+  "version": "0.65.1",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -52,7 +52,8 @@
   },
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
     "postcss": "^8.4.21"

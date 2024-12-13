@@ -192,3 +192,28 @@ it('layer string', async () => {
       .color-red{color:red;}"
     `)
 })
+
+it('sort', async () => {
+  const uno1 = await createGenerator({
+    rules: [
+      [/^color-(.*)$/, function * (_, ctx) {
+        yield {
+          color: 'green',
+          [ctx.symbols.selector]: () => '.a',
+          [ctx.symbols.sort]: 2,
+        }
+        yield {
+          color: 'red',
+          [ctx.symbols.selector]: () => '.b',
+          [ctx.symbols.sort]: 1,
+        }
+      }],
+    ],
+  })
+  expect((await uno1.generate('color-red')).css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .b{color:red;}
+      .a{color:green;}"
+    `)
+})

@@ -3,11 +3,12 @@ import type { Plugin } from 'vite'
 import { createFilter } from '@rollup/pluginutils'
 import { defaultPipelineExclude } from '../integration'
 
-export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
+export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.vue$/], defaultPipelineExclude)
 
   async function transformSFC(code: string) {
-    const { css } = await uno.generate(code)
+    await ctx.ready
+    const { css } = await ctx.uno.generate(code)
     if (!css)
       return null
     return `${code}\n<style scoped>${css}</style>`
@@ -17,7 +18,7 @@ export function VueScopedPlugin({ uno, ready }: UnocssPluginContext): Plugin {
     name: 'unocss:vue-scoped',
     enforce: 'pre',
     async configResolved() {
-      const { config } = await ready
+      const { config } = await ctx.ready
       filter = config.content?.pipeline === false
         ? () => false
         : createFilter(

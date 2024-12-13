@@ -32,6 +32,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       mode = 'auto',
       prefix = 'i-',
       warn = false,
+      iconifyCollectionsNames,
       collections: customCollections,
       extraProperties = {},
       customizations = {},
@@ -87,7 +88,12 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
           iconLoader = iconLoader || await lookupIconLoader(options)
 
           const usedProps = {}
-          const parsed = await parseIconWithLoader(body, iconLoader, { ...loaderOptions, usedProps })
+          const parsed = await parseIconWithLoader(
+            body,
+            iconLoader,
+            { ...loaderOptions, usedProps },
+            iconifyCollectionsNames,
+          )
 
           if (!parsed) {
             if (warn && !flags.isESLint)
@@ -196,20 +202,26 @@ export function getEnvFlags() {
   }
 }
 
-export async function parseIconWithLoader(body: string, loader: UniversalIconLoader, options: IconifyLoaderOptions = {}) {
+export async function parseIconWithLoader(
+  body: string,
+  loader: UniversalIconLoader,
+  options: IconifyLoaderOptions = {},
+  safeCollectionsNames: string[] = [],
+) {
   let collection = ''
   let name = ''
   let svg: string | undefined
 
-  const allCollections = [
+  const allCollections = new Set<string>([
     ...icons,
+    ...safeCollectionsNames,
     ...Object.keys(options.customCollections || {}),
-  ]
+  ])
 
   if (body.includes(':')) {
     [collection, name] = body.split(':')
 
-    if (!allCollections.includes(collection))
+    if (!allCollections.has(collection))
       return
 
     svg = await loader(collection, name, options)
@@ -219,7 +231,7 @@ export async function parseIconWithLoader(body: string, loader: UniversalIconLoa
     for (let i = COLLECTION_NAME_PARTS_MAX; i >= 1; i--) {
       collection = parts.slice(0, i).join('-')
 
-      if (!allCollections.includes(collection))
+      if (!allCollections.has(collection))
         continue
 
       name = parts.slice(i).join('-')
