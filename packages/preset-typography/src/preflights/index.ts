@@ -1,4 +1,5 @@
 import type { PreflightContext } from '@unocss/core'
+import type { TypographyOptions } from '..'
 import type { TypographyCompatibilityOptions } from '../types/compatibilityOptions'
 import { mergeDeep } from '@unocss/core'
 import { DEFAULT } from './default'
@@ -9,11 +10,12 @@ function getCSS(
     selectorName: string
     preflights: object
     compatibility?: TypographyCompatibilityOptions
+    important: boolean
   },
 ): string {
   let css = ''
 
-  const { escapedSelector, selectorName, preflights, compatibility } = options
+  const { escapedSelector, selectorName, preflights, compatibility, important } = options
   const disableNotUtility = compatibility?.noColonNot || compatibility?.noColonWhere
 
   for (const selector in preflights) {
@@ -57,7 +59,7 @@ function getCSS(
 
     for (const k in cssDeclarationBlock) {
       const v = cssDeclarationBlock[k]
-      css += `${k}:${v};`
+      css += `${k}:${v}${important ? ' !important' : ''};`
     }
 
     css += '}'
@@ -67,22 +69,22 @@ function getCSS(
 
 export function getPreflights(
   context: PreflightContext,
-  options: {
-    escapedSelectors: Set<string>
-    selectorName: string
-    cssExtend?: object | undefined
-    compatibility?: TypographyCompatibilityOptions
-  },
+  options: { escapedSelectors: Set<string> } & Pick<TypographyOptions, 'selectorName' | 'cssExtend' | 'compatibility' | 'important'>,
 ): string {
-  const { escapedSelectors, selectorName, cssExtend, compatibility } = options
-  let escapedSelector = Array.from(escapedSelectors)
+  const { compatibility, selectorName, important = false } = options
+  const cssExtend = typeof options?.cssExtend === 'function' ? options.cssExtend(context.theme) : options?.cssExtend
+  let escapedSelector = Array.from(options.escapedSelectors)
 
   // attribute mode -> add class selector with `:is()` pseudo-class function
   if (!escapedSelector[escapedSelector.length - 1].startsWith('.') && !compatibility?.noColonIs)
-    escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${selectorName})`]
+    escapedSelector = [`:is(${escapedSelector[escapedSelector.length - 1]},.${options.selectorName})`]
+
+  if (typeof important === 'string') {
+    escapedSelector = escapedSelector.map(e => !compatibility?.noColonIs ? `:is(${important}) ${e}` : `${important} ${e}`)
+  }
 
   if (cssExtend)
-    return getCSS({ escapedSelector, selectorName, preflights: mergeDeep(DEFAULT(context.theme), cssExtend), compatibility })
+    return getCSS({ escapedSelector, selectorName: selectorName!, preflights: mergeDeep(DEFAULT(context.theme), cssExtend), compatibility, important: important === true })
 
-  return getCSS({ escapedSelector, selectorName, preflights: DEFAULT(context.theme), compatibility })
+  return getCSS({ escapedSelector, selectorName: selectorName!, preflights: DEFAULT(context.theme), compatibility, important: important === true })
 }

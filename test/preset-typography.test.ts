@@ -122,6 +122,18 @@ const testConfigs: {
     input: '<a prose class="prose"></a>',
     typographyOptions: { compatibility: { noColonNot: true } },
   },
+
+  // important
+  {
+    name: 'prose-important',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { important: true },
+  },
+  {
+    name: 'prose-important',
+    input: '<a prose class="prose"></a>',
+    typographyOptions: { important: '#container' },
+  },
 ]
 
 describe('typography', () => {

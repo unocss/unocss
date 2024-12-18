@@ -15,14 +15,14 @@ export interface TypographyOptions {
    *
    * Note: `not` utility is only available in class mode.
    *
-   * @defaultValue `prose`
+   * @default `prose`
    */
   selectorName?: string
 
   /**
    * Extend or override CSS selectors with CSS declaration block.
    *
-   * @defaultValue undefined
+   * @default undefined
    */
   cssExtend?: Record<string, CSSObject> | ((theme: Theme) => Record<string, CSSObject>)
 
@@ -31,7 +31,7 @@ export interface TypographyOptions {
    * For more instructions, see
    * [README](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
    *
-   * @defaultValue undefined
+   * @default undefined
    */
   compatibility?: TypographyCompatibilityOptions
 
@@ -39,6 +39,13 @@ export interface TypographyOptions {
    * @deprecated use `selectorName` instead. It will be removed in 1.0.
    */
   className?: string
+
+  /**
+   * Control whether prose's utilities should be marked with !important.
+   *
+   * @default false
+   */
+  important?: boolean | string
 }
 
 /**
@@ -62,16 +69,14 @@ export interface TypographyOptions {
  * @public
  */
 export const presetTypography = definePreset((options?: TypographyOptions): Preset<Theme> => {
-  if (options?.className) {
-    console.warn('[unocss:preset-typography] "className" is deprecated. '
-      + 'Use "selectorName" instead.')
-  }
+  if (options?.className)
+    console.warn('[unocss:preset-typography] "className" is deprecated. Please use "selectorName" instead.')
+
   const escapedSelectors = new Set<string>()
   const selectorName = options?.selectorName || options?.className || 'prose'
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
-  const compatibility = options?.compatibility
 
   return {
     name: '@unocss/preset-typography',
@@ -142,8 +147,7 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
         layer: 'typography',
         getCSS: (context) => {
           if (escapedSelectors.size > 0) {
-            const cssExtend = typeof options?.cssExtend === 'function' ? options.cssExtend(context.theme) : options?.cssExtend
-            return getPreflights(context, { escapedSelectors, selectorName, cssExtend, compatibility })
+            return getPreflights(context, { escapedSelectors, ...options, selectorName })
           }
         },
       },
