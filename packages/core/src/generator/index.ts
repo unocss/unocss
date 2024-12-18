@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
 import { version } from '../../package.json'
 import { resolveConfig } from '../config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
@@ -742,7 +742,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     input: string,
     context: RuleContext<Theme>,
     depth = 5,
-  ): Promise<[ShortcutValue[], RuleMeta | undefined] | undefined> {
+  ): Promise<[(string | ShortcutInlineValue)[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
 
@@ -755,6 +755,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     let meta: RuleMeta | undefined
     let result: string | ShortcutValue[] | undefined
+    let stringResult: string[] | undefined
+    let inlineResult: ShortcutInlineValue[] | undefined
+
     for (const s of this.config.shortcuts) {
       let unprefixed = input
       if (s[2]?.prefix) {
@@ -785,37 +788,35 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     if (result) {
-      result = toArray(result).map((s) => {
-        if (isString(s))
-          return expandVariantGroup(s.trim()).split(/\s+/g)
-        return s
-      }).flat() as ShortcutValue[]
+      stringResult = uniq(toArray(result).filter(isString).map(s => expandVariantGroup(s.trim()).split(/\s+/g)).flat())
+      inlineResult = toArray(result).filter(i => !isString(i)).map(i => ({ handles: [], value: i }))
     }
 
     // expand nested shortcuts with variants
     if (!result) {
       const matched = isString(input) ? await this.matchVariants(input) : [input]
       for (const match of matched) {
-        const [raw, inputWithoutVariant] = match
+        const [raw, inputWithoutVariant, handles] = match
         if (raw !== inputWithoutVariant) {
           const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
-          if (expanded)
-            result = expanded[0].map(item => isString(item) ? raw.replace(inputWithoutVariant, item) : item)
+          if (expanded) {
+            stringResult = expanded[0].filter(isString).map(item => raw.replace(inputWithoutVariant, item))
+            inlineResult = (expanded[0].filter(i => !isString(i)) as ShortcutInlineValue[]).map((item) => {
+              return { handles: [...item.handles, ...handles], value: item.value }
+            })
+          }
         }
       }
     }
 
-    if (!result)
+    if (!stringResult?.length && !inlineResult?.length)
       return
 
     return [
-      (await Promise.all((result as ShortcutValue[]).map(async r => (
-        isString(r)
-          ? (await this.expandShortcut(r, context, depth - 1))?.[0]
-          : undefined
-      ) || [r])))
-        .flat(1)
-        .filter(x => !!x),
+      [
+        (await Promise.all(toArray(stringResult).map(async s => ((await this.expandShortcut(s, context, depth - 1))?.[0]) || [s]))),
+        inlineResult!,
+      ].flat(2).filter(x => !!x),
       meta,
     ]
   }
@@ -823,7 +824,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
   async stringifyShortcuts(
     parent: VariantMatchedResult<Theme>,
     context: RuleContext<Theme>,
-    expanded: ShortcutValue[],
+    expanded: (string | ShortcutInlineValue)[],
     meta: RuleMeta = { layer: this.config.shortcutsLayer },
   ): Promise<StringifiedUtil<Theme>[] | undefined> {
     const layerMap = new BetterMap<string | undefined, TwoKeyMap<string, string | undefined, [[CSSEntries, boolean, number][], number]>>()
@@ -835,7 +836,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             // rule
             ? await this.parseUtil(i, context, true, meta.prefix) as ParsedUtil[]
             // inline CSS value in shortcut
-            : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i), undefined, []] as ParsedUtil]
+            : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i.value), undefined, i.handles] as ParsedUtil]
 
           if (!result && this.config.warn)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)

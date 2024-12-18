@@ -240,6 +240,7 @@ export type StaticShortcutMap = Record<string, string | ShortcutValue[]>
 export type DynamicShortcut<Theme extends object = object> = [RegExp, DynamicShortcutMatcher<Theme>, RuleMeta?]
 export type UserShortcuts<Theme extends object = object> = StaticShortcutMap | (StaticShortcut | DynamicShortcut<Theme> | StaticShortcutMap)[]
 export type Shortcut<Theme extends object = object> = StaticShortcut | DynamicShortcut<Theme>
+export interface ShortcutInlineValue { handles: VariantHandler[], value: ShortcutValue }
 export type ShortcutValue = string | CSSValue
 
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null

@@ -30,6 +30,7 @@ describe('shortcuts', async () => {
       ['shortcut-hover-active-2', 'focus:bg-red-300 hover:bg-yellow-300 active:bg-blue-300'],
       ['loading', 'animate-spin duration-1000'],
       ['shortcut-inline-body', ['p2', { margin: '3px' }]],
+      ['shortcut-only-inline-body', [{ margin: '3px' }, { padding: '0.5rem' }]],
       ['shortcut-inline-mutiple-body', ['p2 fw-normal', { margin: '3px' }]],
       ['shortcut-inline-mutiple-nest-body', ['p2 fw-normal btn', { margin: '3px' }]],
       [/^shortcut-inline-dynamic-(\d)$/, ([,d]) => [`p${d} text-${d}px`, { margin: `${d}px` }]],
@@ -41,6 +42,7 @@ describe('shortcuts', async () => {
         'space-default': 'space-y-2 dark:space-y-4',
         'divide-default': 'divide-[#000000] dark:divide-[#33334a]',
       },
+      { 'test-inline-body-with-variant': 'dark:shortcut-only-inline-body text-red' },
     ],
     presets: [
       presetUno(),
@@ -223,6 +225,15 @@ describe('shortcuts', async () => {
     expect(css2).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut-inline-mutiple-nest-body{margin-right:2rem;padding:0.5rem;font-weight:400;margin:3px;}"
+    `)
+  })
+
+  it('inline only body with variants', async () => {
+    const { css } = await uno.generate('test-inline-body-with-variant', { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .test-inline-body-with-variant{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
+      .dark .test-inline-body-with-variant{margin:3px;padding:0.5rem;}"
     `)
   })
 })
