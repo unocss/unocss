@@ -11,12 +11,12 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.2.3",
+    "@iconify-json/logos": "^1.2.4",
     "@unocss/postcss": "link:../../packages/postcss",
     "@vitejs/plugin-vue": "^5.2.1",
     "typescript": "^5.7.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^6.0.2"
+    "vite": "^6.0.3"
   },
   "stackblitz": {
     "installDependencies": false,

@@ -12,7 +12,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.14",
+    "@quasar/extras": "^1.16.15",
     "quasar": "^2.6.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

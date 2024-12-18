@@ -12,10 +12,10 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@astrojs/vue": "^4.5.2",
-    "@iconify-json/logos": "^1.2.3",
+    "@astrojs/vue": "^4.5.3",
+    "@iconify-json/logos": "^1.2.4",
     "@unocss/reset": "link:../../packages/reset",
-    "astro": "^4.16.16",
+    "astro": "^4.16.17",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
