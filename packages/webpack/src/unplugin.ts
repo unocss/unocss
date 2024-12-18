@@ -126,7 +126,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
                 replaced = true
                 const css = layer.trim() === LAYER_MARK_ALL
                   ? result.getLayers(undefined, Array.from(entries)
-                    .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+                      .map(i => resolveLayer(i)).filter((i): i is string => !!i))
                   : (result.getLayer(layer) || '')
 
                 escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView.trim())
@@ -166,7 +166,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
             return
           const code = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, Array.from(entries)
-              .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+                .map(i => resolveLayer(i)).filter((i): i is string => !!i))
             : (result.getLayer(layer) || '')
 
           const hash = getHash(code)

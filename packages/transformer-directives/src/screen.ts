@@ -31,8 +31,8 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
 
     return breakpoints
       ? Object.entries(breakpoints)
-        .sort((a, b) => Number.parseInt(a[1].replace(/[a-z]+/gi, '')) - Number.parseInt(b[1].replace(/[a-z]+/gi, '')))
-        .map(([point, size]) => ({ point, size }))
+          .sort((a, b) => Number.parseInt(a[1].replace(/[a-z]+/gi, '')) - Number.parseInt(b[1].replace(/[a-z]+/gi, '')))
+          .map(([point, size]) => ({ point, size }))
       : undefined
   }
   const variantEntries: Array<[string, string, number]> = (resolveBreakpoints() ?? []).map(({ point, size }, idx) => [point, size, idx])

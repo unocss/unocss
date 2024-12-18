@@ -349,9 +349,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
               const selectors = selectorSortPair
                 ? uniq(selectorSortPair
-                  .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
-                  .map(pair => pair[0])
-                  .filter(Boolean))
+                    .sort((a, b) => a[1] - b[1] || a[0]?.localeCompare(b[0] || '') || 0)
+                    .map(pair => pair[0])
+                    .filter(Boolean))
                 : []
 
               return selectors.length

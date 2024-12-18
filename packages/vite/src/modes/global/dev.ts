@@ -35,7 +35,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
 
     const css = layer === LAYER_MARK_ALL
       ? result.getLayers(undefined, Array.from(entries)
-        .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+          .map(i => resolveLayer(i)).filter((i): i is string => !!i))
       : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
     lastServedHash.set(layer, hash)
