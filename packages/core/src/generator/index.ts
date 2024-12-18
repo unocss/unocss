@@ -836,7 +836,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             // rule
             ? await this.parseUtil(i, context, true, meta.prefix) as ParsedUtil[]
             // inline CSS value in shortcut
-            : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i.value), undefined, i?.handles] as ParsedUtil]
+            : [[Number.POSITIVE_INFINITY, '{inline}', normalizeCSSEntries(i.value), undefined, i.handles] as ParsedUtil]
 
           if (!result && this.config.warn)
             warnOnce(`unmatched utility "${i}" in shortcut "${parent[1]}"`)
