@@ -4,6 +4,45 @@ import type { TypographyCompatibilityOptions } from './types/compatibilityOption
 import { definePreset, toEscapedSelector } from '@unocss/core'
 import { getPreflights } from './preflights'
 
+const modifiers = [
+  ['headings', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th'],
+  ['h1'],
+  ['h2'],
+  ['h3'],
+  ['h4'],
+  ['h5'],
+  ['h6'],
+  ['p'],
+  ['a'],
+  ['blockquote'],
+  ['figure'],
+  ['figcaption'],
+  ['strong'],
+  ['em'],
+  ['kbd'],
+  ['code'],
+  ['pre'],
+  ['ol'],
+  ['ul'],
+  ['li'],
+  ['table'],
+  ['thead'],
+  ['tr'],
+  ['th'],
+  ['td'],
+  ['img'],
+  ['video'],
+  ['hr'],
+  ['lead', '[class~="lead"]'],
+]
+
+function getModify(modifier: string) {
+  for (const [name, ...selectors] of modifiers) {
+    if (name === modifier)
+      return selectors.length > 0 ? selectors : [name]
+  }
+}
+
 /**
  * @public
  */
@@ -77,6 +116,7 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
+  const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
 
   return {
     name: '@unocss/preset-typography',
@@ -141,6 +181,32 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
         },
         { layer: 'typography' },
       ],
+    ],
+    variants: [
+      {
+        name: 'typography element modifiers',
+        match: (matcher) => {
+          if (matcher.startsWith(`${selectorName}-`)) {
+            const modifyRe = new RegExp(`^${selectorName}-(\\w+)[:-].+$`)
+            const modifier = matcher.match(modifyRe)?.[1]
+            if (modifier) {
+              const selector = getModify(modifier)
+              if (selector?.length) {
+                return {
+                  matcher: matcher.slice(selectorName.length + modifier.length + 2),
+                  selector: (s) => {
+                    const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
+                    const escapedSelector = disableNotUtility
+                      ? `${s}`
+                      : `${s} :is(:where(${selector})${notProseSelector})`
+                    return escapedSelector
+                  },
+                }
+              }
+            }
+          }
+        },
+      },
     ],
     preflights: [
       {
