@@ -11,7 +11,7 @@ The instant on-demand Atomic CSS engine.
 </p>
 
 <p align="center">
-<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=c95f8b&amp;label=" alt="NPM version"></a></p>
+<a href="https://www.npmjs.com/package/unocss"><img src="https://img.shields.io/npm/v/unocss?color=c95f8b&amp;label=" alt="NPM version"></a> <a href="https://gurubase.io/g/unocss"><img src="https://img.shields.io/badge/Gurubase-Ask%20UnoCSS%20Guru-006BFF" alt="Gurubase"></a></p>
 
 <blockquote align="center">
 <p>💡 I highly recommend reading this blog post - <br><a href="https://antfu.me/posts/reimagine-atomic-css"><strong>Reimagine Atomic CSS</strong></a><br>for the story behind</p>
