@@ -68,6 +68,8 @@ export async function loadConfig<U extends UserConfig>(
   return result
 }
 
+export const errorCwdMap = new Set()
+
 /**
  * Create a factory function that returns a config loader that recovers from errors.
  *
@@ -90,6 +92,7 @@ export function createRecoveryConfigLoader<U extends UserConfig>() {
     }
     catch (e) {
       if (lastResolved) {
+        errorCwdMap.add(cwd)
         console.error(e)
         return lastResolved
       }
