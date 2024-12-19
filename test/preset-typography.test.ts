@@ -191,7 +191,6 @@ describe('typography elements modify', () => {
     })
 
     const { css } = await uno.generate('<div prose-headings:text-red prose-img:rounded hover:prose-p-m2></div>', { preflights: false })
-    // const { css } = await uno.generate('<div prose-headings:text-red prose-img:rounded hover:prose-p-m2></div>', { preflights: false })
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
