@@ -2,46 +2,7 @@ import type { CSSObject, Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
 import { definePreset, toEscapedSelector } from '@unocss/core'
-import { getPreflights } from './preflights'
-
-const modifiers = [
-  ['headings', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th'],
-  ['h1'],
-  ['h2'],
-  ['h3'],
-  ['h4'],
-  ['h5'],
-  ['h6'],
-  ['p'],
-  ['a'],
-  ['blockquote'],
-  ['figure'],
-  ['figcaption'],
-  ['strong'],
-  ['em'],
-  ['kbd'],
-  ['code'],
-  ['pre'],
-  ['ol'],
-  ['ul'],
-  ['li'],
-  ['table'],
-  ['thead'],
-  ['tr'],
-  ['th'],
-  ['td'],
-  ['img'],
-  ['video'],
-  ['hr'],
-  ['lead', '[class~="lead"]'],
-]
-
-function getModify(modifier: string) {
-  for (const [name, ...selectors] of modifiers) {
-    if (name === modifier)
-      return selectors.length > 0 ? selectors : [name]
-  }
-}
+import { getElements, getPreflights } from './preflights'
 
 /**
  * @public
@@ -190,15 +151,15 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
             const modifyRe = new RegExp(`^${selectorName}-(\\w+)[:-].+$`)
             const modifier = matcher.match(modifyRe)?.[1]
             if (modifier) {
-              const selector = getModify(modifier)
-              if (selector?.length) {
+              const elements = getElements(modifier)
+              if (elements?.length) {
                 return {
                   matcher: matcher.slice(selectorName.length + modifier.length + 2),
                   selector: (s) => {
                     const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
                     const escapedSelector = disableNotUtility
-                      ? `${s}`
-                      : `${s} :is(:where(${selector})${notProseSelector})`
+                      ? elements.map(e => `${s} ${e}`).join(',')
+                      : `${s} :is(:where(${elements})${notProseSelector})`
                     return escapedSelector
                   },
                 }

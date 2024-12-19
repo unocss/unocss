@@ -4,6 +4,8 @@ import type { TypographyCompatibilityOptions } from '../types/compatibilityOptio
 import { mergeDeep } from '@unocss/core'
 import { DEFAULT } from './default'
 
+export { getElements } from './default'
+
 function getCSS(
   options: {
     escapedSelector: string[]
