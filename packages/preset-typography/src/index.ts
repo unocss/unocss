@@ -2,7 +2,7 @@ import type { CSSObject, Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
 import { definePreset, toEscapedSelector } from '@unocss/core'
-import { getPreflights } from './preflights'
+import { getElements, getPreflights } from './preflights'
 
 /**
  * @public
@@ -77,6 +77,7 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const invertRE = new RegExp(`^${selectorName}-invert$`)
+  const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
 
   return {
     name: '@unocss/preset-typography',
@@ -141,6 +142,32 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
         },
         { layer: 'typography' },
       ],
+    ],
+    variants: [
+      {
+        name: 'typography element modifiers',
+        match: (matcher) => {
+          if (matcher.startsWith(`${selectorName}-`)) {
+            const modifyRe = new RegExp(`^${selectorName}-(\\w+)[:-].+$`)
+            const modifier = matcher.match(modifyRe)?.[1]
+            if (modifier) {
+              const elements = getElements(modifier)
+              if (elements?.length) {
+                return {
+                  matcher: matcher.slice(selectorName.length + modifier.length + 2),
+                  selector: (s) => {
+                    const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
+                    const escapedSelector = disableNotUtility
+                      ? elements.map(e => `${s} ${e}`).join(',')
+                      : `${s} :is(:where(${elements})${notProseSelector})`
+                    return escapedSelector
+                  },
+                }
+              }
+            }
+          }
+        },
+      },
     ],
     preflights: [
       {
