@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'vitepress/types'
+import type { DefaultTheme } from 'vitepress'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
@@ -79,6 +79,16 @@ const Tools: DefaultTheme.NavItemWithLink[] = [
   { text: 'Autocomplete', link: '/tools/autocomplete' },
 ]
 
+const Resources: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
+  { text: 'Playground', link: '/play/', target: '_blank' },
+  { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
+]
+
+const Introes: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Team', link: '/team' },
+]
+
 const Nav: DefaultTheme.NavItem[] = [
   {
     text: 'Guide',
@@ -148,9 +158,15 @@ const Nav: DefaultTheme.NavItem[] = [
     ],
     activeMatch: '^/(presets|transformers|extractors)/',
   },
-  { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
-  { text: 'Playground', link: '/play/', target: '_blank' },
-  { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
+  {
+    text: 'Resources',
+    items: [
+      ...Resources,
+      {
+        items: Introes,
+      },
+    ],
+  },
   {
     text: `v${version}`,
     items: [

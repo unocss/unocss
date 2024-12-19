@@ -19,6 +19,12 @@ export interface CoreTeam extends Partial<DefaultTheme.TeamMember> {
   title?: string
   org?: string
   desc?: string
+  /**
+   * Whether the member is currently active in the team.
+   *
+   * @default true
+   */
+  active?: boolean
 }
 
 function createLinks(tm: CoreTeam): CoreTeam {
@@ -57,15 +63,16 @@ const plainTeamMembers: CoreTeam[] = [
     name: 'Saya',
     github: 'chu121su12',
     title: 'Programmer',
+    active: false,
   },
   {
     avatar: 'https://github.com/zyyv.png',
     name: 'Chris',
     github: 'zyyv',
     x: 'chris_zyyv',
-    bluesky: 'zyyv.bsky.social',
+    bluesky: 'zyyv.dev',
     title: 'Regardless of the past, do not ask the future.',
-    desc: 'Creator of @Onu-UI, @unpreset',
+    desc: 'Creator of @Onu-UI, @UnoCSS Community',
   },
   {
     avatar: 'https://github.com/sibbng.png',
@@ -73,6 +80,7 @@ const plainTeamMembers: CoreTeam[] = [
     github: 'sibbng',
     x: 'sibbng',
     title: 'Designer / Developer',
+    active: false,
   },
   {
     avatar: 'https://github.com/userquin.png',
@@ -89,6 +97,7 @@ const plainTeamMembers: CoreTeam[] = [
     github: 'QiroNT',
     x: 'QiroNT',
     title: 'Balance & Tradeoff',
+    active: false,
   },
   {
     avatar: 'https://github.com/johannschopplich.png',
@@ -96,12 +105,14 @@ const plainTeamMembers: CoreTeam[] = [
     github: 'johannschopplich',
     title: 'Full Stack Developer',
     desc: 'Pharmacist prior to that',
+    active: false,
   },
   {
     avatar: 'https://github.com/ydcjeff.png',
     name: 'Jeff Yang',
     github: 'ydcjeff',
     x: 'ydcjeff',
+    active: false,
   },
   {
     avatar: 'https://github.com/sudongyuer.png',
@@ -110,6 +121,7 @@ const plainTeamMembers: CoreTeam[] = [
     x: 'sudongyuer',
     title: 'A zealous open sourceror & Full Stack Developer & Junior designer',
     desc: 'Previously worked at Tencent, now starting a business',
+    active: false,
   },
   {
     avatar: 'https://github.com/jacob-8.png',
@@ -126,6 +138,7 @@ const plainTeamMembers: CoreTeam[] = [
     github: 'Dunqing',
     x: 'dunqingg',
     title: 'Passionate about open source',
+    active: false,
   },
   {
     avatar: 'https://github.com/Simon-He95.png',
@@ -143,8 +156,17 @@ const plainTeamMembers: CoreTeam[] = [
     title: 'Frontend Developer',
     desc: 'Loves Svelte, Vite and open source, author of the UnoCSS tutorial',
   },
+  {
+    avatar: 'https://github.com/hannoeru.png',
+    name: 'ハン / Han',
+    github: 'hannoeru',
+    x: 'hannoeru',
+    bluesky: 'hannoeru.me',
+    title: 'Software Engineer',
+  },
 ]
 
-const teamMembers = plainTeamMembers.map(tm => createLinks(tm))
+const teamMembers = plainTeamMembers.filter(tm => tm.active !== false).map(tm => createLinks(tm))
+const teamEmeritiMembers = plainTeamMembers.filter(tm => tm.active === false).map(tm => createLinks(tm))
 
-export { teamMembers }
+export { teamEmeritiMembers, teamMembers }
