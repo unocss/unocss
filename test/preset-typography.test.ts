@@ -139,7 +139,7 @@ const testConfigs: {
 describe('typography', () => {
   for (const tc of testConfigs) {
     it(tc.name, async () => {
-      const generator = await createGenerator({
+      const uno = await createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),
           presetUno({ preflight: false }),
@@ -147,8 +147,58 @@ describe('typography', () => {
         ],
       })
 
-      const { css } = await generator.generate(tc.input)
+      const { css } = await uno.generate(tc.input)
       expect(css).toMatchSnapshot()
     })
   }
+})
+
+describe('typography elements modify', () => {
+  it('basic', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetAttributify(),
+        presetUno({ preflight: false }),
+        presetTypography(),
+      ],
+    })
+
+    const { css } = await uno.generate('<div prose-headings:text-red prose-img:rounded hover:prose-p-m2></div>', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      [hover\\:prose-p-m2=""] :is(:where(p):not(:where(.not-prose,.not-prose *))):hover{margin:0.5rem;}
+      .prose-img\\:rounded :is(:where(img):not(:where(.not-prose,.not-prose *))),
+      [prose-img\\:rounded=""] :is(:where(img):not(:where(.not-prose,.not-prose *))){border-radius:0.25rem;}
+      .prose-headings\\:text-red :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where(.not-prose,.not-prose *))),
+      [prose-headings\\:text-red=""] :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where(.not-prose,.not-prose *))){--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
+    `)
+  })
+
+  it('basic without compatibility', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetAttributify(),
+        presetUno({ preflight: false }),
+        presetTypography({
+          compatibility: {
+            noColonIs: true,
+            noColonWhere: true,
+            noColonNot: true,
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('<div prose-headings:text-red prose-img:rounded hover:prose-p-m2></div>', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      [hover\\:prose-p-m2=""] p:hover{margin:0.5rem;}
+      .prose-img\\:rounded img,
+      [prose-img\\:rounded=""] img{border-radius:0.25rem;}
+      .prose-headings\\:text-red h1,.prose-headings\\:text-red h2,.prose-headings\\:text-red h3,.prose-headings\\:text-red h4,.prose-headings\\:text-red h5,.prose-headings\\:text-red h6,.prose-headings\\:text-red th,
+      [prose-headings\\:text-red=""] h1,[prose-headings\\:text-red=""] h2,[prose-headings\\:text-red=""] h3,[prose-headings\\:text-red=""] h4,[prose-headings\\:text-red=""] h5,[prose-headings\\:text-red=""] h6,[prose-headings\\:text-red=""] th{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
+    `)
+  })
 })
