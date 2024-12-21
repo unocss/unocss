@@ -132,6 +132,7 @@ it('createLocalFontProcessor', async () => {
         },
         processors: [
           createLocalFontProcessor({
+            cacheDir: 'test/.cache/fonts',
             fontAssetsDir: 'test/assets/fonts',
             fontServeBaseUrl: '/__base__/fonts',
           }),
