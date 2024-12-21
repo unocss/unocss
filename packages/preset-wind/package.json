@@ -41,7 +41,6 @@
       "types": "./dist/variants.d.mts",
       "default": "./dist/variants.mjs"
     },
-    "./*": "./*"
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
