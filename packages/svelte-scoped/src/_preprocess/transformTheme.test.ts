@@ -40,7 +40,7 @@ describe('getThemeValue', () => {
     expect(getThemeValue('spacing.sm', theme)).toBe('0.875rem')
   })
 
-  it('throws error if not found', () => {
-    expect(async () => getThemeValue('size.lg', theme)).rejects.toMatchInlineSnapshot('[Error: "size.lg" is not found in your theme]')
+  it('throws error if not found', async () => {
+    await expect(async () => getThemeValue('size.lg', theme)).rejects.toMatchInlineSnapshot('[Error: "size.lg" is not found in your theme]')
   })
 })

@@ -222,7 +222,7 @@ describe('transform', async () => {
 
   it('shortcut with icon', async () => {
     const result = await transform('<span class="logo" />')
-    expect(result).toMatchFileSnapshot('./test-outputs/ShortcutWithIcon.svelte')
+    await expect(result).toMatchFileSnapshot('./test-outputs/ShortcutWithIcon.svelte')
   })
 
   it('handles backticks and single quotes', async () => {
