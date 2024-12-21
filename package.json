@@ -143,9 +143,6 @@
       "object.assign": "npm:@nolyfill/object.assign@^1.0.28",
       "side-channel": "npm:@nolyfill/side-channel@^1.0.29",
       "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.29"
-    },
-    "patchedDependencies": {
-      "@arethetypeswrong/cli@0.17.1": "patches/@arethetypeswrong__cli@0.17.1.patch"
     }
   },
   "resolutions": {

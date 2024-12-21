@@ -19,7 +19,7 @@ catalogs:
       specifier: ^0.7.10
       version: 0.7.10
     '@arethetypeswrong/cli':
-      specifier: 0.17.1
+      specifier: ^0.17.1
       version: 0.17.1
     '@babel/core':
       specifier: ^7.26.0
@@ -434,11 +434,6 @@ overrides:
   side-channel: npm:@nolyfill/side-channel@^1.0.29
   which-typed-array: npm:@nolyfill/which-typed-array@^1.0.29
 
-patchedDependencies:
-  '@arethetypeswrong/cli@0.17.1':
-    hash: 47djpt4ggp3hvscmr4v6hmcsxm
-    path: patches/@arethetypeswrong__cli@0.17.1.patch
-
 importers:
 
   .:
@@ -451,7 +446,7 @@ importers:
         version: 0.23.1
       '@arethetypeswrong/cli':
         specifier: 'catalog:'
-        version: 0.17.1(patch_hash=47djpt4ggp3hvscmr4v6hmcsxm)
+        version: 0.17.1
       '@codemirror/lang-css':
         specifier: 'catalog:'
         version: 6.3.1(@codemirror/view@6.34.1)
@@ -10851,7 +10846,7 @@ snapshots:
 
   '@antfu/utils@0.7.10': {}
 
-  '@arethetypeswrong/cli@0.17.1(patch_hash=47djpt4ggp3hvscmr4v6hmcsxm)':
+  '@arethetypeswrong/cli@0.17.1':
     dependencies:
       '@arethetypeswrong/core': 0.17.1
       chalk: 4.1.2
