@@ -46,9 +46,9 @@ describe('svelte-preprocessor', () => {
   for (const [path, loadRaw] of Object.entries(cases)) {
     it(path.replace(/.\/cases\/(.+)\/Input.svelte/, '$1'), async () => {
       const dev = await preprocessSFC(await loadRaw(), path, { combine: false })
-      expect(dev).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputDev.svelte'))
+      await expect(dev).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputDev.svelte'))
       const prod = await preprocessSFC(await loadRaw(), path)
-      expect(prod).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputProd.svelte'))
+      await expect(prod).toMatchFileSnapshot(path.replace('Input.svelte', 'OutputProd.svelte'))
     })
   }
 })

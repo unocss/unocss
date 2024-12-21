@@ -59,7 +59,7 @@ describe('runtime auto prefixer', () => {
     })
 
     const { css } = await uno.generate(targets, { preflights: false })
-    expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-uno-autoprefixer.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-uno-autoprefixer.css')
   })
 
   it('runtime tagify', async () => {

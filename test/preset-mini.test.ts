@@ -154,7 +154,7 @@ describe('preset-mini', () => {
       'bg-a-b-c',
     ], { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-mini-nested-theme-colors.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-nested-theme-colors.css')
     expect(matched.size).toBe(3)
   })
 
@@ -166,7 +166,7 @@ describe('preset-mini', () => {
       'bg-numbered321',
     ], { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-mini-non-nested-theme-colors.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-non-nested-theme-colors.css')
     expect(matched.size).toBe(4)
   })
 
