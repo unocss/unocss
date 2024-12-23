@@ -1,4 +1,4 @@
-import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { DEFAULT_LAYERS } from './constants'
 import { extractorSplit } from './extractors'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
@@ -293,6 +293,7 @@ function flatternFilterPattern(pattern?: FilterPattern): Array<string | RegExp> 
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>
+export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactoryAwaitable<Theme, Options>): PresetFactoryAwaitable<Theme, Options>
 export function definePreset<Theme extends object = object>(preset: Preset<Theme>): Preset<Theme>
 export function definePreset(preset: any) {
   return preset
