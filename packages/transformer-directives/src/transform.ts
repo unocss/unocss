@@ -61,7 +61,6 @@ export async function transformDirectives(
       handleScreen(ctx, node)
     else if (node.type === 'Function')
       await handleFunction(ctx, node)
-
     else if (hasApply && node.type === 'Rule')
       await handleApply(ctx, node)
   }
