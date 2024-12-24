@@ -9,7 +9,7 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
   let breakpointName = ''
   let prefix = ''
 
-  if (node.name === 'screen' && node.prelude?.type === 'Raw')
+  if (node.prelude?.type === 'Raw')
     breakpointName = node.prelude.value.trim()
 
   if (!breakpointName)
