@@ -162,6 +162,7 @@ export class ContextLoader {
         (result) => {
           if (result.sources.some(s => s.includes('nuxt.config')))
             resolveNuxtOptions(result.config)
+          result.config.details = true
         },
       )
 

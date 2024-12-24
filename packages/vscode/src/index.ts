@@ -10,6 +10,7 @@ import { version } from '../package.json'
 import { ContextLoader } from './contextLoader'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 import { log } from './log'
+import { registerUsageProvider } from './usageProvider'
 
 export async function activate(ext: ExtensionContext) {
   // Neither Jiti2 nor Tsx supports running in VS Code yet
@@ -72,6 +73,8 @@ export async function activate(ext: ExtensionContext) {
       })
     }),
   )
+
+  registerUsageProvider(ext, ctx)
 }
 
 async function rootRegister(
