@@ -12,5 +12,4 @@ export const unocssBundle = new Map([
   ["@unocss/transformer-directives", () => import('@unocss/transformer-directives')] as any,
   ["@unocss/transformer-variant-group", () => import('@unocss/transformer-variant-group')] as any,
   ["unocss", () => import('unocss')] as any,
-  ["unocss", () => import('unocss')] as any,
 ]) as Map<string, () => Promise<any>>
