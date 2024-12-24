@@ -57,13 +57,11 @@ export async function transformDirectives(
   }
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
-    if (hasScreen && node.type === 'Atrule')
+    if (hasScreen && node.type === 'Atrule' && node.name === 'screen')
       handleScreen(ctx, node)
-
-    if (node.type === 'Function')
+    else if (node.type === 'Function')
       await handleFunction(ctx, node)
-
-    if (hasApply && node.type === 'Rule')
+    else if (hasApply && node.type === 'Rule')
       await handleApply(ctx, node)
   }
 
