@@ -15,17 +15,17 @@
     "start": "remix-serve ./build/server/index.js"
   },
   "dependencies": {
-    "@remix-run/node": "^2.15.1",
-    "@remix-run/react": "^2.15.1",
-    "@remix-run/serve": "^2.15.1",
+    "@remix-run/node": "^2.15.2",
+    "@remix-run/react": "^2.15.2",
+    "@remix-run/serve": "^2.15.2",
     "@unocss/reset": "link:../../packages/reset",
     "isbot": "^4.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.15.1",
-    "@types/react": "^18.3.17",
+    "@remix-run/dev": "^2.15.2",
+    "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@unocss/cli": "link:../../packages/cli",
     "@unocss/preset-attributify": "link:../../packages/preset-attributify",
@@ -34,7 +34,7 @@
     "concurrently": "^9.1.0",
     "typescript": "^5.7.2",
     "unocss": "link:../../packages/unocss",
-    "vite": "^6.0.3",
+    "vite": "^6.0.5",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "stackblitz": {

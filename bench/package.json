@@ -4,13 +4,13 @@
     "bench": "node run.mjs"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "4.0.0-beta.1",
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "catalog:",
     "autoprefixer": "catalog:",
     "fs-extra": "catalog:",
     "local-pkg": "catalog:",
-    "postcss": "catalog:",
-    "tailwindcss": "catalog:",
+    "tailwindcss4": "npm:tailwindcss@4.0.0-beta.1",
     "unocss": "workspace:*",
     "vite": "catalog:",
     "vite-plugin-windicss": "catalog:",

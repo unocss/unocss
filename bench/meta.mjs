@@ -9,6 +9,7 @@ export const targets = [
   'none',
   'windicss',
   'tailwindcss',
+  'tailwindcss4',
   'unocss',
 ]
 
@@ -17,6 +18,7 @@ const pkgs = [
   'unocss',
   'windicss',
   'tailwindcss',
+  'tailwindcss4',
 ]
 
 export async function getVersions() {
