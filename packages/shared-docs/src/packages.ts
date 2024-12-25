@@ -42,7 +42,7 @@ export const allPackages = [
   "@unocss/transformer-variant-group",
   "unocss",
   "@unocss/vite",
-  "@unocss/vscode",
+  "unocss",
   "@unocss/webpack"
 ]
 
@@ -55,5 +55,6 @@ export const bundlePackages = [
   "@unocss/transformer-compile-class",
   "@unocss/transformer-directives",
   "@unocss/transformer-variant-group",
+  "unocss",
   "unocss"
 ]
