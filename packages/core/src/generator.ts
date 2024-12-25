@@ -15,15 +15,16 @@ export const symbols: ControlSymbols = {
 }
 
 class UnoGeneratorInternal<Theme extends object = object> {
-  public version = version
-  private _cache = new Map<string, StringifiedUtil<Theme>[] | null>()
+  public readonly version = version
+  public readonly events = createNanoEvents<{
+    config: (config: ResolvedConfig<Theme>) => void
+  }>()
+
   public config: ResolvedConfig<Theme> = undefined!
+  public cache = new Map<string, StringifiedUtil<Theme>[] | null>()
   public blocked = new Set<string>()
   public parentOrders = new Map<string, number>()
   public activatedRules = new Set<Rule<Theme>>()
-  public events = createNanoEvents<{
-    config: (config: ResolvedConfig<Theme>) => void
-  }>()
 
   protected constructor(
     public userConfig: UserConfig<Theme> = {},
@@ -52,7 +53,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.blocked.clear()
     this.parentOrders.clear()
     this.activatedRules.clear()
-    this._cache.clear()
+    this.cache.clear()
     this.config = await resolveConfig(userConfig, this.defaults)
     this.events.emit('config', this.config)
   }
@@ -123,8 +124,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
 
     // use caches if possible
-    if (this._cache.has(cacheKey))
-      return this._cache.get(cacheKey)
+    if (this.cache.has(cacheKey))
+      return this.cache.get(cacheKey)
 
     let current = raw
     for (const p of this.config.preprocess)
@@ -132,7 +133,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     if (this.isBlocked(current)) {
       this.blocked.add(raw)
-      this._cache.set(cacheKey, null)
+      this.cache.set(cacheKey, null)
       return
     }
 
@@ -140,7 +141,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     if (variantResults.every(i => !i || this.isBlocked(i[1]))) {
       this.blocked.add(raw)
-      this._cache.set(cacheKey, null)
+      this.cache.set(cacheKey, null)
       return
     }
 
@@ -162,12 +163,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const result = (await Promise.all(variantResults.map(i => handleVariantResult(i)))).flat().filter(x => !!x)
     if (result?.length) {
-      this._cache.set(cacheKey, result)
+      this.cache.set(cacheKey, result)
       return result
     }
 
     // set null cache for unmatched result
-    this._cache.set(cacheKey, null)
+    this.cache.set(cacheKey, null)
   }
 
   generate(

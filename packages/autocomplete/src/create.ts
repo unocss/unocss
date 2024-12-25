@@ -174,8 +174,7 @@ export function createAutocomplete(
   }
 
   async function suggestUnoCache(input: string) {
-    // @ts-expect-error private
-    const keys = Array.from(uno._cache.entries())
+    const keys = Array.from(uno.cache.entries())
     return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
   }
 
