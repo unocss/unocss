@@ -3,7 +3,8 @@ import type { ContextLoader } from './contextLoader'
 import path from 'path'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { useConfigurations } from './configuration'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude, getMatchedPositionsFromCode, INCLUDE_COMMENT_IDE, isCssId } from './integration'
+import { getMatchedPositionsFromDoc } from './getMatched'
+import { INCLUDE_COMMENT_IDE, isCssId } from './integration'
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, throttle } from './utils'
 
@@ -13,13 +14,16 @@ export async function registerAnnotations(
   ext: ExtensionContext,
 ) {
   const { configuration, watchChanged, disposable } = useConfigurations(ext)
-  const disposals: Disposable[] = []
 
-  watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio', 'strictAnnotationMatch'], () => {
-    updateAnnotation()
-  })
+  const disposals: Disposable[] = [
+    disposable,
+  ]
 
-  disposals.push(disposable)
+  disposals.push(
+    watchChanged(['underline', 'colorPreview', 'remToPxPreview', 'remToPxRatio', 'strictAnnotationMatch'], () => {
+      updateAnnotation()
+    }),
+  )
 
   disposals.push(workspace.onDidSaveTextDocument(async (doc) => {
     const id = doc.uri.fsPath
@@ -105,14 +109,7 @@ export async function registerAnnotations(
         ? configuration.remToPxRatio
         : -1
 
-      const options = configuration.strictAnnotationMatch
-        ? {
-            includeRegex: defaultIdeMatchInclude,
-            excludeRegex: defaultIdeMatchExclude,
-          }
-        : undefined
-
-      const positions = await getMatchedPositionsFromCode(ctx.uno, code, id, options)
+      const positions = await getMatchedPositionsFromDoc(ctx.uno, doc)
       const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
 
       const ranges: DecorationOptions[] = (

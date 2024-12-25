@@ -3,37 +3,12 @@ import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
 import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { createAutocomplete } from '@unocss/autocomplete'
-import { CompletionItem, CompletionItemKind, CompletionList, languages, MarkdownString, Range, window, workspace } from 'vscode'
-import { useConfigurations } from './configuration'
+import { CompletionItem, CompletionItemKind, CompletionList, languages, MarkdownString, Range, window } from 'vscode'
+import { getLanguageIds, useConfigurations } from './configuration'
+import { delimiters } from './constants'
 import { isCssId } from './integration'
 import { log } from './log'
 import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
-
-const defaultLanguageIds = [
-  'erb',
-  'haml',
-  'hbs',
-  'html',
-  'css',
-  'postcss',
-  'javascript',
-  'javascriptreact',
-  'markdown',
-  'ejs',
-  'php',
-  'svelte',
-  'typescript',
-  'typescriptreact',
-  'vue-html',
-  'vue',
-  'sass',
-  'scss',
-  'less',
-  'stylus',
-  'astro',
-  'rust',
-]
-const delimiters = ['-', ':', ' ', '"', '\'']
 
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
@@ -50,7 +25,6 @@ export async function registerAutoComplete(
   contextLoader: ContextLoader,
   ext: ExtensionContext,
 ) {
-  const allLanguages = await languages.getLanguages()
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
   const { configuration, watchChanged, disposable } = useConfigurations(ext)
 
@@ -82,21 +56,6 @@ export async function registerAutoComplete(
 
   async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
     return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
-  }
-
-  function validateLanguages(targets: string[]) {
-    const unValidLanguages: string[] = []
-    const validLanguages = targets.filter((language) => {
-      if (!allLanguages.includes(language)) {
-        unValidLanguages.push(language)
-        return false
-      }
-      return true
-    })
-    if (unValidLanguages.length)
-      window.showWarningMessage(`These language configurations are illegal: ${unValidLanguages.join(',')}`)
-
-    return validLanguages
   }
 
   const provider: CompletionItemProvider<UnoCompletionItem> = {
@@ -176,37 +135,33 @@ export async function registerAutoComplete(
 
   let completeUnregister: Disposable
 
-  const registerProvider = () => {
+  const registerProvider = async () => {
     completeUnregister?.dispose?.()
 
-    const languagesIds: string[] = workspace.getConfiguration().get('unocss.languageIds') || []
-
-    const validLanguages = validateLanguages(languagesIds)
-
     completeUnregister = languages.registerCompletionItemProvider(
-      defaultLanguageIds.concat(validLanguages),
+      await getLanguageIds(),
       provider,
       ...delimiters,
     )
     return completeUnregister
   }
 
-  watchChanged(['languagesIds'], () => {
-    ext.subscriptions.push(
-      registerProvider(),
-    )
-  })
-
-  watchChanged([
-    'matchType',
-    'maxItems',
-    'remToPxRatio',
-    'remToPxPreview',
-  ], () => {
-    autoCompletes.clear()
-  })
-
   ext.subscriptions.push(
-    registerProvider(),
+    watchChanged(['languagesIds'], async () => {
+      ext.subscriptions.push(
+        await registerProvider(),
+      )
+    }),
+
+    watchChanged([
+      'matchType',
+      'maxItems',
+      'remToPxRatio',
+      'remToPxPreview',
+    ], () => {
+      autoCompletes.clear()
+    }),
+
+    await registerProvider(),
   )
 }
