@@ -51,6 +51,7 @@ const mergedSelectors = computed(() => {
   })
 
   return [...map.values()]
+    .sort((a, b) => b.count - a.count)
 })
 
 const grouped = computed(() => mergedSelectors
@@ -78,6 +79,10 @@ const grouped = computed(() => mergedSelectors
 
 <template>
   <div p-4 space-y-8>
+    <label flex="~ gap-2 items-center">
+      <input v-model="mergeSameUtil" type="checkbox">
+      <span>Merge Alias</span>
+    </label>
     <div v-if="selectors.length > 10">
       <div mb-4 op50 uppercase text-sm>
         Top 10 Utilities
@@ -85,7 +90,7 @@ const grouped = computed(() => mergedSelectors
       <div p-4 bg-active>
         <div flex="~ wrap" gap="x-2 y-2">
           <AnalyzerItem
-            v-for="(item, i) in selectors.slice(0, 10)"
+            v-for="(item, i) in mergedSelectors.slice(0, 10)"
             :key="i"
             :item="item"
           />
@@ -102,7 +107,7 @@ const grouped = computed(() => mergedSelectors
         <span v-for="(item, i) in colors" :key="i">
           <div p-2 w-25 inline-block of-hidden bg-active>
             <AnalyzerItem :item="item" />
-            <div font-mono text-sm op50 ws-nowrap of-ellipsis of-hidden>{{ item.color }}</div>
+            <div font-mono text-sm op50 ws-nowrap text-ellipsis of-hidden>{{ item.color }}</div>
             <div h-10 mt-1 :style="{ background: item.color }" />
           </div>
         </span>
@@ -124,10 +129,6 @@ const grouped = computed(() => mergedSelectors
     <div>
       <div mb4 op50 uppercase text-sm flex="~ gap-4 items-center">
         Utilities Usage
-        <label flex="~ gap-2 items-center">
-          <input v-model="mergeSameUtil" type="checkbox">
-          <span>Merge Alias</span>
-        </label>
       </div>
 
       <FlowLayout v-if="grouped.length" :cols="2" :gap="16">
