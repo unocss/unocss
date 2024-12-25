@@ -1,18 +1,15 @@
-import type { CancellationToken, ExtensionContext, Position, ReferenceContext, ReferenceProvider, TextDocument } from 'vscode'
+import type { CancellationToken, Position, ReferenceContext, ReferenceProvider, TextDocument } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { env, languages, Location, Range, Uri, window, workspace } from 'vscode'
-import { getLanguageIds } from './configuration'
+import { getLanguageIds } from './configs'
 import { getMatchedPositionsFromDoc } from './getMatched'
 
 export class UsageReferenceProvider implements ReferenceProvider {
   warned = false
 
   constructor(
-    public ext: ExtensionContext,
     public loader: ContextLoader,
-  ) {
-
-  }
+  ) { }
 
   public async provideReferences(
     document: TextDocument,
@@ -97,10 +94,10 @@ export class UsageReferenceProvider implements ReferenceProvider {
   }
 }
 
-export async function registerUsageProvider(ext: ExtensionContext, ctx: ContextLoader) {
-  const provider = new UsageReferenceProvider(ext, ctx)
+export async function registerUsageProvider(loader: ContextLoader) {
+  const provider = new UsageReferenceProvider(loader)
 
-  ext.subscriptions.push(
+  loader.ext.subscriptions.push(
     languages.registerReferenceProvider(
       await getLanguageIds(),
       provider,

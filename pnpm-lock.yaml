@@ -806,7 +806,7 @@ importers:
         version: 4.0.0-beta.8(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
       tailwindcss:
         specifier: next
-        version: 4.0.0-beta.6
+        version: 4.0.0-beta.8
 
   docs:
     devDependencies:
@@ -1589,6 +1589,9 @@ importers:
       unconfig:
         specifier: 'catalog:'
         version: 0.6.0
+      vscode-ext-gen:
+        specifier: ^0.5.5
+        version: 0.5.5
 
   packages/webpack:
     dependencies:
@@ -9714,9 +9717,6 @@ packages:
   tailwindcss@4.0.0-beta.1:
     resolution: {integrity: sha512-Pnj2oLtAiNgnd+eHfW4RFuG8EIklYF1FModYFtr6bXrgLoZndePW5jX17Zwyo7Oeq+0dXTekjjMr5IRnQHgCXg==}
 
-  tailwindcss@4.0.0-beta.6:
-    resolution: {integrity: sha512-eCCuMk3H65w4J/QWkjxfeWoBSKbCD3E6Uj2LA6Xkkl4eMa1MXuwVpIU1RXcLIp+BVsXGEZMP7i7uJig7KxfAXQ==}
-
   tailwindcss@4.0.0-beta.8:
     resolution: {integrity: sha512-21HmdRq9tHDLJZavb2cRBGJxBvRODpwb0/t3tRbMOl65hJE6zG6K6lD6lLS3IOC35u4SOjKjdZiJJi9AuWCf+Q==}
 
@@ -10437,6 +10437,10 @@ packages:
   void-elements@3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
     engines: {node: '>=0.10.0'}
+
+  vscode-ext-gen@0.5.5:
+    resolution: {integrity: sha512-wTwcPvGF9xZ0fN7sPgdUPESH+Aw20Tk1vvgbYnKzWT4sFOqRP54qcpxjPUMdDoDGfiVIoXW87TNxn0yKXq3djw==}
+    hasBin: true
 
   vscode-jsonrpc@6.0.0:
     resolution: {integrity: sha512-wnJA4BnEjOSyFMvjZdpiOwhSq9uDoK8e/kpRJDTaMYzwlkrhG1fwDIZI94CLsLzlCK5cIbMMtFlJlfR57Lavmg==}
@@ -20377,8 +20381,6 @@ snapshots:
 
   tailwindcss@4.0.0-beta.1: {}
 
-  tailwindcss@4.0.0-beta.6: {}
-
   tailwindcss@4.0.0-beta.8: {}
 
   tapable@2.2.1: {}
@@ -21238,6 +21240,12 @@ snapshots:
       - yaml
 
   void-elements@3.1.0: {}
+
+  vscode-ext-gen@0.5.5:
+    dependencies:
+      cac: 6.7.14
+      scule: 1.3.0
+      yargs: 17.7.2
 
   vscode-jsonrpc@6.0.0: {}
 

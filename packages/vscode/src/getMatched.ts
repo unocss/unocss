@@ -1,12 +1,15 @@
 import type { UnoGenerator } from '@unocss/core'
+import type { TextDocument } from 'vscode'
+import type { ContextLoader } from './contextLoader'
 import { getMatchedPositionsFromCode } from '@unocss/shared-common'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '@unocss/shared-integration'
-import { type ExtensionContext, type TextDocument, workspace } from 'vscode'
+import { workspace } from 'vscode'
+import { getConfig } from './configs'
 
 const cache = new Map<string, ReturnType<typeof getMatchedPositionsFromCode>>()
 
-export function registerDocumentCacheCleaner(ext: ExtensionContext) {
-  ext.subscriptions.push(
+export function registerDocumentCacheCleaner(loader: ContextLoader) {
+  loader.ext.subscriptions.push(
     workspace.onDidChangeTextDocument((e) => {
       cache.delete(e.document.uri.fsPath)
     }),
@@ -25,7 +28,7 @@ export function getMatchedPositionsFromDoc(
   if (cache.has(id))
     return cache.get(id)!
 
-  const options = workspace.getConfiguration('unocss').get('strictAnnotationMatch')
+  const options = getConfig().strictAnnotationMatch
     ? {
         includeRegex: defaultIdeMatchInclude,
         excludeRegex: defaultIdeMatchExclude,

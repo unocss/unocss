@@ -1,10 +1,10 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
-import type { CompletionItemProvider, Disposable, ExtensionContext } from 'vscode'
+import type { CompletionItemProvider, Disposable } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { createAutocomplete } from '@unocss/autocomplete'
 import { CompletionItem, CompletionItemKind, CompletionList, languages, MarkdownString, Range, window } from 'vscode'
-import { getLanguageIds, useConfigurations } from './configuration'
+import { getConfig, getLanguageIds } from './configs'
 import { delimiters } from './constants'
 import { isCssId } from './integration'
 import { log } from './log'
@@ -22,23 +22,20 @@ class UnoCompletionItem extends CompletionItem {
 }
 
 export async function registerAutoComplete(
-  contextLoader: ContextLoader,
-  ext: ExtensionContext,
+  loader: ContextLoader,
 ) {
   const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
-  const { configuration, watchChanged, disposable } = useConfigurations(ext)
-
-  contextLoader.events.on('contextReload', (ctx) => {
+  const config = getConfig()
+  loader.events.on('contextReload', (ctx) => {
     autoCompletes.delete(ctx)
   })
 
-  contextLoader.events.on('contextUnload', (ctx) => {
+  loader.events.on('contextUnload', (ctx) => {
     autoCompletes.delete(ctx)
   })
 
-  contextLoader.events.on('unload', (ctx) => {
+  loader.events.on('unload', (ctx) => {
     autoCompletes.delete(ctx)
-    disposable.dispose()
   })
 
   function getAutocomplete(ctx: UnocssPluginContext) {
@@ -47,7 +44,7 @@ export async function registerAutoComplete(
       return cached
 
     const autocomplete = createAutocomplete(ctx.uno, {
-      matchType: configuration.matchType,
+      matchType: config.autocompleteMatchType,
     })
 
     autoCompletes.set(ctx, autocomplete)
@@ -61,7 +58,7 @@ export async function registerAutoComplete(
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
       const id = doc.uri.fsPath
-      if (!contextLoader.isTarget(id))
+      if (!loader.isTarget(id))
         return null
 
       const code = doc.getText()
@@ -70,10 +67,10 @@ export async function registerAutoComplete(
 
       const offset = window.activeTextEditor!.document.offsetAt(position)
 
-      if (configuration.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
+      if (config.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
         return
 
-      const ctx = await contextLoader.resolveClosestContext(code, id)
+      const ctx = await loader.resolveClosestContext(code, id)
       if (!ctx)
         return null
 
@@ -95,7 +92,7 @@ export async function registerAutoComplete(
 
         const completionItems: UnoCompletionItem[] = []
 
-        const suggestions = result.suggestions.slice(0, configuration.maxItems)
+        const suggestions = result.suggestions.slice(0, config.autocompleteMaxItems)
         const isAttributify = ctx.uno.config.presets.some(p => p.name === '@unocss/preset-attributify')
         for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, isAttributify ? [value, `[${value}=""]`] : value)
@@ -124,7 +121,10 @@ export async function registerAutoComplete(
     },
 
     async resolveCompletionItem(item) {
-      const remToPxRatio = configuration.remToPxRatio ? configuration.remToPxRatio : -1
+      const remToPxRatio = config.remToPxPreview
+        ? config.remToPxRatio
+        : -1
+
       if (item.kind === CompletionItemKind.Color)
         item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
       else
@@ -146,21 +146,27 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  ext.subscriptions.push(
-    watchChanged(['languagesIds'], async () => {
-      ext.subscriptions.push(
-        await registerProvider(),
-      )
-    }),
+  loader.ext.subscriptions.push(
+    config.watchChanged(
+      ['languageIds'],
+      async () => {
+        loader.ext.subscriptions.push(
+          await registerProvider(),
+        )
+      },
+    ),
 
-    watchChanged([
-      'matchType',
-      'maxItems',
-      'remToPxRatio',
-      'remToPxPreview',
-    ], () => {
-      autoCompletes.clear()
-    }),
+    config.watchChanged(
+      [
+        'autocompleteMatchType',
+        'autocompleteStrict',
+        'remToPxRatio',
+        'remToPxPreview',
+      ],
+      () => {
+        autoCompletes.clear()
+      },
+    ),
 
     await registerProvider(),
   )

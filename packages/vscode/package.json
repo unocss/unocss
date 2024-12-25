@@ -112,6 +112,11 @@
           "default": true,
           "description": "Enable/disable selection style decorations"
         },
+        "unocss.strictAnnotationMatch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show annotations"
+        },
         "unocss.autocomplete.matchType": {
           "type": "string",
           "default": "prefix",
@@ -138,6 +143,8 @@
     "build": "tsup",
     "dev": "esno ./scripts/dev.ts && tsup --watch src",
     "publish": "esno ./scripts/publish.ts",
+    "prepare": "nr update",
+    "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
     "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
@@ -149,6 +156,7 @@
     "jiti": "catalog:",
     "prettier": "catalog:",
     "tsup": "catalog:",
-    "unconfig": "catalog:"
+    "unconfig": "catalog:",
+    "vscode-ext-gen": "^0.5.5"
   }
 }

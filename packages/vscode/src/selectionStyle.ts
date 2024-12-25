@@ -1,22 +1,21 @@
-import type { ExtensionContext, TextEditorSelectionChangeEvent } from 'vscode'
+import type { TextEditorSelectionChangeEvent } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { regexScopePlaceholder, TwoKeyMap } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { MarkdownString, Position, Range, window } from 'vscode'
-import { useConfigurations } from './configuration'
+import { getConfig } from './configs'
 import { getMatchedPositionsFromCode } from './integration'
 import { log } from './log'
 import { addRemToPxComment, throttle } from './utils'
 
-export async function registerSelectionStyle(contextLoader: ContextLoader, ext: ExtensionContext) {
-  const { configuration } = useConfigurations(ext)
-
+export async function registerSelectionStyle(loader: ContextLoader) {
+  const config = getConfig()
   const integrationDecoration = window.createTextEditorDecorationType({})
 
   async function selectionStyle(editor: TextEditorSelectionChangeEvent) {
     try {
-      if (!configuration.selectionStyle)
+      if (!config.selectionStyle)
         return reset()
 
       const doc = editor.textEditor.document
@@ -35,12 +34,12 @@ export async function registerSelectionStyle(contextLoader: ContextLoader, ext: 
       if (!code.endsWith('>'))
         code = `${code} >`
 
-      const ctx = await contextLoader.resolveClosestContext(code, id)
+      const ctx = await loader.resolveClosestContext(code, id)
       if (!ctx)
         return reset()
 
-      const remToPxRatio = configuration.remToPxPreview
-        ? configuration.remToPxRatio
+      const remToPxRatio = config.remToPxPreview
+        ? config.remToPxRatio
         : -1
 
       const result = await getMatchedPositionsFromCode(ctx.uno, code)
@@ -104,7 +103,7 @@ export async function registerSelectionStyle(contextLoader: ContextLoader, ext: 
 
   const dispose = window.onDidChangeTextEditorSelection(throttle(selectionStyle, 200))
 
-  contextLoader.events.on('unload', () => {
+  loader.events.on('unload', () => {
     dispose.dispose()
   })
 }

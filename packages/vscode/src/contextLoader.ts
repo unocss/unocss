@@ -10,9 +10,11 @@ import { createNanoEvents } from '../../core/src/utils/events'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
+import { registerDocumentCacheCleaner } from './getMatched'
 import { createContext, isCssId } from './integration'
 import { log } from './log'
 import { registerSelectionStyle } from './selectionStyle'
+import { registerUsageProvider } from './usageProvider'
 import { isSubdir } from './utils'
 
 const frameworkConfigRE = /^(?:vite|svelte|astro|iles|nuxt|unocss|uno)\.config/
@@ -273,9 +275,11 @@ export class ContextLoader {
   registerEditorSupport() {
     if (this._isRegistered)
       return
-    registerAutoComplete(this, this.ext)
-    registerAnnotations(this, this.status, this.ext)
-    registerSelectionStyle(this, this.ext)
+    registerAutoComplete(this)
+    registerAnnotations(this)
+    registerSelectionStyle(this)
+    registerDocumentCacheCleaner(this)
+    registerUsageProvider(this)
     this._isRegistered = true
   }
 }
