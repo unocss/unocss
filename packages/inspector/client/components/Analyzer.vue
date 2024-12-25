@@ -50,8 +50,19 @@ const mergedSelectors = computed(() => {
     }
   })
 
-  return [...map.values()]
+  const sorted = [...map.values()]
     .sort((a, b) => b.count - a.count)
+
+  // Use name without bracket if possible
+  // `[text-sm] text-sm` -> `text-sm`
+  sorted.forEach((item) => {
+    if (item.alias) {
+      item.name = Object.keys(item.alias)
+        .sort((a, b) => b.localeCompare(a))[0]
+    }
+  })
+
+  return sorted
 })
 
 const grouped = computed(() => mergedSelectors
