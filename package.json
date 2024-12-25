@@ -106,6 +106,7 @@
     "nuxt": "catalog:",
     "nuxt-tsconfig-stub": "catalog:",
     "pnpm": "catalog:",
+    "postcss": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-svelte": "catalog:",
     "react": "catalog:",
