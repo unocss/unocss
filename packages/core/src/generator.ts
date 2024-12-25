@@ -1,9 +1,9 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from '../types'
-import { version } from '../../package.json'
-import { resolveConfig } from '../config'
-import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from '../constants'
-import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, warnOnce } from '../utils'
-import { createNanoEvents } from '../utils/events'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import { version } from '../package.json'
+import { resolveConfig } from './config'
+import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
+import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, warnOnce } from './utils'
+import { createNanoEvents } from './utils/events'
 
 export const symbols: ControlSymbols = {
   shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
