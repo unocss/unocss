@@ -15,6 +15,7 @@ const props = defineProps<{
   colors: MatchedColor[]
 }>()
 
+const mergeSameUtil = ref(true)
 const selectors = computed(() => [...props.selectors].sort((a, b) => b.count - a.count))
 
 const colors = computed(() => {
@@ -23,8 +24,38 @@ const colors = computed(() => {
     .sort((a, b) => b.count - a.count)
 })
 
-const grouped = computed(() => {
-  return selectors.value.reduce<Grouped[]>((acc, item) => {
+const mergedSelectors = computed(() => {
+  if (!mergeSameUtil.value)
+    return selectors.value
+
+  const map = new Map<string, MatchedSelector>()
+  selectors.value.forEach((item) => {
+    const key = item.body
+    const target = map.get(key)
+    if (target) {
+      target.alias ||= {
+        [target.name]: target.count,
+      }
+      target.alias[item.name] = item.count
+      target.count += item.count
+      target.modules ||= []
+      for (const module of item.modules) {
+        if (!target.modules.includes(module)) {
+          target.modules.push(module)
+        }
+      }
+    }
+    else {
+      map.set(key, structuredClone(item))
+    }
+  })
+
+  return [...map.values()]
+})
+
+const grouped = computed(() => mergedSelectors
+  .value
+  .reduce<Grouped[]>((acc, item) => {
     const key = item.category
     const target = acc.find(_item => _item.name === key)
 
@@ -40,8 +71,9 @@ const grouped = computed(() => {
       })
     }
     return acc
-  }, []).sort((a, b) => b.count - a.count)
-})
+  }, [])
+  .sort((a, b) => b.count - a.count),
+)
 </script>
 
 <template>
@@ -90,9 +122,14 @@ const grouped = computed(() => {
     </div>
 
     <div>
-      <div mb-4 op50 uppercase text-sm>
+      <div mb4 op50 uppercase text-sm flex="~ gap-4 items-center">
         Utilities Usage
+        <label flex="~ gap-2 items-center">
+          <input v-model="mergeSameUtil" type="checkbox">
+          <span>Merge Alias</span>
+        </label>
       </div>
+
       <FlowLayout v-if="grouped.length" :cols="2" :gap="16">
         <div v-for="(group, key) in grouped" :key="key" p-4 bg-active>
           <div text-sm pb-4>

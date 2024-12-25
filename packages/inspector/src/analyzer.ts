@@ -40,6 +40,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
   for (const [rawSelector, { data, count, modules: _modules }] of tokensInfo.entries()) {
     const ruleContext = data[data.length - 1][5]
     const ruleMeta = data[data.length - 1][4]
+    const body = data.map(d => d[2]).join('\n---\n')
     const baseSelector = ruleContext?.currentSelector
     const variants = ruleContext?.variants?.map(v => v.name).filter(Boolean) as string[]
     const layer = ruleMeta?.layer || 'default'
@@ -66,6 +67,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
             count,
             ruleMeta,
             modules: _modules,
+            body,
           })
         }
         continue
@@ -100,6 +102,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
           count,
           ruleMeta,
           modules: _modules,
+          body,
         })
         continue
       }
@@ -111,6 +114,7 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
       category: 'other',
       count,
       modules: _modules,
+      body,
     })
   }
 
