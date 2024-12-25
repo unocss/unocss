@@ -1,8 +1,9 @@
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
 import type { Disposable, ExtensionContext } from 'vscode'
 import { toArray } from '@unocss/core'
-import { workspace } from 'vscode'
+import { languages, window, workspace } from 'vscode'
 import { createNanoEvents } from '../../core/src/utils/events'
+import { defaultLanguageIds } from './constants'
 
 export interface UseConfigurationOptions<Init> {
   ext?: ExtensionContext
@@ -106,4 +107,34 @@ export function useConfigurations(ext: ExtensionContext) {
       autocompleteStrict: 'autocomplete.strict',
     },
   })
+}
+
+async function validateLanguages(targets: string[], allLanguages: string[]) {
+  const invalidLanguages: string[] = []
+  const validLanguages = targets.filter((language) => {
+    if (!allLanguages.includes(language)) {
+      invalidLanguages.push(language)
+      return false
+    }
+    return true
+  })
+  if (invalidLanguages.length)
+    window.showWarningMessage(`These language configurations are illegal: ${invalidLanguages.join(',')}`)
+
+  return validLanguages
+}
+
+export async function getLanguageIds() {
+  const allLanguages = await languages.getLanguages()
+  const languagesIds: string[] = workspace.getConfiguration().get('unocss.languageIds') || []
+
+  return Array.from(
+    new Set(
+      [
+        ...defaultLanguageIds,
+        ...await validateLanguages(languagesIds, allLanguages),
+      ]
+        .filter(i => allLanguages.includes(i)),
+    ),
+  )
 }
