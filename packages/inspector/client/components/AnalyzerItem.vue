@@ -54,6 +54,20 @@ function openEditor(id: string) {
           Docs
         </a>
       </div>
+      <div v-if="item.alias" border="t gray-400/20" of-auto px4 py3 text-sm>
+        <div op75 mb2>
+          Alias
+        </div>
+        <div flex="~ gap-2 wrap">
+          <span
+            v-for="([aName, aCount]) of Object.entries(item.alias)" :key="aName"
+            font-mono op50
+          >
+            <span>{{ aName }}</span>
+            <sup text-xs ml-0.5>{{ aCount }}</sup>
+          </span>
+        </div>
+      </div>
       <div border="t gray-400/20" max-h-60 of-auto px4 py3 text-sm>
         <div>
           <span op50>It has been referenced </span><strong>{{ item.count }}</strong><span op50> times by:</span>

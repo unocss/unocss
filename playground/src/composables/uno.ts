@@ -68,7 +68,7 @@ debouncedWatch(
         const preflights = (result.preflights ?? []).filter(p => p.layer !== customCSSLayerName)
         preflights.push({
           layer: customCSSLayerName,
-          getCSS: () => cleanOutput(transformedCSS.value),
+          getCSS: () => cleanOutput(transformedCSS.value || ''),
         })
 
         result.preflights = preflights

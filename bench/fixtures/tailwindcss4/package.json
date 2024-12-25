@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "dependencies": {
+    "@tailwindcss/vite": "next",
+    "tailwindcss": "next"
+  }
+}

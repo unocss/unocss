@@ -16,9 +16,11 @@ export default defineBuildConfig([
     declaration: true,
     rollup: {
       emitCJS: true,
+      preserveDynamicImports: true,
+      inlineDependencies: false,
     },
     externals: [
-      '@unocss/postcss/esm',
+      /postcss\/esm/,
     ],
   },
 ])

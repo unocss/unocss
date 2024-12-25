@@ -34,6 +34,8 @@ export interface MatchedSelector {
   baseSelector?: string
   variants?: string[]
   modules: string[]
+  body: string
+  alias?: Record<string, number>
 }
 
 export interface MatchedColor {
