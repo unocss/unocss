@@ -30,7 +30,8 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
 
-      - name: Lint
-        run: nr lint --fix
+      - run: nr lint --fix
+
+      - run: nr prepare
 
       - uses: autofix-ci/action@v1
