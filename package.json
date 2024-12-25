@@ -17,7 +17,7 @@
     "play": "npm -C playground run dev",
     "lint": "eslint --cache .",
     "lint:fix": "nr lint --fix",
-    "release": "bumpp -r",
+    "release": "bumpp -r --excute=\"pnpm i\"",
     "size": "esno scripts/size.ts",
     "stub": "pnpm -r --filter=./packages/* --parallel run stub",
     "typecheck": "tsc --noEmit && pnpm -C packages/eslint-plugin run typecheck",
