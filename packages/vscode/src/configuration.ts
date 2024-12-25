@@ -1,5 +1,5 @@
 import type { AutoCompleteMatchType } from '@unocss/autocomplete'
-import type { ExtensionContext } from 'vscode'
+import type { Disposable, ExtensionContext } from 'vscode'
 import { toArray } from '@unocss/core'
 import { workspace } from 'vscode'
 import { createNanoEvents } from '../../core/src/utils/events'
@@ -47,10 +47,12 @@ export function getConfigurations<Init extends Record<string, unknown>>(
 
   const emitter = createNanoEvents()
 
-  const watchChanged = <K extends keyof Init>(key: K | K[], fn: WatchConfigurationHandler<Init, K>) => {
+  const watchChanged = <K extends keyof Init>(key: K | K[], fn: WatchConfigurationHandler<Init, K>): Disposable => {
     const keys = toArray(key)
     const unsubscribes = keys.map(key => emitter.on(`update:${String(key)}`, fn))
-    return () => unsubscribes.forEach(fn => fn())
+    return {
+      dispose: () => unsubscribes.forEach(fn => fn()),
+    }
   }
 
   const disposable = workspace.onDidChangeConfiguration((e) => {

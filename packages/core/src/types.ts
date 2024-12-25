@@ -678,16 +678,30 @@ export interface CliOptions {
 }
 
 export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
+  /**
+   * Singleton promise for config loading
+   */
   ready: Promise<LoadConfigResult<Config>>
+  /**
+   * The UnoCSS generator instance. Should be used after `ready` resolved.
+   */
   uno: UnoGenerator
-  /** All tokens scanned */
+  /**
+   * All tokens scanned
+   */
   tokens: Set<string>
-  /** Map for all module's raw content */
+  /**
+   * Map for all module's raw content
+   */
   modules: BetterMap<string, string>
-  /** Module IDs that been affected by UnoCSS */
+  /**
+   * Module IDs that been affected by UnoCSS
+   */
   affectedModules: Set<string>
 
-  /** Pending promises */
+  /**
+   *  Pending promises
+   */
   tasks: Promise<any>[]
   /**
    * Await all pending tasks

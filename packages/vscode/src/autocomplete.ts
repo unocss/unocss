@@ -191,22 +191,22 @@ export async function registerAutoComplete(
     return completeUnregister
   }
 
-  watchChanged(['languagesIds'], () => {
-    ext.subscriptions.push(
-      registerProvider(),
-    )
-  })
-
-  watchChanged([
-    'matchType',
-    'maxItems',
-    'remToPxRatio',
-    'remToPxPreview',
-  ], () => {
-    autoCompletes.clear()
-  })
-
   ext.subscriptions.push(
+    watchChanged(['languagesIds'], () => {
+      ext.subscriptions.push(
+        registerProvider(),
+      )
+    }),
+
+    watchChanged([
+      'matchType',
+      'maxItems',
+      'remToPxRatio',
+      'remToPxPreview',
+    ], () => {
+      autoCompletes.clear()
+    }),
+
     registerProvider(),
   )
 }

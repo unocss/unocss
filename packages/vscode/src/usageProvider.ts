@@ -1,10 +1,8 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { CancellationToken, ExtensionContext, Position, ReferenceContext, ReferenceProvider, TextDocument } from 'vscode'
 import type { ContextLoader } from './contextLoader'
-import { getMatchedPositionsFromCode } from '@unocss/shared-common'
 import { languages, Location, Range, window, workspace } from 'vscode'
-import { useConfigurations } from './configuration'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude } from './integration'
+import { getMatchedPositionsFromDoc } from './getMatched'
 
 export class UsageReferenceProvider implements ReferenceProvider {
   constructor(
@@ -20,29 +18,12 @@ export class UsageReferenceProvider implements ReferenceProvider {
     _context: ReferenceContext,
     _token: CancellationToken,
   ): Promise<Location[] | undefined> {
-    window.showInformationMessage(`SimpleReferenceProvider 222 called with position: ${position} on document: ${document.uri}`)
-
     const ctx = await this.loader.resolveClosestContext(document.getText(), document.uri.fsPath)
     if (!ctx) {
-      window.showWarningMessage(`No context found for document ${document.uri}`)
       return undefined
     }
 
-    const { configuration } = useConfigurations(this.ext)
-
-    const options = configuration.strictAnnotationMatch
-      ? {
-          includeRegex: defaultIdeMatchInclude,
-          excludeRegex: defaultIdeMatchExclude,
-        }
-      : undefined
-
-    const positions = await getMatchedPositionsFromCode(
-      ctx.uno,
-      document.getText(),
-      document.uri.fsPath,
-      options,
-    )
+    const positions = await getMatchedPositionsFromDoc(ctx.uno, document)
 
     const index = document.offsetAt(position)
     const matched = positions.find(i => i[0] <= index && i[1] >= index)
@@ -67,7 +48,7 @@ export class UsageReferenceProvider implements ReferenceProvider {
 
     for (const file of files) {
       const doc = await workspace.openTextDocument(file)
-      const usages = await findUsagesOfUtils(this.ext, doc, names, ctx.uno)
+      const usages = await findUsagesOfUtils(doc, names, ctx.uno)
       locations.push(...usages)
     }
 
@@ -76,26 +57,11 @@ export class UsageReferenceProvider implements ReferenceProvider {
 }
 
 async function findUsagesOfUtils(
-  ext: ExtensionContext,
   doc: TextDocument,
   names: string[],
   uno: UnoGenerator,
 ): Promise<Location[]> {
-  const { configuration } = useConfigurations(ext)
-
-  const options = configuration.strictAnnotationMatch
-    ? {
-        includeRegex: defaultIdeMatchInclude,
-        excludeRegex: defaultIdeMatchExclude,
-      }
-    : undefined
-
-  const positions = await getMatchedPositionsFromCode(
-    uno,
-    doc.getText(),
-    doc.uri.fsPath,
-    options,
-  ) || []
+  const positions = await getMatchedPositionsFromDoc(uno, doc) || []
 
   return positions
     .filter(i => names.includes(i[2]))

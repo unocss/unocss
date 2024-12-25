@@ -8,9 +8,16 @@ import { findUp } from 'find-up'
 import { commands, Position, StatusBarAlignment, window, workspace } from 'vscode'
 import { version } from '../package.json'
 import { ContextLoader } from './contextLoader'
+import { registerDocumentCacheCleaner } from './getMatched'
 import { defaultPipelineExclude, defaultPipelineInclude } from './integration'
 import { log } from './log'
 import { registerUsageProvider } from './usageProvider'
+
+const skipMap = {
+  '<!-- @unocss-skip -->': ['<!-- @unocss-skip-start -->\n', '\n<!-- @unocss-skip-end -->'],
+  '/* @unocss-skip */': ['/* @unocss-skip-start */\n', '\n/* @unocss-skip-end */'],
+  '// @unocss-skip': ['// @unocss-skip-start\n', '\n// @unocss-skip-end'],
+}
 
 export async function activate(ext: ExtensionContext) {
   // Neither Jiti2 nor Tsx supports running in VS Code yet
@@ -37,22 +44,16 @@ export async function activate(ext: ExtensionContext) {
 
   const root = config.get<string | string[]>('root')
 
-  const ctx = await rootRegister(ext, Array.isArray(root) && !root.length
+  const loader = await rootRegister(ext, Array.isArray(root) && !root.length
     ? [projectPath]
     : root
       ? toArray(root).map(r => path.resolve(projectPath, r))
       : [projectPath], config, status)
 
-  const skipMap = {
-    '<!-- @unocss-skip -->': ['<!-- @unocss-skip-start -->\n', '\n<!-- @unocss-skip-end -->'],
-    '/* @unocss-skip */': ['/* @unocss-skip-start */\n', '\n/* @unocss-skip-end */'],
-    '// @unocss-skip': ['// @unocss-skip-start\n', '\n// @unocss-skip-end'],
-  }
-
   ext.subscriptions.push(
     commands.registerCommand('unocss.reload', async () => {
       log.appendLine('🔁 Reloading...')
-      await ctx.reload()
+      await loader.reload()
       log.appendLine('✅ Reloaded.')
     }),
     commands.registerCommand('unocss.insert-skip-annotation', async () => {
@@ -74,7 +75,8 @@ export async function activate(ext: ExtensionContext) {
     }),
   )
 
-  registerUsageProvider(ext, ctx)
+  registerDocumentCacheCleaner(ext)
+  registerUsageProvider(ext, loader)
 }
 
 async function rootRegister(
