@@ -64,7 +64,9 @@ export class UsageReferenceProvider implements ReferenceProvider {
       }))
     ).filter(i => !!i)
 
-    const target = ctx.uno.cache.get(name)
+    // @ts-expect-error backward compatibility, _cache was a private field, now it's public
+    const cacheMap = (ctx.uno.cache || ctx.uno._cache || new Map()) as typeof ctx.uno.cache
+    const target = cacheMap.get(name)
 
     if (!target) {
       return positions
@@ -75,7 +77,7 @@ export class UsageReferenceProvider implements ReferenceProvider {
     // Find all names that match the record (alias)
     const names = new Set([
       name,
-      ...([...ctx.uno.cache.entries()])
+      ...([...cacheMap.entries()])
         .filter(([_, utils]) => {
           if (!utils)
             return false
