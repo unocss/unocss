@@ -47,7 +47,7 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Read the [Contributing Guidelines](https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md).
+        - label: Read the [Contributing Guidelines](https://github.com/unocss/unocss/blob/main/.github/CONTRIBUTING.md).
           required: true
         - label: Check that there isn't [already an issue](https://github.com/unocss/unocss/issues) that reports the same bug to avoid creating a duplicate.
           required: true

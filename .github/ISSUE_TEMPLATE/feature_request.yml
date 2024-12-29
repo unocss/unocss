@@ -36,7 +36,7 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Read the [Contributing Guidelines](https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md).
+        - label: Read the [Contributing Guidelines](https://github.com/unocss/unocss/blob/main/.github/CONTRIBUTING.md).
           required: true
         - label: Read the `README.md` of using the package.
           required: true

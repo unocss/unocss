@@ -176,7 +176,7 @@ const Nav: DefaultTheme.NavItem[] = [
       },
       {
         text: 'Contributing',
-        link: 'https://github.com/unocss/unocss/blob/main/CONTRIBUTING.md',
+        link: 'https://github.com/unocss/unocss/blob/main/.github/CONTRIBUTING.md',
       },
       {
         component: 'RainbowAnimationSwitcher',
