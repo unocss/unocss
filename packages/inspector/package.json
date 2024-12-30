@@ -45,6 +45,7 @@
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "gzip-size": "catalog:",
+    "kolorist": "^1.8.0",
     "sirv": "catalog:",
     "vue-flow-layout": "catalog:"
   }
