@@ -117,7 +117,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
       for (const url of server.resolvedUrls?.local ?? []) {
         const inspectorUrl = url.endsWith('/') ? `${url}${baseUrl}/` : `${url}/${baseUrl}/`
         // eslint-disable-next-line no-console
-        console.log(`  ${green('➜')}  ${bold('UnoCSS Inspector')}: ${green(`Open ${colorUrl(`${inspectorUrl}`)} as a separate window`)}`)
+        console.log(`  ${green('➜')}  ${bold('UnoCSS Inspector')}: ${colorUrl(`${inspectorUrl}`)}`)
       }
     }
   }
