@@ -4,6 +4,7 @@ import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { BetterMap, CountableSet } from '@unocss/core'
+import { bold, cyan, green } from 'colorette'
 import gzipSize from 'gzip-size'
 import sirv from 'sirv'
 import { SKIP_COMMENT_RE } from '../../shared-integration/src/constants'
@@ -16,13 +17,14 @@ const _dirname = typeof __dirname !== 'undefined'
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   async function configureServer(server: ViteDevServer) {
     await ctx.ready
+    const baseUrl = '__unocss'
 
-    server.middlewares.use('/__unocss', sirv(resolve(_dirname, '../dist/client'), {
+    server.middlewares.use(`/${baseUrl}`, sirv(resolve(_dirname, '../dist/client'), {
       single: true,
       dev: true,
     }))
 
-    server.middlewares.use('/__unocss_api', async (req, res, next) => {
+    server.middlewares.use(`/$baseUrl}_api`, async (req, res, next) => {
       if (!req.url)
         return next()
       if (req.url === '/') {
@@ -105,6 +107,19 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
 
       next()
     })
+
+    const _printUrls = server.printUrls
+    const colorUrl = (url: string) =>
+      cyan(url.replace(/:(\d+)\//, (_, port) => `:${bold(port)}/`))
+
+    server.printUrls = () => {
+      _printUrls()
+      for (const url of server.resolvedUrls?.local ?? []) {
+        const inspectorUrl = url.endsWith('/') ? `${url}${baseUrl}/` : `${url}/${baseUrl}/`
+        // eslint-disable-next-line no-console
+        console.log(`  ${green('➜')}  ${bold('UnoCSS Inspector')}: ${colorUrl(`${inspectorUrl}`)}`)
+      }
+    }
   }
 
   return {
