@@ -21,7 +21,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
+    function checkLiteral(node: TSESTree.Literal | SvelteLiteral, attribute?: string, addSpace?: 'before' | 'after') {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
       const input = node.value
@@ -29,6 +29,7 @@ export default createRule({
         context.settings.unocss?.configPath,
         'sort',
         input,
+        attribute,
       ).trim()
 
       if (addSpace === 'before')
@@ -82,14 +83,13 @@ export default createRule({
             }
           }
 
-          (node.value).forEach((obj, i) => {
-            if (obj.type === 'SvelteMustacheTag') {
-              checkExpressionRecursively(obj.expression)
+          (node.value).forEach((subNode, i) => {
+            if (subNode.type === 'SvelteMustacheTag') {
+              checkExpressionRecursively(subNode.expression)
             }
-            else if (obj.type === 'SvelteLiteral') {
+            else if (subNode.type === 'SvelteLiteral') {
               const addSpace: 'before' | 'after' | undefined = node.value?.[i - 1]?.type === 'SvelteMustacheTag' ? 'before' : node.value?.[i + 1]?.type === 'SvelteMustacheTag' ? 'after' : undefined
-
-              checkLiteral(obj, addSpace)
+              checkLiteral(subNode, node.key.name, addSpace)
             }
           })
         }
@@ -98,9 +98,25 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
+        const config = syncAction(
+          context.settings.unocss?.configPath,
+          'config',
+        )
+        const presetAttributify = config?.presets?.find(p => p.name === '@unocss/preset-attributify')
+        const attributePrefix: string | undefined = presetAttributify?.options?.prefix
+
         if (node.key.name === 'class') {
           if (node.value.type === 'VLiteral')
             checkLiteral(node.value)
+        }
+        else if (attributePrefix != null) {
+          // For enable attributify mode
+          if (node.value.type === 'VLiteral') {
+            checkLiteral(
+              node.value,
+              node.key.name.startsWith(attributePrefix) ? node.key.name.slice(attributePrefix.length) : node.key.name,
+            )
+          }
         }
       },
     }
