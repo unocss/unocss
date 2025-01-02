@@ -2,6 +2,7 @@ import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocs
 import type { ExtensionContext, StatusBarItem } from 'vscode'
 import { readdir } from 'fs/promises'
 import path from 'path'
+import { errorCwdMap } from '@unocss/config'
 import { notNull } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
 import { exists } from 'fs-extra'
@@ -222,8 +223,10 @@ export class ContextLoader {
     }
 
     const context = await load()
-    if (!this.contextsMap.has(dir))
+    if (!this.contextsMap.has(dir) && !errorCwdMap.has(dir))
       this.contextsMap.set(dir, context)
+    else if (errorCwdMap.has(dir))
+      errorCwdMap.delete(dir)
     this.fileContextCache.clear()
     this.events.emit('reload')
 
