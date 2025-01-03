@@ -10,16 +10,18 @@ const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
+type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
+
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
-  let invalidateTimer: any
+  let invalidateTimer: TimeoutTimer
   const lastServedHash = new Map<string, string>()
   let lastServedTime = Date.now()
   let resolved = false
-  let resolvedWarnTimer: any
+  let resolvedWarnTimer: TimeoutTimer
 
   async function generateCSS(layer: string) {
     await flushTasks()
@@ -80,8 +82,12 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     }
   }
 
-  function setWarnTimer() {
-    if (!resolved && !resolvedWarnTimer) {
+  async function setWarnTimer() {
+    if (
+      !resolved
+      && !resolvedWarnTimer
+      && !(await getConfig() as VitePluginConfig).disableEntryCheck
+    ) {
       resolvedWarnTimer = setTimeout(() => {
         if (process.env.TEST || process.env.NODE_ENV === 'test')
           return
