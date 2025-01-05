@@ -19,6 +19,7 @@ import {
   resolveId,
   resolveLayer,
 } from '../../integration'
+import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 // https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
 function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
@@ -281,8 +282,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             return
 
           if (!(await getConfig() as VitePluginConfig).disableEntryCheck) {
-            const msg = '[unocss] Entry module not found. Did you add `import \'uno.css\'` in your main entry?'
-            this.warn(msg)
+            this.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
           }
 
           return
