@@ -32,7 +32,7 @@ jobs:
       - name: Update iconify collections
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'feat: update iconify collections'
+          commit_message: 'chore(preset-icons): update iconify collections'
           commit_options: --no-verify --signoff
-          file_pattern: packages/preset-icons/src/collections.json'
+          file_pattern: packages/preset-icons/src/collections.json
           commit_author: Author <actions@github.com>
