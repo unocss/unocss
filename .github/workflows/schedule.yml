@@ -1,0 +1,38 @@
+name: Schedule
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # UTC time 00:00 every 3 day
+    - cron: '0 0 */3 * *'
+
+jobs:
+  update:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: PNPM update
+        run: pnpm run update
+
+      - name: Update iconify collections
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(preset-icons): update iconify collections'
+          commit_options: --no-verify --signoff
+          file_pattern: packages/preset-icons/src/collections.json
+          commit_author: Author <actions@github.com>

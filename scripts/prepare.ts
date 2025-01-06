@@ -1,20 +1,6 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import { globSync } from 'tinyglobby'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const out = path.resolve(__dirname, '../packages/preset-icons')
-
-async function prepareCollections() {
-  const dir = path.resolve(__dirname, '../node_modules/@iconify/json/json')
-  await fs.ensureDir(dir)
-
-  const collections = (await fs.readdir(dir)).map(file => file.replace(/\.json$/, ''))
-  await fs.writeJSON(path.resolve(out, 'src/collections.json'), collections)
-}
 
 async function fixVSCodePackage() {
   const json = await fs.readJSON('./packages/vscode/package.json')
@@ -82,7 +68,7 @@ async function preparePackagesBundle() {
 
 async function prepare() {
   await Promise.all([
-    prepareCollections(),
+    execa('pnpm', ['run', 'update:iconify-collections']),
     fixVSCodePackage(),
     preparePackagesBundle(),
     execa('npx', ['simple-git-hooks']),
