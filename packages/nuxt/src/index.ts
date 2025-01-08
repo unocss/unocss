@@ -81,7 +81,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         filename: 'uno.config.mjs',
         async getContents() {
           const configPaths = (await Promise.all(nuxt.options._layers.slice(1).map(layer =>
-            findPath(options.configFile || ['uno.config', 'unocss.config'], { cwd: layer.config.srcDir }),
+            findPath(options.configFile || ['uno.config', 'unocss.config'], { cwd: layer.config.rootDir }),
           )))
             .filter(Boolean)
             .reverse() as string[]
