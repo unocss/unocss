@@ -87,7 +87,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     if (
       !resolved
       && !resolvedWarnTimer
-      && !(await getConfig() as VitePluginConfig).disableEntryCheck
+      && (await getConfig() as VitePluginConfig).checkImport
     ) {
       resolvedWarnTimer = setTimeout(() => {
         if (process.env.TEST || process.env.NODE_ENV === 'test')

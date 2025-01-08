@@ -281,7 +281,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           if (replaced)
             return
 
-          if (!(await getConfig() as VitePluginConfig).disableEntryCheck) {
+          if ((await getConfig() as VitePluginConfig).checkImport) {
             this.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
           }
 

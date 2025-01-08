@@ -61,7 +61,7 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
   /**
    * Disable `import 'uno.css'` existing check.
    *
-   * @default false
+   * @default true
    */
-  disableEntryCheck?: boolean
+  checkImport?: boolean
 }
