@@ -57,4 +57,11 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    * @default 'cors'
    */
   fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
+
+  /**
+   * Disable `import 'uno.css'` existing check.
+   *
+   * @default true
+   */
+  checkImport?: boolean
 }

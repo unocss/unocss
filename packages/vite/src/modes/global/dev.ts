@@ -5,21 +5,24 @@ import process from 'node:process'
 import { notNull } from '@unocss/core'
 import MagicString from 'magic-string'
 import { getHash, getPath, LAYER_MARK_ALL, resolveId, resolveLayer } from '../../integration'
+import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
+
+type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
-  let invalidateTimer: any
+  let invalidateTimer: TimeoutTimer
   const lastServedHash = new Map<string, string>()
   let lastServedTime = Date.now()
   let resolved = false
-  let resolvedWarnTimer: any
+  let resolvedWarnTimer: TimeoutTimer
 
   async function generateCSS(layer: string) {
     await flushTasks()
@@ -80,17 +83,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     }
   }
 
-  function setWarnTimer() {
-    if (!resolved && !resolvedWarnTimer) {
+  async function setWarnTimer() {
+    if (
+      !resolved
+      && !resolvedWarnTimer
+      && (await getConfig() as VitePluginConfig).checkImport
+    ) {
       resolvedWarnTimer = setTimeout(() => {
         if (process.env.TEST || process.env.NODE_ENV === 'test')
           return
         if (!resolved) {
-          const msg = '[unocss] Entry module not found. Did you add `import \'uno.css\'` in your main entry?'
-          console.warn(msg)
+          console.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
           servers.forEach(({ ws }) => ws.send({
             type: 'error',
-            err: { message: msg, stack: '' },
+            err: { message: MESSAGE_UNOCSS_ENTRY_NOT_FOUND, stack: '' },
           }))
         }
       }, WARN_TIMEOUT)
