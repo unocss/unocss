@@ -160,6 +160,15 @@ table {
 }
 
 /*
+  Remove default alignment and font-weight table header elements.
+*/
+
+th {
+  text-align: inherit;
+  font-weight: inherit;
+}
+
+/*
 1. Change the font styles in all browsers.
 2. Remove the margin in Firefox and Safari.
 3. Remove default padding in all browsers.
