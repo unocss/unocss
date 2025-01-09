@@ -4,7 +4,7 @@
 // Meta info
 export const publisher = 'antfu'
 export const name = '@unocss/vscode'
-export const version = '0.65.3'
+export const version = '0.65.4'
 export const displayName = 'UnoCSS'
 export const description = 'UnoCSS for VS Code'
 export const extensionId = `${publisher}.${name}`
