@@ -93,7 +93,7 @@ Options:
 - `prefix` (string) - can be used in combination with [custom prefix](https://github.com/unocss/unocss/blob/main/packages/transformer-compile-class/src/index.ts#L34). Default: `:uno:`
 - `enableFix` (boolean) - can be used for gradual migration when `false`. Default: `true`
 
-**Note**: currently only Vue supported. _Contribute a PR_ if you want this in JSX. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
+**Note**: currently only Vue and JSX supported. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
 
 ## Prior Arts
 
