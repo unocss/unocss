@@ -2,6 +2,7 @@ import type { TSESTree } from '@typescript-eslint/types'
 import type { ESLintUtils } from '@typescript-eslint/utils'
 import type { ReportFixFunction, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { AST } from 'vue-eslint-parser'
+import { CLASS_FIELDS } from '../constants'
 import { createRule } from './_'
 
 export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
@@ -33,7 +34,7 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
     const CLASS_COMPILE_PREFIX = `${mergedOptions.prefix} `
     const ENABLE_FIX = mergedOptions.enableFix
 
-    function report({ node, fix }: { node: AST.VNode | AST.ESLintNode, fix: ReportFixFunction }) {
+    function report({ node, fix }: { node: AST.VNode | AST.ESLintNode | TSESTree.JSXAttribute, fix: ReportFixFunction }) {
       context.report({
         node: node as unknown as TSESTree.Node,
         loc: node.loc,
@@ -43,16 +44,7 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
       })
     }
 
-    const scriptVisitor: RuleListener = {
-      JSXAttribute(_node) {
-        // todo: add support | NEED HELP
-      },
-      SvelteAttribute(_node: any) {
-        // todo: add support | NEED HELP
-      },
-    }
-
-    const reportClassList = (node: AST.VNode | AST.ESLintNode, classList: string) => {
+    const reportClassList = (node: AST.VNode | AST.ESLintNode | TSESTree.JSXAttribute, classList: string) => {
       if (classList.startsWith(CLASS_COMPILE_PREFIX))
         return
 
@@ -62,6 +54,18 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
           return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], `${CLASS_COMPILE_PREFIX}${classList}`)
         },
       })
+    }
+
+    const scriptVisitor: RuleListener = {
+      JSXAttribute(node) {
+        if (typeof node.name.name === 'string' && CLASS_FIELDS.includes(node.name.name.toLowerCase()) && node.value) {
+          if (node.value.type === 'Literal' && typeof node.value.value === 'string')
+            reportClassList(node, node.value.value)
+        }
+      },
+      SvelteAttribute(_node: any) {
+        // todo: add support | NEED HELP
+      },
     }
 
     const templateBodyVisitor: RuleListener = {
