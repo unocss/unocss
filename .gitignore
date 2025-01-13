@@ -17,7 +17,6 @@ packages-engine/runtime/*.global.js
 packages-engine/unocss/README.md
 packages-integrations/vscode/LICENSE
 packages-integrations/vscode/src/generated
-packages-presets/preset-icons/src/collections.json
 result.json
 interactive/guides/vendor/*.md
 interactive/data/guides.ts
