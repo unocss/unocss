@@ -39,7 +39,7 @@ export interface TransformerAttributifyJsxOptions {
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 const elementRE = /<([^/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|(\{[^}]*\})|[^{>])+)>/g
-const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?])([a-z()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?|\{[^}]*\}/gi
+const attributeRE = /([a-z0-9()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?|\{[^}]*\}/gi
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
 
@@ -77,7 +77,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
       for (const item of Array.from(code.original.matchAll(elementRE))) {
         // Get the length of the className part, and replace it with the equal length of empty string
-        let attributifyPart = item[2]
+        let attributifyPart = item[2].replace(/\$\{((?:[^{}']|'[^']*'|\{(?:[^{}']|'[^']*')*\})*)\}/g, '$1')
         if (valuedAttributeRE.test(attributifyPart)) {
           attributifyPart = attributifyPart.replace(valuedAttributeRE, (match, _, dynamicFlagStart) => {
             if (!dynamicFlagStart)
