@@ -32,7 +32,7 @@ export default defineConfig({
     Components({
       dirs: [
         'src/components',
-        '../packages-engine/inspector/client/components',
+        '../packages-integrations/inspector/client/components',
       ],
       dts: 'src/components.d.ts',
     }),

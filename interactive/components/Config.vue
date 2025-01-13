@@ -2,7 +2,7 @@
 import type { UserConfig } from '@unocss/core'
 import { evaluateUserConfig } from '#docs'
 
-const CodeMirror = defineAsyncComponent(() => import('../../packages-engine/inspector/client/components/CodeMirror.vue'))
+const CodeMirror = defineAsyncComponent(() => import('../../packages-integrations/inspector/client/components/CodeMirror.vue'))
 
 const raw = ref(userConfigRaw.value || defaultConfigRaw)
 const config = ref<UserConfig | undefined>()

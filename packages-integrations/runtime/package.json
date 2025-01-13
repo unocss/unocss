@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
-    "directory": "packages-engine/runtime"
+    "directory": "packages-integrations/runtime"
   },
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
