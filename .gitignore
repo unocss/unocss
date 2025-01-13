@@ -16,6 +16,7 @@ node_modules
 packages/runtime/*.global.js
 packages/unocss/README.md
 packages/vscode/LICENSE
+packages/vscode/src/generated
 packages/preset-icons/src/collections.json
 result.json
 interactive/guides/vendor/*.md
