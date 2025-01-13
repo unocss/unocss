@@ -5,6 +5,7 @@
   "description": "Placeholder for UnoCSS scope import",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
+  "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
@@ -24,6 +25,5 @@
   },
   "main": "./index.cjs",
   "module": "./index.mjs",
-  "types": "./index.d.ts",
-  "homepage": "https://unocss.dev"
+  "types": "./index.d.ts"
 }
