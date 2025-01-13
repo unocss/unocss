@@ -15,7 +15,6 @@
     "@shikijs/markdown-it": "catalog:",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
-    "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "catalog:",
     "esno": "catalog:",
     "fs-extra": "catalog:",

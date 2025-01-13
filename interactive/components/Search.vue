@@ -23,7 +23,7 @@ watch(
   },
 )
 
-function mapSearch(result: import('@unocss/shared-docs').ResultItem[]) {
+function mapSearch(result: import('#docs').ResultItem[]) {
   return result.map((item) => {
     if (item.type === 'guide') {
       return {

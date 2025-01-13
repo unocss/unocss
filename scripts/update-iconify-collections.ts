@@ -6,7 +6,7 @@ import { execa } from 'execa'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const ICONIFY_COLLECTION = path.resolve(__dirname, '../packages/preset-icons/src/collections.json')
+const ICONIFY_COLLECTION = path.resolve(__dirname, '../packages-presets/preset-icons/src/collections.json')
 
 async function update() {
   try {

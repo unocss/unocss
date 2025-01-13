@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 // relative to scripts directory
 const destinations = [
-  ['../LICENSE', '../packages/vscode/LICENSE'],
-  ['../README.md', '../packages/unocss/README.md'],
+  ['../LICENSE', '../packages-integrations/vscode/LICENSE'],
+  ['../README.md', '../packages-presets/unocss/README.md'],
 ]
 
 const _filename = fileURLToPath(import.meta.url)

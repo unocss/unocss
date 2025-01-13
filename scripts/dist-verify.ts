@@ -3,11 +3,14 @@ import process from 'node:process'
 import { glob } from 'tinyglobby'
 
 export async function verifyDist() {
-  const cjsFiles = await glob(['packages/*/dist/**/*.d.ts', 'packages/*/dist/**/*.d.cts'], {
+  const cjsFiles = await glob([
+    'packages-*/*/dist/**/*.d.ts',
+    'packages-*/*/dist/**/*.d.cts',
+  ], {
     ignore: ['**/node_modules/**'],
     expandDirectories: false,
   })
-  // const cjsFiles = await fg('packages/*/dist/**/*.cjs', {
+  // const cjsFiles = await fg('packages-*/*/dist/**/*.cjs', {
   //   ignore: ['**/node_modules/**'],
   // })
 

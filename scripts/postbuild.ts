@@ -35,7 +35,7 @@ function parseExports(dtsModulePath: string, defaultExport: string, content: str
   if (entries.matched)
     return entries.content
   else
-    throw new Error(`UPPS, no match found for ${defaultExport} in ${dtsModulePath}!`)
+    throw new Error(`Ops, no match found for ${defaultExport} in ${dtsModulePath}!`)
 }
 
 function patchDefaultCjsExport(dtsModuleName: string, defaultExport: string = '_default') {
@@ -60,20 +60,20 @@ function patchUnoCSSPostcssCjsExport(dtsModuleName: string) {
 }
 
 // @unocss/eslint-config
-patchDefaultCjsExport(resolve('./packages/eslint-config/dist/flat'))
-patchDefaultCjsExport(resolve('./packages/eslint-config/dist/index'))
+patchDefaultCjsExport(resolve('./packages-integrations/eslint-config/dist/flat'))
+patchDefaultCjsExport(resolve('./packages-integrations/eslint-config/dist/index'))
 
 // @unocss/eslint-plugin
-patchDefaultCjsExport(resolve('./packages/eslint-plugin/dist/index'))
+patchDefaultCjsExport(resolve('./packages-integrations/eslint-plugin/dist/index'))
 
 // @unocss/postcss
-patchDefaultCjsExport(resolve('./packages/postcss/dist/index'), 'unocss')
+patchDefaultCjsExport(resolve('./packages-integrations/postcss/dist/index'), 'unocss')
 
 // @unocss/webpack
-patchDefaultCjsExport(resolve('./packages/webpack/dist/index'), 'WebpackPlugin')
+patchDefaultCjsExport(resolve('./packages-integrations/webpack/dist/index'), 'WebpackPlugin')
 
 // unocss
-patchUnoCSSPostcssCjsExport(resolve('./packages/unocss/dist/postcss'))
-patchDefaultCjsExport(resolve('./packages/unocss/dist/webpack'), 'UnocssWebpackPlugin')
+patchUnoCSSPostcssCjsExport(resolve('./packages-presets/unocss/dist/postcss'))
+patchDefaultCjsExport(resolve('./packages-presets/unocss/dist/webpack'), 'UnocssWebpackPlugin')
 
 await verifyDist()

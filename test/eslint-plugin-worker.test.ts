@@ -2,7 +2,7 @@ import { createGenerator } from '@unocss/core'
 import { presetMini } from '@unocss/preset-mini'
 import { presetUno } from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
-import { runAsync, setGenerator } from '../packages/eslint-plugin/src/worker'
+import { runAsync, setGenerator } from '../packages-integrations/eslint-plugin/src/worker'
 
 describe('worker', () => {
   it('blocklist', async () => {

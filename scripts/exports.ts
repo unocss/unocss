@@ -5,13 +5,16 @@ import { glob } from 'tinyglobby'
 // Generated index.ts files contain this comment
 const exportSubmodules = '/* @export-submodules */'
 
-const files = await glob(['packages/**/index.ts'], {
-  ignore: [
-    '**/node_modules/**',
-  ],
-  absolute: true,
-  expandDirectories: false,
-})
+const files = await glob(
+  ['packages-*/**/index.ts'],
+  {
+    ignore: [
+      '**/node_modules/**',
+    ],
+    absolute: true,
+    expandDirectories: false,
+  },
+)
 
 for (const file of files) {
   let content = await fs.readFile(file, 'utf-8')

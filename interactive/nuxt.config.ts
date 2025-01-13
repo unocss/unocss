@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxt/devtools',
-    '../packages/nuxt/src/index.ts',
+    '../packages-integrations/nuxt/src/index.ts',
     '~/modules/markdown',
   ],
 

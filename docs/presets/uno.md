@@ -8,7 +8,7 @@ outline: deep
 
 The default preset for UnoCSS. It's currently equivalent to [`@unocss/preset-wind`](/presets/wind).
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-uno)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-uno)
 
 ::: info
 This preset inherits [`@unocss/preset-wind`](/presets/wind) and [`@unocss/preset-mini`](/presets/mini).
@@ -63,7 +63,7 @@ For example, `ml-3` (Tailwind CSS), `ms-2` (Bootstrap), `ma4` (Tachyons), and `m
 ## Rules
 This preset is compatible with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/), you can refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
 
-For all rules and presets included in this preset, please refer to our [interactive docs](https://unocss.dev/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-uno).
+For all rules and presets included in this preset, please refer to our [interactive docs](https://unocss.dev/interactive/) or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-uno).
 
 ## Options
 

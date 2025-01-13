@@ -14,10 +14,10 @@ export default antfu(
       '**/.svelte-kit',
       '**/*.global.js',
       'bench/source/gen*.js',
-      'packages/preset-icons/src/collections.json',
       'interactive/guides/vendor/*.md',
-      'packages/eslint-plugin/fixtures',
       'docs/.vitepress/cache',
+      'packages-presets/preset-icons/src/collections.json',
+      'packages-integrations/eslint-plugin/fixtures',
     ],
   },
   {
@@ -53,7 +53,7 @@ export default antfu(
   },
   {
     files: [
-      'packages/vscode/**/*.ts',
+      'packages-integrations/vscode/**/*.ts',
     ],
     rules: {
       'unicorn/prefer-node-protocol': 'off',
@@ -62,7 +62,7 @@ export default antfu(
   {
     files: [
       '**/*.md/*.[jt]s',
-      'packages/shared-docs/src/default-config.ts',
+      'packages-virtual/shared-docs/src/default-config.ts',
     ],
     rules: {
       'no-restricted-imports': 'off',

@@ -8,7 +8,7 @@ import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
-import { transformDirectives } from '../packages/transformer-directives/src/transform'
+import { transformDirectives } from '../packages-presets/transformer-directives/src/transform'
 
 describe('transformer-directives', async () => {
   const uno = await createGenerator({

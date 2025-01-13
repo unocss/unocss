@@ -1,14 +1,14 @@
 import type { UserConfig } from '@unocss/core'
 import type { Ref } from 'vue'
 import type { ResultItem } from '~/types'
+import { createSearch, evaluateUserConfig } from '#docs'
+import defaultConfigRaw from '#docs/default-config.ts?raw'
+import { unocssBundle } from '#docs/unocss-bundle'
 import { createGenerator } from '@unocss/core'
-import { createSearch, evaluateUserConfig } from '@unocss/shared-docs'
 import { breakpointsTailwind } from '@vueuse/core'
 import { guideIndex as guides } from '~/data/guides'
 import { mdnIndex as docs } from '~/data/mdn-index'
 import { defaultConfig } from '~/uno.config'
-import defaultConfigRaw from '../../packages/shared-docs/src/default-config.ts?raw'
-import { unocssBundle } from '../../packages/shared-docs/src/unocss-bundle'
 
 export { defaultConfigRaw }
 

@@ -8,7 +8,7 @@ outline: deep
 
 Provides a set of prose classes you can use to add typographic defaults to vanilla HTML.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-typography)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-typography)
 
 ## Installation
 
@@ -81,7 +81,7 @@ Notice: `not-prose` can only be used as a class, not as an attribute.
 Apply any font size for body you like and `prose` will scale the styles for
 the respective HTML elements. For instance, `prose text-lg` has body font size
 `1.125rem` and `h1` will scale with that size 2.25 times. See [all the
-supported HTML elements](https://github.com/unocss/unocss/blob/main/packages/preset-typography/src/preflights/default.ts).
+supported HTML elements](https://github.com/unocss/unocss/blob/main/packages-presets/preset-typography/src/preflights/default.ts).
 
 ### Any color
 
@@ -120,7 +120,7 @@ can disable them. ([#2064](https://github.com/unocss/unocss/pull/2064))
 
 |  Rule   |                                            Styles by this rule                                                    |
 | :-----: | :---------------------------------------------------------------------------------------------------------------: |
-| `prose` | See [on GitHub](https://github.com/unocss/unocss/blob/main/packages/preset-typography/src/preflights/default.ts). |
+| `prose` | See [on GitHub](https://github.com/unocss/unocss/blob/main/packages-presets/preset-typography/src/preflights/default.ts). |
 
 ### Colors
 
