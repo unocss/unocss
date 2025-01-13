@@ -11,13 +11,6 @@ export const aliasEngine: Record<string, string> = {
   '@unocss/cli': r('./packages-engine/cli/src/'),
   '@unocss/config': r('./packages-engine/config/src/'),
   '@unocss/core': r('./packages-engine/core/src/'),
-  '@unocss/extractor-arbitrary-variants': r('./packages-engine/extractor-arbitrary-variants/src/'),
-  '@unocss/inspector': r('./packages-engine/inspector/src/'),
-  '@unocss/rule-utils': r('./packages-engine/rule-utils/src/'),
-  '@unocss/scope': r('./packages-engine/scope/src/'),
-  '@unocss/transformer-compile-class': r('./packages-engine/transformer-compile-class/src/'),
-  '@unocss/transformer-directives': r('./packages-engine/transformer-directives/src/'),
-  '@unocss/transformer-variant-group': r('./packages-engine/transformer-variant-group/src/'),
 }
 
 // @keep-sorted
@@ -25,12 +18,12 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/astro': r('./packages-integrations/astro/src/'),
   '@unocss/eslint-config': r('./packages-integrations/eslint-config/src/'),
   '@unocss/eslint-plugin': r('./packages-integrations/eslint-plugin/src/'),
-  '@unocss/extractor-mdc': r('./packages-integrations/extractor-mdc/src/'),
-  '@unocss/extractor-pug': r('./packages-integrations/extractor-pug/src/'),
-  '@unocss/extractor-svelte': r('./packages-integrations/extractor-svelte/src/'),
+  '@unocss/inspector': r('./packages-integrations/inspector/src/'),
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
+  '@unocss/runtime': r('./packages-integrations/runtime/src/'),
+  '@unocss/scope': r('./packages-integrations/scope/src/'),
   '@unocss/svelte-scoped': r('./packages-integrations/svelte-scoped/src/'),
   '@unocss/vite': r('./packages-integrations/vite/src/'),
   '@unocss/vscode': r('./packages-integrations/vscode/src/'),
@@ -56,6 +49,10 @@ export const aliasVirtual: Record<string, string> = {
 
 // @keep-sorted
 export const aliasPresets: Record<string, string> = {
+  '@unocss/extractor-arbitrary-variants': r('./packages-presets/extractor-arbitrary-variants/src/'),
+  '@unocss/extractor-mdc': r('./packages-presets/extractor-mdc/src/'),
+  '@unocss/extractor-pug': r('./packages-presets/extractor-pug/src/'),
+  '@unocss/extractor-svelte': r('./packages-presets/extractor-svelte/src/'),
   '@unocss/preset-attributify': r('./packages-presets/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages-presets/preset-icons/src/'),
   '@unocss/preset-mini': r('./packages-presets/preset-mini/src/'),
@@ -65,8 +62,12 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/preset-uno': r('./packages-presets/preset-uno/src/'),
   '@unocss/preset-web-fonts': r('./packages-presets/preset-web-fonts/src/'),
   '@unocss/preset-wind': r('./packages-presets/preset-wind/src/'),
+  '@unocss/rule-utils': r('./packages-presets/rule-utils/src/'),
   '@unocss/transformer-attributify-jsx-babel': r('./packages-presets/transformer-attributify-jsx-babel/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages-presets/transformer-attributify-jsx/src/'),
+  '@unocss/transformer-compile-class': r('./packages-presets/transformer-compile-class/src/'),
+  '@unocss/transformer-directives': r('./packages-presets/transformer-directives/src/'),
+  '@unocss/transformer-variant-group': r('./packages-presets/transformer-variant-group/src/'),
   'unocss': r('./packages-presets/unocss/src/'),
   'unocss/vite': r('./packages-presets/unocss/src/vite.ts'),
 }

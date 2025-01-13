@@ -1,7 +1,7 @@
 import type { ExtractorContext, HighlightAnnotation, UnoGenerator } from '@unocss/core'
 import { escapeRegExp, isAttributifySelector, splitWithVariantGroupRE } from '@unocss/core'
 import MagicString from 'magic-string'
-import { arbitraryPropertyRE, quotedArbitraryValuesRE } from '../../../packages-engine/extractor-arbitrary-variants/src/index'
+import { arbitraryPropertyRE, quotedArbitraryValuesRE } from '../../../packages-presets/extractor-arbitrary-variants/src/index'
 
 export async function isPug(uno: UnoGenerator, code: string, id = '') {
   const pugExtractor = uno.config.extractors?.find(e => e.name === 'pug')

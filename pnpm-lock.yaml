@@ -542,7 +542,7 @@ importers:
         version: link:packages-integrations/eslint-plugin
       '@unocss/extractor-pug':
         specifier: workspace:*
-        version: link:packages-integrations/extractor-pug
+        version: link:packages-presets/extractor-pug
       '@unocss/postcss':
         specifier: workspace:*
         version: link:packages-integrations/postcss
@@ -578,13 +578,13 @@ importers:
         version: link:packages-presets/reset
       '@unocss/runtime':
         specifier: workspace:*
-        version: link:packages-engine/runtime
+        version: link:packages-integrations/runtime
       '@unocss/transformer-directives':
         specifier: workspace:*
-        version: link:packages-engine/transformer-directives
+        version: link:packages-presets/transformer-directives
       '@unocss/transformer-variant-group':
         specifier: workspace:*
-        version: link:packages-engine/transformer-variant-group
+        version: link:packages-presets/transformer-variant-group
       '@unocss/vite':
         specifier: workspace:*
         version: link:packages-integrations/vite
@@ -1024,92 +1024,6 @@ importers:
         specifier: 'catalog:'
         version: 0.6.0
 
-  packages-engine/extractor-arbitrary-variants:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages-engine/inspector:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
-      colorette:
-        specifier: 'catalog:'
-        version: 2.0.20
-      gzip-size:
-        specifier: 'catalog:'
-        version: 6.0.0
-      sirv:
-        specifier: 'catalog:'
-        version: 3.0.0
-      vue-flow-layout:
-        specifier: 'catalog:'
-        version: 0.1.1(vue@3.5.13(typescript@5.7.2))
-
-  packages-engine/rule-utils:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:^
-        version: link:../core
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-
-  packages-engine/runtime:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/preset-attributify':
-        specifier: workspace:*
-        version: link:../../packages-presets/preset-attributify
-      '@unocss/preset-uno':
-        specifier: workspace:*
-        version: link:../../packages-presets/preset-uno
-
-  packages-engine/scope: {}
-
-  packages-engine/transformer-compile-class:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-    devDependencies:
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-
-  packages-engine/transformer-directives:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
-      css-tree:
-        specifier: 'catalog:'
-        version: 3.1.0
-    devDependencies:
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-
-  packages-engine/transformer-variant-group:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-    devDependencies:
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-
   packages-integrations/astro:
     dependencies:
       '@unocss/core':
@@ -1148,7 +1062,7 @@ importers:
         version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../../packages-engine/rule-utils
+        version: link:../../packages-presets/rule-utils
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
@@ -1166,29 +1080,26 @@ importers:
         specifier: 'catalog:'
         version: 9.4.3(eslint@9.17.0(jiti@2.4.2))
 
-  packages-integrations/extractor-mdc:
-    devDependencies:
+  packages-integrations/inspector:
+    dependencies:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-
-  packages-integrations/extractor-pug:
-    devDependencies:
-      '@types/pug':
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../../packages-presets/rule-utils
+      colorette:
         specifier: 'catalog:'
-        version: 2.0.10
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../../packages-engine/core
-      pug:
+        version: 2.0.20
+      gzip-size:
         specifier: 'catalog:'
-        version: 3.0.3
-
-  packages-integrations/extractor-svelte:
-    devDependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../../packages-engine/core
+        version: 6.0.0
+      sirv:
+        specifier: 'catalog:'
+        version: 3.0.0
+      vue-flow-layout:
+        specifier: 'catalog:'
+        version: 0.1.1(vue@3.5.13(typescript@5.7.2))
 
   packages-integrations/nuxt:
     dependencies:
@@ -1249,7 +1160,7 @@ importers:
         version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../../packages-engine/rule-utils
+        version: link:../../packages-presets/rule-utils
       css-tree:
         specifier: 'catalog:'
         version: 3.1.0
@@ -1259,6 +1170,20 @@ importers:
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.10
+
+  packages-integrations/runtime:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/preset-attributify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-attributify
+      '@unocss/preset-uno':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-uno
+
+  packages-integrations/scope: {}
 
   packages-integrations/svelte-scoped:
     dependencies:
@@ -1301,7 +1226,7 @@ importers:
         version: link:../../packages-engine/core
       '@unocss/inspector':
         specifier: workspace:*
-        version: link:../../packages-engine/inspector
+        version: link:../inspector
       chokidar:
         specifier: 'catalog:'
         version: 3.6.0
@@ -1389,6 +1314,36 @@ importers:
         specifier: 'catalog:'
         version: 5.97.1
 
+  packages-presets/extractor-arbitrary-variants:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/extractor-mdc:
+    devDependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/extractor-pug:
+    devDependencies:
+      '@types/pug':
+        specifier: 'catalog:'
+        version: 2.0.10
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      pug:
+        specifier: 'catalog:'
+        version: 3.0.3
+
+  packages-presets/extractor-svelte:
+    devDependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
   packages-presets/preset-attributify:
     dependencies:
       '@unocss/core':
@@ -1424,10 +1379,10 @@ importers:
         version: link:../../packages-engine/core
       '@unocss/extractor-arbitrary-variants':
         specifier: workspace:*
-        version: link:../../packages-engine/extractor-arbitrary-variants
+        version: link:../extractor-arbitrary-variants
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../../packages-engine/rule-utils
+        version: link:../rule-utils
 
   packages-presets/preset-rem-to-px:
     dependencies:
@@ -1463,7 +1418,7 @@ importers:
         version: link:../preset-wind
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../../packages-engine/rule-utils
+        version: link:../rule-utils
 
   packages-presets/preset-web-fonts:
     dependencies:
@@ -1484,7 +1439,7 @@ importers:
         version: link:../preset-mini
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../../packages-engine/rule-utils
+        version: link:../rule-utils
 
   packages-presets/reset:
     devDependencies:
@@ -1494,6 +1449,15 @@ importers:
       sanitize.css:
         specifier: 'catalog:'
         version: 13.0.0
+
+  packages-presets/rule-utils:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:^
+        version: link:../../packages-engine/core
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
 
   packages-presets/transformer-attributify-jsx:
     dependencies:
@@ -1516,6 +1480,42 @@ importers:
       '@babel/preset-typescript':
         specifier: 'catalog:'
         version: 7.26.0(@babel/core@7.26.0)
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+    devDependencies:
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+
+  packages-presets/transformer-compile-class:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+    devDependencies:
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+
+  packages-presets/transformer-directives:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
+      css-tree:
+        specifier: 'catalog:'
+        version: 3.1.0
+    devDependencies:
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+
+  packages-presets/transformer-variant-group:
+    dependencies:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
@@ -1567,13 +1567,13 @@ importers:
         version: link:../transformer-attributify-jsx
       '@unocss/transformer-compile-class':
         specifier: workspace:*
-        version: link:../../packages-engine/transformer-compile-class
+        version: link:../transformer-compile-class
       '@unocss/transformer-directives':
         specifier: workspace:*
-        version: link:../../packages-engine/transformer-directives
+        version: link:../transformer-directives
       '@unocss/transformer-variant-group':
         specifier: workspace:*
-        version: link:../../packages-engine/transformer-variant-group
+        version: link:../transformer-variant-group
       '@unocss/vite':
         specifier: workspace:*
         version: link:../../packages-integrations/vite
@@ -1610,7 +1610,7 @@ importers:
         version: link:../../packages-engine/core
       '@unocss/scope':
         specifier: workspace:*
-        version: link:../../packages-engine/scope
+        version: link:../../packages-integrations/scope
 
   playground:
     devDependencies:

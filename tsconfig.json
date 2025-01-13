@@ -20,27 +20,6 @@
       "@unocss/core": [
         "./packages-engine/core/src/"
       ],
-      "@unocss/extractor-arbitrary-variants": [
-        "./packages-engine/extractor-arbitrary-variants/src/"
-      ],
-      "@unocss/inspector": [
-        "./packages-engine/inspector/src/"
-      ],
-      "@unocss/rule-utils": [
-        "./packages-engine/rule-utils/src/"
-      ],
-      "@unocss/scope": [
-        "./packages-engine/scope/src/"
-      ],
-      "@unocss/transformer-compile-class": [
-        "./packages-engine/transformer-compile-class/src/"
-      ],
-      "@unocss/transformer-directives": [
-        "./packages-engine/transformer-directives/src/"
-      ],
-      "@unocss/transformer-variant-group": [
-        "./packages-engine/transformer-variant-group/src/"
-      ],
       "@unocss/astro": [
         "./packages-integrations/astro/src/"
       ],
@@ -50,14 +29,8 @@
       "@unocss/eslint-plugin": [
         "./packages-integrations/eslint-plugin/src/"
       ],
-      "@unocss/extractor-mdc": [
-        "./packages-integrations/extractor-mdc/src/"
-      ],
-      "@unocss/extractor-pug": [
-        "./packages-integrations/extractor-pug/src/"
-      ],
-      "@unocss/extractor-svelte": [
-        "./packages-integrations/extractor-svelte/src/"
+      "@unocss/inspector": [
+        "./packages-integrations/inspector/src/"
       ],
       "@unocss/nuxt": [
         "./packages-integrations/nuxt/src/"
@@ -67,6 +40,12 @@
       ],
       "@unocss/postcss/esm": [
         "./packages-integrations/postcss/src/esm.ts"
+      ],
+      "@unocss/runtime": [
+        "./packages-integrations/runtime/src/"
+      ],
+      "@unocss/scope": [
+        "./packages-integrations/scope/src/"
       ],
       "@unocss/svelte-scoped": [
         "./packages-integrations/svelte-scoped/src/"
@@ -119,6 +98,18 @@
       "#integration/utils": [
         "./packages-virtual/shared-integration/src/utils.ts"
       ],
+      "@unocss/extractor-arbitrary-variants": [
+        "./packages-presets/extractor-arbitrary-variants/src/"
+      ],
+      "@unocss/extractor-mdc": [
+        "./packages-presets/extractor-mdc/src/"
+      ],
+      "@unocss/extractor-pug": [
+        "./packages-presets/extractor-pug/src/"
+      ],
+      "@unocss/extractor-svelte": [
+        "./packages-presets/extractor-svelte/src/"
+      ],
       "@unocss/preset-attributify": [
         "./packages-presets/preset-attributify/src/"
       ],
@@ -146,11 +137,23 @@
       "@unocss/preset-wind": [
         "./packages-presets/preset-wind/src/"
       ],
+      "@unocss/rule-utils": [
+        "./packages-presets/rule-utils/src/"
+      ],
       "@unocss/transformer-attributify-jsx-babel": [
         "./packages-presets/transformer-attributify-jsx-babel/src/"
       ],
       "@unocss/transformer-attributify-jsx": [
         "./packages-presets/transformer-attributify-jsx/src/"
+      ],
+      "@unocss/transformer-compile-class": [
+        "./packages-presets/transformer-compile-class/src/"
+      ],
+      "@unocss/transformer-directives": [
+        "./packages-presets/transformer-directives/src/"
+      ],
+      "@unocss/transformer-variant-group": [
+        "./packages-presets/transformer-variant-group/src/"
       ],
       "unocss": [
         "./packages-presets/unocss/src/"
