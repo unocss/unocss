@@ -13,11 +13,11 @@ coverage
 dist
 examples/**/pnpm-lock.yaml
 node_modules
-packages/runtime/*.global.js
-packages/unocss/README.md
-packages/vscode/LICENSE
-packages/vscode/src/generated
-packages/preset-icons/src/collections.json
+packages-engine/runtime/*.global.js
+packages-engine/unocss/README.md
+packages-integrations/vscode/LICENSE
+packages-integrations/vscode/src/generated
+packages-presets/preset-icons/src/collections.json
 result.json
 interactive/guides/vendor/*.md
 interactive/data/guides.ts

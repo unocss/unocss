@@ -8,7 +8,7 @@ outline: deep
 
 Converts rem to px for all utilities.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-rem-to-px)
 
 ## Installation
 

@@ -6,7 +6,7 @@ outline: deep
 
 # Webpack Plugin
 
-The webpack plugin for UnoCSS: `@unocss/webpack`. Currently, this plugin only supports the [`global` mode](https://github.com/unocss/unocss/blob/main/packages/vite/src/types.ts#L11-L21).
+The webpack plugin for UnoCSS: `@unocss/webpack`. Currently, this plugin only supports the [`global` mode](https://github.com/unocss/unocss/blob/main/packages-integrations/vite/src/types.ts#L11-L21).
 
 ::: info
 This plugin does not come with any default presets.

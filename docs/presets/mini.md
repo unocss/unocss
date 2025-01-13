@@ -8,7 +8,7 @@ outline: deep
 
 The basic preset for UnoCSS, with only the most essential utilities.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-mini)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-mini)
 
 ## Installation
 

@@ -8,7 +8,7 @@ outline: deep
 
 The Tailwind CSS / Windi CSS compact preset for UnoCSS.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-wind)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind)
 
 ::: info
 This preset inherits [`@unocss/preset-mini`](/presets/mini).
@@ -50,7 +50,7 @@ import { presetWind } from 'unocss'
 ## Rules
 The primary goal of this preset is to provide compatibility with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/). It should be noted that complete compatibility may not be guaranteed. Please refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
 
-For all rules and presets included in this preset, please refer to our <a href="/interactive/" target="_blank">interactive docs</a> or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-wind).
+For all rules and presets included in this preset, please refer to our <a href="/interactive/" target="_blank">interactive docs</a> or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind).
 
 ## Differences from Tailwind CSS
 

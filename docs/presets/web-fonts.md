@@ -10,7 +10,7 @@ Use web fonts from [Google Fonts](https://fonts.google.com/), [FontShare](https:
 
 See [all supported providers](#providers).
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-web-fonts)
 
 ## Installation
 

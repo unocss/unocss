@@ -86,7 +86,7 @@ Will be compiled to:
 
 ## Options
 
-You can config the trigger string and prefix for compile class with the options. Refer to [the types](https://github.com/unocss/unocss/blob/main/packages/transformer-compile-class/src/index.ts#L4) for details.
+You can config the trigger string and prefix for compile class with the options. Refer to [the types](https://github.com/unocss/unocss/blob/main/packages-engine/transformer-compile-class/src/index.ts#L4) for details.
 
 ## Tooling
 
