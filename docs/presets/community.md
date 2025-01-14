@@ -24,6 +24,7 @@
 - [una-ui-preset](https://unaui.com/getting-started/installation#presets-mode) - Build your own components using [UnaUI](https://unaui.com/) preset by [@phojie](https://github.com/phojie).
 - [unocss-preset-fluid](https://renatomoor.github.io/unocss-preset-fluid/) - Elegantly scale type and space without breakpoints by [@renatomoor](https://github.com/renatomoor).
 - [unocss-preset-block](https://github.com/unpreset/unocss-preset-block) - Block some non-standard classnames by [@chizuki](https://github.com/chizukicn).
+- [unocss-preset-scale-px](https://github.com/onmax/unocss-preset-scale-px) - Numeric values are the same as px by [@onmax](https://github.com/onmax).
 - [unocss-preset-animations](https://unocss-preset-animations.aelita.me/) - Preset for flexible and composable animations by [@Aelita](https://github.com/xsjcTony).
 - [unocss-preset-shadcn](https://github.com/hyoban/unocss-preset-shadcn#readme) - Use [shadcn/ui](https://ui.shadcn.com) with UnoCSS by [@zouhang](https://github.com/zouhangwithsweet) and [@hyoban](https://github.com/hyoban).
 - [@yeungkc/unocss-preset-safe-area](https://github.com/YeungKC/unocss-preset-safe-area) - Use safe area with Unocss by [YeungKC](https://github.com/YeungKC)
