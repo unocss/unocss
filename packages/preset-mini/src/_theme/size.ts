@@ -27,6 +27,18 @@ export const maxWidth = {
   screen: '100vw',
 } satisfies Theme['maxWidth']
 
+export const blockSize = {
+  auto: 'auto',
+  ...baseSize,
+  screen: '100vb',
+} satisfies Theme['blockSize']
+
+export const inlineSize = {
+  auto: 'auto',
+  ...baseSize,
+  screen: '100vi',
+} satisfies Theme['inlineSize']
+
 export const height = {
   auto: 'auto',
   ...baseSize,
@@ -38,5 +50,17 @@ export const maxHeight = {
   ...baseSize,
   screen: '100vh',
 } satisfies Theme['maxHeight']
+
+export const maxBlockSize = {
+  none: 'none',
+  ...baseSize,
+  screen: '100vb',
+} satisfies Theme['maxBlockSize']
+
+export const maxInlineSize = {
+  none: 'none',
+  ...baseSize,
+  screen: '100vi',
+} satisfies Theme['maxInlineSize']
 
 export const containers = { ...baseSize } satisfies Theme['containers']
