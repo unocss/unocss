@@ -1,5 +1,6 @@
 import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
+import { isPseudoClass } from '../../../preset-mini/src/_variants/utils'
 import { notNull } from '../utils'
 
 const regexCache: Record<string, RegExp> = {}
@@ -57,6 +58,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             item.className = item.className === '~'
               ? pre
               : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
+            if (!isPseudoClass(item.className))
+              return from
             group.items.push(item)
           }
         }
