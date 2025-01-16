@@ -102,9 +102,8 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         })
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-          const optimizeAssetsHook
-          = /* webpack 5 & 6 */ compilation.hooks.processAssets
-          || /* webpack 4 */ compilation.hooks.optimizeAssets
+          const optimizeAssetsHook = compilation.hooks.processAssets /* webpack 5 & 6 */
+            || compilation.hooks.optimizeAssets /* webpack 4 */
 
           optimizeAssetsHook.tapPromise(PLUGIN_NAME, async () => {
             await ctx.ready
