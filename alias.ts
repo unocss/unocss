@@ -32,19 +32,19 @@ export const aliasIntegrations: Record<string, string> = {
 
 // @keep-sorted
 export const aliasVirtual: Record<string, string> = {
-  '#docs': r('./packages-virtual/shared-docs/src/'),
-  '#docs/packages': r('./packages-virtual/shared-docs/src/packages.ts'),
-  '#docs/unocss-bundle': r('./packages-virtual/shared-docs/src/unocss-bundle.ts'),
-  '#integration/constants': r('./packages-virtual/shared-integration/src/constants.ts'),
-  '#integration/content': r('./packages-virtual/shared-integration/src/content.ts'),
-  '#integration/context': r('./packages-virtual/shared-integration/src/context.ts'),
-  '#integration/defaults': r('./packages-virtual/shared-integration/src/defaults.ts'),
-  '#integration/hash': r('./packages-virtual/shared-integration/src/hash.ts'),
-  '#integration/layers': r('./packages-virtual/shared-integration/src/layers.ts'),
-  '#integration/match-positions': r('./packages-virtual/shared-integration/src/match-positions.ts'),
-  '#integration/sort-rules': r('./packages-virtual/shared-integration/src/sort-rules.ts'),
-  '#integration/transformers': r('./packages-virtual/shared-integration/src/transformers.ts'),
-  '#integration/utils': r('./packages-virtual/shared-integration/src/utils.ts'),
+  '#docs': r('./virtual-shared/docs/src/'),
+  '#docs/packages': r('./virtual-shared/docs/src/packages.ts'),
+  '#docs/unocss-bundle': r('./virtual-shared/docs/src/unocss-bundle.ts'),
+  '#integration/constants': r('./virtual-shared/integration/src/constants.ts'),
+  '#integration/content': r('./virtual-shared/integration/src/content.ts'),
+  '#integration/context': r('./virtual-shared/integration/src/context.ts'),
+  '#integration/defaults': r('./virtual-shared/integration/src/defaults.ts'),
+  '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),
+  '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
+  '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
+  '#integration/sort-rules': r('./virtual-shared/integration/src/sort-rules.ts'),
+  '#integration/transformers': r('./virtual-shared/integration/src/transformers.ts'),
+  '#integration/utils': r('./virtual-shared/integration/src/utils.ts'),
 }
 
 // @keep-sorted

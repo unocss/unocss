@@ -1585,33 +1585,6 @@ importers:
         specifier: ^6.0.5
         version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
 
-  packages-virtual/shared-docs:
-    dependencies:
-      '@unocss/autocomplete':
-        specifier: workspace:*
-        version: link:../../packages-engine/autocomplete
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../../packages-engine/core
-      '@vue/reactivity':
-        specifier: 'catalog:'
-        version: 3.5.13
-      fuse.js:
-        specifier: 'catalog:'
-        version: 7.0.0
-      prettier:
-        specifier: ^2.8.8
-        version: 2.8.8
-
-  packages-virtual/shared-integration:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../../packages-engine/core
-      '@unocss/scope':
-        specifier: workspace:*
-        version: link:../../packages-integrations/scope
-
   playground:
     devDependencies:
       simple-git:
@@ -1638,6 +1611,33 @@ importers:
   test/fixtures/vite-lib: {}
 
   test/fixtures/vite-lib-rollupoptions: {}
+
+  virtual-shared/docs:
+    dependencies:
+      '@unocss/autocomplete':
+        specifier: workspace:*
+        version: link:../../packages-engine/autocomplete
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@vue/reactivity':
+        specifier: 'catalog:'
+        version: 3.5.13
+      fuse.js:
+        specifier: 'catalog:'
+        version: 7.0.0
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+
+  virtual-shared/integration:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/scope':
+        specifier: workspace:*
+        version: link:../../packages-integrations/scope
 
 packages:
 

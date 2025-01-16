@@ -7,7 +7,7 @@ packages:
   - packages-engine/*
   - packages-integrations/*
   - packages-presets/*
-  - packages-virtual/*
+  - virtual-shared/*
   - test/fixtures/*
   - examples/vue-cli4
   - examples/vue-cli5

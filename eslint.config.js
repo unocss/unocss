@@ -62,7 +62,7 @@ export default antfu(
   {
     files: [
       '**/*.md/*.[jt]s',
-      'packages-virtual/shared-docs/src/default-config.ts',
+      'virtual-shared/docs/src/default-config.ts',
     ],
     rules: {
       'no-restricted-imports': 'off',

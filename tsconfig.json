@@ -60,43 +60,43 @@
         "./packages-integrations/webpack/src/"
       ],
       "#docs": [
-        "./packages-virtual/shared-docs/src/"
+        "./virtual-shared/docs/src/"
       ],
       "#docs/packages": [
-        "./packages-virtual/shared-docs/src/packages.ts"
+        "./virtual-shared/docs/src/packages.ts"
       ],
       "#docs/unocss-bundle": [
-        "./packages-virtual/shared-docs/src/unocss-bundle.ts"
+        "./virtual-shared/docs/src/unocss-bundle.ts"
       ],
       "#integration/constants": [
-        "./packages-virtual/shared-integration/src/constants.ts"
+        "./virtual-shared/integration/src/constants.ts"
       ],
       "#integration/content": [
-        "./packages-virtual/shared-integration/src/content.ts"
+        "./virtual-shared/integration/src/content.ts"
       ],
       "#integration/context": [
-        "./packages-virtual/shared-integration/src/context.ts"
+        "./virtual-shared/integration/src/context.ts"
       ],
       "#integration/defaults": [
-        "./packages-virtual/shared-integration/src/defaults.ts"
+        "./virtual-shared/integration/src/defaults.ts"
       ],
       "#integration/hash": [
-        "./packages-virtual/shared-integration/src/hash.ts"
+        "./virtual-shared/integration/src/hash.ts"
       ],
       "#integration/layers": [
-        "./packages-virtual/shared-integration/src/layers.ts"
+        "./virtual-shared/integration/src/layers.ts"
       ],
       "#integration/match-positions": [
-        "./packages-virtual/shared-integration/src/match-positions.ts"
+        "./virtual-shared/integration/src/match-positions.ts"
       ],
       "#integration/sort-rules": [
-        "./packages-virtual/shared-integration/src/sort-rules.ts"
+        "./virtual-shared/integration/src/sort-rules.ts"
       ],
       "#integration/transformers": [
-        "./packages-virtual/shared-integration/src/transformers.ts"
+        "./virtual-shared/integration/src/transformers.ts"
       ],
       "#integration/utils": [
-        "./packages-virtual/shared-integration/src/utils.ts"
+        "./virtual-shared/integration/src/utils.ts"
       ],
       "@unocss/extractor-arbitrary-variants": [
         "./packages-presets/extractor-arbitrary-variants/src/"

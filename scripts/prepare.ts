@@ -49,7 +49,7 @@ async function preparePackagesBundle() {
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
 
   await fs.writeFile(
-    './packages-virtual/shared-docs/src/packages.ts',
+    './virtual-shared/docs/src/packages.ts',
     [
       '// GENERATED FILE, DO NOT EDIT',
       '/* eslint-disable eslint-comments/no-unlimited-disable */',
@@ -63,7 +63,7 @@ async function preparePackagesBundle() {
   )
 
   await fs.writeFile(
-    './packages-virtual/shared-docs/src/unocss-bundle.ts',
+    './virtual-shared/docs/src/unocss-bundle.ts',
     [
       '// GENERATED FILE, DO NOT EDIT',
       '/* eslint-disable eslint-comments/no-unlimited-disable */',
