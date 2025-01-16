@@ -1,7 +1,7 @@
 import type { UserConfig } from '@unocss/core'
-import { evaluateUserConfig } from '@unocss/shared-docs'
-import { bundlePackages } from '../../../packages/shared-docs/src/packages'
-import { unocssBundle } from '../../../packages/shared-docs/src/unocss-bundle'
+import { evaluateUserConfig } from '#docs'
+import { bundlePackages } from '#docs/packages'
+import { unocssBundle } from '#docs/unocss-bundle'
 
 export const defaultConfig = ref<UserConfig | undefined>()
 

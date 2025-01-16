@@ -8,7 +8,7 @@ outline: deep
 
 This enables the [attributify mode](#attributify-mode) for other presets.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-attributify)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-attributify)
 
 ## Installation
 
@@ -145,7 +145,7 @@ presetAttributify({
 
 Create `shims.d.ts` with the following content:
 
-> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages/preset-attributify/src/jsx.ts) to implement your own type.
+> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
 
 ### Vue
 

@@ -19,7 +19,7 @@ console.log()
 console.log(`unocss v${version}`)
 
 for (const pkg of packages) {
-  const files = globSync([`packages/${pkg}/dist/**/*.mjs`], { absolute: true, expandDirectories: false })
+  const files = globSync([`packages-*/${pkg}/dist/**/*.mjs`], { absolute: true, expandDirectories: false })
   let minified = ''
   for (const file of files) {
     const code = await fs.readFile(file, 'utf8')
@@ -32,7 +32,7 @@ for (const pkg of packages) {
   console.log(`brotli  ${(brotli(minified) / 1024).toFixed(2)} KiB`)
 }
 
-const globals = await glob(['packages/runtime/*.global.js'], {
+const globals = await glob(['packages-engine/runtime/*.global.js'], {
   absolute: true,
   expandDirectories: false,
 })

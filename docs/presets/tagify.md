@@ -8,7 +8,7 @@ outline: deep
 
 This enables the [tagify mode](#tagify-mode) for other presets.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-tagify)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-tagify)
 
 ## Installation
 

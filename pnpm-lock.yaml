@@ -108,9 +108,6 @@ catalogs:
     '@shikijs/vitepress-twoslash':
       specifier: ^1.24.4
       version: 1.24.4
-    '@sveltejs/kit':
-      specifier: ^2.15.0
-      version: 2.15.0
     '@types/connect':
       specifier: ^3.4.38
       version: 3.4.38
@@ -437,7 +434,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: 'catalog:'
-        version: 3.12.1(@typescript-eslint/utils@8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(@unocss/eslint-plugin@packages+eslint-plugin)(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.2))(svelte-eslint-parser@0.42.0(svelte@4.2.19))(typescript@5.7.2)(vitest@2.1.8)
+        version: 3.12.1(@typescript-eslint/utils@8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(@unocss/eslint-plugin@packages-integrations+eslint-plugin)(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.2))(svelte-eslint-parser@0.42.0(svelte@4.2.19))(typescript@5.7.2)(vitest@2.1.8)
       '@antfu/ni':
         specifier: 'catalog:'
         version: 0.23.2
@@ -527,73 +524,73 @@ importers:
         version: 8.5.13
       '@unocss/astro':
         specifier: workspace:*
-        version: link:packages/astro
+        version: link:packages-integrations/astro
       '@unocss/autocomplete':
         specifier: workspace:*
-        version: link:packages/autocomplete
+        version: link:packages-engine/autocomplete
       '@unocss/cli':
         specifier: workspace:*
-        version: link:packages/cli
+        version: link:packages-engine/cli
       '@unocss/config':
         specifier: workspace:*
-        version: link:packages/config
+        version: link:packages-engine/config
       '@unocss/core':
         specifier: workspace:*
-        version: link:packages/core
+        version: link:packages-engine/core
       '@unocss/eslint-plugin':
         specifier: workspace:*
-        version: link:packages/eslint-plugin
+        version: link:packages-integrations/eslint-plugin
       '@unocss/extractor-pug':
         specifier: workspace:*
-        version: link:packages/extractor-pug
+        version: link:packages-presets/extractor-pug
       '@unocss/postcss':
         specifier: workspace:*
-        version: link:packages/postcss
+        version: link:packages-integrations/postcss
       '@unocss/preset-attributify':
         specifier: workspace:*
-        version: link:packages/preset-attributify
+        version: link:packages-presets/preset-attributify
       '@unocss/preset-icons':
         specifier: workspace:*
-        version: link:packages/preset-icons
+        version: link:packages-presets/preset-icons
       '@unocss/preset-legacy-compat':
         specifier: workspace:*
-        version: link:packages/preset-legacy-compat
+        version: link:packages-presets/preset-legacy-compat
       '@unocss/preset-mini':
         specifier: workspace:*
-        version: link:packages/preset-mini
+        version: link:packages-presets/preset-mini
       '@unocss/preset-tagify':
         specifier: workspace:*
-        version: link:packages/preset-tagify
+        version: link:packages-presets/preset-tagify
       '@unocss/preset-typography':
         specifier: workspace:*
-        version: link:packages/preset-typography
+        version: link:packages-presets/preset-typography
       '@unocss/preset-uno':
         specifier: workspace:*
-        version: link:packages/preset-uno
+        version: link:packages-presets/preset-uno
       '@unocss/preset-web-fonts':
         specifier: workspace:*
-        version: link:packages/preset-web-fonts
+        version: link:packages-presets/preset-web-fonts
       '@unocss/preset-wind':
         specifier: workspace:*
-        version: link:packages/preset-wind
+        version: link:packages-presets/preset-wind
       '@unocss/reset':
         specifier: workspace:*
-        version: link:packages/reset
+        version: link:packages-presets/reset
       '@unocss/runtime':
         specifier: workspace:*
-        version: link:packages/runtime
+        version: link:packages-integrations/runtime
       '@unocss/transformer-directives':
         specifier: workspace:*
-        version: link:packages/transformer-directives
+        version: link:packages-presets/transformer-directives
       '@unocss/transformer-variant-group':
         specifier: workspace:*
-        version: link:packages/transformer-variant-group
+        version: link:packages-presets/transformer-variant-group
       '@unocss/vite':
         specifier: workspace:*
-        version: link:packages/vite
+        version: link:packages-integrations/vite
       '@unocss/webpack':
         specifier: workspace:*
-        version: link:packages/webpack
+        version: link:packages-integrations/webpack
       '@vitejs/plugin-legacy':
         specifier: 'catalog:'
         version: 6.0.0(terser@5.37.0)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
@@ -725,7 +722,7 @@ importers:
         version: 3.0.1(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       unocss:
         specifier: workspace:*
-        version: link:packages/unocss
+        version: link:packages-presets/unocss
       unplugin-auto-import:
         specifier: 'catalog:'
         version: 0.19.0(@nuxt/kit@3.15.0(magicast@0.3.5)(rollup@4.29.1))(@vueuse/core@12.2.0(typescript@5.7.2))(rollup@4.29.1)
@@ -755,7 +752,7 @@ importers:
     devDependencies:
       '@unocss/vite':
         specifier: workspace:*
-        version: link:../packages/vite
+        version: link:../packages-integrations/vite
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 5.2.1(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))
@@ -776,7 +773,7 @@ importers:
         version: tailwindcss@4.0.0-beta.1
       unocss:
         specifier: workspace:*
-        version: link:../packages/unocss
+        version: link:../packages-presets/unocss
       vite:
         specifier: ^6.0.5
         version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
@@ -833,7 +830,7 @@ importers:
         version: 1.4.1
       unocss:
         specifier: workspace:*
-        version: link:../packages/unocss
+        version: link:../packages-presets/unocss
       vitepress:
         specifier: 'catalog:'
         version: 1.5.0(@algolia/client-search@5.12.0)(@types/node@22.10.2)(@types/react@18.3.18)(change-case@5.4.4)(fuse.js@7.0.0)(jiti@2.4.2)(lightningcss@1.28.2)(postcss@8.4.49)(react@18.3.1)(search-insights@2.17.2)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
@@ -901,13 +898,10 @@ importers:
         version: 1.24.4
       '@unocss/autocomplete':
         specifier: workspace:*
-        version: link:../packages/autocomplete
+        version: link:../packages-engine/autocomplete
       '@unocss/nuxt':
         specifier: workspace:*
-        version: link:../packages/nuxt
-      '@unocss/shared-docs':
-        specifier: workspace:*
-        version: link:../packages/shared-docs
+        version: link:../packages-integrations/nuxt
       '@vueuse/nuxt':
         specifier: 'catalog:'
         version: 12.2.0(magicast@0.3.5)(nuxt@3.15.0(@parcel/watcher@2.5.0)(@types/node@22.10.2)(db0@0.2.1)(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.1)(lightningcss@1.28.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))(yaml@2.6.1))(rollup@4.29.1)(typescript@5.7.2)
@@ -957,26 +951,7 @@ importers:
         specifier: 'catalog:'
         version: 2.0.0-beta.8(vue@3.5.13(typescript@5.7.2))
 
-  packages/astro:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/reset':
-        specifier: workspace:*
-        version: link:../reset
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../vite
-      vite:
-        specifier: ^6.0.5
-        version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-    devDependencies:
-      astro:
-        specifier: 'catalog:'
-        version: 4.16.18(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
-
-  packages/autocomplete:
+  packages-engine/autocomplete:
     dependencies:
       fzf:
         specifier: 'catalog:'
@@ -989,7 +964,7 @@ importers:
         specifier: workspace:*
         version: link:../core
 
-  packages/cli:
+  packages-engine/cli:
     dependencies:
       '@ampproject/remapping':
         specifier: 'catalog:'
@@ -1005,7 +980,7 @@ importers:
         version: link:../core
       '@unocss/preset-uno':
         specifier: workspace:*
-        version: link:../preset-uno
+        version: link:../../packages-presets/preset-uno
       cac:
         specifier: 'catalog:'
         version: 6.7.14
@@ -1031,7 +1006,7 @@ importers:
         specifier: 'catalog:'
         version: 0.2.10
 
-  packages/config:
+  packages-engine/config:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
@@ -1040,7 +1015,7 @@ importers:
         specifier: 'catalog:'
         version: 0.6.0
 
-  packages/core:
+  packages-engine/core:
     devDependencies:
       magic-string:
         specifier: ^0.30.17
@@ -1049,23 +1024,45 @@ importers:
         specifier: 'catalog:'
         version: 0.6.0
 
-  packages/eslint-config:
+  packages-integrations/astro:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/reset':
+        specifier: workspace:*
+        version: link:../../packages-presets/reset
+      '@unocss/vite':
+        specifier: workspace:*
+        version: link:../vite
+      vite:
+        specifier: ^6.0.5
+        version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
+    devDependencies:
+      astro:
+        specifier: 'catalog:'
+        version: 4.16.18(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(rollup@4.29.1)(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
+
+  packages-integrations/eslint-config:
     dependencies:
       '@unocss/eslint-plugin':
         specifier: workspace:*
         version: link:../eslint-plugin
 
-  packages/eslint-plugin:
+  packages-integrations/eslint-plugin:
     dependencies:
       '@typescript-eslint/utils':
         specifier: ^8.18.2
         version: 8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
       '@unocss/config':
         specifier: workspace:*
-        version: link:../config
+        version: link:../../packages-engine/config
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../../packages-presets/rule-utils
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
@@ -1083,44 +1080,14 @@ importers:
         specifier: 'catalog:'
         version: 9.4.3(eslint@9.17.0(jiti@2.4.2))
 
-  packages/extractor-arbitrary-variants:
+  packages-integrations/inspector:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
-
-  packages/extractor-mdc:
-    devDependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/extractor-pug:
-    devDependencies:
-      '@types/pug':
-        specifier: 'catalog:'
-        version: 2.0.10
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      pug:
-        specifier: 'catalog:'
-        version: 3.0.3
-
-  packages/extractor-svelte:
-    devDependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/inspector:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../rule-utils
+        version: link:../../packages-presets/rule-utils
       colorette:
         specifier: 'catalog:'
         version: 2.0.20
@@ -1134,41 +1101,41 @@ importers:
         specifier: 'catalog:'
         version: 0.1.1(vue@3.5.13(typescript@5.7.2))
 
-  packages/nuxt:
+  packages-integrations/nuxt:
     dependencies:
       '@nuxt/kit':
         specifier: 'catalog:'
         version: 3.15.0(magicast@0.3.5)(rollup@4.29.1)
       '@unocss/config':
         specifier: workspace:*
-        version: link:../config
+        version: link:../../packages-engine/config
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/preset-attributify':
         specifier: workspace:*
-        version: link:../preset-attributify
+        version: link:../../packages-presets/preset-attributify
       '@unocss/preset-icons':
         specifier: workspace:*
-        version: link:../preset-icons
+        version: link:../../packages-presets/preset-icons
       '@unocss/preset-tagify':
         specifier: workspace:*
-        version: link:../preset-tagify
+        version: link:../../packages-presets/preset-tagify
       '@unocss/preset-typography':
         specifier: workspace:*
-        version: link:../preset-typography
+        version: link:../../packages-presets/preset-typography
       '@unocss/preset-uno':
         specifier: workspace:*
-        version: link:../preset-uno
+        version: link:../../packages-presets/preset-uno
       '@unocss/preset-web-fonts':
         specifier: workspace:*
-        version: link:../preset-web-fonts
+        version: link:../../packages-presets/preset-web-fonts
       '@unocss/preset-wind':
         specifier: workspace:*
-        version: link:../preset-wind
+        version: link:../../packages-presets/preset-wind
       '@unocss/reset':
         specifier: workspace:*
-        version: link:../reset
+        version: link:../../packages-presets/reset
       '@unocss/vite':
         specifier: workspace:*
         version: link:../vite
@@ -1177,23 +1144,23 @@ importers:
         version: link:../webpack
       unocss:
         specifier: workspace:*
-        version: link:../unocss
+        version: link:../../packages-presets/unocss
     devDependencies:
       '@nuxt/schema':
         specifier: 'catalog:'
         version: 3.15.0(magicast@0.3.5)(rollup@4.29.1)
 
-  packages/postcss:
+  packages-integrations/postcss:
     dependencies:
       '@unocss/config':
         specifier: workspace:*
-        version: link:../config
+        version: link:../../packages-engine/config
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
-        version: link:../rule-utils
+        version: link:../../packages-presets/rule-utils
       css-tree:
         specifier: 'catalog:'
         version: 3.1.0
@@ -1204,179 +1171,31 @@ importers:
         specifier: 'catalog:'
         version: 0.2.10
 
-  packages/preset-attributify:
+  packages-integrations/runtime:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
-
-  packages/preset-icons:
-    dependencies:
-      '@iconify/utils':
-        specifier: 'catalog:'
-        version: 2.2.1
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      ofetch:
-        specifier: 'catalog:'
-        version: 1.4.1
-    devDependencies:
-      '@iconify/types':
-        specifier: 'catalog:'
-        version: 2.0.0
-
-  packages/preset-legacy-compat:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/preset-mini:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/extractor-arbitrary-variants':
-        specifier: workspace:*
-        version: link:../extractor-arbitrary-variants
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
-
-  packages/preset-rem-to-px:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/preset-tagify:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/preset-typography:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/preset-mini':
-        specifier: workspace:*
-        version: link:../preset-mini
-
-  packages/preset-uno:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/preset-mini':
-        specifier: workspace:*
-        version: link:../preset-mini
-      '@unocss/preset-wind':
-        specifier: workspace:*
-        version: link:../preset-wind
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
-
-  packages/preset-web-fonts:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      ofetch:
-        specifier: 'catalog:'
-        version: 1.4.1
-
-  packages/preset-wind:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/preset-mini':
-        specifier: workspace:*
-        version: link:../preset-mini
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../rule-utils
-
-  packages/reset:
-    devDependencies:
-      '@csstools/normalize.css':
-        specifier: 'catalog:'
-        version: 12.1.1
-      sanitize.css:
-        specifier: 'catalog:'
-        version: 13.0.0
-
-  packages/rule-utils:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:^
-        version: link:../core
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-
-  packages/runtime:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/preset-attributify':
         specifier: workspace:*
-        version: link:../preset-attributify
+        version: link:../../packages-presets/preset-attributify
       '@unocss/preset-uno':
         specifier: workspace:*
-        version: link:../preset-uno
+        version: link:../../packages-presets/preset-uno
 
-  packages/scope: {}
+  packages-integrations/scope: {}
 
-  packages/shared-common:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-
-  packages/shared-docs:
-    dependencies:
-      '@unocss/autocomplete':
-        specifier: workspace:*
-        version: link:../autocomplete
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@vue/reactivity':
-        specifier: 'catalog:'
-        version: 3.5.13
-      fuse.js:
-        specifier: 'catalog:'
-        version: 7.0.0
-      prettier:
-        specifier: ^2.8.8
-        version: 2.8.8
-
-  packages/shared-integration:
-    dependencies:
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/scope':
-        specifier: workspace:*
-        version: link:../scope
-
-  packages/svelte-scoped:
+  packages-integrations/svelte-scoped:
     dependencies:
       '@unocss/config':
         specifier: workspace:*
-        version: link:../config
+        version: link:../../packages-engine/config
       '@unocss/preset-uno':
         specifier: workspace:*
-        version: link:../preset-uno
+        version: link:../../packages-presets/preset-uno
       '@unocss/reset':
         specifier: workspace:*
-        version: link:../reset
+        version: link:../../packages-presets/reset
       css-tree:
         specifier: 'catalog:'
         version: 3.1.0
@@ -1391,29 +1210,266 @@ importers:
         specifier: 'catalog:'
         version: 4.2.19
 
-  packages/svelte-scoped/test/fixtures/vite:
-    devDependencies:
-      '@sveltejs/kit':
+  packages-integrations/vite:
+    dependencies:
+      '@ampproject/remapping':
         specifier: 'catalog:'
-        version: 2.15.0(@sveltejs/vite-plugin-svelte@4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)))(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
-      '@unocss/svelte-scoped':
+        version: 2.3.0
+      '@rollup/pluginutils':
+        specifier: 'catalog:'
+        version: 5.1.4(rollup@4.29.1)
+      '@unocss/config':
         specifier: workspace:*
-        version: link:../../..
-      '@unocss/transformer-directives':
+        version: link:../../packages-engine/config
+      '@unocss/core':
         specifier: workspace:*
-        version: link:../../../../transformer-directives
+        version: link:../../packages-engine/core
+      '@unocss/inspector':
+        specifier: workspace:*
+        version: link:../inspector
+      chokidar:
+        specifier: 'catalog:'
+        version: 3.6.0
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+      tinyglobby:
+        specifier: 'catalog:'
+        version: 0.2.10
+    devDependencies:
+      vite:
+        specifier: ^6.0.5
+        version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
 
-  packages/transformer-attributify-jsx:
+  packages-integrations/vscode:
+    devDependencies:
+      '@types/vscode':
+        specifier: ^1.71.0
+        version: 1.95.0
+      '@unocss/nuxt':
+        specifier: workspace:*
+        version: link:../nuxt
+      '@unocss/preset-uno':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-uno
+      esno:
+        specifier: 'catalog:'
+        version: 4.8.0
+      find-up:
+        specifier: 'catalog:'
+        version: 6.3.0
+      jiti:
+        specifier: 'catalog:'
+        version: 2.4.2
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+      tsup:
+        specifier: 'catalog:'
+        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
+      unconfig:
+        specifier: 'catalog:'
+        version: 0.6.0
+      vscode-ext-gen:
+        specifier: ^0.5.5
+        version: 0.5.5
+
+  packages-integrations/webpack:
+    dependencies:
+      '@ampproject/remapping':
+        specifier: 'catalog:'
+        version: 2.3.0
+      '@rollup/pluginutils':
+        specifier: 'catalog:'
+        version: 5.1.4(rollup@4.29.1)
+      '@unocss/config':
+        specifier: workspace:*
+        version: link:../../packages-engine/config
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      chokidar:
+        specifier: 'catalog:'
+        version: 3.6.0
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+      tinyglobby:
+        specifier: 'catalog:'
+        version: 0.2.10
+      unplugin:
+        specifier: 'catalog:'
+        version: 2.1.0
+      webpack-sources:
+        specifier: 'catalog:'
+        version: 3.2.3
+    devDependencies:
+      '@types/webpack':
+        specifier: 'catalog:'
+        version: 5.28.5
+      '@types/webpack-sources':
+        specifier: 'catalog:'
+        version: 3.2.3
+      webpack:
+        specifier: 'catalog:'
+        version: 5.97.1
+
+  packages-presets/extractor-arbitrary-variants:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
+
+  packages-presets/extractor-mdc:
+    devDependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/extractor-pug:
+    devDependencies:
+      '@types/pug':
+        specifier: 'catalog:'
+        version: 2.0.10
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      pug:
+        specifier: 'catalog:'
+        version: 3.0.3
+
+  packages-presets/extractor-svelte:
+    devDependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/preset-attributify:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/preset-icons:
+    dependencies:
+      '@iconify/utils':
+        specifier: 'catalog:'
+        version: 2.2.1
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      ofetch:
+        specifier: 'catalog:'
+        version: 1.4.1
+    devDependencies:
+      '@iconify/types':
+        specifier: 'catalog:'
+        version: 2.0.0
+
+  packages-presets/preset-legacy-compat:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/preset-mini:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
+
+  packages-presets/preset-rem-to-px:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/preset-tagify:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
+  packages-presets/preset-typography:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/preset-mini':
+        specifier: workspace:*
+        version: link:../preset-mini
+
+  packages-presets/preset-uno:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/preset-mini':
+        specifier: workspace:*
+        version: link:../preset-mini
+      '@unocss/preset-wind':
+        specifier: workspace:*
+        version: link:../preset-wind
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
+
+  packages-presets/preset-web-fonts:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      ofetch:
+        specifier: 'catalog:'
+        version: 1.4.1
+
+  packages-presets/preset-wind:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/preset-mini':
+        specifier: workspace:*
+        version: link:../preset-mini
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
+
+  packages-presets/reset:
+    devDependencies:
+      '@csstools/normalize.css':
+        specifier: 'catalog:'
+        version: 12.1.1
+      sanitize.css:
+        specifier: 'catalog:'
+        version: 13.0.0
+
+  packages-presets/rule-utils:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:^
+        version: link:../../packages-engine/core
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
+
+  packages-presets/transformer-attributify-jsx:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
     devDependencies:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
 
-  packages/transformer-attributify-jsx-babel:
+  packages-presets/transformer-attributify-jsx-babel:
     dependencies:
       '@babel/core':
         specifier: 'catalog:'
@@ -1426,27 +1482,27 @@ importers:
         version: 7.26.0(@babel/core@7.26.0)
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
     devDependencies:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
 
-  packages/transformer-compile-class:
+  packages-presets/transformer-compile-class:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
     devDependencies:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
 
-  packages/transformer-directives:
+  packages-presets/transformer-directives:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../rule-utils
@@ -1458,30 +1514,30 @@ importers:
         specifier: ^0.30.17
         version: 0.30.17
 
-  packages/transformer-variant-group:
+  packages-presets/transformer-variant-group:
     dependencies:
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
     devDependencies:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
 
-  packages/unocss:
+  packages-presets/unocss:
     dependencies:
       '@unocss/astro':
         specifier: workspace:*
-        version: link:../astro
+        version: link:../../packages-integrations/astro
       '@unocss/cli':
         specifier: workspace:*
-        version: link:../cli
+        version: link:../../packages-engine/cli
       '@unocss/core':
         specifier: workspace:*
-        version: link:../core
+        version: link:../../packages-engine/core
       '@unocss/postcss':
         specifier: workspace:*
-        version: link:../postcss
+        version: link:../../packages-integrations/postcss
       '@unocss/preset-attributify':
         specifier: workspace:*
         version: link:../preset-attributify
@@ -1520,121 +1576,14 @@ importers:
         version: link:../transformer-variant-group
       '@unocss/vite':
         specifier: workspace:*
-        version: link:../vite
+        version: link:../../packages-integrations/vite
     devDependencies:
       '@unocss/webpack':
         specifier: workspace:*
-        version: link:../webpack
+        version: link:../../packages-integrations/webpack
       vite:
         specifier: ^6.0.5
         version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-
-  packages/vite:
-    dependencies:
-      '@ampproject/remapping':
-        specifier: 'catalog:'
-        version: 2.3.0
-      '@rollup/pluginutils':
-        specifier: 'catalog:'
-        version: 5.1.4(rollup@4.29.1)
-      '@unocss/config':
-        specifier: workspace:*
-        version: link:../config
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      '@unocss/inspector':
-        specifier: workspace:*
-        version: link:../inspector
-      chokidar:
-        specifier: 'catalog:'
-        version: 3.6.0
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-      tinyglobby:
-        specifier: 'catalog:'
-        version: 0.2.10
-    devDependencies:
-      '@unocss/shared-integration':
-        specifier: workspace:*
-        version: link:../shared-integration
-      vite:
-        specifier: ^6.0.5
-        version: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-
-  packages/vscode:
-    devDependencies:
-      '@types/vscode':
-        specifier: ^1.71.0
-        version: 1.95.0
-      '@unocss/nuxt':
-        specifier: workspace:*
-        version: link:../nuxt
-      '@unocss/preset-uno':
-        specifier: workspace:*
-        version: link:../preset-uno
-      esno:
-        specifier: 'catalog:'
-        version: 4.8.0
-      find-up:
-        specifier: 'catalog:'
-        version: 6.3.0
-      jiti:
-        specifier: 'catalog:'
-        version: 2.4.2
-      prettier:
-        specifier: ^2.8.8
-        version: 2.8.8
-      tsup:
-        specifier: 'catalog:'
-        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
-      unconfig:
-        specifier: 'catalog:'
-        version: 0.6.0
-      vscode-ext-gen:
-        specifier: ^0.5.5
-        version: 0.5.5
-
-  packages/webpack:
-    dependencies:
-      '@ampproject/remapping':
-        specifier: 'catalog:'
-        version: 2.3.0
-      '@rollup/pluginutils':
-        specifier: 'catalog:'
-        version: 5.1.4(rollup@4.29.1)
-      '@unocss/config':
-        specifier: workspace:*
-        version: link:../config
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../core
-      chokidar:
-        specifier: 'catalog:'
-        version: 3.6.0
-      magic-string:
-        specifier: ^0.30.17
-        version: 0.30.17
-      tinyglobby:
-        specifier: 'catalog:'
-        version: 0.2.10
-      unplugin:
-        specifier: 'catalog:'
-        version: 2.1.0
-      webpack-sources:
-        specifier: 'catalog:'
-        version: 3.2.3
-    devDependencies:
-      '@types/webpack':
-        specifier: 'catalog:'
-        version: 5.28.5
-      '@types/webpack-sources':
-        specifier: 'catalog:'
-        version: 3.2.3
-      webpack:
-        specifier: 'catalog:'
-        version: 5.97.1
 
   playground:
     devDependencies:
@@ -1662,6 +1611,33 @@ importers:
   test/fixtures/vite-lib: {}
 
   test/fixtures/vite-lib-rollupoptions: {}
+
+  virtual-shared/docs:
+    dependencies:
+      '@unocss/autocomplete':
+        specifier: workspace:*
+        version: link:../../packages-engine/autocomplete
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@vue/reactivity':
+        specifier: 'catalog:'
+        version: 3.5.13
+      fuse.js:
+        specifier: 'catalog:'
+        version: 7.0.0
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+
+  virtual-shared/integration:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/scope':
+        specifier: workspace:*
+        version: link:../../packages-integrations/scope
 
 packages:
 
@@ -2403,10 +2379,6 @@ packages:
 
   '@babel/traverse@7.25.9':
     resolution: {integrity: sha512-ZCuvfwOwlz/bawvAuvcj8rrithP2/N55Tzz342AkTvq4qaWbGfmCk/tKhNaV2cthijKrPAA8SRJV5WWe7IBMJw==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/types@7.26.0':
-    resolution: {integrity: sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.26.3':
@@ -3715,15 +3687,6 @@ packages:
     resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
     engines: {node: '>= 8.0.0'}
 
-  '@rollup/pluginutils@5.1.3':
-    resolution: {integrity: sha512-Pnsb6f32CD2W3uCaLZIzDmeFyQ2b8UWMFI7xtwUezpcGBDVDW6y9XgAWIlARiGAo6eNF5FK5aQTr0LFyNyqq5A==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^4.29.1
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
   '@rollup/pluginutils@5.1.4':
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
     engines: {node: '>=14.0.0'}
@@ -3933,30 +3896,6 @@ packages:
     peerDependencies:
       eslint: '>=8.40.0'
 
-  '@sveltejs/kit@2.15.0':
-    resolution: {integrity: sha512-FI1bhfhFNGI2sKg+BhiRyM4eaOvX+KZqRYSQqL5PK3ZZREX2xufZ6MzZAw79N846OnIxYNqcz/3VOUq+FPDd3w==}
-    engines: {node: '>=18.13'}
-    hasBin: true
-    peerDependencies:
-      '@sveltejs/vite-plugin-svelte': ^3.0.0 || ^4.0.0-next.1 || ^5.0.0
-      svelte: ^4.0.0 || ^5.0.0-next.0
-      vite: ^6.0.5
-
-  '@sveltejs/vite-plugin-svelte-inspector@3.0.0-next.3':
-    resolution: {integrity: sha512-kuGJ2CZ5lAw3gKF8Kw0AfKtUJWbwdlDHY14K413B0MCyrzvQvsKTorwmwZcky0+QqY6RnVIZ/5FttB9bQmkLXg==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22}
-    peerDependencies:
-      '@sveltejs/vite-plugin-svelte': ^4.0.0-next.0||^4.0.0
-      svelte: ^5.0.0-next.96 || ^5.0.0
-      vite: ^6.0.5
-
-  '@sveltejs/vite-plugin-svelte@4.0.0':
-    resolution: {integrity: sha512-kpVJwF+gNiMEsoHaw+FJL76IYiwBikkxYU83+BpqQLdVMff19KeRKLd2wisS8niNBMJ2omv5gG+iGDDwd8jzag==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22}
-    peerDependencies:
-      svelte: ^5.0.0-next.96 || ^5.0.0
-      vite: ^6.0.5
-
   '@tailwindcss/node@4.0.0-beta.8':
     resolution: {integrity: sha512-ZbicJgFxo83IIH5eBm7CU3K1olsfud7/zg3+yG7P6+fZiufhh8FllM5QOJVxUEJ5zeB1V94Y+hTq5UOfu8ZloA==}
 
@@ -4144,9 +4083,6 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@22.10.1':
-    resolution: {integrity: sha512-qKgsUwfHZV2WCWLAnVP1JqnpE6Im6h3Y0+fYgMTasNQ7V++CBX5OT1as0g0f+OyubbFqhf6XVNIsmN4IIhEgGQ==}
-
   '@types/node@22.10.2':
     resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
 
@@ -4237,10 +4173,6 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.8.0'
 
-  '@typescript-eslint/scope-manager@8.18.1':
-    resolution: {integrity: sha512-HxfHo2b090M5s2+/9Z3gkBhI6xBH8OJCFjH9MhQ+nnoZqxU3wNxkLT+VWXWSFWc3UF3Z+CfPAyqdCTdoXtDPCQ==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
   '@typescript-eslint/scope-manager@8.18.2':
     resolution: {integrity: sha512-YJFSfbd0CJjy14r/EvWapYgV4R5CHzptssoag2M7y3Ra7XNta6GPAJPPP5KGB9j14viYXyrzRO5GkX7CRfo8/g==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -4251,10 +4183,6 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.8.0'
-
-  '@typescript-eslint/types@8.18.1':
-    resolution: {integrity: sha512-7uoAUsCj66qdNQNpH2G8MyTFlgerum8ubf21s3TSM3XmKXuIn+H2Sifh/ES2nPOPiYSRJWAk0fDkW0APBWcpfw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/types@8.18.2':
     resolution: {integrity: sha512-Z/zblEPp8cIvmEn6+tPDIHUbRu/0z5lqZ+NvolL5SvXWT5rQy7+Nch83M0++XzO0XrWRFWECgOAyE8bsJTl1GQ==}
@@ -4272,10 +4200,6 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.8.0'
-
-  '@typescript-eslint/visitor-keys@8.18.1':
-    resolution: {integrity: sha512-Vj0WLm5/ZsD013YeUKn+K0y8p1M0jPpxOkKdbD1wB0ns53a5piVY02zjf072TblEweAbcYiFiPoSMF3kp+VhhQ==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/visitor-keys@8.18.2':
     resolution: {integrity: sha512-zORcwn4C3trOWiCqFQP1x6G3xTRyZ1LYydnj51cRnJ6hxBlr/cKPckk+PKPUw/fXmvfKTcw7bwY3w9izgx5jZw==}
@@ -5185,10 +5109,6 @@ packages:
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
-
-  chokidar@4.0.1:
-    resolution: {integrity: sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==}
-    engines: {node: '>= 14.16.0'}
 
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
@@ -6316,9 +6236,6 @@ packages:
       jiti:
         optional: true
 
-  esm-env@1.2.1:
-    resolution: {integrity: sha512-U9JedYYjCnadUlXk7e1Kr+aENQhtUaoaV9+gZm1T8LC/YBAPJx3NSPIAurFOC0U5vrdSevnUJS2/wUVxGwPhng==}
-
   esno@4.8.0:
     resolution: {integrity: sha512-acMtooReAQGzLU0zcuEDHa8S62meh5aIyi8jboYxyvAePdmuWx2Mpwmt0xjwO0bs9/SXf+dvXJ0QJoDWw814Iw==}
     hasBin: true
@@ -6706,16 +6623,9 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.13.0:
-    resolution: {integrity: sha512-49TewVEz0UxZjr1WYYsWpPrhyC/B/pA8Bq0fUmet2n+eR7yn0IvNzNaoBwnK6mdkzcN+se7Ez9zUgULTz2QH4g==}
-    engines: {node: '>=18'}
-
   globals@15.14.0:
     resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
     engines: {node: '>=18'}
-
-  globalyzer@0.1.0:
-    resolution: {integrity: sha512-40oNTM9UfG6aBmuKxk/giHn5nQ8RVz/SS4Ir6zgzOv9/qC3kKZ9v4etGTcJbEl/NyVQH7FGU7d+X1egr57Md2Q==}
 
   globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
@@ -6724,9 +6634,6 @@ packages:
   globby@14.0.2:
     resolution: {integrity: sha512-s3Fq41ZVh7vbbe2PN3nrW7yC7U7MFVc5c98/iTl9c2GawNMKx/J648KQRW6WKkuU8GIbbh2IXfIRQjOZnXcTnw==}
     engines: {node: '>=18'}
-
-  globrex@0.1.2:
-    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
@@ -8205,10 +8112,6 @@ packages:
     resolution: {integrity: sha512-5b0R4txpzjPWVw/cXXUResoD4hb6U/x9BH08L7nw+GN1sezDzPdxeRvpc9c433fZhBan/wusjbCsqwqm4EIBIQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  p-limit@6.1.0:
-    resolution: {integrity: sha512-H0jc0q1vOzlEk0TqAKXKZxdl7kX3OFUzCnNVUnq5Pc3DGo0kpeaMuPqxQn235HibwBEb0/pm9dgKTjXy66fBkg==}
-    engines: {node: '>=18'}
-
   p-limit@6.2.0:
     resolution: {integrity: sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==}
     engines: {node: '>=18'}
@@ -9251,10 +9154,6 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
-  sade@1.8.1:
-    resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
-    engines: {node: '>=6'}
-
   safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
 
@@ -9338,9 +9237,6 @@ packages:
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
-  set-cookie-parser@2.7.0:
-    resolution: {integrity: sha512-lXLOiqpkUumhRdFF3k1osNXCy9akgx/dyPZ5p8qAg9seJzXr5ZrlqZuWIMuY6ejOsVLE6flJ5/h3lsn57fQ/PQ==}
-
   setprototypeof@1.1.0:
     resolution: {integrity: sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==}
 
@@ -9379,9 +9275,6 @@ packages:
 
   shiki@1.24.0:
     resolution: {integrity: sha512-qIneep7QRwxRd5oiHb8jaRzH15V/S8F3saCXOdjwRLgozZJr5x2yeBhQtqkO3FSzQDwYEFAYuifg4oHjpDghrg==}
-
-  shiki@1.24.2:
-    resolution: {integrity: sha512-TR1fi6mkRrzW+SKT5G6uKuc32Dj2EEa7Kj0k8kGqiBINb+C1TiflVOiT9ta6GqOJtC4fraxO5SLUaKBcSY38Fg==}
 
   shiki@1.24.4:
     resolution: {integrity: sha512-aVGSFAOAr1v26Hh/+GBIsRVDWJ583XYV7CuNURKRWh9gpGv4OdbisZGq96B9arMYTZhTQkmRF5BrShOSTvNqhw==}
@@ -9754,11 +9647,6 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.36.0:
-    resolution: {integrity: sha512-IYV9eNMuFAV4THUspIRXkLakHnV6XO7FEdtKjf/mDyrnqUg9LnlOn6/RwRvM9SZjR4GUq8Nk8zj67FzVARr74w==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   terser@5.37.0:
     resolution: {integrity: sha512-B8wRRkmre4ERucLM/uXx4MOV5cbnOlVAqUst+1+iLKPI0dOgFO28f84ptoQt9HEI537PMzfYa/d+GEPKTRXmYA==}
     engines: {node: '>=10'}
@@ -9786,9 +9674,6 @@ packages:
 
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
-
-  tiny-glob@0.2.9:
-    resolution: {integrity: sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==}
 
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
@@ -10645,16 +10530,6 @@ packages:
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
 
-  webpack@5.97.0:
-    resolution: {integrity: sha512-CWT8v7ShSfj7tGs4TLRtaOLmOCPWhoKEvp+eA7FVx8Xrjb3XfT0aXdxDItnRZmE8sHcH+a8ayDrJCOjXKxVFfQ==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    peerDependencies:
-      webpack-cli: '*'
-    peerDependenciesMeta:
-      webpack-cli:
-        optional: true
-
   webpack@5.97.1:
     resolution: {integrity: sha512-EksG6gFY3L1eFMROS/7Wzgrii5mBAFe4rIr3r2BTfo7bcc+DWwFZ4OJ/miOuHJO/A85HwyI4eQ0F6IKXesO7Fg==}
     engines: {node: '>=10.13.0'}
@@ -11017,7 +10892,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
 
-  '@antfu/eslint-config@3.12.1(@typescript-eslint/utils@8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(@unocss/eslint-plugin@packages+eslint-plugin)(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.2))(svelte-eslint-parser@0.42.0(svelte@4.2.19))(typescript@5.7.2)(vitest@2.1.8)':
+  '@antfu/eslint-config@3.12.1(@typescript-eslint/utils@8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(@unocss/eslint-plugin@packages-integrations+eslint-plugin)(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.2))(svelte-eslint-parser@0.42.0(svelte@4.2.19))(typescript@5.7.2)(vitest@2.1.8)':
     dependencies:
       '@antfu/install-pkg': 0.5.0
       '@clack/prompts': 0.9.0
@@ -11056,7 +10931,7 @@ snapshots:
       yaml-eslint-parser: 1.2.3
       yargs: 17.7.2
     optionalDependencies:
-      '@unocss/eslint-plugin': link:packages/eslint-plugin
+      '@unocss/eslint-plugin': link:packages-integrations/eslint-plugin
       svelte-eslint-parser: 0.42.0(svelte@4.2.19)
     transitivePeerDependencies:
       - '@eslint/json'
@@ -11068,7 +10943,7 @@ snapshots:
 
   '@antfu/install-pkg@0.4.1':
     dependencies:
-      package-manager-detector: 0.2.6
+      package-manager-detector: 0.2.8
       tinyexec: 0.3.1
 
   '@antfu/install-pkg@0.5.0':
@@ -11118,7 +10993,7 @@ snapshots:
       remark-parse: 11.0.0
       remark-rehype: 11.1.1
       remark-smartypants: 3.0.2
-      shiki: 1.24.2
+      shiki: 1.24.4
       unified: 11.0.5
       unist-util-remove-position: 5.0.0
       unist-util-visit: 5.0.0
@@ -11162,9 +11037,9 @@ snapshots:
       '@babel/parser': 7.26.2
       '@babel/template': 7.25.9
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       convert-source-map: 2.0.0
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -11174,19 +11049,19 @@ snapshots:
   '@babel/generator@7.26.2':
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 3.0.2
 
   '@babel/helper-annotate-as-pure@7.25.9':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@babel/helper-builder-binary-assignment-operator-visitor@7.25.9':
     dependencies:
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11232,14 +11107,14 @@ snapshots:
   '@babel/helper-member-expression-to-functions@7.25.9':
     dependencies:
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-module-imports@7.25.9':
     dependencies:
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11254,7 +11129,7 @@ snapshots:
 
   '@babel/helper-optimise-call-expression@7.25.9':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@babel/helper-plugin-utils@7.25.9': {}
 
@@ -11279,14 +11154,14 @@ snapshots:
   '@babel/helper-simple-access@7.25.9':
     dependencies:
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-skip-transparent-expression-wrappers@7.25.9':
     dependencies:
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11300,18 +11175,18 @@ snapshots:
     dependencies:
       '@babel/template': 7.25.9
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helpers@7.26.0':
     dependencies:
       '@babel/template': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@babel/parser@7.26.2':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@babel/plugin-bugfix-firefox-class-in-computed-class-key@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -11672,7 +11547,7 @@ snapshots:
       '@babel/helper-module-imports': 7.25.9
       '@babel/helper-plugin-utils': 7.25.9
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.0)
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11846,7 +11721,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       esutils: 2.0.3
 
   '@babel/preset-typescript@7.26.0(@babel/core@7.26.0)':
@@ -11872,7 +11747,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.26.2
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@babel/traverse@7.25.9':
     dependencies:
@@ -11880,16 +11755,11 @@ snapshots:
       '@babel/generator': 7.26.2
       '@babel/parser': 7.26.2
       '@babel/template': 7.25.9
-      '@babel/types': 7.26.0
-      debug: 4.3.7(supports-color@9.4.0)
+      '@babel/types': 7.26.3
+      debug: 4.4.0(supports-color@9.4.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/types@7.26.0':
-    dependencies:
-      '@babel/helper-string-parser': 7.25.9
-      '@babel/helper-validator-identifier': 7.25.9
 
   '@babel/types@7.26.3':
     dependencies:
@@ -12360,7 +12230,7 @@ snapshots:
   '@eslint/config-array@0.19.0':
     dependencies:
       '@eslint/object-schema': 2.1.4
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12370,7 +12240,7 @@ snapshots:
   '@eslint/eslintrc@3.2.0':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       espree: 10.3.0
       globals: 14.0.0
       ignore: 5.3.2
@@ -12496,7 +12366,7 @@ snapshots:
       '@antfu/utils': 0.7.10
       '@iconify/types': 2.0.0
       debug: 4.4.0(supports-color@9.4.0)
-      globals: 15.13.0
+      globals: 15.14.0
       kolorist: 1.8.0
       local-pkg: 0.5.1
       mlly: 1.7.3
@@ -12639,7 +12509,7 @@ snapshots:
 
   '@kwsites/file-exists@1.1.1':
     dependencies:
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -12762,8 +12632,8 @@ snapshots:
 
   '@nuxt/devtools-kit@1.6.4(magicast@0.3.5)(rollup@4.29.1)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))':
     dependencies:
-      '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.29.1)
-      '@nuxt/schema': 3.14.1592(magicast@0.3.5)(rollup@4.29.1)
+      '@nuxt/kit': 3.15.0(magicast@0.3.5)(rollup@4.29.1)
+      '@nuxt/schema': 3.15.0(magicast@0.3.5)(rollup@4.29.1)
       execa: 7.2.0
       vite: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
     transitivePeerDependencies:
@@ -12773,7 +12643,7 @@ snapshots:
 
   '@nuxt/devtools-wizard@1.6.4':
     dependencies:
-      consola: 3.2.3
+      consola: 3.3.1
       diff: 7.0.0
       execa: 7.2.0
       global-directory: 4.0.1
@@ -12835,7 +12705,7 @@ snapshots:
     dependencies:
       '@nuxt/schema': 3.14.1592(magicast@0.3.5)(rollup@4.29.1)
       c12: 2.0.1(magicast@0.3.5)
-      consola: 3.2.3
+      consola: 3.3.1
       defu: 6.1.4
       destr: 2.0.3
       globby: 14.0.2
@@ -12889,7 +12759,7 @@ snapshots:
     dependencies:
       c12: 2.0.1(magicast@0.3.5)
       compatx: 0.1.8
-      consola: 3.2.3
+      consola: 3.3.1
       defu: 6.1.4
       hookable: 5.5.3
       pathe: 1.1.2
@@ -12899,7 +12769,7 @@ snapshots:
       ufo: 1.5.4
       uncrypto: 0.1.3
       unimport: 3.14.5(rollup@4.29.1)
-      untyped: 1.5.1
+      untyped: 1.5.2
     transitivePeerDependencies:
       - magicast
       - rollup
@@ -13180,14 +13050,6 @@ snapshots:
       estree-walker: 2.0.2
       picomatch: 2.3.1
 
-  '@rollup/pluginutils@5.1.3(rollup@4.29.1)':
-    dependencies:
-      '@types/estree': 1.0.6
-      estree-walker: 2.0.2
-      picomatch: 4.0.2
-    optionalDependencies:
-      rollup: 4.29.1
-
   '@rollup/pluginutils@5.1.4(rollup@4.29.1)':
     dependencies:
       '@types/estree': 1.0.6
@@ -13407,13 +13269,13 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@soda/friendly-errors-webpack-plugin@1.8.1(webpack@5.97.0)':
+  '@soda/friendly-errors-webpack-plugin@1.8.1(webpack@5.97.1)':
     dependencies:
       chalk: 3.0.0
       error-stack-parser: 2.1.4
       string-width: 4.2.3
       strip-ansi: 6.0.1
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   '@soda/get-current-script@1.0.2': {}
 
@@ -13428,46 +13290,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
-
-  '@sveltejs/kit@2.15.0(@sveltejs/vite-plugin-svelte@4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)))(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))':
-    dependencies:
-      '@sveltejs/vite-plugin-svelte': 4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      devalue: 5.1.1
-      esm-env: 1.2.1
-      import-meta-resolve: 4.1.0
-      kleur: 4.1.5
-      magic-string: 0.30.17
-      mrmime: 2.0.0
-      sade: 1.8.1
-      set-cookie-parser: 2.7.0
-      sirv: 3.0.0
-      svelte: 4.2.19
-      tiny-glob: 0.2.9
-      vite: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-
-  '@sveltejs/vite-plugin-svelte-inspector@3.0.0-next.3(@sveltejs/vite-plugin-svelte@4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)))(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))':
-    dependencies:
-      '@sveltejs/vite-plugin-svelte': 4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
-      debug: 4.4.0(supports-color@9.4.0)
-      svelte: 4.2.19
-      vite: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@sveltejs/vite-plugin-svelte@4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))':
-    dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 3.0.0-next.3(@sveltejs/vite-plugin-svelte@4.0.0(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)))(svelte@4.2.19)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
-      debug: 4.4.0(supports-color@9.4.0)
-      deepmerge: 4.3.1
-      kleur: 4.1.5
-      magic-string: 0.30.17
-      svelte: 4.2.19
-      vite: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-      vitefu: 1.0.4(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
-    transitivePeerDependencies:
-      - supports-color
 
   '@tailwindcss/node@4.0.0-beta.8':
     dependencies:
@@ -13535,37 +13357,37 @@ snapshots:
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@types/babel__generator': 7.6.8
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.20.6
 
   '@types/babel__generator@7.6.8':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@types/babel__template@7.4.4':
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@types/babel__traverse@7.20.6':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
 
   '@types/bonjour@3.5.13':
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
 
   '@types/connect-history-api-fallback@1.5.4':
     dependencies:
       '@types/express-serve-static-core': 4.19.6
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
 
   '@types/connect@3.4.38':
     dependencies:
@@ -13595,7 +13417,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -13661,11 +13483,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.10.1
-
-  '@types/node@22.10.1':
-    dependencies:
-      undici-types: 6.20.0
+      '@types/node': 22.10.2
 
   '@types/node@22.10.2':
     dependencies:
@@ -13699,7 +13517,7 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
 
   '@types/serve-index@1.9.4':
     dependencies:
@@ -13708,12 +13526,12 @@ snapshots:
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
       '@types/send': 0.17.4
 
   '@types/sockjs@0.3.36':
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
 
   '@types/source-list-map@0.1.6': {}
 
@@ -13729,13 +13547,13 @@ snapshots:
 
   '@types/webpack-sources@3.2.3':
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
       '@types/source-list-map': 0.1.6
       source-map: 0.7.4
 
   '@types/webpack@5.28.5':
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
       tapable: 2.2.1
       webpack: 5.97.1
     transitivePeerDependencies:
@@ -13777,11 +13595,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/scope-manager@8.18.1':
-    dependencies:
-      '@typescript-eslint/types': 8.18.1
-      '@typescript-eslint/visitor-keys': 8.18.1
-
   '@typescript-eslint/scope-manager@8.18.2':
     dependencies:
       '@typescript-eslint/types': 8.18.2
@@ -13797,8 +13610,6 @@ snapshots:
       typescript: 5.7.2
     transitivePeerDependencies:
       - supports-color
-
-  '@typescript-eslint/types@8.18.1': {}
 
   '@typescript-eslint/types@8.18.2': {}
 
@@ -13826,11 +13637,6 @@ snapshots:
       typescript: 5.7.2
     transitivePeerDependencies:
       - supports-color
-
-  '@typescript-eslint/visitor-keys@8.18.1':
-    dependencies:
-      '@typescript-eslint/types': 8.18.1
-      eslint-visitor-keys: 4.2.0
 
   '@typescript-eslint/visitor-keys@8.18.2':
     dependencies:
@@ -13990,7 +13796,7 @@ snapshots:
 
   '@vue-macros/common@1.15.0(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2))':
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       '@vue/compiler-sfc': 3.5.13
       ast-kit: 1.3.0
@@ -14012,7 +13818,7 @@ snapshots:
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.0)
       '@babel/template': 7.25.9
       '@babel/traverse': 7.25.9
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@vue/babel-helper-vue-transform-on': 1.2.5
       '@vue/babel-plugin-resolve-type': 1.2.5(@babel/core@7.26.0)
       html-tags: 3.3.1
@@ -14133,9 +13939,9 @@ snapshots:
       '@vue/babel-preset-app': 5.0.8(@babel/core@7.26.0)(core-js@3.39.0)(vue@2.7.16)
       '@vue/cli-service': 5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
       '@vue/cli-shared-utils': 5.0.8
-      babel-loader: 8.4.1(@babel/core@7.26.0)(webpack@5.97.0)
-      thread-loader: 3.0.4(webpack@5.97.0)
-      webpack: 5.97.0
+      babel-loader: 8.4.1(@babel/core@7.26.0)(webpack@5.97.1)
+      thread-loader: 3.0.4(webpack@5.97.1)
+      webpack: 5.97.1
     transitivePeerDependencies:
       - '@swc/core'
       - core-js
@@ -14160,7 +13966,7 @@ snapshots:
   '@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)':
     dependencies:
       '@babel/helper-compilation-targets': 7.25.9
-      '@soda/friendly-errors-webpack-plugin': 1.8.1(webpack@5.97.0)
+      '@soda/friendly-errors-webpack-plugin': 1.8.1(webpack@5.97.1)
       '@soda/get-current-script': 1.0.2
       '@types/minimist': 1.2.5
       '@vue/cli-overlay': 5.0.8
@@ -14168,7 +13974,7 @@ snapshots:
       '@vue/cli-plugin-vuex': 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))
       '@vue/cli-shared-utils': 5.0.8
       '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(pug@3.0.3)(react@18.3.1)
-      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.97.0))(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@5.97.0)
+      '@vue/vue-loader-v15': vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.97.1))(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@5.97.1)
       '@vue/web-component-wrapper': 1.3.0
       acorn: 8.14.0
       acorn-walk: 8.3.4
@@ -14179,38 +13985,38 @@ snapshots:
       cli-highlight: 2.1.11
       clipboardy: 2.3.0
       cliui: 7.0.4
-      copy-webpack-plugin: 9.1.0(webpack@5.97.0)
-      css-loader: 6.11.0(webpack@5.97.0)
-      css-minimizer-webpack-plugin: 3.4.1(webpack@5.97.0)
+      copy-webpack-plugin: 9.1.0(webpack@5.97.1)
+      css-loader: 6.11.0(webpack@5.97.1)
+      css-minimizer-webpack-plugin: 3.4.1(webpack@5.97.1)
       cssnano: 5.1.15(postcss@8.4.49)
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       default-gateway: 6.0.3
       dotenv: 10.0.0
       dotenv-expand: 5.1.0
       fs-extra: 9.1.0
       globby: 11.1.0
       hash-sum: 2.0.0
-      html-webpack-plugin: 5.6.0(webpack@5.97.0)
+      html-webpack-plugin: 5.6.0(webpack@5.97.1)
       is-file-esm: 1.0.0
       launch-editor-middleware: 2.9.1
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
-      mini-css-extract-plugin: 2.9.1(webpack@5.97.0)
+      mini-css-extract-plugin: 2.9.1(webpack@5.97.1)
       minimist: 1.2.8
       module-alias: 2.2.3
       portfinder: 1.0.32
       postcss: 8.4.49
-      postcss-loader: 6.2.1(postcss@8.4.49)(webpack@5.97.0)
-      progress-webpack-plugin: 1.0.16(webpack@5.97.0)
+      postcss-loader: 6.2.1(postcss@8.4.49)(webpack@5.97.1)
+      progress-webpack-plugin: 1.0.16(webpack@5.97.1)
       ssri: 8.0.1
-      terser-webpack-plugin: 5.3.10(webpack@5.97.0)
-      thread-loader: 3.0.4(webpack@5.97.0)
-      vue-loader: 17.4.2(@vue/compiler-sfc@3.5.13)(vue@2.7.16)(webpack@5.97.0)
+      terser-webpack-plugin: 5.3.10(webpack@5.97.1)
+      thread-loader: 3.0.4(webpack@5.97.1)
+      vue-loader: 17.4.2(@vue/compiler-sfc@3.5.13)(vue@2.7.16)(webpack@5.97.1)
       vue-style-loader: 4.1.3
-      webpack: 5.97.0
+      webpack: 5.97.1
       webpack-bundle-analyzer: 4.10.2
       webpack-chain: 6.5.1
-      webpack-dev-server: 4.15.2(debug@4.3.7)(webpack@5.97.0)
+      webpack-dev-server: 4.15.2(debug@4.3.7)(webpack@5.97.1)
       webpack-merge: 5.10.0
       webpack-virtual-modules: 0.4.6
       whatwg-fetch: 3.6.20
@@ -14647,7 +14453,7 @@ snapshots:
 
   '@windicss/config@1.9.4':
     dependencies:
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       jiti: 1.21.6
       windicss: 3.5.6
     transitivePeerDependencies:
@@ -14657,7 +14463,7 @@ snapshots:
     dependencies:
       '@antfu/utils': 0.7.10
       '@windicss/config': 1.9.4
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       fast-glob: 3.3.2
       magic-string: 0.30.17
       micromatch: 4.0.8
@@ -14867,7 +14673,7 @@ snapshots:
       '@astrojs/telemetry': 3.1.0
       '@babel/core': 7.26.0
       '@babel/plugin-transform-react-jsx': 7.25.9(@babel/core@7.26.0)
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@oslojs/encoding': 1.1.0
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       '@types/babel__core': 7.20.5
@@ -14904,13 +14710,13 @@ snapshots:
       mrmime: 2.0.0
       neotraverse: 0.6.18
       ora: 8.1.1
-      p-limit: 6.1.0
+      p-limit: 6.2.0
       p-queue: 8.0.1
       preferred-pm: 4.0.0
       prompts: 2.4.2
       rehype: 13.0.2
       semver: 7.6.3
-      shiki: 1.24.2
+      shiki: 1.24.4
       tinyexec: 0.3.1
       tsconfck: 3.1.4(typescript@5.7.2)
       unist-util-visit: 5.0.0
@@ -14967,14 +14773,14 @@ snapshots:
 
   b4a@1.6.7: {}
 
-  babel-loader@8.4.1(@babel/core@7.26.0)(webpack@5.97.0):
+  babel-loader@8.4.1(@babel/core@7.26.0)(webpack@5.97.1):
     dependencies:
       '@babel/core': 7.26.0
       find-cache-dir: 3.3.2
       loader-utils: 2.0.4
       make-dir: 3.1.0
       schema-utils: 2.7.1
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   babel-plugin-dynamic-import-node@2.3.3:
     dependencies:
@@ -15006,7 +14812,7 @@ snapshots:
 
   babel-walk@3.0.0-canary-5:
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   bail@2.0.2: {}
 
@@ -15142,9 +14948,9 @@ snapshots:
       esbuild: 0.23.1
       load-tsconfig: 0.2.5
 
-  bundle-require@5.0.0(esbuild@0.24.0):
+  bundle-require@5.0.0(esbuild@0.24.2):
     dependencies:
-      esbuild: 0.24.0
+      esbuild: 0.24.2
       load-tsconfig: 0.2.5
 
   bytes@3.0.0: {}
@@ -15250,10 +15056,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chokidar@4.0.1:
-    dependencies:
-      readdirp: 4.0.2
-
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.0.2
@@ -15266,7 +15068,7 @@ snapshots:
 
   citty@0.1.6:
     dependencies:
-      consola: 3.2.3
+      consola: 3.3.1
 
   cjs-module-lexer@1.4.1: {}
 
@@ -15479,7 +15281,7 @@ snapshots:
   constantinople@4.0.1:
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
 
   content-disposition@0.5.4:
     dependencies:
@@ -15501,7 +15303,7 @@ snapshots:
     dependencies:
       is-what: 4.1.16
 
-  copy-webpack-plugin@9.1.0(webpack@5.97.0):
+  copy-webpack-plugin@9.1.0(webpack@5.97.1):
     dependencies:
       fast-glob: 3.3.2
       glob-parent: 6.0.2
@@ -15509,7 +15311,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   core-js-compat@3.39.0:
     dependencies:
@@ -15570,7 +15372,7 @@ snapshots:
     dependencies:
       postcss: 8.4.49
 
-  css-loader@6.11.0(webpack@5.97.0):
+  css-loader@6.11.0(webpack@5.97.1):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.49)
       postcss: 8.4.49
@@ -15581,9 +15383,9 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.6.3
     optionalDependencies:
-      webpack: 5.97.0
+      webpack: 5.97.1
 
-  css-minimizer-webpack-plugin@3.4.1(webpack@5.97.0):
+  css-minimizer-webpack-plugin@3.4.1(webpack@5.97.1):
     dependencies:
       cssnano: 5.1.15(postcss@8.4.49)
       jest-worker: 27.5.1
@@ -15591,7 +15393,7 @@ snapshots:
       schema-utils: 4.2.0
       serialize-javascript: 6.0.2
       source-map: 0.6.1
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   css-select@4.3.0:
     dependencies:
@@ -15754,11 +15556,9 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.3.7(supports-color@9.4.0):
+  debug@4.3.7:
     dependencies:
       ms: 2.1.3
-    optionalDependencies:
-      supports-color: 9.4.0
 
   debug@4.4.0(supports-color@9.4.0):
     dependencies:
@@ -16145,7 +15945,7 @@ snapshots:
   eslint-plugin-import-x@4.6.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
     dependencies:
       '@types/doctrine': 0.0.9
-      '@typescript-eslint/scope-manager': 8.18.1
+      '@typescript-eslint/scope-manager': 8.18.2
       '@typescript-eslint/utils': 8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
       debug: 4.4.0(supports-color@9.4.0)
       doctrine: 3.0.0
@@ -16209,7 +16009,7 @@ snapshots:
 
   eslint-plugin-perfectionist@4.4.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
     dependencies:
-      '@typescript-eslint/types': 8.18.1
+      '@typescript-eslint/types': 8.18.2
       '@typescript-eslint/utils': 8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
       eslint: 9.17.0(jiti@2.4.2)
       natural-orderby: 5.0.0
@@ -16341,7 +16141,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       escape-string-regexp: 4.0.0
       eslint-scope: 8.2.0
       eslint-visitor-keys: 4.2.0
@@ -16364,8 +16164,6 @@ snapshots:
       jiti: 2.4.2
     transitivePeerDependencies:
       - supports-color
-
-  esm-env@1.2.1: {}
 
   esno@4.8.0:
     dependencies:
@@ -16663,7 +16461,7 @@ snapshots:
 
   follow-redirects@1.15.9(debug@4.3.7):
     optionalDependencies:
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
 
   foreground-child@3.3.0:
     dependencies:
@@ -16820,11 +16618,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.13.0: {}
-
   globals@15.14.0: {}
-
-  globalyzer@0.1.0: {}
 
   globby@11.1.0:
     dependencies:
@@ -16843,8 +16637,6 @@ snapshots:
       path-type: 5.0.0
       slash: 5.1.0
       unicorn-magic: 0.1.0
-
-  globrex@0.1.2: {}
 
   graceful-fs@4.2.11: {}
 
@@ -17028,7 +16820,7 @@ snapshots:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.36.0
+      terser: 5.37.0
 
   html-tags@2.0.0: {}
 
@@ -17036,7 +16828,7 @@ snapshots:
 
   html-void-elements@3.0.0: {}
 
-  html-webpack-plugin@5.6.0(webpack@5.97.0):
+  html-webpack-plugin@5.6.0(webpack@5.97.1):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
@@ -17044,7 +16836,7 @@ snapshots:
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   htmlparser2@6.1.0:
     dependencies:
@@ -17077,7 +16869,7 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.1(supports-color@9.4.0)
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -17113,7 +16905,7 @@ snapshots:
   https-proxy-agent@7.0.5(supports-color@9.4.0):
     dependencies:
       agent-base: 7.1.1(supports-color@9.4.0)
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -17159,7 +16951,7 @@ snapshots:
   importx@0.5.0:
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.1)
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       esbuild: 0.23.1
       jiti: 2.4.2
       pathe: 1.1.2
@@ -17353,7 +17145,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 22.10.1
+      '@types/node': 22.10.2
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -17728,7 +17520,7 @@ snapshots:
   magicast@0.3.5:
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       source-map-js: 1.2.1
 
   make-dir@3.1.0:
@@ -18138,11 +17930,11 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  mini-css-extract-plugin@2.9.1(webpack@5.97.0):
+  mini-css-extract-plugin@2.9.1(webpack@5.97.1):
     dependencies:
       schema-utils: 4.2.0
       tapable: 2.2.1
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   minimalistic-assert@1.0.1: {}
 
@@ -18195,7 +17987,7 @@ snapshots:
       citty: 0.1.6
       cssnano: 7.0.6(postcss@8.4.49)
       defu: 6.1.4
-      esbuild: 0.24.0
+      esbuild: 0.24.2
       jiti: 1.21.6
       mlly: 1.7.3
       pathe: 1.1.2
@@ -18594,7 +18386,7 @@ snapshots:
   nypm@0.4.1:
     dependencies:
       citty: 0.1.6
-      consola: 3.2.3
+      consola: 3.3.1
       pathe: 1.1.2
       pkg-types: 1.2.1
       tinyexec: 0.3.1
@@ -18729,10 +18521,6 @@ snapshots:
       yocto-queue: 0.1.0
 
   p-limit@4.0.0:
-    dependencies:
-      yocto-queue: 1.1.1
-
-  p-limit@6.1.0:
     dependencies:
       yocto-queue: 1.1.1
 
@@ -19032,13 +18820,13 @@ snapshots:
       tsx: 4.19.2
       yaml: 2.6.1
 
-  postcss-loader@6.2.1(postcss@8.4.49)(webpack@5.97.0):
+  postcss-loader@6.2.1(postcss@8.4.49)(webpack@5.97.1):
     dependencies:
       cosmiconfig: 7.1.0
       klona: 2.0.6
       postcss: 8.4.49
       semver: 7.6.3
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   postcss-merge-longhand@5.1.7(postcss@8.4.49):
     dependencies:
@@ -19356,12 +19144,12 @@ snapshots:
 
   process@0.11.10: {}
 
-  progress-webpack-plugin@1.0.16(webpack@5.97.0):
+  progress-webpack-plugin@1.0.16(webpack@5.97.1):
     dependencies:
       chalk: 2.4.2
       figures: 2.0.0
       log-update: 2.3.0
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   promise@7.3.1:
     dependencies:
@@ -19627,7 +19415,7 @@ snapshots:
   rehype-stringify@10.0.1:
     dependencies:
       '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.3
+      hast-util-to-html: 9.0.4
       unified: 11.0.5
 
   rehype@13.0.2:
@@ -19811,10 +19599,6 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  sade@1.8.1:
-    dependencies:
-      mri: 1.2.0
-
   safe-buffer@5.1.2: {}
 
   safe-buffer@5.2.1: {}
@@ -19923,8 +19707,6 @@ snapshots:
 
   set-blocking@2.0.0: {}
 
-  set-cookie-parser@2.7.0: {}
-
   setprototypeof@1.1.0: {}
 
   setprototypeof@1.2.0: {}
@@ -19992,15 +19774,6 @@ snapshots:
       '@shikijs/vscode-textmate': 9.3.0
       '@types/hast': 3.0.4
 
-  shiki@1.24.2:
-    dependencies:
-      '@shikijs/core': 1.24.2
-      '@shikijs/engine-javascript': 1.24.2
-      '@shikijs/engine-oniguruma': 1.24.2
-      '@shikijs/types': 1.24.2
-      '@shikijs/vscode-textmate': 9.3.0
-      '@types/hast': 3.0.4
-
   shiki@1.24.4:
     dependencies:
       '@shikijs/core': 1.24.4
@@ -20022,7 +19795,7 @@ snapshots:
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
     transitivePeerDependencies:
       - supports-color
 
@@ -20415,30 +20188,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  terser-webpack-plugin@5.3.10(webpack@5.97.0):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      jest-worker: 27.5.1
-      schema-utils: 3.3.0
-      serialize-javascript: 6.0.2
-      terser: 5.36.0
-      webpack: 5.97.0
-
   terser-webpack-plugin@5.3.10(webpack@5.97.1):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.36.0
+      terser: 5.37.0
       webpack: 5.97.1
-
-  terser@5.36.0:
-    dependencies:
-      '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.0
-      commander: 2.20.3
-      source-map-support: 0.5.21
 
   terser@5.37.0:
     dependencies:
@@ -20459,21 +20216,16 @@ snapshots:
     dependencies:
       any-promise: 1.3.0
 
-  thread-loader@3.0.4(webpack@5.97.0):
+  thread-loader@3.0.4(webpack@5.97.1):
     dependencies:
       json-parse-better-errors: 1.0.2
       loader-runner: 4.3.0
       loader-utils: 2.0.4
       neo-async: 2.6.2
       schema-utils: 3.3.0
-      webpack: 5.97.0
+      webpack: 5.97.1
 
   thunky@1.1.0: {}
-
-  tiny-glob@0.2.9:
-    dependencies:
-      globalyzer: 0.1.0
-      globrex: 0.1.2
 
   tiny-invariant@1.3.3: {}
 
@@ -20553,12 +20305,12 @@ snapshots:
 
   tsup@8.3.5(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1):
     dependencies:
-      bundle-require: 5.0.0(esbuild@0.24.0)
+      bundle-require: 5.0.0(esbuild@0.24.2)
       cac: 6.7.14
-      chokidar: 4.0.1
-      consola: 3.2.3
-      debug: 4.3.7(supports-color@9.4.0)
-      esbuild: 0.24.0
+      chokidar: 4.0.3
+      consola: 3.3.1
+      debug: 4.4.0(supports-color@9.4.0)
+      esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1
       postcss-load-config: 6.0.1(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(yaml@2.6.1)
@@ -20642,7 +20394,7 @@ snapshots:
       '@rollup/plugin-replace': 6.0.1(rollup@4.29.1)
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       citty: 0.1.6
-      consola: 3.2.3
+      consola: 3.3.1
       defu: 6.1.4
       esbuild: 0.24.0
       hookable: 5.5.3
@@ -20737,7 +20489,7 @@ snapshots:
 
   unimport@3.14.5(rollup@4.29.1):
     dependencies:
-      '@rollup/pluginutils': 5.1.3(rollup@4.29.1)
+      '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       acorn: 8.14.0
       escape-string-regexp: 5.0.0
       estree-walker: 3.0.3
@@ -20853,7 +20605,7 @@ snapshots:
 
   unplugin-vue-router@0.10.9(rollup@4.29.1)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2)):
     dependencies:
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
       '@vue-macros/common': 1.15.0(rollup@4.29.1)(vue@3.5.13(typescript@5.7.2))
       ast-walker-scope: 0.6.2
@@ -20914,7 +20666,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/standalone': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       defu: 6.1.4
       jiti: 2.4.2
       mri: 1.2.0
@@ -21065,8 +20817,8 @@ snapshots:
   vite-plugin-inspect@0.8.9(@nuxt/kit@3.14.1592(magicast@0.3.5)(rollup@4.29.1))(rollup@4.29.1)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)):
     dependencies:
       '@antfu/utils': 0.7.10
-      '@rollup/pluginutils': 5.1.3(rollup@4.29.1)
-      debug: 4.3.7(supports-color@9.4.0)
+      '@rollup/pluginutils': 5.1.4(rollup@4.29.1)
+      debug: 4.4.0(supports-color@9.4.0)
       error-stack-parser-es: 0.1.5
       fs-extra: 11.2.0
       open: 10.1.0
@@ -21083,7 +20835,7 @@ snapshots:
   vite-plugin-pages@0.32.4(@vue/compiler-sfc@3.5.13)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))(vue-router@4.5.0(vue@3.5.13(typescript@5.7.2))):
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       dequal: 2.0.3
       extract-comments: 1.1.0
       fast-glob: 3.3.2
@@ -21116,7 +20868,7 @@ snapshots:
   vite-plugin-windicss@1.9.4(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)):
     dependencies:
       '@windicss/plugin-utils': 1.9.4
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       kolorist: 1.8.0
       vite: 6.0.5(@types/node@22.10.2)(jiti@2.4.2)(lightningcss@1.28.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
       windicss: 3.5.6
@@ -21212,7 +20964,7 @@ snapshots:
       '@vitest/spy': 2.1.8
       '@vitest/utils': 2.1.8
       chai: 5.1.2
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.3.7
       expect-type: 1.1.0
       magic-string: 0.30.17
       pathe: 1.1.2
@@ -21285,7 +21037,7 @@ snapshots:
 
   vue-eslint-parser@9.4.3(eslint@9.17.0(jiti@2.4.2)):
     dependencies:
-      debug: 4.3.7(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@9.4.0)
       eslint: 9.17.0(jiti@2.4.2)
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
@@ -21302,15 +21054,15 @@ snapshots:
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.97.0))(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@5.97.0):
+  vue-loader@15.11.1(@vue/compiler-sfc@3.5.13)(css-loader@6.11.0(webpack@5.97.1))(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(webpack@5.97.1):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(pug@3.0.3)(react@18.3.1)
-      css-loader: 6.11.0(webpack@5.97.0)
+      css-loader: 6.11.0(webpack@5.97.1)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
       vue-style-loader: 4.1.3
-      webpack: 5.97.0
+      webpack: 5.97.1
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.13
       prettier: 2.8.8
@@ -21370,12 +21122,12 @@ snapshots:
       - walrus
       - whiskers
 
-  vue-loader@17.4.2(@vue/compiler-sfc@3.5.13)(vue@2.7.16)(webpack@5.97.0):
+  vue-loader@17.4.2(@vue/compiler-sfc@3.5.13)(vue@2.7.16)(webpack@5.97.1):
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
       watchpack: 2.4.2
-      webpack: 5.97.0
+      webpack: 5.97.1
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.13
       vue: 2.7.16
@@ -21477,16 +21229,16 @@ snapshots:
       deepmerge: 1.5.2
       javascript-stringify: 2.1.0
 
-  webpack-dev-middleware@5.3.4(webpack@5.97.0):
+  webpack-dev-middleware@5.3.4(webpack@5.97.1):
     dependencies:
       colorette: 2.0.20
       memfs: 3.5.3
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.2.0
-      webpack: 5.97.0
+      webpack: 5.97.1
 
-  webpack-dev-server@4.15.2(debug@4.3.7)(webpack@5.97.0):
+  webpack-dev-server@4.15.2(debug@4.3.7)(webpack@5.97.1):
     dependencies:
       '@types/bonjour': 3.5.13
       '@types/connect-history-api-fallback': 1.5.4
@@ -21516,10 +21268,10 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 5.3.4(webpack@5.97.0)
+      webpack-dev-middleware: 5.3.4(webpack@5.97.1)
       ws: 8.18.0
     optionalDependencies:
-      webpack: 5.97.0
+      webpack: 5.97.1
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -21537,36 +21289,6 @@ snapshots:
   webpack-virtual-modules@0.4.6: {}
 
   webpack-virtual-modules@0.6.2: {}
-
-  webpack@5.97.0:
-    dependencies:
-      '@types/eslint-scope': 3.7.7
-      '@types/estree': 1.0.6
-      '@webassemblyjs/ast': 1.14.1
-      '@webassemblyjs/wasm-edit': 1.14.1
-      '@webassemblyjs/wasm-parser': 1.14.1
-      acorn: 8.14.0
-      browserslist: 4.24.2
-      chrome-trace-event: 1.0.4
-      enhanced-resolve: 5.17.1
-      es-module-lexer: 1.5.4
-      eslint-scope: 5.1.1
-      events: 3.3.0
-      glob-to-regexp: 0.4.1
-      graceful-fs: 4.2.11
-      json-parse-even-better-errors: 2.3.1
-      loader-runner: 4.3.0
-      mime-types: 2.1.35
-      neo-async: 2.6.2
-      schema-utils: 3.3.0
-      tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(webpack@5.97.0)
-      watchpack: 2.4.2
-      webpack-sources: 3.2.3
-    transitivePeerDependencies:
-      - '@swc/core'
-      - esbuild
-      - uglify-js
 
   webpack@5.97.1:
     dependencies:
@@ -21668,7 +21390,7 @@ snapshots:
   with@7.0.2:
     dependencies:
       '@babel/parser': 7.26.2
-      '@babel/types': 7.26.0
+      '@babel/types': 7.26.3
       assert-never: 1.3.0
       babel-walk: 3.0.0-canary-5
 

@@ -14,7 +14,7 @@ const toggleDark = () => {
 
 Use any icon with Pure CSS for UnoCSS.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-icons)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-icons)
 
 ::: tip
 Recommended reading: [Icons in Pure CSS](https://antfu.me/posts/icons-in-pure-css)

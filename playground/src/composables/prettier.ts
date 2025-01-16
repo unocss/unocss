@@ -1,4 +1,4 @@
-import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages/inspector/client/composables/usePrettify'
+import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages-integrations/inspector/client/composables/usePrettify'
 
 export function formatHTML() {
   inputHTML.value = useHTMLPrettify(options.value.transformHtml ? transformedHTML : inputHTML).value
