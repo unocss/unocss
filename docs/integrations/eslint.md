@@ -90,7 +90,7 @@ Throw warning or error when class attribute or directive doesn't start with `:un
 
 Options:
 
-- `prefix` (string) - can be used in combination with [custom prefix](https://github.com/unocss/unocss/blob/main/packages-engine/transformer-compile-class/src/index.ts#L34). Default: `:uno:`
+- `prefix` (string) - can be used in combination with [custom prefix](https://github.com/unocss/unocss/blob/main/packages-presets/transformer-compile-class/src/index.ts#L34). Default: `:uno:`
 - `enableFix` (boolean) - can be used for gradual migration when `false`. Default: `true`
 
 **Note**: currently only Vue supported. _Contribute a PR_ if you want this in JSX. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
