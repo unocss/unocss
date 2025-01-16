@@ -15,7 +15,7 @@
     "@unocss/eslint-plugin": "link:../../packages/eslint-plugin",
     "@unocss/nuxt": "link:../../packages/nuxt",
     "@unocss/reset": "link:../../packages/reset",
-    "nuxt": "^3.15.0",
+    "nuxt": "^3.15.2",
     "unocss": "link:../../packages/unocss"
   },
   "stackblitz": {
