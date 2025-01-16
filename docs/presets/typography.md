@@ -13,15 +13,19 @@ Provides a set of prose classes you can use to add typographic defaults to vanil
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-typography
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-typography
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-typography
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-typography
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-typography
+```
+
+```bash [npm]
+npm install -D @unocss/preset-typography
+```
+
 :::
 
 ::: tip
@@ -30,6 +34,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { presetTypography } from 'unocss'
 ```
+
 :::
 
 ## Usage
@@ -52,22 +57,21 @@ export default defineConfig({
 ```
 
 ::: code-group
-  ```html [Classes]
-  <article class="text-base prose prose-truegray xl:text-xl">
-    {{ markdown }}
-    <p class="not-prose">
-      Some text
-    </p>
-  </article>
-  ```
-  ```html [Attributes]
-  <article text-base prose prose-truegray xl="text-xl">
-    {{ markdown }}
-    <p class="not-prose">
-      Some text
-    </p>
-  </article>
-  ```
+
+```html [Classes]
+<article class="text-base prose prose-truegray xl:text-xl">
+  {{ markdown }}
+  <p class="not-prose">Some text</p>
+</article>
+```
+
+```html [Attributes]
+<article text-base prose prose-truegray xl="text-xl">
+  {{ markdown }}
+  <p class="not-prose">Some text</p>
+</article>
+```
+
 :::
 
 ::: warning
@@ -98,8 +102,8 @@ inverted colors in the dark mode.
 
 ### Your very own style
 
-  Styles of elements not within `prose` will stay the same. No style resetting
-  just like UnoCSS.
+Styles of elements not within `prose` will stay the same. No style resetting
+just like UnoCSS.
 
 ### Undo with `not` utility
 
@@ -118,8 +122,8 @@ can disable them. ([#2064](https://github.com/unocss/unocss/pull/2064))
 
 ## Utilities
 
-|  Rule   |                                            Styles by this rule                                                    |
-| :-----: | :---------------------------------------------------------------------------------------------------------------: |
+|  Rule   |                                                    Styles by this rule                                                    |
+| :-----: | :-----------------------------------------------------------------------------------------------------------------------: |
 | `prose` | See [on GitHub](https://github.com/unocss/unocss/blob/main/packages-presets/preset-typography/src/preflights/default.ts). |
 
 ### Colors
@@ -159,9 +163,10 @@ The CSS declarations passed to `cssExtend` will
 
 - **override** the built-in styles if the values are conflicting, else
 - **be merged** deeply with built-in styles.
-:::
+  :::
 
 ### selectorName
+
 - **Type:** `string`
 - **Default:** `prose`
 
@@ -172,12 +177,14 @@ The class name to use the typographic utilities. To undo the styles to the eleme
 :::
 
 ### cssExtend
+
 - **Type:** `Record<string, CSSObject>`
 - **Default:** `undefined`
 
 Extend or override CSS selectors with CSS declaration block.
 
 ### compatibility
+
 - **Type:** `TypographyCompatibilityOptions`
 - **Default:** `undefined`
 
@@ -185,6 +192,7 @@ See [Compatibility options](#compatibility-options).
 :::warning
 Notice that it will affect some features.
 :::
+
 ```ts
 interface TypographyCompatibilityOptions {
   noColonWhere?: boolean

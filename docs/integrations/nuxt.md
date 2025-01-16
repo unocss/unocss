@@ -10,15 +10,19 @@ The Nuxt module for UnoCSS.
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss @unocss/nuxt
-  ```
-  ```bash [yarn]
-  yarn add -D unocss @unocss/nuxt
-  ```
-  ```bash [npm]
-  npm install -D unocss @unocss/nuxt
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss @unocss/nuxt
+```
+
+```bash [yarn]
+yarn add -D unocss @unocss/nuxt
+```
+
+```bash [npm]
+npm install -D unocss @unocss/nuxt
+```
+
 :::
 
 Add `@unocss/nuxt` to your Nuxt config file:
@@ -45,12 +49,12 @@ The `uno.css` entry will be automatically injected by the module.
 
 ## Support status
 
-| | Nuxt 2 | Nuxt Bridge | Nuxt 3 |
-| --- | :-- | :-- | :-- |
-| Webpack Dev | ✅ | ✅ | 🚧 |
-| Webpack Build | ✅ | ✅ | ✅ |
-| Vite Dev | - | ✅ | ✅ |
-| Vite Build | - | ✅ | ✅ |
+|               | Nuxt 2 | Nuxt Bridge | Nuxt 3 |
+| ------------- | :----- | :---------- | :----- |
+| Webpack Dev   | ✅     | ✅          | 🚧     |
+| Webpack Build | ✅     | ✅          | ✅     |
+| Vite Dev      | -      | ✅          | ✅     |
+| Vite Build    | -      | ✅          | ✅     |
 
 ## Configuration
 

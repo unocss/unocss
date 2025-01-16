@@ -10,15 +10,19 @@ ESLint config for UnoCSS: `@unocss/eslint-config`.
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/eslint-config
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/eslint-config
-  ```
-  ```bash [npm]
-  npm install -D @unocss/eslint-config
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/eslint-config
+```
+
+```bash [yarn]
+yarn add -D @unocss/eslint-config
+```
+
+```bash [npm]
+npm install -D @unocss/eslint-config
+```
+
 :::
 
 In [Flat Config Style](https://eslint.org/docs/latest/use/configure/configuration-files-new):

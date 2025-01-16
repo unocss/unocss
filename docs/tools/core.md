@@ -10,15 +10,19 @@ The core engine of UnoCSS without any presets: `@unocss/core`. It can be used as
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/core
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/core
-  ```
-  ```bash [npm]
-  npm install -D @unocss/core
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/core
+```
+
+```bash [yarn]
+yarn add -D @unocss/core
+```
+
+```bash [npm]
+npm install -D @unocss/core
+```
+
 :::
 
 ## Usage

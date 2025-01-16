@@ -58,7 +58,7 @@ To use rules with `:`, you will need to quote the value
 
 ```css
 .custom-div {
-  --at-apply: "hover:text-red";
+  --at-apply: 'hover:text-red';
 }
 ```
 
@@ -92,7 +92,7 @@ The `@screen` directive allows you to create media queries that reference your b
   }
 }
 /* ... */
-...
+...;
 ```
 
 Will be transformed to:
@@ -116,6 +116,7 @@ Will be transformed to:
 ```
 
 #### Breakpoint Variant Support
+
 `@screen` also supports `lt`、`at` variants
 
 ##### `@screen lt`

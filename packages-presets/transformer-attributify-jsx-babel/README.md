@@ -71,9 +71,11 @@ export default defineConfig({
 > ⚠️ The rules are almost the same as those of `preset-attributify`, but there are several precautions
 
 ```html
-<div translate-x-100% /> <!-- cannot end with `%` -->
+<div translate-x-100% />
+<!-- cannot end with `%` -->
 
-<div translate-x-[100px] /> <!-- cannot contain `[` or `]` -->
+<div translate-x-[100px] />
+<!-- cannot contain `[` or `]` -->
 ```
 
 Instead, you may want to use valued attributes instead:
@@ -104,9 +106,7 @@ transformerAttributifyJsx({
 Will be compiled to:
 
 ```html
-<div text-red text-center text-5xl animate-bounce="">
-  unocss
-</div>
+<div text-red text-center text-5xl animate-bounce="">unocss</div>
 ```
 
 ## License

@@ -12,7 +12,7 @@ We recommend you to read the blog post [Reimagine Atomic CSS](https://antfu.me/p
 
 ### Windi CSS
 
-UnoCSS was started by one of the [Windi CSS](https://windicss.org/)'s team members, with a lot of inspiration taken from the work we did in Windi CSS. While Windi CSS is no longer actively maintained (as of March 2023), you may consider UnoCSS as a *"spiritual successor"* of Windi CSS.
+UnoCSS was started by one of the [Windi CSS](https://windicss.org/)'s team members, with a lot of inspiration taken from the work we did in Windi CSS. While Windi CSS is no longer actively maintained (as of March 2023), you may consider UnoCSS as a _"spiritual successor"_ of Windi CSS.
 
 UnoCSS inherits Windi CSS's on-demand nature, [attributify mode](/presets/attributify), [shortcuts](/config/shortcuts), [variant groups](/transformers/variant-group), [compilation mode](/transformers/compile-class) and a lot more. On top of that, UnoCSS is built from the ground up with the maximum extensibility and performance in mind, making us able to introduce new features like [pure CSS icons](/presets/icons), [valueless attributify](/presets/attributify#valueless-attributify), [tagify](/presets/tagify), [web fonts](/presets/web-fonts), etc.
 

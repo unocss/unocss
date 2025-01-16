@@ -7,6 +7,7 @@ outline: deep
 # Configuring UnoCSS
 
 ## Configuration
+
 Configurations are what make UnoCSS powerful.
 
 - [Rules](/config/rules) - Define atomic CSS utilities
@@ -23,6 +24,7 @@ Configurations are what make UnoCSS powerful.
 ## Options
 
 ### rules
+
 - **Type:** `Rule<Theme>[]`
 
 Rules to generate CSS utilities. Later entries have higher priority.
@@ -34,6 +36,7 @@ Rules to generate CSS utilities. Later entries have higher priority.
 Similar to Windi CSS's shortcuts, allows you to create new utilities by combining existing ones. Later entries have higher priority.
 
 ### theme
+
 - **Type:** `Theme`
 
 Theme object for shared configuration between rules.
@@ -41,7 +44,7 @@ Theme object for shared configuration between rules.
 ### extendTheme
 
 - **Type:** `Arrayable<ThemeExtender<Theme>>`
-Custom functions mutate the theme object.
+  Custom functions mutate the theme object.
 
 It's also possible to return a new theme object to completely replace the original one.
 
@@ -58,22 +61,26 @@ Variants that preprocess the selectors, having the ability to rewrite the CSS ob
 Extractors to handle the source file and output possible classes/selectors. Can be language-aware.
 
 ### preflights
+
 - **Type:** `Preflight<Theme>[]`
 
 Raw CSS injections.
 
 ### layers
+
 - **Type:** `Record<string, number>`
 
 Layer orders. Default to 0.
 
 ### outputToCssLayers
+
 - **Type:** `boolean | UseCssLayersOptions`
 - **Default:** `false`
 
 Outputs the layers to CSS Cascade Layers.
 
 #### cssLayerName
+
 - **Type:** `(internalLayer: string) => string | undefined | null`
 
 Specifies the name of the CSS layer the internal layer should be output to (can be a sublayer e.g. "mylayer.mysublayer").
@@ -82,6 +89,7 @@ If `undefined` is return, the internal layer name wil be used as the CSS layer n
 If `null` is return, the internal layer will not be output to a CSS layer.
 
 ### sortLayers
+
 - **Type:** `(layers: string[]) => string[]`
 
 Custom function to sort layers.
@@ -93,6 +101,7 @@ Custom function to sort layers.
 Predefined configurations for common use cases.
 
 ### transformers
+
 - **Type:** `SourceCodeTransformer[]`
 
 Custom transformers to the source code.
@@ -129,6 +138,7 @@ Postprocess the generate utils object.
 Variant separator.
 
 ### extractorDefault
+
 - **Type:** `Extractor | null | false`
 - **Default:** `import('@unocss/core').defaultExtractor`
 
@@ -165,6 +175,7 @@ Custom shorthands to provide autocomplete suggestions. if values is an array, it
 Options for sources to be extracted as utilities usages.
 
 Supported sources:
+
 - `filesystem` - extract from file system
 - `plain` - extract from plain inline text
 - `pipeline` - extract from build tools' transformation pipeline, such as Vite and Webpack
@@ -235,19 +246,23 @@ Set `false` to disable.
 List of files that will also trigger config reloads.
 
 ### cli
+
 UnoCSS CLI options.
 
 #### entry
+
 - **Type:** `Arrayable<CliEntryItem>`
 
 UnoCSS cli entry points.
 
 ##### patterns
+
 - **Type:** `string[]`
 
 Glob patterns to extract from the file system.
 
 ##### outFile
+
 - **Type:** `string`
 
 Output file path.

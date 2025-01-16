@@ -1,4 +1,6 @@
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   overflow: hidden;
 }
@@ -72,12 +74,12 @@ html:not(.dark) {
 .v-popper--theme-dropdown .v-popper__inner {
   background: #fff;
   border-radius: 0px;
-  border-color: #D9DDE0;
+  border-color: #d9dde0;
   box-shadow: 0 6px 30px #0000001a;
 }
 
 .v-popper--theme-dropdown .v-popper__arrow-outer {
-  border-color: #D9DDE0;
+  border-color: #d9dde0;
 }
 
 .v-popper--theme-dropdown .v-popper__arrow-inner {
@@ -87,11 +89,11 @@ html:not(.dark) {
 .dark .v-popper--theme-dropdown .v-popper__inner {
   background: #080808;
   color: #ffffff;
-  border-color: #3E4245;
+  border-color: #3e4245;
 }
 
 .dark .v-popper--theme-dropdown .v-popper__arrow-outer {
-  border-color: #3E4245;
+  border-color: #3e4245;
 }
 .dark .v-popper--theme-dropdown .v-popper__arrow-inner {
   border-color: #080808;

@@ -16,29 +16,37 @@ The command line interface for UnoCSS: `@unocss/cli`.
 This package is shipped with the `unocss` package:
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss
-  ```
-  ```bash [yarn]
-  yarn add -D unocss
-  ```
-  ```bash [npm]
-  npm install -D unocss
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss
+```
+
+```bash [yarn]
+yarn add -D unocss
+```
+
+```bash [npm]
+npm install -D unocss
+```
+
 :::
 
 You can also install the standalone package:
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/cli
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/cli
-  ```
-  ```bash [npm]
-  npm install -D @unocss/cli
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/cli
+```
+
+```bash [yarn]
+yarn add -D @unocss/cli
+```
+
+```bash [npm]
+npm install -D @unocss/cli
+```
+
 :::
 
 ::: info
@@ -119,14 +127,14 @@ For a list of options, head over to the [UnoCSS configurations](/config/) docs.
 
 ## Options
 
-| Options       |               |
-| ------------- | ------------- |
-| `-v, --version` | Display the current version of UnoCSS |
-| `-c, --config-file <file>` | Config file |
-| `-o, --out-file <file>` | The output filename for the generated UnoCSS file. Defaults to `uno.css` in the current working directory |
-| `--stdout` | Write the generated UnoCSS file to STDOUT. Will cause the `--watch` and `--out-file` being ignored |
-| `-w, --watch` | Indicates if the files found by the glob pattern should be watched |
-| `--preflights` | Enable preflight styles |
-| `--write-transformed` | Update source files with transformed utilities |
-| `-m, --minify` | Minify generated CSS |
-| `-h, --help` | Display available CLI options |
+| Options                    |                                                                                                           |
+| -------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `-v, --version`            | Display the current version of UnoCSS                                                                     |
+| `-c, --config-file <file>` | Config file                                                                                               |
+| `-o, --out-file <file>`    | The output filename for the generated UnoCSS file. Defaults to `uno.css` in the current working directory |
+| `--stdout`                 | Write the generated UnoCSS file to STDOUT. Will cause the `--watch` and `--out-file` being ignored        |
+| `-w, --watch`              | Indicates if the files found by the glob pattern should be watched                                        |
+| `--preflights`             | Enable preflight styles                                                                                   |
+| `--write-transformed`      | Update source files with transformed utilities                                                            |
+| `-m, --minify`             | Minify generated CSS                                                                                      |
+| `-h, --help`               | Display available CLI options                                                                             |

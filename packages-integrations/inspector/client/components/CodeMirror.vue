@@ -75,7 +75,7 @@ deepl-inline-translate,
 grammarly-popups,
 deepl-inline-popup,
 grammarly-desktop-integration {
-    display: none!important;
+  display: none !important;
 }
 
 .cm-editor {
@@ -134,7 +134,8 @@ html.dark {
   --cm-ttc-c-track: #111;
 }
 
-.highlighted, .highlighted > span {
+.highlighted,
+.highlighted > span {
   border-bottom: 1px dashed currentColor;
 }
 .cm-scroller::-webkit-scrollbar {

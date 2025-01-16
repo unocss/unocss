@@ -29,7 +29,7 @@ At the begin of your class strings, **add `:uno:` at the begin of the strings** 
 
 ```html
 <div class=":uno: text-center sm:text-left">
-  <div class=":uno: text-sm font-bold hover:text-red"/>
+  <div class=":uno: text-sm font-bold hover:text-red" />
 </div>
 ```
 
@@ -37,7 +37,7 @@ Will be compiled to:
 
 ```html
 <div class="uno-qlmcrp">
-  <div class="uno-0qw2gr"/>
+  <div class="uno-0qw2gr" />
 </div>
 ```
 

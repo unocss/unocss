@@ -13,15 +13,19 @@ Compile group of classes into one class. Inspired by the [compilation mode](http
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/transformer-compile-class
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/transformer-compile-class
-  ```
-  ```bash [npm]
-  npm install -D @unocss/transformer-compile-class
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/transformer-compile-class
+```
+
+```bash [yarn]
+yarn add -D @unocss/transformer-compile-class
+```
+
+```bash [npm]
+npm install -D @unocss/transformer-compile-class
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -42,6 +46,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { transformerCompileClass } from 'unocss'
 ```
+
 :::
 
 ## Usage
@@ -52,7 +57,7 @@ For example:
 
 ```html
 <div class=":uno: text-center sm:text-left">
-  <div class=":uno: text-sm font-bold hover:text-red"/>
+  <div class=":uno: text-sm font-bold hover:text-red" />
 </div>
 ```
 
@@ -60,7 +65,7 @@ Will be compiled to:
 
 ```html
 <div class="uno-qlmcrp">
-  <div class="uno-0qw2gr"/>
+  <div class="uno-0qw2gr" />
 </div>
 ```
 

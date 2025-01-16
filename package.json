@@ -93,6 +93,7 @@
     "codemirror-theme-vars": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-antfu": "catalog:",
+    "eslint-plugin-format": "^1.0.1",
     "eslint-vitest-rule-tester": "catalog:",
     "esno": "catalog:",
     "execa": "catalog:",

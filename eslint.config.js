@@ -2,6 +2,8 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
+    formatters: true,
+    vue: true,
     regexp: {
       overrides: {
         'regexp/no-empty-capturing-group': 'off',
@@ -13,11 +15,18 @@ export default antfu(
     ignores: [
       '**/.svelte-kit',
       '**/*.global.js',
+      '**/fixtures/**',
       'bench/source/gen*.js',
-      'interactive/guides/vendor/*.md',
       'docs/.vitepress/cache',
+      'interactive/guides/vendor/*.md',
+      'test/cases/preset-attributify/**',
+      'packages-presets/reset/**/*.css',
       'packages-presets/preset-icons/src/collections.json',
       'packages-integrations/eslint-plugin/fixtures',
+
+      // Nested CSS
+      'interactive/markdown.css',
+      'playground/src/main.css',
     ],
   },
   {

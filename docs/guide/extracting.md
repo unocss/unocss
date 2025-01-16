@@ -62,15 +62,11 @@ Similarly, you can also add `@unocss-ignore` to bypass the scanning and transfor
 If you want the UnoCSS to skip a block of code without being extracted in any extracting files, you can use `@unocss-skip-start` `@unocss-skip-end` in pairs. Note that it must be used **in pairs** to be effective.
 
 ```html
-<p class="text-green text-xl">
-  Green Large
-</p>
+<p class="text-green text-xl">Green Large</p>
 
 <!-- @unocss-skip-start -->
 <!-- `text-red` will not be extracted -->
-<p class="text-red">
-  Red
-</p>
+<p class="text-red">Red</p>
 <!-- @unocss-skip-end -->
 ```
 
@@ -122,7 +118,8 @@ Since UnoCSS works **at build time**, it means that only statically presented ut
 Sometimes you might want to use dynamic concatenations like:
 
 ```html
-<div class="p-${size}"></div> <!-- this won't work! -->
+<div class="p-${size}"></div>
+<!-- this won't work! -->
 ```
 
 Due the fact that UnoCSS works in build time using static extraction, at the compile time it can't possibility know all the combination of the utilities then. For that, you can configure the `safelist` option.
@@ -132,6 +129,8 @@ safelist: 'p-1 p-2 p-3 p-4'.split(' ')
 ```
 
 The corresponding CSS will always be generated:
+
+<!-- eslint-skip -->
 
 ```css
 .p-1 { padding: 0.25rem; }
@@ -155,7 +154,8 @@ If you are seeking for a true dynamic generation at runtime, you may want to che
 Another ways to work around the limitation of dynamically constructed utilities is that you can use an object that list all the combinations **statically**. For example, if you want to have this:
 
 ```html
-<div class="text-${color} border-${color}"></div> <!-- this won't work! -->
+<div class="text-${color} border-${color}"></div>
+<!-- this won't work! -->
 ```
 
 You can create an object that lists all the combinations (assuming you know any possible values of `color` you want to use)

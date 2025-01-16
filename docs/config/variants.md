@@ -46,6 +46,8 @@ Let's have a tour of what happened when matching for `hover:m-2`:
 
 As a result, the following CSS will be generated:
 
+<!-- eslint-skip -->
+
 ```css
 .hover\:m-2:hover { margin: 0.5rem; }
 ```

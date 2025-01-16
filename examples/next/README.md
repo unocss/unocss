@@ -84,7 +84,7 @@ export default defineConfig({
     // ...
   ],
 })
- ```
+```
 
 Then you can style your components in attributify mode
 
@@ -128,7 +128,7 @@ export default defineConfig({
 Then you can use any of the available icons:
 
 ```html
-<span className='i-lucide:arrow-up-right' />
+<span className="i-lucide:arrow-up-right" />
 ```
 
 For more information on UnoCSS please visit the Docs [UnoCSS.dev](https://unocss.dev/)

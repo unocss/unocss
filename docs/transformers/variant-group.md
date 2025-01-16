@@ -10,15 +10,19 @@ Enables the [variant group feature](https://windicss.org/features/variant-groups
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/transformer-variant-group
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/transformer-variant-group
-  ```
-  ```bash [npm]
-  npm install -D @unocss/transformer-variant-group
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/transformer-variant-group
+```
+
+```bash [yarn]
+yarn add -D @unocss/transformer-variant-group
+```
+
+```bash [npm]
+npm install -D @unocss/transformer-variant-group
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -39,18 +43,19 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { transformerVariantGroup } from 'unocss'
 ```
+
 :::
 
 ## Usage
 
 ```html
-<div class="hover:(bg-gray-400 font-medium) font-(light mono)"/>
+<div class="hover:(bg-gray-400 font-medium) font-(light mono)" />
 ```
 
 Will be transformed to:
 
 ```html
-<div class="hover:bg-gray-400 hover:font-medium font-light font-mono"/>
+<div class="hover:bg-gray-400 hover:font-medium font-light font-mono" />
 ```
 
 ## License

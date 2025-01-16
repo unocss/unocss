@@ -27,6 +27,8 @@ This will add a new CSS utility `m-1` to your project. Since UnoCSS is on-demand
 
 `m-1` will be detected and the following CSS will be generated:
 
+<!-- eslint-skip -->
+
 ```css
 .m-1 { margin: 1px; }
 ```
@@ -48,6 +50,8 @@ By doing this, now you can have arbitrary margin utilities, like `m-1`, `m-100` 
 <div class="m-1">Hello</div>
 <div class="m-7.5">World</div>
 ```
+
+<!-- eslint-skip -->
 
 ```css
 .m-1 { margin: 1px; }

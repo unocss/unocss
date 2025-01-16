@@ -22,6 +22,8 @@ rules: [
 
 This will generate:
 
+<!-- eslint-skip -->
+
 ```css
 /* layer: default */
 .btn { padding: 4px; }
@@ -107,18 +109,24 @@ Layers can be created using variants.
 
 ```html
 <p class="uno-layer-my-layer:text-xl">text</p>
+```
 
+<!-- eslint-skip -->
+
+```css
 /* layer: my-layer */
-.uno-layer-my-layer\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+.uno-layer-my-layer\:text-xl{ font-size:1.25rem; line-height:1.75rem; }
 ```
 
 `layer-<name>:` can be used to create a CSS @layer.
 
 ```html
 <p class="layer-my-layer:text-xl">text</p>
+```
 
+<!-- eslint-skip -->
+
+```css
 /* layer: default */
-@layer my-layer{
-.layer-my-layer\:text-xl{font-size:1.25rem;line-height:1.75rem;}
-}
+@layer my-layer{ .layer-my-layer\:text-xl{ font-size:1.25rem; line-height:1.75rem; } }
 ```

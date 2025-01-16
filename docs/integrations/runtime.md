@@ -21,15 +21,15 @@ The runtime may be configured by defining the configuration before loading the r
 ```html
 <!-- define unocss options... -->
 <script>
-window.__unocss = {
-  rules: [
-    // custom rules...
-  ],
-  presets: [
-    // custom presets...
-  ],
-  // ...
-}
+  window.__unocss = {
+    rules: [
+      // custom rules...
+    ],
+    presets: [
+      // custom presets...
+    ],
+    // ...
+  }
 </script>
 <!-- ... and then load the runtime -->
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
@@ -40,9 +40,9 @@ By default, the [Uno preset](/presets/uno) is be applied.
 The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one from [Reset package](/guide/style-reset).
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/normalize.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/normalize.min.css" />
 <!-- or -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
 ```
 
 ## Builds
@@ -82,10 +82,11 @@ If you need to mix and match presets, you can load only the core runtime and ass
 <script>
   window.__unocss = {
     presets: [
-      () => window.__unocss_runtime.presets.presetIcons({
-        scale: 1.2,
-        cdn: 'https://esm.sh/'
-      }),
+      () =>
+        window.__unocss_runtime.presets.presetIcons({
+          scale: 1.2,
+          cdn: 'https://esm.sh/',
+        }),
     ],
   }
 </script>
@@ -132,14 +133,15 @@ Since UnoCSS runs after the DOM is ready, there can be a "flash of unstyled cont
 Use `un-cloak` attribute with CSS rules such as `[un-cloak] { display: none }` to hide the unstyled element until UnoCSS applies the styles for it.
 
 ::: code-group
-  ```css
-  [un-cloak] {
-    display: none;
-  }
-  ```
-  ```html
-  <div class="text-blue-500" un-cloak>
-    This text will only be visible in blue color.
-  </div>
-  ```
+
+```css
+[un-cloak] {
+  display: none;
+}
+```
+
+```html
+<div class="text-blue-500" un-cloak>This text will only be visible in blue color.</div>
+```
+
 :::

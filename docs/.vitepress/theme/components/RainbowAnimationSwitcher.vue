@@ -106,15 +106,15 @@ const switchTitle = computed(() => {
   opacity: 0;
 }
 
-.RainbowAnimationSwitcher[aria-checked="false"] .non-animated {
+.RainbowAnimationSwitcher[aria-checked='false'] .non-animated {
   opacity: 1;
 }
 
-.RainbowAnimationSwitcher[aria-checked="true"] .animated {
+.RainbowAnimationSwitcher[aria-checked='true'] .animated {
   opacity: 1;
 }
 
-.RainbowAnimationSwitcher[aria-checked="false"] :deep(.check) {
+.RainbowAnimationSwitcher[aria-checked='false'] :deep(.check) {
   /*rtl:ignore*/
   transform: translateX(18px);
 }

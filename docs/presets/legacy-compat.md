@@ -17,15 +17,19 @@ By default none of the options are enabled, you need to opt-in each of them expl
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-legacy-compat
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-legacy-compat
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-legacy-compat
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-legacy-compat
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-legacy-compat
+```
+
+```bash [npm]
+npm install -D @unocss/preset-legacy-compat
+```
+
 :::
 
 ```ts [uno.config.ts]

@@ -13,15 +13,19 @@ We also provide a small collection for you to grab them quickly:
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add @unocss/reset
-  ```
-  ```bash [yarn]
-  yarn add @unocss/reset
-  ```
-  ```bash [npm]
-  npm install @unocss/reset
-  ```
+
+```bash [pnpm]
+pnpm add @unocss/reset
+```
+
+```bash [yarn]
+yarn add @unocss/reset
+```
+
+```bash [npm]
+npm install @unocss/reset
+```
+
 :::
 
 ## Usage
@@ -68,24 +72,27 @@ import '@unocss/reset/tailwind-compat.css'
 This reset is based on [Tailwind reset](#tailwind), minus the background color override for buttons to avoid conflicts with UI frameworks. See [linked issue](https://github.com/unocss/unocss/issues/2127).
 
 ::: code-group
-  ```css [Before]
-  button,
-  [type='button'],
-  [type='reset'],
-  [type='submit'] {
-    -webkit-appearance: button; /* 1 */
-    background-color: transparent; /* 2 */
-    background-image: none; /* 2 */
-  }
-  ```
-  ```css [After]
-  button,
-  [type='button'],
-  [type='reset'],
-  [type='submit'] {
-    -webkit-appearance: button; /* 1 */
-    /*background-color: transparent; !* 2 *!*/
-    background-image: none; /* 2 */
-  }
-  ```
+
+```css [Before]
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+```
+
+```css [After]
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button; /* 1 */
+  /*background-color: transparent; !* 2 *!*/
+  background-image: none; /* 2 */
+}
+```
+
 :::
