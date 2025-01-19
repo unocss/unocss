@@ -1,5 +1,6 @@
 import { defineBuildConfig } from 'unbuild'
 import { aliasVirtual } from '../../alias'
+import { fixCJSExportTypePlugin } from '../../scripts/cjs-plugin'
 
 export default defineBuildConfig([
   {
@@ -20,6 +21,11 @@ export default defineBuildConfig([
       emitCJS: true,
       preserveDynamicImports: true,
       inlineDependencies: false,
+    },
+    hooks: {
+      'rollup:dts:options': (ctx, options) => {
+        options.plugins.push(fixCJSExportTypePlugin(ctx))
+      },
     },
     externals: [
       /postcss\/esm/,

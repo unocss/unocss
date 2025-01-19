@@ -1,4 +1,5 @@
 import { defineBuildConfig } from 'unbuild'
+import { fixCJSExportTypePlugin } from '../../scripts/cjs-plugin'
 
 export default defineBuildConfig([
   {
@@ -16,6 +17,11 @@ export default defineBuildConfig([
     failOnWarn: false,
     rollup: {
       emitCJS: true,
+    },
+    hooks: {
+      'rollup:dts:options': (ctx, options) => {
+        options.plugins.push(fixCJSExportTypePlugin(ctx))
+      },
     },
   },
   {
