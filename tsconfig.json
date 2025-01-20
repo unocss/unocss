@@ -183,6 +183,6 @@
     "**/fixtures/**",
     "**/interactive/**",
     "**/test/dts/**",
-    "packages/eslint-plugin/**"
+    "packages-integrations/eslint-plugin/**"
   ]
 }

@@ -29,7 +29,7 @@
     "@angular/cli": "^17.3.11",
     "@angular/compiler-cli": "^17.3.12",
     "typescript": "~5.7.3",
-    "unocss": "link:../../packages/unocss"
+    "unocss": "link:../../packages-presets/unocss"
   },
   "stackblitz": {
     "installDependencies": false,

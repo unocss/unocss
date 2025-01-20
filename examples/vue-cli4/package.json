@@ -10,11 +10,11 @@
     "vue": "^2.7.16"
   },
   "devDependencies": {
-    "@unocss/webpack": "link:../../packages/webpack",
+    "@unocss/webpack": "link:../../packages-integrations/webpack",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
     "cross-env": "^7.0.3",
-    "unocss": "link:../../packages/unocss",
+    "unocss": "link:../../packages-presets/unocss",
     "vue-template-compiler": "^2.7.16"
   },
   "stackblitz": {

@@ -848,8 +848,8 @@ importers:
         version: 2.7.16
     devDependencies:
       '@unocss/webpack':
-        specifier: link:../../packages/webpack
-        version: link:../../packages/webpack
+        specifier: link:../../packages-integrations/webpack
+        version: link:../../packages-integrations/webpack
       '@vue/cli-plugin-babel':
         specifier: ~5.0.8
         version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(core-js@3.40.0)(vue@2.7.16)
@@ -860,8 +860,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       unocss:
-        specifier: link:../../packages/unocss
-        version: link:../../packages/unocss
+        specifier: link:../../packages-presets/unocss
+        version: link:../../packages-presets/unocss
       vue-template-compiler:
         specifier: ^2.7.16
         version: 2.7.16
@@ -876,8 +876,8 @@ importers:
         version: 2.7.16
     devDependencies:
       '@unocss/webpack':
-        specifier: link:../../packages/webpack
-        version: link:../../packages/webpack
+        specifier: link:../../packages-integrations/webpack
+        version: link:../../packages-integrations/webpack
       '@vue/cli-plugin-babel':
         specifier: ~5.0.8
         version: 5.0.8(@vue/cli-service@5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3))(core-js@3.40.0)(vue@2.7.16)
@@ -885,8 +885,8 @@ importers:
         specifier: ~5.0.8
         version: 5.0.8(@vue/compiler-sfc@3.5.13)(lodash@4.17.21)(prettier@2.8.8)(pug@3.0.3)(react@18.3.1)(vue-template-compiler@2.7.16)(vue@2.7.16)(webpack-sources@3.2.3)
       unocss:
-        specifier: link:../../packages/unocss
-        version: link:../../packages/unocss
+        specifier: link:../../packages-presets/unocss
+        version: link:../../packages-presets/unocss
 
   interactive:
     devDependencies:

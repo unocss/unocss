@@ -17,13 +17,13 @@
     "@iconify-json/logos": "^1.2.4",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@unocss/core": "link:../../packages/core",
-    "@unocss/preset-attributify": "link:../../packages/preset-attributify",
-    "@unocss/preset-icons": "link:../../packages/preset-icons",
+    "@unocss/core": "link:../../packages-engine/core",
+    "@unocss/preset-attributify": "link:../../packages-presets/preset-attributify",
+    "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
     "@vitejs/plugin-react": "^4.3.4",
     "cross-env": "^7.0.3",
     "typescript": "^5.7.3",
-    "unocss": "link:../../packages/unocss",
+    "unocss": "link:../../packages-presets/unocss",
     "vite": "^6.0.7"
   },
   "stackblitz": {
