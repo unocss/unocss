@@ -12,10 +12,10 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
-    "@unocss/postcss": "link:../../packages/postcss",
+    "@unocss/postcss": "link:../../packages-integrations/postcss",
     "@vitejs/plugin-vue": "^5.2.1",
     "typescript": "^5.7.3",
-    "unocss": "link:../../packages/unocss",
+    "unocss": "link:../../packages-presets/unocss",
     "vite": "^6.0.7"
   },
   "stackblitz": {

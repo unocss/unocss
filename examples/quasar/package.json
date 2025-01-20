@@ -21,7 +21,7 @@
     "@quasar/app-vite": "^1.11.0",
     "autoprefixer": "^10.4.20",
     "typescript": "^5.7.3",
-    "unocss": "link:../../packages/unocss"
+    "unocss": "link:../../packages-presets/unocss"
   },
   "stackblitz": {
     "installDependencies": false,
