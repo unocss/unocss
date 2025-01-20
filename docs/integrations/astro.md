@@ -10,15 +10,19 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss
-  ```
-  ```bash [yarn]
-  yarn add -D unocss
-  ```
-  ```bash [npm]
-  npm install -D unocss
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss
+```
+
+```bash [yarn]
+yarn add -D unocss
+```
+
+```bash [npm]
+npm install -D unocss
+```
+
 :::
 
 ```ts [astro.config.ts]
@@ -47,15 +51,19 @@ export default defineConfig({
 By default, [browser style reset](/guide/style-reset) will not be injected. To enable it, install the `@unocss/reset` package:
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/reset
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/reset
-  ```
-  ```bash [npm]
-  npm install -D @unocss/reset
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/reset
+```
+
+```bash [yarn]
+yarn add -D @unocss/reset
+```
+
+```bash [npm]
+npm install -D @unocss/reset
+```
+
 :::
 
 And update your `astro.config.ts`:
@@ -78,15 +86,19 @@ export default defineConfig({
 This plugin does not come with any default presets.
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/astro
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/astro
-  ```
-  ```bash [npm]
-  npm install -D @unocss/astro
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/astro
+```
+
+```bash [yarn]
+yarn add -D @unocss/astro
+```
+
+```bash [npm]
+npm install -D @unocss/astro
+```
+
 :::
 
 ```ts [astro.config.mjs]
@@ -102,7 +114,7 @@ export default {
 For more details, please refer to the [Vite plugin](/integrations/vite).
 
 ::: info
-If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages/unocss/src/astro.ts) for an example on how to bind the default presets.
+If you are building a meta framework on top of UnoCSS, see [this file](https://github.com/unocss/unocss/blob/main/packages-presets/unocss/src/astro.ts) for an example on how to bind the default presets.
 :::
 
 ## Notes

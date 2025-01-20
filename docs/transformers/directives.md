@@ -11,15 +11,19 @@ UnoCSS transformer for `@apply`, `@screen` and `theme()` directives: `@unocss/tr
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/transformer-directives
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/transformer-directives
-  ```
-  ```bash [npm]
-  npm install -D @unocss/transformer-directives
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/transformer-directives
+```
+
+```bash [yarn]
+yarn add -D @unocss/transformer-directives
+```
+
+```bash [npm]
+npm install -D @unocss/transformer-directives
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -40,6 +44,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { transformerDirectives } from 'unocss'
 ```
+
 :::
 
 ## Usage
@@ -90,7 +95,7 @@ To use rules with `:`, you will have to quote the whole value:
 
 ```css
 .custom-div {
-  --at-apply: "hover:text-red hover:font-bold";
+  --at-apply: 'hover:text-red hover:font-bold';
   /* or */
   @apply 'hover:text-red hover:font-bold';
 }
@@ -117,7 +122,7 @@ The `@screen` directive that allows you to create media queries that reference y
   }
 }
 /* ... */
-...
+...;
 ```
 
 Will be transformed to:

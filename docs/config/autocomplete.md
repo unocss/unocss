@@ -1,7 +1,9 @@
 # Autocomplete
 
 Autocomplete can be customized for UnoCSS's intelligent suggestions in <a href="/play" target="_blank" rel="noreferrer">playground</a> and the [VS Code extension](/integrations/vscode).
+
 <!--eslint-skip-->
+
 ```ts
 autocomplete: {
   templates: [
@@ -31,6 +33,6 @@ autocomplete: {
 
 - `shorthands` is a map of shorthand names to their templates. If it's a `Array`, it will be a logic OR group.
 
-- `extractors` to pickup possible classes and transform class-name style suggestions to the correct format. For example, you could check how we implement the [attributify autocomplete extractor](https://github.com/unocss/unocss/blob/main/packages/preset-attributify/src/autocomplete.ts)
+- `extractors` to pickup possible classes and transform class-name style suggestions to the correct format. For example, you could check how we implement the [attributify autocomplete extractor](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/autocomplete.ts)
 
 - For additional help, please refer to [here](/tools/autocomplete).

@@ -8,7 +8,7 @@ outline: deep
 
 The Tailwind CSS / Windi CSS compact preset for UnoCSS.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-wind)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind)
 
 ::: info
 This preset inherits [`@unocss/preset-mini`](/presets/mini).
@@ -17,15 +17,19 @@ This preset inherits [`@unocss/preset-mini`](/presets/mini).
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-wind
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-wind
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-wind
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-wind
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-wind
+```
+
+```bash [npm]
+npm install -D @unocss/preset-wind
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -45,12 +49,14 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { presetWind } from 'unocss'
 ```
+
 :::
 
 ## Rules
+
 The primary goal of this preset is to provide compatibility with [Tailwind CSS](https://tailwindcss.com/) and [Windi CSS](https://windicss.org/). It should be noted that complete compatibility may not be guaranteed. Please refer to their [documentation](https://tailwindcss.com/docs) for detailed usage.
 
-For all rules and presets included in this preset, please refer to our <a href="/interactive/" target="_blank">interactive docs</a> or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages/preset-wind).
+For all rules and presets included in this preset, please refer to our <a href="/interactive/" target="_blank">interactive docs</a> or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind).
 
 ## Differences from Tailwind CSS
 
@@ -63,13 +69,13 @@ Using quotes in the template (the files intended to be processed) is not support
 Tailwind [allows](https://tailwindcss.com/docs/background-position#using-custom-values) one to use custom values for `background-position` using the bare syntax:
 
 ```html
-<div class="bg-[center_top_1rem]">
+<div class="bg-[center_top_1rem]"></div>
 ```
 
 The Wind preset will instead interpret `center_top_1rem` as a color. Use a `position:` prefix to accomplish the same thing:
 
 ```html
-<div class="bg-[position:center_top_1rem]">
+<div class="bg-[position:center_top_1rem]"></div>
 ```
 
 ### Animates
@@ -84,9 +90,9 @@ We don't merge conflicting animation names from Tailwind and Animate.css. If you
 
 For example
 
-| Tailwind CSS | Animate.css |
-|:--:|:--:|
-| `animate-bounce` | `animate-bounce-alt` |
+|                                                                                                                                         Tailwind CSS                                                                                                                                          |                                                                                                                                            Animate.css                                                                                                                                            |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                                                                                       `animate-bounce`                                                                                                                                        |                                                                                                                                       `animate-bounce-alt`                                                                                                                                        |
 | <div w-full flex="~ items-center justify-center"><div class="animate-bounce bg-white dark:bg-slate-800 p-2 w-10 h-10 ring-1 ring-purple-900/5 dark:ring-purple-200/20 shadow-lg rounded-full flex items-center justify-center"><div text-purple size-5 i-carbon-arrow-down></div></div></div> | <div w-full flex="~ items-center justify-center"><div class="animate-bounce-alt bg-white dark:bg-slate-800 p-2 w-10 h-10 ring-1 ring-purple-900/5 dark:ring-purple-200/20 shadow-lg rounded-full flex items-center justify-center"><div text-purple size-5 i-carbon-arrow-down></div></div></div> |
 
 If you want to customize or modify the animation effect, we provide highly customizable configuration items. You can modify the duration, delay, speed curve, etc. of the animation through the configuration item.
@@ -137,14 +143,15 @@ export default defineConfig({
   }
 })
 ```
+
 :::
 
 ## Differences from Windi CSS
 
 ### Breakpoints
 
-| Windi CSS | UnoCSS |
-|:--|:--|
+| Windi CSS | UnoCSS      |
+| :-------- | :---------- |
 | `<sm:p-1` | `lt-sm:p-1` |
 | `@lg:p-1` | `at-lg:p-1` |
 | `>xl:p-1` | `xl:p-1`    |
@@ -153,8 +160,8 @@ export default defineConfig({
 
 This preset uses `_` instead of `,` to respect space in bracket syntax.
 
-| Windi CSS | UnoCSS |
-|:--|:--|
+| Windi CSS                          | UnoCSS                             |
+| :--------------------------------- | :--------------------------------- |
 | `grid-cols-[1fr,10px,max-content]` | `grid-cols-[1fr_10px_max-content]` |
 
 Since some CSS rules require `,` as parts of the value, e.g. `grid-cols-[repeat(3,auto)]`
@@ -189,6 +196,7 @@ This preset options are inherited from [`@unocss/preset-mini`](/presets/mini#opt
 :::
 
 ### important
+
 - **Type:** `boolean | string`
 - **Default:** `false`
 

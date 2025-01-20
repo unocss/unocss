@@ -10,15 +10,19 @@ Support extracting classes from [MDC (Markdown Components)](https://content.nuxt
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/extractor-mdc
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/extractor-mdc
-  ```
-  ```bash [npm]
-  npm install -D @unocss/extractor-mdc
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/extractor-mdc
+```
+
+```bash [yarn]
+yarn add -D @unocss/extractor-mdc
+```
+
+```bash [npm]
+npm install -D @unocss/extractor-mdc
+```
+
 :::
 
 ```ts [uno.config.ts]

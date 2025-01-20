@@ -21,7 +21,6 @@ table {
   opacity: 0.2;
 }
 
-
 /**
  * VitePress: Custom fix
  * -------------------------------------------------------------------------- */
@@ -53,7 +52,6 @@ table {
   transition: color 0.25s;
 }
 
-
 /* VitePress Search */
 .VPLocalSearchBox .result {
   --vp-c-bg-search-result: var(--vp-c-bg);
@@ -65,10 +63,10 @@ table {
   --vp-c-bg-search-result: var(--vp-c-bg-soft) !important;
 }
 .VPLocalSearchBox .result .excerpt-gradient-top {
-  background: linear-gradient(var(--vp-c-bg-search-result),transparent) !important;
+  background: linear-gradient(var(--vp-c-bg-search-result), transparent) !important;
 }
 .VPLocalSearchBox .result .excerpt-gradient-bottom {
-  background: linear-gradient(transparent,var(--vp-c-bg-search-result)) !important;
+  background: linear-gradient(transparent, var(--vp-c-bg-search-result)) !important;
 }
 .VPLocalSearchBox .title-icon {
   display: none;

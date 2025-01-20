@@ -24,6 +24,7 @@ theme: {
   },
 }
 ```
+
 ::: tip
 During the parsing process, `theme` will always exist in `context`.
 :::

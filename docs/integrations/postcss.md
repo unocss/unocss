@@ -7,7 +7,7 @@ outline: deep
 
 PostCSS plugin for UnoCSS. Supports `@apply`, `@screen` and `theme()` directives.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/postcss)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-integrations/postcss)
 
 ::: warning
 This package is in an experimental state right now. It doesn't follow semver, and may introduce breaking changes in patch versions.
@@ -16,15 +16,19 @@ This package is in an experimental state right now. It doesn't follow semver, an
 ## Install
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss @unocss/postcss
-  ```
-  ```bash [yarn]
-  yarn add -D unocss @unocss/postcss
-  ```
-  ```bash [npm]
-  npm install -D unocss @unocss/postcss
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss @unocss/postcss
+```
+
+```bash [yarn]
+yarn add -D unocss @unocss/postcss
+```
+
+```bash [npm]
+npm install -D unocss @unocss/postcss
+```
+
 :::
 
 ```ts [postcss.config.mjs]
@@ -119,7 +123,6 @@ The `@screen` directive allows you to create media queries that reference your b
   }
 }
 /* ... */
-...
 ```
 
 Will be transformed to:
@@ -143,6 +146,7 @@ Will be transformed to:
 ```
 
 #### Breakpoint Variant Support
+
 `@screen` also supports `lt`、`at` variants
 
 ##### `@screen lt`

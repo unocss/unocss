@@ -14,15 +14,19 @@ Getting Started with UnoCSS and Next.js.
 ### Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss @unocss/webpack
-  ```
-  ```bash [yarn]
-  yarn add -D unocss @unocss/webpack
-  ```
-  ```bash [npm]
-  npm install -D unocss @unocss/webpack
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss @unocss/webpack
+```
+
+```bash [yarn]
+yarn add -D unocss @unocss/webpack
+```
+
+```bash [npm]
+npm install -D unocss @unocss/webpack
+```
+
 :::
 
 ### Configuration
@@ -44,7 +48,7 @@ export default defineConfig({
     // ...
   ],
 })
- ```
+```
 
 ### Add plugin
 

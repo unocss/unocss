@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { UserConfig } from '@unocss/core'
-import { evaluateUserConfig } from '@unocss/shared-docs'
+import { evaluateUserConfig } from '#docs'
 
-const CodeMirror = defineAsyncComponent(() => import('../../packages/inspector/client/components/CodeMirror.vue'))
+const CodeMirror = defineAsyncComponent(() => import('../../packages-integrations/inspector/client/components/CodeMirror.vue'))
 
 const raw = ref(userConfigRaw.value || defaultConfigRaw)
 const config = ref<UserConfig | undefined>()
@@ -11,6 +11,7 @@ const isLoading = ref(true)
 const isValid = computed(() => !isLoading.value && !error.value && !!config.value)
 const isChanged = computed(() => raw.value !== (userConfigRaw.value || defaultConfigRaw))
 const isDefault = computed(() => !raw.value || raw.value === defaultConfigRaw)
+const moduleMap = new Map()
 
 watchDebounced(
   () => raw.value,
@@ -19,7 +20,7 @@ watchDebounced(
     isLoading.value = true
     config.value = undefined
     try {
-      config.value = await evaluateUserConfig(raw.value)
+      config.value = await evaluateUserConfig(raw.value, moduleMap)
     }
     catch (e) {
       console.error(e)

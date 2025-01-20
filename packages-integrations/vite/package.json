@@ -1,0 +1,69 @@
+{
+  "name": "@unocss/vite",
+  "type": "module",
+  "version": "65.4.2",
+  "description": "The Vite plugin for UnoCSS",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-integrations/vite"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "vite",
+    "vite-plugin"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./client": {
+      "types": "./dist/client.d.mts",
+      "default": "./dist/client.mjs"
+    }
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+  },
+  "peerDependencies": {
+    "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0"
+  },
+  "dependencies": {
+    "@ampproject/remapping": "catalog:",
+    "@rollup/pluginutils": "catalog:",
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/inspector": "workspace:*",
+    "chokidar": "catalog:",
+    "magic-string": "catalog:",
+    "tinyglobby": "catalog:"
+  },
+  "devDependencies": {
+    "vite": "catalog:"
+  }
+}

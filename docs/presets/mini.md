@@ -8,20 +8,24 @@ outline: deep
 
 The basic preset for UnoCSS, with only the most essential utilities.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-mini)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-mini)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-mini
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-mini
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-mini
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-mini
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-mini
+```
+
+```bash [npm]
+npm install -D @unocss/preset-mini
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -42,6 +46,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { presetMini } from 'unocss'
 ```
+
 :::
 
 ## Rules
@@ -113,6 +118,7 @@ will generate:
 ```
 
 ### Theme
+
 You can fully customize your theme property in your config, and UnoCSS will eventually deeply merge it to the default theme.
 
 :::warning
@@ -136,6 +142,7 @@ presetMini({
 ## Options
 
 ### dark
+
 - **Type:** `class | media | DarkModeSelectors`
 - **Default:** `class`
 
@@ -160,24 +167,28 @@ interface DarkModeSelectors {
 ```
 
 ### attributifyPseudo
+
 - **Type:** `Boolean`
 - **Default:** `false`
 
 Generate pseudo selector as `[group=""]` instead of `.group`.
 
 ### variablePrefix
+
 - **Type:** `string`
 - **Default:** `un-`
 
 Prefix for CSS custom properties.
 
 ### prefix
+
 - **Type:** `string | string[]`
 - **Default:** `undefined`
 
 Utils prefix.
 
 ### preflight
+
 - **Type:** `boolean` | `on-demand`
 - **Default:** `true`
 

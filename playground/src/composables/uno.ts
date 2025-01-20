@@ -1,11 +1,11 @@
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import type { GenerateResult, UserConfig } from 'unocss'
+import { evaluateUserConfig } from '#docs'
+import { unocssBundle } from '#docs/unocss-bundle'
 import { createAutocomplete } from '@unocss/autocomplete'
-import { evaluateUserConfig } from '@unocss/shared-docs'
 import MagicString from 'magic-string'
 import { createGenerator } from 'unocss'
-import { unocssBundle } from '../../../packages/shared-docs/src/unocss-bundle'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()

@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "65.4.0",
+  "version": "65.4.2",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
@@ -15,7 +15,6 @@
     "@shikijs/markdown-it": "catalog:",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
-    "@unocss/shared-docs": "workspace:*",
     "@vueuse/nuxt": "catalog:",
     "esno": "catalog:",
     "fs-extra": "catalog:",

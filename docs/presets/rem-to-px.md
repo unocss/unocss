@@ -8,20 +8,24 @@ outline: deep
 
 Converts rem to px for all utilities.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-rem-to-px)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-rem-to-px)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-rem-to-px
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-rem-to-px
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-rem-to-px
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-rem-to-px
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-rem-to-px
+```
+
+```bash [npm]
+npm install -D @unocss/preset-rem-to-px
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -43,21 +47,25 @@ export default defineConfig({
 ```
 
 ::: code-group
-  ```css [Without]
-  .m-2 {
-    margin: 0.5rem;
-  }
-  ```
-  ```css [With]
-  .m-2 {
-    margin: 8px;
-  }
-  ```
+
+```css [Without]
+.m-2 {
+  margin: 0.5rem;
+}
+```
+
+```css [With]
+.m-2 {
+  margin: 8px;
+}
+```
+
 :::
 
 ## Options
 
 ### baseFontSize
+
 - **Type:** `number`
 - **Default:** `16`
 

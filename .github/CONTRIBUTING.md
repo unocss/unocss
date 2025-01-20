@@ -23,6 +23,7 @@ To develop and test UnoCSS, follow these steps:
 If you are working on a new feature or bug, follow these steps:
 
 1. Check out a branch where you can work and commit your changes:
+
 ```shell
 git checkout -b my-new-branch-or-feature
 ```
@@ -40,6 +41,7 @@ git checkout -b my-new-branch-or-feature
 7. Run the tests: `pnpm test` and `pnpm typecheck`.
 
 8. Commit and push your changes to your fork using conventional commits. Then, create a pull request to the `main` branch of the UnoCSS repository:
+
 ```shell
 git add .
 git commit -m "feat: my new feature"
@@ -63,5 +65,6 @@ Sometimes when you push your changes to create a new pull request (PR), the CI c
 If you are getting **Semantic Pull Request** error, please check the [Semantic Pull Request](https://www.conventionalcommits.org/en/v1.0.0/#summary) documentation.
 
 You can run the following commands in your local environment to fix CI errors:
+
 - `pnpm test` to run unit tests, maybe you also need to update snapshots: in that case you can run `pnpm test:update` script
 - `pnpm typecheck` to run TypeScript checks run on CI

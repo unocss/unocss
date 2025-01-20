@@ -42,7 +42,9 @@ useHead({
 html {
   scrollbar-gutter: stable;
 }
-html, body , #__nuxt {
+html,
+body,
+#__nuxt {
   height: 100vh;
 }
 html.dark {
@@ -58,7 +60,7 @@ html:not(.dark) .shiki,
 html:not(.dark) .shiki span {
   color: var(--shiki-light);
 }
-html.dark ::-moz-selection  {
+html.dark ::-moz-selection {
   background: #444;
 }
 html.dark ::selection {
@@ -69,11 +71,11 @@ div {
   display: flex;
   flex-direction: column;
 }
-div[row=""] {
+div[row=''] {
   display: flex;
   flex-direction: row;
 }
-div[block=""] {
+div[block=''] {
   display: block;
 }
 

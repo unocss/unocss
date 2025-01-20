@@ -12,20 +12,24 @@ This preset does not include any rules, it's applying postprocess to the generat
 
 By default none of the options are enabled, you need to opt-in each of them explicitly.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-legacy-compat)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-legacy-compat)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-legacy-compat
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-legacy-compat
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-legacy-compat
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-legacy-compat
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-legacy-compat
+```
+
+```bash [npm]
+npm install -D @unocss/preset-legacy-compat
+```
+
 :::
 
 ```ts [uno.config.ts]

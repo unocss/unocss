@@ -2,6 +2,8 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
+    formatters: true,
+    vue: true,
     regexp: {
       overrides: {
         'regexp/no-empty-capturing-group': 'off',
@@ -13,11 +15,18 @@ export default antfu(
     ignores: [
       '**/.svelte-kit',
       '**/*.global.js',
+      '**/fixtures/**',
       'bench/source/gen*.js',
-      'packages/preset-icons/src/collections.json',
-      'interactive/guides/vendor/*.md',
-      'packages/eslint-plugin/fixtures',
       'docs/.vitepress/cache',
+      'interactive/guides/vendor/*.md',
+      'test/cases/preset-attributify/**',
+      'packages-presets/reset/**/*.css',
+      'packages-presets/preset-icons/src/collections.json',
+      'packages-integrations/eslint-plugin/fixtures',
+
+      // Nested CSS
+      'interactive/markdown.css',
+      'playground/src/main.css',
     ],
   },
   {
@@ -53,7 +62,7 @@ export default antfu(
   },
   {
     files: [
-      'packages/vscode/**/*.ts',
+      'packages-integrations/vscode/**/*.ts',
     ],
     rules: {
       'unicorn/prefer-node-protocol': 'off',
@@ -62,7 +71,7 @@ export default antfu(
   {
     files: [
       '**/*.md/*.[jt]s',
-      'packages/shared-docs/src/default-config.ts',
+      'virtual-shared/docs/src/default-config.ts',
     ],
     rules: {
       'no-restricted-imports': 'off',

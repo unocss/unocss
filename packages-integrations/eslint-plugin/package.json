@@ -1,0 +1,56 @@
+{
+  "name": "@unocss/eslint-plugin",
+  "type": "module",
+  "version": "65.4.2",
+  "description": "ESLint plugin for UnoCSS",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-integrations/eslint-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "eslint-plugin",
+    "eslint"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "typecheck": "tsc --noEmit",
+    "lint": "nr build && cd ./fixtures && eslint ./src",
+    "test:attw": "attw --pack"
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "catalog:",
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/rule-utils": "workspace:*",
+    "magic-string": "catalog:",
+    "synckit": "catalog:"
+  },
+  "devDependencies": {
+    "@unocss/eslint-plugin": "workspace:*",
+    "svelte-eslint-parser": "catalog:",
+    "vue-eslint-parser": "catalog:"
+  }
+}

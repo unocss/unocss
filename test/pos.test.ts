@@ -1,13 +1,13 @@
 import type { UnoGenerator } from '@unocss/core'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults'
+import { getMatchedPositions, getMatchedPositionsFromCode as match } from '#integration/match-positions'
 import { createGenerator } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'
 import presetAttributify from '@unocss/preset-attributify'
 import presetUno from '@unocss/preset-uno'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '@unocss/shared-integration'
 import cssDirectives from '@unocss/transformer-directives'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { describe, expect, it } from 'vitest'
-import { getMatchedPositions, getMatchedPositionsFromCode as match } from '../packages/shared-common/src'
 
 describe('matched-positions', async () => {
   it('attributify', async () => {

@@ -17,9 +17,9 @@
     "@unocss/preset-icons": "link:../../packages/preset-icons",
     "@unocss/preset-web-fonts": "link:../../packages/preset-web-fonts",
     "@vitejs/plugin-vue": "^5.2.1",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "unocss": "link:../../packages/unocss",
-    "vite": "^6.0.5"
+    "vite": "^6.0.7"
   },
   "stackblitz": {
     "installDependencies": false,

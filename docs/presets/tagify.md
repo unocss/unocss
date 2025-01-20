@@ -8,20 +8,24 @@ outline: deep
 
 This enables the [tagify mode](#tagify-mode) for other presets.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-tagify)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-tagify)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-tagify
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-tagify
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-tagify
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-tagify
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-tagify
+```
+
+```bash [npm]
+npm install -D @unocss/preset-tagify
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -42,7 +46,7 @@ This preset can come in handy when you only need to apply a single unocss rule t
 
 ```html
 <span class="text-red"> red text </span>
-<div class="flex"> flexbox </div>
+<div class="flex">flexbox</div>
 I'm feeling <span class="i-line-md-emoji-grin"></span> today!
 ```
 
@@ -94,22 +98,26 @@ presetTagify({
 ## Options
 
 ### prefix
+
 - **Type:** `string`
 
 The prefix to use for the tagify variant.
 
 ### excludedTags
+
 - **Type:** `string[] | RegExp[]`
 - **Default:** `['b', /^h\d+$/, 'table']`
 
 Tags excluded from processing.
 
 ### extraProperties
+
 - **Type:** `Record<string, string> | ((matched: string) => Partial<Record<string, string>>)`
 
 Extra CSS properties to apply to matched rules.
 
 ### defaultExtractor
+
 - **Type:** `boolean`
 - **Default:** `true`
 

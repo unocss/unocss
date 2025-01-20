@@ -1,0 +1,163 @@
+{
+  "publisher": "antfu",
+  "name": "@unocss/vscode",
+  "displayName": "UnoCSS",
+  "type": "module",
+  "version": "65.4.2",
+  "private": true,
+  "description": "UnoCSS for VS Code",
+  "license": "MIT",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-integrations/vscode"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/index.cjs",
+  "preview": true,
+  "icon": "res/logo.png",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "unocss.reload",
+        "title": "Reload UnoCSS",
+        "category": "UnoCSS"
+      },
+      {
+        "command": "unocss.insert-skip-annotation",
+        "title": "Insert `@unocss-skip` for the selection",
+        "category": "UnoCSS"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "UnoCSS",
+      "properties": {
+        "unocss.disable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable the UnoCSS extension"
+        },
+        "unocss.languageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unocss.root": {
+          "type": [
+            "array",
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Project root that contains the UnoCSS configuration file"
+        },
+        "unocss.include": {
+          "type": [
+            "array",
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Directory of files to be detected"
+        },
+        "unocss.exclude": {
+          "type": [
+            "array",
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Directory of files not to be detected"
+        },
+        "unocss.underline": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable underline decoration for class names"
+        },
+        "unocss.colorPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable color preview decorations"
+        },
+        "unocss.colorPreviewRadius": {
+          "type": "string",
+          "default": "50%",
+          "description": "Radius for color preview"
+        },
+        "unocss.remToPxPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable rem to px preview in hover"
+        },
+        "unocss.remToPxRatio": {
+          "type": "number",
+          "default": 16,
+          "description": "Ratio of rem to px"
+        },
+        "unocss.selectionStyle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable selection style decorations"
+        },
+        "unocss.strictAnnotationMatch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show annotations"
+        },
+        "unocss.autocomplete.matchType": {
+          "type": "string",
+          "default": "prefix",
+          "enum": [
+            "prefix",
+            "fuzzy"
+          ],
+          "description": "The matching type for autocomplete"
+        },
+        "unocss.autocomplete.strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "Be strict about where to show autocomplete"
+        },
+        "unocss.autocomplete.maxItems": {
+          "type": "number",
+          "default": 1000,
+          "description": "The maximum number of items to show in autocomplete"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "esno ./scripts/dev.ts && tsup --watch src",
+    "publish": "esno ./scripts/publish.ts",
+    "prepare": "nr update",
+    "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
+    "pack": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.71.0",
+    "@unocss/nuxt": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "esno": "catalog:",
+    "find-up": "catalog:",
+    "jiti": "catalog:",
+    "prettier": "catalog:",
+    "tsup": "catalog:",
+    "unconfig": "catalog:",
+    "vscode-ext-gen": "^0.5.5"
+  }
+}

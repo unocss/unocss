@@ -10,20 +10,24 @@ Use web fonts from [Google Fonts](https://fonts.google.com/), [FontShare](https:
 
 See [all supported providers](#providers).
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-web-fonts)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-web-fonts
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-web-fonts
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-web-fonts
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-web-fonts
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-web-fonts
+```
+
+```bash [npm]
+npm install -D @unocss/preset-web-fonts
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -45,6 +49,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { presetWebFonts } from 'unocss'
 ```
+
 :::
 
 ## Providers
@@ -90,6 +95,7 @@ export default defineConfig({
 ## Options
 
 ### provider
+
 - **Type:** `WebFontsProviders`
 - **Default:** `google`
 
@@ -100,6 +106,7 @@ type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none'
 ```
 
 ### fonts
+
 - **Type:** `Record<string, WebFontMeta | string | (WebFontMeta | string)[]>`
 
 The fonts. See [example](#example) for more details.
@@ -118,24 +125,28 @@ interface WebFontMeta {
 ```
 
 ### extendTheme
+
 - **Type:** `boolean`
 - **Default:** `true`
 
 Extend the theme object.
 
 ### themeKey
+
 - **Type:** `string`
 - **Default:** `fontFamily`
 
 Key for the theme object.
 
 ### inlineImports
+
 - **Type:** `boolean`
 - **Default:** `true`
 
 Inline CSS `@import()`.
 
 ### customFetch
+
 - **Type:** `(url: string) => Promise<string>`
 - **Default:** `undefined`
 
@@ -168,6 +179,8 @@ presetWebFonts({
 ```
 
 The following CSS will be generated automatically:
+
+<!-- eslint-skip -->
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Fira+Code&family=Fira+Mono:wght@400;700&family=Lobster&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');

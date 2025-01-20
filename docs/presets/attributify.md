@@ -8,20 +8,24 @@ outline: deep
 
 This enables the [attributify mode](#attributify-mode) for other presets.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages/preset-attributify)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-attributify)
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/preset-attributify
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/preset-attributify
-  ```
-  ```bash [npm]
-  npm install -D @unocss/preset-attributify
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/preset-attributify
+```
+
+```bash [yarn]
+yarn add -D @unocss/preset-attributify
+```
+
+```bash [npm]
+npm install -D @unocss/preset-attributify
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -41,6 +45,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { presetAttributify } from 'unocss'
 ```
+
 :::
 
 ## Attributify Mode
@@ -48,7 +53,9 @@ import { presetAttributify } from 'unocss'
 Imagine you have this button using Tailwind CSS's utilities. When the list gets longer, it becomes really hard to read and maintain.
 
 ```html
-<button class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600">
+<button
+  class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600"
+>
   Button
 </button>
 ```
@@ -76,17 +83,13 @@ For utilities like `flex`, `grid`, `border`, that have the utilities same as the
 For example:
 
 ```html
-<button class="border border-red">
-  Button
-</button>
+<button class="border border-red">Button</button>
 ```
 
 Can be written as:
 
 ```html
-<button border="~ red">
-  Button
-</button>
+<button border="~ red">Button</button>
 ```
 
 ## Valueless attributify
@@ -145,7 +148,7 @@ presetAttributify({
 
 Create `shims.d.ts` with the following content:
 
-> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages/preset-attributify/src/jsx.ts) to implement your own type.
+> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
 
 ### Vue
 

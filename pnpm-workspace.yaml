@@ -4,16 +4,19 @@ packages:
   - docs
   - playground
   - interactive
-  - packages/**
+  - packages-engine/*
+  - packages-integrations/*
+  - packages-presets/*
+  - virtual-shared/*
   - test/fixtures/*
   - examples/vue-cli4
   - examples/vue-cli5
 catalog:
   '@ampproject/remapping': ^2.3.0
-  '@antfu/eslint-config': ^3.12.1
+  '@antfu/eslint-config': ^3.14.0
   '@antfu/ni': ^0.23.2
   '@antfu/utils': ^0.7.10
-  '@arethetypeswrong/cli': ^0.17.2
+  '@arethetypeswrong/cli': ^0.17.3
   '@babel/core': ^7.26.0
   '@babel/plugin-syntax-jsx': ^7.25.9
   '@babel/preset-typescript': ^7.26.0
@@ -23,68 +26,68 @@ catalog:
   '@codemirror/lang-xml': ^6.1.0
   '@csstools/normalize.css': ^12.1.1
   '@iconify-json/carbon': ^1.2.5
-  '@iconify-json/iconoir': ^1.2.6
+  '@iconify-json/iconoir': ^1.2.7
   '@iconify-json/la': ^1.2.1
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/mdi': ^1.2.2
   '@iconify-json/ph': ^1.2.2
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/tabler': ^1.2.13
+  '@iconify-json/tabler': ^1.2.14
   '@iconify-json/teenyicons': ^1.2.2
   '@iconify-json/twemoji': ^1.2.2
   '@iconify-json/uim': ^1.2.3
-  '@iconify-json/vscode-icons': ^1.2.6
-  '@iconify/json': ^2.2.288
+  '@iconify-json/vscode-icons': ^1.2.10
+  '@iconify/json': ^2.2.295
   '@iconify/types': ^2.0.0
   '@iconify/utils': ^2.2.1
-  '@nuxt/devtools': ^1.6.4
-  '@nuxt/kit': ^3.15.0
-  '@nuxt/schema': ^3.15.0
+  '@nuxt/devtools': ^1.7.0
+  '@nuxt/kit': ^3.15.2
+  '@nuxt/schema': ^3.15.2
   '@rollup/pluginutils': ^5.1.4
-  '@shikijs/markdown-it': ^1.24.4
-  '@shikijs/vitepress-twoslash': ^1.24.4
-  '@sveltejs/kit': ^2.15.0
+  '@shikijs/markdown-it': ^1.27.2
+  '@shikijs/vitepress-twoslash': ^1.27.2
+  '@sveltejs/kit': ^2.15.3
   '@types/connect': ^3.4.38
-  '@types/css-tree': ^2.3.9
+  '@types/css-tree': ^2.3.10
   '@types/fs-extra': ^11.0.4
   '@types/js-yaml': ^4.0.9
   '@types/markdown-it-link-attributes': ^3.0.5
-  '@types/node': ^22.10.2
+  '@types/node': ^22.10.7
   '@types/prettier': ^2.7.3
   '@types/pug': ^2.0.10
   '@types/react': ^18.3.18
   '@types/webpack': ^5.28.5
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.5.13
-  '@typescript-eslint/utils': ^8.18.2
+  '@typescript-eslint/utils': ^8.20.0
   '@vitejs/plugin-legacy': ^6.0.0
   '@vitejs/plugin-vue': ^5.2.1
   '@vitest/ui': ^2.1.8
   '@vue/reactivity': ^3.5.13
-  '@vueuse/core': ^12.2.0
-  '@vueuse/math': ^12.2.0
-  '@vueuse/nuxt': ^12.2.0
+  '@vueuse/core': ^12.4.0
+  '@vueuse/math': ^12.4.0
+  '@vueuse/nuxt': ^12.4.0
   astro: ^4.16.18
   autoprefixer: ^10.4.20
   brotli-size: ^4.0.0
-  bumpp: ^9.9.2
+  bumpp: ^9.10.1
   cac: ^6.7.14
   chokidar: ^3.6.0
   codemirror: ^6.0.1
   codemirror-theme-vars: ^0.1.2
   colorette: ^2.0.20
-  consola: ^3.3.1
-  core-js: ^3.39.0
+  consola: ^3.4.0
+  core-js: ^3.40.0
   cross-env: ^7.0.3
   css-tree: ^3.1.0
-  eslint: ^9.17.0
+  eslint: ^9.18.0
   eslint-plugin-antfu: ^2.7.0
   eslint-vitest-rule-tester: ^0.7.1
   esno: ^4.8.0
   execa: ^9.5.2
   find-up: ^6.3.0
   floating-vue: 2.0.0-beta.24
-  fs-extra: ^11.2.0
+  fs-extra: ^11.3.0
   fuse.js: ^7.0.0
   fzf: ^0.5.2
   gzip-size: ^6.0.0
@@ -92,7 +95,7 @@ catalog:
   js-yaml: ^4.1.0
   jsdom: ^25.0.1
   knitwork: ^1.2.0
-  lint-staged: ^15.2.11
+  lint-staged: ^15.4.0
   local-pkg: ^0.5.1
   lru-cache: ^10.4.3
   lz-string: ^1.5.0
@@ -100,28 +103,28 @@ catalog:
   markdown-it-link-attributes: ^4.0.1
   msw: ^2.7.0
   npm-run-path: ^6.0.0
-  nuxt: ^3.15.0
+  nuxt: ^3.15.2
   nuxt-tsconfig-stub: ^0.0.2
   ofetch: ^1.4.1
   p-limit: ^6.2.0
   pathe: ^1.1.2
   perfect-debounce: ^1.0.0
   pnpm: 8.9.2
-  postcss: ^8.4.49
+  postcss: ^8.5.1
   postcss-nested: ^7.0.2
   prettier: ^2.8.8
   prettier-plugin-svelte: ^2.10.1
   pug: ^3.0.3
   react: ^18.3.1
   rimraf: ^6.0.1
-  rollup: ^4.29.1
+  rollup: ^4.30.1
   sanitize.css: ^13.0.0
   semver: ^7.6.3
-  shiki: ^1.24.4
+  shiki: ^1.27.2
   simple-git: ^3.27.0
   simple-git-hooks: ^2.11.1
   sirv: ^3.0.0
-  splitpanes: ^3.1.5
+  splitpanes: ^3.1.8
   std-env: ^3.8.0
   svelte: ^4.2.19
   svelte-eslint-parser: ^0.42.0
@@ -133,19 +136,19 @@ catalog:
   tinyglobby: ^0.2.10
   tsup: ^8.3.5
   tsx: ^4.19.2
-  typescript: ^5.7.2
-  unbuild: ^3.0.1
+  typescript: ^5.7.3
+  unbuild: ^3.3.1
   unconfig: ~0.6.0
-  unplugin: ^2.1.0
+  unplugin: ^2.1.2
   unplugin-auto-import: ^0.19.0
   unplugin-vue-components: ^0.28.0
   unplugin-vue-markdown: ^0.28.0
-  vite: ^6.0.5
+  vite: ^6.0.7
   vite-plugin-inspect: ^0.10.6
   vite-plugin-pages: ^0.32.4
   vite-plugin-windicss: ^1.9.4
   vitepress: ^1.5.0
-  vitepress-plugin-group-icons: ^1.3.2
+  vitepress-plugin-group-icons: ^1.3.4
   vitest: ^2.1.8
   vue: ^3.5.13
   vue-eslint-parser: ^9.4.3

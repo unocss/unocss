@@ -46,6 +46,8 @@ Let's have a tour of what happened when matching for `hover:m-2`:
 
 As a result, the following CSS will be generated:
 
+<!-- eslint-skip -->
+
 ```css
 .hover\:m-2:hover { margin: 0.5rem; }
 ```
@@ -54,4 +56,4 @@ With this, we could have `m-2` applied only when users hover over the element.
 
 ## Going further
 
-The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/unocss/unocss/tree/main/packages/preset-mini/src/_variants) to see more advanced usages.
+The variant system is very powerful and can't be covered fully in this guide, you can check [the default preset's implementation](https://github.com/unocss/unocss/tree/main/packages-presets/preset-mini/src/_variants) to see more advanced usages.

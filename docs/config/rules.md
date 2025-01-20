@@ -19,6 +19,8 @@ rules: [
 
 The following CSS will be generated whenever `m-1` is detected in users' codebase:
 
+<!-- eslint-skip -->
+
 ```css
 .m-1 { margin: 0.25rem; }
 ```
@@ -57,6 +59,8 @@ For example, with the following usage:
 
 the corresponding CSS will be generated:
 
+<!-- eslint-skip -->
+
 ```css
 .m-100 { margin: 25rem; }
 .m-3 { margin: 0.75rem; }
@@ -82,6 +86,8 @@ rules: [
 
 Which will make `h-100dvh` generates:
 
+<!-- eslint-skip -->
+
 ```css
 .h-100dvh { height: 100vh; height: 100dvh; }
 ```
@@ -99,14 +105,21 @@ By default, UnoCSS will merge CSS rules with the same body to minimize the CSS s
 For example, `<div class="m-2 hover:m2">` will generate:
 
 ```css
-.hover\:m2:hover, .m-2 { margin: 0.5rem; }
+.hover\:m2:hover,
+.m-2 {
+  margin: 0.5rem;
+}
 ```
 
 Instead of two separate rules:
 
 ```css
-.hover\:m2:hover { margin: 0.5rem; }
-.m-2 { margin: 0.5rem; }
+.hover\:m2:hover {
+  margin: 0.5rem;
+}
+.m-2 {
+  margin: 0.5rem;
+}
 ```
 
 ## Special symbols

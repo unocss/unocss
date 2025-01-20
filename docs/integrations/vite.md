@@ -20,15 +20,19 @@ The Vite plugin ships with the `unocss` package.
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D unocss
-  ```
-  ```bash [yarn]
-  yarn add -D unocss
-  ```
-  ```bash [npm]
-  npm install -D unocss
-  ```
+
+```bash [pnpm]
+pnpm add -D unocss
+```
+
+```bash [yarn]
+yarn add -D unocss
+```
+
+```bash [npm]
+npm install -D unocss
+```
+
 :::
 
 Install the plugin:
@@ -147,7 +151,7 @@ export default {
 }
 ```
 
-You have a `React` example project on [examples/vite-react](https://github.com/unocss/unocss/tree/main/examples/vite-react) directory  using both plugins, check the scripts on `package.json` and its Vite configuration file.
+You have a `React` example project on [examples/vite-react](https://github.com/unocss/unocss/tree/main/examples/vite-react) directory using both plugins, check the scripts on `package.json` and its Vite configuration file.
 
 <ContentExample :item="playgrounds['vite-react']"  class="Link" integrations />
 
@@ -266,6 +270,7 @@ export default {
 ```
 
 On each `web component` just add `@unocss-placeholder` to its style CSS block:
+
 ```ts
 const template = document.createElement('template')
 template.innerHTML = `
@@ -345,6 +350,7 @@ template.innerHTML = `
 </div>
 `
 ```
+
 <ContentExample :item="playgrounds['vite-lit']"  class="Link" integrations />
 
 ### Solid

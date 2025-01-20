@@ -2,8 +2,8 @@ import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetWebFonts from '@unocss/preset-web-fonts'
+import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 import { describe, expect, it } from 'vitest'
-import { createLocalFontProcessor } from '../packages/preset-web-fonts/src/local'
 
 const options: WebFontsOptions = {
   provider: 'google',

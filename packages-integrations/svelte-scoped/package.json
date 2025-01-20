@@ -1,0 +1,70 @@
+{
+  "name": "@unocss/svelte-scoped",
+  "type": "module",
+  "version": "65.4.2",
+  "description": "Use UnoCSS in a modular fashion with styles being stored only in the Svelte component they are used in: Vite plugin for apps, Svelte preprocessor for component libraries",
+  "author": "Jacob Bowdoin",
+  "license": "MIT",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-integrations/svelte-scoped"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "sveltekit",
+    "svelte",
+    "unocss",
+    "utility-styles",
+    "component-scoped",
+    "component-library"
+  ],
+  "sideEffects": false,
+  "exports": {
+    "./preprocess": {
+      "types": "./dist/preprocess.d.mts",
+      "default": "./dist/preprocess.mjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.mts",
+      "default": "./dist/vite.mjs"
+    }
+  },
+  "main": "./dist/vite.mjs",
+  "module": "./dist/vite.mjs",
+  "types": "./dist/vite.d.ts",
+  "typesVersions": {
+    ">4.0": {
+      "preprocess": [
+        "./dist/preprocess.d.ts"
+      ],
+      "vite": [
+        "./dist/vite.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "bench": "vitest bench",
+    "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+  },
+  "dependencies": {
+    "@unocss/config": "workspace:*",
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/reset": "workspace:*",
+    "css-tree": "catalog:",
+    "magic-string": "catalog:"
+  },
+  "devDependencies": {
+    "prettier-plugin-svelte": "catalog:",
+    "svelte": "catalog:"
+  }
+}

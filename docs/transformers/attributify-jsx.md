@@ -3,7 +3,7 @@ title: Attributify JSX transformer
 description: Support valueless attributify in JSX/TSX (@unocss/transformer-attributify-jsx)
 ---
 
-#  Attributify JSX transformer
+# Attributify JSX transformer
 
 Support [valueless attributify](/presets/attributify#valueless-attributify) in JSX/TSX: `@unocss/transformer-attributify-jsx`.
 
@@ -34,6 +34,7 @@ export function Component() {
 ```
 
 ::: details Without this transformer, JSX treats valueless attributes as boolean attributes.
+
 ```jsx
 export function Component() {
   return (
@@ -43,20 +44,25 @@ export function Component() {
   )
 }
 ```
+
 :::
 
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/transformer-attributify-jsx
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/transformer-attributify-jsx
-  ```
-  ```bash [npm]
-  npm install -D @unocss/transformer-attributify-jsx
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/transformer-attributify-jsx
+```
+
+```bash [yarn]
+yarn add -D @unocss/transformer-attributify-jsx
+```
+
+```bash [npm]
+npm install -D @unocss/transformer-attributify-jsx
+```
+
 :::
 
 ```ts{11} [uno.config.ts]
@@ -81,6 +87,7 @@ This preset is included in the `unocss` package, you can also import it from the
 ```ts
 import { transformerAttributifyJsx } from 'unocss'
 ```
+
 :::
 
 ## Caveats
@@ -90,9 +97,11 @@ The rules are almost the same as those of [Attributify preset](/presets/attribut
 :::
 
 ```html
-<div translate-x-100% /> <!-- cannot end with `%` -->
+<div translate-x-100% />
+<!-- cannot end with `%` -->
 
-<div translate-x-[100px] /> <!-- cannot contain `[` or `]` -->
+<div translate-x-[100px] />
+<!-- cannot contain `[` or `]` -->
 ```
 
 Instead, you may want to use valued attributes instead:
@@ -123,7 +132,5 @@ transformerAttributifyJsx({
 Will be compiled to:
 
 ```html
-<div text-red text-center text-5xl animate-bounce="">
-  unocss
-</div>
+<div text-red text-center text-5xl animate-bounce="">unocss</div>
 ```

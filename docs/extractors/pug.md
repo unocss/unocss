@@ -10,15 +10,19 @@ Support extracting classes from Pug template.
 ## Installation
 
 ::: code-group
-  ```bash [pnpm]
-  pnpm add -D @unocss/extractor-pug
-  ```
-  ```bash [yarn]
-  yarn add -D @unocss/extractor-pug
-  ```
-  ```bash [npm]
-  npm install -D @unocss/extractor-pug
-  ```
+
+```bash [pnpm]
+pnpm add -D @unocss/extractor-pug
+```
+
+```bash [yarn]
+yarn add -D @unocss/extractor-pug
+```
+
+```bash [npm]
+npm install -D @unocss/extractor-pug
+```
+
 :::
 
 ```ts [uno.config.ts]
