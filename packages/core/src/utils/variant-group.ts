@@ -58,7 +58,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             item.className = item.className === '~'
               ? pre
               : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
-            if (!isPseudoClass(item.className))
+            // Prevent some non-PseudoClasses pre from being converted incorrectly
+            if (pre && !isPseudoClass(pre))
               return from
             group.items.push(item)
           }

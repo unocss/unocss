@@ -97,6 +97,6 @@ const PseudoClassesMultiKeys = Object.keys(PseudoClassesMulti)
 export const PseudoClassesMultiStr = PseudoClassesMultiKeys.sort((a, b) => b.length - a.length).join('|')
 
 export const PseudoClassesStrRe = new RegExp([...PseudoClassesKeys, ...PseudoClassesColonKeys, ...PseudoClassFunctions, ...PseudoClassesMultiKeys].join('|'))
-export function isPseudoClass(input: string) {
-  return PseudoClassesStrRe.test(input)
+export function isPseudoClass(pre: string) {
+  return PseudoClassesStrRe.test(pre)
 }
