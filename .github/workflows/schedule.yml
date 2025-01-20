@@ -34,5 +34,5 @@ jobs:
         with:
           commit_message: 'chore(preset-icons): update iconify collections'
           commit_options: --no-verify --signoff
-          file_pattern: packages/preset-icons/src/collections.json
+          file_pattern: packages-presets/preset-icons/src/collections.json
           commit_author: Author <actions@github.com>
