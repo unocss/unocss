@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
-    "@preact/preset-vite": "^2.9.4",
+    "@preact/preset-vite": "^2.10.0",
     "@prefresh/vite": "^2.4.6",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/preset-attributify": "link:../../packages-presets/preset-attributify",
@@ -21,7 +21,7 @@
     "cross-env": "^7.0.3",
     "typescript": "^5.7.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.0.7"
+    "vite": "^6.0.11"
   },
   "stackblitz": {
     "installDependencies": false,

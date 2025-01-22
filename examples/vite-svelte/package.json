@@ -15,13 +15,13 @@
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/extractor-svelte": "link:../../packages-presets/extractor-svelte",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
-    "svelte": "^5.18.0",
+    "svelte": "^5.19.1",
     "svelte-check": "^4.1.4",
     "svelte-preprocess": "^6.0.3",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.0.7"
+    "vite": "^6.0.11"
   },
   "stackblitz": {
     "installDependencies": false,

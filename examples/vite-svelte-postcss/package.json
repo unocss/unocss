@@ -14,12 +14,12 @@
     "@tsconfig/svelte": "^5.0.4",
     "@unocss/extractor-svelte": "link:../../packages-presets/extractor-svelte",
     "@unocss/postcss": "link:../../packages-integrations/postcss",
-    "svelte": "^5.18.0",
+    "svelte": "^5.19.1",
     "svelte-check": "^4.1.4",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.0.7"
+    "vite": "^6.0.11"
   },
   "stackblitz": {
     "installDependencies": false,
