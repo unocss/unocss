@@ -3,7 +3,7 @@
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "type": "module",
-  "version": "65.4.2",
+  "version": "65.4.3",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "version": "65.4.2",
+  "version": "65.4.3",
   "private": true,
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
