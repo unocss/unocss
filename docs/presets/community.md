@@ -52,3 +52,4 @@
 - [Unot](https://github.com/Simon-He95/unot) - VSCode extension that provides the ability to convert css to unocss and simplifies the writing of unocss by [@Simon-He95](https://github.com/Simon-He95).
 - [figma-to-unocss](https://github.com/zouhangwithsweet/figma-to-unocss) - Figma plugin to transform design to unocss by [@zouhang](https://github.com/zouhangwithsweet).
 - [hexo-unocss](https://github.com/imba97/hexo-unocss) - Support using UnoCSS when writing articles by [@imba97](https://github.com/imba97).
+- [uno-colors](https://github.com/imba97/uno-colors) - Generate UnoCSS color gradation by [@imba97](https://github.com/imba97).
