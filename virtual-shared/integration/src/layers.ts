@@ -13,7 +13,9 @@ export function resolveId(id: string) {
   for (const alias of VIRTUAL_ENTRY_ALIAS) {
     const match = id.match(alias)
     if (match) {
-      return `\0${match[1] ? `/__uno_${match[1]}.css` : '/__uno.css'}`
+      return match[1]
+        ? `\0/__uno_${match[1]}.css`
+        : '\0/__uno.css'
     }
   }
 }
