@@ -116,6 +116,7 @@ catalog:
   prettier-plugin-svelte: ^2.10.1
   pug: ^3.0.3
   react: ^18.3.1
+  read-yaml-file: ^2.1.0
   rimraf: ^6.0.1
   rollup: ^4.31.0
   sanitize.css: ^13.0.0

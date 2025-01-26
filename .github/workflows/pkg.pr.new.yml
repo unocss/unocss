@@ -32,5 +32,8 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Replace catalog entries
+        run: pnpm patch-pkg-pr-new
+
       - name: Release
         run: pnpm dlx pkg-pr-new publish --compact --pnpm './packages-*/*' --only-templates

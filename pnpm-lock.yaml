@@ -294,6 +294,9 @@ catalogs:
     react:
       specifier: ^18.3.1
       version: 18.3.1
+    read-yaml-file:
+      specifier: ^2.1.0
+      version: 2.1.0
     rimraf:
       specifier: ^6.0.1
       version: 6.0.1
@@ -681,6 +684,9 @@ importers:
       react:
         specifier: 'catalog:'
         version: 18.3.1
+      read-yaml-file:
+        specifier: 'catalog:'
+        version: 2.1.0
       rimraf:
         specifier: 'catalog:'
         version: 6.0.1
@@ -8806,6 +8812,10 @@ packages:
     resolution: {integrity: sha512-Ug69mNOpfvKDAc2Q8DRpMjjzdtrnv9HcSMX+4VsZxD1aZ6ZzrIE7rlzXBtWTyhULSMKg076AW6WR5iZpD0JiOg==}
     engines: {node: '>=8'}
 
+  read-yaml-file@2.1.0:
+    resolution: {integrity: sha512-UkRNRIwnhG+y7hpqnycCL/xbTk7+ia9VuVTC0S+zVbwd65DI9eUpRMfsWIGrCWxTU/mi+JW8cHQCrv+zfCbEPQ==}
+    engines: {node: '>=10.13'}
+
   readable-stream@2.3.8:
     resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
 
@@ -9353,6 +9363,10 @@ packages:
   strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
+
+  strip-bom@4.0.0:
+    resolution: {integrity: sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==}
+    engines: {node: '>=8'}
 
   strip-eof@1.0.0:
     resolution: {integrity: sha512-7FCwGGmx8mD5xQd3RPUvnSpUXHM3BWuzjtpD4TXsfcZ9EL4azvVVUscFYwD9nx8Kh+uCBC00XBtAykoMHwTh8Q==}
@@ -19050,6 +19064,11 @@ snapshots:
       parse-json: 5.2.0
       type-fest: 0.6.0
 
+  read-yaml-file@2.1.0:
+    dependencies:
+      js-yaml: 4.1.0
+      strip-bom: 4.0.0
+
   readable-stream@2.3.8:
     dependencies:
       core-util-is: 1.0.3
@@ -19734,6 +19753,8 @@ snapshots:
   strip-bom-string@1.0.0: {}
 
   strip-bom@3.0.0: {}
+
+  strip-bom@4.0.0: {}
 
   strip-eof@1.0.0: {}
 
