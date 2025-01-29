@@ -3,6 +3,8 @@
 /* eslint-disable */
 
 export const allPackages = [
+  "@unocss/preset-uno",
+  "@unocss/preset-wind",
   "@unocss/autocomplete",
   "@unocss/cli",
   "@unocss/config",
@@ -29,9 +31,8 @@ export const allPackages = [
   "@unocss/preset-rem-to-px",
   "@unocss/preset-tagify",
   "@unocss/preset-typography",
-  "@unocss/preset-uno",
   "@unocss/preset-web-fonts",
-  "@unocss/preset-wind",
+  "@unocss/preset-wind3",
   "@unocss/reset",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",

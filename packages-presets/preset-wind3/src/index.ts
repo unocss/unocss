@@ -13,7 +13,7 @@ export type { Theme } from '@unocss/preset-mini'
 
 export { rules, shortcuts, theme, variants }
 
-export interface PresetWindOptions extends PresetMiniOptions {
+export interface PresetWind3Options extends PresetMiniOptions {
   /**
    * The important option lets you control whether UnoCSS’s utilities should be marked with `!important`.
    *
@@ -29,16 +29,16 @@ export interface PresetWindOptions extends PresetMiniOptions {
 }
 
 /**
- * The Tailwind CSS / Windi CSS compact preset for UnoCSS.
+ * The Tailwind CSS v3 / Windi CSS compact preset for UnoCSS.
  *
  * @see https://unocss.dev/presets/wind
  */
-export const presetWind = definePreset((options: PresetWindOptions = {}) => {
+export const presetWind3 = definePreset((options: PresetWind3Options = {}) => {
   options.important = options.important ?? false
 
   return {
     ...presetMini(options),
-    name: '@unocss/preset-wind',
+    name: '@unocss/preset-wind3',
     theme,
     rules,
     shortcuts,
@@ -47,4 +47,6 @@ export const presetWind = definePreset((options: PresetWindOptions = {}) => {
   }
 })
 
-export default presetWind
+export { presetWind3 as presetWind }
+
+export default presetWind3

@@ -1,0 +1,72 @@
+{
+  "name": "@unocss/preset-wind3",
+  "type": "module",
+  "version": "65.4.3",
+  "description": "Tailwind 3 / Windi CSS compact preset for UnoCSS",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-presets/preset-wind3"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "unocss-preset"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./rules": {
+      "types": "./dist/rules.d.mts",
+      "default": "./dist/rules.mjs"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.mts",
+      "default": "./dist/theme.mjs"
+    },
+    "./colors": {
+      "types": "./dist/colors.d.mts",
+      "default": "./dist/colors.mjs"
+    },
+    "./shortcuts": {
+      "types": "./dist/shortcuts.d.mts",
+      "default": "./dist/shortcuts.mjs"
+    },
+    "./variants": {
+      "types": "./dist/variants.d.mts",
+      "default": "./dist/variants.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.mts",
+      "default": "./dist/utils.mjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "*.css",
+    "*.d.ts",
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*",
+    "@unocss/preset-mini": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
+  }
+}

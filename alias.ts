@@ -59,9 +59,8 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/preset-rem-to-px': r('./packages-presets/preset-rem-to-px/src/'),
   '@unocss/preset-tagify': r('./packages-presets/preset-tagify/src/'),
   '@unocss/preset-typography': r('./packages-presets/preset-typography/src/'),
-  '@unocss/preset-uno': r('./packages-presets/preset-uno/src/'),
   '@unocss/preset-web-fonts': r('./packages-presets/preset-web-fonts/src/'),
-  '@unocss/preset-wind': r('./packages-presets/preset-wind/src/'),
+  '@unocss/preset-wind3': r('./packages-presets/preset-wind3/src/'),
   '@unocss/rule-utils': r('./packages-presets/rule-utils/src/'),
   '@unocss/transformer-attributify-jsx-babel': r('./packages-presets/transformer-attributify-jsx-babel/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages-presets/transformer-attributify-jsx/src/'),
@@ -72,9 +71,15 @@ export const aliasPresets: Record<string, string> = {
   'unocss/vite': r('./packages-presets/unocss/src/vite.ts'),
 }
 
+export const aliasDeprecated: Record<string, string> = {
+  '@unocss/preset-uno': r('./packages-deprecated/preset-uno/src/'),
+  '@unocss/preset-wind': r('./packages-deprecated/preset-wind/src/'),
+}
+
 export const alias: Record<string, string> = {
   ...aliasEngine,
   ...aliasIntegrations,
   ...aliasVirtual,
   ...aliasPresets,
+  ...aliasDeprecated,
 }

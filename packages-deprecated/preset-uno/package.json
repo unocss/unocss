@@ -2,7 +2,7 @@
   "name": "@unocss/preset-uno",
   "type": "module",
   "version": "65.4.3",
-  "description": "The default preset for UnoCSS",
+  "description": "Deprecated, renamed to `@unocss/preset-wind3`",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/unocss/unocss",
-    "directory": "packages-presets/preset-uno"
+    "directory": "packages-deprecated/preset-uno"
   },
   "bugs": {
     "url": "https://github.com/unocss/unocss/issues"
@@ -61,8 +61,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-mini": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
-    "@unocss/rule-utils": "workspace:*"
+    "@unocss/preset-wind3": "workspace:*"
   }
 }
