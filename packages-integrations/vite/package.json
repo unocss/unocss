@@ -55,13 +55,13 @@
   },
   "dependencies": {
     "@ampproject/remapping": "catalog:",
-    "@rollup/pluginutils": "catalog:",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
     "chokidar": "catalog:",
     "magic-string": "catalog:",
-    "tinyglobby": "catalog:"
+    "tinyglobby": "catalog:",
+    "unplugin-utils": "catalog:"
   },
   "devDependencies": {
     "vite": "catalog:"

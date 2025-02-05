@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "@ampproject/remapping": "catalog:",
-    "@rollup/pluginutils": "catalog:",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
@@ -56,6 +55,7 @@
     "magic-string": "catalog:",
     "pathe": "catalog:",
     "perfect-debounce": "catalog:",
-    "tinyglobby": "catalog:"
+    "tinyglobby": "catalog:",
+    "unplugin-utils": "catalog:"
   }
 }
