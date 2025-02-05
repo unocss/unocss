@@ -361,8 +361,8 @@ catalogs:
       specifier: ^19.0.0
       version: 19.0.0
     unplugin-utils:
-      specifier: ^0.2.2
-      version: 0.2.2
+      specifier: ^0.2.3
+      version: 0.2.3
     unplugin-vue-components:
       specifier: ^28.0.0
       version: 28.0.0
@@ -1007,7 +1007,7 @@ importers:
         version: 0.2.10
       unplugin-utils:
         specifier: 'catalog:'
-        version: 0.2.2
+        version: 0.2.3
 
   packages-engine/config:
     dependencies:
@@ -1238,7 +1238,7 @@ importers:
         version: 0.2.10
       unplugin-utils:
         specifier: 'catalog:'
-        version: 0.2.2
+        version: 0.2.3
     devDependencies:
       vite:
         specifier: ^6.0.11
@@ -1302,7 +1302,7 @@ importers:
         version: 2.1.2
       unplugin-utils:
         specifier: 'catalog:'
-        version: 0.2.2
+        version: 0.2.3
       webpack-sources:
         specifier: 'catalog:'
         version: 3.2.3
@@ -9846,8 +9846,8 @@ packages:
       '@vueuse/core':
         optional: true
 
-  unplugin-utils@0.2.2:
-    resolution: {integrity: sha512-4h0AwkxZ7Xtsf6na40YwRnQe7iKyePhLYjysESsASE0OnU+U49M5sj+r1mH33LtmTJAJIJmDRlCaIvJ+g8thKQ==}
+  unplugin-utils@0.2.3:
+    resolution: {integrity: sha512-unB2e2ogZwEoMw/X0Gq1vj2jaRKLmTh9wcSEJggESPllcrZI68uO7B8ykixbXqsSwG8r9T7qaHZudXIC/3qvhw==}
     engines: {node: '>=18.12.0'}
 
   unplugin-vue-components@28.0.0:
@@ -20309,7 +20309,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  unplugin-utils@0.2.2:
+  unplugin-utils@0.2.3:
     dependencies:
       pathe: 2.0.2
       picomatch: 4.0.2
