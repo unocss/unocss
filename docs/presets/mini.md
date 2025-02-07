@@ -73,7 +73,7 @@ will generate:
 
 #### Media query based dark mode
 
-To instead use media query based dark mode you can change the config for the `dark:` variant:
+To instead use media query based dark mode globally you can change the config for the `dark:` variant:
 
 ```ts
 presetMini({
