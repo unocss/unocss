@@ -71,26 +71,30 @@ will generate:
 }
 ```
 
-To opt-in media query based dark mode, you can use `@dark:` variant:
+#### Media query based dark mode
 
-```html
-<div class="@dark:bg-red:10" />
-```
-
-```css
-@media (prefers-color-scheme: dark) {
-  .\@dark\:bg-red\:10 {
-    background-color: rgb(248 113 113 / 0.1);
-  }
-}
-```
-
-Or set globally with the config for `dark:` variant
+To instead use media query based dark mode you can change the config for the `dark:` variant:
 
 ```ts
 presetMini({
   dark: 'media'
 })
+```
+
+Now
+
+```html
+<div class="dark:bg-red:10" />
+```
+
+will generate:
+
+```css
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-red\:10 {
+    background-color: rgb(248 113 113 / 0.1);
+  }
+}
 ```
 
 ### CSS @layer
