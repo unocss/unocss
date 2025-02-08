@@ -49,7 +49,7 @@ jobs:
       # Those two can probably go away once the devcontainer is using a version of Node which includes a version corepack
       # with the fix.
 
-      - run: npm i -g corepack@latest
+      - run: npm i -g corepack@latest --force
       - run: corepack prepare pnpm@latest --activate
       - run: corepack enable
 
