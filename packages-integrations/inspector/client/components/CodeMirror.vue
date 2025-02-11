@@ -87,6 +87,13 @@ grammarly-desktop-integration {
   cursor: text !important;
 }
 
+:root:not(.dark) .cm-search .cm-button {
+  background-image: linear-gradient(#f5f6f7, #eee);
+}
+:root:not(.dark) .cm-search .cm-button:active {
+  background-image: linear-gradient(#eee, #f5f6f7);
+}
+
 :root {
   --cm-font-family: 'Fira Code', monospace;
   --cm-foreground: #393a3480;

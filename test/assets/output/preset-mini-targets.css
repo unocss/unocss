@@ -267,6 +267,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .block-8\/7{block-size:114.2857142857%;}
 .block-auto{block-size:auto;}
 .block-lg{block-size:32rem;}
+.block-screen{block-size:100vb;}
 .block-unset{block-size:unset;}
 .inline-\[calc\(calc\(100px\*10\)-4rem\)\]{inline-size:calc(calc(100px * 10) - 4rem);}
 .inline-1{inline-size:0.25rem;}
@@ -275,6 +276,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .inline-auto{inline-size:auto;}
 .inline-inherit{inline-size:inherit;}
 .inline-lg{inline-size:32rem;}
+.inline-screen{inline-size:100vi;}
 .max-block-\[1px\]{max-block-size:1px;}
 .max-block-revert{max-block-size:revert;}
 .max-inline-\$var{max-inline-size:var(--var);}
