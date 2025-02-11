@@ -50,11 +50,11 @@ jobs:
       # with the fix.
 
       - run: |
-          npm i -g corepack@0.31.0
+          npm i -g corepack@latest
           echo "corepack version => $(corepack --version)"
-      # - run: corepack prepare pnpm@latest --activate
       - run: |
-          corepack enable
+          corepack prepare pnpm@latest-10 --activate
+          npm install -g pnpm@latest || echo "pnpm already installed"
           pnpm --version
 
       - name: Setup
