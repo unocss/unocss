@@ -50,7 +50,7 @@ jobs:
       # with the fix.
 
       - run: |
-          npm i -g corepack@0.31.0 --force
+          npm i -g corepack@0.31.0
           echo "corepack version => $(corepack --version)"
       # - run: corepack prepare pnpm@latest --activate
       - run: |
