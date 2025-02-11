@@ -593,6 +593,7 @@ export const presetMiniTargets: string[] = [
   'block-1/2',
   'block-8/7',
   'block-lg',
+  'block-screen',
   'inline-auto',
   'inline-inherit',
   'inline-1',
@@ -616,6 +617,7 @@ export const presetMiniTargets: string[] = [
   'block-$var',
   'block-[calc(1000px-4rem)]',
   'inline-[calc(calc(100px*10)-4rem)]',
+  'inline-screen',
 
   // size - ar
   'aspect-ratio-square',
