@@ -58,6 +58,66 @@ The primary goal of this preset is to provide compatibility with [Tailwind CSS](
 
 For all rules and presets included in this preset, please refer to our <a href="/interactive/" target="_blank">interactive docs</a> or directly go to the [source code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind).
 
+## Features
+
+### Dark mode
+
+By default, this preset generates class-based dark mode with `dark:` variant.
+
+```html
+<div class="dark:bg-red:10" />
+```
+
+will generate:
+
+```css
+.dark .dark\:bg-red\:10 {
+  background-color: rgb(248 113 113 / 0.1);
+}
+```
+
+#### Media query based dark mode
+
+To instead use media query based dark mode globally you can change the config for the `dark:` variant:
+
+```ts
+presetWind({
+  dark: 'media'
+})
+```
+
+Now
+
+```html
+<div class="dark:bg-red:10" />
+```
+
+will generate:
+
+```css
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-red\:10 {
+    background-color: rgb(248 113 113 / 0.1);
+  }
+}
+```
+
+#### Opt-in media query based dark mode
+
+To use opt-in media query based dark mode, you can use the `@dark:` variant:
+
+```html
+<div class="@dark:bg-red:10" />
+```
+
+```css
+@media (prefers-color-scheme: dark) {
+  .\@dark\:bg-red\:10 {
+    background-color: rgb(248 113 113 / 0.1);
+  }
+}
+```
+
 ## Differences from Tailwind CSS
 
 ### Quotes
