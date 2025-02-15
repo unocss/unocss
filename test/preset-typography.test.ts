@@ -202,3 +202,37 @@ describe('typography elements modify', () => {
     `)
   })
 })
+
+describe('typography with custom theme colors', () => {
+  it('with alpha', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetTypography(),
+      ],
+      theme: {
+        colors: {
+          myColor: {
+            50: 'oklch(0.95 0.018 0 / <alpha-value>)',
+            100: 'oklch(0.93 0.05 0 / <alpha-value>)',
+            200: 'oklch(0.88 0.09 0 / <alpha-value>)',
+            300: 'oklch(0.82 0.14 0 / <alpha-value>)',
+            400: 'oklch(0.73 0.195 0 / <alpha-value>)',
+            500: 'oklch(0.64 0.24 0 / <alpha-value>)',
+            600: 'oklch(0.56 0.235 0 / <alpha-value>)',
+            700: 'oklch(0.49 0.22 0)', // prose-body will be no alpha.
+            800: 'oklch(0.41 0.185 0 / <alpha-value>)',
+            900: 'oklch(0.36 0.15 0 / <alpha-value>)',
+            950: 'oklch(0.26 0.11 0 / <alpha-value>)',
+          },
+        },
+      },
+    })
+
+    const { css } = await uno.generate('prose-myColor', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: typography */
+      .prose-myColor{--un-prose-body:oklch(0.49 0.22 0);--un-prose-headings-opacity:1;--un-prose-headings:oklch(0.36 0.15 0 / var(--un-prose-headings-opacity));--un-prose-links-opacity:1;--un-prose-links:oklch(0.36 0.15 0 / var(--un-prose-links-opacity));--un-prose-lists-opacity:1;--un-prose-lists:oklch(0.73 0.195 0 / var(--un-prose-lists-opacity));--un-prose-hr-opacity:1;--un-prose-hr:oklch(0.88 0.09 0 / var(--un-prose-hr-opacity));--un-prose-captions-opacity:1;--un-prose-captions:oklch(0.64 0.24 0 / var(--un-prose-captions-opacity));--un-prose-code-opacity:1;--un-prose-code:oklch(0.36 0.15 0 / var(--un-prose-code-opacity));--un-prose-borders-opacity:1;--un-prose-borders:oklch(0.88 0.09 0 / var(--un-prose-borders-opacity));--un-prose-bg-soft-opacity:1;--un-prose-bg-soft:oklch(0.93 0.05 0 / var(--un-prose-bg-soft-opacity));--un-prose-invert-body-opacity:1;--un-prose-invert-body:oklch(0.88 0.09 0 / var(--un-prose-invert-body-opacity));--un-prose-invert-headings-opacity:1;--un-prose-invert-headings:oklch(0.93 0.05 0 / var(--un-prose-invert-headings-opacity));--un-prose-invert-links-opacity:1;--un-prose-invert-links:oklch(0.93 0.05 0 / var(--un-prose-invert-links-opacity));--un-prose-invert-lists-opacity:1;--un-prose-invert-lists:oklch(0.64 0.24 0 / var(--un-prose-invert-lists-opacity));--un-prose-invert-hr:oklch(0.49 0.22 0);--un-prose-invert-captions-opacity:1;--un-prose-invert-captions:oklch(0.73 0.195 0 / var(--un-prose-invert-captions-opacity));--un-prose-invert-code-opacity:1;--un-prose-invert-code:oklch(0.93 0.05 0 / var(--un-prose-invert-code-opacity));--un-prose-invert-borders:oklch(0.49 0.22 0);--un-prose-invert-bg-soft-opacity:1;--un-prose-invert-bg-soft:oklch(0.41 0.185 0 / var(--un-prose-invert-bg-soft-opacity));}"
+    `)
+  })
+})
