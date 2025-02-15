@@ -1,14 +1,11 @@
 import { join, resolve } from 'node:path'
 import process from 'node:process'
-import { execa } from 'execa'
 import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
 
-const isMacOS = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
-const isNode16 = process.versions.node.startsWith('16')
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
@@ -160,27 +157,4 @@ describe.concurrent('fixtures', () => {
       expect(code).contains('uno-tacwqa')
     }
   })
-
-  it.skipIf(isMacOS || isNode16)('vue cli 4', async () => {
-    const root = resolve(__dirname, '../examples/vue-cli4')
-    await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { cwd: root })
-
-    const css = await getGlobContent(root, 'dist/**/*.css')
-
-    expect(css).contains('.w-200px')
-    expect(css).contains('[font~="mono"]')
-  }, 60_000)
-
-  // something wrong with webpack, skip for now
-  it.skip('vue cli 5', async () => {
-    const root = resolve(__dirname, '../examples/vue-cli5')
-    await fs.emptyDir(join(root, 'dist'))
-    await execa('npm', ['run', 'build'], { stdio: 'ignore', cwd: root })
-
-    const css = await getGlobContent(root, 'dist/**/*.css')
-
-    expect(css).contains('.w-200px')
-    expect(css).contains('[font~="mono"]')
-  }, 60_000)
 })

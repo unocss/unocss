@@ -9,8 +9,6 @@ packages:
   - packages-presets/*
   - virtual-shared/*
   - test/fixtures/*
-  - examples/vue-cli4
-  - examples/vue-cli5
 catalog:
   '@ampproject/remapping': ^2.3.0
   '@antfu/eslint-config': ^4.2.0
