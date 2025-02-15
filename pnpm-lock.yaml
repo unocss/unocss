@@ -99,9 +99,6 @@ catalogs:
     '@nuxt/schema':
       specifier: ^3.15.2
       version: 3.15.2
-    '@rollup/pluginutils':
-      specifier: ^5.1.4
-      version: 5.1.4
     '@shikijs/markdown-it':
       specifier: ^2.1.0
       version: 2.1.0
@@ -363,6 +360,9 @@ catalogs:
     unplugin-auto-import:
       specifier: ^19.0.0
       version: 19.0.0
+    unplugin-utils:
+      specifier: ^0.2.3
+      version: 0.2.3
     unplugin-vue-components:
       specifier: ^28.0.0
       version: 28.0.0
@@ -972,9 +972,6 @@ importers:
       '@ampproject/remapping':
         specifier: 'catalog:'
         version: 2.3.0
-      '@rollup/pluginutils':
-        specifier: 'catalog:'
-        version: 5.1.4(rollup@4.31.0)
       '@unocss/config':
         specifier: workspace:*
         version: link:../config
@@ -1008,6 +1005,9 @@ importers:
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.10
+      unplugin-utils:
+        specifier: 'catalog:'
+        version: 0.2.3
 
   packages-engine/config:
     dependencies:
@@ -1218,9 +1218,6 @@ importers:
       '@ampproject/remapping':
         specifier: 'catalog:'
         version: 2.3.0
-      '@rollup/pluginutils':
-        specifier: 'catalog:'
-        version: 5.1.4(rollup@4.31.0)
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -1239,6 +1236,9 @@ importers:
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.10
+      unplugin-utils:
+        specifier: 'catalog:'
+        version: 0.2.3
     devDependencies:
       vite:
         specifier: ^6.0.11
@@ -1282,9 +1282,6 @@ importers:
       '@ampproject/remapping':
         specifier: 'catalog:'
         version: 2.3.0
-      '@rollup/pluginutils':
-        specifier: 'catalog:'
-        version: 5.1.4(rollup@4.31.0)
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -1303,6 +1300,9 @@ importers:
       unplugin:
         specifier: 'catalog:'
         version: 2.1.2
+      unplugin-utils:
+        specifier: 'catalog:'
+        version: 0.2.3
       webpack-sources:
         specifier: 'catalog:'
         version: 3.2.3
@@ -9848,6 +9848,10 @@ packages:
         optional: true
       '@vueuse/core':
         optional: true
+
+  unplugin-utils@0.2.3:
+    resolution: {integrity: sha512-unB2e2ogZwEoMw/X0Gq1vj2jaRKLmTh9wcSEJggESPllcrZI68uO7B8ykixbXqsSwG8r9T7qaHZudXIC/3qvhw==}
+    engines: {node: '>=18.12.0'}
 
   unplugin-vue-components@28.0.0:
     resolution: {integrity: sha512-vYe0wSyqTVhyNFIad1iiGyQGhG++tDOMgohqenMDOAooMJP9vvzCdXTqCVx20A0rCQXFNjgoRbSeDAioLPH36Q==}
@@ -20307,6 +20311,11 @@ snapshots:
       '@vueuse/core': 12.4.0(typescript@5.7.3)
     transitivePeerDependencies:
       - rollup
+
+  unplugin-utils@0.2.3:
+    dependencies:
+      pathe: 2.0.2
+      picomatch: 4.0.2
 
   unplugin-vue-components@28.0.0(@babel/parser@7.26.2)(@nuxt/kit@3.15.2(magicast@0.3.5)(rollup@4.31.0))(rollup@4.31.0)(vue@3.5.13(typescript@5.7.3)):
     dependencies:

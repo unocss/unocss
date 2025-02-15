@@ -66,13 +66,13 @@
   },
   "dependencies": {
     "@ampproject/remapping": "catalog:",
-    "@rollup/pluginutils": "catalog:",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "chokidar": "catalog:",
     "magic-string": "catalog:",
     "tinyglobby": "catalog:",
     "unplugin": "catalog:",
+    "unplugin-utils": "catalog:",
     "webpack-sources": "catalog:"
   },
   "devDependencies": {

@@ -3,8 +3,8 @@
 Provides a unified interface to transform source code in order to support conventions.
 
 ```ts [my-transformer.ts]
-import { createFilter } from '@rollup/pluginutils'
 import { SourceCodeTransformer } from 'unocss'
+import { createFilter } from 'unplugin-utils'
 
 export default function myTransformers(options: MyOptions = {}): SourceCodeTransformer {
   return {
