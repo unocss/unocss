@@ -7,7 +7,7 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.5",
+    "@iconify-json/carbon": "^1.2.7",
     "@nuxt/bridge-edge": "latest",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/nuxt": "link:../../packages-integrations/nuxt",

@@ -158,6 +158,6 @@
     "prettier": "catalog:",
     "tsup": "catalog:",
     "unconfig": "catalog:",
-    "vscode-ext-gen": "^0.5.5"
+    "vscode-ext-gen": "^1.0.0"
   }
 }

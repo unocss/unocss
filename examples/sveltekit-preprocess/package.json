@@ -26,19 +26,19 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
     "@sveltejs/adapter-auto": "^3.3.1",
-    "@sveltejs/kit": "^2.16.1",
-    "@sveltejs/package": "^2.3.8",
+    "@sveltejs/kit": "^2.17.2",
+    "@sveltejs/package": "^2.3.10",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages-integrations/svelte-scoped",
     "publint": "^0.2.12",
-    "svelte": "^5.19.1",
+    "svelte": "^5.20.1",
     "svelte-check": "^4.1.4",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.0.11"
+    "vite": "^6.1.0"
   },
   "stackblitz": {
     "installDependencies": false,

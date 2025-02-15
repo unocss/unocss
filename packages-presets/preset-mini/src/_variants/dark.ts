@@ -1,5 +1,6 @@
+import type { Variant } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
-import { toArray, type Variant } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import { variantMatcher, variantParentMatcher } from '../utils'
 
 export function variantColorsMediaOrClass(options: PresetMiniOptions = {}): Variant[] {
