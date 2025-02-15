@@ -1,5 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`variants > multiple handlers for single variant 1`] = `
+"/* layer: default */
+.prefix1 .pre\\:foo,
+.prefix2 .pre\\:foo{name:bar;}"
+`;
+
 exports[`variants > noMerge on variant 1`] = `
 "/* layer: default */
 .foo,
