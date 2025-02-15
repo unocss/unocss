@@ -1239,6 +1239,10 @@ export const presetMiniTargets: string[] = [
   '@container/label',
   '@container-normal',
   '@container/label-normal',
+  '@container-inline-size',
+  '@container/label-inline-size',
+  '@container-size',
+  '@container/label-size',
 
   // variants - container query (@)
   '@sm:text-red',
