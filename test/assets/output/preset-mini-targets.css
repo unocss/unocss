@@ -267,6 +267,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .block-8\/7{block-size:114.2857142857%;}
 .block-auto{block-size:auto;}
 .block-lg{block-size:32rem;}
+.block-screen{block-size:100vb;}
 .block-unset{block-size:unset;}
 .inline-\[calc\(calc\(100px\*10\)-4rem\)\]{inline-size:calc(calc(100px * 10) - 4rem);}
 .inline-1{inline-size:0.25rem;}
@@ -275,6 +276,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .inline-auto{inline-size:auto;}
 .inline-inherit{inline-size:inherit;}
 .inline-lg{inline-size:32rem;}
+.inline-screen{inline-size:100vi;}
 .max-block-\[1px\]{max-block-size:1px;}
 .max-block-revert{max-block-size:revert;}
 .max-inline-\$var{max-inline-size:var(--var);}
@@ -1086,10 +1088,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .after\:content-\[quoted\:unocss\]::after{content:"unocss";}
 .content-empty{content:"";}
 .content-none{content:none;}
-.\@container{container-type:inline-size;}
+.\@container,
+.\@container-inline-size{container-type:inline-size;}
 .\@container-normal{container-type:normal;}
-.\@container\/label{container-type:inline-size;container-name:label;}
+.\@container-size{container-type:size;}
+.\@container\/label,
+.\@container\/label-inline-size{container-type:inline-size;container-name:label;}
 .\@container\/label-normal{container-type:normal;container-name:label;}
+.\@container\/label-size{container-type:size;container-name:label;}
 @layer base{
 .layer-base\:translate-0{--un-translate-x:0;--un-translate-y:0;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 }

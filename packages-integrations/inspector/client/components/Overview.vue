@@ -32,7 +32,7 @@ const formatted = useCSSPrettify(computed(() => {
           <div text-amber op80>
             Presets
           </div>
-          <div op50 ws-pre>
+          <div h25 op50 ws-pre overflow="auto">
             {{ info?.config?.presets?.map(i => i.name).join('\n') }}
           </div>
         </div>

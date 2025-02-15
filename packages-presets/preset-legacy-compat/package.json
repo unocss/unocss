@@ -1,6 +1,6 @@
 {
   "name": "@unocss/preset-legacy-compat",
-  "version": "65.4.3",
+  "version": "65.5.0",
   "description": "Collections of legacy compatibility utilities.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss",
     "directory": "packages-presets/preset-legacy-compat"
   },
   "bugs": {

@@ -1,14 +1,14 @@
 {
   "name": "@unocss/preset-typography",
   "type": "module",
-  "version": "65.4.3",
+  "version": "65.5.0",
   "description": "Typography preset for UnoCSS",
   "author": "Jeff Yang",
   "license": "MIT",
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss",
     "directory": "packages-presets/preset-typography"
   },
   "bugs": {
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-mini": "workspace:*"
+    "@unocss/preset-mini": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
   }
 }

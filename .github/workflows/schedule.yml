@@ -26,8 +26,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
 
-      - name: PNPM update
-        run: pnpm run update
+      - name: Update iconify-collections
+        run: pnpm run update:iconify-collections
 
       - name: Update iconify collections
         uses: stefanzweifel/git-auto-commit-action@v5

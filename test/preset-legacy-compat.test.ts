@@ -1,5 +1,6 @@
+import type { LegacyCompatOptions } from '@unocss/preset-legacy-compat'
 import { createGenerator } from '@unocss/core'
-import presetLegacyCompat, { type LegacyCompatOptions } from '@unocss/preset-legacy-compat'
+import presetLegacyCompat from '@unocss/preset-legacy-compat'
 import presetUno from '@unocss/preset-uno'
 import { describe, expect, it } from 'vitest'
 

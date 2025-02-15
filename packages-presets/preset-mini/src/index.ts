@@ -16,18 +16,18 @@ export type { Theme, ThemeAnimation }
 
 export interface DarkModeSelectors {
   /**
-   * Selector for light variant.
+   * Selectors for light variant.
    *
    * @default '.light'
    */
-  light?: string
+  light?: string | string[]
 
   /**
-   * Selector for dark variant.
+   * Selectors for dark variant.
    *
    * @default '.dark'
    */
-  dark?: string
+  dark?: string | string[]
 }
 
 export interface PresetMiniOptions extends PresetOptions {
