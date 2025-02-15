@@ -4,7 +4,7 @@ import { blur, dropShadow } from './filters'
 import { fontFamily, fontSize, fontWeight, letterSpacing, lineHeight, textIndent, textShadow, textStrokeWidth, wordSpacing } from './font'
 import { borderRadius, boxShadow, breakpoints, duration, lineWidth, media, ringWidth, spacing, verticalBreakpoints, zIndex } from './misc'
 import { preflightBase } from './preflight'
-import { containers, height, maxHeight, maxWidth, width } from './size'
+import { blockSize, containers, height, inlineSize, maxBlockSize, maxHeight, maxInlineSize, maxWidth, width } from './size'
 import { easing, transitionProperty } from './transition'
 
 export const theme = {
@@ -14,12 +14,12 @@ export const theme = {
   maxHeight,
   minWidth: maxWidth,
   minHeight: maxHeight,
-  inlineSize: width,
-  blockSize: height,
-  maxInlineSize: maxWidth,
-  maxBlockSize: maxHeight,
-  minInlineSize: maxWidth,
-  minBlockSize: maxHeight,
+  inlineSize,
+  blockSize,
+  maxInlineSize,
+  maxBlockSize,
+  minInlineSize: maxInlineSize,
+  minBlockSize: maxBlockSize,
   colors,
   fontFamily,
   fontSize,

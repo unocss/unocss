@@ -1,6 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { ESLintUtils } from '@typescript-eslint/utils'
-import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import MagicString from 'magic-string'
 import { createRule, syncAction } from './_'
 
@@ -74,4 +73,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as ESLintUtils.RuleWithMeta<[], ''>
+}) as any as AnyRuleModule

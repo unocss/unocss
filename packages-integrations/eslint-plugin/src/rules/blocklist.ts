@@ -1,6 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { ESLintUtils } from '@typescript-eslint/utils'
-import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import { CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 import { IGNORE_ATTRIBUTES } from './order-attributify'
@@ -105,4 +104,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as ESLintUtils.RuleWithMeta<[], ''>
+}) as any as AnyRuleModule
