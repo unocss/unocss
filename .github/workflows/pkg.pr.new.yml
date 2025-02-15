@@ -25,7 +25,6 @@ jobs:
       # with the fix.
 
       - run: npm i -g corepack@latest
-      - run: corepack prepare pnpm@latest --activate
       - run: corepack enable
 
       - name: Set node

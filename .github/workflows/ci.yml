@@ -34,14 +34,10 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Set node ${{ matrix.node_version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
-          cache: pnpm
 
       # `npm i -g corepack@latest;` and  `corepack prepare pnpm@latest --activate;` are necessary to get the latest
       # version of corepack, which has a fix for https://github.com/nodejs/corepack/issues/612
@@ -50,7 +46,6 @@ jobs:
       # with the fix.
 
       - run: npm i -g corepack@latest --force
-      - run: corepack prepare pnpm@latest --activate
       - run: corepack enable
 
       - name: Setup
