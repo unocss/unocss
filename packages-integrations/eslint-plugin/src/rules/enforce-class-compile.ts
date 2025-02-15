@@ -1,6 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { ESLintUtils } from '@typescript-eslint/utils'
-import type { ReportFixFunction, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { AnyRuleModule, ReportFixFunction, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { AST } from 'vue-eslint-parser'
 import { createRule } from './_'
 
@@ -123,4 +122,4 @@ export default createRule<[{ prefix: string, enableFix: boolean }], 'missing'>({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as ESLintUtils.RuleWithMeta<[], ''>
+}) as any as AnyRuleModule
