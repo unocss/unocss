@@ -16,6 +16,7 @@ export const defaultHTML = `
         text-inherit
         href="https://github.com/unocss/unocss"
         target="_blank"
+        aria-label="GitHub repository of the project"
       ></a>
     </div>
   </div>
