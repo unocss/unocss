@@ -516,6 +516,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
         (input: VariantHandlerContext) => input,
       )
 
+    // TODO: add nested properties support
+
     const variantContextResult = handler({
       prefix: '',
       selector: toEscapedSelector(raw),
