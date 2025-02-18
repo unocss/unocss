@@ -10,6 +10,6 @@
 [text-red~="\31 00"]{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
 [hover~="text-blue\:10"]:hover{color:rgb(96 165 250 / 0.1);}
 [active~="text-green\/10"]:active{color:rgb(74 222 128 / 0.1);}
-@media (min-width: 1024px){
-[text~="lg\:30"]{font-size:7.5rem;}
-}
+[text~="lg\:30"]{@media (min-width: 1024px){
+font-size:7.5rem;
+}}

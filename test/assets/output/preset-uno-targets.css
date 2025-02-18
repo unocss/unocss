@@ -26,9 +26,9 @@
 .hover\:placeholder-op90:hover::placeholder{--un-placeholder-opacity:0.9;}
 .placeholder-op90::placeholder{--un-placeholder-opacity:0.9;}
 .placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}
-@media (hover: none) and (pointer: coarse){
-.media-touch\:p-4{padding:1rem;}
-}
-@media (prefers-reduced-transparency: reduce){
-.media-opacity_not_ok\:opacity-0{opacity:0;}
-}
+.media-touch\:p-4{@media (hover: none) and (pointer: coarse){
+padding:1rem;
+}}
+.media-opacity_not_ok\:opacity-0{@media (prefers-reduced-transparency: reduce){
+opacity:0;
+}}

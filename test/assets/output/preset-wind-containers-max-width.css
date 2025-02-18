@@ -1,19 +1,19 @@
 /* layer: shortcuts */
 .container{width:100%;}
-@media (min-width: 640px){
-.container{max-width:540px;}
-}
-@media (min-width: 768px){
+.container{@media (min-width: 640px){
+max-width:540px;
+}}
 .container,
-.md\:container{max-width:720px;}
-}
-@media (min-width: 1024px){
-.container,
-.lg\:container,
-.md\:container{max-width:960px;}
-}
-@media (min-width: 1280px){
+.md\:container{@media (min-width: 768px){
+max-width:720px;
+}}
 .container,
 .lg\:container,
-.md\:container{max-width:1140px;}
-}
+.md\:container{@media (min-width: 1024px){
+max-width:960px;
+}}
+.container,
+.lg\:container,
+.md\:container{@media (min-width: 1280px){
+max-width:1140px;
+}}

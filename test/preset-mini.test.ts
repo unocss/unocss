@@ -302,18 +302,18 @@ describe('preset-mini', () => {
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      @media (max-width: 999.9px){
-      .\\<xl\\:text-3xl{font-size:1.875rem;line-height:2.25rem;}
-      }
-      @media (max-width: calc(64rem - 0.1px)){
-      .\\<lg\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
-      }
-      @media (min-width: 48rem){
-      .md\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
-      }
-      @media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
-      .\\~md\\:text-base{font-size:1rem;line-height:1.5rem;}
-      }"
+      .\\<xl\\:text-3xl{@media (max-width: 999.9px){
+      font-size:1.875rem;line-height:2.25rem;
+      }}
+      .\\<lg\\:text-sm{@media (max-width: calc(64rem - 0.1px)){
+      font-size:0.875rem;line-height:1.25rem;
+      }}
+      .md\\:text-xl{@media (min-width: 48rem){
+      font-size:1.25rem;line-height:1.75rem;
+      }}
+      .\\~md\\:text-base{@media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
+      font-size:1rem;line-height:1.5rem;
+      }}"
     `)
   })
 
@@ -481,12 +481,12 @@ describe('preset-mini', () => {
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      @container (min-width: 352px){
-      .\\@tablet\\:text-sm{font-size:0.875rem;line-height:1.25rem;}
-      }
-      @container name (min-width: 768px){
-      .\\@desktop\\/name\\:text-lg{font-size:1.125rem;line-height:1.75rem;}
-      }"
+      .\\@tablet\\:text-sm{@container (min-width: 352px){
+      font-size:0.875rem;line-height:1.25rem;
+      }}
+      .\\@desktop\\/name\\:text-lg{@container name (min-width: 768px){
+      font-size:1.125rem;line-height:1.75rem;
+      }}"
     `)
   })
 })

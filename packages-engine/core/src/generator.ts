@@ -355,6 +355,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
                     .filter(Boolean))
                 : []
 
+              if (parent) {
+                const parents = parent.split(' $$ ')
+                body = `${parents.join('{')}{${nl}${body}${nl}${'}'.repeat(parents.length)}`
+              }
+
               return selectors.length
                 ? `${selectors.join(`,${nl}`)}{${body}}`
                 : body
@@ -363,11 +368,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             .reverse()
             .join(nl)
 
-          if (!parent)
-            return rules
-
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
+          return rules
         })
         .filter(Boolean)
         .join(nl)
@@ -496,7 +497,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
   ): UtilObject {
     const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
-      .reduceRight(
+      .reduce(
         (previous, v) => (input: VariantHandlerContext) => {
           const entries = v.body?.(input.entries) || input.entries
           const parents: [string | undefined, number | undefined] = Array.isArray(v.parent)

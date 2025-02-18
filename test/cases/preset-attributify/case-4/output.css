@@ -41,12 +41,12 @@
 [font~="mono"]{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
 [font~="sans"]{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";}
 [after~="content-\[quoted\:uno-css\]"]::after{content:"uno-css";}
-@media (min-width: 640px){
-[sm~="\[color\:red\]"]{color:red;}
-}
-@media (min-width: 768px){
-[md~="\[--var\:var\(--another\)\]"]{--var:var(--another);}
-}
-@media (min-width: 1024px){
-[lg~="bg-blue-600"]{--un-bg-opacity:1;background-color:rgb(37 99 235 / var(--un-bg-opacity));}
-}
+[sm~="\[color\:red\]"]{@media (min-width: 640px){
+color:red;
+}}
+[md~="\[--var\:var\(--another\)\]"]{@media (min-width: 768px){
+--var:var(--another);
+}}
+[lg~="bg-blue-600"]{@media (min-width: 1024px){
+--un-bg-opacity:1;background-color:rgb(37 99 235 / var(--un-bg-opacity));
+}}

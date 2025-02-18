@@ -60,9 +60,9 @@ describe('transformer-compile-class', () => {
       .uno-cbgd7b{text-align:center;}
       .uno-s9yxer{font-size:0.875rem;line-height:1.25rem;font-weight:700;}
       .uno-s9yxer:hover{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-      @media (min-width: 640px){
-      .uno-cbgd7b{text-align:left;}
-      }"
+      .uno-cbgd7b{@media (min-width: 640px){
+      text-align:left;
+      }}"
     `)
   })
 

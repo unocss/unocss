@@ -88,18 +88,18 @@ it('variants', async () => {
     .toMatchInlineSnapshot(`
       "/* layer: default */
       .color-red{color:red;}
-      @supports (display: grid){
-      .color-red:hover{color:red;}
-      }"
+      .color-red:hover{@supports (display: grid){
+      color:red;
+      }}"
     `)
 
   expect((await uno1.generate('shortcut1')).css)
     .toMatchInlineSnapshot(`
       "/* layer: shortcuts */
       .shortcut1{color:red;color:blue;}
-      @supports (display: grid){
-      .shortcut1:hover{color:red;color:blue;}
-      }"
+      .shortcut1:hover{@supports (display: grid){
+      color:red;color:blue;
+      }}"
     `)
 })
 
@@ -126,12 +126,12 @@ it('parent', async () => {
     .toMatchInlineSnapshot(`
       "/* layer: default */
       .color-red{color:red;}
-      @supports (display: flex){
-      .color-red{color:red;}
-      }
-      @supports (display: grid){
-      .color-red{color:red;}
-      }"
+      .color-red{@supports (display: flex){
+      color:red;
+      }}
+      .color-red{@supports (display: grid){
+      color:red;
+      }}"
     `)
 })
 
