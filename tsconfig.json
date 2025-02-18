@@ -128,14 +128,11 @@
       "@unocss/preset-typography": [
         "./packages-presets/preset-typography/src/"
       ],
-      "@unocss/preset-uno": [
-        "./packages-presets/preset-uno/src/"
-      ],
       "@unocss/preset-web-fonts": [
         "./packages-presets/preset-web-fonts/src/"
       ],
-      "@unocss/preset-wind": [
-        "./packages-presets/preset-wind/src/"
+      "@unocss/preset-wind3": [
+        "./packages-presets/preset-wind3/src/"
       ],
       "@unocss/rule-utils": [
         "./packages-presets/rule-utils/src/"
@@ -160,6 +157,12 @@
       ],
       "unocss/vite": [
         "./packages-presets/unocss/src/vite.ts"
+      ],
+      "@unocss/preset-uno": [
+        "./packages-deprecated/preset-uno/src/"
+      ],
+      "@unocss/preset-wind": [
+        "./packages-deprecated/preset-wind/src/"
       ]
     },
     "resolveJsonModule": true,

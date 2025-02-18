@@ -64,6 +64,10 @@
       "types": "./dist/preset-wind.d.mts",
       "default": "./dist/preset-wind.mjs"
     },
+    "./preset-wind3": {
+      "types": "./dist/preset-wind3.d.mts",
+      "default": "./dist/preset-wind3.mjs"
+    },
     "./vite": {
       "types": "./dist/vite.d.mts",
       "default": "./dist/vite.mjs"
@@ -140,6 +144,7 @@
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
