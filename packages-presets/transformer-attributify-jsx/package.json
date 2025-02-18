@@ -1,7 +1,7 @@
 {
   "name": "@unocss/transformer-attributify-jsx",
   "type": "module",
-  "version": "65.5.0",
+  "version": "66.0.0",
   "description": "Support valueless attributify in JSX/TSX.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
