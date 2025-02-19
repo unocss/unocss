@@ -1539,6 +1539,9 @@ importers:
       '@unocss/preset-wind3':
         specifier: workspace:*
         version: link:../preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../preset-wind4
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../transformer-attributify-jsx
