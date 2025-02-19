@@ -1,5 +1,5 @@
 import type { Preflight } from '@unocss/core'
-import type { PresetUnoNextOptions } from '..'
+import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { camelToHyphen, passThemeKey } from '../utils'
@@ -62,7 +62,7 @@ function themeToCSSVars(theme: Theme, keys: string[]): string {
   return cssVariables
 }
 
-export function theme(options: PresetUnoNextOptions): Preflight<Theme> {
+export function theme(options: PresetWind4Options): Preflight<Theme> {
   let themeKeys: string[]
 
   if (typeof options.themeKeys === 'function') {

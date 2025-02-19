@@ -1,5 +1,5 @@
 import type { VariantObject } from '@unocss/core'
-import type { PresetUnoNextOptions } from '..'
+import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
 import { escapeRegExp, escapeSelector } from '@unocss/core'
 import { getBracket, h, variantGetBracket } from '../utils'
@@ -322,7 +322,7 @@ export function variantPseudoClassFunctions(): VariantObject<Theme> {
   }
 }
 
-export function variantTaggedPseudoClasses(options: PresetUnoNextOptions = {}): VariantObject<Theme>[] {
+export function variantTaggedPseudoClasses(options: PresetWind4Options = {}): VariantObject<Theme>[] {
   const attributify = !!options?.attributifyPseudo
   let firstPrefix = options?.prefix ?? ''
   firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? ''
