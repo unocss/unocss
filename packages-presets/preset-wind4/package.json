@@ -46,6 +46,10 @@
       "types": "./dist/variants.d.mts",
       "default": "./dist/variants.mjs"
     },
+    "./postprocess": {
+      "types": "./dist/postprocess.d.mts",
+      "default": "./dist/postprocess.mjs"
+    },
     "./utils": {
       "types": "./dist/utils.d.mts",
       "default": "./dist/utils.mjs"

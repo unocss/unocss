@@ -2,13 +2,16 @@ import type { PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
+
 import { postprocessors } from './postprocess'
 import { preflights } from './preflights'
 import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { shorthands } from './shorthands'
 import { theme } from './theme'
-import { variants } from './variants/default'
+import { variants } from './variants'
+
+export { postprocessors, preflights, rules, shortcuts, shorthands, theme, variants }
 
 export interface DarkModeSelectors {
   /**

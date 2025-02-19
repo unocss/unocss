@@ -1,5 +1,5 @@
 import type { Variant } from '@unocss/core'
-import type { PresetMiniOptions } from '..'
+import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
 import { variantAria, variantTaggedAriaAttributes } from './aria'
 import { variantBreakpoints } from './breakpoints'
@@ -17,7 +17,7 @@ import { variantPartClasses, variantPseudoClassesAndElements, variantPseudoClass
 import { variantStartingStyle } from './startingstyle'
 import { variantSupports } from './supports'
 
-export function variants(options: PresetMiniOptions): Variant<Theme>[] {
+export function variants(options: PresetWind4Options): Variant<Theme>[] {
   return [
     variantAria,
     variantDataAttribute,
