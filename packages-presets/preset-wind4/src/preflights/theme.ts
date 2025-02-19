@@ -1,11 +1,10 @@
 import type { Preflight } from '@unocss/core'
 import type { PresetUnoNextOptions } from '..'
 import type { Theme } from '../theme/types'
-import { escapeRegExp } from '@unocss/core'
+import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { camelToHyphen, passThemeKey } from '../utils'
 
-const alphaPlaceholders = ['%alpha', '<alpha-value>']
-const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'))
+/** Output for CSS Variables */
 const DefaultCssVarKeys = [
   'font',
   'colors',

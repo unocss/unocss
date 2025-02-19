@@ -1,9 +1,5 @@
 import type { CSSColorValue } from '@unocss/rule-utils'
-import { escapeRegExp } from '@unocss/core'
-
-const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
-const alphaPlaceholders = ['%alpha', '<alpha-value>']
-const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'))
+import { alphaPlaceholders, alphaPlaceholdersRE, cssColorFunctions } from '@unocss/rule-utils'
 
 export function colorOpacityToString(color: CSSColorValue) {
   const alpha = color.alpha ?? 1

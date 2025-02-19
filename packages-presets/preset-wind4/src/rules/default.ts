@@ -17,6 +17,7 @@ import { overflows } from './layout'
 import { lineClamps } from './line-clamp'
 import { placeholders } from './placeholder'
 import { alignments, boxSizing, flexGridJustifiesAlignments, floats, insets, justifies, orders, placements, positions, zIndexes } from './position'
+import { questionMark } from './question-mark'
 import { rings } from './ring'
 import { scrolls } from './scrolls'
 import { boxShadows } from './shadow'
@@ -121,4 +122,5 @@ export const rules: Rule<Theme>[] = [
   touchActions,
   fontVariantNumeric,
   viewTransition,
+  questionMark,
 ].flat()

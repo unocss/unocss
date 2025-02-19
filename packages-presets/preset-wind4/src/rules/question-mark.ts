@@ -1,11 +1,12 @@
 import type { Rule } from '@unocss/core'
+import type { Theme } from '../theme'
 
 /**
  * Used for debugging, only available in development mode.
  *
  * @example `?` / `where`
  */
-export const questionMark: Rule[] = [
+export const questionMark: Rule<Theme>[] = [
   [
     /^(where|\?)$/,
     (_, { constructCSS, generator }) => {
