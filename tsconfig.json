@@ -134,6 +134,9 @@
       "@unocss/preset-wind3": [
         "./packages-presets/preset-wind3/src/"
       ],
+      "@unocss/preset-wind4": [
+        "./packages-presets/preset-wind4/src/"
+      ],
       "@unocss/rule-utils": [
         "./packages-presets/rule-utils/src/"
       ],

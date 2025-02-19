@@ -1403,6 +1403,18 @@ importers:
         specifier: workspace:*
         version: link:../rule-utils
 
+  packages-presets/preset-wind4:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/extractor-arbitrary-variants':
+        specifier: workspace:*
+        version: link:../extractor-arbitrary-variants
+      '@unocss/rule-utils':
+        specifier: workspace:*
+        version: link:../rule-utils
+
   packages-presets/reset:
     devDependencies:
       '@csstools/normalize.css':
@@ -1527,6 +1539,9 @@ importers:
       '@unocss/preset-wind3':
         specifier: workspace:*
         version: link:../preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../preset-wind4
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../transformer-attributify-jsx

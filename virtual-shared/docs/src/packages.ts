@@ -33,6 +33,7 @@ export const allPackages = [
   "@unocss/preset-typography",
   "@unocss/preset-web-fonts",
   "@unocss/preset-wind3",
+  "@unocss/preset-wind4",
   "@unocss/reset",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
