@@ -1,0 +1,36 @@
+{
+  "name": "preset-uno-next",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "<description>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub"
+  },
+  "dependencies": {
+    "@unocss/core": "workspace:*",
+    "@unocss/extractor-arbitrary-variants": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
+  }
+}
