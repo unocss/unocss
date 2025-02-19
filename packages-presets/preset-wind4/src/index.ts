@@ -114,3 +114,5 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     },
   }
 })
+
+export default PresetWind4
