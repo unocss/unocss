@@ -10,9 +10,9 @@ exports[`preprocess > prefix 1`] = `
 .uno\\:\\!p-5px{padding:5px !important;}
 .uno\\:hover\\:p-4:hover{padding:1rem;}
 .uno\\:pl-10px{padding-left:10px;}
-@media (min-width: 640px){
-.uno\\:sm\\:p-6{padding:1.5rem;}
-}"
+.uno\\:sm\\:p-6{@media (min-width: 640px){
+padding:1.5rem;
+}}"
 `;
 
 exports[`preprocess > tailwind prefix 1`] = `
@@ -23,7 +23,7 @@ exports[`preprocess > tailwind prefix 1`] = `
 .\\!uno\\:p-5px{padding:5px !important;}
 .hover\\:uno\\:p-4:hover{padding:1rem;}
 .uno\\:pl-10px{padding-left:10px;}
-@media (min-width: 640px){
-.sm\\:uno\\:p-6{padding:1.5rem;}
-}"
+.sm\\:uno\\:p-6{@media (min-width: 640px){
+padding:1.5rem;
+}}"
 `;
