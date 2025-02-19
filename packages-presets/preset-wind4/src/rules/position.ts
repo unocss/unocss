@@ -125,8 +125,10 @@ function handleInsetValue(v: string): string | number | undefined {
 
 function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
   const r = handleInsetValue(v)
-  if (r != null && d in insetMap)
+  if (r != null && d in insetMap) {
     return insetMap[d].map(i => [i.slice(1), r])
+    // return insetMap[d].map(i => [`inset${i}` , r])
+  }
 }
 
 export const insets: Rule<Theme>[] = [

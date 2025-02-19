@@ -108,7 +108,7 @@ export const backgroundStyles: Rule<Theme>[] = [
   [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
   [/^(from|via|to)-([\d.]+)%$/, bgGradientPositionResolver()],
   // images
-  [/^bg-gradient-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
+  [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
   // ignore any center position
