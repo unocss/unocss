@@ -20,3 +20,10 @@ export function variantColorsMediaOrClass(options: PresetWind4Options = {}): Var
     variantParentMatcher('light', '@media (prefers-color-scheme: light)'),
   ] as Variant<Theme>[]
 }
+
+export const variantColorsScheme: Variant<Theme>[] = [
+  variantMatcher('.dark', input => ({ prefix: `.dark $$ ${input.prefix}` })),
+  variantMatcher('.light', input => ({ prefix: `.light $$ ${input.prefix}` })),
+  variantParentMatcher('@dark', '@media (prefers-color-scheme: dark)'),
+  variantParentMatcher('@light', '@media (prefers-color-scheme: light)'),
+]

@@ -1,6 +1,6 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
-import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter } from '../utils'
+import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '../utils'
 
 export const variantSelector: Variant<Theme> = {
   name: 'selector',
@@ -137,3 +137,26 @@ export const variantTheme: Variant<Theme> = {
     }
   },
 }
+
+export const variantSpaceAndDivide: Variant<Theme> = (matcher) => {
+  // test/svelte-scoped.test.ts:350:55
+  if (matcher.startsWith('_'))
+    return
+
+  if (/space-[xy]-.+$/.test(matcher) || /divide-/.test(matcher)) {
+    return {
+      matcher,
+      selector: (input) => {
+        const not = '>:not([hidden])~:not([hidden])'
+        return input.includes(not) ? input : `${input}${not}`
+      },
+    }
+  }
+}
+
+export const variantStickyHover: Variant<Theme>[] = [
+  variantMatcher('@hover', input => ({
+    parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (hover: hover) and (pointer: fine)`,
+    selector: `${input.selector || ''}:hover`,
+  })),
+]

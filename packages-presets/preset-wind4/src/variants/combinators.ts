@@ -1,6 +1,6 @@
 import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, variantGetBracket } from '../utils'
+import { h, variantGetBracket, variantMatcher } from '../utils'
 
 function scopeMatcher(name: string, combinator: string): VariantObject<Theme> {
   return {
@@ -41,4 +41,8 @@ export const variantCombinators: Variant<Theme>[] = [
   scopeMatcher('next', '+'),
   scopeMatcher('sibling', '+'),
   scopeMatcher('siblings', '~'),
+]
+
+export const variantSvgCombinators: Variant<Theme>[] = [
+  variantMatcher('svg', input => ({ selector: `${input.selector} svg` })),
 ]

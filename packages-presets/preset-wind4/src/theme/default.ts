@@ -1,19 +1,22 @@
 import type { Theme } from './types'
 import { animation } from './animate'
+import { aria } from './aria'
 import { colors } from './colors'
 import { blur } from './filters'
 import { font, fontWeight, leading, text, textStrokeWidth, tracking } from './font'
+import { media } from './media'
 import { defaults, dropShadow, insetShadow, perspective, radius, shadow, spacing, textShadow } from './misc'
 import { breakpoint, container, verticalBreakpoint } from './size'
+import { supports } from './supports'
 import { ease, property } from './transition'
 
 export const theme = {
+  // for rules
   font,
   colors,
   spacing,
   breakpoint,
   verticalBreakpoint,
-  container,
   text,
   fontWeight,
   tracking,
@@ -30,4 +33,12 @@ export const theme = {
   perspective,
   property,
   defaults,
+
+  // for rules & variants
+  container,
+
+  // for variant
+  aria,
+  media,
+  supports,
 } satisfies Theme
