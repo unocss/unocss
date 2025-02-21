@@ -1,18 +1,13 @@
 import type { CSSEntries, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, directionMap, h } from '../utils'
+import { colorResolver, h } from '../utils'
 import { borderStyles } from './border'
-
-// TODO: divide variant effect
 
 export const divides: Rule<Theme>[] = [
   // divides
-  [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y|block|inline)', 'divide-(x|y|block|inline)-reverse'] }],
+  [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y)', 'divide-(x|y)-reverse'] }],
   [/^divide-?([xy])-?(.+)$/, handlerDivide],
   [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
-  [/^divide-(block|inline)$/, handlerDivide],
-  [/^divide-(block|inline)-(.+)$/, handlerDivide],
-  [/^divide-(block|inline)-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
 
   // color & opacity
   [/^divide-(.+)$/, colorResolver('border-color', 'divide'), { autocomplete: 'divide-$colors' }],
@@ -28,18 +23,24 @@ function handlerDivide([, d, s]: string[]): CSSEntries | undefined {
     if (v === '0')
       v = '0px'
 
-    const results = directionMap[d].map((item): [string, string] => {
-      const key = `border${item}-width`
-      const value = (item.endsWith('right') || item.endsWith('bottom'))
+    const directionMap: Record<string, string[]> = {
+      x: ['-left', '-right'],
+      y: ['-top', '-bottom'],
+    }
+    const results = directionMap[d].map((item): [string, string][] => {
+      const value = (item.endsWith('left') || item.endsWith('top'))
         ? `calc(${v} * var(--un-divide-${d}-reverse))`
         : `calc(${v} * calc(1 - var(--un-divide-${d}-reverse)))`
-      return [key, value]
+      return [
+        [`border${item}-width`, value],
+        [`border${item}-style`, `var(--un-border-style)`],
+      ]
     })
 
     if (results) {
       return [
         [`--un-divide-${d}-reverse`, 0],
-        ...results,
+        ...results.flat(),
       ]
     }
   }

@@ -9,6 +9,7 @@ import { bgColors, colorScheme, opacity } from './color'
 import { columns } from './columns'
 import { container, containerParent } from './container'
 import { textDecorations } from './decoration'
+import { divides } from './divide'
 import { filters } from './filters'
 import { flex } from './flex'
 import { gaps } from './gap'
@@ -22,7 +23,7 @@ import { rings } from './ring'
 import { scrolls } from './scrolls'
 import { boxShadows } from './shadow'
 import { aspectRatio, sizes } from './size'
-import { margins, paddings } from './spacing'
+import { margins, paddings, spaces } from './spacing'
 import { appearances, backgroundBlendModes, breaks, contains, contents, contentVisibility, cursors, displays, dynamicViewportHeight, fontSmoothings, fontStyles, hyphens, isolations, mixBlendModes, objectPositions, pointerEvents, resizes, screenReadersAccess, textOverflows, textTransforms, textWraps, userSelects, whitespaces, writingModes, writingOrientations } from './static'
 import { svgUtilities } from './svg'
 import { tables } from './table'
@@ -123,4 +124,6 @@ export const rules: Rule<Theme>[] = [
   fontVariantNumeric,
   viewTransition,
   questionMark,
+  spaces,
+  divides,
 ].flat()

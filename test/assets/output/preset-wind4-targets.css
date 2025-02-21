@@ -1325,6 +1325,24 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .normal-nums{font-variant-numeric:normal;}
 .view-transition-foo{view-transition-name:foo;}
 .view-transition-none{view-transition-name:none;}
+.space-x-\[var\(--space\)\]>:not(:last-child),
+.space-x-\$space>:not(:last-child){--un-space-x-reverse:0;margin-inline-start: calc(var(--space) * var(--un-space-x-reverse));margin-inline-end: calc(var(--space) * calc(1 - var(--un-space-x-reverse)));}
+.space-x-2>:not(:last-child){--un-space-x-reverse:0;margin-inline-start: calc(calc(var(--spacing) * 2) * var(--un-space-x-reverse));margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--un-space-x-reverse)));}
+.space-y-4>:not(:last-child){--un-space-y-reverse:0;margin-block-start: calc(calc(var(--spacing) * 4) * var(--un-space-y-reverse));margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--un-space-y-reverse)));}
+.space-x-reverse>:not(:last-child){--un-space-x-reverse:1;}
+.divide-x-\$variable>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(var(--variable) * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(var(--variable) * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
+.divide-x-4>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(4px * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
+.divide-y-4>:not(:last-child){--un-divide-y-reverse:0;border-top-width:calc(4px * var(--un-divide-y-reverse));border-top-style:var(--un-border-style);border-bottom-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-style:var(--un-border-style);}
+.divide-x-reverse>:not(:last-child){--un-divide-x-reverse:1;}
+.divide-\$variable>:not(:last-child){--un-divide-opacity:100%;border-color:color-mix(in oklch, var(--variable) var(--un-divide-opacity), transparent);}
+.divide-current>:not(:last-child){border-color:currentColor;}
+.divide-green-500>:not(:last-child){--un-divide-opacity:100%;border-color:color-mix(in oklch, var(--color-green-500) var(--un-divide-opacity), transparent);}
+.divide-transparent>:not(:last-child){border-color:transparent;}
+.divide-opacity-50>:not(:last-child){--un-divide-opacity:50%;}
+.divide-dashed>:not(:last-child){border-style:dashed;}
+.divide-dotted>:not(:last-child){border-style:dotted;}
+.divide-none>:not(:last-child){border-style:none;}
+.divide-ridge>:not(:last-child){border-style:ridge;}
 @layer base{
 .layer-base\:translate-0{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
 }

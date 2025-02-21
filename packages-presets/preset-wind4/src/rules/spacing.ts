@@ -1,6 +1,6 @@
 import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { directionMap, directionSize, h } from '../utils'
+import { directionMap, directionSize, h, numberResolver } from '../utils'
 
 export const paddings: Rule<Theme>[] = [
   [/^pa?()-?(.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
@@ -20,26 +20,25 @@ export const margins: Rule<Theme>[] = [
   [/^m-?([bi][se])(?:-?(.+))?$/, directionSize('margin')],
 ]
 
-// TODO: space variants effect
-
 export const spaces: Rule<Theme>[] = [
-  [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ['space-(x|y|block|inline)', 'space-(x|y|block|inline)-reverse', 'space-(x|y|block|inline)-$spacing'] }],
+  [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ['space-(x|y)', 'space-(x|y)-reverse', 'space-(x|y)-$spacing'] }],
   [/^space-([xy])-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
-  [/^space-(block|inline)-(.+)$/, handlerSpace],
-  [/^space-(block|inline)-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
 ]
 
 function handlerSpace([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  let v = theme.spacing?.[s || 'DEFAULT'] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
-  if (v != null) {
-    if (v === '0')
-      v = '0px'
+  let v: string | undefined
+  const num = numberResolver(s)
+  if (num != null) {
+    v = `calc(var(--spacing) * ${num})`
+  }
+  else {
+    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
+  }
 
-    const results = directionMap[d].map((item): [string, string] => {
+  if (v != null) {
+    const results = directionMap[d === 'x' ? 'inline' : 'block'].map((item, index): [string, string] => {
       const key = `margin${item}`
-      const value = (item.endsWith('right') || item.endsWith('bottom'))
-        ? `calc(${v} * var(--un-space-${d}-reverse))`
-        : `calc(${v} * calc(1 - var(--un-space-${d}-reverse)))`
+      const value = ` calc(${v} * ${index === 0 ? `var(--un-space-${d}-reverse)` : `calc(1 - var(--un-space-${d}-reverse))`})`
       return [key, value]
     })
 
