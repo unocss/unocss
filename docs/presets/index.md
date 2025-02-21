@@ -4,9 +4,8 @@
 
 | Package                                            | Description                                  |
 | -------------------------------------------------- | -------------------------------------------- |
-| [@unocss/preset-uno](/presets/uno)                 | The default preset                           |
 | [@unocss/preset-mini](/presets/mini)               | The minimal but essential rules and variants |
-| [@unocss/preset-wind](/presets/wind)               | Tailwind CSS / Windi CSS compact preset      |
+| [@unocss/preset-wind3](/presets/wind3)               | Tailwind CSS / Windi CSS compact preset      |
 | [@unocss/preset-attributify](/presets/attributify) | Enables Attributify Mode for other rules     |
 | [@unocss/preset-tagify](/presets/tagify)           | Enables Tagify Mode for other rules          |
 | [@unocss/preset-icons](/presets/icons)             | Pure CSS Icons solution powered by Iconify   |
