@@ -11,6 +11,7 @@ export { default as presetUno, type Theme as PresetUnoTheme } from '@unocss/pres
 export { default as presetWebFonts } from '@unocss/preset-web-fonts'
 export { default as presetWind, type Theme as PresetWindTheme } from '@unocss/preset-wind'
 export { default as presetWind3, type Theme as PresetWind3Theme } from '@unocss/preset-wind3'
+export { default as presetWind4, type Theme as PresetWind4Theme } from '@unocss/preset-wind4'
 export { default as transformerAttributifyJsx } from '@unocss/transformer-attributify-jsx'
 export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
 export { default as transformerDirectives } from '@unocss/transformer-directives'

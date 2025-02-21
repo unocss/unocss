@@ -8,7 +8,7 @@ import { camelToHyphen, passThemeKey } from '../utils'
 const DefaultCssVarKeys = [
   'font',
   'colors',
-  'spacing',
+  // 'spacing', // spacing is a special case
   'breakpoint',
   'verticalBreakpoint',
   'container',
@@ -77,6 +77,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     getCSS({ theme }) {
       return `
 :root {
+--spacing: ${theme.spacing!.DEFAULT};
 ${themeToCSSVars(theme, themeKeys).trim()}
 }`.trim()
     },

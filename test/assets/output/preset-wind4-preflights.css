@@ -1,5 +1,6 @@
 /* layer: theme */
 :root {
+--spacing: 0.25rem;
 --font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 --font-serif: ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;
 --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
@@ -269,18 +270,6 @@
 --colors-dark-800: oklch(20.9% 0 0);
 --colors-dark-900: oklch(16.84% 0 0);
 --colors-dark-950: oklch(13.44% 0 0);
---spacing-xs: calc(var(--spacing) * 3);
---spacing-sm: calc(var(--spacing) * 3.5);
---spacing-lg: calc(var(--spacing) * 4.5);
---spacing-xl: calc(var(--spacing) * 5);
---spacing-2xl: calc(var(--spacing) * 6);
---spacing-3xl: calc(var(--spacing) * 7.5);
---spacing-4xl: calc(var(--spacing) * 9);
---spacing-5xl: calc(var(--spacing) * 12);
---spacing-6xl: calc(var(--spacing) * 15);
---spacing-7xl: calc(var(--spacing) * 18);
---spacing-8xl: calc(var(--spacing) * 24);
---spacing-9xl: calc(var(--spacing) * 32);
 --breakpoint-sm: 40rem;
 --breakpoint-md: 48rem;
 --breakpoint-lg: 64rem;

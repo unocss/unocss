@@ -13,6 +13,8 @@ import { variants } from './variants'
 
 export { postprocessors, preflights, rules, shortcuts, shorthands, theme, variants }
 
+export type { Theme }
+
 export interface DarkModeSelectors {
   /**
    * Selector for light variant.
