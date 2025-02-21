@@ -5,7 +5,7 @@
 | Package                                            | Description                                  |
 | -------------------------------------------------- | -------------------------------------------- |
 | [@unocss/preset-mini](/presets/mini)               | The minimal but essential rules and variants |
-| [@unocss/preset-wind3](/presets/wind3)               | Tailwind CSS / Windi CSS compact preset      |
+| [@unocss/preset-wind3](/presets/wind3)             | Tailwind CSS / Windi CSS compact preset      |
 | [@unocss/preset-attributify](/presets/attributify) | Enables Attributify Mode for other rules     |
 | [@unocss/preset-tagify](/presets/tagify)           | Enables Tagify Mode for other rules          |
 | [@unocss/preset-icons](/presets/icons)             | Pure CSS Icons solution powered by Iconify   |
