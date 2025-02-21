@@ -1,1 +1,1 @@
-export * from './dist/variants'
+export * from './dist/postprocess'
