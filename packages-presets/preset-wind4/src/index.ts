@@ -99,7 +99,7 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.important = options.important ?? false
 
   return {
-    name: '@unocss/preset-uno-next',
+    name: '@unocss/preset-wind4',
     rules,
     shortcuts,
     theme,

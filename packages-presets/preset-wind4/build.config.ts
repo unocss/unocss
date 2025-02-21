@@ -14,10 +14,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
-    'unconfig',
-    'magic-string',
     '@unocss/core',
-    '@unocss/config',
   ],
   rollup: {
     dts: {
