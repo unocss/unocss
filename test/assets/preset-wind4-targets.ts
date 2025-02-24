@@ -418,6 +418,9 @@ export const presetWind4Targets: string[] = [
 
   // outline
   'outline-hidden',
+
+  // accessibility
+  'forced-colors:block',
 ]
 
 export const presetWindNonTargets: string[] = [

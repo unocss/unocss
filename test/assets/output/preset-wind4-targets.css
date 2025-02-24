@@ -1354,6 +1354,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (forced-colors: active){
 .outline-hidden{outline:2px solid transparent;outline-offset:2px;}
+.forced-colors\:block{display:block;}
 }
 @media (hover: hover) and (pointer: fine){
 .\@hover-text-red:hover{--un-text-opacity:100%;color:color-mix(in oklch, var(--color-red-400) var(--un-text-opacity), transparent);}
