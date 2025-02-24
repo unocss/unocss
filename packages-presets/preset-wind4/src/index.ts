@@ -82,7 +82,7 @@ export interface PresetWind4Options extends PresetOptions {
   important?: boolean | string
 }
 
-export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
+export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
@@ -107,4 +107,4 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   }
 })
 
-export default PresetWind4
+export default presetWind4
