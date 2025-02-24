@@ -186,20 +186,19 @@ export const fontVariantNumericBase = {
   '--un-numeric-spacing': varEmpty,
   '--un-numeric-fraction': varEmpty,
 }
-const custom = { preflightKeys: Object.keys(fontVariantNumericBase) }
 const baseFontVariantNumeric = {
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
-  ['ordinal', { '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, { custom }],
-  ['slashed-zero', { '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, { custom }],
-  ['lining-nums', { '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, { custom }],
-  ['oldstyle-nums', { '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, { custom }],
-  ['proportional-nums', { '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, { custom }],
-  ['tabular-nums', { '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, { custom }],
-  ['diagonal-fractions', { '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, { custom }],
-  ['stacked-fractions', { '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, { custom }],
+  ['ordinal', { '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }],
+  ['slashed-zero', { '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }],
+  ['lining-nums', { '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }],
+  ['oldstyle-nums', { '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }],
+  ['proportional-nums', { '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }],
+  ['tabular-nums', { '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }],
+  ['diagonal-fractions', { '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }],
+  ['stacked-fractions', { '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }],
   ['normal-nums', { 'font-variant-numeric': 'normal' }],
 ]
 

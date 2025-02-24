@@ -356,6 +356,7 @@ export const presetWind4Targets: string[] = [
   // variants - dark/light
   '.dark:text-xl',
   '@dark:text-xl',
+  'not-dark:text-xl',
 
   // variants combinators
   'svg:fill-red',
@@ -414,6 +415,9 @@ export const presetWind4Targets: string[] = [
   'max-h-dvh',
   'max-h-svh',
   'max-h-lvh',
+
+  // outline
+  'outline-hidden',
 ]
 
 export const presetWindNonTargets: string[] = [

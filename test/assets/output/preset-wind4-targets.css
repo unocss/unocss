@@ -302,14 +302,14 @@
 .outline-offset-inherit{outline-offset:inherit;}
 .outline-offset-none{outline-offset:0;}
 .outline{outline-style:var(--un-outline-style);outline-width:1px;}
-.outline-hidden{--un-outline-style:hidden;outline-style:hidden;}
+.outline-none{--un-outline-style:none;outline-style:none;}
+.focus-visible\:outline-none:focus-visible{--un-outline-style:none;outline-style:none;}
+.outline-hidden{outline-style:none;}
 .outline-solid{--un-outline-style:solid;outline-style:solid;}
 .outline-inset{--un-outline-style:inset;outline-style:inset;}
 .outline-inherit{--un-outline-style:inherit;outline-style:inherit;}
 .outline-revert-layer{--un-outline-style:revert-layer;outline-style:revert-layer;}
 .outline-unset{--un-outline-style:unset;outline-style:unset;}
-.outline-none{--un-outline-style:none;outline-style:none;}
-.focus-visible\:outline-none:focus-visible{--un-outline-style:none;outline-style:none;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
 .will-change-margin\,padding{will-change:margin,padding;}
@@ -1352,6 +1352,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @media (--cssvar){
 .media-\[\(--cssvar\)\]\:block{display:block;}
 }
+@media (forced-colors: active){
+.outline-hidden{outline:2px solid transparent;outline-offset:2px;}
+}
 @media (hover: hover) and (pointer: fine){
 .\@hover-text-red:hover{--un-text-opacity:100%;color:color-mix(in oklch, var(--color-red-400) var(--un-text-opacity), transparent);}
 [open] .\@hover\:\[\[open\]_\&\]\:text-blue:hover{--un-text-opacity:100%;color:color-mix(in oklch, var(--color-blue-400) var(--un-text-opacity), transparent);}
@@ -1380,6 +1383,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (prefers-reduced-motion: reduce){
 .motion-reduce\:hover\:translate-0:hover{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
+}
+@media not (prefers-color-scheme: dark){
+.not-dark\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 }
 @media print{
 .print\:link\:\!underline:link{text-decoration-line:underline !important;}
