@@ -11,11 +11,13 @@ exports[`scope 1`] = `
 .dark .foo-scope .dark\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 .dark .foo-scope .dark\\:hover\\:text-xl:hover{font-size:1.25rem;line-height:1.75rem;}
 .variant .foo-scope .scope-\\[\\.variant\\]\\:c-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
-@media (min-width: 640px){
-.foo-scope .sm\\:text-red-100{--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));}
-.foo-scope .sm\\:text-red-200\\/10{color:rgb(254 202 202 / 0.1);}
-}
-@media (min-width: 768px){
-.foo-scope .md\\:\\!hidden{display:none !important;}
-}"
+.foo-scope .sm\\:text-red-100{@media (min-width: 640px){
+--un-text-opacity:1;color:rgb(254 226 226 / var(--un-text-opacity));
+}}
+.foo-scope .sm\\:text-red-200\\/10{@media (min-width: 640px){
+color:rgb(254 202 202 / 0.1);
+}}
+.foo-scope .md\\:\\!hidden{@media (min-width: 768px){
+display:none !important;
+}}"
 `;
