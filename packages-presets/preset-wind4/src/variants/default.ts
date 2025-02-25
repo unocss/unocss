@@ -11,7 +11,7 @@ import { variantDataAttribute, variantTaggedDataAttributes } from './data'
 import { variantLanguageDirections } from './directions'
 import { variantImportant } from './important'
 import { variantContrasts, variantCustomMedia, variantForcedColors, variantMotions, variantOrientations, variantPrint } from './media'
-import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantSpaceAndDivide, variantStickyHover, variantTheme, variantVariables } from './misc'
+import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantStickyHover, variantTheme, variantVariables } from './misc'
 import { variantNegative } from './negative'
 import { placeholderModifier } from './placeholder'
 import { variantPartClasses, variantPseudoClassesAndElements, variantPseudoClassFunctions, variantTaggedPseudoClasses } from './pseudo'
@@ -59,7 +59,7 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
 
     variantTheme,
 
-    variantSpaceAndDivide,
+    // variantSpaceAndDivide,
     ...variantStickyHover,
   ].flat()
 }

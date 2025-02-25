@@ -1,23 +1,47 @@
-import type { CSSEntries, Rule } from '@unocss/core'
+import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, h } from '../utils'
 import { borderStyles } from './border'
+import { notLastChildSelector } from './spacing'
 
 export const divides: Rule<Theme>[] = [
+// color & opacity
+  [/^divide-(.+)$/, function* (match, ctx) {
+    const result = colorResolver('border-color', 'divide')(match, ctx)
+    if (result) {
+      yield {
+        [ctx.symbols.selector]: notLastChildSelector,
+        ...result,
+      }
+    }
+  }, { autocomplete: 'divide-$colors' }],
+  [/^divide-op(?:acity)?-?(.+)$/, function* ([, opacity], { symbols }) {
+    yield {
+      [symbols.selector]: notLastChildSelector,
+      '--un-divide-opacity': h.bracket.percent(opacity),
+    }
+  }, { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
+
   // divides
   [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y)', 'divide-(x|y)-reverse'] }],
   [/^divide-?([xy])-?(.+)$/, handlerDivide],
-  [/^divide-?([xy])-reverse$/, ([, d]) => ({ [`--un-divide-${d}-reverse`]: 1 })],
-
-  // color & opacity
-  [/^divide-(.+)$/, colorResolver('border-color', 'divide'), { autocomplete: 'divide-$colors' }],
-  [/^divide-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-divide-opacity': h.bracket.percent(opacity) }), { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
+  [/^divide-?([xy])-reverse$/, function* ([, d]: string[], { symbols }: RuleContext<Theme>) {
+    yield {
+      [symbols.selector]: notLastChildSelector,
+      [`--un-divide-${d}-reverse`]: '1',
+    }
+  }],
 
   // styles
-  ...borderStyles.map(style => [`divide-${style}`, { 'border-style': style }] as Rule<Theme>),
+  [new RegExp(`^divide-(${borderStyles.join('|')})$`), function* ([, style]: string[], { symbols }: RuleContext<Theme>) {
+    yield {
+      [symbols.selector]: notLastChildSelector,
+      'border-style': style,
+    }
+  }, { autocomplete: borderStyles.map(i => `divide-${i}`) }],
 ]
 
-function handlerDivide([, d, s]: string[]): CSSEntries | undefined {
+function* handlerDivide([, d, s]: string[], { symbols }: RuleContext<Theme>) {
   let v = h.bracket.cssvar.px(s || '1')
   if (v != null) {
     if (v === '0')
@@ -38,10 +62,11 @@ function handlerDivide([, d, s]: string[]): CSSEntries | undefined {
     })
 
     if (results) {
-      return [
-        [`--un-divide-${d}-reverse`, 0],
-        ...results.flat(),
-      ]
+      yield {
+        [symbols.selector]: notLastChildSelector,
+        [`--un-divide-${d}-reverse`]: 0,
+        ...Object.fromEntries(results.flat()),
+      }
     }
   }
 }

@@ -27,6 +27,7 @@ describe('preset-wind', () => {
     // TODO: Need to fixed the unmatched list
     expect(unmatched).toMatchInlineSnapshot(`
       [
+        "outline-none",
         "outline-size-none",
         "outline-color-red-1",
         "outline-blue-2",
@@ -75,6 +76,7 @@ describe('preset-wind', () => {
         "preserve-flat",
         "indent-1/2",
         "indent-lg",
+        "focus-visible:outline-none",
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",
