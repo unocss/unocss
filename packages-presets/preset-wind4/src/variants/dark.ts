@@ -26,4 +26,5 @@ export const variantColorsScheme: Variant<Theme>[] = [
   variantMatcher('.light', input => ({ prefix: `.light $$ ${input.prefix}` })),
   variantParentMatcher('@dark', '@media (prefers-color-scheme: dark)'),
   variantParentMatcher('@light', '@media (prefers-color-scheme: light)'),
+  variantParentMatcher('not-dark', '@media not (prefers-color-scheme: dark)'),
 ]

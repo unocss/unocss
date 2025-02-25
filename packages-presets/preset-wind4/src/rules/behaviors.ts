@@ -18,8 +18,15 @@ export const outline: Rule<Theme>[] = [
     'outline-style': 'var(--un-outline-style)',
     'outline-width': '1px',
   }],
-  ...['auto', 'dashed', 'dotted', 'double', 'hidden', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
-  ['outline-none', { '--un-outline-style': 'none', 'outline-style': 'none' }],
+  [/^outline-hidden$/, function*(_, { symbols }) {
+    yield { 'outline-style': 'none' }
+    yield {
+      [symbols.parent]: `@media (forced-colors: active)`,
+      'outline': `2px solid transparent`,
+      'outline-offset': `2px`,
+    }
+  }],
+  ...['auto', 'dashed', 'dotted', 'double', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
 ]
 
 function handleWidth([, b]: string[]): CSSObject | undefined {

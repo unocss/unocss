@@ -1,4 +1,4 @@
-import type { Variant, VariantFunction } from '@unocss/core'
+import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
 import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '../utils'
 
@@ -136,22 +136,6 @@ export const variantTheme: Variant<Theme> = {
       },
     }
   },
-}
-
-export const variantSpaceAndDivide: VariantFunction<Theme> = (matcher) => {
-  // test/svelte-scoped.test.ts:350:55
-  if (matcher.startsWith('_'))
-    return
-
-  if (/space-[xy]-.+$/.test(matcher) || /divide-/.test(matcher)) {
-    return {
-      matcher,
-      selector: (input) => {
-        const not = '>:not(:last-child)'
-        return input.includes(not) ? input : `${input}${not}`
-      },
-    }
-  }
 }
 
 export const variantStickyHover: Variant<Theme>[] = [

@@ -43,3 +43,7 @@ export const variantOrientations: Variant<Theme>[] = [
   variantParentMatcher('landscape', '@media (orientation: landscape)'),
   variantParentMatcher('portrait', '@media (orientation: portrait)'),
 ]
+
+export const variantForcedColors: Variant<Theme>[] = [
+  variantParentMatcher('forced-colors', '@media (forced-colors: active)'),
+]

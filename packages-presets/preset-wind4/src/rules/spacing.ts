@@ -1,4 +1,4 @@
-import type { CSSEntries, Rule, RuleContext } from '@unocss/core'
+import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { directionMap, directionSize, h, numberResolver } from '../utils'
 
@@ -22,10 +22,20 @@ export const margins: Rule<Theme>[] = [
 
 export const spaces: Rule<Theme>[] = [
   [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ['space-(x|y)', 'space-(x|y)-reverse', 'space-(x|y)-$spacing'] }],
-  [/^space-([xy])-reverse$/, ([, d]) => ({ [`--un-space-${d}-reverse`]: 1 })],
+  [/^space-([xy])-reverse$/, function* ([, d]: string[], { symbols }: RuleContext<Theme>) {
+    yield {
+      [symbols.selector]: notLastChildSelector,
+      [`--un-space-${d}-reverse`]: '1',
+    }
+  }],
 ]
 
-function handlerSpace([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+export function notLastChildSelector(s: string) {
+  const not = '>:not(:last-child)'
+  return s.includes(not) ? s : `${s}${not}`
+}
+
+function* handlerSpace([, d, s]: string[], { theme, symbols }: RuleContext<Theme>) {
   let v: string | undefined
   const num = numberResolver(s)
   if (num != null) {
@@ -43,10 +53,11 @@ function handlerSpace([, d, s]: string[], { theme }: RuleContext<Theme>): CSSEnt
     })
 
     if (results) {
-      return [
-        [`--un-space-${d}-reverse`, 0],
-        ...results,
-      ]
+      yield {
+        [symbols.selector]: notLastChildSelector,
+        [`--un-space-${d}-reverse`]: '0',
+        ...Object.fromEntries(results),
+      }
     }
   }
 }

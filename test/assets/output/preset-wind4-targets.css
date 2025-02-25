@@ -302,14 +302,12 @@
 .outline-offset-inherit{outline-offset:inherit;}
 .outline-offset-none{outline-offset:0;}
 .outline{outline-style:var(--un-outline-style);outline-width:1px;}
-.outline-hidden{--un-outline-style:hidden;outline-style:hidden;}
+.outline-hidden{outline-style:none;}
 .outline-solid{--un-outline-style:solid;outline-style:solid;}
 .outline-inset{--un-outline-style:inset;outline-style:inset;}
 .outline-inherit{--un-outline-style:inherit;outline-style:inherit;}
 .outline-revert-layer{--un-outline-style:revert-layer;outline-style:revert-layer;}
 .outline-unset{--un-outline-style:unset;outline-style:unset;}
-.outline-none{--un-outline-style:none;outline-style:none;}
-.focus-visible\:outline-none:focus-visible{--un-outline-style:none;outline-style:none;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
 .will-change-margin\,padding{will-change:margin,padding;}
@@ -1330,15 +1328,15 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .space-x-2>:not(:last-child){--un-space-x-reverse:0;margin-inline-start: calc(calc(var(--spacing) * 2) * var(--un-space-x-reverse));margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--un-space-x-reverse)));}
 .space-y-4>:not(:last-child){--un-space-y-reverse:0;margin-block-start: calc(calc(var(--spacing) * 4) * var(--un-space-y-reverse));margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--un-space-y-reverse)));}
 .space-x-reverse>:not(:last-child){--un-space-x-reverse:1;}
-.divide-x-\$variable>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(var(--variable) * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(var(--variable) * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
-.divide-x-4>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(4px * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
-.divide-y-4>:not(:last-child){--un-divide-y-reverse:0;border-top-width:calc(4px * var(--un-divide-y-reverse));border-top-style:var(--un-border-style);border-bottom-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-style:var(--un-border-style);}
-.divide-x-reverse>:not(:last-child){--un-divide-x-reverse:1;}
 .divide-\$variable>:not(:last-child){--un-divide-opacity:100%;border-color:color-mix(in oklch, var(--variable) var(--un-divide-opacity), transparent);}
 .divide-current>:not(:last-child){border-color:currentColor;}
 .divide-green-500>:not(:last-child){--un-divide-opacity:100%;border-color:color-mix(in oklch, var(--color-green-500) var(--un-divide-opacity), transparent);}
 .divide-transparent>:not(:last-child){border-color:transparent;}
 .divide-opacity-50>:not(:last-child){--un-divide-opacity:50%;}
+.divide-x-\$variable>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(var(--variable) * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(var(--variable) * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
+.divide-x-4>:not(:last-child){--un-divide-x-reverse:0;border-left-width:calc(4px * var(--un-divide-x-reverse));border-left-style:var(--un-border-style);border-right-width:calc(4px * calc(1 - var(--un-divide-x-reverse)));border-right-style:var(--un-border-style);}
+.divide-y-4>:not(:last-child){--un-divide-y-reverse:0;border-top-width:calc(4px * var(--un-divide-y-reverse));border-top-style:var(--un-border-style);border-bottom-width:calc(4px * calc(1 - var(--un-divide-y-reverse)));border-bottom-style:var(--un-border-style);}
+.divide-x-reverse>:not(:last-child){--un-divide-x-reverse:1;}
 .divide-dashed>:not(:last-child){border-style:dashed;}
 .divide-dotted>:not(:last-child){border-style:dotted;}
 .divide-none>:not(:last-child){border-style:none;}
@@ -1351,6 +1349,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (--cssvar){
 .media-\[\(--cssvar\)\]\:block{display:block;}
+}
+@media (forced-colors: active){
+.outline-hidden{outline:2px solid transparent;outline-offset:2px;}
+.forced-colors\:block{display:block;}
 }
 @media (hover: hover) and (pointer: fine){
 .\@hover-text-red:hover{--un-text-opacity:100%;color:color-mix(in oklch, var(--color-red-400) var(--un-text-opacity), transparent);}
@@ -1380,6 +1382,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 }
 @media (prefers-reduced-motion: reduce){
 .motion-reduce\:hover\:translate-0:hover{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
+}
+@media not (prefers-color-scheme: dark){
+.not-dark\:text-xl{font-size:1.25rem;line-height:1.75rem;}
 }
 @media print{
 .print\:link\:\!underline:link{text-decoration-line:underline !important;}

@@ -57,13 +57,6 @@ export interface PresetWind4Options extends PresetOptions {
    */
   prefix?: string | string[]
   /**
-   * Generate preflight
-   *
-   * @default true
-   */
-  preflight?: boolean | 'on-demand'
-
-  /**
    * Enable arbitrary variants, for example `<div class="[&>*]:m-1 [&[open]]:p-2"></div>`.
    *
    * Disable this might slightly improve the performance.
@@ -71,12 +64,10 @@ export interface PresetWind4Options extends PresetOptions {
    * @default true
    */
   arbitraryVariants?: boolean
-
   /**
    * Choose which theme keys to export as CSS variables.
    */
   themeKeys?: string[] | ((keys: string[]) => string[])
-
   /**
    * The important option lets you control whether UnoCSS’s utilities should be marked with `!important`.
    *
@@ -91,10 +82,9 @@ export interface PresetWind4Options extends PresetOptions {
   important?: boolean | string
 }
 
-export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
+export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
-  options.preflight = options.preflight ?? true
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
 
@@ -105,7 +95,6 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     theme,
     preflights: preflights(options),
     variants: variants(options),
-    options,
     prefix: options.prefix,
     postprocess: postprocessors(options),
     extractorDefault: options.arbitraryVariants === false
@@ -114,7 +103,8 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     autocomplete: {
       shorthands,
     },
+    options,
   }
 })
 
-export default PresetWind4
+export default presetWind4

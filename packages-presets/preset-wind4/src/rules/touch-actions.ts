@@ -8,22 +8,21 @@ export const touchActionBase = {
   '--un-pan-y': varEmpty,
   '--un-pinch-zoom': varEmpty,
 }
-const custom = { preflightKeys: Object.keys(touchActionBase) }
 const touchActionProperty = 'var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom)'
 
 export const touchActions: Rule<Theme>[] = [
   [/^touch-pan-(x|left|right)$/, ([, d]) => ({
     '--un-pan-x': `pan-${d}`,
     'touch-action': touchActionProperty,
-  }), { custom, autocomplete: ['touch-pan', 'touch-pan-(x|left|right|y|up|down)'] }],
+  }), { autocomplete: ['touch-pan', 'touch-pan-(x|left|right|y|up|down)'] }],
   [/^touch-pan-(y|up|down)$/, ([, d]) => ({
     '--un-pan-y': `pan-${d}`,
     'touch-action': touchActionProperty,
-  }), { custom }],
+  })],
   ['touch-pinch-zoom', {
     '--un-pinch-zoom': 'pinch-zoom',
     'touch-action': touchActionProperty,
-  }, { custom }],
+  }],
 
   ['touch-auto', { 'touch-action': 'auto' }],
   ['touch-manipulation', { 'touch-action': 'manipulation' }],
