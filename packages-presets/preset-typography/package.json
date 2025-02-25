@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-typography",
   "type": "module",
-  "version": "65.4.3",
+  "version": "66.0.0",
   "description": "Typography preset for UnoCSS",
   "author": "Jeff Yang",
   "license": "MIT",
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/preset-mini": "workspace:*"
+    "@unocss/preset-mini": "workspace:*",
+    "@unocss/rule-utils": "workspace:*"
   }
 }

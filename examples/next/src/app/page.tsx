@@ -1,4 +1,5 @@
-import { type Resource, Resources } from '@/components/Resources'
+import type { Resource } from '@/components/Resources'
+import { Resources } from '@/components/Resources'
 
 const resources: Resource[] = [
   {

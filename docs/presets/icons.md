@@ -544,6 +544,27 @@ You can check this repo, using this preset on a `Vue 3` project: [@iconify/tools
 
 Read [Cleaning up icons](https://iconify.design/docs/articles/cleaning-up-icons/) article from [Iconify](https://iconify.design/) for more details.
 
+## Accessibility Concerns
+
+When using icons, it's important to take all your potential users into account. Some of them might be using screen readers, and they will need an alternative text to understand what an icon means. You can use the `aria-label` attribute to provide a description of the icon:
+
+```html
+<a href="/profile" aria-label="Profile" class="i-ph:user-duotone"></a>
+```
+
+If the icon is purely decorative and doesn't need a text alternative, you can use `aria-hidden="true"` to hide it from screen readers:
+
+```html
+<a href="/profile">
+  <span aria-hidden="true" class="i-ph:user-duotone"></span>
+  My Profile
+</a>
+```
+
+There are many other techniques to provide hint text for screen-readers, for instance, [Uno preset](./uno) includes [sr-only](/interactive/?s=sr-only) to hide elements visually but keep them accessible to screen readers.
+
+You can find some good resources on the web about icons accessibility, and CSS icons behave like icon fonts, so you can use the same techniques as you would with icon fonts.
+
 ## Credits
 
 - This preset is inspired from [this issue](https://github.com/antfu/unplugin-icons/issues/88) created by [@husayt](https://github.com/husayt).

@@ -58,8 +58,8 @@ describe('svelte-scoped helpers', () => {
     const css = await fs.readFile('packages-integrations/svelte-scoped/test/fixtures/escaped-unicode.css', 'utf8')
 
     const escaped = replaceGlobalStylesPlaceholder(
-      `'${GLOBAL_STYLES_PLACEHOLDER}'`
-      , `<style type="text/css">${css}</style>`,
+      `'${GLOBAL_STYLES_PLACEHOLDER}'`,
+      `<style type="text/css">${css}</style>`,
     )
 
     expect(escaped).toContain('"\\\\200B"')

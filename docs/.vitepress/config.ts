@@ -141,7 +141,7 @@ const Nav: DefaultTheme.NavItem[] = [
       },
       {
         text: 'Community Presets',
-        link: '/presets/community',
+        link: 'https://github.com/unocss-community',
       },
       {
         text: 'Presets',
@@ -229,7 +229,7 @@ const SidebarPresets: DefaultTheme.SidebarItem[] = [
   },
   {
     text: 'Community Presets',
-    link: '/presets/community',
+    link: 'https://github.com/unocss-community',
   },
   {
     text: 'Transformers',

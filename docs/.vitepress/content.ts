@@ -59,15 +59,6 @@ export const examples: Example[] = [
     stackblitz: true,
   },
   {
-    name: 'vue-cli4',
-    path: 'examples/vue-cli4',
-    icons: [
-      'i-logos-webpack',
-      'i-logos-vue',
-    ],
-    stackblitz: true,
-  },
-  {
     name: 'astro-vue',
     path: 'examples/astro-vue',
     icons: [
@@ -97,15 +88,6 @@ export const examples: Example[] = [
     icons: [
       'i-logos-vitejs',
       'i-logos-svelte-icon',
-    ],
-    stackblitz: true,
-  },
-  {
-    name: 'vue-cli5',
-    path: 'examples/vue-cli5',
-    icons: [
-      'i-logos-webpack',
-      'i-logos-vue',
     ],
     stackblitz: true,
   },
@@ -145,12 +127,6 @@ export const examples: Example[] = [
     stackblitz: true,
   },
   {
-    name: 'nuxt2',
-    path: 'examples/nuxt2',
-    icon: 'i-logos-nuxt-icon',
-    stackblitz: true,
-  },
-  {
     name: 'remix',
     path: 'examples/remix',
     icon: 'i-logos-remix-icon dark:invert',
@@ -171,15 +147,6 @@ export const examples: Example[] = [
     icons: [
       'i-logos-vitejs',
       'i-logos-vue',
-    ],
-    stackblitz: true,
-  },
-  {
-    name: 'nuxt2-webpack',
-    path: 'examples/nuxt2-webpack',
-    icons: [
-      'i-logos-webpack',
-      'i-logos-nuxt-icon',
     ],
     stackblitz: true,
   },

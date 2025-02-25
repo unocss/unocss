@@ -1,8 +1,8 @@
-import type { VariantHandlerContext, VariantObject } from '@unocss/core'
-import { escapeRegExp } from '@unocss/core'
+import type { Arrayable, VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
+import { escapeRegExp, toArray } from '@unocss/core'
 import { getBracket } from './utilities'
 
-export function variantMatcher(name: string, handler: (input: VariantHandlerContext) => Record<string, any>): VariantObject {
+export function variantMatcher<T extends object = object>(name: string, handler: Arrayable<(input: VariantHandlerContext) => Record<string, any>>): VariantObject<T> {
   let re: RegExp
   return {
     name,
@@ -12,20 +12,24 @@ export function variantMatcher(name: string, handler: (input: VariantHandlerCont
 
       const match = input.match(re)
       if (match) {
-        return {
-          matcher: input.slice(match[0].length),
+        const matcher = input.slice(match[0].length)
+        const handlers: VariantHandler[] = toArray(handler).map(handler => ({
+          matcher,
           handle: (input, next) => next({
             ...input,
             ...handler(input),
           }),
-        }
+        }))
+        return handlers.length === 1
+          ? handlers[0]
+          : handlers
       }
     },
     autocomplete: `${name}:`,
   }
 }
 
-export function variantParentMatcher(name: string, parent: string): VariantObject {
+export function variantParentMatcher<T extends object = object>(name: string, parent: string): VariantObject<T> {
   let re: RegExp
   return {
     name,

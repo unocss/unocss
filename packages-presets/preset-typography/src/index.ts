@@ -2,6 +2,7 @@ import type { CSSObject, Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
 import { definePreset, toEscapedSelector } from '@unocss/core'
+import { alphaPlaceholders } from '@unocss/rule-utils'
 import { getElements, getPreflights } from './preflights'
 
 /**
@@ -100,28 +101,49 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
             return
 
           const colorObject = typeof baseColor === 'object' ? baseColor : {}
-          return {
-            '--un-prose-body': colorObject[700] ?? baseColor,
-            '--un-prose-headings': colorObject[900] ?? baseColor,
-            '--un-prose-links': colorObject[900] ?? baseColor,
-            '--un-prose-lists': colorObject[400] ?? baseColor,
-            '--un-prose-hr': colorObject[200] ?? baseColor,
-            '--un-prose-captions': colorObject[500] ?? baseColor,
-            '--un-prose-code': colorObject[900] ?? baseColor,
-            '--un-prose-borders': colorObject[200] ?? baseColor,
-            '--un-prose-bg-soft': colorObject[100] ?? baseColor,
-
+          const TagColorMap = {
+            'body': 700,
+            'headings': 900,
+            'links': 900,
+            'lists': 400,
+            'hr': 200,
+            'captions': 500,
+            'code': 900,
+            'borders': 200,
+            'bg-soft': 100,
             // invert colors (dark mode)
-            '--un-prose-invert-body': colorObject[200] ?? baseColor,
-            '--un-prose-invert-headings': colorObject[100] ?? baseColor,
-            '--un-prose-invert-links': colorObject[100] ?? baseColor,
-            '--un-prose-invert-lists': colorObject[500] ?? baseColor,
-            '--un-prose-invert-hr': colorObject[700] ?? baseColor,
-            '--un-prose-invert-captions': colorObject[400] ?? baseColor,
-            '--un-prose-invert-code': colorObject[100] ?? baseColor,
-            '--un-prose-invert-borders': colorObject[700] ?? baseColor,
-            '--un-prose-invert-bg-soft': colorObject[800] ?? baseColor,
+            'invert-body': 200,
+            'invert-headings': 100,
+            'invert-links': 100,
+            'invert-lists': 500,
+            'invert-hr': 700,
+            'invert-captions': 400,
+            'invert-code': 100,
+            'invert-borders': 700,
+            'invert-bg-soft': 800,
           }
+
+          const result: any = {}
+
+          for (const key in TagColorMap) {
+            const value = TagColorMap[key as keyof typeof TagColorMap]
+            const color = colorObject[value] ?? baseColor
+            let hasAlpha = false
+
+            for (const placeholder of alphaPlaceholders) {
+              if (color.includes(placeholder)) {
+                hasAlpha = true
+                result[`--un-prose-${key}-opacity`] = 1
+                result[`--un-prose-${key}`] = color.replace(placeholder, `var(--un-prose-${key}-opacity)`)
+                break
+              }
+            }
+
+            if (!hasAlpha)
+              result[`--un-prose-${key}`] = color
+          }
+
+          return result
         },
         { layer: 'typography' },
       ],

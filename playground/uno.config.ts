@@ -18,8 +18,8 @@ export default defineConfig({
     'bg-hover': 'bg-gray/10',
   },
   presets: [
-    presetAttributify(),
     presetUno(),
+    presetAttributify(),
     presetIcons(),
     presetWebFonts({
       fonts: {

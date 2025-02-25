@@ -152,6 +152,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
       })
     }
 
+    // TODO: remove Nuxt 2 support in next major
     // Nuxt 2
     if (isNuxt2()) {
       nuxt.hook('app:resolve', (config) => {

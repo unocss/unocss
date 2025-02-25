@@ -203,4 +203,24 @@ describe('variants', () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  it('multiple handlers for single variant', async () => {
+    const uno = await createGenerator({
+      rules: [
+        ['foo', { name: 'bar' }],
+      ],
+      variants: [
+        variantMatcher('pre', [
+          () => ({ prefix: '.prefix1 ' }),
+          () => ({ prefix: '.prefix2 ' }),
+        ]),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'pre:foo',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchSnapshot()
+  })
 })

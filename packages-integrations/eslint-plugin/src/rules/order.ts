@@ -1,6 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { ESLintUtils } from '@typescript-eslint/utils'
-import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
@@ -116,4 +115,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as ESLintUtils.RuleWithMeta<[], ''>
+}) as any as AnyRuleModule
