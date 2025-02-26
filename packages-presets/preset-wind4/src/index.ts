@@ -2,7 +2,6 @@ import type { PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
-
 import { postprocessors } from './postprocess'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -38,24 +37,28 @@ export interface PresetWind4Options extends PresetOptions {
    * @default 'class'
    */
   dark?: 'class' | 'media' | DarkModeSelectors
+
   /**
    * Generate tagged pseudo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
   attributifyPseudo?: boolean
+
   /**
    * Prefix for CSS variables.
    *
    * @default 'un-'
    */
   variablePrefix?: string
+
   /**
    * Utils prefix. When using tagged pseudo selector, only the first truthy prefix will be used.
    *
    * @default undefined
    */
   prefix?: string | string[]
+
   /**
    * Enable arbitrary variants, for example `<div class="[&>*]:m-1 [&[open]]:p-2"></div>`.
    *
@@ -64,10 +67,12 @@ export interface PresetWind4Options extends PresetOptions {
    * @default true
    */
   arbitraryVariants?: boolean
+
   /**
    * Choose which theme keys to export as CSS variables.
    */
   themeKeys?: string[] | ((keys: string[]) => string[])
+
   /**
    * The important option lets you control whether UnoCSS’s utilities should be marked with `!important`.
    *
@@ -80,6 +85,13 @@ export interface PresetWind4Options extends PresetOptions {
    * @default false
    */
   important?: boolean | string
+
+  /**
+   * Reset the default preflight styles.
+   *
+   * @default true
+   */
+  reset?: boolean
 }
 
 export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
@@ -93,6 +105,9 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     rules,
     shortcuts,
     theme,
+    layers: {
+      theme: -150,
+    },
     preflights: preflights(options),
     variants: variants(options),
     prefix: options.prefix,
