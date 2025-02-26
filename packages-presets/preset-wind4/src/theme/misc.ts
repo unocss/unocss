@@ -76,6 +76,7 @@ export const perspective = {
   distant: '1200px',
 } satisfies Theme['perspective']
 
+/** For reset css */
 export const defaults = {
   transition: {
     duration: '150ms',

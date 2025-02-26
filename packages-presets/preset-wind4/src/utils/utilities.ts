@@ -326,3 +326,7 @@ export function transformXYZ(d: string, v: string, name: string): [string, strin
 export function camelToHyphen(str: string) {
   return str.replace(/[A-Z]/g, '-$&').toLowerCase()
 }
+
+export function compressCSS(css: string) {
+  return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
+}
