@@ -41,22 +41,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
-
-      - name: Setup
-        run: npm i -g @antfu/ni
+          cache: pnpm
 
       - name: Install
-        run: nci
+        run: pnpm install
 
       - name: Build
-        run: nr build
+        run: pnpm build
 
       - name: Test
-        run: nr test
+        run: pnpm test
 
       - name: Typecheck
-        run: nr typecheck
+        run: pnpm typecheck
 
       - name: Check types
         if: runner.os == 'Linux' && matrix.node_version == 'lts/*'
-        run: nr test:attw
+        run: pnpm test:attw
