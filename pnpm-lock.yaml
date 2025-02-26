@@ -352,8 +352,8 @@ catalogs:
       specifier: ^3.5.0
       version: 3.5.0
     unconfig:
-      specifier: ~7.1.0
-      version: 7.1.0
+      specifier: ~7.0.0
+      version: 7.0.0
     unplugin:
       specifier: ^2.2.0
       version: 2.2.0
@@ -987,7 +987,7 @@ importers:
         version: link:../core
       unconfig:
         specifier: 'catalog:'
-        version: 7.1.0
+        version: 7.0.0
 
   packages-engine/core:
     devDependencies:
@@ -996,7 +996,7 @@ importers:
         version: 0.30.17
       unconfig:
         specifier: 'catalog:'
-        version: 7.1.0
+        version: 7.0.0
 
   packages-integrations/astro:
     dependencies:
@@ -1243,7 +1243,7 @@ importers:
         version: 8.3.6(jiti@2.4.2)(postcss@8.5.2)(tsx@4.19.2)(typescript@5.7.3)(yaml@2.7.0)
       unconfig:
         specifier: 'catalog:'
-        version: 7.1.0
+        version: 7.0.0
       vscode-ext-gen:
         specifier: ^1.0.0
         version: 1.0.0
@@ -8479,8 +8479,8 @@ packages:
   unconfig@0.6.1:
     resolution: {integrity: sha512-cVU+/sPloZqOyJEAfNwnQSFCzFrZm85vcVkryH7lnlB/PiTycUkAjt5Ds79cfIshGOZ+M5v3PBDnKgpmlE5DtA==}
 
-  unconfig@7.1.0:
-    resolution: {integrity: sha512-4rNuVn7UJXvRCPFk4CT/VfoCEh9VTtohLAmPzMkSKjAnesnsSDsIKt0kso8sSeZji2Js31iOWQhY6R8pFP6UVQ==}
+  unconfig@7.0.0:
+    resolution: {integrity: sha512-G5CJSoG6ZTxgzCJblEfgpdRK2tos9+UdD2WtecDUVfImzQ0hFjwpH5RVvGMhP4pRpC9ML7NrC4qBsBl0Ttj35A==}
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
@@ -17321,7 +17321,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  unconfig@7.1.0:
+  unconfig@7.0.0:
     dependencies:
       '@antfu/utils': 8.1.0
       defu: 6.1.4
