@@ -26,16 +26,11 @@ jobs:
           node-version: lts/*
           cache: pnpm
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
       - name: Install
-        run: nci
+        run: pnpm install
         env:
           CYPRESS_INSTALL_BINARY: 0
 
-      - run: nr lint --fix
-
-      - run: nr prepare
+      - run: pnpm lint --fix
 
       - uses: autofix-ci/action@v1
