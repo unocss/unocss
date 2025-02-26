@@ -46,6 +46,7 @@ jobs:
       # with the fix.
 
       - run: echo "node version => $(node -v)"
+      - run: echo "corepack version => $(corepack --version)"
 
       - run: |
           npm cache clean --force
