@@ -19,9 +19,6 @@ export default defineBuildConfig({
   declaration: true,
   externals,
   rollup: {
-    json: {
-      include: './src/collections.json',
-    },
     inlineDependencies: true,
     dts: {
       respectExternal: false,
