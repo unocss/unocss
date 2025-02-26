@@ -18,12 +18,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [18.18.2, lts/*]
+        node_version: [18.18.2, 22.14.0]
         include:
           - os: macos-latest
-            node_version: lts/*
+            node_version: 22.14.0
           - os: windows-latest
-            node_version: lts/*
+            node_version: 22.14.0
       fail-fast: false
 
     steps:
@@ -45,7 +45,9 @@ jobs:
       # Those two can probably go away once the devcontainer is using a version of Node which includes a version corepack
       # with the fix.
 
-      - run: npm i -g corepack@latest --force
+      - run: echo "corepack version => $(corepack --version)"
+
+      # - run: npm i -g corepack@latest --force
       - run: corepack enable
 
       - name: Setup
@@ -64,5 +66,5 @@ jobs:
         run: nr typecheck
 
       - name: Check types
-        if: runner.os == 'Linux' && matrix.node_version == 'lts/*'
+        if: runner.os == 'Linux' && matrix.node_version == '22.14.0'
         run: nr test:attw
