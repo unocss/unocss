@@ -48,7 +48,9 @@ jobs:
       - run: echo "node version => $(node -v)"
 
       - run: |
+          npm cache clean --force
           npm i -g --force corepack@0.31.0
+          npm view corepack versions
           echo "corepack version => $(corepack --version)"
       - run: |
           corepack prepare pnpm@latest-10 --activate
