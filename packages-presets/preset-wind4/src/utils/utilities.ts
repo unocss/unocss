@@ -141,7 +141,7 @@ export function colorResolver(property: string, varName: string) {
       }
       else {
         css[`--un-${varName}-opacity`] = `${opacity || 100}%`
-        const value = key ? `var(--color-${key})` : color
+        const value = key ? `var(--colors-${key})` : color
         css[property] = `color-mix(in oklch, ${value} var(--un-${varName}-opacity), transparent)${rawColorComment}`
       }
     }
@@ -207,6 +207,9 @@ export function parseColor(body: string, theme: Theme) {
      * Key means the color is from theme object.
      */
     key,
+    get cssColor() {
+      return parseCssColor(this.color)
+    },
   }
 }
 
