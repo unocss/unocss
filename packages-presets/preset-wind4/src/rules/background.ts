@@ -39,7 +39,7 @@ function bgGradientColorResolver() {
       }
       else {
         css[`--un-${position}-opacity`] = `${opacity || 100}%`
-        const value = key ? `var(--color-${key})` : color
+        const value = key ? `var(--colors-${key})` : color
         css[`--un-gradient-${position}`] = `color-mix(in oklab, ${value} var(--un-${position}-opacity), transparent)`
       }
     }
