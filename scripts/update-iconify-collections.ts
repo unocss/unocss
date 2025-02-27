@@ -6,7 +6,7 @@ import { execa } from 'execa'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const ICONIFY_COLLECTION = path.resolve(__dirname, '../packages-presets/preset-icons/src/collections.json')
+const ICONIFY_COLLECTION = path.resolve(__dirname, '../packages-presets/preset-icons/src/collections.ts')
 
 async function update() {
   try {
@@ -20,7 +20,11 @@ async function update() {
       }
     }
 
-    await writeFile(ICONIFY_COLLECTION, JSON.stringify(collections))
+    await writeFile(
+      ICONIFY_COLLECTION,
+      `export default ${JSON.stringify(collections)}`,
+      'utf-8',
+    )
 
     execa('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION])
   }
