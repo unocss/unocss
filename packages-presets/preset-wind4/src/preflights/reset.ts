@@ -181,11 +181,6 @@ table {
   border-collapse: collapse; /* 3 */
 }
 
-th {
-  text-align: inherit;
-  font-weight: inherit;
-}
-
 /*
   Use the modern Firefox focus style for all focusable elements.
 */
