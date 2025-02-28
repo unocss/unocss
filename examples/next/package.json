@@ -8,20 +8,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "15.2.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@iconify-json/lucide": "^1.2.26",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@unocss/reset": "latest",
     "@unocss/postcss": "latest",
+    "@unocss/reset": "latest",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
-    "@eslint/eslintrc": "^3",
     "typescript": "5.2.2",
     "unocss": "latest"
   }
