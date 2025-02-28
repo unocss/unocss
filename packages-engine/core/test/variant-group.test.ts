@@ -56,6 +56,13 @@ describe('variant-group', () => {
   it('inlucde ?', async () => {
     expect(expandVariantGroup('a:(b?c d)')).toEqual('a:b?c a:d')
   })
+
+  it('include []', async () => {
+    expect(expandVariantGroup('a:(b-[c] d)')).toEqual('a:b-[c] a:d')
+    expect(expandVariantGroup('a:(b-[c] d-[e])')).toEqual('a:b-[c] a:d-[e]')
+    expect(expandVariantGroup('a:(b-[c]=d)')).toEqual('a:(b-[c]=d)')
+    expect(expandVariantGroup('a:(b-[c]=d e[f])')).toEqual('a:(b-[c]=d e[f])')
+  })
 })
 
 describe('collapse-variant-group', () => {
