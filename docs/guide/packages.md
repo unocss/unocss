@@ -12,9 +12,9 @@ UnoCSS is a monorepo that contains multiple packages. This page lists all the pa
 | -------------------------------------------------------------------- | ------------------------------------------------- | -------------------- | ------- |
 | [@unocss/core](/tools/core)                                          | The core library without preset                   | ✅                   | -       |
 | [@unocss/cli](/integrations/cli)                                     | Command line interface for UnoCSS                 | ✅                   | -       |
-| [@unocss/preset-uno](/presets/uno)                                   | The default preset                                | ✅                   | ✅      |
 | [@unocss/preset-mini](/presets/mini)                                 | The minimal but essential rules and variants      | ✅                   | ✅      |
-| [@unocss/preset-wind](/presets/wind)                                 | Tailwind CSS / Windi CSS compact preset           | ✅                   | ✅      |
+| [@unocss/preset-wind3](/presets/wind3)                               | Tailwind CSS / Windi CSS compact preset           | ✅                   | ✅      |
+| [@unocss/preset-wind4](/presets/wind4)                               | Tailwind4 CSS compact preset                      | ✅                   | ✅      |
 | [@unocss/preset-attributify](/presets/attributify)                   | Enables Attributify Mode for other rules          | ✅                   | No      |
 | [@unocss/preset-tagify](/presets/tagify)                             | Enables Tagify Mode for other rules               | ✅                   | No      |
 | [@unocss/preset-icons](/presets/icons)                               | Pure CSS Icons solution powered by Iconify        | ✅                   | No      |

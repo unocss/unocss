@@ -561,7 +561,7 @@ If the icon is purely decorative and doesn't need a text alternative, you can us
 </a>
 ```
 
-There are many other techniques to provide hint text for screen-readers, for instance, [Uno preset](./uno) includes [sr-only](/interactive/?s=sr-only) to hide elements visually but keep them accessible to screen readers.
+There are many other techniques to provide hint text for screen-readers, for instance, [Wind3 preset](./wind3) includes [sr-only](/interactive/?s=sr-only) to hide elements visually but keep them accessible to screen readers.
 
 You can find some good resources on the web about icons accessibility, and CSS icons behave like icon fonts, so you can use the same techniques as you would with icon fonts.
 
