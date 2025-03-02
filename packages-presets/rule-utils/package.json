@@ -1,7 +1,7 @@
 {
   "name": "@unocss/rule-utils",
   "type": "module",
-  "version": "66.0.0",
+  "version": "66.1.0-beta.3",
   "description": "Utilities for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

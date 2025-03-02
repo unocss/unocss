@@ -60,7 +60,7 @@ function transformBorderColor(color: string, opacity: string | number | undefine
       if (direction && direction !== '') {
         css[`--un-border${direction}-opacity`] = `var(--un-border-opacity)`
       }
-      const value = key ? `var(--color-${key})` : color
+      const value = key ? `var(--colors-${key})` : color
       css[`border${direction}-color`] = `color-mix(in oklch, ${value} var(--un-border${direction}-opacity), transparent)`
     }
   }

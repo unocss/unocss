@@ -17,21 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Use Node.js lts/*
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
-      - name: Setup
-        run: npm i -g @antfu/ni
+          cache: pnpm
 
       - name: Install
-        run: nci
+        run: pnpm install
         env:
           CYPRESS_INSTALL_BINARY: 0
 
-      - run: nr lint --fix
-
-      - run: nr prepare
+      - run: pnpm lint --fix
 
       - uses: autofix-ci/action@v1

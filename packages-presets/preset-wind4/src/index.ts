@@ -2,7 +2,6 @@ import type { PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
-
 import { postprocessors } from './postprocess'
 import { preflights } from './preflights'
 import { rules } from './rules'
@@ -38,30 +37,27 @@ export interface PresetWind4Options extends PresetOptions {
    * @default 'class'
    */
   dark?: 'class' | 'media' | DarkModeSelectors
+
   /**
    * Generate tagged pseudo selector as `[group=""]` instead of `.group`
    *
    * @default false
    */
   attributifyPseudo?: boolean
+
   /**
    * Prefix for CSS variables.
    *
    * @default 'un-'
    */
   variablePrefix?: string
+
   /**
    * Utils prefix. When using tagged pseudo selector, only the first truthy prefix will be used.
    *
    * @default undefined
    */
   prefix?: string | string[]
-  /**
-   * Generate preflight
-   *
-   * @default true
-   */
-  preflight?: boolean | 'on-demand'
 
   /**
    * Enable arbitrary variants, for example `<div class="[&>*]:m-1 [&[open]]:p-2"></div>`.
@@ -89,23 +85,31 @@ export interface PresetWind4Options extends PresetOptions {
    * @default false
    */
   important?: boolean | string
+
+  /**
+   * Reset the default preflight styles.
+   *
+   * @default true
+   */
+  reset?: boolean
 }
 
-export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
+export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
   options.dark = options.dark ?? 'class'
   options.attributifyPseudo = options.attributifyPseudo ?? false
-  options.preflight = options.preflight ?? true
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
 
   return {
-    name: '@unocss/preset-uno-next',
+    name: '@unocss/preset-wind4',
     rules,
     shortcuts,
     theme,
+    layers: {
+      theme: -150,
+    },
     preflights: preflights(options),
     variants: variants(options),
-    options,
     prefix: options.prefix,
     postprocess: postprocessors(options),
     extractorDefault: options.arbitraryVariants === false
@@ -114,7 +118,8 @@ export const PresetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     autocomplete: {
       shorthands,
     },
+    options,
   }
 })
 
-export default PresetWind4
+export default presetWind4

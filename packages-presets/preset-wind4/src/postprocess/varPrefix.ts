@@ -10,7 +10,5 @@ export function varPrefix(prefix: PresetWind4Options['variablePrefix']): Postpro
     })
   }
 
-  return [
-    prefix !== 'un-' ? processor : undefined,
-  ].filter(Boolean) as Postprocessor[]
+  return prefix !== 'un-' ? [processor] : []
 }

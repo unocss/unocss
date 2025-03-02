@@ -272,3 +272,8 @@ export const dynamicViewportHeight: Rule<Theme>[] = [
   ['max-h-svh', { 'max-height': '100svh' }],
   ['max-h-lvh', { 'max-height': '100lvh' }],
 ]
+
+export const accessibility: Rule<Theme>[] = [
+  ['forced-color-adjust-auto', { 'forced-color-adjust': 'auto' }],
+  ['forced-color-adjust-none', { 'forced-color-adjust': 'none' }],
+]

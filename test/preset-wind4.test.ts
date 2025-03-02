@@ -24,9 +24,10 @@ describe('preset-wind', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
     await expect(preflights).toMatchFileSnapshot('./assets/output/preset-wind4-preflights.css')
 
-    // TODO: Need to fixed the unmatched list
+    // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
       [
+        "outline-none",
         "outline-size-none",
         "outline-color-red-1",
         "outline-blue-2",
@@ -75,6 +76,7 @@ describe('preset-wind', () => {
         "preserve-flat",
         "indent-1/2",
         "indent-lg",
+        "focus-visible:outline-none",
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",

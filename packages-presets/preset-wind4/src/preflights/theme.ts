@@ -2,7 +2,7 @@ import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { camelToHyphen, passThemeKey } from '../utils'
+import { camelToHyphen, compressCSS, passThemeKey } from '../utils'
 
 /** Output for CSS Variables */
 const DefaultCssVarKeys = [
@@ -75,11 +75,11 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
   return {
     layer: 'theme',
     getCSS({ theme }) {
-      return `
+      return compressCSS(`
 :root {
 --spacing: ${theme.spacing!.DEFAULT};
 ${themeToCSSVars(theme, themeKeys).trim()}
-}`.trim()
+}`)
     },
   }
 }

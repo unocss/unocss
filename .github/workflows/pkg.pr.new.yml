@@ -18,14 +18,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      # `npm i -g corepack@latest;` and  `corepack prepare pnpm@latest --activate;` are necessary to get the latest
-      # version of corepack, which has a fix for https://github.com/nodejs/corepack/issues/612
-      # (related https://github.com/pnpm/pnpm/issues/9029), so it can install pnpm.
-      # Those two can probably go away once the devcontainer is using a version of Node which includes a version corepack
-      # with the fix.
-
-      - run: npm i -g corepack@latest
-      - run: corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Set node
         uses: actions/setup-node@v4

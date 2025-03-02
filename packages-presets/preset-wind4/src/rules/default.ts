@@ -24,7 +24,7 @@ import { scrolls } from './scrolls'
 import { boxShadows } from './shadow'
 import { aspectRatio, sizes } from './size'
 import { margins, paddings, spaces } from './spacing'
-import { appearances, backgroundBlendModes, breaks, contains, contents, contentVisibility, cursors, displays, dynamicViewportHeight, fontSmoothings, fontStyles, hyphens, isolations, mixBlendModes, objectPositions, pointerEvents, resizes, screenReadersAccess, textOverflows, textTransforms, textWraps, userSelects, whitespaces, writingModes, writingOrientations } from './static'
+import { accessibility, appearances, backgroundBlendModes, breaks, contains, contents, contentVisibility, cursors, displays, dynamicViewportHeight, fontSmoothings, fontStyles, hyphens, isolations, mixBlendModes, objectPositions, pointerEvents, resizes, screenReadersAccess, textOverflows, textTransforms, textWraps, userSelects, whitespaces, writingModes, writingOrientations } from './static'
 import { svgUtilities } from './svg'
 import { tables } from './table'
 import { touchActions } from './touch-actions'
@@ -107,6 +107,7 @@ export const rules: Rule<Theme>[] = [
   hyphens,
   writingModes,
   writingOrientations,
+  accessibility,
   screenReadersAccess,
   isolations,
   objectPositions,

@@ -135,7 +135,7 @@ catalog:
   tsup: ^8.3.6
   tsx: ^4.19.2
   typescript: ^5.7.3
-  unbuild: ^3.3.1
+  unbuild: ^3.5.0
   unconfig: ~7.0.0
   unplugin: ^2.2.0
   unplugin-utils: ^0.2.4

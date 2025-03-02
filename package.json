@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.0.0",
+  "version": "66.1.0-beta.3",
   "private": true,
   "packageManager": "pnpm@10.4.0",
   "scripts": {
@@ -146,7 +146,16 @@
       "object.assign": "npm:@nolyfill/object.assign@^1.0.28",
       "side-channel": "npm:@nolyfill/side-channel@^1.0.29",
       "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.29"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "esbuild",
+      "msw",
+      "nuxt-tsconfig-stub",
+      "sharp",
+      "simple-git-hooks"
+    ]
   },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:",
