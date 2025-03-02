@@ -47,13 +47,13 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
 ]
 
 const Presets: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Uno (default)', link: '/presets/uno' },
+  { text: 'Mini', link: '/presets/mini' },
+  { text: 'Wind3', link: '/presets/wind3' },
+  { text: 'Wind4', link: '/presets/wind4' },
   { text: 'Icons', link: '/presets/icons' },
   { text: 'Attributify', link: '/presets/attributify' },
   { text: 'Typography', link: '/presets/typography' },
   { text: 'Web fonts', link: '/presets/web-fonts' },
-  { text: 'Wind', link: '/presets/wind' },
-  { text: 'Mini', link: '/presets/mini' },
   { text: 'Legacy Compat', link: '/presets/legacy-compat' },
   { text: 'Tagify', link: '/presets/tagify' },
   { text: 'Rem to px', link: '/presets/rem-to-px' },
