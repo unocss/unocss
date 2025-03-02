@@ -121,8 +121,8 @@ it('define breakpoints with irregular sorting', async () => {
   expect((await uno.generate('2xl:container', { preflights: false })).css)
     .toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      @media (min-width: 1536px){
-      .\\32 xl\\:container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
-      }"
+      .\\32 xl\\:container{@media (min-width: 1536px){
+      max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;
+      }}"
     `)
 })
