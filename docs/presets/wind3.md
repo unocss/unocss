@@ -1,17 +1,17 @@
 ---
-title: Wind preset
-description: The Tailwind CSS / Windi CSS compact preset for UnoCSS (@unocss/preset-wind).
+title: Wind3 preset
+description: The Tailwind CSS / Windi CSS compact preset for UnoCSS (@unocss/preset-wind3).
 outline: deep
 ---
 
-# Wind preset
+# Wind3 preset
 
 The Tailwind CSS / Windi CSS compact preset for UnoCSS.
 
-[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind)
+[Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind3)
 
 ::: info
-This preset inherits [`@unocss/preset-mini`](/presets/mini).
+`@unocss/preset-wind` and `@unocss/preset-uno` are deprecated and renamed to `@unocss/preset-wind3`. This preset inherits from [`@unocss/preset-mini`](/presets/mini).
 :::
 
 ## Installation
@@ -19,26 +19,26 @@ This preset inherits [`@unocss/preset-mini`](/presets/mini).
 ::: code-group
 
 ```bash [pnpm]
-pnpm add -D @unocss/preset-wind
+pnpm add -D @unocss/preset-wind3
 ```
 
 ```bash [yarn]
-yarn add -D @unocss/preset-wind
+yarn add -D @unocss/preset-wind3
 ```
 
 ```bash [npm]
-npm install -D @unocss/preset-wind
+npm install -D @unocss/preset-wind3
 ```
 
 :::
 
 ```ts [uno.config.ts]
-import presetWind from '@unocss/preset-wind'
+import presetWind3 from '@unocss/preset-wind3'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetWind(),
+    presetWind3(),
   ],
 })
 ```
@@ -47,7 +47,7 @@ export default defineConfig({
 This preset is included in the `unocss` package, you can also import it from there:
 
 ```ts
-import { presetWind } from 'unocss'
+import { presetWind3 } from 'unocss'
 ```
 
 :::
@@ -81,7 +81,7 @@ will generate:
 To instead use media query based dark mode globally you can change the config for the `dark:` variant:
 
 ```ts
-presetWind({
+presetWind3({
   dark: 'media'
 })
 ```
@@ -271,12 +271,12 @@ However, setting `important` to `true` can introduce some issues when incorporat
 To get around this, you can set important to an ID selector like `#app` instead:
 
 ```ts [uno.config.ts]
-import presetWind from '@unocss/preset-wind'
+import presetWind3 from '@unocss/preset-wind'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetWind({
+    presetWind3({
       important: '#app',
     }),
   ],

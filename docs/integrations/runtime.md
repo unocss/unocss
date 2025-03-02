@@ -35,7 +35,7 @@ The runtime may be configured by defining the configuration before loading the r
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 ```
 
-By default, the [Uno preset](/presets/uno) is be applied.
+By default, the [Wind3 preset](/presets/wind3) is be applied.
 
 The runtime does not come with preflights, if you want to have style resets, you can either add your own, or use one from [Reset package](/guide/style-reset).
 
