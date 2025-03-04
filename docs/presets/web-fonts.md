@@ -28,6 +28,10 @@ yarn add -D @unocss/preset-web-fonts
 npm install -D @unocss/preset-web-fonts
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-web-fonts
+```
+
 :::
 
 ```ts [uno.config.ts]

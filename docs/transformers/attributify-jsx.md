@@ -63,6 +63,10 @@ yarn add -D @unocss/transformer-attributify-jsx
 npm install -D @unocss/transformer-attributify-jsx
 ```
 
+```bash [bun]
+bun add -D @unocss/transformer-attributify-jsx
+```
+
 :::
 
 ```ts{11} [uno.config.ts]

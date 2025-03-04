@@ -23,6 +23,10 @@ yarn add -D unocss
 npm install -D unocss
 ```
 
+```bash [bun]
+bun add -D unocss
+```
+
 :::
 
 ```ts [astro.config.ts]
@@ -64,6 +68,10 @@ yarn add -D @unocss/reset
 npm install -D @unocss/reset
 ```
 
+```bash [bun]
+bun add -D @unocss/reset
+```
+
 :::
 
 And update your `astro.config.ts`:
@@ -97,6 +105,10 @@ yarn add -D @unocss/astro
 
 ```bash [npm]
 npm install -D @unocss/astro
+```
+
+```bash [bun]
+bun add -D @unocss/astro
 ```
 
 :::

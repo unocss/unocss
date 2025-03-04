@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-mini
 npm install -D @unocss/preset-mini
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-mini
+```
+
 :::
 
 ```ts [uno.config.ts]

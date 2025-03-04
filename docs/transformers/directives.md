@@ -24,6 +24,10 @@ yarn add -D @unocss/transformer-directives
 npm install -D @unocss/transformer-directives
 ```
 
+```bash [bun]
+bun add -D @unocss/transformer-directives
+```
+
 :::
 
 ```ts [uno.config.ts]

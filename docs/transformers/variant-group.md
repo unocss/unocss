@@ -23,6 +23,10 @@ yarn add -D @unocss/transformer-variant-group
 npm install -D @unocss/transformer-variant-group
 ```
 
+```bash [bun]
+bun add -D @unocss/transformer-variant-group
+```
+
 :::
 
 ```ts [uno.config.ts]

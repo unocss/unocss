@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-typography
 npm install -D @unocss/preset-typography
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-typography
+```
+
 :::
 
 ::: tip

@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-wind4
 npm install -D @unocss/preset-wind4
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-wind4
+```
+
 :::
 
 ```ts [uno.config.ts]

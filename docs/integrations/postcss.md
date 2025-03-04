@@ -29,6 +29,10 @@ yarn add -D unocss @unocss/postcss
 npm install -D unocss @unocss/postcss
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/postcss
+```
+
 :::
 
 ```ts [postcss.config.mjs]

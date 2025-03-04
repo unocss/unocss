@@ -33,6 +33,10 @@ yarn add -D unocss
 npm install -D unocss
 ```
 
+```bash [bun]
+bun add -D unocss
+```
+
 :::
 
 Install the plugin:

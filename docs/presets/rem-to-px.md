@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-rem-to-px
 npm install -D @unocss/preset-rem-to-px
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-rem-to-px
+```
+
 :::
 
 ```ts [uno.config.ts]

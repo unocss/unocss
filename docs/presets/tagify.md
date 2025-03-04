@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-tagify
 npm install -D @unocss/preset-tagify
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-tagify
+```
+
 :::
 
 ```ts [uno.config.ts]

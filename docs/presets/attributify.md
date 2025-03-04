@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-attributify
 npm install -D @unocss/preset-attributify
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-attributify
+```
+
 :::
 
 ```ts [uno.config.ts]

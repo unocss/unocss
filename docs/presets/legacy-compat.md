@@ -30,6 +30,10 @@ yarn add -D @unocss/preset-legacy-compat
 npm install -D @unocss/preset-legacy-compat
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-legacy-compat
+```
+
 :::
 
 ```ts [uno.config.ts]
