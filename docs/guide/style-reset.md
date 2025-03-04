@@ -26,6 +26,10 @@ yarn add @unocss/reset
 npm install @unocss/reset
 ```
 
+```bash [bun]
+bun add @unocss/reset
+```
+
 :::
 
 ## Usage

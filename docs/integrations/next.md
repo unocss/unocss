@@ -27,6 +27,10 @@ yarn add -D unocss @unocss/webpack
 npm install -D unocss @unocss/webpack
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/webpack
+```
+
 :::
 
 ### Configuration

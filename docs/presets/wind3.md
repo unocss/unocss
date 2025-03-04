@@ -30,6 +30,10 @@ yarn add -D @unocss/preset-wind3
 npm install -D @unocss/preset-wind3
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-wind3
+```
+
 :::
 
 ```ts [uno.config.ts]

@@ -23,6 +23,10 @@ yarn add -D @unocss/eslint-config
 npm install -D @unocss/eslint-config
 ```
 
+```bash [bun]
+bun add -D @unocss/eslint-config
+```
+
 :::
 
 In [Flat Config Style](https://eslint.org/docs/latest/use/configure/configuration-files-new):

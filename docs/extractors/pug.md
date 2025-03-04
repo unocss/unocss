@@ -23,6 +23,10 @@ yarn add -D @unocss/extractor-pug
 npm install -D @unocss/extractor-pug
 ```
 
+```bash [bun]
+bun add -D @unocss/extractor-pug
+```
+
 :::
 
 ```ts [uno.config.ts]

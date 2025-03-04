@@ -32,6 +32,10 @@ yarn add -D @unocss/webpack
 npm install -D @unocss/webpack
 ```
 
+```bash [bun]
+bun add -D @unocss/webpack
+```
+
 :::
 
 From UnoCSS version `v0.59.0`, UnoCSS has been moved to ESM-only, you need to load your configuration via dynamic import:

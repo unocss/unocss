@@ -189,6 +189,10 @@ yarn add -D unocss @unocss/svelte-scoped
 npm install -D unocss @unocss/svelte-scoped
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/svelte-scoped
+```
+
 :::
 
 #### Add plugin
@@ -272,6 +276,10 @@ yarn add -D unocss @unocss/svelte-scoped
 
 ```bash [npm]
 npm install -D unocss @unocss/svelte-scoped
+```
+
+```bash [bun]
+bun add -D unocss @unocss/svelte-scoped
 ```
 
 :::
