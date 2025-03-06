@@ -28,8 +28,8 @@ export const transitions: Rule<Theme>[] = [
     ([, prop, d], { theme }) => {
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,
-        'transition-timing-function': `var(--un-ease, var(--default-transition-timing-function))`,
-        'transition-duration': `var(--un-duration, var(--default-transition-duration))`,
+        'transition-timing-function': `var(--un-ease, var(--defaults-transition-timing-function))`,
+        'transition-duration': `var(--un-duration, var(--defaults-transition-duration))`,
       }
 
       if (!prop && !d) {
