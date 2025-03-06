@@ -4,7 +4,7 @@ Tailwind / Windi CSS compact preset for [UnoCSS](https://github.com/unocss/unocs
 
 ## Documentation
 
-Please refer to the [documentation](https://unocss.dev/presets/wind).
+Please refer to the [documentation](https://unocss.dev/presets/wind3).
 
 ## License
 
