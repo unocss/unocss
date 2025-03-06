@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h } from '../utils'
+import { colorResolver, defineProperty, h } from '../utils'
 import { borderStyles } from './border'
 import { notLastChildSelector } from './spacing'
 
@@ -30,6 +30,7 @@ export const divides: Rule<Theme>[] = [
       [symbols.selector]: notLastChildSelector,
       [`--un-divide-${d}-reverse`]: '1',
     }
+    yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 })
   }],
 
   // styles
@@ -67,6 +68,8 @@ function* handlerDivide([, d, s]: string[], { symbols }: RuleContext<Theme>) {
         [`--un-divide-${d}-reverse`]: 0,
         ...Object.fromEntries(results.flat()),
       }
+      yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 })
+      yield defineProperty(`--un-border-style`, { initialValue: 'solid' })
     }
   }
 }

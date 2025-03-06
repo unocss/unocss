@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { directionMap, directionSize, h, numberResolver } from '../utils'
+import { defineProperty, directionMap, directionSize, h, numberResolver } from '../utils'
 
 export const paddings: Rule<Theme>[] = [
   [/^pa?()-?(.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
@@ -27,6 +27,7 @@ export const spaces: Rule<Theme>[] = [
       [symbols.selector]: notLastChildSelector,
       [`--un-space-${d}-reverse`]: '1',
     }
+    yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 })
   }],
 ]
 
@@ -58,6 +59,7 @@ function* handlerSpace([, d, s]: string[], { theme, symbols }: RuleContext<Theme
         [`--un-space-${d}-reverse`]: '0',
         ...Object.fromEntries(results),
       }
+      yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 })
     }
   }
 }

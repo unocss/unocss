@@ -333,3 +333,22 @@ export function camelToHyphen(str: string) {
 export function compressCSS(css: string) {
   return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
 }
+
+export function defineProperty(
+  property: string,
+  options: { syntax?: string, inherits?: boolean, initialValue?: unknown },
+) {
+  const {
+    syntax = '*',
+    inherits = false,
+    initialValue,
+  } = options
+
+  return `
+@property ${property} {
+  syntax: "${syntax}";
+  inherits: ${inherits};
+  ${initialValue != null ? `initial-value: ${initialValue};` : ''}
+}
+  `.trim()
+}
