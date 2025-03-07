@@ -1,6 +1,6 @@
 import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
     { bar: 'bg-green-400' },
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetIcons({
       extraProperties: {
         'display': 'inline-block',

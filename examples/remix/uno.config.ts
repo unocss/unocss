@@ -1,12 +1,12 @@
 import presetAttributify from '@unocss/preset-attributify'
-import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
+import presetWind3 from '@unocss/preset-wind3'
 
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetWebFonts({
       provider: 'google',

@@ -3,8 +3,8 @@ import {
   defineConfig,
   presetIcons,
   presetTypography,
-  presetUno,
   presetWebFonts,
+  presetWind3,
 } from 'unocss'
 import { logo } from './src/shortcuts/logo'
 
@@ -14,7 +14,7 @@ export default defineConfig({
     { 'styled-input': 'rounded-md border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50' },
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetForms(),
     presetIcons({
       prefix: 'i-',
