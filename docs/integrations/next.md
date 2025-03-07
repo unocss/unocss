@@ -42,13 +42,13 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetUno,
-  presetWebFonts
+  presetWebFonts,
+  presetWind3
 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
     // ...
   ],
 })
