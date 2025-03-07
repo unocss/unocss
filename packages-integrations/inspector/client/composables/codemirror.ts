@@ -116,10 +116,20 @@ export function useCodeMirror(
     (v) => {
       if (v !== cm.state.doc.toString()) {
         skip = true
+
         const selections = cm.state.selection.ranges
+        const newContent = v
+        const newLength = newContent.length
+
+        const validSelections = selections.map((range) => {
+          const from = Math.min(range.from, newLength)
+          const to = Math.min(range.to, newLength)
+          return EditorSelection.range(from, to)
+        })
+
         cm.dispatch({
-          changes: { from: 0, to: cm.state.doc.length, insert: v },
-          selection: EditorSelection.create(selections),
+          changes: { from: 0, to: cm.state.doc.length, insert: newContent },
+          selection: EditorSelection.create(validSelections),
         })
       }
     },
