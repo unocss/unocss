@@ -51,7 +51,7 @@ Several builds are available for different use cases.
 
 ### Uno (default)
 
-With `@unocss/preset-uno` preset:
+With `@unocss/preset-wind3` preset:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"></script>
@@ -59,7 +59,7 @@ With `@unocss/preset-uno` preset:
 
 ### Attributify
 
-With `@unocss/preset-uno` and `@unocss/preset-attributify` presets:
+With `@unocss/preset-wind3` and `@unocss/preset-attributify` presets:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/attributify.global.js"></script>
@@ -119,10 +119,10 @@ Presets can be imported from `esm.sh`:
 ```ts
 import { defineConfig } from '@unocss/runtime'
 import presetIcons from 'https://esm.sh/@unocss/preset-icons/browser'
-import presetUno from 'https://esm.sh/@unocss/preset-uno'
+import presetWind3 from 'https://esm.sh/@unocss/preset-wind3'
 
 export default defineConfig({
-  presets: [presetUno(), presetIcons({ cdn: 'https://esm.sh/' })],
+  presets: [presetWind3(), presetIcons({ cdn: 'https://esm.sh/' })],
 })
 ```
 
