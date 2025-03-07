@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
@@ -126,7 +126,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
 }
 
 export function colorResolver(property: string, varName: string) {
-  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | undefined => {
+  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined => {
     const data = parseColor(body, theme)
     if (!data)
       return
@@ -140,13 +140,15 @@ export function colorResolver(property: string, varName: string) {
         css[property] = color
       }
       else {
-        css[`--un-${varName}-opacity`] = `${opacity || 100}%`
+        if (opacity) {
+          css[`--un-${varName}-opacity`] = `${opacity}%`
+        }
         const value = key ? `var(--colors-${key})` : color
         css[property] = `color-mix(in oklch, ${value} var(--un-${varName}-opacity), transparent)${rawColorComment}`
       }
     }
 
-    return css
+    return [css, defineProperty(`--un-${varName}-opacity`, { syntax: '<percentage>', initialValue: '100%' })]
   }
 }
 
@@ -336,7 +338,7 @@ export function compressCSS(css: string) {
 
 export function defineProperty(
   property: string,
-  options: { syntax?: string, inherits?: boolean, initialValue?: unknown },
+  options: { syntax?: string, inherits?: boolean, initialValue?: unknown } = {},
 ) {
   const {
     syntax = '*',
@@ -344,11 +346,5 @@ export function defineProperty(
     initialValue,
   } = options
 
-  return `
-@property ${property} {
-  syntax: "${syntax}";
-  inherits: ${inherits};
-  ${initialValue != null ? `initial-value: ${initialValue};` : ''}
-}
-  `.trim()
+  return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
 }
