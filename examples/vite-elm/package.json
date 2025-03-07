@@ -13,7 +13,7 @@
     "@iconify-json/logos": "^1.2.4",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
-    "@unocss/preset-uno": "link:../../packages-presets/preset-uno",
+    "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
     "elm-tooling": "^1.15.1",
     "unocss": "link:../../packages-presets/unocss",
     "vite": "^6.1.0",

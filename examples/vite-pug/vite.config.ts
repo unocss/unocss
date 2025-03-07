@@ -1,5 +1,5 @@
 import extractorPug from '@unocss/extractor-pug'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import UnoCSS from '@unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
@@ -9,7 +9,7 @@ export default defineConfig({
     Vue(),
     UnoCSS({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       extractors: [
         extractorPug(),

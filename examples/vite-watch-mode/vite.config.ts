@@ -1,7 +1,7 @@
 import type { PluginOption } from 'vite'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import react from '@vitejs/plugin-react'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
@@ -13,7 +13,7 @@ const plugins: (PluginOption | PluginOption[])[] = [
     ],
     inspector: false,
     presets: [
-      presetUno(
+      presetWind3(
       ),
       presetAttributify(),
       presetIcons({

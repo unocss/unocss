@@ -4,8 +4,8 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
   presetWebFonts,
+  presetWind3,
 } from 'unocss'
 
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
     extractorSvelte(),
   ],
   presets: [
-    presetUno({
+    presetWind3({
       attributifyPseudo: true,
     }),
     presetAttributify(),
