@@ -1,7 +1,7 @@
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import ViteInspector from 'vite-plugin-inspect'
@@ -26,7 +26,7 @@ export default defineConfig({
         { 'cool-green': 'bg-green-500 text-black' },
       ],
       presets: [
-        presetUno(),
+        presetWind3(),
         presetAttributify(),
         presetIcons({
           extraProperties: {

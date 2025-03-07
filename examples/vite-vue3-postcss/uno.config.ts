@@ -3,13 +3,13 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
   presetWebFonts,
+  presetWind3,
 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno({
+    presetWind3({
       attributifyPseudo: true,
     }),
     presetAttributify(),

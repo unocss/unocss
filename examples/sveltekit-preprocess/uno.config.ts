@@ -2,8 +2,8 @@ import {
   defineConfig,
   presetIcons,
   presetTypography,
-  presetUno,
   presetWebFonts,
+  presetWind3,
 } from 'unocss'
 
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
     { logo: 'i-logos:svelte-icon w-7em h-7em transform transition-300' },
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetIcons({
       prefix: 'i-',
       extraProperties: {

@@ -2,7 +2,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 const UnoCSS = require('unocss/vite').default
 const { configure } = require('quasar/wrappers')
-const { presetAttributify, presetUno } = require('unocss')
+const { presetAttributify, presetWind3 } = require('unocss')
 
 module.exports = configure(() => {
   return {
@@ -16,7 +16,7 @@ module.exports = configure(() => {
         config.plugins.push(
           ...UnoCSS({
             presets: [
-              presetUno(),
+              presetWind3(),
               presetAttributify(),
             ],
           }),

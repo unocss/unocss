@@ -2,7 +2,7 @@
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/fork/github/unocss/unocss/tree/main/examples/sveltekit)
 
-- Uses PresetUno and PresetIcons
+- Uses PresetWind3 and PresetIcons
 - Creates a global stylesheet
 - Uses `extractorSvelte` to be able to use `class:red-bg-200={true}` in components
 
