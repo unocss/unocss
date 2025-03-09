@@ -39,7 +39,7 @@ export interface ParsedColorValue {
 /* eslint-disable no-case-declarations */
 export const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
 export const alphaPlaceholders = ['%alpha', '<alpha-value>']
-export const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'))
+export const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'), 'g')
 
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
