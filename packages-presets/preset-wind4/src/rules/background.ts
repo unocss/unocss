@@ -32,13 +32,13 @@ function bgGradientColorResolver() {
     const data = parseColor(body, theme)
 
     if (data) {
-      const { color, key, opacity } = data
+      const { color, key, alpha } = data
 
       if (Object.values(SpecialColorKey).includes(color)) {
         css[`--un-gradient-${position}`] = color
       }
       else {
-        css[`--un-${position}-opacity`] = `${opacity || 100}%`
+        css[`--un-${position}-opacity`] = alpha
         const value = key ? `var(--colors-${key})` : color
         css[`--un-gradient-${position}`] = `color-mix(in oklab, ${value} var(--un-${position}-opacity), transparent)`
       }

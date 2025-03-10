@@ -125,30 +125,42 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   return colored
 }
 
+export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property: string, varName: string, ctx?: RuleContext<Theme>): [CSSObject, string?] | undefined {
+  if (!data)
+    return
+
+  const { color, key, alpha } = data
+  const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
+  const css: CSSObject = {}
+
+  if (color) {
+    const result: [CSSObject, string?] = [css]
+
+    if (Object.values(SpecialColorKey).includes(color)) {
+      css[property] = color
+    }
+    else {
+      const alphaKey = `--un-${varName}-opacity`
+      const value = key ? `var(--colors-${key})` : color
+
+      css[alphaKey] = alpha
+      css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
+
+      if (!alpha) {
+        result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+      }
+    }
+    return result
+  }
+}
+
 export function colorResolver(property: string, varName: string) {
-  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined => {
-    const data = parseColor(body, theme)
+  return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
+    const data = parseColor(body, ctx.theme)
     if (!data)
       return
 
-    const { color, key, opacity } = data
-    const rawColorComment = generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
-    const css: CSSObject = {}
-
-    if (color) {
-      if (Object.values(SpecialColorKey).includes(color)) {
-        css[property] = color
-      }
-      else {
-        if (opacity) {
-          css[`--un-${varName}-opacity`] = `${opacity}%`
-        }
-        const value = key ? `var(--colors-${key})` : color
-        css[property] = `color-mix(in oklch, ${value} var(--un-${varName}-opacity), transparent)${rawColorComment}`
-      }
-    }
-
-    return [css, defineProperty(`--un-${varName}-opacity`, { syntax: '<percentage>', initialValue: '100%' })]
+    return colorCSSGenerator(data, property, varName, ctx) as (CSSValueInput | string)[]
   }
 }
 

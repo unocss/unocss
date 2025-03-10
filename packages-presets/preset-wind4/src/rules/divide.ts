@@ -1,4 +1,4 @@
-import type { Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, defineProperty, h } from '../utils'
 import { borderStyles } from './border'
@@ -11,8 +11,9 @@ export const divides: Rule<Theme>[] = [
     if (result) {
       yield {
         [ctx.symbols.selector]: notLastChildSelector,
-        ...result,
+        ...result[0] as CSSObject,
       }
+      yield result[1]
     }
   }, { autocomplete: 'divide-$colors' }],
   [/^divide-op(?:acity)?-?(.+)$/, function* ([, opacity], { symbols }) {
