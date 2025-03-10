@@ -14,9 +14,8 @@ export function formatCSS() {
 
 export const showPreflights = ref(false)
 export const isCSSPrettify = ref(false)
+export const selectedLayers = ref<string[]>(['default'])
 export const cssFormatted = useCSSPrettify(
-  computed(() => output.value?.getLayers(undefined, showPreflights.value
-    ? undefined
-    : ['preflights'])),
+  computed(() => output.value?.getLayers(selectedLayers.value)),
   isCSSPrettify,
 )
