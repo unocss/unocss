@@ -32,7 +32,7 @@ function toggleLayer(layer: string) {
         <i i-ri-arrow-down-s-line />
       </div>
       <template #popper>
-        <ul class="bg-$cm-background" w-30 border="~ main" rd-sm space-y-1 py-1 max-h-30 of-auto>
+        <ul w-30 border="~ main" rd-sm space-y-1 py-1 max-h-30 of-auto>
           <li
             v-for="layer in outputLayers" :key="layer"
             flex items-center px-2 cursor-pointer
