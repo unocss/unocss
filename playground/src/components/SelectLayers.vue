@@ -5,9 +5,8 @@ const outputLayers = computed(() => output.value?.layers || [])
 
 function toggleLayer(layer: string) {
   const _layers = [...toRaw(selectedLayers.value)]
-  const included = _layers.includes(layer)
 
-  if (included) {
+  if (_layers.includes(layer)) {
     const i = _layers.indexOf(layer)
     _layers.splice(i, 1)
   }
