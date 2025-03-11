@@ -586,12 +586,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
             context.rules!.push(staticMatch)
 
           const index = this.config.rules.indexOf(staticMatch)
-          const entry = normalizeCSSEntries(staticMatch[1])
+          const entries = normalizeCSSValues(staticMatch[1]).filter(i => i.length)
           const meta = staticMatch[2]
-          if (isString(entry))
-            return [[index, entry, meta]]
-          else
-            return [[index, raw, entry, meta, variantHandlers]]
+          if (entries.length) {
+            return entries.map((css) => {
+              if (isString(css))
+                return [index, css, meta]
+              return [index, raw, css, meta, variantHandlers]
+            })
+          }
         }
       }
 

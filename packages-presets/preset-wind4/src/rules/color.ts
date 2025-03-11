@@ -37,5 +37,5 @@ export const bgColors: Rule<Theme>[] = [
 ]
 
 export const colorScheme: Rule<Theme>[] = [
-  [/^color-scheme-(\w+)$/, ([, v]) => ({ 'color-scheme': v })],
+  [/^(?:color-)?scheme-(.+)$/, ([, v]) => ({ 'color-scheme': v })],
 ]
