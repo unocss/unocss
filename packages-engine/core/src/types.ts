@@ -230,7 +230,7 @@ export type DynamicMatcher<Theme extends object = object> =
     | AsyncGenerator<CSSValueInput | string | undefined>
 
 export type DynamicRule<Theme extends object = object> = [RegExp, DynamicMatcher<Theme>, RuleMeta?]
-export type StaticRule = [string, CSSObject | CSSEntries, RuleMeta?]
+export type StaticRule = [string, CSSObject | CSSEntries | (CSSValueInput | string)[], RuleMeta?]
 export type Rule<Theme extends object = object> = DynamicRule<Theme> | StaticRule
 
 export type DynamicShortcutMatcher<Theme extends object = object> = ((match: RegExpMatchArray, context: Readonly<RuleContext<Theme>>) => (string | ShortcutValue[] | undefined))
