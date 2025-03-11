@@ -1,7 +1,8 @@
 <script lang='ts' setup>
 // @ts-expect-error missing types
 import { Pane } from 'splitpanes'
-import { isCSSPrettify, showPreflights } from '../../composables/prettier'
+import { isCSSPrettify } from '../../composables/prettier'
+import SelectLayers from '../SelectLayers.vue'
 
 defineProps<{ index: number }>()
 </script>
@@ -21,10 +22,7 @@ defineProps<{ index: number }>()
         :class="isCollapsed(index) ? 'op0' : ''"
         un-children="inline-flex items-center cursor-pointer gap1"
       >
-        <label>
-          <input v-model="showPreflights" type="checkbox">
-          <span text-sm>Preflights</span>
-        </label>
+        <SelectLayers />
         <label>
           <input v-model="isCSSPrettify" type="checkbox">
           <span text-sm>Prettify</span>

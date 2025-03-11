@@ -5,9 +5,9 @@ import { customCSS } from '../../composables/url'
 
 defineProps<{ index: number }>()
 
-const computedCustomCSS = computed({
-  get: () => unref(options.value.transformCustomCSS ? transformedCSS : customCSS),
-  set: (value) => {
+const computedCustomCSS = computed<string>({
+  get: () => unref(options.value.transformCustomCSS ? transformedCSS : customCSS) || '',
+  set: (value: string) => {
     customCSS.value = value
   },
 })
