@@ -1,6 +1,6 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorResolver, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
+import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
 import { passThemeKey } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
 import { varEmpty } from './static'
@@ -191,7 +191,7 @@ const baseFontVariantNumeric = {
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
-  ['ordinal', { '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }],
+  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, defineProperty('--un-ordinal')]],
   ['slashed-zero', { '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }],
   ['lining-nums', { '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }],
   ['oldstyle-nums', { '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }],

@@ -1,14 +1,6 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { camelToHyphen, colorableShadows, colorResolver, defineProperty, h, hasParseableColor } from '../utils'
-import { varEmpty } from './static'
-
-export const boxShadowsBase = {
-  '--un-ring-offset-shadow': '0 0 rgb(0 0 0 / 0)',
-  '--un-ring-shadow': '0 0 rgb(0 0 0 / 0)',
-  '--un-shadow-inset': varEmpty,
-  '--un-shadow': '0 0 rgb(0 0 0 / 0)',
-}
 
 export const shadowProperties = {
   shadow: defineProperty('--un-shadow', { initialValue: '0 0 #0000' }),

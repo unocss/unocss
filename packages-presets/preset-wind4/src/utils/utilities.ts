@@ -146,9 +146,7 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
 
-      if (!alpha) {
-        result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
-      }
+      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
     }
     return result
   }
