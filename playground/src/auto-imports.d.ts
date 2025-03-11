@@ -8,7 +8,6 @@ export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const STORAGE_KEY: typeof import('./composables/constants')['STORAGE_KEY']
-  const __uno: typeof import('./composables/uno')['__uno']
   const annotations: typeof import('./composables/uno')['annotations']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -60,7 +59,6 @@ declare global {
   const getInitialPanelSizes: typeof import('./composables/panel')['getInitialPanelSizes']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
-  const importMapsPlugin: typeof import('../plugin-import-maps')['importMapsPlugin']
   const init: typeof import('./composables/uno')['init']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
@@ -123,7 +121,6 @@ declare global {
   const resolveComponent: typeof import('vue')['resolveComponent']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
-  const selectedLayers: typeof import('./composables/prettier')['selectedLayers']
   const selectedVersion: typeof import('./composables/url')['selectedVersion']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
@@ -150,7 +147,6 @@ declare global {
   const tryOnMounted: typeof import('@vueuse/core')['tryOnMounted']
   const tryOnScopeDispose: typeof import('@vueuse/core')['tryOnScopeDispose']
   const tryOnUnmounted: typeof import('@vueuse/core')['tryOnUnmounted']
-  const uno: typeof import('./composables/uno')['uno']
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
@@ -333,7 +329,6 @@ declare global {
   const useWindowFocus: typeof import('@vueuse/core')['useWindowFocus']
   const useWindowScroll: typeof import('@vueuse/core')['useWindowScroll']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
-  const version: typeof import('./composables/constants')['version']
   const watch: typeof import('vue')['watch']
   const watchArray: typeof import('@vueuse/core')['watchArray']
   const watchAtMost: typeof import('@vueuse/core')['watchAtMost']
@@ -481,7 +476,6 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
-    readonly selectedLayers: UnwrapRef<typeof import('./composables/prettier')['selectedLayers']>
     readonly selectedVersion: UnwrapRef<typeof import('./composables/url')['selectedVersion']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
