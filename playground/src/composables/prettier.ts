@@ -12,7 +12,6 @@ export function formatCSS() {
   customCSS.value = useCSSPrettify(options.value.transformCustomCSS ? transformedCSS : customCSS).value
 }
 
-export const showPreflights = ref(false)
 export const isCSSPrettify = ref(false)
 export const selectedLayers = ref<string[]>(['default'])
 export const cssFormatted = useCSSPrettify(
