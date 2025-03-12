@@ -18,7 +18,7 @@ const props = defineProps<{
 const mergeSameUtil = ref(true)
 const selectors = computed(() => [...props.selectors].sort((a, b) => b.count - a.count))
 
-const colors = computed(() => {
+const matchedColors = computed<MatchedColor[]>(() => {
   return (props.colors || [])
     .map(item => ({ ...item, name: item.no === 'DEFAULT' ? `${item.name}` : `${item.name}-${item.no}` }))
     .sort((a, b) => b.count - a.count)
@@ -109,13 +109,13 @@ const grouped = computed(() => mergedSelectors
       </div>
     </div>
 
-    <div v-if="colors.length">
+    <div v-if="matchedColors.length">
       <div uppercase text-sm mb-4 op50>
         Color Palette
-        <sup op50 text-sm>{{ colors.length }}</sup>
+        <sup op50 text-sm>{{ matchedColors.length }}</sup>
       </div>
       <div flex flex-wrap gap-2>
-        <span v-for="(item, i) in colors" :key="i">
+        <span v-for="(item, i) in matchedColors" :key="i">
           <div p-2 w-25 inline-block of-hidden bg-active>
             <AnalyzerItem :item="item" />
             <div font-mono text-sm op50 ws-nowrap text-ellipsis of-hidden>{{ item.color }}</div>
