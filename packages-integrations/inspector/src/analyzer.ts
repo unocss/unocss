@@ -88,6 +88,10 @@ export async function analyzer(modules: BetterMap<string, string>, ctx: UnocssPl
             color: parsedColor.color,
             count,
             modules: _modules,
+            rawSelector,
+            category: category || '',
+            variants,
+            body,
           })
         }
       }

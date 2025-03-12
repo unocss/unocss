@@ -114,9 +114,9 @@ const formatted = useCSSPrettify(computed(() => {
     />
     <Analyzer
       v-else flex-grow overflow-y-auto
-      :selectors="overview.matched"
-      :colors="overview.colors"
-      :icons="overview.icons"
+      :selectors="overview!.matched"
+      :colors="overview!.colors"
+      :icons="overview!.icons"
     />
   </div>
 </template>
