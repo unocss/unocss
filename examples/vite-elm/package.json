@@ -16,7 +16,7 @@
     "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
     "elm-tooling": "^1.15.1",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.1.0",
+    "vite": "^6.2.1",
     "vite-plugin-elm": "^3.0.1"
   },
   "stackblitz": {

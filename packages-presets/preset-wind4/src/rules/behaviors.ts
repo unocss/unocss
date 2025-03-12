@@ -18,7 +18,7 @@ export const outline: Rule<Theme>[] = [
     'outline-style': 'var(--un-outline-style)',
     'outline-width': '1px',
   }],
-  [/^outline-hidden$/, function*(_, { symbols }) {
+  [/^outline-hidden$/, function* (_, { symbols }) {
     yield { 'outline-style': 'none' }
     yield {
       [symbols.parent]: `@media (forced-colors: active)`,

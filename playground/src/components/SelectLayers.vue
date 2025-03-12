@@ -4,11 +4,10 @@ import { Menu } from 'floating-vue'
 const outputLayers = computed(() => output.value?.layers || [])
 
 function toggleLayer(layer: string) {
-  const _layers = [...toRaw(selectedLayers.value)]
-
-  if (_layers.includes(layer)) {
-    const i = _layers.indexOf(layer)
-    _layers.splice(i, 1)
+  const _layers = [...unref(selectedLayers.value)]
+  const index = _layers.indexOf(layer)
+  if (index > -1) {
+    _layers.splice(index, 1)
   }
   else {
     _layers.push(layer)

@@ -1,5 +1,4 @@
 <script lang='ts' setup>
-// @ts-expect-error missing types
 import { Pane } from 'splitpanes'
 import { customConfigRaw } from '../../composables/url'
 

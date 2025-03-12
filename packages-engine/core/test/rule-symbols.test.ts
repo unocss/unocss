@@ -5,7 +5,7 @@ import { expect, it } from 'vitest'
 it('shortcuts-no-merge', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color]) {
+      [/^color-(.*)$/, function* ([, color]) {
         yield {
           color,
         }
@@ -31,7 +31,7 @@ it('shortcuts-no-merge', async () => {
 
   const uno2 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
         }
@@ -61,7 +61,7 @@ it('shortcuts-no-merge', async () => {
 it('variants', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
         }
@@ -106,7 +106,7 @@ it('variants', async () => {
 it('parent', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
         }
@@ -138,7 +138,7 @@ it('parent', async () => {
 it('selector', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
         }
@@ -160,7 +160,7 @@ it('selector', async () => {
 it('layer', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
           [ctx.symbols.layer]: color,
@@ -178,7 +178,7 @@ it('layer', async () => {
 it('layer string', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * ([, color], ctx) {
+      [/^color-(.*)$/, function* ([, color], ctx) {
         yield {
           color,
           [ctx.symbols.layer]: 'custom-layer',
@@ -196,7 +196,7 @@ it('layer string', async () => {
 it('sort', async () => {
   const uno1 = await createGenerator({
     rules: [
-      [/^color-(.*)$/, function * (_, ctx) {
+      [/^color-(.*)$/, function* (_, ctx) {
         yield {
           color: 'green',
           [ctx.symbols.selector]: () => '.a',
