@@ -4,14 +4,14 @@ import { defineProperty, directionSize } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
   // snap type
-  [/^snap-(x|y|both)$/, function*([, d]) {
+  [/^snap-(x|y|both)$/, function* ([, d]) {
     yield {
       'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
     }
     yield defineProperty('--un-scroll-snap-strictness', { initialValue: 'proximity' })
   }, { autocomplete: 'snap-(x|y|both)' }],
 
-  [/^snap-(mandatory|proximity)$/, function*([, d]) {
+  [/^snap-(mandatory|proximity)$/, function* ([, d]) {
     yield {
       '--un-scroll-snap-strictness': d,
     }

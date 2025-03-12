@@ -39,7 +39,7 @@ function resolveModifier(modifier?: string) {
 }
 
 function bgGradientColorResolver() {
-  return function *([, position, body]: string[], { theme }: RuleContext<Theme>) {
+  return function* ([, position, body]: string[], { theme }: RuleContext<Theme>) {
     const css: CSSObject = {}
     const data = parseColor(body, theme)
 
