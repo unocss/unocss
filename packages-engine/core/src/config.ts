@@ -289,7 +289,11 @@ function mergeFilterPatterns(...filterPatterns: FilterPattern[]): Array<string |
 }
 
 function flatternFilterPattern(pattern?: FilterPattern): Array<string | RegExp> {
-  return Array.isArray(pattern) ? pattern : pattern ? [pattern] : []
+  return Array.isArray(pattern)
+    ? pattern
+    : pattern
+      ? [pattern] as Array<string | RegExp>
+      : []
 }
 
 export function definePreset<Options extends object | undefined = undefined, Theme extends object = object>(preset: PresetFactory<Theme, Options>): PresetFactory<Theme, Options>

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-// @ts-expect-error missing types
 import { Splitpanes } from 'splitpanes'
 
 const loading = ref(true)
 
-function handleResize(event: ({ size: number })[]) {
-  panelSizes.value = event.map(({ size }) => size)
+function handleResize({ panes }: { panes: { size: number }[] }) {
+  panelSizes.value = panes.map(panel => panel.size)
 }
 
 onMounted(() => {

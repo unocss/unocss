@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { Menu } from 'floating-vue'
-import { selectedLayers } from '../composables/prettier'
 
 const outputLayers = computed(() => output.value?.layers || [])
 
 function toggleLayer(layer: string) {
-  // Keep the order of layers
-  const index = outputLayers.value.indexOf(layer)
-
-  if (selectedLayers.value[index]) {
-    selectedLayers.value[index] = undefined
+  const _layers = [...unref(selectedLayers.value)]
+  const index = _layers.indexOf(layer)
+  if (index > -1) {
+    _layers.splice(index, 1)
   }
   else {
-    selectedLayers.value[index] = layer
+    _layers.push(layer)
   }
+
+  // Keep the order of layers
+  selectedLayers.value = _layers.sort((a, b) => {
+    const indexA = outputLayers.value.indexOf(a)
+    const indexB = outputLayers.value.indexOf(b)
+    return indexA - indexB
+  })
 }
 </script>
 
@@ -22,8 +27,8 @@ function toggleLayer(layer: string) {
     <Menu>
       <div w-30 h-full of-hidden border="~ main" rd-sm flex items-center px-1>
         <div text-sm flex-1 line-clamp-1>
-          <span v-if="selectedLayers.filter(Boolean).length > 0" break-all>
-            {{ selectedLayers.filter(Boolean).join(',') }}
+          <span v-if="selectedLayers.length > 0" break-all>
+            {{ selectedLayers.join(',') }}
           </span>
           <span v-else title="Select layers to output">
             Select layers to output
@@ -34,9 +39,8 @@ function toggleLayer(layer: string) {
       <template #popper>
         <ul w-30 border="~ main" rd-sm space-y-1 py-1 max-h-30 of-auto>
           <li
-            v-for="layer in outputLayers" :key="layer"
-            flex items-center px-2 cursor-pointer
-            text-gray:80 hover:bg-gray:20 @click="toggleLayer(layer)"
+            v-for="layer in outputLayers" :key="layer" flex items-center px-2 cursor-pointer text-gray:80
+            hover:bg-gray:20 @click="toggleLayer(layer)"
           >
             <div text-13px flex-1 line-clamp-1>
               {{ layer }}
@@ -54,6 +58,7 @@ function toggleLayer(layer: string) {
 .v-popper__arrow-inner {
   display: none !important;
 }
+
 .v-popper__inner {
   background: var(--cm-background) !important;
   border: none !important;
