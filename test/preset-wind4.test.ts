@@ -9,12 +9,11 @@ const uno = await createGenerator({
   ],
 })
 
-describe('preset-wind', () => {
+describe('preset-wind4', () => {
   it('targets', async () => {
     const targets = presetWind4Targets
     const code = targets.join(' ')
     const { css } = await uno.generate(code, { preflights: false })
-    const { css: preflights } = await uno.generate('')
 
     const unmatched = []
     for (const i of targets) {
@@ -22,7 +21,6 @@ describe('preset-wind', () => {
         unmatched.push(i)
     }
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
-    await expect(preflights).toMatchFileSnapshot('./assets/output/preset-wind4-preflights.css')
 
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
@@ -57,6 +55,7 @@ describe('preset-wind', () => {
         "ring-none",
         "ring-offset-none",
         "ring-offset-green5",
+        "shadow-inset",
         "p-ie-none",
         "m-inline-none",
         "pxy",
@@ -113,5 +112,17 @@ describe('preset-wind', () => {
         "data-dropdown:ring-green",
       ]
     `)
+  })
+
+  it('wind4 theme css', async () => {
+    const { getLayer } = await uno.generate('')
+    const css = getLayer('theme')
+    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-theme.css')
+  })
+
+  it('wind4 reset style', async () => {
+    const { getLayer } = await uno.generate('')
+    const css = getLayer('preflights')
+    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
   })
 })

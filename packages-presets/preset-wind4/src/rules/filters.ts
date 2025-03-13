@@ -1,33 +1,34 @@
-import type { CSSValues, Rule, RuleContext } from '@unocss/core'
+import type { CSSValueInput, CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorResolver, globalKeywords, h } from '../utils'
-import { varEmpty } from './static'
+import { colorableShadows, colorResolver, defineProperty, globalKeywords, h } from '../utils'
 
-export const filterBase = {
-  '--un-blur': varEmpty,
-  '--un-brightness': varEmpty,
-  '--un-contrast': varEmpty,
-  '--un-drop-shadow': varEmpty,
-  '--un-grayscale': varEmpty,
-  '--un-hue-rotate': varEmpty,
-  '--un-invert': varEmpty,
-  '--un-saturate': varEmpty,
-  '--un-sepia': varEmpty,
-}
-const filterProperty = 'var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia) var(--un-drop-shadow)'
+const filterBaseKeys = [
+  'blur',
+  'brightness',
+  'contrast',
+  'grayscale',
+  'hue-rotate',
+  'invert',
+  'saturate',
+  'sepia',
+  'drop-shadow',
+]
+const filterProperties = filterBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
+const filterCSS = filterBaseKeys.map(i => `var(--un-${i})`).join(' ')
 
-export const backdropFilterBase = {
-  '--un-backdrop-blur': varEmpty,
-  '--un-backdrop-brightness': varEmpty,
-  '--un-backdrop-contrast': varEmpty,
-  '--un-backdrop-grayscale': varEmpty,
-  '--un-backdrop-hue-rotate': varEmpty,
-  '--un-backdrop-invert': varEmpty,
-  '--un-backdrop-opacity': varEmpty,
-  '--un-backdrop-saturate': varEmpty,
-  '--un-backdrop-sepia': varEmpty,
-}
-const backdropFilterProperty = 'var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia)'
+const backdropBaseKeys = [
+  'backdrop-blur',
+  'backdrop-brightness',
+  'backdrop-contrast',
+  'backdrop-grayscale',
+  'backdrop-hue-rotate',
+  'backdrop-invert',
+  'backdrop-opacity',
+  'backdrop-saturate',
+  'backdrop-sepia',
+]
+const backdropProperties = backdropBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
+const backdropCSS = backdropBaseKeys.map(i => `var(--un-${i})`).join(' ')
 
 function percentWithDefault(str?: string) {
   let v = h.bracket.cssvar(str || '')
@@ -40,21 +41,27 @@ function percentWithDefault(str?: string) {
 }
 
 function toFilter(varName: string, resolver: (str: string, theme: Theme) => string | undefined) {
-  return ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | undefined => {
+  return ([, b, s]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined => {
     const value = resolver(s, theme) ?? (s === 'none' ? '0' : '')
     if (value !== '') {
       if (b) {
-        return {
-          [`--un-${b}${varName}`]: `${varName}(${value})`,
-          '-webkit-backdrop-filter': backdropFilterProperty,
-          'backdrop-filter': backdropFilterProperty,
-        }
+        return [
+          {
+            [`--un-${b}${varName}`]: `${varName}(${value})`,
+            '-webkit-backdrop-filter': backdropCSS,
+            'backdrop-filter': backdropCSS,
+          },
+          backdropProperties,
+        ]
       }
       else {
-        return {
-          [`--un-${varName}`]: `${varName}(${value})`,
-          filter: filterProperty,
-        }
+        return [
+          {
+            [`--un-${varName}`]: `${varName}(${value})`,
+            filter: filterCSS,
+          },
+          filterProperties,
+        ]
       }
     }
   }
@@ -64,18 +71,24 @@ function dropShadowResolver([, s]: string[], { theme }: RuleContext<Theme>) {
   let v = theme.dropShadow?.[s || 'DEFAULT']
   if (v != null) {
     const shadows = colorableShadows(v, '--un-drop-shadow-color')
-    return {
-      '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
-      'filter': filterProperty,
-    }
+    return [
+      {
+        '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
+        'filter': filterCSS,
+      },
+      filterProperties,
+    ]
   }
 
   v = h.bracket.cssvar(s) ?? (s === 'none' ? '' : undefined)
   if (v != null) {
-    return {
-      '--un-drop-shadow': v ? `drop-shadow(${v})` : v,
-      'filter': filterProperty,
-    }
+    return [
+      {
+        '--un-drop-shadow': v ? `drop-shadow(${v})` : v,
+        'filter': filterCSS,
+      },
+      filterProperties,
+    ]
   }
 }
 
@@ -113,10 +126,10 @@ export const filters: Rule<Theme>[] = [
   [/^(?:(backdrop-)|filter-)?sepia(?:-(.+))?$/, toFilter('sepia', percentWithDefault), { autocomplete: ['(backdrop|filter)-sepia', '(backdrop|filter)-sepia-<percent>', 'sepia-<percent>'] }],
 
   // base
-  ['filter', { filter: filterProperty }],
+  ['filter', { filter: filterCSS }],
   ['backdrop-filter', {
-    '-webkit-backdrop-filter': backdropFilterProperty,
-    'backdrop-filter': backdropFilterProperty,
+    '-webkit-backdrop-filter': backdropCSS,
+    'backdrop-filter': backdropCSS,
   }],
 
   // nones

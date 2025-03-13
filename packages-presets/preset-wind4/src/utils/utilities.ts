@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
@@ -125,28 +125,40 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   return colored
 }
 
+export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property: string, varName: string, ctx?: RuleContext<Theme>): [CSSObject, string?] | undefined {
+  if (!data)
+    return
+
+  const { color, key, alpha } = data
+  const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
+  const css: CSSObject = {}
+
+  if (color) {
+    const result: [CSSObject, string?] = [css]
+
+    if (Object.values(SpecialColorKey).includes(color)) {
+      css[property] = color
+    }
+    else {
+      const alphaKey = `--un-${varName}-opacity`
+      const value = key ? `var(--colors-${key})` : color
+
+      css[alphaKey] = alpha
+      css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
+
+      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+    }
+    return result
+  }
+}
+
 export function colorResolver(property: string, varName: string) {
-  return ([, body]: string[], { theme, generator }: RuleContext<Theme>): CSSObject | undefined => {
-    const data = parseColor(body, theme)
+  return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
+    const data = parseColor(body, ctx.theme)
     if (!data)
       return
 
-    const { color, key, opacity } = data
-    const rawColorComment = generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
-    const css: CSSObject = {}
-
-    if (color) {
-      if (Object.values(SpecialColorKey).includes(color)) {
-        css[property] = color
-      }
-      else {
-        css[`--un-${varName}-opacity`] = `${opacity || 100}%`
-        const value = key ? `var(--colors-${key})` : color
-        css[property] = `color-mix(in oklch, ${value} var(--un-${varName}-opacity), transparent)${rawColorComment}`
-      }
-    }
-
-    return css
+    return colorCSSGenerator(data, property, varName, ctx) as (CSSValueInput | string)[]
   }
 }
 
@@ -332,4 +344,17 @@ export function camelToHyphen(str: string) {
 
 export function compressCSS(css: string) {
   return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
+}
+
+export function defineProperty(
+  property: string,
+  options: { syntax?: string, inherits?: boolean, initialValue?: unknown } = {},
+) {
+  const {
+    syntax = '*',
+    inherits = false,
+    initialValue,
+  } = options
+
+  return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
 }

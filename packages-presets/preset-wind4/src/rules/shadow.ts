@@ -1,20 +1,26 @@
-import type { CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { camelToHyphen, colorableShadows, colorResolver, h, hasParseableColor } from '../utils'
-import { varEmpty } from './static'
+import { camelToHyphen, colorableShadows, colorResolver, defineProperty, h, hasParseableColor } from '../utils'
 
-export const boxShadowsBase = {
-  '--un-ring-offset-shadow': '0 0 rgb(0 0 0 / 0)',
-  '--un-ring-shadow': '0 0 rgb(0 0 0 / 0)',
-  '--un-shadow-inset': varEmpty,
-  '--un-shadow': '0 0 rgb(0 0 0 / 0)',
+export const shadowProperties = {
+  shadow: defineProperty('--un-shadow', { initialValue: '0 0 #0000' }),
+  shadowColor: defineProperty('--un-shadow-color'),
+  insetShadow: defineProperty('--un-inset-shadow', { initialValue: '0 0 #0000' }),
+  insetShadowColor: defineProperty('--un-inset-shadow-color'),
+  ringColor: defineProperty('--un-ring-color'),
+  ringShadow: defineProperty('--un-ring-shadow', { initialValue: '0 0 #0000' }),
+  insetRingColor: defineProperty('--un-inset-ring-color'),
+  insetRingShadow: defineProperty('--un-inset-ring-shadow', { initialValue: '0 0 #0000' }),
+  ringInset: defineProperty('--un-ring-inset'),
+  ringOffsetWidth: defineProperty('--un-ring-offset-width', { syntax: '"<length>"', initialValue: '0px' }),
+  ringOffsetColor: defineProperty('--un-ring-offset-color'),
+  ringOffsetShadow: defineProperty('--un-ring-offset-shadow', { initialValue: '0 0 #0000' }),
 }
 
 export const boxShadows: Rule<Theme>[] = [
   // shadow
   [/^shadow(?:-(.+))?$/, hanldeShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
-  ['shadow-inset', { '--un-shadow-inset': 'inset' }],
 
   // inset shadow
   [/^inset-shadow(?:-(.+))?$/, hanldeShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
@@ -23,7 +29,7 @@ export const boxShadows: Rule<Theme>[] = [
 ]
 
 function hanldeShadow(themeKey: 'shadow' | 'insetShadow') {
-  return (match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined => {
+  return (match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined => {
     const [, d] = match
     const { theme } = ctx
     const v = theme[themeKey]?.[d || 'DEFAULT']
@@ -31,10 +37,13 @@ function hanldeShadow(themeKey: 'shadow' | 'insetShadow') {
     const colorVar = camelToHyphen(themeKey)
 
     if ((v != null || c != null) && !hasParseableColor(c, theme)) {
-      return {
-        '--un-shadow': colorableShadows((v || c)!, `--un-${colorVar}-color`).join(','),
-        'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
-      }
+      return [
+        {
+          '--un-shadow': colorableShadows((v || c)!, `--un-${colorVar}-color`).join(','),
+          'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
+        },
+        Object.values(shadowProperties).join('\n'),
+      ]
     }
     return colorResolver(`--un-${colorVar}-color`, colorVar)(match, ctx)
   }

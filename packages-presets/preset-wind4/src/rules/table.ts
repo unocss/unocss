@@ -1,12 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, numberResolver } from '../utils'
-
-export const borderSpacingBase = {
-  '--un-border-spacing-x': 0,
-  '--un-border-spacing-y': 0,
-}
-const borderSpacingProperty = 'var(--un-border-spacing-x) var(--un-border-spacing-y)'
+import { defineProperty, h, numberResolver } from '../utils'
 
 export const tables: Rule<Theme>[] = [
   // displays
@@ -25,25 +19,27 @@ export const tables: Rule<Theme>[] = [
   ['border-collapse', { 'border-collapse': 'collapse' }],
   ['border-separate', { 'border-collapse': 'separate' }],
 
-  [/^border-spacing-(.+)$/, ([, s], { theme }) => {
+  [/^border-spacing-(.+)$/, function* ([, s], { theme }) {
     const v = resolveValue(s, theme)
 
     if (v != null) {
-      return {
+      yield {
         '--un-border-spacing-x': v,
         '--un-border-spacing-y': v,
-        'border-spacing': borderSpacingProperty,
+        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
+      yield ['x', 'y'].map(d => defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })).join('\n')
     }
   }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
 
-  [/^border-spacing-([xy])-(.+)$/, ([, d, s], { theme }) => {
+  [/^border-spacing-([xy])-(.+)$/, function* ([, d, s], { theme }) {
     const v = resolveValue(s, theme)
     if (v != null) {
-      return {
+      yield {
         [`--un-border-spacing-${d}`]: v,
-        'border-spacing': borderSpacingProperty,
+        'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
+      yield ['x', 'y'].map(d => defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })).join('\n')
     }
   }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
 
