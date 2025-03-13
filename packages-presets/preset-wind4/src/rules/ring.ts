@@ -16,7 +16,7 @@ export const rings: Rule<Theme>[] = [
         Object.values(shadowProperties).join('\n'),
       ]
     }
-  }, { autocomplete: 'ring-$ringWidth' }],
+  }],
   [/^ring-(.+)$/, colorResolver(`--un-ring-color`, 'ring'), { autocomplete: 'ring-$colors' }],
   [/^ring-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-ring-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'ring-(op|opacity)-<percent>' }],
 

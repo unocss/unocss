@@ -6,10 +6,10 @@ import { bracketTypeRe } from '../utils/handlers/regex'
 
 export const fonts: Rule<Theme>[] = [
   // text
-  [/^text-(.+)$/, handleText, { autocomplete: 'text-$fontSize' }],
+  [/^text-(.+)$/, handleText, { autocomplete: 'text-$text' }],
 
   // // text size
-  [/^(?:text|font)-size-(.+)$/, handleSize, { autocomplete: 'text-size-$fontSize' }],
+  [/^(?:text|font)-size-(.+)$/, handleSize, { autocomplete: 'text-size-$text' }],
 
   // text colors
   [/^text-(?:color-)?(.+)$/, handlerColorOrSize, { autocomplete: 'text-$colors' }],
@@ -81,7 +81,7 @@ export const fonts: Rule<Theme>[] = [
         'letter-spacing': v,
       }
     },
-    { autocomplete: 'tracking-$letterSpacing' },
+    { autocomplete: 'tracking-$tracking' },
   ],
 
   // word-spacing
@@ -95,7 +95,7 @@ export const fonts: Rule<Theme>[] = [
         'word-spacing': v,
       }
     },
-    { autocomplete: 'word-spacing-$wordSpacing' },
+    { autocomplete: 'word-spacing-$spacing' },
   ],
 
   // stretch
@@ -123,7 +123,7 @@ export const fonts: Rule<Theme>[] = [
         'font-family': v,
       }
     },
-    { autocomplete: 'font-$fontFamily' },
+    { autocomplete: 'font-$font' },
   ],
 ]
 

@@ -57,9 +57,6 @@ export const transitions: Rule<Theme>[] = [
         }
       }
     },
-    {
-      autocomplete: 'transition-$transitionProperty-$duration',
-    },
   ],
 
   // timings
@@ -69,13 +66,11 @@ export const transitions: Rule<Theme>[] = [
       '--un-duration': h.bracket.cssvar.time(d),
       'transition-duration': h.bracket.cssvar.time(d),
     }),
-    { autocomplete: ['transition-duration-$duration', 'duration-$duration'] },
   ],
 
   [
     /^(?:transition-)?delay-(.+)$/,
     ([, d]) => ({ 'transition-delay': h.bracket.cssvar.time(d) }),
-    { autocomplete: ['transition-delay-$duration', 'delay-$duration'] },
   ],
 
   [
@@ -104,8 +99,6 @@ export const transitions: Rule<Theme>[] = [
     },
     { autocomplete: [
       `transition-property-(${[...globalKeywords].join('|')})`,
-      'transition-property-$transitionProperty',
-      'property-$transitionProperty',
     ] },
   ],
 

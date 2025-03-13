@@ -9,11 +9,11 @@ export const svgUtilities: Rule<Theme>[] = [
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:width-|size-)?(.+)$/, handleWidth, { autocomplete: ['stroke-width-$lineWidth', 'stroke-size-$lineWidth'] }],
+  [/^stroke-(?:width-|size-)?(.+)$/, handleWidth],
 
   // stroke dash
   [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) }), { autocomplete: 'stroke-dash-<num>' }],
-  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) }), { autocomplete: 'stroke-offset-$lineWidth' }],
+  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) })],
 
   // stroke colors
   [/^stroke-(.+)$/, handleColorOrWidth, { autocomplete: 'stroke-$colors' }],
