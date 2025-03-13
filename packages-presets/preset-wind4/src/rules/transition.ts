@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, makeGlobalStaticRules } from '../utils'
+import { defineProperty, globalKeywords, h, makeGlobalStaticRules } from '../utils'
 
 function resolveTransitionProperty(prop: string, theme: Theme): string | undefined {
   let p: string | undefined
@@ -83,10 +83,13 @@ export const transitions: Rule<Theme>[] = [
     ([, d], { theme }) => {
       const v = d in (theme.ease ?? {}) ? `var(--ease-${d})` : h.bracket.cssvar(d)
 
-      return {
-        '--un-ease': v,
-        'transition-timing-function': v,
-      }
+      return [
+        {
+          '--un-ease': v,
+          'transition-timing-function': v,
+        },
+        defineProperty('--un-ease'),
+      ]
     },
     { autocomplete: ['transition-ease-(linear|in|out|in-out)', 'ease-(linear|in|out|in-out)'] },
   ],

@@ -1,26 +1,20 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, h } from '../utils'
-import { varEmpty } from './static'
-
-export const ringBase = {
-  '--un-ring-inset': varEmpty,
-  '--un-ring-offset-width': '0px',
-  '--un-ring-offset-color': '#fff',
-  '--un-ring-width': '0px',
-  '--un-ring-color': 'rgb(147 197 253 / 0.5)',
-  '--un-shadow': '0 0 rgb(0 0 0 / 0)',
-}
+import { shadowProperties } from './shadow'
 
 export const rings: Rule<Theme>[] = [
   // ring
   [/^ring(?:-(.+))?$/, ([, d]) => {
     const v = h.px(d || '1')
     if (v != null) {
-      return {
-        '--un-ring-shadow': `var(--un-ring-inset) 0 0 0 calc(${v} + var(--un-ring-offset-width)) var(--un-ring-color, currentColor)`,
-        'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
-      }
+      return [
+        {
+          '--un-ring-shadow': `var(--un-ring-inset) 0 0 0 calc(${v} + var(--un-ring-offset-width)) var(--un-ring-color, currentColor)`,
+          'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
+        },
+        Object.values(shadowProperties).join('\n'),
+      ]
     }
   }, { autocomplete: 'ring-$ringWidth' }],
   [/^ring-(.+)$/, colorResolver(`--un-ring-color`, 'ring'), { autocomplete: 'ring-$colors' }],
@@ -30,10 +24,13 @@ export const rings: Rule<Theme>[] = [
   [/^inset-ring(?:-(.+))?$/, ([, d]) => {
     const v = h.px(d || '1')
     if (v != null) {
-      return {
-        '--un-inset-ring-shadow': `inset 0 0 0 ${v} var(--un-inset-ring-color, currentColor)`,
-        'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
-      }
+      return [
+        {
+          '--un-inset-ring-shadow': `inset 0 0 0 ${v} var(--un-inset-ring-color, currentColor)`,
+          'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
+        },
+        Object.values(shadowProperties).join('\n'),
+      ]
     }
   }],
   [/^inset-ring-(.+)$/, colorResolver(`--un-inset-ring-color`, 'inset-ring'), { autocomplete: 'inset-ring-$colors' }],
