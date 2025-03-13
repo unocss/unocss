@@ -1,6 +1,7 @@
-import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, passThemeKey, SpecialColorKey } from '../utils'
+import { notNull, uniq } from '@unocss/core'
+import { colorCSSGenerator, cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, passThemeKey, SpecialColorKey } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -34,7 +35,7 @@ export const borders: Rule<Theme>[] = [
   [/^(?:border|b)-([bi][se])-op(?:acity)?-?(.+)$/, handlerBorderOpacity],
 
   // radius
-  [/^(?:border-|b-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded, { autocomplete: ['(border|b)-(rounded|rd)', '(border|b)-(rounded|rd)-$borderRadius', '(rounded|rd)', '(rounded|rd)-$borderRadius'] }],
+  [/^(?:border-|b-)?(?:rounded|rd)()(?:-(.+))?$/, handlerRounded, { autocomplete: ['(border|b)-(rounded|rd)', '(border|b)-(rounded|rd)-$radius', '(rounded|rd)', '(rounded|rd)-$radius'] }],
   [/^(?:border-|b-)?(?:rounded|rd)-([rltbse])(?:-(.+))?$/, handlerRounded],
   [/^(?:border-|b-)?(?:rounded|rd)-([rltb]{2})(?:-(.+))?$/, handlerRounded],
   [/^(?:border-|b-)?(?:rounded|rd)-([bise][se])(?:-(.+))?$/, handlerRounded],
@@ -48,37 +49,23 @@ export const borders: Rule<Theme>[] = [
   [/^(?:border|b)-([bi][se])-(?:style-)?(.+)$/, handlerBorderStyle],
 ]
 
-function transformBorderColor(color: string, opacity: string | number | undefined, key: string | undefined, direction: string | undefined): CSSObject {
-  const css: CSSObject = {}
+function borderColorResolver(direction: string) {
+  return ([, body]: string[], theme: Theme): [CSSObject, string?] | undefined => {
+    const data = parseColor(body, theme)
+    const result = colorCSSGenerator(data, `border${direction}-color`, 'border')
 
-  if (color) {
-    if (Object.values(SpecialColorKey).includes(color)) {
-      css[`border${direction}-color`] = color
-    }
-    else {
-      css[`--un-border-opacity`] = `${opacity || 100}%`
-      if (direction && direction !== '') {
+    if (result) {
+      const css = result[0]
+
+      if (
+        data?.color && !Object.values(SpecialColorKey).includes(data.color)
+        && direction && direction !== ''
+      ) {
         css[`--un-border${direction}-opacity`] = `var(--un-border-opacity)`
       }
-      const value = key ? `var(--colors-${key})` : color
-      css[`border${direction}-color`] = `color-mix(in oklch, ${value} var(--un-border${direction}-opacity), transparent)`
+
+      return result
     }
-  }
-
-  return css
-}
-
-function borderColorResolver(direction: string) {
-  return ([, body]: string[], theme: Theme): CSSObject | undefined => {
-    const data = parseColor(body, theme)
-
-    if (!data)
-      return
-
-    const { opacity, color, key } = data
-
-    if (color)
-      return transformBorderColor(color, opacity, key, direction)
   }
 }
 
@@ -88,16 +75,20 @@ function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefine
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
-function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | (CSSValueInput | string)[] | undefined {
   if (a in directionMap) {
     if (isCSSMathFn(h.bracket(b)))
       return handlerBorderSize(['', a, b])
 
     if (hasParseableColor(b, ctx.theme)) {
-      return Object.assign(
-        {},
-        ...directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme)),
-      )
+      return directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme))
+        .filter(notNull)
+        .reduce((acc, item) => {
+          // Merge multiple direction CSSObject into one
+          Object.assign(acc[0], item[0])
+          acc[1] = uniq([acc[1], item[1]]).join('')
+          return acc.filter(Boolean) as [CSSObject, string?]
+        }, [{}]) as (CSSValueInput | string)[]
     }
   }
 }
@@ -118,7 +109,7 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
     if (_v != null) {
       return cornerMap[a].map(i => [
         `border${i}-radius`,
-        theme.radius && _s in theme.radius && !passThemeKey.includes(_s) ? `var(--un-radius-${_s})` : _v,
+        theme.radius && _s in theme.radius && !passThemeKey.includes(_s) ? `var(--radius-${_s})` : _v,
       ])
     }
   }

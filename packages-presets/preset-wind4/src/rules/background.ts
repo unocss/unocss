@@ -1,6 +1,18 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey } from '../utils'
+import { defineProperty, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey } from '../utils'
+
+const properties = {
+  'gradient-position': defineProperty('--un-gradient-position'),
+  'gradient-from': defineProperty('--un-gradient-from', { syntax: '<color>', initialValue: '#0000' }),
+  'gradient-via': defineProperty('--un-gradient-via', { syntax: '<color>', initialValue: '#0000' }),
+  'gradient-to': defineProperty('--un-gradient-to', { syntax: '<color>', initialValue: '#0000' }),
+  'gradient-stops': defineProperty('--un-gradient-stops'),
+  'gradient-via-stops': defineProperty('--un-gradient-via-stops'),
+  'gradient-from-position': defineProperty('--un-gradient-from-position', { syntax: '<length-percentage>', initialValue: '0%' }),
+  'gradient-via-position': defineProperty('--un-gradient-via-position', { syntax: '<length-percentage>', initialValue: '50%' }),
+  'gradient-to-position': defineProperty('--un-gradient-to-position', { syntax: '<length-percentage>', initialValue: '100%' }),
+}
 
 function resolveModifier(modifier?: string) {
   let interpolationMethod = 'in oklab'
@@ -27,20 +39,22 @@ function resolveModifier(modifier?: string) {
 }
 
 function bgGradientColorResolver() {
-  return ([, position, body]: string[], { theme }: RuleContext<Theme>) => {
+  return function* ([, position, body]: string[], { theme }: RuleContext<Theme>) {
     const css: CSSObject = {}
     const data = parseColor(body, theme)
 
     if (data) {
-      const { color, key, opacity } = data
+      const { color, key, alpha } = data
 
       if (Object.values(SpecialColorKey).includes(color)) {
         css[`--un-gradient-${position}`] = color
       }
       else {
-        css[`--un-${position}-opacity`] = `${opacity || 100}%`
+        css[`--un-${position}-opacity`] = alpha
         const value = key ? `var(--colors-${key})` : color
         css[`--un-gradient-${position}`] = `color-mix(in oklab, ${value} var(--un-${position}-opacity), transparent)`
+
+        yield defineProperty(`--un-${position}-opacity`, { syntax: '<percentage>', initialValue: '100%' })
       }
     }
     else {
@@ -50,35 +64,41 @@ function bgGradientColorResolver() {
     if (css[`--un-gradient-${position}`]) {
       switch (position) {
         case 'from':
-          return {
+          yield {
             ...css,
             '--un-gradient-stops': 'var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position))',
           }
+          break
         case 'via':
-          return {
+          yield {
             ...css,
             '--un-gradient-via-stops': `var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-via) var(--un-gradient-via-position), var(--un-gradient-to) var(--un-gradient-to-position)`,
             '--un-gradient-stops': `var(--un-gradient-via-stops)`,
           }
+          break
         case 'to':
-          return {
+          yield {
             ...css,
             '--un-gradient-stops': 'var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position))',
           }
+          break
         case 'stops':
-          return {
+          yield {
             ...css,
           }
+          break
       }
+      yield Object.values(properties).join('\n')
     }
   }
 }
 
 function bgGradientPositionResolver() {
-  return ([, mode, body]: string[]) => {
-    return {
-      [`--un-gradient-${mode}-position`]: `${Number(h.bracket.cssvar.percent(body)) * 100}%`,
+  return function* ([, mode, body]: string[]) {
+    yield {
+      [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body)}`,
     }
+    yield Object.values(properties).join('\n')
   }
 }
 
@@ -97,7 +117,7 @@ export const backgroundStyles: Rule<Theme>[] = [
     if (v) {
       return {
         '--un-gradient-position': v,
-        'background-image': `${m}-gradient(var(--un-gradient-stops,${v}))`,
+        'background-image': `${m}-gradient(var(--un-gradient-stops))`,
       }
     }
   }, {
@@ -106,18 +126,16 @@ export const backgroundStyles: Rule<Theme>[] = [
 
   [/^(from|via|to|stops)-(.+)$/, bgGradientColorResolver()],
   [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
-  [/^(from|via|to)-([\d.]+)%$/, bgGradientPositionResolver()],
+  [/^(from|via|to)-([\d.]+%)$/, bgGradientPositionResolver()],
   // images
   [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
   // ignore any center position
-  [/^bg-(linear|radial|conic)-to-([rltb]{1,2})(?:\/(.+))?$/, ([, m, d, s]) => {
-    if (d in positionMap) {
-      return {
-        '--un-gradient-position': `to ${positionMap[d]} ${resolveModifier(s)}`,
-        'background-image': `${m}-gradient(var(--un-gradient-stops))`,
-      }
+  [/^bg-(linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
+    return {
+      '--un-gradient-position': `${d in positionMap ? `to ${positionMap[d]} ` : ' '}${resolveModifier(s)}`,
+      'background-image': `${m}-gradient(var(--un-gradient-stops))`,
     }
   }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap).filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c))).join('|')})` }],
   ['bg-none', { 'background-image': 'none' }],

@@ -58,10 +58,10 @@ export const sizes: Rule<Theme>[] = [
     autocomplete: [
       '(w|h)-screen',
       '(min|max)-(w|h)-screen',
-      'h-screen-$verticalBreakpoints',
-      '(min|max)-h-screen-$verticalBreakpoints',
-      'w-screen-$breakpoints',
-      '(min|max)-w-screen-$breakpoints',
+      'h-screen-$breakpoint',
+      '(min|max)-h-screen-$breakpoint',
+      'w-screen-$breakpoint',
+      '(min|max)-w-screen-$breakpoint',
     ],
   }],
 ]

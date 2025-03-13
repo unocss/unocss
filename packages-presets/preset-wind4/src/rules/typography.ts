@@ -1,16 +1,15 @@
-import type { CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorResolver, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
+import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
 import { passThemeKey } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
-import { varEmpty } from './static'
 
 export const fonts: Rule<Theme>[] = [
   // text
-  [/^text-(.+)$/, handleText, { autocomplete: 'text-$fontSize' }],
+  [/^text-(.+)$/, handleText, { autocomplete: 'text-$text' }],
 
   // // text size
-  [/^(?:text|font)-size-(.+)$/, handleSize, { autocomplete: 'text-size-$fontSize' }],
+  [/^(?:text|font)-size-(.+)$/, handleSize, { autocomplete: 'text-size-$text' }],
 
   // text colors
   [/^text-(?:color-)?(.+)$/, handlerColorOrSize, { autocomplete: 'text-$colors' }],
@@ -46,13 +45,23 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
     ([, s], { theme }) => {
-      const v = theme.leading?.[s] ? `var(--leading-${s})` : h.bracket.cssvar.global.rem(s)
-      return {
-        '--un-font-weight': v,
-        'line-height': v,
+      const v = theme.leading?.[s]
+        ? `var(--leading-${s})`
+        : numberResolver(s)
+          ? `calc(var(--spacing) * ${numberResolver(s)})`
+          : h.bracket.cssvar.global.rem(s)
+
+      if (v != null) {
+        return [
+          {
+            '--un-leading': v,
+            'line-height': v,
+          },
+          defineProperty('--un-leading'),
+        ]
       }
     },
-    { autocomplete: '(leading|lh|line-height)-$lineHeight' },
+    { autocomplete: '(leading|lh|line-height)-$leading' },
   ],
 
   // synthesis
@@ -72,7 +81,7 @@ export const fonts: Rule<Theme>[] = [
         'letter-spacing': v,
       }
     },
-    { autocomplete: 'tracking-$letterSpacing' },
+    { autocomplete: 'tracking-$tracking' },
   ],
 
   // word-spacing
@@ -86,7 +95,7 @@ export const fonts: Rule<Theme>[] = [
         'word-spacing': v,
       }
     },
-    { autocomplete: 'word-spacing-$wordSpacing' },
+    { autocomplete: 'word-spacing-$spacing' },
   ],
 
   // stretch
@@ -114,7 +123,7 @@ export const fonts: Rule<Theme>[] = [
         'font-family': v,
       }
     },
-    { autocomplete: 'font-$fontFamily' },
+    { autocomplete: 'font-$font' },
   ],
 ]
 
@@ -179,27 +188,27 @@ export const textShadows: Rule<Theme>[] = [
   [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
 ]
 
-export const fontVariantNumericBase = {
-  '--un-ordinal': varEmpty,
-  '--un-slashed-zero': varEmpty,
-  '--un-numeric-figure': varEmpty,
-  '--un-numeric-spacing': varEmpty,
-  '--un-numeric-fraction': varEmpty,
-}
+const fontVariantNumericProperties = [
+  defineProperty('--un-ordinal'),
+  defineProperty('--un-slashed-zero'),
+  defineProperty('--un-numeric-figure'),
+  defineProperty('--un-numeric-spacing'),
+  defineProperty('--un-numeric-fraction'),
+].join('\n')
 const baseFontVariantNumeric = {
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
-  ['ordinal', { '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }],
-  ['slashed-zero', { '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }],
-  ['lining-nums', { '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }],
-  ['oldstyle-nums', { '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }],
-  ['proportional-nums', { '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }],
-  ['tabular-nums', { '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }],
-  ['diagonal-fractions', { '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }],
-  ['stacked-fractions', { '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }],
-  ['normal-nums', { 'font-variant-numeric': 'normal' }],
+  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['slashed-zero', [{ '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['lining-nums', [{ '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['oldstyle-nums', [{ '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['proportional-nums', [{ '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['tabular-nums', [{ '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['diagonal-fractions', [{ '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['stacked-fractions', [{ '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['normal-nums', [{ 'font-variant-numeric': 'normal' }]],
 ]
 
 function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
@@ -245,7 +254,7 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
   }
 }
 
-function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
   if (isCSSMathFn(h.bracket(match[1])))
     return handleSize(match, ctx)
   return colorResolver('color', 'text')(match, ctx)

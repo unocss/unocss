@@ -1,11 +1,9 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, makeGlobalStaticRules, positionMap } from '../utils'
+import { defineProperty, globalKeywords, h, makeGlobalStaticRules, positionMap } from '../utils'
 
 const cursorValues = ['auto', 'default', 'none', 'context-menu', 'help', 'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text', 'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed', 'grab', 'grabbing', 'all-scroll', 'col-resize', 'row-resize', 'n-resize', 'e-resize', 's-resize', 'w-resize', 'ne-resize', 'nw-resize', 'se-resize', 'sw-resize', 'ew-resize', 'ns-resize', 'nesw-resize', 'nwse-resize', 'zoom-in', 'zoom-out']
-const containValues = ['none', 'strict', 'content', 'size', 'inline-size', 'layout', 'style', 'paint']
-
-export const varEmpty = ' '
+const containValues = ['size', 'layout', 'paint', 'style']
 
 // display table included on table.ts
 export const displays: Rule<Theme>[] = [
@@ -40,8 +38,19 @@ export const contains: Rule<Theme>[] = [
       }
     }
 
-    return containValues.includes(d) ? { contain: d } : undefined
+    return containValues.includes(d)
+      ? [
+          {
+            '--un-contain-size': d,
+            'contain': containValues.map(i => `var(--un-contain-${i})`).join(' '),
+          },
+          containValues.map(i => defineProperty(`--un-contain-${i}`)).join('\n'),
+        ]
+      : undefined
   }],
+  ['contain-strict', { contain: 'strict' }],
+  ['contain-content', { contain: 'content' }],
+  ['contain-none', { contain: 'none' }],
 ]
 
 export const pointerEvents: Rule<Theme>[] = [
@@ -83,7 +92,13 @@ export const contentVisibility: Rule<Theme>[] = [
 ]
 
 export const contents: Rule<Theme>[] = [
-  [/^content-(.+)$/, ([, v]) => ({ content: h.bracket.cssvar(v) })],
+  [/^content-(.+)$/, ([, v]) => [
+    {
+      '--un-content': h.bracket.cssvar(v),
+      'content': 'var(--un-content)',
+    },
+    defineProperty('--un-content', { initialValue: '""' }),
+  ]],
   ['content-empty', { content: '""' }],
   ['content-none', { content: 'none' }],
 ]

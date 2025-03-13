@@ -1,4 +1,4 @@
-import type { CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, globalKeywords, h, isCSSMathFn } from '../utils'
 
@@ -28,15 +28,14 @@ function handleWidth([, b]: string[]): CSSObject {
   return { 'text-decoration-thickness': h.bracket.cssvar.global.px(b) }
 }
 
-function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
   if (isCSSMathFn(h.bracket(match[1])))
     return handleWidth(match)
 
-  const result = colorResolver('text-decoration-color', 'line')(match, ctx) as CSSObject | undefined
+  const result = colorResolver('text-decoration-color', 'line')(match, ctx)
   if (result) {
-    return {
-      '-webkit-text-decoration-color': result['text-decoration-color'],
-      ...result,
-    }
+    const css = result[0] as CSSObject
+    css['-webkit-text-decoration-color'] = css['text-decoration-color']
+    return result
   }
 }

@@ -92,6 +92,6 @@ export function variantBreakpoints(): VariantObject<Theme> {
       }
     },
     multiPass: true,
-    autocomplete: '(at-|lt-|max-|)$breakpoints:',
+    autocomplete: '(at-|lt-|max-|)$breakpoint:',
   }
 }

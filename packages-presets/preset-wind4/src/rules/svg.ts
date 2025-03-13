@@ -1,4 +1,4 @@
-import type { CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, h, isCSSMathFn } from '../utils'
 
@@ -9,11 +9,11 @@ export const svgUtilities: Rule<Theme>[] = [
   ['fill-none', { fill: 'none' }],
 
   // stroke size
-  [/^stroke-(?:width-|size-)?(.+)$/, handleWidth, { autocomplete: ['stroke-width-$lineWidth', 'stroke-size-$lineWidth'] }],
+  [/^stroke-(?:width-|size-)?(.+)$/, handleWidth],
 
   // stroke dash
   [/^stroke-dash-(.+)$/, ([, s]) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s) }), { autocomplete: 'stroke-dash-<num>' }],
-  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) }), { autocomplete: 'stroke-offset-$lineWidth' }],
+  [/^stroke-offset-(.+)$/, ([, s]) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s) })],
 
   // stroke colors
   [/^stroke-(.+)$/, handleColorOrWidth, { autocomplete: 'stroke-$colors' }],
@@ -39,8 +39,8 @@ function handleWidth([, b]: string[]): CSSObject {
   return { 'stroke-width': h.bracket.cssvar.fraction.px.number(b) }
 }
 
-function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
+function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
   if (isCSSMathFn(h.bracket(match[1])))
     return handleWidth(match)
-  return colorResolver('stroke', 'stroke')(match, ctx) as CSSObject | undefined
+  return colorResolver('stroke', 'stroke')(match, ctx)
 }

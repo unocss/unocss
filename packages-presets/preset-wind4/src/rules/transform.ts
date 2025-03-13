@@ -1,6 +1,6 @@
-import type { CSSValues, Rule } from '@unocss/core'
+import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, makeGlobalStaticRules, numberResolver, positionMap, transformXYZ, xyzMap } from '../utils'
+import { defineProperty, h, makeGlobalStaticRules, numberResolver, positionMap, transformXYZ, xyzMap } from '../utils'
 
 const transformValues = [
   'translate',
@@ -88,7 +88,7 @@ export const transforms: Rule<Theme>[] = [
   ...makeGlobalStaticRules('transform'),
 ]
 
-function handleTranslate([, d, b]: string[]): CSSValues | undefined {
+function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
   const v = numberResolver(b) ?? h.bracket.cssvar.none.rem(b)
 
   if (v != null) {
@@ -99,13 +99,16 @@ function handleTranslate([, d, b]: string[]): CSSValues | undefined {
     }
 
     return [
-      ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
-      ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`],
+      [
+        ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
+        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`],
+      ],
+      ['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })).join('\n'),
     ]
   }
 }
 
-function handleScale([, d, b]: string[]): CSSValues | undefined {
+function handleScale([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
   const v = h.bracket.cssvar.none.fraction.percent(b)
 
   if (v != null) {
@@ -116,13 +119,16 @@ function handleScale([, d, b]: string[]): CSSValues | undefined {
     }
 
     return [
-      ...transformXYZ(d, v, 'scale'),
-      ['scale', `var(--un-scale-x) var(--un-scale-y)${d === 'z' ? ' var(--un-scale-z)' : ''}`],
+      [
+        ...transformXYZ(d, v, 'scale'),
+        ['scale', `var(--un-scale-x) var(--un-scale-y)${d === 'z' ? ' var(--un-scale-z)' : ''}`],
+      ],
+      ['x', 'y', 'z'].map(d => defineProperty(`--un-scale-${d}`, { initialValue: 1 })).join('\n'),
     ]
   }
 }
 
-function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
+function handleRotate([, d = '', b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
   const v = h.bracket.cssvar.none.degree(b)
   if (v != null) {
     if (v === 'none') {
@@ -133,8 +139,12 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
 
     if (d) {
       return [
-        ...transformXYZ(d, v.endsWith('deg') ? `rotate${d.toUpperCase()}(${v})` : v, 'rotate'),
-        ['transform', transform],
+        [
+          ...transformXYZ(d, v.endsWith('deg') ? `rotate${d.toUpperCase()}(${v})` : v, 'rotate'),
+          ['transform', transform],
+        ],
+        ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
+        ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
       ]
     }
     else {
@@ -145,13 +155,17 @@ function handleRotate([, d = '', b]: string[]): CSSValues | undefined {
   }
 }
 
-function handleSkew([, d, b]: string[]): CSSValues | undefined {
+function handleSkew([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
   const v = h.bracket.cssvar.degree(b)
   const ds = xyzMap[d]
   if (v != null && ds) {
     return [
-      ...ds.map(_d => [`--un-skew${_d}`, v.endsWith('deg') ? `skew${_d.slice(1).toUpperCase()}(${v})` : v]) as any,
-      ['transform', transform],
+      [
+        ...ds.map(_d => [`--un-skew${_d}`, v.endsWith('deg') ? `skew${_d.slice(1).toUpperCase()}(${v})` : v]) as any,
+        ['transform', transform],
+      ],
+      ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
+      ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
     ]
   }
 }
