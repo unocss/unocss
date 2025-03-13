@@ -109,7 +109,7 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
     if (_v != null) {
       return cornerMap[a].map(i => [
         `border${i}-radius`,
-        theme.radius && _s in theme.radius && !passThemeKey.includes(_s) ? `var(--un-radius-${_s})` : _v,
+        theme.radius && _s in theme.radius && !passThemeKey.includes(_s) ? `var(--radius-${_s})` : _v,
       ])
     }
   }
