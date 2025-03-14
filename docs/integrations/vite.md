@@ -33,6 +33,10 @@ yarn add -D unocss
 npm install -D unocss
 ```
 
+```bash [bun]
+bun add -D unocss
+```
+
 :::
 
 Install the plugin:
@@ -399,7 +403,7 @@ If `@vitejs/plugin-legacy` with `renderModernChunks: false`, your need add it to
 ```ts
 import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
-import { presetUno } from 'unocss'
+import { presetWind3 } from 'unocss'
 import Unocss from 'unocss/vite'
 import { defineConfig } from 'vite'
 
@@ -407,7 +411,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Unocss({
-      presets: [presetUno()],
+      presets: [presetWind3()],
       legacy: {
         renderModernChunks: false,
       },

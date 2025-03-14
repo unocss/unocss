@@ -2,9 +2,9 @@ import { resolve } from 'node:path'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import presetWind3 from '@unocss/preset-wind3'
 import { defineConfig } from 'unocss'
 
 const iconDirectory = resolve(__dirname, 'icons')
@@ -14,7 +14,7 @@ export default defineConfig({
     { logo: 'i-logos-vue w-6em h-6em transform transition-800' },
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       extraProperties: {

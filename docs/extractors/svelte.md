@@ -34,6 +34,10 @@ yarn add -D @unocss/extractor-svelte
 npm install -D @unocss/extractor-svelte
 ```
 
+```bash [bun]
+bun add -D @unocss/extractor-svelte
+```
+
 :::
 
 ```ts [uno.config.ts]

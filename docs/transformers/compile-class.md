@@ -26,6 +26,10 @@ yarn add -D @unocss/transformer-compile-class
 npm install -D @unocss/transformer-compile-class
 ```
 
+```bash [bun]
+bun add -D @unocss/transformer-compile-class
+```
+
 :::
 
 ```ts [uno.config.ts]

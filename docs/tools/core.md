@@ -23,6 +23,10 @@ yarn add -D @unocss/core
 npm install -D @unocss/core
 ```
 
+```bash [bun]
+bun add -D @unocss/core
+```
+
 :::
 
 ## Usage

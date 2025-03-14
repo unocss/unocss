@@ -5,9 +5,8 @@ Opinionated presets for UnoCSS. To serve as a good starting point for using UnoC
 | Package                                                                    | Description                                         | Included in `unocss` | Enabled |
 | -------------------------------------------------------------------------- | --------------------------------------------------- | -------------------- | ------- |
 | [unocss](./unocss)                                                         | The default package with common presets and plugins | -                    | -       |
-| [@unocss/preset-uno](./preset-uno)                                         | The default preset                                  | ✅                   | ✅      |
 | [@unocss/preset-mini](./preset-mini)                                       | The minimal but essential rules and variants        | ✅                   | ✅      |
-| [@unocss/preset-wind](./preset-wind)                                       | Tailwind / Windi CSS compact preset                 | ✅                   | ✅      |
+| [@unocss/preset-wind3](./preset-wind3)                                     | Tailwind / Windi CSS compact preset                 | ✅                   | ✅      |
 | [@unocss/preset-attributify](./preset-attributify)                         | Enables Attributify Mode for other rules            | ✅                   | No      |
 | [@unocss/preset-tagify](./preset-tagify)                                   | Enables Tagify Mode for other rules                 | ✅                   | No      |
 | [@unocss/preset-icons](./preset-icons)                                     | Pure CSS Icons solution powered by Iconify          | ✅                   | No      |

@@ -30,6 +30,10 @@ yarn add -D @unocss/extractor-arbitrary-variants
 npm install -D @unocss/extractor-arbitrary-variants
 ```
 
+```bash [bun]
+bun add -D @unocss/extractor-arbitrary-variants
+```
+
 :::
 
 ```ts [uno.config.ts]

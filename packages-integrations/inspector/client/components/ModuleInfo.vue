@@ -21,14 +21,14 @@ const unmatchedClasses = asyncComputed(async () => {
   if (extractors) {
     const context = { code: mod.value?.code || '' } as any
     for (const extractor of extractors) {
-      const result = await extractor.extract(context)
+      const result = await extractor.extract!(context)
       result?.forEach(t => set.add(t))
     }
   }
   return Array.from(set)
     .filter(i => !i.startsWith('['))
     .filter(i => !mod.value?.matched?.some(({ rawSelector }) => rawSelector === i))
-})
+}, [])
 
 const isPrettify = ref(false)
 const active = ref('source')
@@ -95,6 +95,6 @@ const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
         </Pane>
       </Splitpanes>
     </div>
-    <Analyzer v-else flex-grow overflow-y-auto :selectors="mod.matched" :colors="mod.colors" />
+    <Analyzer v-else flex-grow overflow-y-auto :selectors="mod.matched" :icons="mod.icons" :colors="mod.colors" />
   </div>
 </template>

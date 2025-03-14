@@ -23,6 +23,10 @@ yarn add -D unocss @unocss/nuxt
 npm install -D unocss @unocss/nuxt
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/nuxt
+```
+
 :::
 
 Add `@unocss/nuxt` to your Nuxt config file:

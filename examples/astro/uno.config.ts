@@ -1,7 +1,7 @@
 import {
   defineConfig,
   presetIcons,
-  presetUno,
+  presetWind3,
   transformerDirectives,
 } from 'unocss'
 
@@ -13,7 +13,7 @@ export default defineConfig({
     transformerDirectives(),
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetIcons({
       extraProperties: {
         'display': 'inline-block',

@@ -99,7 +99,7 @@ watch(
 
 function useTransformer() {
   const transformed = computedAsync(async () => await getTransformed('html'))
-  const transformedHTML = computed(() => transformed.value?.output)
+  const transformedHTML = computed(() => transformed.value?.output || '')
   const transformedCSS = computedAsync(async () => (await getTransformed('css')).output)
 
   async function applyTransformers(code: MagicString, id: string, enforce?: 'pre' | 'post') {

@@ -29,6 +29,10 @@ yarn add -D unocss @unocss/postcss
 npm install -D unocss @unocss/postcss
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/postcss
+```
+
 :::
 
 ```ts [postcss.config.mjs]
@@ -42,7 +46,7 @@ export default {
 ```
 
 ```ts [uno.config.ts]
-import { defineConfig, presetUno } from 'unocss'
+import { defineConfig, presetWind3 } from 'unocss'
 
 export default defineConfig({
   content: {
@@ -51,7 +55,7 @@ export default defineConfig({
     ],
   },
   presets: [
-    presetUno(),
+    presetWind3(),
   ],
 })
 ```

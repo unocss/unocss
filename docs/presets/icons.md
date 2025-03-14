@@ -67,6 +67,10 @@ yarn add -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
 npm install -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-icons @iconify-json/[the-collection-you-want]
+```
+
 :::
 
 We use [Iconify](https://iconify.design) as our data source of icons. You need to install the corresponding icon-set in `devDependencies` by following the `@iconify-json/*` pattern. For example, `@iconify-json/mdi` for [Material Design Icons](https://materialdesignicons.com/), `@iconify-json/tabler` for [Tabler](https://tabler-icons.io/). You can refer to [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/) for all the collections available.
@@ -110,6 +114,10 @@ yarn add -D @iconify/json
 
 ```bash [npm]
 npm install -D @iconify/json
+```
+
+```bash [bun]
+bun add -D @iconify/json
 ```
 
 :::
@@ -561,7 +569,7 @@ If the icon is purely decorative and doesn't need a text alternative, you can us
 </a>
 ```
 
-There are many other techniques to provide hint text for screen-readers, for instance, [Uno preset](./uno) includes [sr-only](/interactive/?s=sr-only) to hide elements visually but keep them accessible to screen readers.
+There are many other techniques to provide hint text for screen-readers, for instance, [Wind3 preset](./wind3) includes [sr-only](/interactive/?s=sr-only) to hide elements visually but keep them accessible to screen readers.
 
 You can find some good resources on the web about icons accessibility, and CSS icons behave like icon fonts, so you can use the same techniques as you would with icon fonts.
 

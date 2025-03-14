@@ -29,6 +29,10 @@ yarn add -D unocss
 npm install -D unocss
 ```
 
+```bash [bun]
+bun add -D unocss
+```
+
 :::
 
 You can also install the standalone package:
@@ -45,6 +49,10 @@ yarn add -D @unocss/cli
 
 ```bash [npm]
 npm install -D @unocss/cli
+```
+
+```bash [bun]
+bun add -D @unocss/cli
 ```
 
 :::

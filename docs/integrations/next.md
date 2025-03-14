@@ -27,6 +27,10 @@ yarn add -D unocss @unocss/webpack
 npm install -D unocss @unocss/webpack
 ```
 
+```bash [bun]
+bun add -D unocss @unocss/webpack
+```
+
 :::
 
 ### Configuration
@@ -38,13 +42,13 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetUno,
-  presetWebFonts
+  presetWebFonts,
+  presetWind3
 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
     // ...
   ],
 })

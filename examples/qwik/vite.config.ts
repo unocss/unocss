@@ -1,6 +1,6 @@
 import { qwikCity } from '@builder.io/qwik-city/vite'
 import { qwikVite } from '@builder.io/qwik/optimizer'
-import { presetAttributify, presetIcons, presetUno } from 'unocss'
+import { presetAttributify, presetIcons, presetWind3 } from 'unocss'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
@@ -11,7 +11,7 @@ export default defineConfig(() => {
         { logo: 'i-logos-qwik w-6em h-6em transform transition-800 hover:rotate-180' },
       ],
       presets: [
-        presetUno(),
+        presetWind3(),
         presetAttributify(),
         presetIcons({
           scale: 1.2,

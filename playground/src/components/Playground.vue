@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-
-// @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 
 const bp = useBreakpoints(breakpointsTailwind)
@@ -12,8 +10,7 @@ const isResizing = ref(false)
 
 <template>
   <Splitpanes
-    h-screen
-    w-screen
+    class="size-screen"
     :horizontal="isMobile"
     @resized="isResizing = false"
     @resize="isResizing = true"

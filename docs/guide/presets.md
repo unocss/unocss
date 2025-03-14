@@ -13,12 +13,12 @@ Presets are the heart of UnoCSS. They let you make your own custom framework in 
 To set presets to your project:
 
 ```ts twoslash [uno.config.ts]
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
+import { defineConfig, presetAttributify, presetWind3 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetAttributify({ /* preset options */}),
-    presetUno(),
+    presetWind3(),
     // ...custom presets
   ],
 })

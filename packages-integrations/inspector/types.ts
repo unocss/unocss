@@ -6,6 +6,7 @@ export interface ProjectInfo {
   modules: string[]
   config: ResolvedConfig
   configSources?: string[]
+  configPath?: string
 }
 
 export interface Result extends Omit<GenerateResult, 'matched' | 'layers'> {
@@ -38,12 +39,9 @@ export interface MatchedSelector {
   alias?: Record<string, number>
 }
 
-export interface MatchedColor {
-  name: string
+export interface MatchedColor extends MatchedSelector {
   no: string
   color: string
-  count: number
-  modules: string[]
 }
 
 export interface SuggestedShortcut {

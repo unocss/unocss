@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-typography
 npm install -D @unocss/preset-typography
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-typography
+```
+
 :::
 
 ::: tip
@@ -44,13 +48,13 @@ import {
   defineConfig,
   presetAttributify,
   presetTypography,
-  presetUno
+  presetWind3
 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetAttributify(), // required when using attributify mode
-    presetUno(), // required
+    presetWind3(), // required
     presetTypography(),
   ],
 })
@@ -205,12 +209,12 @@ interface TypographyCompatibilityOptions {
 
 ```ts [uno.config.ts]
 import { presetTypography } from '@unocss/preset-typography'
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
+import { defineConfig, presetAttributify, presetWind3 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetAttributify(), // required if using attributify mode
-    presetUno(), // required
+    presetWind3(), // required
     presetTypography({
       selectorName: 'markdown', // now use like `markdown markdown-gray`, `not-markdown`
       // cssExtend is an object with CSS selector as key and

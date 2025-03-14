@@ -46,6 +46,9 @@ describe('preset-mini color utils', () => {
           info: 'hsl(200.1,100%,54.3%)',
           warning: 'hsl(42.4 100% 50%)',
           danger: 'hsl(var(--danger))',
+          colorMix: 'color-mix(in hsl, oklch(95% 0.10 var(--hue)), oklch(100% 0 360))',
+          colorMixUnoAlpha: 'color-mix(in hsl, oklch(95% 0.10 var(--hue) / %alpha), oklch(100% 0 360))',
+          colorMixDosAlpha: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / %alpha) 30%, oklch(100% 0 360 / %alpha))',
         },
       },
       symbols,
@@ -102,6 +105,32 @@ describe('preset-mini color utils', () => {
     expect(fn('#0000')).eql({
       '--un-v-opacity': 0,
       'prop': 'rgb(0 0 0 / var(--un-v-opacity))',
+    })
+
+    expect(fn('colorMix')).eql({
+      prop: 'color-mix(in hsl, oklch(95% 0.10 var(--hue)), oklch(100% 0 360))',
+    })
+
+    expect(fn('colorMix/20')).eql({
+      prop: 'color-mix(in hsl, oklch(95% 0.10 var(--hue)), oklch(100% 0 360))',
+    })
+
+    expect(fn('colorMixUnoAlpha')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'color-mix(in hsl, oklch(95% 0.10 var(--hue) / var(--un-v-opacity)), oklch(100% 0 360))',
+    })
+
+    expect(fn('colorMixUnoAlpha/20')).eql({
+      prop: 'color-mix(in hsl, oklch(95% 0.10 var(--hue) / 0.2), oklch(100% 0 360))',
+    })
+
+    expect(fn('colorMixDosAlpha')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / var(--un-v-opacity)) 30%, oklch(100% 0 360 / var(--un-v-opacity)))',
+    })
+
+    expect(fn('colorMixDosAlpha/20')).eql({
+      prop: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / 0.2) 30%, oklch(100% 0 360 / 0.2))',
     })
 
     // invalid

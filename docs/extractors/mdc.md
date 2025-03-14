@@ -23,6 +23,10 @@ yarn add -D @unocss/extractor-mdc
 npm install -D @unocss/extractor-mdc
 ```
 
+```bash [bun]
+bun add -D @unocss/extractor-mdc
+```
+
 :::
 
 ```ts [uno.config.ts]

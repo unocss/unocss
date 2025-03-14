@@ -6,7 +6,7 @@ import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { definePreset, warnOnce } from '@unocss/core'
-import icons from './collections.json'
+import icons from './collections'
 
 const COLLECTION_NAME_PARTS_MAX = 3
 
@@ -156,15 +156,17 @@ export function combineLoaders(loaders: UniversalIconLoader[]) {
   }) as UniversalIconLoader
 }
 
-export function createCDNFetchLoader(fetcher: (url: string) => Promise<any>, cdnBase: string): UniversalIconLoader {
-  const cache = new Map<string, Promise<IconifyJSON>>()
-
+export function createCDNFetchLoader(
+  fetcher: (url: string) => Promise<any>,
+  cdnBase: string,
+  cacheMap: Map<string, IconifyJSON | Promise<IconifyJSON>> = new Map(),
+): UniversalIconLoader {
   function fetchCollection(name: string) {
     if (!icons.includes(name))
       return undefined
-    if (!cache.has(name))
-      cache.set(name, fetcher(`${cdnBase}@iconify-json/${name}/icons.json`))
-    return cache.get(name)!
+    if (!cacheMap.has(name))
+      cacheMap.set(name, fetcher(`${cdnBase}@iconify-json/${name}/icons.json`))
+    return cacheMap.get(name)!
   }
 
   return async (collection, icon, options) => {

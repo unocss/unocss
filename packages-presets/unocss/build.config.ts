@@ -32,6 +32,8 @@ export default defineBuildConfig([
       'src/preset-typography',
       'src/preset-wind',
       'src/preset-mini',
+      'src/preset-wind3',
+      'src/preset-wind4',
     ],
     clean: false,
     declaration: true,

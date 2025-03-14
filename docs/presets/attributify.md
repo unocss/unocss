@@ -26,6 +26,10 @@ yarn add -D @unocss/preset-attributify
 npm install -D @unocss/preset-attributify
 ```
 
+```bash [bun]
+bun add -D @unocss/preset-attributify
+```
+
 :::
 
 ```ts [uno.config.ts]
@@ -148,7 +152,7 @@ presetAttributify({
 
 Create `shims.d.ts` with the following content:
 
-> By default, the type includes common attributes from `@unocss/preset-uno`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
+> By default, the type includes common attributes from `@unocss/preset-wind3`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
 
 ### Vue
 
