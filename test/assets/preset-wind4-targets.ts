@@ -421,6 +421,16 @@ export const presetWind4Targets: string[] = [
 
   // accessibility
   'forced-colors:block',
+
+  // color-scheme
+  'color-scheme-dark-light',
+  'color-scheme-light-dark',
+  'color-scheme-dark',
+  'color-scheme-light',
+  'scheme-dark-light',
+  'scheme-light-dark',
+  'scheme-dark',
+  'scheme-light',
 ]
 
 export const presetWindNonTargets: string[] = [
