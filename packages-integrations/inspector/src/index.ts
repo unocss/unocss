@@ -18,7 +18,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   async function configureServer(server: ViteDevServer) {
     await ctx.ready
     const baseUrl = '__unocss'
-    const middlewareUrl = `${server.config.base || '/'}__unocss`
+    const middlewareUrl = `${server.config.base || '/'}${baseUrl}`
 
     server.middlewares.use(`${middlewareUrl}`, sirv(resolve(_dirname, '../dist/client'), {
       single: true,
