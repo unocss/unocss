@@ -16,6 +16,9 @@ export class CountableSet<K> extends Set<K> {
   }
 
   delete(key: K) {
+    if (!this._map.has(key)) {
+      return false
+    }
     this._map.delete(key)
     return super.delete(key)
   }
