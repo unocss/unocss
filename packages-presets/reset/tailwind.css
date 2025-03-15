@@ -195,10 +195,7 @@ select {
 2. Remove default button styles.
 */
 
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+button, input:where([type="button"]), input:where([type="reset"]), input:where([type="submit"]) {
   -webkit-appearance: button; /* 1 */
   background-color: transparent; /* 2 */
   background-image: none; /* 2 */
