@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h, isSize } from '../utils'
+import { colorResolver, h, isSize, trackedTheme } from '../utils'
 
 /**
  * @example op10 op-30 opacity-100
@@ -32,7 +32,7 @@ export const bgColors: Rule<Theme>[] = [
       }
     }
     return colorResolver('background-color', 'bg')(...args)
-  }, { autocomplete: 'bg-$colors' }],
+  }, { autocomplete: 'bg-$colors', custom: { themeDep: trackedTheme } }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
 ]
 

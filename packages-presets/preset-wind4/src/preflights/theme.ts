@@ -74,7 +74,10 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
 
   return {
     layer: 'theme',
-    getCSS({ theme }) {
+    getCSS({ theme, generator }) {
+      console.log(generator.activatedRules)
+      console.log(generator.activatedRules.forEach(r => r[2]?.custom?.themeDep))
+
       return compressCSS(`
 :root {
 --spacing: ${theme.spacing!.DEFAULT};

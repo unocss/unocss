@@ -2,6 +2,7 @@ import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext,
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { themeTracking } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
@@ -142,6 +143,10 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
     else {
       const alphaKey = `--un-${varName}-opacity`
       const value = key ? `var(--colors-${key})` : color
+
+      if (key) {
+        themeTracking(`var(--colors-${key})`)
+      }
 
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
