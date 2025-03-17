@@ -2,7 +2,7 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetUno,
+  presetWind3,
 } from 'unocss'
 
 export default defineConfig({
@@ -13,7 +13,7 @@ export default defineConfig({
     'custom-shortcut': 'text-lg text-orange hover:text-teal',
   },
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
