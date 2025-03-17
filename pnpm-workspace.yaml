@@ -39,7 +39,6 @@ catalog:
   '@iconify/json': ^2.2.316
   '@iconify/types': ^2.0.0
   '@iconify/utils': ^2.3.0
-  '@nuxt/devtools': ^2.2.1
   '@nuxt/kit': ^3.16.0
   '@nuxt/schema': ^3.16.0
   '@shikijs/markdown-it': ^3.2.1
