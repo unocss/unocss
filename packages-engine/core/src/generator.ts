@@ -581,7 +581,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
         if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-          context.generator.activatedRules.add(staticMatch)
           if (this.config.details)
             context.rules!.push(staticMatch)
 
@@ -589,6 +588,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           const entries = normalizeCSSValues(staticMatch[1]).filter(i => i.length)
           const meta = staticMatch[2]
           if (entries.length) {
+            context.generator.activatedRules.add(staticMatch)
             return entries.map((css) => {
               if (isString(css))
                 return [index, css, meta]
@@ -635,7 +635,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (!result)
           continue
 
-        context.generator.activatedRules.add(rule)
         if (this.config.details)
           context.rules!.push(rule as DynamicRule<Theme>)
 
@@ -657,6 +656,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
         const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
         if (entries.length) {
+          context.generator.activatedRules.add(rule)
           const index = this.config.rules.indexOf(rule)
           return entries.map((css): ParsedUtil | RawUtil => {
             if (isString(css))

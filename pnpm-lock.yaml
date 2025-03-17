@@ -90,9 +90,6 @@ catalogs:
     '@iconify/utils':
       specifier: ^2.3.0
       version: 2.3.0
-    '@nuxt/devtools':
-      specifier: ^2.2.1
-      version: 2.2.1
     '@nuxt/kit':
       specifier: ^3.16.0
       version: 3.16.0
@@ -852,9 +849,6 @@ importers:
       '@antfu/utils':
         specifier: 'catalog:'
         version: 9.1.0
-      '@nuxt/devtools':
-        specifier: 'catalog:'
-        version: 2.2.1(vite@6.2.1(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
       '@shikijs/markdown-it':
         specifier: 'catalog:'
         version: 3.2.1

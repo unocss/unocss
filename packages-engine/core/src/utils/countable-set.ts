@@ -1,18 +1,24 @@
 export class CountableSet<K> extends Set<K> {
-  _map: Map<K, number>
+  _map: Map<K, number> = new Map()
 
   constructor(values?: Iterable<K>) {
-    super(values)
-    this._map ??= new Map()
+    super()
+    if (values) {
+      for (const key of values) {
+        this.add(key)
+      }
+    }
   }
 
   add(key: K) {
-    this._map ??= new Map()
     this._map.set(key, (this._map.get(key) ?? 0) + 1)
     return super.add(key)
   }
 
   delete(key: K) {
+    if (!this._map.has(key)) {
+      return false
+    }
     this._map.delete(key)
     return super.delete(key)
   }

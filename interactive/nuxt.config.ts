@@ -12,9 +12,12 @@ const externals = [
 export default defineNuxtConfig({
   alias,
 
+  devtools: {
+    enabled: true,
+  },
+
   modules: [
     '@vueuse/nuxt',
-    '@nuxt/devtools',
     '../packages-integrations/nuxt/src/index.ts',
     '~/modules/markdown',
   ],
