@@ -526,6 +526,11 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Custom function to be called when the config is reloaded.
+   */
+  onConfig?: Arrayable<(config: ResolvedConfig<Theme>) => void>
 }
 
 export interface OutputCssLayersOptions {

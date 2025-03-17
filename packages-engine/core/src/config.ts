@@ -146,7 +146,7 @@ export async function resolveConfig<Theme extends object = object>(
 
   const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
 
-  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content' | 'transformers'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content' | 'transformers' | 'onConfig'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
     return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
@@ -228,6 +228,7 @@ export async function resolveConfig<Theme extends object = object>(
     details: config.details ?? (config.envMode === 'dev'),
     content,
     transformers: uniqueBy(getMerged('transformers'), (a, b) => a.name === b.name),
+    onConfig: getMerged('onConfig'),
   }
 
   for (const p of sources)

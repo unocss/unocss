@@ -37,6 +37,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
   ): Promise<UnoGeneratorInternal<Theme>> {
     const uno = new UnoGeneratorInternal(userConfig, defaults)
     uno.config = await resolveConfig(uno.userConfig, uno.defaults)
+    if (uno.config.onConfig) {
+      toArray(uno.config.onConfig).forEach(i => i(uno.config))
+    }
     uno.events.emit('config', uno.config)
     return uno
   }
@@ -55,6 +58,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
     this.activatedRules.clear()
     this.cache.clear()
     this.config = await resolveConfig(userConfig, this.defaults)
+    if (this.config.onConfig) {
+      toArray(this.config.onConfig).forEach(i => i(this.config))
+    }
     this.events.emit('config', this.config)
   }
 

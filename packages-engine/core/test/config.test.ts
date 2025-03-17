@@ -353,4 +353,68 @@ describe('mergeConfigs', () => {
 
     expect(uno.config.transformers?.map(i => i.name)).toEqual(['transformer-foo', 'transformer-bar'])
   })
+
+  it('onConfig', async () => {
+    let count = 0
+
+    const uno = await createGenerator({
+      presets: [
+        {
+          name: 'preset-foo',
+          rules: [[
+            /^foo$/,
+            () => {
+              count++
+              return { color: 'red' }
+            },
+          ]],
+          onConfig() {
+            count = 0
+          },
+        },
+        {
+          name: 'preset-bar',
+          rules: [[
+            /^bar$/,
+            () => {
+              count = count * 2
+              return { color: 'red' }
+            },
+          ]],
+          onConfig() {
+            count = 1 // Has higher priority
+          },
+        },
+      ],
+    })
+
+    expect(count).toBe(1)
+    await uno.generate('foo')
+    expect(count).toBe(2)
+    await uno.generate('bar')
+    expect(count).toBe(4)
+
+    // Set config
+    await uno.setConfig({
+      presets: [
+        {
+          name: 'preset-baz',
+          rules: [[
+            /^baz$/,
+            () => {
+              count++
+              return { color: 'red' }
+            },
+          ]],
+          onConfig() {
+            count = -1
+          },
+        },
+      ],
+    })
+
+    expect(count).toBe(-1)
+    await uno.generate('baz')
+    expect(count).toBe(0)
+  })
 })
