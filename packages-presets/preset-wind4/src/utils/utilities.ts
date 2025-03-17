@@ -54,6 +54,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
 
     if (v != null) {
+      themeTracking('spacing')
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${v})`])
     }
 
@@ -66,6 +67,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     if (size?.startsWith('-')) {
       const _v = spaceMap[size.slice(1) as keyof typeof spaceMap]
       if (_v != null) {
+        themeTracking('spacing')
         v = `calc(var(--spacing) * -${_v})`
         return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
       }
@@ -145,7 +147,7 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       const value = key ? `var(--colors-${key})` : color
 
       if (key) {
-        themeTracking(`var(--colors-${key})`)
+        themeTracking(`colors-${key}`)
       }
 
       css[alphaKey] = alpha

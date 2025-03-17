@@ -1,7 +1,7 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
-import { passThemeKey } from '../utils/constant'
+import { passThemeKey, themeTracking } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
 
 export const fonts: Rule<Theme>[] = [
@@ -27,7 +27,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font|fw)-?([^-]+)$/,
     ([, s], { theme }) => {
-      const v = theme.fontWeight?.[s] ? `var(--font-weight-${s})` : h.bracket.global.number(s)
+      let v: string | undefined
+
+      if (theme.fontWeight?.[s]) {
+        themeTracking(`font-weight-${s}`)
+        v = `var(--font-weight-${s})`
+      }
+      else {
+        v = h.bracket.global.number(s)
+      }
+
       return {
         '--un-font-weight': v,
         'font-weight': v,
@@ -45,11 +54,19 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
     ([, s], { theme }) => {
-      const v = theme.leading?.[s]
-        ? `var(--leading-${s})`
-        : numberResolver(s)
-          ? `calc(var(--spacing) * ${numberResolver(s)})`
-          : h.bracket.cssvar.global.rem(s)
+      let v: string | undefined
+
+      if (theme.leading?.[s]) {
+        themeTracking(`leading-${s}`)
+        v = `var(--leading-${s})`
+      }
+      else if (numberResolver(s)) {
+        themeTracking('spacing')
+        v = `calc(var(--spacing) * ${numberResolver(s)})`
+      }
+      else {
+        v = h.bracket.cssvar.global.rem(s)
+      }
 
       if (v != null) {
         return [
@@ -75,7 +92,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font-)?tracking-(.+)$/,
     ([, s], { theme }) => {
-      const v = theme.tracking?.[s] ? `var(--tracking-${s})` : h.bracket.cssvar.global.rem(s)
+      let v: string | undefined
+
+      if (theme.tracking?.[s]) {
+        themeTracking(`tracking-${s}`)
+        v = `var(--tracking-${s})`
+      }
+      else {
+        v = h.bracket.cssvar.global.rem(s)
+      }
+
       return {
         '--un-tracking': v,
         'letter-spacing': v,
@@ -118,7 +144,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^font-(.+)$/,
     ([, d], { theme }) => {
-      const v = theme.font?.[d] ? `var(--font-${d})` : h.bracket.cssvar.global(d)
+      let v: string | undefined
+
+      if (theme.font?.[d]) {
+        themeTracking(`font-${d}`)
+        v = `var(--font-${d})`
+      }
+      else {
+        v = h.bracket.cssvar.global(d)
+      }
+
       return {
         'font-family': v,
       }
@@ -145,6 +180,7 @@ export const textIndents: Rule<Theme>[] = [
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
+      themeTracking(`spacing`)
       return { 'text-indent': `calc(var(--spacing) * ${v})` }
     }
 

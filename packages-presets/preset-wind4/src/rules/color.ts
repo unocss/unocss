@@ -32,7 +32,7 @@ export const bgColors: Rule<Theme>[] = [
       }
     }
     return colorResolver('background-color', 'bg')(...args)
-  }, { autocomplete: 'bg-$colors', custom: { themeDep: trackedTheme } }],
+  }, { autocomplete: 'bg-$colors' }],
   [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
 ]
 

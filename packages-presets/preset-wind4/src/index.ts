@@ -8,6 +8,7 @@ import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { shorthands } from './shorthands'
 import { theme } from './theme'
+import { PRESET_NAME, trackedTheme } from './utils'
 import { variants } from './variants'
 
 export { postprocessors, preflights, rules, shortcuts, shorthands, theme, variants }
@@ -101,7 +102,7 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.important = options.important ?? false
 
   return {
-    name: '@unocss/preset-wind4',
+    name: PRESET_NAME,
     rules,
     shortcuts,
     theme,
@@ -119,6 +120,9 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
       shorthands,
     },
     options,
+    meta: {
+      themeDeps: trackedTheme,
+    },
   }
 })
 
