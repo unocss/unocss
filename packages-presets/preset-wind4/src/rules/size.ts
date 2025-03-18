@@ -17,7 +17,7 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
   let v: string | undefined
 
   if (theme.container?.[prop]) {
-    themeTracking(`container-${prop}`)
+    themeTracking('container', prop)
     v = `var(--container-${prop})`
   }
 

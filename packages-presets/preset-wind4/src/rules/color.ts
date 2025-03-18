@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h, isSize, trackedTheme } from '../utils'
+import { colorResolver, h, isSize } from '../utils'
 
 /**
  * @example op10 op-30 opacity-100

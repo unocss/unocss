@@ -147,7 +147,7 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       const value = key ? `var(--colors-${key})` : color
 
       if (key) {
-        themeTracking(`colors-${key}`)
+        themeTracking(`colors`, key)
       }
 
       css[alphaKey] = alpha
@@ -345,8 +345,12 @@ export function transformXYZ(d: string, v: string, name: string): [string, strin
   return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }
 
-export function camelToHyphen(str: string) {
-  return str.replace(/[A-Z]/g, '-$&').toLowerCase()
+export function camelize(str: string) {
+  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+
+export function hyphenate(str: string) {
+  return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
 }
 
 export function compressCSS(css: string) {

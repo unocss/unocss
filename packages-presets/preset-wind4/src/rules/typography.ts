@@ -30,7 +30,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.fontWeight?.[s]) {
-        themeTracking(`font-weight-${s}`)
+        themeTracking(`fontWeight`, s)
         v = `var(--font-weight-${s})`
       }
       else {
@@ -57,7 +57,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.leading?.[s]) {
-        themeTracking(`leading-${s}`)
+        themeTracking('leading', s)
         v = `var(--leading-${s})`
       }
       else if (numberResolver(s)) {
@@ -95,7 +95,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.tracking?.[s]) {
-        themeTracking(`tracking-${s}`)
+        themeTracking(`tracking`, s)
         v = `var(--tracking-${s})`
       }
       else {
@@ -147,7 +147,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.font?.[d]) {
-        themeTracking(`font-${d}`)
+        themeTracking(`font`, d)
         v = `var(--font-${d})`
       }
       else {
