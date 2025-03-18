@@ -195,6 +195,9 @@ export const textIndents: Rule<Theme>[] = [
 export const textStrokes: Rule<Theme>[] = [
   // widths
   [/^text-stroke(?:-(.+))?$/, ([, s = 'DEFAULT'], { theme }) => {
+    if (theme.textStrokeWidth?.[s]) {
+      themeTracking(`textStrokeWidth`, s)
+    }
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
         ? passThemeKey.includes(s) ? theme.textStrokeWidth?.[s] : `var(--text-stroke-width-${s})`
@@ -255,13 +258,29 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
   const [size, leading] = split
 
   const sizePairs = theme.text?.[size]
-  const lineHeight = leading ? theme.leading?.[leading] || h.bracket.cssvar.global.rem(leading) : undefined
+  let lineHeight
+
+  if (leading) {
+    if (theme.leading?.[leading]) {
+      themeTracking(`leading`, leading)
+      lineHeight = `var(--leading-${leading})`
+    }
+    else {
+      lineHeight = h.bracket.cssvar.global.rem(leading)
+    }
+  }
 
   if (sizePairs) {
+    themeTracking(`text`, [size, 'fontSize'])
+    themeTracking(`text`, [size, 'lineHeight'])
+    if (sizePairs.letterSpacing) {
+      themeTracking(`text`, [size, 'letterSpacing'])
+    }
+
     return {
-      'font-size': sizePairs.fontSize,
-      'line-height': lineHeight ?? sizePairs.lineHeight ?? '1',
-      'letter-spacing': sizePairs.letterSpacing,
+      'font-size': `var(--text-${size}-font-size)`,
+      'line-height': lineHeight ?? `var(--un-leading, var(--text-${size}-line-height))`,
+      'letter-spacing': sizePairs.letterSpacing ? `var(--text-${size}-letter-spacing)` : undefined,
     }
   }
 
@@ -278,6 +297,8 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
 
 function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
   if (theme.text?.[s] != null) {
+    themeTracking(`text`, [s, 'fontSize'])
+    themeTracking(`text`, [s, 'lineHeight'])
     return {
       'font-size': `var(--text-${s}-font-size)`,
       'line-height': `var(--un-leading, var(--text-${s}--line-height))`,

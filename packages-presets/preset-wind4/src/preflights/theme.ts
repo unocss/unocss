@@ -4,28 +4,20 @@ import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
 
-/** Output for CSS Variables */
-const DefaultCssVarKeys = [
-  'font',
-  'colors',
-  // 'spacing', // spacing is a special case
-
-  'container',
-  'text',
-  'fontWeight',
-  'tracking',
-  'leading',
-  'textStrokeWidth',
-  'radius',
+/** Exclude output for CSS Variables */
+const ExcludeCssVarKeys = [
+  'spacing',
+  'breakpoint',
+  'verticalBreakpoint',
   'shadow',
   'insetShadow',
   'dropShadow',
   'textShadow',
-  'ease',
-  'blur',
-  'perspective',
+  'animation',
   'property',
-  'defaults',
+  'aria',
+  'media',
+  'supports',
 ]
 
 function themeToCSSVars(theme: Theme, keys: string[]): string {
@@ -80,7 +72,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
           const v = props.reduce((o, p) => o?.[p], (theme as any)[key])
 
           if (v) {
-            return `--${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}: ${v};`
+            return `--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}: ${v};`
           }
           return undefined
         })
@@ -91,10 +83,12 @@ ${depCSS.filter(Boolean).join('\n')}
 }`)
       }
       else {
+        const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))
+
         return compressCSS(`
 :root {
 --spacing: ${theme.spacing!.DEFAULT};
-${themeToCSSVars(theme, DefaultCssVarKeys).trim()}
+${themeToCSSVars(theme, keys).trim()}
 }`)
       }
     },

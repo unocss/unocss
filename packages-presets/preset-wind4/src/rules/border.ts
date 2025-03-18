@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { notNull, uniq } from '@unocss/core'
-import { colorCSSGenerator, cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, passThemeKey, SpecialColorKey } from '../utils'
+import { colorCSSGenerator, cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, passThemeKey, SpecialColorKey, themeTracking } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -107,9 +107,14 @@ function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>):
 
     const _v = theme.radius?.[_s] ?? h.bracket.cssvar.global.fraction.rem(_s || '1')
     if (_v != null) {
+      const isVar = theme.radius && _s in theme.radius && !passThemeKey.includes(_s)
+      if (isVar) {
+        themeTracking(`radius`, _s)
+      }
+
       return cornerMap[a].map(i => [
         `border${i}-radius`,
-        theme.radius && _s in theme.radius && !passThemeKey.includes(_s) ? `var(--radius-${_s})` : _v,
+        isVar ? `var(--radius-${_s})` : _v,
       ])
     }
   }

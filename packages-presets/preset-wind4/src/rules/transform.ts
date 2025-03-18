@@ -45,10 +45,18 @@ export const transforms: Rule<Theme>[] = [
 
   // perspectives
   [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s], { theme }) => {
-    const v = theme.perspective?.[s] ?? h.bracket.cssvar.px.numberWithUnit(s)
+    let v
+    if (theme.perspective?.[s]) {
+      themeTracking(`perspective`, s)
+      v = `var(--un-perspective-${s})`
+    }
+    else {
+      v = h.bracket.cssvar.px.numberWithUnit(s)
+    }
+
     if (v != null) {
       return {
-        perspective: s in (theme.perspective ?? {}) ? `var(--un-perspective-${s})` : v,
+        perspective: v,
       }
     }
   }],
