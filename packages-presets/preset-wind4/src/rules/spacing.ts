@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, directionMap, directionSize, h, numberResolver } from '../utils'
+import { defineProperty, directionMap, directionSize, h, numberResolver, themeTracking } from '../utils'
 
 export const paddings: Rule<Theme>[] = [
   [/^pa?()-?(.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
@@ -40,6 +40,7 @@ function* handlerSpace([, d, s]: string[], { theme, symbols }: RuleContext<Theme
   let v: string | undefined
   const num = numberResolver(s)
   if (num != null) {
+    themeTracking(`spacing`)
     v = `calc(var(--spacing) * ${num})`
   }
   else {

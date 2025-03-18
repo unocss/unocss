@@ -2,6 +2,7 @@ import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext,
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { themeTracking } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
@@ -53,6 +54,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
 
     if (v != null) {
+      themeTracking('spacing')
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${v})`])
     }
 
@@ -65,6 +67,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     if (size?.startsWith('-')) {
       const _v = spaceMap[size.slice(1) as keyof typeof spaceMap]
       if (_v != null) {
+        themeTracking('spacing')
         v = `calc(var(--spacing) * -${_v})`
         return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
       }
@@ -142,6 +145,10 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
     else {
       const alphaKey = `--un-${varName}-opacity`
       const value = key ? `var(--colors-${key})` : color
+
+      if (key) {
+        themeTracking(`colors`, key)
+      }
 
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
@@ -338,8 +345,12 @@ export function transformXYZ(d: string, v: string, name: string): [string, strin
   return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }
 
-export function camelToHyphen(str: string) {
-  return str.replace(/[A-Z]/g, '-$&').toLowerCase()
+export function camelize(str: string) {
+  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+
+export function hyphenate(str: string) {
+  return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
 }
 
 export function compressCSS(css: string) {

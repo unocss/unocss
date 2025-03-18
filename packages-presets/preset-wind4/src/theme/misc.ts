@@ -80,6 +80,7 @@ export const perspective = {
 export const defaults = {
   transition: {
     duration: '150ms',
+    timingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
   },
   font: {
     family: 'var(--font-sans)',

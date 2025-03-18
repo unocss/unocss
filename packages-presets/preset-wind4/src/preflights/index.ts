@@ -6,7 +6,7 @@ import { theme } from './theme'
 
 export const preflights: (options: PresetWind4Options) => Preflight<Theme>[] = (options) => {
   return [
-    theme(options),
     reset(options),
+    theme(options),
   ].filter(Boolean) as Preflight<Theme>[]
 }

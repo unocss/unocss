@@ -2,31 +2,22 @@ import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { camelToHyphen, compressCSS, passThemeKey } from '../utils'
+import { compressCSS, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
 
-/** Output for CSS Variables */
-const DefaultCssVarKeys = [
-  'font',
-  'colors',
-  // 'spacing', // spacing is a special case
+/** Exclude output for CSS Variables */
+const ExcludeCssVarKeys = [
+  'spacing',
   'breakpoint',
   'verticalBreakpoint',
-  'container',
-  'text',
-  'fontWeight',
-  'tracking',
-  'leading',
-  'textStrokeWidth',
-  'radius',
   'shadow',
   'insetShadow',
   'dropShadow',
   'textShadow',
-  'ease',
-  'blur',
-  'perspective',
+  'animation',
   'property',
-  'defaults',
+  'aria',
+  'media',
+  'supports',
 ]
 
 function themeToCSSVars(theme: Theme, keys: string[]): string {
@@ -35,20 +26,20 @@ function themeToCSSVars(theme: Theme, keys: string[]): string {
   function process(obj: any, prefix: string) {
     for (const key in obj) {
       if (key === 'DEFAULT' && Object.keys(obj).length === 1) {
-        cssVariables += `${camelToHyphen(`--${prefix}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
+        cssVariables += `${hyphenate(`--${prefix}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
       }
 
       if (passThemeKey.includes(key))
         continue
 
       if (Array.isArray(obj[key])) {
-        cssVariables += `${camelToHyphen(`--${prefix}-${key}`)}: ${obj[key].join(',').replace(alphaPlaceholdersRE, '1')};\n`
+        cssVariables += `${hyphenate(`--${prefix}-${key}`)}: ${obj[key].join(',').replace(alphaPlaceholdersRE, '1')};\n`
       }
       else if (typeof obj[key] === 'object') {
         process(obj[key], `${prefix}-${key}`)
       }
       else {
-        cssVariables += `${camelToHyphen(`--${prefix}-${key}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
+        cssVariables += `${hyphenate(`--${prefix}-${key}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
       }
     }
   }
@@ -63,23 +54,43 @@ function themeToCSSVars(theme: Theme, keys: string[]): string {
 }
 
 export function theme(options: PresetWind4Options): Preflight<Theme> {
-  let themeKeys: string[]
-
-  if (typeof options.themeKeys === 'function') {
-    themeKeys = options.themeKeys(DefaultCssVarKeys)
-  }
-  else {
-    themeKeys = options.themeKeys ?? DefaultCssVarKeys
-  }
-
   return {
     layer: 'theme',
-    getCSS({ theme }) {
-      return compressCSS(`
+    getCSS({ theme, generator }) {
+      if (options.themeVariable === false) {
+        return undefined
+      }
+
+      else if (options.themeVariable === 'on-demand') {
+        const self = generator.config.presets.find(p => p.name === PRESET_NAME)
+        if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
+          return
+
+        const depCSS = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
+          const [key, prop] = k.split(':')
+          const props = prop.split('-')
+          const v = props.reduce((o, p) => o?.[p], (theme as any)[key])
+
+          if (v) {
+            return `--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}: ${v};`
+          }
+          return undefined
+        })
+
+        return compressCSS(`
+:root {
+${depCSS.filter(Boolean).join('\n')}
+}`)
+      }
+      else {
+        const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))
+
+        return compressCSS(`
 :root {
 --spacing: ${theme.spacing!.DEFAULT};
-${themeToCSSVars(theme, themeKeys).trim()}
+${themeToCSSVars(theme, keys).trim()}
 }`)
+      }
     },
   }
 }

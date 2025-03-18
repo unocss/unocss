@@ -1,6 +1,6 @@
 import type { CSSEntries, Rule, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, insetMap, makeGlobalStaticRules, numberResolver } from '../utils'
+import { globalKeywords, h, insetMap, makeGlobalStaticRules, numberResolver, themeTracking } from '../utils'
 
 export const positions: Rule<Theme>[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v }), {
@@ -117,10 +117,13 @@ export const flexGridJustifiesAlignments = [...justifies, ...alignments, ...plac
 
 function handleInsetValue(v: string): string | number | undefined {
   const _v = numberResolver(v)
-  if (_v != null)
+  if (_v != null) {
+    themeTracking(`spacing`)
     return `calc(var(--spacing) * ${_v})`
-  else
+  }
+  else {
     return h.bracket.cssvar.global.auto.rem(v)
+  }
 }
 
 function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {

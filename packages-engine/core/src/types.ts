@@ -615,6 +615,10 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Custom API endpoint for cross-preset communication
    */
   api?: any
+  /**
+   * Custom metadata for the preset
+   */
+  meta?: Record<string, any>
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>

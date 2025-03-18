@@ -1,6 +1,6 @@
 import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, h, makeGlobalStaticRules, numberResolver, positionMap, transformXYZ, xyzMap } from '../utils'
+import { defineProperty, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
 
 const transformValues = [
   'translate',
@@ -45,10 +45,18 @@ export const transforms: Rule<Theme>[] = [
 
   // perspectives
   [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s], { theme }) => {
-    const v = theme.perspective?.[s] ?? h.bracket.cssvar.px.numberWithUnit(s)
+    let v
+    if (theme.perspective?.[s]) {
+      themeTracking(`perspective`, s)
+      v = `var(--un-perspective-${s})`
+    }
+    else {
+      v = h.bracket.cssvar.px.numberWithUnit(s)
+    }
+
     if (v != null) {
       return {
-        perspective: s in (theme.perspective ?? {}) ? `var(--un-perspective-${s})` : v,
+        perspective: v,
       }
     }
   }],
@@ -98,6 +106,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
       }
     }
 
+    themeTracking(`spacing`)
     return [
       [
         ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
