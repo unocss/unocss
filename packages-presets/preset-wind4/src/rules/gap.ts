@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, numberResolver } from '../utils'
+import { h, numberResolver, themeTracking } from '../utils'
 
 const directions: Record<string, string> = {
   '': '',
@@ -12,8 +12,10 @@ const directions: Record<string, string> = {
 
 function handleGap([, d = '', s]: string[]) {
   const v = numberResolver(s)
-  if (v != null)
+  if (v != null) {
+    themeTracking(`spacing`)
     return { [`${directions[d]}gap`]: `calc(var(--spacing) * ${v})` }
+  }
   return { [`${directions[d]}gap`]: h.bracket.cssvar.global.rem(s) }
 }
 

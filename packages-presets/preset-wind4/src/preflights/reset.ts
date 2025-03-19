@@ -2,7 +2,7 @@ import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
 import { LAYER_PREFLIGHTS } from '@unocss/core'
-import { compressCSS } from '../utils'
+import { compressCSS, themeTracking } from '../utils'
 
 const resetCSS = `
 /*
@@ -391,10 +391,24 @@ input:where([type='button'], [type='reset'], [type='submit']),
 `
 
 export function reset(options: PresetWind4Options): Preflight<Theme> | undefined {
-  return options.reset === false
-    ? undefined
-    : {
-        getCSS: () => compressCSS(resetCSS),
-        layer: LAYER_PREFLIGHTS,
-      }
+  if (options.reset === false)
+    return undefined
+
+  return {
+    getCSS: () => {
+      themeTracking('font', 'sans')
+      themeTracking('font', 'mono')
+
+      themeTracking('defaults', ['font', 'family'])
+      themeTracking('defaults', ['font', 'featureSettings'])
+      themeTracking('defaults', ['font', 'variationSettings'])
+
+      themeTracking('defaults', ['monoFont', 'family'])
+      themeTracking('defaults', ['monoFont', 'featureSettings'])
+      themeTracking('defaults', ['monoFont', 'variationSettings'])
+
+      return compressCSS(resetCSS)
+    },
+    layer: LAYER_PREFLIGHTS,
+  }
 }

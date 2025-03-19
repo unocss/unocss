@@ -1,7 +1,7 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
-import { passThemeKey } from '../utils/constant'
+import { passThemeKey, themeTracking } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
 
 export const fonts: Rule<Theme>[] = [
@@ -27,7 +27,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font|fw)-?([^-]+)$/,
     ([, s], { theme }) => {
-      const v = theme.fontWeight?.[s] ? `var(--font-weight-${s})` : h.bracket.global.number(s)
+      let v: string | undefined
+
+      if (theme.fontWeight?.[s]) {
+        themeTracking(`fontWeight`, s)
+        v = `var(--font-weight-${s})`
+      }
+      else {
+        v = h.bracket.global.number(s)
+      }
+
       return {
         '--un-font-weight': v,
         'font-weight': v,
@@ -45,11 +54,19 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font-)?(?:leading|lh|line-height)-(.+)$/,
     ([, s], { theme }) => {
-      const v = theme.leading?.[s]
-        ? `var(--leading-${s})`
-        : numberResolver(s)
-          ? `calc(var(--spacing) * ${numberResolver(s)})`
-          : h.bracket.cssvar.global.rem(s)
+      let v: string | undefined
+
+      if (theme.leading?.[s]) {
+        themeTracking('leading', s)
+        v = `var(--leading-${s})`
+      }
+      else if (numberResolver(s)) {
+        themeTracking('spacing')
+        v = `calc(var(--spacing) * ${numberResolver(s)})`
+      }
+      else {
+        v = h.bracket.cssvar.global.rem(s)
+      }
 
       if (v != null) {
         return [
@@ -75,7 +92,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^(?:font-)?tracking-(.+)$/,
     ([, s], { theme }) => {
-      const v = theme.tracking?.[s] ? `var(--tracking-${s})` : h.bracket.cssvar.global.rem(s)
+      let v: string | undefined
+
+      if (theme.tracking?.[s]) {
+        themeTracking(`tracking`, s)
+        v = `var(--tracking-${s})`
+      }
+      else {
+        v = h.bracket.cssvar.global.rem(s)
+      }
+
       return {
         '--un-tracking': v,
         'letter-spacing': v,
@@ -118,7 +144,16 @@ export const fonts: Rule<Theme>[] = [
   [
     /^font-(.+)$/,
     ([, d], { theme }) => {
-      const v = theme.font?.[d] ? `var(--font-${d})` : h.bracket.cssvar.global(d)
+      let v: string | undefined
+
+      if (theme.font?.[d]) {
+        themeTracking(`font`, d)
+        v = `var(--font-${d})`
+      }
+      else {
+        v = h.bracket.cssvar.global(d)
+      }
+
       return {
         'font-family': v,
       }
@@ -145,6 +180,7 @@ export const textIndents: Rule<Theme>[] = [
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
+      themeTracking(`spacing`)
       return { 'text-indent': `calc(var(--spacing) * ${v})` }
     }
 
@@ -159,6 +195,9 @@ export const textIndents: Rule<Theme>[] = [
 export const textStrokes: Rule<Theme>[] = [
   // widths
   [/^text-stroke(?:-(.+))?$/, ([, s = 'DEFAULT'], { theme }) => {
+    if (theme.textStrokeWidth?.[s]) {
+      themeTracking(`textStrokeWidth`, s)
+    }
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
         ? passThemeKey.includes(s) ? theme.textStrokeWidth?.[s] : `var(--text-stroke-width-${s})`
@@ -219,13 +258,29 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
   const [size, leading] = split
 
   const sizePairs = theme.text?.[size]
-  const lineHeight = leading ? theme.leading?.[leading] || h.bracket.cssvar.global.rem(leading) : undefined
+  let lineHeight
+
+  if (leading) {
+    if (theme.leading?.[leading]) {
+      themeTracking(`leading`, leading)
+      lineHeight = `var(--leading-${leading})`
+    }
+    else {
+      lineHeight = h.bracket.cssvar.global.rem(leading)
+    }
+  }
 
   if (sizePairs) {
+    themeTracking(`text`, [size, 'fontSize'])
+    themeTracking(`text`, [size, 'lineHeight'])
+    if (sizePairs.letterSpacing) {
+      themeTracking(`text`, [size, 'letterSpacing'])
+    }
+
     return {
-      'font-size': sizePairs.fontSize,
-      'line-height': lineHeight ?? sizePairs.lineHeight ?? '1',
-      'letter-spacing': sizePairs.letterSpacing,
+      'font-size': `var(--text-${size}-font-size)`,
+      'line-height': lineHeight ?? `var(--un-leading, var(--text-${size}-line-height))`,
+      'letter-spacing': sizePairs.letterSpacing ? `var(--text-${size}-letter-spacing)` : undefined,
     }
   }
 
@@ -242,6 +297,8 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
 
 function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
   if (theme.text?.[s] != null) {
+    themeTracking(`text`, [s, 'fontSize'])
+    themeTracking(`text`, [s, 'lineHeight'])
     return {
       'font-size': `var(--text-${s}-font-size)`,
       'line-height': `var(--un-leading, var(--text-${s}--line-height))`,

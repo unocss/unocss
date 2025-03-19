@@ -1,6 +1,6 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { camelToHyphen, colorableShadows, colorResolver, defineProperty, h, hasParseableColor } from '../utils'
+import { colorableShadows, colorResolver, defineProperty, h, hasParseableColor, hyphenate } from '../utils'
 
 export const shadowProperties = {
   shadow: defineProperty('--un-shadow', { initialValue: '0 0 #0000' }),
@@ -34,7 +34,7 @@ function hanldeShadow(themeKey: 'shadow' | 'insetShadow') {
     const { theme } = ctx
     const v = theme[themeKey]?.[d || 'DEFAULT']
     const c = d ? h.bracket.cssvar(d) : undefined
-    const colorVar = camelToHyphen(themeKey)
+    const colorVar = hyphenate(themeKey)
 
     if ((v != null || c != null) && !hasParseableColor(c, theme)) {
       return [
