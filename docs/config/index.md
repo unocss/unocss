@@ -177,7 +177,7 @@ Options for sources to be extracted as utilities usages.
 Supported sources:
 
 - `filesystem` - extract from file system
-- `plain` - extract from plain inline text
+- `inline` - extract from plain inline text
 - `pipeline` - extract from build tools' transformation pipeline, such as Vite and Webpack
 
 The usage extracted from each source will be **merged** together.
