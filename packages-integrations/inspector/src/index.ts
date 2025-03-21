@@ -18,14 +18,13 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
   async function configureServer(server: ViteDevServer) {
     await ctx.ready
     const baseUrl = '__unocss'
-    const middlewareUrl = `${server.config.base || '/'}${baseUrl}`
 
-    server.middlewares.use(`${middlewareUrl}`, sirv(resolve(_dirname, '../dist/client'), {
+    server.middlewares.use(`/${baseUrl}`, sirv(resolve(_dirname, '../dist/client'), {
       single: true,
       dev: true,
     }))
 
-    server.middlewares.use(`${middlewareUrl}_api`, async (req, res, next) => {
+    server.middlewares.use(`/${baseUrl}_api`, async (req, res, next) => {
       if (!req.url)
         return next()
       if (req.url === '/') {
@@ -115,7 +114,9 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
 
     server.printUrls = () => {
       _printUrls()
-      for (const url of server.resolvedUrls?.local ?? []) {
+
+      for (const localUrl of server.resolvedUrls?.local ?? []) {
+        const url = server.config.base ? localUrl.replace(server.config.base, '') : localUrl
         const inspectorUrl = url.endsWith('/') ? `${url}${baseUrl}/` : `${url}/${baseUrl}/`
         // eslint-disable-next-line no-console
         console.log(`  ${green('➜')}  ${bold('UnoCSS Inspector')}: ${colorUrl(`${inspectorUrl}`)}`)
