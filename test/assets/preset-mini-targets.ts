@@ -249,6 +249,8 @@ export const presetMiniTargets: string[] = [
   'text-[calc(1rem-1px)]',
   'text-size-1em',
   'font-size-1.5rem',
+  'font-[calc(500-300)]',
+  'font-[var(--x)]',
 
   // color - bg
   'bg-[#153]/10',

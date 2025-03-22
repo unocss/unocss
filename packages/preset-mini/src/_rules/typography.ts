@@ -1,7 +1,7 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
-import { colorableShadows, colorResolver, globalKeywords, h, isCSSMathFn, splitShorthand } from '../utils'
+import { colorableShadows, colorResolver, globalKeywords, h, isCSSMathFn, isFamilyType, splitShorthand } from '../utils'
 
 export const fonts: Rule<Theme>[] = [
   // text
@@ -81,7 +81,13 @@ export const fonts: Rule<Theme>[] = [
   // family
   [
     /^font-(.+)$/,
-    ([, d], { theme }) => ({ 'font-family': theme.fontFamily?.[d] || h.bracket.cssvar.global(d) }),
+    ([, d], { theme }) => {
+      const v = theme.fontFamily?.[d] || h.bracket.cssvar.global(d)
+      if (v && isFamilyType(v))
+        return ({ 'font-family': v })
+
+      return ({ 'font-weight': theme.fontWeight?.[d] || h.bracket.cssvar.global(d) })
+    },
     { autocomplete: 'font-$fontFamily' },
   ],
 ]

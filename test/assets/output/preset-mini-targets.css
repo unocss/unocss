@@ -848,8 +848,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
 .group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
-.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
-.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
 .font-050,
 .font-50,
 .fw-050,
@@ -857,7 +855,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .font-550{font-weight:550;}
 .font-900,
 .fw-900{font-weight:900;}
-.font-thin{font-weight:100;}
 .fw-inherit{font-weight:inherit;}
 .group-aria:hover .group-aria-hover\:font-10,
 .group:hover .group-hover\:font-10{font-weight:10;}
@@ -888,11 +885,16 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .font-stretch-normal{font-stretch:normal;}
 .font-stretch-\[ultra-expanded\]{font-stretch:ultra-expanded;}
 .font-stretch-1\/2{font-stretch:50%;}
+.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
 .font-\[\"custom_fontFamily_name\"\]{font-family:"custom fontFamily name";}
+.font-\[calc\(500-300\)\]{font-family:calc(500 - 300);}
 .font-\[system-ui\]{font-family:system-ui;}
-.font-\$font-name{font-family:var(--font-name);}
+.font-\[var\(--x\)\]{font-weight:var(--x);}
+.font-\$font-name{font-weight:var(--font-name);}
 .font-inherit{font-family:inherit;}
 .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+.font-thin{font-weight:100;}
 .case-upper{text-transform:uppercase;}
 .case-normal{text-transform:none;}
 .case-inherit{text-transform:inherit;}
