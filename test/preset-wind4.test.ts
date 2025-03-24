@@ -128,6 +128,18 @@ describe('preset-wind4', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
   })
 
+  it('fully theme prefight', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ themeVariable: true, reset: false }),
+      ],
+    })
+
+    const { css } = await uno.generate('')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-theme.css')
+  })
+
   it('custom theme values with variable', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
