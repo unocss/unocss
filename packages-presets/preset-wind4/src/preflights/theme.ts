@@ -84,7 +84,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
         return compressCSS(`
 :root, :host {
 ${depCSS.filter(Boolean).join('\n')}
-}`)
+}`, generator.config.envMode === 'dev')
       }
       else {
         const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))
@@ -93,7 +93,7 @@ ${depCSS.filter(Boolean).join('\n')}
 :root {
 --spacing: ${theme.spacing!.DEFAULT};
 ${themeToCSSVars(theme, keys).trim()}
-}`)
+}`, generator.config.envMode === 'dev')
       }
     },
   }

@@ -368,7 +368,9 @@ export function hyphenate(str: string) {
   return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
 }
 
-export function compressCSS(css: string) {
+export function compressCSS(css: string, isDev = false) {
+  if (isDev)
+    return css.trim()
   return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
@@ -390,8 +392,10 @@ export function detectThemeValue(value: string, theme: Theme) {
     const variable = value.match(/var\(--([\w-]+)(?:,.*)?\)/)?.[1]
     if (variable) {
       const [key, ...path] = variable.split('-')
-      if (getThemeByKey(theme, key as keyof Theme, path) != null) {
+      const themeValue = getThemeByKey(theme, key as keyof Theme, path)
+      if (themeValue != null) {
         themeTracking(key, path)
+        detectThemeValue(themeValue, theme)
       }
     }
   }
