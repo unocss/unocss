@@ -146,15 +146,17 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       const alphaKey = `--un-${varName}-opacity`
       const value = key ? `var(--colors-${key})` : color
 
-      if (key) {
-        themeTracking(`colors`, key)
-      }
-
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
 
       result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+
+      if (key) {
+        themeTracking(`colors`, key)
+      }
+      detectThemeValue(color, ctx!.theme)
     }
+
     return result
   }
 }
@@ -284,6 +286,10 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
       if (obj[camel])
         return obj[camel]
 
+      const hyphen = keys.slice(index).join('-')
+      if (obj[hyphen])
+        return obj[hyphen]
+
       if (obj[k]) {
         obj = obj[k]
         continue
@@ -375,4 +381,16 @@ export function defineProperty(
   } = options
 
   return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
+}
+
+export function detectThemeValue(value: string, theme: Theme) {
+  if (value.startsWith('var(')) {
+    const variable = value.match(/var\(--([\w-]+)(?:,.*)?\)/)?.[1]
+    if (variable) {
+      const [key, ...path] = variable.split('-')
+      if (getThemeByKey(theme, key as keyof Theme, path)) {
+        themeTracking(key, path)
+      }
+    }
+  }
 }
