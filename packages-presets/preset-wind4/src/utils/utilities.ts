@@ -245,11 +245,18 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
     _keys = keys.slice(0, -1)
   }
 
-  const colorData = getThemeColor(theme, _keys)
+  const colorData = getThemeByKey(theme, 'colors', _keys)
 
   if (typeof colorData === 'object') {
-    color = colorData[no ?? '400'] as string
-    key = [..._keys, no ?? '400'].join('-')
+    if (no && colorData[no]) {
+      color = colorData[no]
+      key = [..._keys, no].join('-')
+    }
+    else if (!no && colorData.DEFAULT) {
+      color = colorData.DEFAULT
+      no = 'DEFAULT'
+      key = _keys.join('-')
+    }
   }
   else if (typeof colorData === 'string' && !no) {
     color = colorData
@@ -266,14 +273,14 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
   }
 }
 
-export function getThemeColor(theme: Theme, keys: string[]) {
-  let obj = theme.colors as Theme['colors'] | string
+export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
+  let obj = theme[themeKey] as any
   let index = -1
 
   for (const k of keys) {
     index += 1
     if (obj && typeof obj !== 'string') {
-      const camel = keys.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      const camel = camelize(keys.slice(index).join('-'))
       if (obj[camel])
         return obj[camel]
 

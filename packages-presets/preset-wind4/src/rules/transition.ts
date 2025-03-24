@@ -77,12 +77,12 @@ export const transitions: Rule<Theme>[] = [
   ],
 
   [
-    /^(?:transition-)?ease-(.+)$/,
-    ([, d], { theme }) => {
+    /^(?:transition-)?ease(?:-(.+))?$/,
+    ([, d = 'DEFAULT'], { theme }) => {
       let v
       if (theme.ease?.[d]) {
         themeTracking('ease', d)
-        v = `var(--ease-${d})`
+        v = `var(--ease${d === 'DEFAULT' ? '' : `-${d}`})`
       }
       else {
         v = h.bracket.cssvar(d)
