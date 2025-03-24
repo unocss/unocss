@@ -2,7 +2,7 @@ import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
+import { compressCSS, getThemeByKey, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -67,20 +67,24 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
           return
 
         const depCSS = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
-          const [key, prop] = k.split(':')
-          const props = prop.split('-')
-          const v = props.reduce((o, p) => o?.[p], (theme as any)[key])
+          const [key, prop] = k.split(':') as [keyof Theme, string]
+          let v = getThemeByKey(theme, key, prop.split('-')) ?? getThemeByKey(theme, key, [prop])
+
+          if (typeof v === 'object') {
+            v = v.DEFAULT
+          }
 
           if (v) {
             return `--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}: ${v};`
           }
+
           return undefined
         })
 
         return compressCSS(`
-:root {
+:root, :host {
 ${depCSS.filter(Boolean).join('\n')}
-}`)
+}`, generator.config.envMode === 'dev')
       }
       else {
         const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))
@@ -89,7 +93,7 @@ ${depCSS.filter(Boolean).join('\n')}
 :root {
 --spacing: ${theme.spacing!.DEFAULT};
 ${themeToCSSVars(theme, keys).trim()}
-}`)
+}`, generator.config.envMode === 'dev')
       }
     },
   }

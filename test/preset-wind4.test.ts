@@ -3,25 +3,26 @@ import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 import { presetWind4Targets } from './assets/preset-wind4-targets'
 
-const uno = await createGenerator({
-  presets: [
-    presetWind4(),
-  ],
-})
-
 describe('preset-wind4', () => {
   it('targets', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ reset: false }),
+      ],
+    })
+
     const targets = presetWind4Targets
     const code = targets.join(' ')
-    const { css, getLayer } = await uno.generate(code)
+    const { css } = await uno.generate(code)
 
     const unmatched = []
     for (const i of targets) {
       if (!css.includes(escapeSelector(i)))
         unmatched.push(i)
     }
+
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
-    await expect(getLayer('theme')).toMatchFileSnapshot('./assets/output/preset-wind4-theme.css')
 
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
@@ -116,8 +117,59 @@ describe('preset-wind4', () => {
   })
 
   it('wind4 reset style', async () => {
-    const { getLayer } = await uno.generate('')
-    const css = getLayer('preflights')
-    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate('')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
+  })
+
+  it('fully theme prefight', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ themeVariable: true, reset: false }),
+      ],
+    })
+
+    const { css } = await uno.generate('')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-theme.css')
+  })
+
+  it('custom theme values with variable', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ reset: false }),
+      ],
+      theme: {
+        colors: {
+          foo: 'var(--colors-bar)',
+          bar: 'var(--colors-baz-bcd, #000)',
+          baz: {
+            bcd: 'var(--colors-test, #fff)',
+          },
+          test: '#fff',
+        },
+      },
+    })
+
+    const { css } = await uno.generate('c-foo')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host {
+      --colors-foo: var(--colors-bar);
+      --colors-bar: var(--colors-baz-bcd, #000);
+      --colors-baz-bcd: var(--colors-test, #fff);
+      --colors-test: #fff;
+      }
+      /* layer: default */
+      @property --un-text-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
+      .c-foo{color:color-mix(in oklch, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}"
+    `)
   })
 })

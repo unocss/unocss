@@ -146,15 +146,19 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       const alphaKey = `--un-${varName}-opacity`
       const value = key ? `var(--colors-${key})` : color
 
-      if (key) {
-        themeTracking(`colors`, key)
-      }
-
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
 
       result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+
+      if (key) {
+        themeTracking(`colors`, key)
+      }
+      if (ctx?.theme) {
+        detectThemeValue(color, ctx.theme)
+      }
     }
+
     return result
   }
 }
@@ -245,11 +249,18 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
     _keys = keys.slice(0, -1)
   }
 
-  const colorData = getThemeColor(theme, _keys)
+  const colorData = getThemeByKey(theme, 'colors', _keys)
 
   if (typeof colorData === 'object') {
-    color = colorData[no ?? '400'] as string
-    key = [..._keys, no ?? '400'].join('-')
+    if (no && colorData[no]) {
+      color = colorData[no]
+      key = [..._keys, no].join('-')
+    }
+    else if (!no && colorData.DEFAULT) {
+      color = colorData.DEFAULT
+      no = 'DEFAULT'
+      key = _keys.join('-')
+    }
   }
   else if (typeof colorData === 'string' && !no) {
     color = colorData
@@ -266,16 +277,20 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
   }
 }
 
-export function getThemeColor(theme: Theme, keys: string[]) {
-  let obj = theme.colors as Theme['colors'] | string
+export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
+  let obj = theme[themeKey] as any
   let index = -1
 
   for (const k of keys) {
     index += 1
     if (obj && typeof obj !== 'string') {
-      const camel = keys.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      const camel = camelize(keys.slice(index).join('-'))
       if (obj[camel])
         return obj[camel]
+
+      const hyphen = keys.slice(index).join('-')
+      if (obj[hyphen])
+        return obj[hyphen]
 
       if (obj[k]) {
         obj = obj[k]
@@ -353,7 +368,9 @@ export function hyphenate(str: string) {
   return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
 }
 
-export function compressCSS(css: string) {
+export function compressCSS(css: string, isDev = false) {
+  if (isDev)
+    return css.trim()
   return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
@@ -368,4 +385,18 @@ export function defineProperty(
   } = options
 
   return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
+}
+
+export function detectThemeValue(value: string, theme: Theme) {
+  if (value.startsWith('var(')) {
+    const variable = value.match(/var\(--([\w-]+)(?:,.*)?\)/)?.[1]
+    if (variable) {
+      const [key, ...path] = variable.split('-')
+      const themeValue = getThemeByKey(theme, key as keyof Theme, path)
+      if (themeValue != null) {
+        themeTracking(key, path)
+        detectThemeValue(themeValue, theme)
+      }
+    }
+  }
 }
