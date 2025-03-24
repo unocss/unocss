@@ -57,6 +57,8 @@ export default createRule({
         if (typeof node.name.name === 'string' && CLASS_FIELDS.includes(node.name.name.toLowerCase()) && node.value) {
           if (node.value.type === 'Literal')
             checkLiteral(node.value)
+          else if (node.value.type === 'JSXExpressionContainer' && node.value.expression.type === 'Literal')
+            checkLiteral(node.value.expression)
         }
       },
       SvelteAttribute(node: SvelteAttribute) {

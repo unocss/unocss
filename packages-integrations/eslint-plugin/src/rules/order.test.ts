@@ -46,6 +46,61 @@ run({
 })
 
 run({
+  name: 'order-jsx',
+  rule,
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    html`
+      <div className="m1 mx1 mr-1"></div>
+    `,
+    html`
+      <div className={"m1 mx1 mr-1"}></div>
+    `,
+  ],
+  invalid: [
+    {
+      code: html`
+        <div className="mx1 m1 mr-1"></div>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+          "<div className="m1 mx1 mr-1"></div>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+    {
+      code: html`
+        <div className={"mx1 m1 mr-1"}></div>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+          "<div className={"m1 mx1 mr-1"}></div>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+  ],
+})
+
+run({
   name: 'order-svelte',
   rule,
   languageOptions: {
