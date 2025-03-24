@@ -154,7 +154,9 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
       if (key) {
         themeTracking(`colors`, key)
       }
-      detectThemeValue(color, ctx!.theme)
+      if (ctx?.theme) {
+        detectThemeValue(color, ctx.theme)
+      }
     }
 
     return result
@@ -388,7 +390,7 @@ export function detectThemeValue(value: string, theme: Theme) {
     const variable = value.match(/var\(--([\w-]+)(?:,.*)?\)/)?.[1]
     if (variable) {
       const [key, ...path] = variable.split('-')
-      if (getThemeByKey(theme, key as keyof Theme, path)) {
+      if (getThemeByKey(theme, key as keyof Theme, path) != null) {
         themeTracking(key, path)
       }
     }
