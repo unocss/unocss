@@ -2,7 +2,7 @@ import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
+import { compressCSS, getThemeByKey, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -20,26 +20,28 @@ const ExcludeCssVarKeys = [
   'supports',
 ]
 
-function themeToCSSVars(theme: Theme, keys: string[]): string {
-  let cssVariables = ''
+function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
+  const themeMap = new Map<string, string>([
+    ['--spacing', theme.spacing!.DEFAULT],
+  ])
 
   function process(obj: any, prefix: string) {
     for (const key in obj) {
       if (key === 'DEFAULT' && Object.keys(obj).length === 1) {
-        cssVariables += `${hyphenate(`--${prefix}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
+        themeMap.set(hyphenate(`--${prefix}`), obj[key].replace(alphaPlaceholdersRE, '1'))
       }
 
       if (passThemeKey.includes(key))
         continue
 
       if (Array.isArray(obj[key])) {
-        cssVariables += `${hyphenate(`--${prefix}-${key}`)}: ${obj[key].join(',').replace(alphaPlaceholdersRE, '1')};\n`
+        themeMap.set(hyphenate(`--${prefix}-${key}`), obj[key].join(',').replace(alphaPlaceholdersRE, '1'))
       }
       else if (typeof obj[key] === 'object') {
         process(obj[key], `${prefix}-${key}`)
       }
       else {
-        cssVariables += `${hyphenate(`--${prefix}-${key}`)}: ${obj[key].replace(alphaPlaceholdersRE, '1')};\n`
+        themeMap.set(hyphenate(`--${prefix}-${key}`), obj[key].replace(alphaPlaceholdersRE, '1'))
       }
     }
   }
@@ -50,47 +52,60 @@ function themeToCSSVars(theme: Theme, keys: string[]): string {
     process((theme as any)[key], key)
   }
 
-  return cssVariables
+  return themeMap
 }
 
 export function theme(options: PresetWind4Options): Preflight<Theme> {
   return {
     layer: 'theme',
-    getCSS({ theme, generator }) {
-      if (options.themeVariable === false) {
+    getCSS(ctx) {
+      const { theme, generator } = ctx
+      if (options.themePreflight === false) {
         return undefined
       }
 
-      else if (options.themeVariable === 'on-demand') {
-        const self = generator.config.presets.find(p => p.name === PRESET_NAME)
-        if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
-          return
-
-        const depCSS = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
-          const [key, prop] = k.split(':')
-          const props = prop.split('-')
-          const v = props.reduce((o, p) => o?.[p], (theme as any)[key])
-
-          if (v) {
-            return `--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}: ${v};`
-          }
+      let deps
+      const generateCSS = (deps: [string, string][]) => {
+        if (options.processThemeVars) {
+          deps = options.processThemeVars(deps, ctx) ?? deps
+        }
+        if (deps.length === 0)
           return undefined
-        })
+
+        const depCSS = deps.map(([key, value]) => `${key}: ${value};`).join('\n')
 
         return compressCSS(`
-:root {
-${depCSS.filter(Boolean).join('\n')}
-}`)
+:root, :host {
+${depCSS}
+}`, generator.config.envMode === 'dev')
+      }
+
+      if (options.themePreflight === 'on-demand') {
+        const self = generator.config.presets.find(p => p.name === PRESET_NAME)
+        if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
+          return undefined
+
+        deps = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
+          const [key, prop] = k.split(':') as [keyof Theme, string]
+          let v = getThemeByKey(theme, key, prop.split('-')) ?? getThemeByKey(theme, key, [prop])
+
+          if (typeof v === 'object') {
+            v = v.DEFAULT
+          }
+
+          if (v) {
+            return [`--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}`, v]
+          }
+
+          return undefined
+        }).filter(Boolean) as [string, string][]
       }
       else {
         const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))
-
-        return compressCSS(`
-:root {
---spacing: ${theme.spacing!.DEFAULT};
-${themeToCSSVars(theme, keys).trim()}
-}`)
+        deps = Array.from(getThemeVarsMap(theme, keys))
       }
+
+      return generateCSS(deps)
     },
   }
 }
