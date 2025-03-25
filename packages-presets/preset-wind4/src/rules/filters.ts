@@ -14,7 +14,7 @@ const filterBaseKeys = [
   'drop-shadow',
 ]
 const filterProperties = filterBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
-const filterCSS = filterBaseKeys.map(i => `var(--un-${i})`).join(' ')
+const filterCSS = filterBaseKeys.map(i => `var(--un-${i},)`).join(' ')
 
 const backdropBaseKeys = [
   'backdrop-blur',
@@ -28,7 +28,7 @@ const backdropBaseKeys = [
   'backdrop-sepia',
 ]
 const backdropProperties = backdropBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
-const backdropCSS = backdropBaseKeys.map(i => `var(--un-${i})`).join(' ')
+const backdropCSS = backdropBaseKeys.map(i => `var(--un-${i},)`).join(' ')
 
 function percentWithDefault(str?: string) {
   let v = h.bracket.cssvar(str || '')
