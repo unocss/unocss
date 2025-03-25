@@ -1,4 +1,4 @@
-import type { PresetOptions } from '@unocss/core'
+import type { PreflightContext, PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
@@ -98,7 +98,16 @@ export interface PresetWind4Options extends PresetOptions {
    *
    * @default 'on-demand'
    */
-  themeVariable?: boolean | 'on-demand'
+  themePreflight?: boolean | 'on-demand'
+
+  /**
+   * Process theme variables before generating CSS variables.
+   *
+   * @param vars [key, value][]
+   * @param ctx {@link PreflightContext}
+   * @returns
+   */
+  processThemeVars?: (vars: [string, string][], ctx: PreflightContext) => void | [string, string][]
 }
 
 export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
@@ -106,7 +115,7 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
-  options.themeVariable = options.themeVariable ?? 'on-demand'
+  options.themePreflight = options.themePreflight ?? 'on-demand'
 
   return {
     name: PRESET_NAME,

@@ -132,7 +132,7 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ themeVariable: true, reset: false }),
+        presetWind4({ themePreflight: true, reset: false }),
       ],
     })
 
@@ -170,6 +170,41 @@ describe('preset-wind4', () => {
       /* layer: default */
       @property --un-text-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
       .c-foo{color:color-mix(in oklch, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}"
+    `)
+  })
+
+  it('processThemeVars', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          reset: false,
+          processThemeVars(vars) {
+            return vars.map(([k, v]) => {
+              if (k.includes('colors')) {
+                k = k.replace('colors', 'ui')
+              }
+
+              if (v.includes('rem')) {
+                v = v.replace('rem', 'px')
+              }
+
+              return [k, v]
+            })
+          },
+        }),
+      ],
+    })
+
+    const { getLayer } = await uno.generate('c-red mr-4')
+    const css = getLayer('theme')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host {
+      --spacing: 0.25px;
+      --ui-red: oklch(0.704 0.191 22.216);
+      }"
     `)
   })
 })
