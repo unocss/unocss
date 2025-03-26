@@ -19,4 +19,8 @@ export default defineConfig({
     '.CMD': 'file',
     '.md': 'file',
   },
+  noExternal: [/^@unocss\//],
+  platform: 'node',
+  sourcemap: true,
+  clean: true,
 })
