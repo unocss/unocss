@@ -19,16 +19,16 @@ export const shadowProperties = {
 
 export const boxShadows: Rule<Theme>[] = [
   // shadow
-  [/^shadow(?:-(.+))?$/, hanldeShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
+  [/^shadow(?:-(.+))?$/, handleShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset shadow
-  [/^inset-shadow(?:-(.+))?$/, hanldeShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
+  [/^inset-shadow(?:-(.+))?$/, handleShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
   [/^inset-shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-inset-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
 ]
 
-function hanldeShadow(themeKey: 'shadow' | 'insetShadow') {
+function handleShadow(themeKey: 'shadow' | 'insetShadow') {
   return (match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined => {
     const [, d] = match
     const { theme } = ctx
