@@ -874,7 +874,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .oblique{font-style:oblique;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 .ring,
-.ring-px{--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.ring-px{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 @property --un-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
 @property --un-shadow-color {syntax: "*";inherits: false;}
 @property --un-inset-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
@@ -884,10 +884,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @property --un-inset-ring-color {syntax: "*";inherits: false;}
 @property --un-inset-ring-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
 @property --un-ring-inset {syntax: "*";inherits: false;}
-@property --un-ring-offset-width {syntax: ""<length>"";inherits: false;initial-value: 0px;}
+@property --un-ring-offset-width {syntax: "<length>";inherits: false;initial-value: 0px;}
 @property --un-ring-offset-color {syntax: "*";inherits: false;}
 @property --un-ring-offset-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
-.ring-10{--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(10px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.ring-10{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(10px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-\[calc\(1rem-1px\)\]{--un-ring-color:color-mix(in oklch, calc(1rem - 1px) var(--un-ring-opacity), transparent) /* calc(1rem - 1px) */;}
 @property --un-ring-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
 .ring-op-\$opacity-variable{--un-ring-opacity:var(--opacity-variable);}

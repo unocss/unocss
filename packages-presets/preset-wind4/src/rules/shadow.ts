@@ -12,23 +12,23 @@ export const shadowProperties = {
   insetRingColor: defineProperty('--un-inset-ring-color'),
   insetRingShadow: defineProperty('--un-inset-ring-shadow', { initialValue: '0 0 #0000' }),
   ringInset: defineProperty('--un-ring-inset'),
-  ringOffsetWidth: defineProperty('--un-ring-offset-width', { syntax: '"<length>"', initialValue: '0px' }),
+  ringOffsetWidth: defineProperty('--un-ring-offset-width', { syntax: '<length>', initialValue: '0px' }),
   ringOffsetColor: defineProperty('--un-ring-offset-color'),
   ringOffsetShadow: defineProperty('--un-ring-offset-shadow', { initialValue: '0 0 #0000' }),
 }
 
 export const boxShadows: Rule<Theme>[] = [
   // shadow
-  [/^shadow(?:-(.+))?$/, hanldeShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
+  [/^shadow(?:-(.+))?$/, handleShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
   [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset shadow
-  [/^inset-shadow(?:-(.+))?$/, hanldeShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
+  [/^inset-shadow(?:-(.+))?$/, handleShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
   [/^inset-shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-inset-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
 ]
 
-function hanldeShadow(themeKey: 'shadow' | 'insetShadow') {
+function handleShadow(themeKey: 'shadow' | 'insetShadow') {
   return (match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined => {
     const [, d] = match
     const { theme } = ctx
