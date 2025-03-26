@@ -12,7 +12,7 @@ export const shadowProperties = {
   insetRingColor: defineProperty('--un-inset-ring-color'),
   insetRingShadow: defineProperty('--un-inset-ring-shadow', { initialValue: '0 0 #0000' }),
   ringInset: defineProperty('--un-ring-inset'),
-  ringOffsetWidth: defineProperty('--un-ring-offset-width', { syntax: '"<length>"', initialValue: '0px' }),
+  ringOffsetWidth: defineProperty('--un-ring-offset-width', { syntax: '<length>', initialValue: '0px' }),
   ringOffsetColor: defineProperty('--un-ring-offset-color'),
   ringOffsetShadow: defineProperty('--un-ring-offset-shadow', { initialValue: '0 0 #0000' }),
 }
