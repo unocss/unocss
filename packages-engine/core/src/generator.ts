@@ -214,8 +214,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
         .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
         .forEach((s) => {
           // We don't want to increment count if token is already in the set
-          if (!tokens.has(s))
-            tokens.add(s)
+          const trimedS = s.trim()
+          if (trimedS && !tokens.has(trimedS))
+            tokens.add(trimedS)
         })
     }
 
