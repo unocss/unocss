@@ -130,7 +130,6 @@ function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
   const r = handleInsetValue(v)
   if (r != null && d in insetMap) {
     return insetMap[d].map(i => [i.slice(1), r])
-    // return insetMap[d].map(i => [`inset${i}` , r])
   }
 }
 

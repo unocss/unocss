@@ -1,7 +1,7 @@
 import type { Postprocessor } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 
-export function important(option: PresetWind4Options['important']): Postprocessor[] {
+export function important({ important: option }: PresetWind4Options): Postprocessor[] {
   if (option == null || option === false)
     return []
 

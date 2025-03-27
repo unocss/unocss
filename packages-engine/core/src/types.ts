@@ -143,7 +143,7 @@ export interface ExtractorContext {
   envMode?: 'dev' | 'build'
 }
 
-interface BaseContext<Theme extends object = object> {
+export interface BaseContext<Theme extends object = object> {
   /**
    * UnoCSS generator instance
    */
