@@ -1,6 +1,7 @@
-import type { Preflight } from '@unocss/core'
+import type { CSSEntry, Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
+import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, getThemeByKey, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
 
@@ -65,12 +66,17 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
       }
 
       let deps
-      const generateCSS = (deps: [string, string][]) => {
+      const generateCSS = (deps: CSSEntry[]) => {
         if (options.processThemeVars) {
           deps = options.processThemeVars(deps, ctx) ?? deps
         }
         if (deps.length === 0)
           return undefined
+        if (options.unitResolver) {
+          for (const resolver of toArray(options.unitResolver)) {
+            deps.forEach(utility => resolver(utility, 'theme'))
+          }
+        }
 
         const depCSS = deps.map(([key, value]) => `${key}: ${value};`).join('\n')
 
@@ -98,7 +104,7 @@ ${depCSS}
           }
 
           return undefined
-        }).filter(Boolean) as [string, string][]
+        }).filter(Boolean) as CSSEntry[]
       }
       else {
         const keys = Object.keys(theme).filter(k => !ExcludeCssVarKeys.includes(k))

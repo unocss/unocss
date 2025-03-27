@@ -1,4 +1,4 @@
-import type { PreflightContext, PresetOptions } from '@unocss/core'
+import type { Arrayable, CSSEntry, PreflightContext, PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
@@ -107,7 +107,14 @@ export interface PresetWind4Options extends PresetOptions {
    * @param ctx {@link PreflightContext}
    * @returns
    */
-  processThemeVars?: (vars: [string, string][], ctx: PreflightContext) => void | [string, string][]
+  processThemeVars?: (vars: CSSEntry[], ctx: PreflightContext) => void | CSSEntry[]
+
+  /**
+   * Resolve unit values.
+   *
+   * @param utility
+   */
+  unitResolver?: Arrayable<(utility: CSSEntry, layer: string) => void>
 }
 
 export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
