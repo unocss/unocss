@@ -67,18 +67,16 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
 
       let deps
       const generateCSS = (deps: CSSEntry[]) => {
-        if (options.processThemeVars) {
-          deps = options.processThemeVars(deps, ctx) ?? deps
-        }
-        if (deps.length === 0)
-          return undefined
-        if (options.unitResolver) {
-          for (const resolver of toArray(options.unitResolver)) {
-            deps.forEach(utility => resolver(utility, 'theme'))
+        if (options.utilityResolver) {
+          const resolver = toArray(options.utilityResolver)
+          for (const utility of deps) {
+            for (const r of resolver) {
+              r(utility, 'theme', ctx)
+            }
           }
         }
 
-        const depCSS = deps.map(([key, value]) => `${key}: ${value};`).join('\n')
+        const depCSS = deps.map(([key, value]) => (key && value) ? `${key}: ${value};` : undefined).filter(Boolean).join('\n')
 
         return compressCSS(`
 :root, :host {

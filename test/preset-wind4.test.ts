@@ -174,24 +174,22 @@ describe('preset-wind4', () => {
     `)
   })
 
-  it('processThemeVars', async () => {
+  it('custom theme vars', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
         presetWind4({
           reset: false,
-          processThemeVars(vars) {
-            return vars.map(([k, v]) => {
-              if (k.includes('colors')) {
-                k = k.replace('colors', 'ui')
+          utilityResolver(vars, layer) {
+            if (layer === 'theme') {
+              const [key, value] = vars
+              if (key.includes('colors')) {
+                vars[0] = key.replace('colors', 'ui')
               }
-
-              if ((v as string).includes('rem')) {
-                v = (v as string).replace('rem', 'px')
+              if ((value as string).includes('rem')) {
+                vars[1] = (value as string).replace('rem', 'px')
               }
-
-              return [k, v]
-            })
+            }
           },
         }),
       ],
@@ -215,7 +213,7 @@ describe('preset-wind4', () => {
       presets: [
         presetWind4({
           reset: false,
-          unitResolver: createRemToPxResolver(),
+          utilityResolver: createRemToPxResolver(),
         }),
       ],
     })
