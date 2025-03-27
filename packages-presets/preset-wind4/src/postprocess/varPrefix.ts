@@ -1,7 +1,7 @@
 import type { Postprocessor } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 
-export function varPrefix(prefix: PresetWind4Options['variablePrefix']): Postprocessor[] {
+export function varPrefix({ variablePrefix: prefix }: PresetWind4Options): Postprocessor[] {
   const processor: Postprocessor = (obj) => {
     obj.entries.forEach((i) => {
       i[0] = i[0].replace(/^--un-/, `--${prefix}`)

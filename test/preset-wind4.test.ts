@@ -1,5 +1,6 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind4 from '@unocss/preset-wind4'
+import { createRemToPxResolver } from '@unocss/preset-wind4/utils'
 import { describe, expect, it } from 'vitest'
 import { presetWind4Targets } from './assets/preset-wind4-targets'
 
@@ -173,24 +174,22 @@ describe('preset-wind4', () => {
     `)
   })
 
-  it('processThemeVars', async () => {
+  it('custom theme vars', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
         presetWind4({
           reset: false,
-          processThemeVars(vars) {
-            return vars.map(([k, v]) => {
-              if (k.includes('colors')) {
-                k = k.replace('colors', 'ui')
+          utilityResolver(vars, layer) {
+            if (layer === 'theme') {
+              const [key, value] = vars
+              if (key.includes('colors')) {
+                vars[0] = key.replace('colors', 'ui')
               }
-
-              if (v.includes('rem')) {
-                v = v.replace('rem', 'px')
+              if ((value as string).includes('rem')) {
+                vars[1] = (value as string).replace('rem', 'px')
               }
-
-              return [k, v]
-            })
+            }
           },
         }),
       ],
@@ -205,6 +204,28 @@ describe('preset-wind4', () => {
       --spacing: 0.25px;
       --ui-red: oklch(0.704 0.191 22.216);
       }"
+    `)
+  })
+
+  it('unitResolver', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          reset: false,
+          utilityResolver: createRemToPxResolver(),
+        }),
+      ],
+    })
+    const { css } = await uno.generate('p-4 m-5rem')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host {
+      --spacing: 4px;
+      }
+      /* layer: default */
+      .m-5rem{margin:80px;}
+      .p-4{padding:calc(var(--spacing) * 4);}"
     `)
   })
 })
