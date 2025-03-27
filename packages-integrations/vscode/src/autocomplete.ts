@@ -1,5 +1,5 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
-import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
+import type { SuggestResult, UnocssPluginContext, UnoGenerator } from '@unocss/core'
 import type { CompletionItemProvider, Disposable } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from '#integration/utils'
@@ -8,7 +8,7 @@ import { CompletionItem, CompletionItemKind, CompletionList, languages, Markdown
 import { getConfig, getLanguageIds } from './configs'
 import { delimiters } from './constants'
 import { log } from './log'
-import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
+import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, isVueWithPug, shouldProvideAutocomplete } from './utils'
 
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
@@ -74,13 +74,48 @@ export async function registerAutoComplete(
       if (!ctx)
         return null
 
-      if (!ctx.filter(code, id) && !isCssId(id))
+      const isPug = isVueWithPug(code, id)
+      // If isPug is true, then we should not recognize it as a cssId.
+      if (!ctx.filter(code, id) && !isCssId(id) && !isPug)
         return null
 
       try {
         const autoComplete = getAutocomplete(ctx)
 
-        const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
+        const cursorPosition = doc.offsetAt(position)
+        let result: SuggestResult | undefined
+
+        // Special treatment for Pug Vue templates
+        if (isPug) {
+          // get content from cursorPosition
+          const textBeforeCursor = code.substring(0, cursorPosition)
+          // check the dot
+          const dotMatch = /\.\w*-*$/.exec(textBeforeCursor)
+
+          if (dotMatch) {
+            const matched = dotMatch[0].substring(1) // replace dot
+            const suggestions = await autoComplete.suggest(matched || '')
+
+            if (suggestions.length) {
+              // format data
+              result = {
+                suggestions: suggestions.map(v => [v, v] as [string, string]),
+                resolveReplacement: (suggestion: string) => ({
+                  start: cursorPosition - (matched?.length || 0),
+                  end: cursorPosition,
+                  replacement: suggestion,
+                }),
+              }
+            }
+          }
+          else {
+            // original logic
+            result = await autoComplete.suggestInFile(code, cursorPosition)
+          }
+        }
+        else {
+          result = await autoComplete.suggestInFile(code, cursorPosition)
+        }
 
         if (!result)
           return
