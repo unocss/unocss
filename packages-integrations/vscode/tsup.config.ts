@@ -10,7 +10,7 @@ export default defineConfig({
   format: [
     'cjs',
   ],
-  shims: false,
+  shims: true,
   splitting: true,
   loader: {
     '': 'file',
@@ -19,8 +19,4 @@ export default defineConfig({
     '.CMD': 'file',
     '.md': 'file',
   },
-  noExternal: [/^@unocss\//],
-  platform: 'node',
-  sourcemap: true,
-  clean: true,
 })
