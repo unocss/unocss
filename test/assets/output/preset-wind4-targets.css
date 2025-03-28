@@ -901,6 +901,18 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .ring-offset-4{--un-ring-offset-width:4px;}
 .ring-inset{--un-ring-inset:inset;}
 .shadow{--un-shadow:0 1px 3px 0 var(--un-shadow-color, rgb(0 0 0 / 0.1)),0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+@property --un-inset-ring-color {syntax: "*";inherits: false;}
+@property --un-inset-ring-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
+@property --un-inset-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
+@property --un-inset-shadow-color {syntax: "*";inherits: false;}
+@property --un-ring-color {syntax: "*";inherits: false;}
+@property --un-ring-inset {syntax: "*";inherits: false;}
+@property --un-ring-offset-color {syntax: "*";inherits: false;}
+@property --un-ring-offset-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
+@property --un-ring-offset-width {syntax: "<length>";inherits: false;initial-value: 0px;}
+@property --un-ring-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
+@property --un-shadow {syntax: "*";inherits: false;initial-value: 0 0 #0000;}
+@property --un-shadow-color {syntax: "*";inherits: false;}
 .shadow-\[\#fff\]{--un-shadow-color:color-mix(in oklch, #fff var(--un-shadow-opacity), transparent) /* #fff */;}
 @property --un-shadow-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
 .shadow-\[0px_4px_4px_0px_rgba\(237\,_0\,_0\,_1\)\]{--un-shadow:0px 4px 4px 0px var(--un-shadow-color, rgba(237, 0, 0, 1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
