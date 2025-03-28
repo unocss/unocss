@@ -10,7 +10,7 @@ export default defineConfig({
   format: [
     'cjs',
   ],
-  shims: false,
+  shims: true,
   splitting: true,
   loader: {
     '': 'file',
