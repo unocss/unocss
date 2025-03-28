@@ -1,5 +1,5 @@
 import type { CSSEntry } from '@unocss/core'
-import { remRE } from './handlers'
+import { remRE } from './handlers/regex'
 
 export function createRemToPxResolver(base: number = 16) {
   return (utility: CSSEntry) => {
