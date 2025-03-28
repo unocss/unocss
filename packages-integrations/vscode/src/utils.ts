@@ -232,7 +232,7 @@ export function shouldProvideAutocomplete(code: string, id: string, offset: numb
   return isInStartTag
 }
 
-const pugTemplateRe = /<template[^>]*lang=["']pug["'][^>]*>/i
+const pugTemplateRe = /<template.*?lang=['"]pug['"][^>]*>/i
 
 export function isVueWithPug(code: string, id: string): boolean {
   return id.endsWith('.vue') && pugTemplateRe.test(code)
