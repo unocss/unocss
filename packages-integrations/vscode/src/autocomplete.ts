@@ -90,14 +90,13 @@ export async function registerAutoComplete(
           // get content from cursorPosition
           const textBeforeCursor = code.substring(0, cursorPosition)
           // check the dot
-          const dotMatch = /\.\w*-*$/.exec(textBeforeCursor)
+          const dotMatch = textBeforeCursor.match(/\.\w*-*$/)
 
           if (dotMatch) {
             const matched = dotMatch[0].substring(1) // replace dot
             const suggestions = await autoComplete.suggest(matched || '')
 
             if (suggestions.length) {
-              // format data
               result = {
                 suggestions: suggestions.map(v => [v, v] as [string, string]),
                 resolveReplacement: (suggestion: string) => ({
