@@ -19,82 +19,86 @@ exports[`prefix > multiple preset prefix 1`] = `
 .bar-regex,
 .foo-regex,
 .regex{color:regex;}
-@media (min-width: 640px){
-.h-container{max-width:640px;}
-}
-@media (min-width: 768px){
-.h-container{max-width:768px;}
-}
-@media (min-width: 1024px){
-.h-container{max-width:1024px;}
-}
-@media (min-width: 1280px){
-.h-container{max-width:1280px;}
-}
-@media (min-width: 1024px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1024px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 640px){
+max-width:640px;
+}}}
+.h-container{@media (min-width: 640px){
+max-width:640px;
 }}
-@media (min-width: 1280px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1280px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 768px){
+max-width:768px;
+}}}
+.h-container{@media (min-width: 768px){
+max-width:768px;
 }}
-@media (min-width: 1536px){
-.\\32 xl\\:h-container{width:100%;}
-.h-container{max-width:1536px;}
-}
-@media (min-width: 1536px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1536px;}
+.h-container{@media (min-width: 1024px){
+max-width:1024px;
 }}
-@media (min-width: 640px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:640px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1024px){
+max-width:1024px;
+}}}
+.h-container{@media (min-width: 1280px){
+max-width:1280px;
 }}
-@media (min-width: 768px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:768px;}
-}}"
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1280px){
+max-width:1280px;
+}}}
+.\\32 xl\\:h-container{@media (min-width: 1536px){
+width:100%;
+}}
+.h-container{@media (min-width: 1536px){
+max-width:1536px;
+}}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1536px){
+max-width:1536px;
+}}}"
 `;
 
 exports[`prefix > preset prefix 1`] = `
 "/* layer: default */
 .h-container{width:100%;}
-.dark .dark\\:children\\:hover\\:h-space-x-4:hover>*>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
-.dark .dark\\:hover\\:children\\:h-space-x-4>*:hover>:not([hidden])~:not([hidden]){--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
-.dark .dark\\:hover\\:children\\:h-divide-x>*:hover>:not([hidden])~:not([hidden]){--un-divide-x-reverse:0;border-left-width:calc(1px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(1px * var(--un-divide-x-reverse));}
+.dark .dark\\:children\\:hover\\:h-space-x-4>:not([hidden])~:not([hidden])>*:hover{--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
+.dark .dark\\:hover\\:children\\:h-space-x-4>:not([hidden])~:not([hidden]):hover>*{--un-space-x-reverse:0;margin-left:calc(1rem * calc(1 - var(--un-space-x-reverse)));margin-right:calc(1rem * var(--un-space-x-reverse));}
+.dark .dark\\:hover\\:children\\:h-divide-x>:not([hidden])~:not([hidden]):hover>*{--un-divide-x-reverse:0;border-left-width:calc(1px * calc(1 - var(--un-divide-x-reverse)));border-right-width:calc(1px * var(--un-divide-x-reverse));}
 .h-group[data-enabled] .group-data-\\[enabled\\]\\:h-bg-green{--un-bg-opacity:1;background-color:rgb(74 222 128 / var(--un-bg-opacity));}
 .h-group:hover .group-hover\\:h-bg-red{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}
 .hover\\:h-p4:hover{padding:1rem;}
 .h-text-red{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
 .bar-bar,
 .bar-shortcut{color:bar;}
-@media (min-width: 640px){
-.h-container{max-width:640px;}
-}
-@media (min-width: 768px){
-.h-container{max-width:768px;}
-}
-@media (min-width: 1024px){
-.h-container{max-width:1024px;}
-}
-@media (min-width: 1280px){
-.h-container{max-width:1280px;}
-}
-@media (min-width: 1024px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1024px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 640px){
+max-width:640px;
+}}}
+.h-container{@media (min-width: 640px){
+max-width:640px;
 }}
-@media (min-width: 1280px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1280px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 768px){
+max-width:768px;
+}}}
+.h-container{@media (min-width: 768px){
+max-width:768px;
 }}
-@media (min-width: 1536px){
-.\\32 xl\\:h-container{width:100%;}
-.h-container{max-width:1536px;}
-}
-@media (min-width: 1536px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:1536px;}
+.h-container{@media (min-width: 1024px){
+max-width:1024px;
 }}
-@media (min-width: 640px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:640px;}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1024px){
+max-width:1024px;
+}}}
+.h-container{@media (min-width: 1280px){
+max-width:1280px;
 }}
-@media (min-width: 768px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:768px;}
-}}"
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1280px){
+max-width:1280px;
+}}}
+.\\32 xl\\:h-container{@media (min-width: 1536px){
+width:100%;
+}}
+.h-container{@media (min-width: 1536px){
+max-width:1536px;
+}}
+.\\32 xl\\:h-container{@media (min-width: 1536px){@media (min-width: 1536px){
+max-width:1536px;
+}}}"
 `;
 
 exports[`prefix > uses first truthy prefix 1`] = `
