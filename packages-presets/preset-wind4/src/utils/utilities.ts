@@ -1,6 +1,6 @@
-import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { toArray } from '@unocss/core'
+import { symbols, toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import { themeTracking } from './constant'
 import { h } from './handlers'
@@ -128,7 +128,12 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   return colored
 }
 
-export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property: string, varName: string, ctx?: RuleContext<Theme>): [CSSObject, string?] | undefined {
+export function colorCSSGenerator(
+  data: ReturnType<typeof parseColor>,
+  property: string,
+  varName: string,
+  ctx?: RuleContext<Theme>,
+): CSSValueInput[] | undefined {
   if (!data)
     return
 
@@ -137,7 +142,7 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
   const css: CSSObject = {}
 
   if (color) {
-    const result: [CSSObject, string?] = [css]
+    const result: CSSValueInput[] = [css]
 
     if (Object.values(SpecialColorKey).includes(color)) {
       css[property] = color
@@ -377,14 +382,29 @@ export function compressCSS(css: string, isDev = false) {
 export function defineProperty(
   property: string,
   options: { syntax?: string, inherits?: boolean, initialValue?: unknown } = {},
-) {
+): CSSValueInput {
   const {
     syntax = '*',
     inherits = false,
     initialValue,
   } = options
 
-  return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
+  const value: CSSObjectInput = {
+    [symbols.shortcutsNoMerge]: true,
+    [symbols.noMerge]: true,
+    [symbols.variants]: () => [
+      {
+        parent: '',
+        layer: 'cssvar-property',
+        selector: () => `@property ${property}`,
+      },
+    ],
+    syntax: JSON.stringify(syntax),
+    inherits: inherits ? 'true' : 'false',
+  }
+  if (initialValue != null)
+    value.initialValue = JSON.stringify(initialValue)
+  return value
 }
 
 export function detectThemeValue(value: string, theme: Theme) {

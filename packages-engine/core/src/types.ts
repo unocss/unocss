@@ -74,6 +74,7 @@ export interface RuleContext<Theme extends object = object> {
 }
 
 declare const SymbolShortcutsNoMerge: unique symbol
+declare const SymbolNoMerge: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
@@ -85,6 +86,10 @@ export interface ControlSymbols {
    * Prevent merging in shortcuts
    */
   shortcutsNoMerge: typeof SymbolShortcutsNoMerge
+  /**
+   * Prevent merging in rules
+   */
+  noMerge: typeof SymbolNoMerge
   /**
    * Additional variants applied to this rule
    */
@@ -109,7 +114,8 @@ export interface ControlSymbols {
 
 export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
-  [SymbolVariants]: VariantHandler[]
+  [SymbolNoMerge]: true
+  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
