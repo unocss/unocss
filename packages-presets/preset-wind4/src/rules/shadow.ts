@@ -42,7 +42,7 @@ function handleShadow(themeKey: 'shadow' | 'insetShadow') {
           '--un-shadow': colorableShadows((v || c)!, `--un-${colorVar}-color`).join(','),
           'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
         },
-        Object.values(shadowProperties).join('\n'),
+        ...Object.values(shadowProperties),
       ]
     }
     return colorResolver(`--un-${colorVar}-color`, colorVar)(match, ctx)
