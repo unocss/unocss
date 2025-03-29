@@ -25,11 +25,10 @@
     "@unocss/preset-icons": "^66.1.0-beta.7",
     "autoprefixer": "^10.4.2",
     "typescript": "^5.8.2",
-    "unocss": "^66.1.0-beta.7"
+    "unocss": "link:../../packages-presets/unocss"
   },
-  "engines": {
-    "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
-  }
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
+  },
 }
