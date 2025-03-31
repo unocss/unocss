@@ -50,9 +50,9 @@ export const borders: Rule<Theme>[] = [
 ]
 
 function borderColorResolver(direction: string) {
-  return ([, body]: string[], theme: Theme): [CSSObject, string?] | undefined => {
-    const data = parseColor(body, theme)
-    const result = colorCSSGenerator(data, `border${direction}-color`, 'border')
+  return ([, body]: string[], ctx: RuleContext<Theme>): [CSSObject, string?] | undefined => {
+    const data = parseColor(body, ctx.theme)
+    const result = colorCSSGenerator(data, `border${direction}-color`, 'border', ctx)
 
     if (result) {
       const css = result[0]
@@ -81,7 +81,7 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
       return handlerBorderSize(['', a, b])
 
     if (hasParseableColor(b, ctx.theme)) {
-      return directionMap[a].map(i => borderColorResolver(i)(['', b], ctx.theme))
+      return directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
         .filter(notNull)
         .reduce((acc, item) => {
           // Merge multiple direction CSSObject into one
