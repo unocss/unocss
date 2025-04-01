@@ -8,6 +8,7 @@ import { rules } from './rules'
 import { shortcuts } from './shortcuts'
 import { shorthands } from './shorthands'
 import { theme } from './theme'
+import { transformers } from './transformers'
 import { PRESET_NAME, trackedTheme } from './utils'
 import { variants } from './variants'
 
@@ -143,6 +144,7 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     configResolved() {
       trackedTheme.clear()
     },
+    transformers,
   }
 })
 
