@@ -11,6 +11,7 @@ export const bgColorsTransformer: SourceCodeTransformer = {
     if (!nodePath)
       return
 
+    const { existsSync } = await import('node:fs')
     const { dirname, isAbsolute, resolve } = nodePath
 
     const highlightAnnotations: HighlightAnnotation[] = []
@@ -20,7 +21,10 @@ export const bgColorsTransformer: SourceCodeTransformer = {
       if (bgUrlRE.test(d)) {
         const url = d.replace(/^\[?(?:url\(?)?['"]?(.+?)['"]?\)?\]?$/, '$1')
         if (url && !isAbsolute(url) && !/^(?:https?:)?\/\//.test(url)) {
-          const path = resolve(dirname(id), url).replace(ctx.root, '').replace(/\\/g, '/')
+          let path = resolve(dirname(id), url).replace(ctx.root, '').replace(/\\/g, '/')
+          if (!existsSync(path)) {
+            path = url
+          }
           code.overwrite(match.index, match.index + pattern.length, ` bg-[url('${path}')]`)
           highlightAnnotations.push({
             offset: match.index,
