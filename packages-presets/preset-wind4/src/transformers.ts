@@ -1,45 +1,11 @@
-import type { HighlightAnnotation, SourceCodeTransformer } from '@unocss/core'
+import type { SourceCodeTransformer } from '@unocss/core'
+import { cssUrlTransformer } from '@unocss/rule-utils'
 
-const bgUrlRE = /^\[url\(.+\)\]$/
-
-export const bgColorsTransformer: SourceCodeTransformer = {
+export const bgColorsTransformer = cssUrlTransformer({
   name: '@unocss/preset-wind4:transformer',
   enforce: 'pre',
-  async transform(code, id, ctx) {
-    // playground browser doesn't support node:path
-    const nodePath = await import('node:path').catch(() => null)
-    if (!nodePath)
-      return
-
-    const { existsSync } = await import('node:fs')
-    const { dirname, isAbsolute, resolve } = nodePath
-
-    const highlightAnnotations: HighlightAnnotation[] = []
-    const matches = code.original.matchAll(/ ?bg-(\[.+\])/g)
-    for (const match of matches) {
-      const [pattern, d] = match
-      if (bgUrlRE.test(d)) {
-        const url = d.replace(/^\[?(?:url\(?)?['"]?(.+?)['"]?\)?\]?$/, '$1')
-        if (url && !isAbsolute(url) && !/^(?:https?:)?\/\//.test(url)) {
-          let path = resolve(dirname(id), url).replace(ctx.root, '').replace(/\\/g, '/')
-          if (!existsSync(path)) {
-            path = url
-          }
-          code.overwrite(match.index, match.index + pattern.length, ` bg-[url('${path}')]`)
-          highlightAnnotations.push({
-            offset: match.index,
-            length: pattern.length,
-            className: pattern,
-          })
-        }
-      }
-    }
-
-    return {
-      highlightAnnotations,
-    }
-  },
-}
+  regexp: / ?bg-(\[.+\])/g,
+})
 
 export const transformers: SourceCodeTransformer[] = [
   bgColorsTransformer,
