@@ -183,6 +183,11 @@ export interface RuleMeta {
   noMerge?: boolean
 
   /**
+   * Option to output css nestable.
+   */
+  nested?: boolean
+
+  /**
    * Fine tune sort
    */
   sort?: number
@@ -951,6 +956,7 @@ export interface UtilObject {
   layer: string | undefined
   sort: number | undefined
   noMerge: boolean | undefined
+  nested: boolean | undefined
 }
 
 /**
