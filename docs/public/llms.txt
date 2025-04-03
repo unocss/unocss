@@ -1,0 +1,67 @@
+# UnoCSS - AI Reference Guide
+
+> UnoCSS is an atomic-CSS engine for high-performance, on-demand utility generation. It is highly customizable, extensible, and designed for modern frameworks like Vite, Astro, Nuxt, and more.
+
+## Things to remember when using UnoCSS
+
+- UnoCSS is **runtime-free** — utilities are generated at **build time**, making it lightweight and fast.
+- It supports **custom rules, shortcuts, variants**, and **design tokens** out of the box.
+- UnoCSS is **framework-agnostic** but works best with Vite-based tools like Astro and Nuxt.
+- Ideal for teams building custom design systems or component libraries with fine-grained control.
+
+## Important Links for AI Tools
+
+- [Home](https://unocss.dev): Overview of UnoCSS, philosophy, and high-level capabilities.
+- [Getting Started](https://unocss.dev/guide): Step-by-step guide to integrate UnoCSS into a new project.
+- [Installation](https://unocss.dev/integrations): Framework-specific installation steps (Astro, Vite, Nuxt, etc.).
+- [Configuration](https://unocss.dev/config): Full API reference for the `uno.config.ts` file.
+- [Rules](https://unocss.dev/config/rules): Reference for built-in utility rules and how to define custom ones.
+- [Shortcuts](https://unocss.dev/config/shortcuts): Create aliases for utility combinations.
+- [Variants](https://unocss.dev/config/variants): Apply variations to existing rules.
+- [Theme](https://unocss.dev/config/theme): Customize the theme when your are using UnoCSS. Follows Tailwind style theme config.
+- [Transformers](https://unocss.dev/config/theme): Build your custom conventions using transformers.
+- [Presets](https://unocss.dev/guide/presets): Extend UnoCSS with pre-configured functionality like icons, typography, or web fonts.
+- [Playground](https://unocss.dev/play): Try UnoCSS utilities live in the browser.
+- [Full Reference](https://unocss.dev/llms-full.txt): Comprehensive reference for all available utilities, rules, and configuration options.
+
+## Key Features
+
+- Atomic CSS generator with zero-runtime
+- Instant utility scanning and transformation
+- Framework-agnostic, Vite-first integration
+- Extensible through rules, presets, transformers
+- Utility groups, class merging, and theming support
+
+## Import Pattern Example
+
+UnoCSS uses a config-based approach rather than component imports:
+
+\`\`\`ts
+// uno.config.ts
+import { defineConfig, presetUno, presetAttributify } from 'unocss';
+
+export default defineConfig({
+  presets: [
+    presetUno(),
+    presetAttributify(),
+  ],
+});
+\`\`\`
+
+Use utility classes directly in your markup:
+
+\`\`\`html
+<div class="text-center text-xl font-bold text-red-500 hover:text-red-700">
+  Hello from UnoCSS
+</div>
+\`\`\`
+
+## Optional
+
+- Easy to use tutorials are available at: [UnoCSS Tutorials](https://tutorial.unocss.dev)
+- Example integrations and starters available at: [github.com/unocss](https://github.com/unocss/unocss/tree/main/examples)
+- Preset collections: [github.com/unocss](https://github.com/unocss/unocss/blob/main/packages-presets/README.md)
+
+UnoCSS Website: [https://unocss.dev]()
+UnoCSS License (MIT): [https://github.com/unocss/unocss/blob/main/LICENSE](https://github.com/unocss/unocss/blob/main/LICENSE)
+UnoCSS Author: [Anthony Fu](https://github.com/antfu)
