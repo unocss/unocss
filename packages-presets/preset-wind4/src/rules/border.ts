@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { notNull, uniq } from '@unocss/core'
+import { notNull } from '@unocss/core'
 import { colorCSSGenerator, cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, passThemeKey, SpecialColorKey, themeTracking } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
@@ -50,13 +50,12 @@ export const borders: Rule<Theme>[] = [
 ]
 
 function borderColorResolver(direction: string) {
-  return ([, body]: string[], ctx: RuleContext<Theme>): [CSSObject, string?] | undefined => {
+  return ([, body]: string[], ctx: RuleContext<Theme>): [CSSObject, ...CSSValueInput[]] | undefined => {
     const data = parseColor(body, ctx.theme)
     const result = colorCSSGenerator(data, `border${direction}-color`, 'border', ctx)
 
     if (result) {
       const css = result[0]
-
       if (
         data?.color && !Object.values(SpecialColorKey).includes(data.color)
         && direction && direction !== ''
@@ -81,14 +80,19 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
       return handlerBorderSize(['', a, b])
 
     if (hasParseableColor(b, ctx.theme)) {
-      return directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
+      const direcetions = directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
         .filter(notNull)
-        .reduce((acc, item) => {
-          // Merge multiple direction CSSObject into one
-          Object.assign(acc[0], item[0])
-          acc[1] = uniq([acc[1], item[1]]).join('')
-          return acc.filter(Boolean) as [CSSObject, string?]
-        }, [{}]) as (CSSValueInput | string)[]
+
+      return [
+        direcetions
+          .map(d => d[0])
+          .reduce((acc, item) => {
+            // Merge multiple direction CSSObject into one
+            Object.assign(acc, item)
+            return acc
+          }, {}),
+        ...direcetions.flatMap(d => d.slice(1)),
+      ]
     }
   }
 }

@@ -133,7 +133,7 @@ export function colorCSSGenerator(
   property: string,
   varName: string,
   ctx?: RuleContext<Theme>,
-): CSSValueInput[] | undefined {
+): [CSSObject, ...CSSValueInput[]] | undefined {
   if (!data)
     return
 
@@ -142,7 +142,7 @@ export function colorCSSGenerator(
   const css: CSSObject = {}
 
   if (color) {
-    const result: CSSValueInput[] = [css]
+    const result: [CSSObject, ...CSSValueInput[]] = [css]
 
     if (Object.values(SpecialColorKey).includes(color)) {
       css[property] = color

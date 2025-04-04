@@ -6,6 +6,7 @@
 @property --un-outline-color-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-accent-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-caret-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
+@property --un-border-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-line-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-contain-layout{syntax:"*";inherits:false;}
@@ -516,7 +517,6 @@
 .border-s-width-\$variable{border-inline-start-width:var(--variable);}
 .border-t-width-3{border-top-width:3px;}
 .b-block-size-\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
-[object Object]
 .border-\[\#124\]{border-color:color-mix(in oklch, #124 var(--un-border-opacity), transparent) /* #124 */;}
 .border-\[calc\(10px\+1px\)\]{border-width:calc(10px + 1px);}
 .border-\[calc\(var\(--border-width\)\*1px\)\]{border-width:calc(var(--border-width) * 1px);}
