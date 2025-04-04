@@ -335,7 +335,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
           if (!sorted.length)
             return undefined
-          const rules = sorted
+          const ruleLines = sorted
             .reverse()
             .map(([selectorSortPair, body, noMerge], idx) => {
               if (!noMerge && this.config.mergeSelectors) {
@@ -362,6 +362,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
                 : body
             })
             .filter(Boolean)
+
+          const rules = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
