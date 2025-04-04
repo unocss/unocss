@@ -292,7 +292,6 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
       const camel = camelize(keys.slice(index).join('-'))
       if (obj[camel])
         return obj[camel]
-
       const hyphen = keys.slice(index).join('-')
       if (obj[hyphen])
         return obj[hyphen]
@@ -403,7 +402,7 @@ export function defineProperty(
     inherits: inherits ? 'true' : 'false',
   }
   if (initialValue != null)
-    value.initialValue = JSON.stringify(initialValue)
+    value['initial-value'] = JSON.stringify(initialValue)
   return value
 }
 
