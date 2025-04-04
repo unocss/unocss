@@ -8,6 +8,10 @@
 @property --un-caret-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-line-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
+@property --un-contain-layout{syntax:"*";inherits:false;}
+@property --un-contain-paint{syntax:"*";inherits:false;}
+@property --un-contain-size{syntax:"*";inherits:false;}
+@property --un-contain-style{syntax:"*";inherits:false;}
 @property --un-content{syntax:"*";inherits:false;initial-value:"\"\"";}
 @property --un-ring-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
@@ -23,6 +27,17 @@
 @property --un-ring-shadow{syntax:"*";inherits:false;initial-value:"0 0 #0000";}
 @property --un-shadow{syntax:"*";inherits:false;initial-value:"0 0 #0000";}
 @property --un-shadow-color{syntax:"*";inherits:false;}
+@property --un-translate-x{syntax:"*";inherits:false;initial-value:0;}
+@property --un-translate-y{syntax:"*";inherits:false;initial-value:0;}
+@property --un-translate-z{syntax:"*";inherits:false;initial-value:0;}
+@property --un-rotate-x{syntax:"*";inherits:false;initial-value:"rotateX(0)";}
+@property --un-rotate-y{syntax:"*";inherits:false;initial-value:"rotateY(0)";}
+@property --un-rotate-z{syntax:"*";inherits:false;initial-value:"rotateZ(0)";}
+@property --un-skew-x{syntax:"*";inherits:false;initial-value:"skewX(0)";}
+@property --un-skew-y{syntax:"*";inherits:false;initial-value:"skewY(0)";}
+@property --un-scale-x{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-y{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-z{syntax:"*";inherits:false;initial-value:1;}
 @property --un-ease{syntax:"*";inherits:false;}
 @property --un-fill-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-stroke-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
@@ -30,9 +45,41 @@
 @property --un-stops-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-to-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-via-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
+@property --un-gradient-from{syntax:"<color>";inherits:false;initial-value:"#0000";}
+@property --un-gradient-from-position{syntax:"<length-percentage>";inherits:false;initial-value:"0%";}
+@property --un-gradient-position{syntax:"*";inherits:false;}
+@property --un-gradient-stops{syntax:"*";inherits:false;}
+@property --un-gradient-to{syntax:"<color>";inherits:false;initial-value:"#0000";}
+@property --un-gradient-to-position{syntax:"<length-percentage>";inherits:false;initial-value:"100%";}
+@property --un-gradient-via{syntax:"<color>";inherits:false;initial-value:"#0000";}
+@property --un-gradient-via-position{syntax:"<length-percentage>";inherits:false;initial-value:"50%";}
+@property --un-gradient-via-stops{syntax:"*";inherits:false;}
 @property --un-drop-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
+@property --un-backdrop-blur{syntax:"*";inherits:false;}
+@property --un-backdrop-brightness{syntax:"*";inherits:false;}
+@property --un-backdrop-contrast{syntax:"*";inherits:false;}
+@property --un-backdrop-grayscale{syntax:"*";inherits:false;}
+@property --un-backdrop-hue-rotate{syntax:"*";inherits:false;}
+@property --un-backdrop-invert{syntax:"*";inherits:false;}
+@property --un-backdrop-opacity{syntax:"*";inherits:false;}
+@property --un-backdrop-saturate{syntax:"*";inherits:false;}
+@property --un-backdrop-sepia{syntax:"*";inherits:false;}
+@property --un-blur{syntax:"*";inherits:false;}
+@property --un-brightness{syntax:"*";inherits:false;}
+@property --un-contrast{syntax:"*";inherits:false;}
+@property --un-drop-shadow{syntax:"*";inherits:false;}
+@property --un-grayscale{syntax:"*";inherits:false;}
+@property --un-hue-rotate{syntax:"*";inherits:false;}
+@property --un-invert{syntax:"*";inherits:false;}
+@property --un-saturate{syntax:"*";inherits:false;}
+@property --un-sepia{syntax:"*";inherits:false;}
 @property --un-placeholder-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
 @property --un-scroll-snap-strictness{syntax:"*";inherits:false;initial-value:"proximity";}
+@property --un-border-spacing-x{syntax:"<length>";inherits:false;initial-value:"0";}
+@property --un-border-spacing-y{syntax:"<length>";inherits:false;initial-value:"0";}
+@property --un-pan-x{syntax:"*";inherits:false;}
+@property --un-pan-y{syntax:"*";inherits:false;}
+@property --un-pinch-zoom{syntax:"*";inherits:false;}
 @property --un-space-y-reverse{syntax:"*";inherits:false;initial-value:0;}
 @property --un-space-x-reverse{syntax:"*";inherits:false;initial-value:0;}
 @property --un-divide-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
@@ -849,10 +896,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .contain-\[size_layout_paint\]{contain:size layout paint;}
 .contain-\[size_layout\]{contain:size layout;}
 .contain-layout{--un-contain-size:layout;contain:var(--un-contain-size) var(--un-contain-layout) var(--un-contain-paint) var(--un-contain-style);}
-[object Object]
-[object Object]
-[object Object]
-[object Object]
 .pointer-events-auto{pointer-events:auto;}
 .pointer-events-none{pointer-events:none;}
 .pointer-events-unset{pointer-events:unset;}
@@ -906,18 +949,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 .ring,
 .ring-px{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
 .ring-10{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(10px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-\[calc\(1rem-1px\)\]{--un-ring-color:color-mix(in oklch, calc(1rem - 1px) var(--un-ring-opacity), transparent) /* calc(1rem - 1px) */;}
 .ring-op-\$opacity-variable{--un-ring-opacity:var(--opacity-variable);}
@@ -956,9 +987,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .perspect-origin-center{perspective-origin:center;}
 .perspect-origin-top-right{perspective-origin:top right;}
 .translate-\[var\(--x\)\,var\(--y\)\,25\%\]{--un-translate-x:var(--x);--un-translate-y:var(--y);--un-translate-z:25%;translate:var(--un-translate-x) var(--un-translate-y);}
-[object Object]
-[object Object]
-[object Object]
 .translate-\[var\(--x\)\,var\(--y\)\]{--un-translate-x:var(--x);--un-translate-y:var(--y);translate:var(--un-translate-x) var(--un-translate-y);}
 .scope_class .scope-\[\.scope\\_class\]\:translate-0{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
 .translate-none{translate:none;}
@@ -971,8 +999,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .rotate-1deg{rotate:1deg;}
 .-rotate-2{rotate:-2deg;}
 .rotate-x-\$variable{--un-rotate-x:var(--variable);transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
-[object Object]
-[object Object]
 .rotate-x-1deg{--un-rotate-x:rotateX(1deg);transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
 .rotate-y-1,
 .transform-rotate-y-1{--un-rotate-y:rotateY(1deg);transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
@@ -1239,15 +1265,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .animate-unset{animation:unset;}
 .bg-linear-\[70deg\,blue\,pink\]{--un-gradient-position:70deg,blue,pink;background-image:linear-gradient(var(--un-gradient-stops));}
 .from-\$bg-from{--un-gradient-from:color-mix(in oklab, var(--bg-from) var(--un-from-opacity), transparent);--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
 .from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
 .from-green-500{--un-gradient-from:color-mix(in oklab, var(--colors-green-500) var(--un-from-opacity), transparent);--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
 .from-green-500\/50{--un-from-opacity:50%;--un-gradient-from:color-mix(in oklab, var(--colors-green-500) var(--un-from-opacity), transparent);--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
@@ -1462,11 +1479,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .touch-none{touch-action:none;}
 .touch-initial{touch-action:initial;}
 .lining-nums{--un-numeric-figure:lining-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
-[object Object]
-[object Object]
-[object Object]
-[object Object]
-[object Object]
+.lining-nums,
+.tabular-nums{syntax:"*";inherits:false;}
 .tabular-nums{--un-numeric-spacing:tabular-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
 .normal-nums{font-variant-numeric:normal;}
 .view-transition-foo{view-transition-name:foo;}

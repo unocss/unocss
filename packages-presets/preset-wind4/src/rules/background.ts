@@ -97,7 +97,8 @@ function bgGradientColorResolver() {
           }
           break
       }
-      yield Object.values(properties).join('\n')
+      for (const p of Object.values(properties))
+        yield p
     }
   }
 }
@@ -107,7 +108,8 @@ function bgGradientPositionResolver() {
     yield {
       [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body)}`,
     }
-    yield Object.values(properties).join('\n')
+    for (const p of Object.values(properties))
+      yield p
   }
 }
 
