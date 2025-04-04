@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.1.0-beta.7",
+  "version": "66.1.0-beta.8",
   "private": true,
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.7.0",
   "scripts": {
     "prepare": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",

@@ -30,4 +30,4 @@ export default defineConfig({
 })
 ```
 
-For example, please check the implementation of [pug extractor](https://github.com/unocss/unocss/tree/main/packages-integrations/extractor-pug) or the [attributify extractor](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/extractor.ts).
+For example, please check the implementation of [pug extractor](https://github.com/unocss/unocss/blob/main/packages-presets/extractor-pug/src/index.ts) or the [attributify extractor](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/extractor.ts).
