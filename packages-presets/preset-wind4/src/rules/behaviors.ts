@@ -60,11 +60,12 @@ function willChangeProperty(prop: string): string | undefined {
     return willChangeMap[prop]
   }
 
-  const match = prop.match(/^\[(.+)\]$/);
+  const match = prop.match(/^\[(.+)\]$/)
   if (match) {
     const arbitraryProp = match[1].replace(/_+/g, '')
     return h.properties.auto.global(arbitraryProp)
-  } else {
+  }
+  else {
     return h.properties.auto.global(prop)
   }
 }
