@@ -6,6 +6,7 @@ import { preflights } from './preflights'
 import { rules } from './rules'
 import { shorthands } from './shorthands'
 import { theme } from './theme'
+import { transformers } from './transformers'
 import { variants } from './variants'
 
 export { preflights } from './preflights'
@@ -97,6 +98,7 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
     autocomplete: {
       shorthands,
     },
+    transformers,
   }
 })
 
