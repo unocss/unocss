@@ -463,10 +463,13 @@
 .outline-inherit{--un-outline-style:inherit;outline-style:inherit;}
 .outline-revert-layer{--un-outline-style:revert-layer;outline-style:revert-layer;}
 .outline-unset{--un-outline-style:unset;outline-style:unset;}
+.will-change-\[filter\]{will-change:filter;}
+.will-change-\[margin\,padding\],
+.will-change-margin\,padding{will-change:margin,padding;}
+.will-change-\[padding\,__margin\],
+.will-change-padding\,margin{will-change:padding,margin;}
 .will-change-auto{will-change:auto;}
 .will-change-contents{will-change:contents;}
-.will-change-margin\,padding{will-change:margin,padding;}
-.will-change-padding\,margin{will-change:padding,margin;}
 .will-change-scroll{will-change:scroll-position;}
 .will-change-transform{will-change:transform;}
 .will-change-unset{will-change:unset;}
