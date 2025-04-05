@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
-import { variantPseudoClassesAndElements } from './pseudo'
+import { variantPseudoClassesAndElements, variantTaggedPseudoClasses } from './pseudo'
 
 // https://github.com/unocss/unocss/issues/2713
 it('pseudo variant order', async () => {
@@ -79,4 +79,34 @@ it('focus-visible:', async () => {
       .focus\\:foo-2:focus{text:foo-2;}
       .focus-visible\\:foo-1:focus-visible{text:foo-1;}"
     `)
+})
+
+it('nested named groups containing hyphens', async () => {
+  const uno = await createGenerator({
+    variants: [
+      ...variantTaggedPseudoClasses(),
+    ],
+    rules: [
+      [/^foo-(\d)$/, ([_, a]) => ({ text: `foo-${a}` })],
+    ],
+  })
+
+  const result = await uno.generate([
+    'group-hover/named:foo-1',
+    'group-hover/named-group:foo-2',
+  ])
+
+  expect(result.matched)
+    .toMatchInlineSnapshot(`
+      Set {
+        "group-hover/named:foo-1",
+        "group-hover/named-group:foo-2",
+      }
+    `)
+
+  expect(result.css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .group\\/named-group:hover .group-hover\\/named-group\\:foo-2{text:foo-2;}
+    .group\\/named:hover .group-hover\\/named\\:foo-1{text:foo-1;}"
+  `)
 })
