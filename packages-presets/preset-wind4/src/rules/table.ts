@@ -28,7 +28,8 @@ export const tables: Rule<Theme>[] = [
         '--un-border-spacing-y': v,
         'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
-      yield ['x', 'y'].map(d => defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })).join('\n')
+      for (const d of ['x', 'y'])
+        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })
     }
   }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
 
@@ -39,7 +40,8 @@ export const tables: Rule<Theme>[] = [
         [`--un-border-spacing-${d}`]: v,
         'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
-      yield ['x', 'y'].map(d => defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })).join('\n')
+      for (const d of ['x', 'y'])
+        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })
     }
   }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
 

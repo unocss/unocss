@@ -233,20 +233,20 @@ const fontVariantNumericProperties = [
   defineProperty('--un-numeric-figure'),
   defineProperty('--un-numeric-spacing'),
   defineProperty('--un-numeric-fraction'),
-].join('\n')
+]
 const baseFontVariantNumeric = {
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
-  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['slashed-zero', [{ '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['lining-nums', [{ '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['oldstyle-nums', [{ '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['proportional-nums', [{ '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['tabular-nums', [{ '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['diagonal-fractions', [{ '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['stacked-fractions', [{ '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['slashed-zero', [{ '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['lining-nums', [{ '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['oldstyle-nums', [{ '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['proportional-nums', [{ '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['tabular-nums', [{ '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['diagonal-fractions', [{ '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['stacked-fractions', [{ '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
   ['normal-nums', [{ 'font-variant-numeric': 'normal' }]],
 ]
 

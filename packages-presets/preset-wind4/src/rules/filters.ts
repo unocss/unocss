@@ -13,7 +13,7 @@ const filterBaseKeys = [
   'sepia',
   'drop-shadow',
 ]
-const filterProperties = filterBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
+const filterProperties = filterBaseKeys.map(i => defineProperty(`--un-${i}`))
 const filterCSS = filterBaseKeys.map(i => `var(--un-${i},)`).join(' ')
 
 const backdropBaseKeys = [
@@ -27,7 +27,7 @@ const backdropBaseKeys = [
   'backdrop-saturate',
   'backdrop-sepia',
 ]
-const backdropProperties = backdropBaseKeys.map(i => defineProperty(`--un-${i}`)).join('\n')
+const backdropProperties = backdropBaseKeys.map(i => defineProperty(`--un-${i}`))
 const backdropCSS = backdropBaseKeys.map(i => `var(--un-${i},)`).join(' ')
 
 function percentWithDefault(str?: string) {
@@ -51,7 +51,7 @@ function toFilter(varName: string, resolver: (str: string, theme: Theme) => stri
             '-webkit-backdrop-filter': backdropCSS,
             'backdrop-filter': backdropCSS,
           },
-          backdropProperties,
+          ...backdropProperties,
         ]
       }
       else {
@@ -60,7 +60,7 @@ function toFilter(varName: string, resolver: (str: string, theme: Theme) => stri
             [`--un-${varName}`]: `${varName}(${value})`,
             filter: filterCSS,
           },
-          filterProperties,
+          ...filterProperties,
         ]
       }
     }
@@ -76,7 +76,7 @@ function dropShadowResolver([, s]: string[], { theme }: RuleContext<Theme>) {
         '--un-drop-shadow': `drop-shadow(${shadows.join(') drop-shadow(')})`,
         'filter': filterCSS,
       },
-      filterProperties,
+      ...filterProperties,
     ]
   }
 
@@ -87,7 +87,7 @@ function dropShadowResolver([, s]: string[], { theme }: RuleContext<Theme>) {
         '--un-drop-shadow': v ? `drop-shadow(${v})` : v,
         'filter': filterCSS,
       },
-      filterProperties,
+      ...filterProperties,
     ]
   }
 }

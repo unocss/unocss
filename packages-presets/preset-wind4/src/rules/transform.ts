@@ -112,7 +112,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
         ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
         ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })),
     ]
   }
 }
@@ -132,7 +132,7 @@ function handleScale([, d, b]: string[]): CSSValues | (CSSValueInput | string)[]
         ...transformXYZ(d, v, 'scale'),
         ['scale', `var(--un-scale-x) var(--un-scale-y)${d === 'z' ? ' var(--un-scale-z)' : ''}`],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-scale-${d}`, { initialValue: 1 })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-scale-${d}`, { initialValue: 1 })),
     ]
   }
 }
@@ -152,8 +152,8 @@ function handleRotate([, d = '', b]: string[]): CSSValues | (CSSValueInput | str
           ...transformXYZ(d, v.endsWith('deg') ? `rotate${d.toUpperCase()}(${v})` : v, 'rotate'),
           ['transform', transform],
         ],
-        ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
-        ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
+        ...['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })),
+        ...['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })),
       ]
     }
     else {
@@ -173,8 +173,8 @@ function handleSkew([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] 
         ...ds.map(_d => [`--un-skew${_d}`, v.endsWith('deg') ? `skew${_d.slice(1).toUpperCase()}(${v})` : v]) as any,
         ['transform', transform],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
-      ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })),
+      ...['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })),
     ]
   }
 }
