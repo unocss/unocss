@@ -402,7 +402,7 @@ export function defineProperty(
     inherits: inherits ? 'true' : 'false',
   }
   if (initialValue != null)
-    value['initial-value'] = JSON.stringify(initialValue)
+    value['initial-value'] = initialValue as keyof CSSObjectInput
   return value
 }
 
