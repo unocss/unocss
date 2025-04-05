@@ -51,23 +51,16 @@ export const appearance: Rule<Theme>[] = [
 ]
 
 function willChangeProperty(prop: string): string | undefined {
-  const willChangeMap: Record<string, string> = {
+  const v = h.bracket(prop)
+
+  if (v && h.properties(v)) {
+    return v
+  }
+
+  return h.properties.auto.cssvar.global(prop) ?? {
     contents: 'contents',
     scroll: 'scroll-position',
-  }
-
-  if (prop in willChangeMap) {
-    return willChangeMap[prop]
-  }
-
-  const match = prop.match(/^\[(.+)\]$/)
-  if (match) {
-    const arbitraryProp = match[1].replace(/_+/g, '')
-    return h.properties.auto.global(arbitraryProp)
-  }
-  else {
-    return h.properties.auto.global(prop)
-  }
+  }[prop]
 }
 
 export const willChange: Rule<Theme>[] = [

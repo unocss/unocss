@@ -136,9 +136,11 @@ export const presetWind4Targets: string[] = [
   'overscroll-revert-layer',
   'scroll-auto',
   'scroll-unset',
+  'will-change-auto',
+  'will-change-transform',
   'will-change-[margin,padding]',
-  'will-change-[padding,__margin]',
   'will-change-[filter]',
+  'will-change-$variable',
 
   // columns
   'columns-3',
