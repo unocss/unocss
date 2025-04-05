@@ -53,9 +53,9 @@ describe('tagify', () => {
 
     expect((await uno.generate(code, { preflights: false })).css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
+      btn:hover{--un-bg-opacity:1;background-color:rgb(15 118 110 / var(--un-bg-opacity));}
       btn{display:inline-block;cursor:pointer;border-radius:0.25rem;--un-bg-opacity:1;background-color:rgb(13 148 136 / var(--un-bg-opacity));padding-left:1rem;padding-right:1rem;padding-top:0.25rem;padding-bottom:0.25rem;--un-text-opacity:1;color:rgb(255 255 255 / var(--un-text-opacity));}
       btn:disabled{cursor:default;--un-bg-opacity:1;background-color:rgb(75 85 99 / var(--un-bg-opacity));opacity:0.5;}
-      btn:hover{--un-bg-opacity:1;background-color:rgb(15 118 110 / var(--un-bg-opacity));}
       /* layer: default */
       m-1{margin:0.25rem;}
       .h2{height:0.5rem;}

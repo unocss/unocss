@@ -883,6 +883,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
       // add entries
       mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
+      mapItem[1] = item[0]
     }
     return rawStringifiedUtil.concat(layerMap
       .flatMap((selectorMap, layer) =>
