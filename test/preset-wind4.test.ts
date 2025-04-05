@@ -162,7 +162,7 @@ describe('preset-wind4', () => {
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: cssvar-property */
-      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:"100%";}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
       --colors-foo: var(--colors-bar);
