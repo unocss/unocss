@@ -19,7 +19,7 @@
     "@unocss/reset": "link:../../packages-presets/reset",
     "typescript": "^5.8.2",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.2.1"
+    "vite": "^6.2.3"
   },
   "stackblitz": {
     "installDependencies": false,
