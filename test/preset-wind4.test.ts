@@ -161,7 +161,9 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: theme */
+      "/* layer: cssvar-property */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
       :root, :host {
       --colors-foo: var(--colors-bar);
       --colors-bar: var(--colors-baz-bcd, #000);
@@ -169,7 +171,6 @@ describe('preset-wind4', () => {
       --colors-test: #fff;
       }
       /* layer: default */
-      @property --un-text-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
       .c-foo{color:color-mix(in oklch, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}"
     `)
   })

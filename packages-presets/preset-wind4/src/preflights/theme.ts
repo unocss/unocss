@@ -76,11 +76,11 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
           }
         }
 
-        const resovledDeps = deps.map(([key, value]) => (key && value) ? `${key}: ${value};` : undefined).filter(Boolean)
-        if (resovledDeps.length === 0) {
+        const resolvedDeps = deps.map(([key, value]) => (key && value) ? `${key}: ${value};` : undefined).filter(Boolean)
+        if (resolvedDeps.length === 0) {
           return undefined
         }
-        const depCSS = resovledDeps.join('\n')
+        const depCSS = resolvedDeps.join('\n')
 
         return compressCSS(`
 :root, :host {
