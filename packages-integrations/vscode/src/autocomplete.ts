@@ -90,7 +90,7 @@ export async function registerAutoComplete(
           // get content from cursorPosition
           const textBeforeCursor = code.substring(0, cursorPosition)
           // check the dot
-          const dotMatch = textBeforeCursor.match(/\.\w*-*$/)
+          const dotMatch = textBeforeCursor.match(/\.[-\w]*$/)
 
           if (dotMatch) {
             const matched = dotMatch[0].substring(1) // replace dot
