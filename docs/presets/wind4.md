@@ -56,7 +56,7 @@ Refer to [Tailwind Compatibility](https://tailwindcss.com/docs/compatibility) to
 
 `PresetWind4`'s theme is almost identical to `PresetWind3`'s theme, but some theme keys have been adjusted.
 
-:::warning
+::: warning
 Please note when switching to PresetWind4, refer to the table below to check your theme key configuration and make appropriate adjustments.
 :::
 
@@ -241,7 +241,8 @@ export default defineConfig({
 
 `transformDirectives` doesn't work well with `PresetWind4`. There are some known issues, so please use it with caution.
 
-:::warning
+::: warning
 
 - When using `@apply` to process rules that have `@property`, conflicts may occur between different layer levels.
-  :::
+
+:::
