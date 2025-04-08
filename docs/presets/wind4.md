@@ -11,9 +11,7 @@ The Tailwind4 CSS compact preset for UnoCSS. It's compatible with all features o
 [Source Code](https://github.com/unocss/unocss/tree/main/packages-presets/preset-wind4)
 
 ::: tip
-
 You can spend a little time reading this document to understand the changes
-
 :::
 
 ## Installation
