@@ -170,7 +170,7 @@ export function colorCSSGenerator(
 
 export function colorResolver(property: string, varName: string) {
   return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
-    const data = parseColor(body, ctx.theme)
+    const data = parseColor(body ?? '', ctx.theme)
     if (!data)
       return
 
