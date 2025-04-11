@@ -1,6 +1,5 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { PluginContext } from 'rollup'
-import type { Plugin, ResolvedConfig } from 'vite'
+import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
 import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
@@ -14,13 +13,14 @@ import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Map<string, string>()
+  const resolveContexts = new Map<string, Rollup.PluginContext>()
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
   const cssPlugins = new Map<string | undefined, Plugin | undefined>()
 
-  async function applyCssTransform(css: string, id: string, dir: string | undefined, ctx: PluginContext) {
+  async function applyCssTransform(css: string, id: string, dir: string | undefined, ctx: Rollup.PluginContext) {
     const {
       postcss = true,
     } = await getConfig()
@@ -49,6 +49,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     return lastResult
   }
 
+  const cssContentCache = new Map<string, string>()
+
   return [
     {
       name: 'unocss:global:build:scan',
@@ -56,6 +58,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       enforce: 'pre',
       async buildStart() {
         vfsLayers.clear()
+        cssContentCache.clear()
         tasks.length = 0
         lastTokenSize = 0
         lastResult = undefined
@@ -86,6 +89,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
               return vfsLayers.get(layer)
             }
             vfsLayers.set(layer, entry)
+            resolveContexts.set(layer, this)
           }
           return entry
         }
@@ -182,7 +186,14 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
             : result.getLayer(layer) || ''
 
-          const css = await applyCssTransform(layerContent, mod, options.dir, this)
+          const css = await applyCssTransform(
+            layerContent,
+            mod,
+            options.dir,
+            // .emitFile in Rollup has different FileEmitter instance in load/transform hooks and renderChunk hooks
+            // here we need to store the resolveId context to use it in the vite:css transform hook
+            resolveContexts.get(layer) || this,
+          )
 
           // Fool the vite:css-post plugin to replace the CSS content
           await cssPostTransformHandler.call({} as any, css, mod)
