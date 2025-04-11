@@ -18,8 +18,7 @@ import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
-  const vfsLayers = new Set<string>()
-  const layerImporterMap = new Map<string, string>()
+  const vfsLayers = new Map<string, string>()
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
@@ -83,13 +82,15 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         },
       },
       resolveId(id, importer) {
-        const entry = resolveId(id)
+        const entry = resolveId(id, importer)
         if (entry) {
           const layer = resolveLayer(entry)
           if (layer) {
-            vfsLayers.add(layer)
-            if (importer)
-              layerImporterMap.set(importer, entry)
+            if (vfsLayers.has(layer)) {
+              this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(vfsLayers.get(layer))}`)
+              return vfsLayers.get(layer)
+            }
+            vfsLayers.set(layer, entry)
           }
           return entry
         }
@@ -97,7 +98,9 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       load(id) {
         const layer = resolveLayer(getPath(id))
         if (layer) {
-          vfsLayers.add(layer)
+          if (!vfsLayers.has(layer)) {
+            this.error(`[unocss] layer ${JSON.stringify(id)} is imported but not being resolved before, it might be an internal bug of UnoCSS`)
+          }
           return {
             code: getLayerPlaceholder(layer),
             map: null,
@@ -181,10 +184,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           const layer = RESOLVED_ID_RE.exec(mod[0])?.[1] || LAYER_MARK_ALL
 
           const layerContent = layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers])
+            ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
             : result.getLayer(layer) || ''
 
           const css = await applyCssTransform(layerContent, mod[0], options.dir, this)
+
           // Fool the vite:css-post plugin to replace the CSS content
           await cssPostTransformHandler.call({} as any, css, mod[0])
         }

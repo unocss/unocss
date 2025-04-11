@@ -1,3 +1,5 @@
+import { resolve } from 'pathe'
+
 export const VIRTUAL_ENTRY_ALIAS = [
   /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
 ]
@@ -6,16 +8,21 @@ export const LAYER_MARK_ALL = '__ALL__'
 export const RESOLVED_ID_WITH_QUERY_RE = /[/\\]__uno(_.*?)?\.css(\?.*)?$/
 export const RESOLVED_ID_RE = /[/\\]__uno(?:_(.*?))?\.css$/
 
-export function resolveId(id: string) {
+export function resolveId(id: string, importer?: string) {
   if (id.match(RESOLVED_ID_WITH_QUERY_RE))
     return id
 
   for (const alias of VIRTUAL_ENTRY_ALIAS) {
     const match = id.match(alias)
     if (match) {
-      return match[1]
-        ? `/__uno_${match[1]}.css`
-        : '/__uno.css'
+      let virtual = match[1]
+        ? `__uno_${match[1]}.css`
+        : '__uno.css'
+      if (importer)
+        virtual = resolve(importer, '..', virtual)
+      else
+        virtual = `/${virtual}`
+      return virtual
     }
   }
 }
