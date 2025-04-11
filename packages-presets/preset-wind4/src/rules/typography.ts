@@ -31,7 +31,7 @@ export const fonts: Rule<Theme>[] = [
 
       if (theme.fontWeight?.[s]) {
         themeTracking(`fontWeight`, s)
-        v = `var(--font-weight-${s})`
+        v = `var(--fontWeight-${s})`
       }
       else {
         v = h.bracket.global.number(s)
@@ -200,7 +200,7 @@ export const textStrokes: Rule<Theme>[] = [
     }
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
-        ? passThemeKey.includes(s) ? theme.textStrokeWidth?.[s] : `var(--text-stroke-width-${s})`
+        ? passThemeKey.includes(s) ? theme.textStrokeWidth?.[s] : `var(--textStrokeWidth-${s})`
         : h.bracket.cssvar.px(s),
     }
   }, { autocomplete: 'text-stroke-$textStrokeWidth' }],
@@ -278,9 +278,9 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
     }
 
     return {
-      'font-size': `var(--text-${size}-font-size)`,
-      'line-height': lineHeight ?? `var(--un-leading, var(--text-${size}-line-height))`,
-      'letter-spacing': sizePairs.letterSpacing ? `var(--text-${size}-letter-spacing)` : undefined,
+      'font-size': `var(--text-${size}-fontSize)`,
+      'line-height': lineHeight ?? `var(--un-leading, var(--text-${size}-lineHeight))`,
+      'letter-spacing': sizePairs.letterSpacing ? `var(--text-${size}-letterSpacing)` : undefined,
     }
   }
 

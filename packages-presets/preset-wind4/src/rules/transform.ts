@@ -48,7 +48,7 @@ export const transforms: Rule<Theme>[] = [
     let v
     if (theme.perspective?.[s]) {
       themeTracking(`perspective`, s)
-      v = `var(--un-perspective-${s})`
+      v = `var(--perspective-${s})`
     }
     else {
       v = h.bracket.cssvar.px.numberWithUnit(s)
@@ -59,7 +59,7 @@ export const transforms: Rule<Theme>[] = [
         perspective: v,
       }
     }
-  }],
+  }, { autocomplete: [`transform-perspective-<num>`, `perspective-<num>`, `perspective-$perspective`] }],
 
   // skip 1 & 2 letters shortcut
   [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {

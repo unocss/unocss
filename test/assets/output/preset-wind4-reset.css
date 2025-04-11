@@ -3,11 +3,11 @@
 --font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 --defaults-font-family: var(--font-sans);
---defaults-font-feature-settings: var(--font-sans--font-feature-settings);
---defaults-font-variation-settings: var(--font-sans--font-variation-settings);
---defaults-mono-font-family: var(--font-mono);
---defaults-mono-font-feature-settings: var(--font-mono--font-feature-settings);
---defaults-mono-font-variation-settings: var(--font-mono--font-variation-settings);
+--defaults-font-featureSettings: var(--font-sans--font-feature-settings);
+--defaults-font-variationSettings: var(--font-sans--font-variation-settings);
+--defaults-monoFont-family: var(--font-mono);
+--defaults-monoFont-featureSettings: var(--font-mono--font-feature-settings);
+--defaults-monoFont-variationSettings: var(--font-mono--font-variation-settings);
 }
 /* layer: preflights */
 /*
