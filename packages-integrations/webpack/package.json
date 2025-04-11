@@ -70,6 +70,7 @@
     "@unocss/core": "workspace:*",
     "chokidar": "catalog:",
     "magic-string": "catalog:",
+    "pathe": "catalog:",
     "tinyglobby": "catalog:",
     "unplugin": "catalog:",
     "unplugin-utils": "catalog:",

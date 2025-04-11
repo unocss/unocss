@@ -1210,6 +1210,9 @@ importers:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
+      pathe:
+        specifier: 'catalog:'
+        version: 2.0.3
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.12
@@ -1271,6 +1274,9 @@ importers:
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
+      pathe:
+        specifier: 'catalog:'
+        version: 2.0.3
       tinyglobby:
         specifier: 'catalog:'
         version: 0.2.12

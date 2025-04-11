@@ -1,12 +1,5 @@
 import { resolve } from 'pathe'
-
-export const VIRTUAL_ENTRY_ALIAS = [
-  /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
-]
-export const LAYER_MARK_ALL = '__ALL__'
-
-export const RESOLVED_ID_WITH_QUERY_RE = /[/\\]__uno(_.*?)?\.css(\?.*)?$/
-export const RESOLVED_ID_RE = /[/\\]__uno(?:_(.*?))?\.css$/
+import { LAYER_MARK_ALL, RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE, VIRTUAL_ENTRY_ALIAS } from './constants'
 
 export function resolveId(id: string, importer?: string) {
   if (id.match(RESOLVED_ID_WITH_QUERY_RE))

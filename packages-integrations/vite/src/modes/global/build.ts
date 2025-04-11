@@ -3,14 +3,9 @@ import type { PluginContext } from 'rollup'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
+import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
-import {
-  getLayerPlaceholder,
-  LAYER_MARK_ALL,
-  RESOLVED_ID_RE,
-  resolveId,
-  resolveLayer,
-} from '#integration/layers'
+import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
 import { getPath } from '#integration/utils'
 import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
