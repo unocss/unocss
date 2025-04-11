@@ -103,22 +103,21 @@ function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undef
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }
 
-function handlerRounded([, a = '', s]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
   if (a in cornerMap) {
-    const _s = s || 'DEFAULT'
-    if (_s === 'full')
+    if (s === 'full')
       return cornerMap[a].map(i => [`border${i}-radius`, 'calc(infinity * 1px)'])
 
-    const _v = theme.radius?.[_s] ?? h.bracket.cssvar.global.fraction.rem(_s || '1')
+    const _v = theme.radius?.[s] ?? h.bracket.cssvar.global.fraction.rem(s)
     if (_v != null) {
-      const isVar = theme.radius && _s in theme.radius && !passThemeKey.includes(_s)
+      const isVar = theme.radius && s in theme.radius && !passThemeKey.includes(s)
       if (isVar) {
-        themeTracking(`radius`, _s)
+        themeTracking(`radius`, s)
       }
 
       return cornerMap[a].map(i => [
         `border${i}-radius`,
-        isVar ? `var(--radius-${_s})` : _v,
+        isVar ? `var(--radius-${s})` : _v,
       ])
     }
   }

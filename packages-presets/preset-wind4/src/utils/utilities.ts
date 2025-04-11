@@ -258,8 +258,17 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 
   if (typeof colorData === 'object') {
     if (no && colorData[no]) {
-      color = colorData[no]
-      key = [..._keys, no].join('-')
+      const colorDataNo = colorData[no]
+      /* end of a number key, but it's a object */
+      if (typeof colorDataNo === 'object') {
+        color = colorDataNo.DEFAULT
+        key = [..._keys, no].join('-')
+        no = 'DEFAULT'
+      }
+      else {
+        color = colorData[no]
+        key = [..._keys, no].join('-')
+      }
     }
     else if (!no && colorData.DEFAULT) {
       color = colorData.DEFAULT
@@ -305,13 +314,6 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
   }
 
   return obj
-}
-
-export function colorVariable(str: string, varName: string) {
-  // TODO: Optimize regex
-  // eslint-disable-next-line regexp/no-super-linear-backtracking
-  const colorRegex = /(#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b|rgb(a)?\(\s*\d+(?:\s+\d*)?\s*\d*(\s*\/\s*[\d.]+)?\s*\)|hsl(a)?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%(\s*,\s*[\d.]+)?\s*\))/g
-  return str.replace(colorRegex, match => `var(--${varName}, ${match})`)
 }
 
 export function hasParseableColor(color: string | undefined, theme: Theme) {
