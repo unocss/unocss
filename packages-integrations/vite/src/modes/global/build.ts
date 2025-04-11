@@ -156,7 +156,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
-        const entryModules = Object.entries(chunk.modules).filter(([id]) => RESOLVED_ID_RE.test(id))
+        const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
         if (!entryModules.length)
           return null
 
@@ -181,16 +181,16 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         })))
 
         for (const mod of entryModules) {
-          const layer = RESOLVED_ID_RE.exec(mod[0])?.[1] || LAYER_MARK_ALL
+          const layer = RESOLVED_ID_RE.exec(mod)?.[1] || LAYER_MARK_ALL
 
           const layerContent = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
             : result.getLayer(layer) || ''
 
-          const css = await applyCssTransform(layerContent, mod[0], options.dir, this)
+          const css = await applyCssTransform(layerContent, mod, options.dir, this)
 
           // Fool the vite:css-post plugin to replace the CSS content
-          await cssPostTransformHandler.call({} as any, css, mod[0])
+          await cssPostTransformHandler.call({} as any, css, mod)
         }
       },
       async buildEnd() {
