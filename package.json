@@ -77,6 +77,8 @@
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/runtime": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
