@@ -14,13 +14,13 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@iconify-json/lucide": "^1.2.34",
-    "@types/node": "^22.13.14",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@iconify-json/lucide": "^1.2.35",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
     "@unocss/postcss": "latest",
     "@unocss/reset": "latest",
-    "eslint": "^9.23.0",
+    "eslint": "^9.24.0",
     "eslint-config-next": "15.2.0",
     "typescript": "5.2.2",
     "unocss": "latest"

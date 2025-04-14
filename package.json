@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.1.0-beta.10",
+  "version": "66.1.0-beta.11",
   "private": true,
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.0",
   "scripts": {
     "prepare": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -77,6 +77,8 @@
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/runtime": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",

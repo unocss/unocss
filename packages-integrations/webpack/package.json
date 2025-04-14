@@ -1,7 +1,7 @@
 {
   "name": "@unocss/webpack",
   "type": "module",
-  "version": "66.1.0-beta.10",
+  "version": "66.1.0-beta.11",
   "description": "The Webpack plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -70,6 +70,7 @@
     "@unocss/core": "workspace:*",
     "chokidar": "catalog:",
     "magic-string": "catalog:",
+    "pathe": "catalog:",
     "tinyglobby": "catalog:",
     "unplugin": "catalog:",
     "unplugin-utils": "catalog:",

@@ -3,6 +3,7 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import type { WebpackPluginOptions } from '.'
 import { isAbsolute, normalize } from 'node:path'
 import process from 'node:process'
+import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { createContext } from '#integration/context'
 import { getHash } from '#integration/hash'
@@ -11,9 +12,7 @@ import {
   getHashPlaceholder,
   getLayerPlaceholder,
   HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
   LAYER_PLACEHOLDER_RE,
-  RESOLVED_ID_RE,
   resolveId,
   resolveLayer,
 } from '#integration/layers'

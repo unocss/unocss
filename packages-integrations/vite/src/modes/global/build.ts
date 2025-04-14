@@ -1,41 +1,26 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { NormalizedOutputOptions, PluginContext, RenderedChunk } from 'rollup'
-import type { Plugin, ResolvedConfig } from 'vite'
+import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
+import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
-import { getHash } from '#integration/hash'
-import {
-  getHashPlaceholder,
-  getLayerPlaceholder,
-  HASH_PLACEHOLDER_RE,
-  LAYER_MARK_ALL,
-  LAYER_PLACEHOLDER_RE,
-  RESOLVED_ID_RE,
-  resolveId,
-  resolveLayer,
-} from '#integration/layers'
+import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
-import { getPath, replaceAsync } from '#integration/utils'
+import { getPath } from '#integration/utils'
 import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
-// https://github.com/vitejs/vite/blob/main/packages/plugin-legacy/src/index.ts#L742-L744
-function isLegacyChunk(chunk: RenderedChunk, options: NormalizedOutputOptions) {
-  return options.format === 'system' && chunk.fileName.includes('-legacy')
-}
-
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
-  const vfsLayers = new Set<string>()
-  const layerImporterMap = new Map<string, string>()
+  const vfsLayers = new Map<string, string>()
+  const resolveContexts = new Map<string, Rollup.PluginContext>()
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
   const cssPlugins = new Map<string | undefined, Plugin | undefined>()
 
-  async function applyCssTransform(css: string, id: string, dir: string | undefined, ctx: PluginContext) {
+  async function applyCssTransform(css: string, id: string, dir: string | undefined, ctx: Rollup.PluginContext) {
     const {
       postcss = true,
     } = await getConfig()
@@ -64,7 +49,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     return lastResult
   }
 
-  let replaced = false
+  const cssContentCache = new Map<string, string>()
 
   return [
     {
@@ -73,6 +58,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       enforce: 'pre',
       async buildStart() {
         vfsLayers.clear()
+        cssContentCache.clear()
         tasks.length = 0
         lastTokenSize = 0
         lastResult = undefined
@@ -94,13 +80,16 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         },
       },
       resolveId(id, importer) {
-        const entry = resolveId(id)
+        const entry = resolveId(id, importer)
         if (entry) {
           const layer = resolveLayer(entry)
           if (layer) {
-            vfsLayers.add(layer)
-            if (importer)
-              layerImporterMap.set(importer, entry)
+            if (vfsLayers.has(layer)) {
+              this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(vfsLayers.get(layer))}`)
+              return vfsLayers.get(layer)
+            }
+            vfsLayers.set(layer, entry)
+            resolveContexts.set(layer, this)
           }
           return entry
         }
@@ -108,18 +97,14 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       load(id) {
         const layer = resolveLayer(getPath(id))
         if (layer) {
-          vfsLayers.add(layer)
-          return getLayerPlaceholder(layer)
-        }
-      },
-      moduleParsed({ id, importedIds }) {
-        if (!layerImporterMap.has(id))
-          return
-
-        const layerKey = layerImporterMap.get(id)!
-        if (!importedIds.includes(layerKey)) {
-          layerImporterMap.delete(id)
-          vfsLayers.delete(resolveLayer(layerKey)!)
+          if (!vfsLayers.has(layer)) {
+            this.error(`[unocss] layer ${JSON.stringify(id)} is imported but not being resolved before, it might be an internal bug of UnoCSS`)
+          }
+          return {
+            code: getLayerPlaceholder(layer),
+            map: null,
+            moduleSideEffects: true,
+          }
         }
       },
       async configResolved(config) {
@@ -155,49 +140,6 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
 
         await ready
       },
-      // we inject a hash to chunk before the dist hash calculation to make sure
-      // the hash is different when unocss changes
-      async renderChunk(_, chunk, options) {
-        const isLegacy = isLegacyChunk(chunk, options)
-
-        if (isLegacy && (!ctx.uno.config.legacy || ctx.uno.config.legacy.renderModernChunks))
-          return null
-        // skip hash generation on non-entry chunk
-        if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
-          return null
-
-        const cssPost = cssPostPlugins.get(options.dir)
-        if (!cssPost) {
-          this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
-          return null
-        }
-
-        let { css } = await generateAll()
-        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
-        css = await applyCssTransform(css, fakeCssId, options.dir, this)
-
-        const transformHandler = 'handler' in cssPost.transform!
-          ? cssPost.transform.handler
-          : cssPost.transform!
-        if (isLegacy) {
-          await transformHandler.call({} as any, css, '/__uno.css')
-        }
-        else {
-          const hash = getHash(css)
-          await transformHandler.call({} as any, getHashPlaceholder(hash), fakeCssId)
-        }
-
-        // fool the css plugin to generate the css in corresponding chunk
-        chunk.modules[fakeCssId] = {
-          code: null,
-          originalLength: 0,
-          removedExports: [],
-          renderedExports: [],
-          renderedLength: 0,
-        }
-
-        return null
-      },
     },
     {
       name: 'unocss:global:content',
@@ -213,10 +155,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
-        if (isLegacyChunk(chunk, options))
-          return null
-
-        if (!Object.keys(chunk.modules).some(i => RESOLVED_ID_RE.test(i)))
+        const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
+        if (!entryModules.length)
           return null
 
         const cssPost = cssPostPlugins.get(options.dir)
@@ -224,9 +164,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
           return null
         }
+        const cssPostTransformHandler = 'handler' in cssPost.transform!
+          ? cssPost.transform.handler
+          : cssPost.transform!
 
         const result = await generateAll()
-        const importsLayer = result.getLayer(LAYER_IMPORTS) ?? ''
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
         const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
 
@@ -237,104 +179,31 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
         })))
 
-        const cssWithLayers = await Promise.all(Array.from(vfsLayers).map(async (layer) => {
-          const layerStart = `#--unocss-layer-start--${layer}--{start:${layer}}`
-          const layerEnd = `#--unocss-layer-end--${layer}--{end:${layer}}`
+        for (const mod of entryModules) {
+          const layer = RESOLVED_ID_RE.exec(mod)?.[1] || LAYER_MARK_ALL
 
-          let layerContent
-          if (layer === LAYER_MARK_ALL) {
-            layerContent = result.getLayers(undefined, [...vfsLayers, LAYER_IMPORTS])
-          }
-          else {
-            layerContent = result.getLayer(layer) || ''
-          }
+          const layerContent = layer === LAYER_MARK_ALL
+            ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
+            : result.getLayer(layer) || ''
 
-          return `${importsLayer}${layerStart} ${layerContent} ${layerEnd}`
-        }))
+          const css = await applyCssTransform(
+            layerContent,
+            mod,
+            options.dir,
+            // .emitFile in Rollup has different FileEmitter instance in load/transform hooks and renderChunk hooks
+            // here we need to store the resolveId context to use it in the vite:css transform hook
+            resolveContexts.get(layer) || this,
+          )
 
-        const css = await applyCssTransform(cssWithLayers.join(''), fakeCssId, options.dir, this)
-        const transformHandler = 'handler' in cssPost.transform!
-          ? cssPost.transform.handler
-          : cssPost.transform!
-        await transformHandler.call({} as unknown as any, css, fakeCssId)
+          // Fool the vite:css-post plugin to replace the CSS content
+          await cssPostTransformHandler.call({} as any, css, mod)
+        }
       },
-    },
-    {
-      name: 'unocss:global:build:bundle',
-      apply: 'build',
-      enforce: 'post',
-      // rewrite the css placeholders
-      async generateBundle(options, bundle) {
-        const checkJs = ['umd', 'amd', 'iife'].includes(options.format)
-        const files = Object.keys(bundle)
-          .filter(i => i.endsWith('.css') || (checkJs && i.endsWith('.js')))
-
-        if (!files.length)
-          return
-
+      async buildEnd() {
         if (!vfsLayers.size) {
-          // If `vfsLayers` is empty and `replaced` is true, that means
-          // `generateBundle` hook is called on previous build pipeline. e.g. ssr
-          // Since we already replaced the layers and don't have any more layers
-          // to replace on current build pipeline, we can skip the warning.
-          if (replaced)
-            return
-
           if ((await getConfig() as VitePluginConfig).checkImport) {
             this.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
           }
-
-          return
-        }
-
-        const getLayer = (layer: string, input: string, replace = false) => {
-          const re = new RegExp(`#--unocss-layer-start--${layer}--\\{start:${layer}\\}([\\s\\S]*?)#--unocss-layer-end--${layer}--\\{end:${layer}\\}`, 'g')
-          if (replace)
-            return input.replace(re, '')
-
-          const match = re.exec(input)
-          if (match)
-            return match[1]
-          return ''
-        }
-
-        for (const file of files) {
-          const chunk = bundle[file]
-          if (chunk.type === 'asset' && typeof chunk.source === 'string') {
-            const css = chunk.source
-              .replace(HASH_PLACEHOLDER_RE, '')
-            chunk.source = await replaceAsync(css, LAYER_PLACEHOLDER_RE, async (_, layer) => {
-              replaced = true
-              return getLayer(layer.trim(), css)
-            })
-            Array.from(vfsLayers).forEach((layer) => {
-              chunk.source = getLayer(layer, chunk.source as string, true)
-            })
-          }
-          else if (chunk.type === 'chunk' && typeof chunk.code === 'string') {
-            const js = chunk.code
-              .replace(HASH_PLACEHOLDER_RE, '')
-            chunk.code = await replaceAsync(js, LAYER_PLACEHOLDER_RE, async (_, layer) => {
-              replaced = true
-              const css = getLayer(layer.trim(), js)
-              return css
-                .replace(/\n/g, '')
-                .replace(/(?<!\\)(['"])/g, '\\$1')
-            })
-            Array.from(vfsLayers).forEach((layer) => {
-              chunk.code = getLayer(layer, chunk.code, true)
-            })
-          }
-        }
-
-        if (!replaced) {
-          let msg = '[unocss] does not found CSS placeholder in the generated chunks'
-          if (viteConfig.build.lib && checkJs)
-            msg += '\nIt seems you are building in library mode, it\'s recommended to set `build.cssCodeSplit` to true.\nSee https://github.com/vitejs/vite/issues/1579'
-          else
-            msg += '\nThis is likely an internal bug of unocss vite plugin'
-          // #3748 Because some files may not contain unocss syntax, and then an error will be reported.
-          this.warn(msg)
         }
       },
     },
