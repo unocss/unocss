@@ -202,7 +202,7 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing-DEFAULT: 0.25px;
+      --spacing: 0.25px;
       --ui-red: oklch(0.704 0.191 22.216);
       }"
     `)
@@ -222,7 +222,7 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing-DEFAULT: 4px;
+      --spacing: 4px;
       }
       /* layer: default */
       .m-5rem{margin:80px;}

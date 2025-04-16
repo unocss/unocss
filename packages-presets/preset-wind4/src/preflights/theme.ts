@@ -97,7 +97,7 @@ ${depCSS}
           }
 
           if (v) {
-            return [`--${key}-${prop}`, v]
+            return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
           }
 
           return undefined
