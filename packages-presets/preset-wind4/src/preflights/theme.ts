@@ -30,11 +30,6 @@ function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
 
   function process(obj: any, prefix: string) {
     for (const key in obj) {
-      if (key === 'DEFAULT') {
-        themeMap.set(`--${prefix}`, normalizeValue(obj[key]))
-        continue
-      }
-
       if (Array.isArray(obj[key])) {
         themeMap.set(`--${prefix}-${key}`, normalizeValue(obj[key].join(',')))
       }
@@ -102,7 +97,7 @@ ${depCSS}
           }
 
           if (v) {
-            return [`--${`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`}`, v]
+            return [`--${key}-${prop}`, v]
           }
 
           return undefined

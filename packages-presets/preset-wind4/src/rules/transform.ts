@@ -1,6 +1,6 @@
 import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
+import { defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
 
 const transformValues = [
   'translate',
@@ -48,7 +48,7 @@ export const transforms: Rule<Theme>[] = [
     let v
     if (theme.perspective?.[s]) {
       themeTracking(`perspective`, s)
-      v = `var(--perspective-${s})`
+      v = generateThemeVariable('perspective', s)
     }
     else {
       v = h.bracket.cssvar.px.numberWithUnit(s)
