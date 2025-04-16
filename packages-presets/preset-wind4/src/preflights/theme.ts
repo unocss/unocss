@@ -3,7 +3,7 @@ import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, getThemeByKey, hyphenate, passThemeKey, PRESET_NAME } from '../utils'
+import { compressCSS, getThemeByKey, PRESET_NAME } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -26,23 +26,18 @@ function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
     ['--spacing', theme.spacing!.DEFAULT],
   ])
 
+  const normalizeValue = (value: string) => value.replace(alphaPlaceholdersRE, '1')
+
   function process(obj: any, prefix: string) {
     for (const key in obj) {
-      if (key === 'DEFAULT' && Object.keys(obj).length === 1) {
-        themeMap.set(hyphenate(`--${prefix}`), obj[key].replace(alphaPlaceholdersRE, '1'))
-      }
-
-      if (passThemeKey.includes(key))
-        continue
-
       if (Array.isArray(obj[key])) {
-        themeMap.set(hyphenate(`--${prefix}-${key}`), obj[key].join(',').replace(alphaPlaceholdersRE, '1'))
+        themeMap.set(`--${prefix}-${key}`, normalizeValue(obj[key].join(',')))
       }
       else if (typeof obj[key] === 'object') {
         process(obj[key], `${prefix}-${key}`)
       }
       else {
-        themeMap.set(hyphenate(`--${prefix}-${key}`), obj[key].replace(alphaPlaceholdersRE, '1'))
+        themeMap.set(`--${prefix}-${key}`, normalizeValue(obj[key]))
       }
     }
   }
@@ -102,7 +97,7 @@ ${depCSS}
           }
 
           if (v) {
-            return [`--${hyphenate(`${key}${prop !== 'DEFAULT' ? `-${prop}` : ''}`)}`, v]
+            return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
           }
 
           return undefined
