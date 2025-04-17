@@ -321,7 +321,7 @@ export const presetWind4Targets: string[] = [
   'table-footer-group',
   'table-row-group',
 
-  // top
+  // position
   'top-1/2',
 
   // touch-actions
