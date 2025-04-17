@@ -324,7 +324,7 @@ export const presetWind4Targets: string[] = [
   // position
   'top-1/2',
 
-  // transform
+  // translate
   'translate-y-1/2',
 
   // touch-actions
