@@ -97,7 +97,7 @@ export const transforms: Rule<Theme>[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = numberResolver(b) ?? h.bracket.cssvar.none.rem(b)
+  const v = numberResolver(b) ?? h.bracket.cssvar.none.fraction.rem(b)
 
   if (v != null) {
     if (v === 'none') {
