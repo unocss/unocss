@@ -994,14 +994,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .translate-\[var\(--x\)\,var\(--y\)\,25\%\]{--un-translate-x:var(--x);--un-translate-y:var(--y);--un-translate-z:25%;translate:var(--un-translate-x) var(--un-translate-y);}
 .translate-\[var\(--x\)\,var\(--y\)\]{--un-translate-x:var(--x);--un-translate-y:var(--y);translate:var(--un-translate-x) var(--un-translate-y);}
 .scope_class .scope-\[\.scope\\_class\]\:translate-0{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
-.translate-full{--un-translate-x:100%;--un-translate-y:100%;translate:var(--un-translate-x) var(--un-translate-y);}
 .-translate-full{--un-translate-x:-100%;--un-translate-y:-100%;translate:calc(var(--un-translate-x) * -1) var(--un-translate-y);}
+.translate-full{--un-translate-x:100%;--un-translate-y:100%;translate:var(--un-translate-x) var(--un-translate-y);}
 .translate-none{translate:none;}
 .translate-x-\$variable{--un-translate-x:var(--variable);translate:var(--un-translate-x) var(--un-translate-y);}
-.translate-x-full{--un-translate-x:100%;translate:var(--un-translate-x) var(--un-translate-y);}
 .-translate-x-full{--un-translate-x:-100%;translate:calc(var(--un-translate-x) * -1) var(--un-translate-y);}
-.translate-y-1\/2{--un-translate-y:50%;translate:var(--un-translate-x) var(--un-translate-y);}
+.translate-x-full{--un-translate-x:100%;translate:var(--un-translate-x) var(--un-translate-y);}
 .-translate-y-1\/2{--un-translate-y:-50%;translate:calc(var(--un-translate-x) * -1) var(--un-translate-y);}
+.translate-y-1\/2{--un-translate-y:50%;translate:var(--un-translate-x) var(--un-translate-y);}
 .translate-y-1\/4{--un-translate-y:25%;translate:var(--un-translate-x) var(--un-translate-y);}
 .translate-y-px{--un-translate-y:1px;translate:var(--un-translate-x) var(--un-translate-y);}
 .peer:checked~.peer-checked\:translate-x-\[var\(--reveal\)\]{--un-translate-x:var(--reveal);translate:var(--un-translate-x) var(--un-translate-y);}
