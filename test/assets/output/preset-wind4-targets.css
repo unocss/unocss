@@ -1093,6 +1093,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .inset-ie-revert{inset-inline-end:revert;}
 .top-\$top-height{top:var(--top-height);}
 .top-0{top:calc(var(--spacing) * 0);}
+.top-1\/2{top:50%;}
 .justify-start{justify-content:flex-start;}
 .justify-center{justify-content:center;}
 .justify-inherit{justify-content:inherit;}

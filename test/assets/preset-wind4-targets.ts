@@ -321,6 +321,9 @@ export const presetWind4Targets: string[] = [
   'table-footer-group',
   'table-row-group',
 
+  // top
+  'top-1/2',
+
   // touch-actions
   'touch-pan-left',
   'touch-pan-y',

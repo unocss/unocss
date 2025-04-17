@@ -122,7 +122,7 @@ function handleInsetValue(v: string): string | number | undefined {
     return `calc(var(--spacing) * ${_v})`
   }
   else {
-    return h.bracket.cssvar.global.auto.rem(v)
+    return h.bracket.cssvar.global.auto.fraction.rem(v)
   }
 }
 
