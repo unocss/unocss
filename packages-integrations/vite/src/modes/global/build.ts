@@ -26,8 +26,12 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     } = await getConfig()
     if (!cssPlugins.get(dir) || !postcss)
       return css
+    const cssPlugin = cssPlugins.get(dir)!
+    const cssPluginTransformHandler = 'handler' in cssPlugin.transform!
+      ? cssPlugin.transform.handler
+      : cssPlugin.transform!
     // @ts-expect-error without this context absolute assets will throw an error
-    const result = await cssPlugins.get(dir).transform.call(ctx, css, id)
+    const result = await cssPluginTransformHandler.call(ctx, css, id)
     if (!result)
       return css
     if (typeof result === 'string')
@@ -196,7 +200,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           )
 
           // Fool the vite:css-post plugin to replace the CSS content
-          await cssPostTransformHandler.call({} as any, css, mod)
+          await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
         }
       },
       async buildEnd() {

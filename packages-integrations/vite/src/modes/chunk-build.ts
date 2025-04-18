@@ -1,5 +1,5 @@
 import type { UnocssPluginContext } from '@unocss/core'
-import type { Plugin } from 'vite'
+import type { Plugin, Rollup } from 'vite'
 
 export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
   let cssPlugin: Plugin | undefined
@@ -33,10 +33,13 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
       await Promise.all(chunks.map(c => ctx.uno.applyExtractors(c, undefined, tokens)))
       const { css } = await ctx.uno.generate(tokens)
 
+      const cssPostTransformHandler = 'handler' in cssPlugin!.transform!
+        ? cssPlugin!.transform.handler
+        : cssPlugin!.transform!
+
       // fool the css plugin to generate the css in corresponding chunk
       const fakeCssId = `${chunk.fileName}.css`
-      // @ts-expect-error no this context
-      await cssPlugin!.transform(css, fakeCssId)
+      await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, fakeCssId)
       chunk.modules[fakeCssId] = {
         code: null,
         originalLength: 0,
