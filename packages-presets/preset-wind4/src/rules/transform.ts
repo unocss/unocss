@@ -1,6 +1,6 @@
 import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
+import { CONTROL_MINI_NO_NEGATIVE, defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
 
 const transformValues = [
   'translate',
@@ -110,7 +110,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
     return [
       [
         ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
-        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`],
+        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`, CONTROL_MINI_NO_NEGATIVE],
       ],
       ...['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })),
     ]

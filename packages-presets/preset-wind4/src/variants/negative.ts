@@ -1,5 +1,6 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
+import { toArray } from '@unocss/core'
 import { getStringComponent } from '@unocss/rule-utils'
 import { CONTROL_MINI_NO_NEGATIVE, cssMathFnRE, cssVarFnRE } from '../utils'
 
@@ -46,6 +47,8 @@ export const variantNegative: Variant<Theme> = {
           return
         let changed = false
         body.forEach((v) => {
+          if (toArray(v[2]).includes(CONTROL_MINI_NO_NEGATIVE))
+            return
           const value = v[1]?.toString()
           if (!value || value === '0')
             return
