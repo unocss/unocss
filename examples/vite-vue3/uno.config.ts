@@ -5,7 +5,7 @@ import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 import presetWind3 from '@unocss/preset-wind3'
-import { defineConfig } from 'unocss'
+import { defineConfig } from '@unocss/vite'
 
 const iconDirectory = resolve(__dirname, 'icons')
 

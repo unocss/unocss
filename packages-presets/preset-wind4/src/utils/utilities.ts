@@ -1,8 +1,8 @@
-import type { CSSEntries, CSSObject, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { toArray } from '@unocss/core'
+import { symbols, toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
-import { themeTracking } from './constant'
+import { generateThemeVariable, themeTracking } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
@@ -128,31 +128,36 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
   return colored
 }
 
-export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property: string, varName: string, ctx?: RuleContext<Theme>): [CSSObject, string?] | undefined {
+export function colorCSSGenerator(
+  data: ReturnType<typeof parseColor>,
+  property: string,
+  varName: string,
+  ctx?: RuleContext<Theme>,
+): [CSSObject, ...CSSValueInput[]] | undefined {
   if (!data)
     return
 
-  const { color, key, alpha } = data
+  const { color, keys, alpha } = data
   const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
   const css: CSSObject = {}
 
   if (color) {
-    const result: [CSSObject, string?] = [css]
+    const result: [CSSObject, ...CSSValueInput[]] = [css]
 
     if (Object.values(SpecialColorKey).includes(color)) {
       css[property] = color
     }
     else {
       const alphaKey = `--un-${varName}-opacity`
-      const value = key ? `var(--colors-${key})` : color
+      const value = keys ? generateThemeVariable('colors', keys) : color
 
       css[alphaKey] = alpha
       css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
 
       result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
 
-      if (key) {
-        themeTracking(`colors`, key)
+      if (keys) {
+        themeTracking(`colors`, keys)
       }
       if (ctx?.theme) {
         detectThemeValue(color, ctx.theme)
@@ -165,7 +170,7 @@ export function colorCSSGenerator(data: ReturnType<typeof parseColor>, property:
 
 export function colorResolver(property: string, varName: string) {
   return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
-    const data = parseColor(body, ctx.theme)
+    const data = parseColor(body ?? '', ctx.theme)
     if (!data)
       return
 
@@ -201,7 +206,7 @@ export function parseColor(body: string, theme: Theme) {
   if (!name)
     return
 
-  let { no, key, color } = parseThemeColor(theme, colors) ?? parseThemeColor(theme, [main]) ?? {}
+  let { no, keys, color } = parseThemeColor(theme, colors) ?? parseThemeColor(theme, [main]) ?? {}
 
   if (!color) {
     const bracket = h.bracketOfColor(main)
@@ -227,9 +232,9 @@ export function parseColor(body: string, theme: Theme) {
     color: color ?? SpecialColorKey[name as keyof typeof SpecialColorKey],
     alpha: h.bracket.cssvar.percent(opacity ?? ''),
     /**
-     * Key means the color is from theme object.
+     * Keys means the color is from theme object.
      */
-    key,
+    keys,
     get cssColor() {
       return parseCssColor(this.color)
     },
@@ -253,18 +258,27 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 
   if (typeof colorData === 'object') {
     if (no && colorData[no]) {
-      color = colorData[no]
-      key = [..._keys, no].join('-')
+      const colorDataNo = colorData[no]
+      /* end of a number key, but it's a object */
+      if (typeof colorDataNo === 'object') {
+        color = colorDataNo.DEFAULT
+        key = [..._keys, no]
+        no = 'DEFAULT'
+      }
+      else {
+        color = colorData[no]
+        key = [..._keys, no]
+      }
     }
     else if (!no && colorData.DEFAULT) {
       color = colorData.DEFAULT
       no = 'DEFAULT'
-      key = _keys.join('-')
+      key = _keys
     }
   }
   else if (typeof colorData === 'string' && !no) {
     color = colorData
-    key = _keys.join('-')
+    key = _keys
   }
 
   if (!color)
@@ -273,7 +287,7 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
   return {
     color,
     no,
-    key,
+    keys: key,
   }
 }
 
@@ -287,7 +301,6 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
       const camel = camelize(keys.slice(index).join('-'))
       if (obj[camel])
         return obj[camel]
-
       const hyphen = keys.slice(index).join('-')
       if (obj[hyphen])
         return obj[hyphen]
@@ -301,13 +314,6 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
   }
 
   return obj
-}
-
-export function colorVariable(str: string, varName: string) {
-  // TODO: Optimize regex
-  // eslint-disable-next-line regexp/no-super-linear-backtracking
-  const colorRegex = /(#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b|rgb(a)?\(\s*\d+(?:\s+\d*)?\s*\d*(\s*\/\s*[\d.]+)?\s*\)|hsl(a)?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%(\s*,\s*[\d.]+)?\s*\))/g
-  return str.replace(colorRegex, match => `var(--${varName}, ${match})`)
 }
 
 export function hasParseableColor(color: string | undefined, theme: Theme) {
@@ -377,14 +383,29 @@ export function compressCSS(css: string, isDev = false) {
 export function defineProperty(
   property: string,
   options: { syntax?: string, inherits?: boolean, initialValue?: unknown } = {},
-) {
+): CSSValueInput {
   const {
     syntax = '*',
     inherits = false,
     initialValue,
   } = options
 
-  return `@property ${property} {syntax: "${syntax}";inherits: ${inherits};${initialValue != null ? `initial-value: ${initialValue};` : ''}}`
+  const value: CSSObjectInput = {
+    [symbols.shortcutsNoMerge]: true,
+    [symbols.noMerge]: true,
+    [symbols.variants]: () => [
+      {
+        parent: '',
+        layer: 'cssvar-property',
+        selector: () => `@property ${property}`,
+      },
+    ],
+    syntax: JSON.stringify(syntax),
+    inherits: inherits ? 'true' : 'false',
+  }
+  if (initialValue != null)
+    value['initial-value'] = initialValue as keyof CSSObjectInput
+  return value
 }
 
 export function detectThemeValue(value: string, theme: Theme) {

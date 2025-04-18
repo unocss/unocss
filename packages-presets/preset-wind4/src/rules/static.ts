@@ -44,7 +44,7 @@ export const contains: Rule<Theme>[] = [
             '--un-contain-size': d,
             'contain': containValues.map(i => `var(--un-contain-${i})`).join(' '),
           },
-          containValues.map(i => defineProperty(`--un-contain-${i}`)).join('\n'),
+          ...containValues.map(i => defineProperty(`--un-contain-${i}`)),
         ]
       : undefined
   }],

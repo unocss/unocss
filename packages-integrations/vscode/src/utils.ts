@@ -206,6 +206,14 @@ const styleTagsRe = /<style[^>]*>[\s\S]*?<\/style>/g
 export function shouldProvideAutocomplete(code: string, id: string, offset: number) {
   const isSfcLike = id.match(/\.(svelte|vue|astro)$/)
 
+  const isPugVue = isSfcLike && isVueWithPug(code, id)
+  if (isPugVue) {
+    const codeBeforeCursor = code.slice(0, offset)
+    if (/\.$/.test(codeBeforeCursor) || /\.\S+$/.test(codeBeforeCursor)) {
+      return true
+    }
+  }
+
   const isInStyleTag = isSfcLike
     ? [...code.matchAll(styleTagsRe)]
         .map(v => [v.index, v.index + v[0].length])
@@ -222,4 +230,10 @@ export function shouldProvideAutocomplete(code: string, id: string, offset: numb
   const isInStartTag = /^[^<>]*>/.test(codeStripStrings)
 
   return isInStartTag
+}
+
+const pugTemplateRe = /<template.*?lang=['"]pug['"][^>]*>/i
+
+export function isVueWithPug(code: string, id: string): boolean {
+  return id.endsWith('.vue') && pugTemplateRe.test(code)
 }

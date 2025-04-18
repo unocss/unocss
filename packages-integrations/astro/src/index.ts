@@ -4,7 +4,7 @@ import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { RESOLVED_ID_RE } from '#integration/layers'
+import { RESOLVED_ID_RE } from '#integration/constants'
 import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
 

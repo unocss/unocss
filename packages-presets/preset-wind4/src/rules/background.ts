@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, detectThemeValue, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey, themeTracking } from '../utils'
+import { defineProperty, detectThemeValue, generateThemeVariable, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey, themeTracking } from '../utils'
 
 const properties = {
   'gradient-position': defineProperty('--un-gradient-position'),
@@ -44,7 +44,7 @@ function bgGradientColorResolver() {
     const data = parseColor(body, theme)
 
     if (data) {
-      const { color, key, alpha } = data
+      const { color, keys, alpha } = data
 
       if (color) {
         if (Object.values(SpecialColorKey).includes(color)) {
@@ -52,14 +52,14 @@ function bgGradientColorResolver() {
         }
         else {
           css[`--un-${position}-opacity`] = alpha
-          const value = key ? `var(--colors-${key})` : color
+          const value = keys ? generateThemeVariable('colors', keys) : color
           css[`--un-gradient-${position}`] = `color-mix(in oklab, ${value} var(--un-${position}-opacity), transparent)`
 
           yield defineProperty(`--un-${position}-opacity`, { syntax: '<percentage>', initialValue: '100%' })
         }
 
-        if (key) {
-          themeTracking(`colors`, key)
+        if (keys) {
+          themeTracking(`colors`, keys)
         }
         if (theme) {
           detectThemeValue(color, theme)
@@ -97,7 +97,8 @@ function bgGradientColorResolver() {
           }
           break
       }
-      yield Object.values(properties).join('\n')
+      for (const p of Object.values(properties))
+        yield p
     }
   }
 }
@@ -107,7 +108,8 @@ function bgGradientPositionResolver() {
     yield {
       [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body)}`,
     }
-    yield Object.values(properties).join('\n')
+    for (const p of Object.values(properties))
+      yield p
   }
 }
 

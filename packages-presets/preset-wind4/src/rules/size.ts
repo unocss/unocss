@@ -1,6 +1,6 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, resolveBreakpoints, themeTracking } from '../utils'
+import { generateThemeVariable, h, resolveBreakpoints, themeTracking } from '../utils'
 
 const sizeMapping: Record<string, string> = {
   h: 'height',
@@ -18,7 +18,7 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
 
   if (theme.container?.[prop]) {
     themeTracking('container', prop)
-    v = `var(--container-${prop})`
+    v = generateThemeVariable('container', prop)
   }
 
   switch (prop) {

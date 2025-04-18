@@ -7,6 +7,7 @@ import { createNanoEvents } from './utils/events'
 
 export const symbols: ControlSymbols = {
   shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
+  noMerge: '$$symbol-no-merge' as unknown as ControlSymbols['noMerge'],
   variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
@@ -334,7 +335,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
           if (!sorted.length)
             return undefined
-          const rules = sorted
+          const ruleLines = sorted
             .reverse()
             .map(([selectorSortPair, body, noMerge], idx) => {
               if (!noMerge && this.config.mergeSelectors) {
@@ -361,6 +362,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
                 : body
             })
             .filter(Boolean)
+
+          const rules = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
@@ -503,10 +506,13 @@ class UnoGeneratorInternal<Theme extends object = object> {
           const parents: [string | undefined, number | undefined] = Array.isArray(v.parent)
             ? v.parent
             : [v.parent, undefined]
+
+          const selector = v.selector?.(input.selector, entries)
+
           return (v.handle ?? defaultVariantHandler)({
             ...input,
             entries,
-            selector: v.selector?.(input.selector, entries) || input.selector,
+            selector: selector || input.selector,
             parent: parents[0] || input.parent,
             parentOrder: parents[1] || input.parentOrder,
             layer: v.layer || input.layer,
@@ -668,10 +674,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
             let entryMeta = meta
             for (const entry of css) {
               if (entry[0] === symbols.variants) {
-                variants = [
-                  ...toArray(entry[1]),
-                  ...variants,
-                ]
+                if (typeof entry[1] === 'function') {
+                  variants = entry[1](variants) || variants
+                }
+                else {
+                  variants = [
+                    ...toArray(entry[1]),
+                    ...variants,
+                  ]
+                }
               }
               else if (entry[0] === symbols.parent) {
                 variants = [
@@ -695,6 +706,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
                 entryMeta = {
                   ...entryMeta,
                   sort: entry[1],
+                }
+              }
+              else if (entry[0] === symbols.noMerge) {
+                entryMeta = {
+                  ...entryMeta,
+                  noMerge: entry[1],
                 }
               }
             }
