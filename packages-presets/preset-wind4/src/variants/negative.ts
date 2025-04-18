@@ -46,6 +46,8 @@ export const variantNegative: Variant<Theme> = {
           return
         let changed = false
         body.forEach((v) => {
+          if (v[2] === CONTROL_MINI_NO_NEGATIVE)
+            return
           const value = v[1]?.toString()
           if (!value || value === '0')
             return

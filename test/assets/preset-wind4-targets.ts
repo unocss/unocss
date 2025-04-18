@@ -416,6 +416,10 @@ export const presetWind4Targets: string[] = [
   'max-h-svh',
   'max-h-lvh',
 
+  // translate
+  '-translate-y-50%',
+  'translate-y--50%',
+
   // outline
   'outline-hidden',
 

@@ -15,7 +15,7 @@ export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Part
 export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
-export type CSSEntry = [string, string | number | undefined]
+export type CSSEntry = [string, string | number | undefined, '$$mini-no-negative'?]
 export type CSSEntries = CSSEntry[]
 
 export type CSSObjectInput = CSSObject | Partial<ControlSymbolsValue>
