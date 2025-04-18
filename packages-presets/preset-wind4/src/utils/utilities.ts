@@ -2,17 +2,13 @@ import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatch
 import type { Theme } from '../theme'
 import { symbols, toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
-import { generateThemeVariable, themeTracking } from './constant'
+import { SpecialColorKey } from './constant'
 import { h } from './handlers'
-import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
-import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
+import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords } from './mappings'
+import { detectThemeValue, generateThemeVariable, themeTracking } from './theme-track'
 
-export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
-export const SpecialColorKey = {
-  transparent: 'transparent',
-  current: 'currentColor',
-}
-
+// #region Number Resolver
 export function numberResolver(size: string, defaultValue?: string | number): number | undefined {
   const v = h.number(size) ?? defaultValue
 
@@ -25,7 +21,9 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
     return num
   }
 }
+// #endregion
 
+// #region Direction with size
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
  *
@@ -74,6 +72,11 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     }
   }) as DynamicMatcher<Theme>
 }
+// #endregion
+
+// #region With Colors
+
+// #region Parse color
 
 /**
  * Split utility shorthand delimited by / or :
@@ -86,95 +89,6 @@ export function splitShorthand(body: string, type: string) {
 
     if (match == null || match === type)
       return [front, rest]
-  }
-}
-
-export function colorableShadows(shadows: string | string[], colorVar: string) {
-  const colored = []
-  shadows = toArray(shadows)
-  for (let i = 0; i < shadows.length; i++) {
-    // shadow values are between 3 to 6 terms including color
-    const components = getStringComponents(shadows[i], ' ', 6)
-    if (!components || components.length < 3)
-      return shadows
-
-    let isInset = false
-    const pos = components.indexOf('inset')
-    if (pos !== -1) {
-      components.splice(pos, 1)
-      isInset = true
-    }
-
-    let colorVarValue = ''
-    const lastComp = components.at(-1)
-    if (parseCssColor(components.at(0))) {
-      const color = parseCssColor(components.shift())
-      if (color)
-        colorVarValue = `, ${colorToString(color)}`
-    }
-    else if (parseCssColor(lastComp)) {
-      const color = parseCssColor(components.pop())
-      if (color)
-        colorVarValue = `, ${colorToString(color)}`
-    }
-    else if (lastComp && cssVarFnRE.test(lastComp)) {
-      const color = components.pop()!
-      colorVarValue = `, ${color}`
-    }
-
-    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
-  }
-
-  return colored
-}
-
-export function colorCSSGenerator(
-  data: ReturnType<typeof parseColor>,
-  property: string,
-  varName: string,
-  ctx?: RuleContext<Theme>,
-): [CSSObject, ...CSSValueInput[]] | undefined {
-  if (!data)
-    return
-
-  const { color, keys, alpha } = data
-  const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
-  const css: CSSObject = {}
-
-  if (color) {
-    const result: [CSSObject, ...CSSValueInput[]] = [css]
-
-    if (Object.values(SpecialColorKey).includes(color)) {
-      css[property] = color
-    }
-    else {
-      const alphaKey = `--un-${varName}-opacity`
-      const value = keys ? generateThemeVariable('colors', keys) : color
-
-      css[alphaKey] = alpha
-      css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
-
-      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
-
-      if (keys) {
-        themeTracking(`colors`, keys)
-      }
-      if (ctx?.theme) {
-        detectThemeValue(color, ctx.theme)
-      }
-    }
-
-    return result
-  }
-}
-
-export function colorResolver(property: string, varName: string) {
-  return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
-    const data = parseColor(body ?? '', ctx.theme)
-    if (!data)
-      return
-
-    return colorCSSGenerator(data, property, varName, ctx) as (CSSValueInput | string)[]
   }
 }
 
@@ -316,10 +230,108 @@ export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[
   return obj
 }
 
+// #endregion
+
+// #region Color Resolver
+
+export function colorCSSGenerator(
+  data: ReturnType<typeof parseColor>,
+  property: string,
+  varName: string,
+  ctx?: RuleContext<Theme>,
+): [CSSObject, ...CSSValueInput[]] | undefined {
+  if (!data)
+    return
+
+  const { color, keys, alpha } = data
+  const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
+  const css: CSSObject = {}
+
+  if (color) {
+    const result: [CSSObject, ...CSSValueInput[]] = [css]
+
+    if (Object.values(SpecialColorKey).includes(color)) {
+      css[property] = color
+    }
+    else {
+      const alphaKey = `--un-${varName}-opacity`
+      const value = keys ? generateThemeVariable('colors', keys) : color
+
+      css[alphaKey] = alpha
+      css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
+
+      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+
+      if (keys) {
+        themeTracking(`colors`, keys)
+      }
+      if (ctx?.theme) {
+        detectThemeValue(color, ctx.theme)
+      }
+    }
+
+    return result
+  }
+}
+
+export function colorResolver(property: string, varName: string) {
+  return ([, body]: string[], ctx: RuleContext<Theme>): (CSSValueInput | string)[] | undefined => {
+    const data = parseColor(body ?? '', ctx.theme)
+    if (!data)
+      return
+
+    return colorCSSGenerator(data, property, varName, ctx) as (CSSValueInput | string)[]
+  }
+}
+
+// #endregion
+
+export function colorableShadows(shadows: string | string[], colorVar: string) {
+  const colored = []
+  shadows = toArray(shadows)
+  for (let i = 0; i < shadows.length; i++) {
+    // shadow values are between 3 to 6 terms including color
+    const components = getStringComponents(shadows[i], ' ', 6)
+    if (!components || components.length < 3)
+      return shadows
+
+    let isInset = false
+    const pos = components.indexOf('inset')
+    if (pos !== -1) {
+      components.splice(pos, 1)
+      isInset = true
+    }
+
+    let colorVarValue = ''
+    const lastComp = components.at(-1)
+    if (parseCssColor(components.at(0))) {
+      const color = parseCssColor(components.shift())
+      if (color)
+        colorVarValue = `, ${colorToString(color)}`
+    }
+    else if (parseCssColor(lastComp)) {
+      const color = parseCssColor(components.pop())
+      if (color)
+        colorVarValue = `, ${colorToString(color)}`
+    }
+    else if (lastComp && cssVarFnRE.test(lastComp)) {
+      const color = components.pop()!
+      colorVarValue = `, ${color}`
+    }
+
+    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
+  }
+
+  return colored
+}
+
 export function hasParseableColor(color: string | undefined, theme: Theme) {
   return color != null && !!parseColor(color, theme)?.color
 }
 
+// #endregion
+
+// #region resolve breakpoints
 const reLetters = /[a-z]+/gi
 const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
 
@@ -343,41 +355,11 @@ export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
   return resolveBreakpoints(context, 'verticalBreakpoint')
 }
+// #endregion
 
+// #region Global static & defineProperty
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
   return globalKeywords.map(keyword => [`${prefix}-${keyword}`, { [property ?? prefix]: keyword }])
-}
-
-export function isCSSMathFn(value: string | undefined) {
-  return value != null && cssMathFnRE.test(value)
-}
-
-export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
-    str = str.slice(1, -1)
-  return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
-}
-
-export function transformXYZ(d: string, v: string, name: string): [string, string][] {
-  const values: string[] = v.split(splitComma)
-  if (d || (!d && values.length === 1))
-    return xyzMap[d].map((i): [string, string] => [`--un-${name}${i}`, v])
-
-  return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
-}
-
-export function camelize(str: string) {
-  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
-}
-
-export function hyphenate(str: string) {
-  return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
-}
-
-export function compressCSS(css: string, isDev = false) {
-  if (isDev)
-    return css.trim()
-  return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
 export function defineProperty(
@@ -407,17 +389,30 @@ export function defineProperty(
     value['initial-value'] = initialValue as keyof CSSObjectInput
   return value
 }
+// #endregion
 
-export function detectThemeValue(value: string, theme: Theme) {
-  if (value.startsWith('var(')) {
-    const variable = value.match(/var\(--([\w-]+)(?:,.*)?\)/)?.[1]
-    if (variable) {
-      const [key, ...path] = variable.split('-')
-      const themeValue = getThemeByKey(theme, key as keyof Theme, path)
-      if (themeValue != null) {
-        themeTracking(key, path)
-        detectThemeValue(themeValue, theme)
-      }
-    }
-  }
+// #region Basic util functions
+export function isCSSMathFn(value: string | undefined) {
+  return value != null && cssMathFnRE.test(value)
 }
+
+export function isSize(str: string) {
+  if (str[0] === '[' && str.slice(-1) === ']')
+    str = str.slice(1, -1)
+  return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
+}
+
+export function camelize(str: string) {
+  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+
+export function hyphenate(str: string) {
+  return str.replace(/(?:^|\B)([A-Z])/g, '-$1').toLowerCase()
+}
+
+export function compressCSS(css: string, isDev = false) {
+  if (isDev)
+    return css.trim()
+  return css.trim().replace(/\s+/g, ' ').replace(/\/\*[\s\S]*?\*\//g, '')
+}
+// #endregion

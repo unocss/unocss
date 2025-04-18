@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsserver.enableRegionDiagnostics": true,
   "cSpell.words": [
     "tagify"
   ],

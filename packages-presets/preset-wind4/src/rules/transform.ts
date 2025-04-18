@@ -1,6 +1,7 @@
 import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { CONTROL_MINI_NO_NEGATIVE, defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
+import { CONTROL_NO_NEGATIVE, defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, xyzArray, xyzMap } from '../utils'
+import { splitComma } from '../utils/handlers/regex'
 
 const transformValues = [
   'translate',
@@ -110,7 +111,7 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
     return [
       [
         ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
-        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`, CONTROL_MINI_NO_NEGATIVE],
+        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`, CONTROL_NO_NEGATIVE],
       ],
       ...['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })),
     ]
@@ -177,4 +178,12 @@ function handleSkew([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] 
       ...['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })),
     ]
   }
+}
+
+function transformXYZ(d: string, v: string, name: string): [string, string][] {
+  const values: string[] = v.split(splitComma)
+  if (d || (!d && values.length === 1))
+    return xyzMap[d].map((i): [string, string] => [`--un-${name}${i}`, v])
+
+  return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }

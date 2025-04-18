@@ -1,8 +1,8 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
-import { generateThemeVariable, themeTracking } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
+import { generateThemeVariable, themeTracking } from '../utils/theme-track'
 
 export const fonts: Rule<Theme>[] = [
   // text
