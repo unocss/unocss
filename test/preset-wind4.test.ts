@@ -196,7 +196,7 @@ describe('preset-wind4', () => {
       "/* layer: theme */
       :root, :host {
       --spacing: 0.25px;
-      --ui-red: oklch(0.704 0.191 22.216);
+      --ui-red-DEFAULT: oklch(0.704 0.191 22.216);
       }"
     `)
   })

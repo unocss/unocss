@@ -187,7 +187,7 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
     else if (!no && colorData.DEFAULT) {
       color = colorData.DEFAULT
       no = 'DEFAULT'
-      key = _keys
+      key = [..._keys, no]
     }
   }
   else if (typeof colorData === 'string' && !no) {
