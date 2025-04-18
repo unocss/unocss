@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, globalKeywords, h, makeGlobalStaticRules, themeTracking } from '../utils'
+import { defineProperty, generateThemeVariable, globalKeywords, h, makeGlobalStaticRules, themeTracking } from '../utils'
 
 function resolveTransitionProperty(prop: string, theme: Theme): string | undefined {
   let p: string | undefined
@@ -31,8 +31,8 @@ export const transitions: Rule<Theme>[] = [
 
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,
-        'transition-timing-function': `var(--un-ease, var(--defaults-transition-timing-function))`,
-        'transition-duration': `var(--un-duration, var(--defaults-transition-duration))`,
+        'transition-timing-function': `var(--un-ease, ${generateThemeVariable('defaults', ['transition', 'timingFunction'])})`,
+        'transition-duration': `var(--un-duration, ${generateThemeVariable('defaults', ['transition', 'duration'])})`,
       }
 
       if (!prop && !d) {
@@ -82,7 +82,7 @@ export const transitions: Rule<Theme>[] = [
       let v
       if (theme.ease?.[d]) {
         themeTracking('ease', d)
-        v = `var(--ease${d === 'DEFAULT' ? '' : `-${d}`})`
+        v = generateThemeVariable('ease', d)
       }
       else {
         v = h.bracket.cssvar(d)

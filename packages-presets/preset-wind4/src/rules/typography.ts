@@ -1,8 +1,8 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
-import { passThemeKey, themeTracking } from '../utils/constant'
 import { bracketTypeRe } from '../utils/handlers/regex'
+import { generateThemeVariable, themeTracking } from '../utils/theme-track'
 
 export const fonts: Rule<Theme>[] = [
   // text
@@ -31,7 +31,7 @@ export const fonts: Rule<Theme>[] = [
 
       if (theme.fontWeight?.[s]) {
         themeTracking(`fontWeight`, s)
-        v = `var(--font-weight-${s})`
+        v = generateThemeVariable('fontWeight', s)
       }
       else {
         v = h.bracket.global.number(s)
@@ -58,7 +58,7 @@ export const fonts: Rule<Theme>[] = [
 
       if (theme.leading?.[s]) {
         themeTracking('leading', s)
-        v = `var(--leading-${s})`
+        v = generateThemeVariable('leading', s)
       }
       else if (numberResolver(s)) {
         themeTracking('spacing')
@@ -96,7 +96,7 @@ export const fonts: Rule<Theme>[] = [
 
       if (theme.tracking?.[s]) {
         themeTracking(`tracking`, s)
-        v = `var(--tracking-${s})`
+        v = generateThemeVariable('tracking', s)
       }
       else {
         v = h.bracket.cssvar.global.rem(s)
@@ -115,7 +115,7 @@ export const fonts: Rule<Theme>[] = [
     /^(?:font-)?word-spacing-(.+)$/,
     ([, s], { theme }) => {
       // Use the same variable as tracking
-      const v = theme.tracking?.[s] ? `var(--word-spacing-${s})` : h.bracket.cssvar.global.rem(s)
+      const v = theme.tracking?.[s] ? generateThemeVariable('tracking', s) : h.bracket.cssvar.global.rem(s)
       return {
         '--un-word-spacing': v,
         'word-spacing': v,
@@ -148,7 +148,7 @@ export const fonts: Rule<Theme>[] = [
 
       if (theme.font?.[d]) {
         themeTracking(`font`, d)
-        v = `var(--font-${d})`
+        v = generateThemeVariable('font', d)
       }
       else {
         v = h.bracket.cssvar.global(d)
@@ -200,7 +200,7 @@ export const textStrokes: Rule<Theme>[] = [
     }
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
-        ? passThemeKey.includes(s) ? theme.textStrokeWidth?.[s] : `var(--text-stroke-width-${s})`
+        ? generateThemeVariable('textStrokeWidth', s)
         : h.bracket.cssvar.px(s),
     }
   }, { autocomplete: 'text-stroke-$textStrokeWidth' }],
@@ -233,20 +233,20 @@ const fontVariantNumericProperties = [
   defineProperty('--un-numeric-figure'),
   defineProperty('--un-numeric-spacing'),
   defineProperty('--un-numeric-fraction'),
-].join('\n')
+]
 const baseFontVariantNumeric = {
   'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
-  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['slashed-zero', [{ '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['lining-nums', [{ '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['oldstyle-nums', [{ '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['proportional-nums', [{ '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['tabular-nums', [{ '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['diagonal-fractions', [{ '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
-  ['stacked-fractions', [{ '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, fontVariantNumericProperties]],
+  ['ordinal', [{ '--un-ordinal': 'ordinal', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['slashed-zero', [{ '--un-slashed-zero': 'slashed-zero', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['lining-nums', [{ '--un-numeric-figure': 'lining-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['oldstyle-nums', [{ '--un-numeric-figure': 'oldstyle-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['proportional-nums', [{ '--un-numeric-spacing': 'proportional-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['tabular-nums', [{ '--un-numeric-spacing': 'tabular-nums', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['diagonal-fractions', [{ '--un-numeric-fraction': 'diagonal-fractions', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
+  ['stacked-fractions', [{ '--un-numeric-fraction': 'stacked-fractions', ...baseFontVariantNumeric }, ...fontVariantNumericProperties]],
   ['normal-nums', [{ 'font-variant-numeric': 'normal' }]],
 ]
 
@@ -263,7 +263,7 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
   if (leading) {
     if (theme.leading?.[leading]) {
       themeTracking(`leading`, leading)
-      lineHeight = `var(--leading-${leading})`
+      lineHeight = generateThemeVariable('leading', leading)
     }
     else {
       lineHeight = h.bracket.cssvar.global.rem(leading)
@@ -278,9 +278,9 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
     }
 
     return {
-      'font-size': `var(--text-${size}-font-size)`,
-      'line-height': lineHeight ?? `var(--un-leading, var(--text-${size}-line-height))`,
-      'letter-spacing': sizePairs.letterSpacing ? `var(--text-${size}-letter-spacing)` : undefined,
+      'font-size': generateThemeVariable('text', [size, 'fontSize']),
+      'line-height': lineHeight ?? `var(--un-leading, ${generateThemeVariable('text', [size, 'lineHeight'])})`,
+      'letter-spacing': sizePairs.letterSpacing ? generateThemeVariable('text', [size, 'letterSpacing']) : undefined,
     }
   }
 
@@ -300,8 +300,8 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
     themeTracking(`text`, [s, 'fontSize'])
     themeTracking(`text`, [s, 'lineHeight'])
     return {
-      'font-size': `var(--text-${s}-font-size)`,
-      'line-height': `var(--un-leading, var(--text-${s}--line-height))`,
+      'font-size': generateThemeVariable('text', [s, 'fontSize']),
+      'line-height': `var(--un-leading, ${generateThemeVariable('text', [s, 'lineHeight'])})`,
     }
   }
   else {

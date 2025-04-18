@@ -51,7 +51,13 @@ export const appearance: Rule<Theme>[] = [
 ]
 
 function willChangeProperty(prop: string): string | undefined {
-  return h.properties.auto.global(prop) ?? {
+  const v = h.bracket(prop)
+
+  if (v && h.properties(v)) {
+    return v
+  }
+
+  return h.properties.auto.cssvar.global(prop) ?? {
     contents: 'contents',
     scroll: 'scroll-position',
   }[prop]

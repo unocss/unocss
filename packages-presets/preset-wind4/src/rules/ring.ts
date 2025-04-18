@@ -13,7 +13,7 @@ export const rings: Rule<Theme>[] = [
           '--un-ring-shadow': `var(--un-ring-inset,) 0 0 0 calc(${v} + var(--un-ring-offset-width)) var(--un-ring-color, currentColor)`,
           'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
         },
-        Object.values(shadowProperties).join('\n'),
+        ...Object.values(shadowProperties),
       ]
     }
   }],
@@ -29,7 +29,7 @@ export const rings: Rule<Theme>[] = [
           '--un-inset-ring-shadow': `inset 0 0 0 ${v} var(--un-inset-ring-color, currentColor)`,
           'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
         },
-        Object.values(shadowProperties).join('\n'),
+        ...Object.values(shadowProperties),
       ]
     }
   }],

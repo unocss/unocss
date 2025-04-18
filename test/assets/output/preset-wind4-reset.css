@@ -3,11 +3,11 @@
 --font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 --defaults-font-family: var(--font-sans);
---defaults-font-feature-settings: var(--font-sans--font-feature-settings);
---defaults-font-variation-settings: var(--font-sans--font-variation-settings);
---defaults-mono-font-family: var(--font-mono);
---defaults-mono-font-feature-settings: var(--font-mono--font-feature-settings);
---defaults-mono-font-variation-settings: var(--font-mono--font-variation-settings);
+--defaults-font-featureSettings: var(--font-sans--font-feature-settings);
+--defaults-font-variationSettings: var(--font-sans--font-variation-settings);
+--defaults-monoFont-family: var(--font-mono);
+--defaults-monoFont-featureSettings: var(--font-mono--font-feature-settings);
+--defaults-monoFont-variationSettings: var(--font-mono--font-variation-settings);
 }
 /* layer: preflights */
 /*
@@ -52,8 +52,8 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   ); /* 4 */
-  font-feature-settings: var(--defaults-font-feature-settings, normal); /* 5 */
-  font-variation-settings: var(--defaults-font-variation-settings, normal); /* 6 */
+  font-feature-settings: var(--defaults-font-featureSettings, normal); /* 5 */
+  font-variation-settings: var(--defaults-font-variationSettings, normal); /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
 }
 
@@ -131,7 +131,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --defaults-mono-font-family,
+    --defaults-monoFont-family,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -141,8 +141,8 @@ pre {
     'Courier New',
     monospace
   ); /* 1 */
-  font-feature-settings: var(--defaults-mono-font-feature-settings, normal); /* 2 */
-  font-variation-settings: var(--defaults-mono-font-variation-settings, normal); /* 3 */
+  font-feature-settings: var(--defaults-monoFont-featureSettings, normal); /* 2 */
+  font-variation-settings: var(--defaults-monoFont-variationSettings, normal); /* 3 */
   font-size: 1em; /* 4 */
 }
 
