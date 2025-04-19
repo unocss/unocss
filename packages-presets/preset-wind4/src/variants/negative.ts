@@ -1,7 +1,8 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
+import { toArray } from '@unocss/core'
 import { getStringComponent } from '@unocss/rule-utils'
-import { CONTROL_MINI_NO_NEGATIVE, cssMathFnRE, cssVarFnRE } from '../utils'
+import { CONTROL_NO_NEGATIVE, cssMathFnRE, cssVarFnRE } from '../utils'
 
 const anchoredNumberRE = /^-?[0-9.]+(?:[a-z]+|%)?$/
 const numberRE = /-?[0-9.]+(?:[a-z]+|%)?/
@@ -42,10 +43,12 @@ export const variantNegative: Variant<Theme> = {
     return {
       matcher: matcher.slice(1),
       body: (body) => {
-        if (body.find(v => v[0] === CONTROL_MINI_NO_NEGATIVE))
+        if (body.find(v => v[0] === CONTROL_NO_NEGATIVE))
           return
         let changed = false
         body.forEach((v) => {
+          if (toArray(v[2]).includes(CONTROL_NO_NEGATIVE))
+            return
           const value = v[1]?.toString()
           if (!value || value === '0')
             return

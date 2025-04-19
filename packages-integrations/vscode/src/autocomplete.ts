@@ -1,6 +1,6 @@
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
-import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
-import type { CompletionItemProvider, Disposable } from 'vscode'
+import type { SuggestResult, UnocssPluginContext, UnoGenerator } from '@unocss/core'
+import type { CompletionItemProvider, Disposable, Position, TextDocument } from 'vscode'
 import type { ContextLoader } from './contextLoader'
 import { isCssId } from '#integration/utils'
 import { createAutocomplete } from '@unocss/autocomplete'
@@ -8,7 +8,7 @@ import { CompletionItem, CompletionItemKind, CompletionList, languages, Markdown
 import { getConfig, getLanguageIds } from './configs'
 import { delimiters } from './constants'
 import { log } from './log'
-import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, shouldProvideAutocomplete } from './utils'
+import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, isVueWithPug, shouldProvideAutocomplete } from './utils'
 
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
@@ -55,32 +55,89 @@ export async function registerAutoComplete(
     return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
   }
 
+  async function getSuggestionResult({
+    ctx,
+    code,
+    id,
+    doc,
+    position,
+  }: { ctx: UnocssPluginContext, code: string, id: string, doc: TextDocument, position: Position }) {
+    const isPug = isVueWithPug(code, id)
+    // If isPug is true, then we should not recognize it as a cssId.
+    if (!ctx.filter(code, id) && !isCssId(id) && !isPug)
+      return null
+
+    try {
+      const autoComplete = getAutocomplete(ctx)
+
+      const cursorPosition = doc.offsetAt(position)
+      let result: SuggestResult | undefined
+
+      // Special treatment for Pug Vue templates
+      if (isPug) {
+      // get content from cursorPosition
+        const textBeforeCursor = code.substring(0, cursorPosition)
+        // check the dot
+        const dotMatch = textBeforeCursor.match(/\.[-\w]*$/)
+
+        if (dotMatch) {
+          const matched = dotMatch[0].substring(1) // replace dot
+          const suggestions = await autoComplete.suggest(matched || '')
+
+          if (suggestions.length) {
+            result = {
+              suggestions: suggestions.map(v => [v, v] as [string, string]),
+              resolveReplacement: (suggestion: string) => ({
+                start: cursorPosition - (matched?.length || 0),
+                end: cursorPosition,
+                replacement: suggestion,
+              }),
+            }
+          }
+        }
+        else {
+        // original logic
+          result = await autoComplete.suggestInFile(code, cursorPosition)
+        }
+      }
+      else {
+        result = await autoComplete.suggestInFile(code, cursorPosition)
+      }
+
+      return result
+    }
+    catch (e: any) {
+      throw new Error(e)
+    }
+  }
+
   const provider: CompletionItemProvider<UnoCompletionItem> = {
     async provideCompletionItems(doc, position) {
       const id = doc.uri.fsPath
       if (!loader.isTarget(id))
         return null
 
-      const code = doc.getText()
-      if (!code)
+      const ctx = await loader.resolveClosestContext(doc.getText(), id)
+      if (!ctx)
         return null
 
       const offset = window.activeTextEditor!.document.offsetAt(position)
 
+      const code = doc.getText()
+      if (!code)
+        return null
+
       if (config.autocompleteStrict && !shouldProvideAutocomplete(code, id, offset))
         return
 
-      const ctx = await loader.resolveClosestContext(code, id)
-      if (!ctx)
-        return null
-
-      if (!ctx.filter(code, id) && !isCssId(id))
-        return null
-
       try {
-        const autoComplete = getAutocomplete(ctx)
-
-        const result = await autoComplete.suggestInFile(code, doc.offsetAt(position))
+        const result = await getSuggestionResult({
+          ctx,
+          code,
+          id,
+          doc,
+          position,
+        })
 
         if (!result)
           return

@@ -71,9 +71,6 @@ describe('preset-wind4', () => {
         "m-md",
         "stroke-size-none",
         "stroke-offset-none",
-        "translate-y-1/4",
-        "translate-full",
-        "translate-x-full",
         "preserve-3d",
         "preserve-flat",
         "indent-1/2",
@@ -82,10 +79,6 @@ describe('preset-wind4', () => {
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",
-        "-translate-full",
-        "-translate-x-full",
-        "-translate-y-1/2",
-        "before:translate-y-full",
         "placeholder-color-red-1",
         "hover:not-first:checked:bg-true-gray/10",
         "hover:is-first:checked:bg-true-gray/10",
@@ -161,7 +154,9 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: theme */
+      "/* layer: cssvar-property */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
       :root, :host {
       --colors-foo: var(--colors-bar);
       --colors-bar: var(--colors-baz-bcd, #000);
@@ -169,7 +164,6 @@ describe('preset-wind4', () => {
       --colors-test: #fff;
       }
       /* layer: default */
-      @property --un-text-opacity {syntax: "<percentage>";inherits: false;initial-value: 100%;}
       .c-foo{color:color-mix(in oklch, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}"
     `)
   })
@@ -202,7 +196,7 @@ describe('preset-wind4', () => {
       "/* layer: theme */
       :root, :host {
       --spacing: 0.25px;
-      --ui-red: oklch(0.704 0.191 22.216);
+      --ui-red-DEFAULT: oklch(0.704 0.191 22.216);
       }"
     `)
   })

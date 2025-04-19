@@ -1,6 +1,7 @@
 import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, transformXYZ, xyzMap } from '../utils'
+import { CONTROL_NO_NEGATIVE, defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, xyzArray, xyzMap } from '../utils'
+import { splitComma } from '../utils/handlers/regex'
 
 const transformValues = [
   'translate',
@@ -48,7 +49,7 @@ export const transforms: Rule<Theme>[] = [
     let v
     if (theme.perspective?.[s]) {
       themeTracking(`perspective`, s)
-      v = `var(--un-perspective-${s})`
+      v = generateThemeVariable('perspective', s)
     }
     else {
       v = h.bracket.cssvar.px.numberWithUnit(s)
@@ -59,7 +60,7 @@ export const transforms: Rule<Theme>[] = [
         perspective: v,
       }
     }
-  }],
+  }, { autocomplete: [`transform-perspective-<num>`, `perspective-<num>`, `perspective-$perspective`] }],
 
   // skip 1 & 2 letters shortcut
   [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {
@@ -97,7 +98,7 @@ export const transforms: Rule<Theme>[] = [
 ]
 
 function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = numberResolver(b) ?? h.bracket.cssvar.none.rem(b)
+  const v = numberResolver(b) ?? h.bracket.cssvar.none.fraction.rem(b)
 
   if (v != null) {
     if (v === 'none') {
@@ -110,9 +111,9 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
     return [
       [
         ...transformXYZ(d, typeof v === 'number' ? `calc(var(--spacing) * ${v})` : v, 'translate'),
-        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`],
+        ['translate', `var(--un-translate-x) var(--un-translate-y)${d === 'z' ? ' var(--un-translate-z)' : ''}`, CONTROL_NO_NEGATIVE],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-translate-${d}`, { initialValue: 0 })),
     ]
   }
 }
@@ -132,7 +133,7 @@ function handleScale([, d, b]: string[]): CSSValues | (CSSValueInput | string)[]
         ...transformXYZ(d, v, 'scale'),
         ['scale', `var(--un-scale-x) var(--un-scale-y)${d === 'z' ? ' var(--un-scale-z)' : ''}`],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-scale-${d}`, { initialValue: 1 })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-scale-${d}`, { initialValue: 1 })),
     ]
   }
 }
@@ -152,8 +153,8 @@ function handleRotate([, d = '', b]: string[]): CSSValues | (CSSValueInput | str
           ...transformXYZ(d, v.endsWith('deg') ? `rotate${d.toUpperCase()}(${v})` : v, 'rotate'),
           ['transform', transform],
         ],
-        ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
-        ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
+        ...['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })),
+        ...['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })),
       ]
     }
     else {
@@ -173,8 +174,16 @@ function handleSkew([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] 
         ...ds.map(_d => [`--un-skew${_d}`, v.endsWith('deg') ? `skew${_d.slice(1).toUpperCase()}(${v})` : v]) as any,
         ['transform', transform],
       ],
-      ['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })).join('\n'),
-      ['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })).join('\n'),
+      ...['x', 'y', 'z'].map(d => defineProperty(`--un-rotate-${d}`, { initialValue: `rotate${d.toUpperCase()}(0)` })),
+      ...['x', 'y'].map(d => defineProperty(`--un-skew-${d}`, { initialValue: `skew${d.toUpperCase()}(0)` })),
     ]
   }
+}
+
+function transformXYZ(d: string, v: string, name: string): [string, string][] {
+  const values: string[] = v.split(splitComma)
+  if (d || (!d && values.length === 1))
+    return xyzMap[d].map((i): [string, string] => [`--un-${name}${i}`, v])
+
+  return values.map((v, i) => [`--un-${name}-${xyzArray[i]}`, v])
 }

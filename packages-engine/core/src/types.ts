@@ -15,7 +15,12 @@ export type PartialByKeys<T, K extends keyof T = keyof T> = FlatObjectTuple<Part
 export type RequiredByKey<T, K extends keyof T = keyof T> = FlatObjectTuple<Required<Pick<T, Extract<keyof T, K>>> & Omit<T, K>>
 
 export type CSSObject = Record<string, string | number | undefined>
-export type CSSEntry = [string, string | number | undefined]
+/**
+ * [property, value, operators?]
+ *
+ * - operators: Used to perform specific operations on value or property.
+ */
+export type CSSEntry = [string, string | number | undefined, Arrayable<string>?]
 export type CSSEntries = CSSEntry[]
 
 export type CSSObjectInput = CSSObject | Partial<ControlSymbolsValue>
@@ -74,6 +79,7 @@ export interface RuleContext<Theme extends object = object> {
 }
 
 declare const SymbolShortcutsNoMerge: unique symbol
+declare const SymbolNoMerge: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
@@ -85,6 +91,10 @@ export interface ControlSymbols {
    * Prevent merging in shortcuts
    */
   shortcutsNoMerge: typeof SymbolShortcutsNoMerge
+  /**
+   * Prevent merging in rules
+   */
+  noMerge: typeof SymbolNoMerge
   /**
    * Additional variants applied to this rule
    */
@@ -109,7 +119,8 @@ export interface ControlSymbols {
 
 export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
-  [SymbolVariants]: VariantHandler[]
+  [SymbolNoMerge]: true
+  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
