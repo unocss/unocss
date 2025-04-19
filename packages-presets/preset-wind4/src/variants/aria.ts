@@ -17,6 +17,7 @@ export const variantAria: VariantObject<Theme> = {
       }
     }
   },
+  multiPass: true,
 }
 
 function taggedAria(tagName: string): Variant<Theme> {
