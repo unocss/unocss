@@ -105,7 +105,7 @@ it('variants with multiple returns with selector modifier', async () => {
   expect(css).toMatchInlineSnapshot(`
     "/* layer: default */
     .hover\\:v-text-red:hover{color:red;}
-    .hover\\:v-text-red:foo:hover{color:green;}"
+    .hover\\:v-text-red:hover:foo{color:green;}"
   `)
 })
 
@@ -156,6 +156,6 @@ it('variants with multiple returns with partial match', async () => {
   expect(css).toMatchInlineSnapshot(`
     "/* layer: default */
     .v-text-red:hover{color:red;}
-    .v-text-red:hover:foo{color:green;}"
+    .v-text-red:foo:hover{color:green;}"
   `)
 })
