@@ -1,5 +1,5 @@
 import type { UnocssPluginContext } from '@unocss/core'
-import { cssUrlTransformer, parseCssUrl } from '@unocss/rule-utils'
+import { cssUrlTransformer, replaceRelativeCssUrl } from '@unocss/rule-utils'
 import MagicString from 'magic-string'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -11,24 +11,21 @@ describe('css url transformer', async () => {
   })
 
   it('relative path transform to absolute path', async () => {
-    const result = await parseCssUrl('url(./assets/foo.png)', '/project/src/main.ts', '/project')
+    const result = replaceRelativeCssUrl('url(./assets/foo.png)', '/project/src/main.ts', '/project')
     expect(result).toBe('url(/src/assets/foo.png)')
   })
 
   it('skip alias path', async () => {
-    const result = await parseCssUrl('url("@/assets/foo.png")', '/project/src/main.ts', '/project')
+    const result = replaceRelativeCssUrl('url("@/assets/foo.png")', '/project/src/main.ts', '/project')
     expect(result).toBe('url("@/assets/foo.png")')
   })
 
   it('skip http url', async () => {
-    const result = await parseCssUrl('url(https://example.com/foo.png)', '/project/src/main.ts', '/project')
+    const result = replaceRelativeCssUrl('url(https://example.com/foo.png)', '/project/src/main.ts', '/project')
     expect(result).toBe('url(https://example.com/foo.png)')
   })
 
-  const transformer = cssUrlTransformer({
-    name: '@unocss/rule-utils:transformer',
-    regexp: / ?bg-(\[.+\])/g,
-  })
+  const transformer = cssUrlTransformer()
 
   async function transform(code: string) {
     const s = new MagicString(code)
