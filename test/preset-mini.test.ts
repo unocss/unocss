@@ -96,6 +96,8 @@ describe('preset-mini', () => {
       'max-h-dvh',
       'max-h-svh',
       'max-h-lvh',
+      'data-[foo=x]:text-green-600',
+      'data-[foo=x]:data-[bar=y]:text-green-600',
     ])
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
@@ -107,7 +109,9 @@ describe('preset-mini', () => {
       .max-h-svh{max-height:100svh;}
       .min-h-dvh{min-height:100dvh;}
       .min-h-lvh{min-height:100lvh;}
-      .min-h-svh{min-height:100svh;}"
+      .min-h-svh{min-height:100svh;}
+      .data-\\[foo\\=x\\]\\:data-\\[bar\\=y\\]\\:text-green-600[data-bar=y][data-foo=x],
+      .data-\\[foo\\=x\\]\\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}"
     `)
   })
 
