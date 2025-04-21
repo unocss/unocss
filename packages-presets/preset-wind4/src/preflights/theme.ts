@@ -90,11 +90,7 @@ ${depCSS}
 
         deps = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
           const [key, prop] = k.split(':') as [keyof Theme, string]
-          let v = getThemeByKey(theme, key, prop.split('-')) ?? getThemeByKey(theme, key, [prop])
-
-          if (typeof v === 'object') {
-            v = v.DEFAULT
-          }
+          const v = getThemeByKey(theme, key, prop.split('-'))
 
           if (v) {
             return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
