@@ -106,8 +106,16 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         newSelector = generate(prelude)
       }
       let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
-      if (parent)
-        css = `${parent}{${css}}`
+      if (parent) {
+        if (parent.includes(' $$ ')) {
+          // split '&&'
+          const [first, ...parentSelectors] = parent.split(' $$ ').reverse()
+          css = `${parentSelectors.reduce((p, c, i) => i === parentSelectors.length - 1 ? `${p}{${c}{${css}}}${'}'.repeat(i)}` : `${p}{${c}`, first)}`
+        }
+        else {
+          css = `${parent}{${css}}`
+        }
+      }
       semicolonOffset = 0
       code.appendLeft(node.loc!.end.offset, css)
     }
@@ -119,6 +127,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         code.appendRight(childNode!.loc!.end.offset + semicolonOffset, body)
     }
   }
+  // todo: after transformered remove empty css like `selector{}`
   code.remove(
     childNode!.loc!.start.offset,
     childNode!.loc!.end.offset + semicolonOffset,

@@ -80,6 +80,31 @@ describe('transformer-directives', async () => {
       `)
   })
 
+  it('basic #4606', async () => {
+    const result = await transform(
+      `body {
+    @apply sm:lg:md:xs:w-[40em];
+  }`,
+    )
+    await expect(result)
+      .toMatchInlineSnapshot(`
+        "body {
+        }
+        @media (min-width: 640px) {
+          @media (min-width: 1024px) {
+            @media (min-width: 768px) {
+              @media (min-width: 320px) {
+                body {
+                  width: 40em;
+                }
+              }
+            }
+          }
+        }
+        "
+      `)
+  })
+
   it('breakpoints', async () => {
     const result = await transform(
       '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
