@@ -222,4 +222,76 @@ describe('preset-wind4', () => {
       .p-4{padding:calc(var(--spacing) * 4);}"
     `)
   })
+
+  it('smarter theme parser', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ reset: false }),
+      ],
+      theme: {
+        colors: {
+          'foo-bar': '#fff', // highest priority
+          'foo': {
+            '100': {
+              bar: '#000',
+            },
+            'bar': '#0f0',
+            'baz-qux': '#f00',
+            'primary-1': {
+              DEFAULT: 'red',
+            },
+            'primary-2': 'red',
+            'primary-3': {
+              'kebab-value': 'red',
+            },
+            'primary': {
+              veryCool: {
+                'kebab-value': {
+                  test: 'red',
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    const template = `
+<div class="text-foo-bar">1</div>
+<div class="text-foo-100-bar">2</div>
+<div class="text-foo-baz-qux">3</div>
+<div class="text-foo-primary-1">4</div>
+<div class="text-foo-primary-2">5</div>
+<div class="text-foo-primary-3-kebab-value">6</div>
+<div class="text-foo-primary-veryCool-kebab-value-test">7</div>
+<div class="text-red">8</div>
+    `
+
+    const { css } = await uno.generate(template)
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: cssvar-property */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host {
+      --colors-foo-bar: #fff;
+      --colors-foo-100-bar: #000;
+      --colors-foo-baz-qux: #f00;
+      --colors-foo-primary-1-DEFAULT: red;
+      --colors-foo-primary-2: red;
+      --colors-foo-primary-3-kebab-value: red;
+      --colors-foo-primary-veryCool-kebab-value-test: red;
+      --colors-red-DEFAULT: oklch(0.704 0.191 22.216);
+      }
+      /* layer: default */
+      .text-foo-100-bar{color:color-mix(in oklch, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-foo-bar{color:color-mix(in oklch, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
+      .text-foo-baz-qux{color:color-mix(in oklch, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
+      .text-foo-primary-1{color:color-mix(in oklch, var(--colors-foo-primary-1-DEFAULT) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-2{color:color-mix(in oklch, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-3-kebab-value{color:color-mix(in oklch, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklch, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
+      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(0.704 0.191 22.216) */;}"
+    `)
+  })
 })
