@@ -14,7 +14,7 @@
     "@julr/unocss-preset-forms": "^0.1.0",
     "@sveltejs/adapter-auto": "^3.3.1",
     "@sveltejs/kit": "^2.19.0",
-    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
     "@unocss/svelte-scoped": "link:../../packages-integrations/svelte-scoped",
