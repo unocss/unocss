@@ -364,6 +364,13 @@ export const presetWind4Targets: string[] = [
   'object-position-$variable',
   'object-$fit',
 
+  // text-shadow
+  'text-shadow-xl',
+  'text-shadow-sky-300',
+  'text-shadow-color-sky-300',
+  'text-shadow-op-50',
+  'text-shadow-color-op-50',
+
   // variants - dark/light
   '.dark:text-xl',
   '@dark:text-xl',
