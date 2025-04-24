@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
-    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tsconfig/svelte": "^5.0.4",
     "@unocss/core": "link:../../packages-engine/core",
     "@unocss/extractor-svelte": "link:../../packages-presets/extractor-svelte",
