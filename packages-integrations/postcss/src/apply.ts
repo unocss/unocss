@@ -44,7 +44,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         const [, _selector, body, parent] = i
         const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
 
-        if (parent || (selector && selector !== '.\\-')) {
+        if (parent || (selector && selector !== '.\\-' && !selector.startsWith('@property'))) {
           const node = parse(rule.parent.toString(), {
             context: 'rule',
           }) as Rule
