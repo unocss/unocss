@@ -1,6 +1,6 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorCSSGenerator, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver, parseColor } from '../utils'
+import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
 import { bracketTypeRe } from '../utils/handlers/regex'
 import { generateThemeVariable, themeTracking } from '../utils/theme-track'
 
@@ -212,7 +212,8 @@ export const textStrokes: Rule<Theme>[] = [
 
 const opRE = /op(?:acity)?-/
 export const textShadows: Rule<Theme>[] = [
-  [/^text-shadow(?:-(.+))?$/, ([_, s = 'DEFAULT'], ctx) => {
+  [/^text-shadow(?:-(.+))?$/, (match, ctx) => {
+    const [_, s = 'DEFAULT'] = match
     const v = ctx.theme.textShadow?.[s]
     if (v != null) {
       return {
@@ -223,11 +224,7 @@ export const textShadows: Rule<Theme>[] = [
     if (opRE.test(s))
       return { '--un-text-shadow-opacity': h.bracket.percent.cssvar(s.replace(opRE, '')) }
 
-    const colorData = parseColor(s ?? '', ctx.theme)
-    if (colorData?.color)
-      return colorCSSGenerator(colorData, '--un-text-shadow-color', 'text-shadow', ctx) as (CSSValueInput | string)[]
-
-    return { 'text-shadow': h.bracket.cssvar.global(s) }
+    return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s) }
   }, {
     autocomplete: [
       'text-shadow-$textShadow',
