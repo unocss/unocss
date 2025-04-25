@@ -3,7 +3,7 @@ import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, getThemeByKey, PRESET_NAME } from '../utils'
+import { compressCSS, getThemeByKey, trackedTheme } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -84,11 +84,10 @@ ${depCSS}
       }
 
       if (options.themePreflight === 'on-demand') {
-        const self = generator.config.presets.find(p => p.name === PRESET_NAME)
-        if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
+        if (trackedTheme.size === 0)
           return undefined
 
-        deps = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
+        deps = Array.from(trackedTheme).map((k) => {
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 

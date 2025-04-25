@@ -82,23 +82,25 @@ export interface PresetWind4Options extends PresetOptions {
    */
   important?: boolean | string
 
-  /**
-   * Reset the default preflight styles.
-   *
-   * @default true
-   */
-  reset?: boolean
+  preflight?: {
+    /**
+     * Reset the default preflight styles.
+     *
+     * @default true
+     */
+    reset?: boolean
 
-  /**
-   * Generate theme keys as CSS variables.
-   *
-   * - `true`: Generate theme keys fully.
-   * - `false`: Disable theme keys. (Not recommended ⚠️)
-   * - `'on-demand'`: Generate theme keys only when used.
-   *
-   * @default 'on-demand'
-   */
-  themePreflight?: boolean | 'on-demand'
+    /**
+     * Generate theme keys as CSS variables.
+     *
+     * - `true`: Generate theme keys fully.
+     * - `false`: Disable theme keys. (Not recommended ⚠️)
+     * - `'on-demand'`: Generate theme keys only when used.
+     *
+     * @default 'on-demand'
+     */
+    theme?: boolean | 'on-demand'
+  }
 
   /**
    * Resolve the layer utilits with custom logic.
@@ -116,7 +118,11 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
-  options.themePreflight = options.themePreflight ?? 'on-demand'
+  options.preflight = {
+    reset: true,
+    theme: 'on-demand',
+    ...(options.preflight ?? {}),
+  }
 
   return {
     name: PRESET_NAME,
@@ -138,9 +144,6 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
       shorthands,
     },
     options,
-    meta: {
-      themeDeps: trackedTheme,
-    },
     configResolved() {
       trackedTheme.clear()
     },
