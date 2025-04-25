@@ -17,6 +17,7 @@ export const variantDataAttribute: VariantObject = {
       }
     }
   },
+  multiPass: true,
 }
 
 function taggedData(tagName: string): Variant {

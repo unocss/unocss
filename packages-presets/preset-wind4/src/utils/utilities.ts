@@ -120,7 +120,7 @@ export function parseColor(body: string, theme: Theme) {
   if (!name)
     return
 
-  let { no, keys, color } = parseThemeColor(theme, colors) ?? parseThemeColor(theme, [main]) ?? {}
+  let { no, keys, color } = parseThemeColor(theme, colors) ?? {}
 
   if (!color) {
     const bracket = h.bracketOfColor(main)
@@ -160,39 +160,19 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
   let no
   let key
 
-  let _keys = keys
-  const [scale] = keys.slice(-1)
-
-  if (/^\d+$/.test(scale)) {
-    no = scale
-    _keys = keys.slice(0, -1)
-  }
-
-  const colorData = getThemeByKey(theme, 'colors', _keys)
+  const colorData = getThemeByKey(theme, 'colors', keys)
 
   if (typeof colorData === 'object') {
-    if (no && colorData[no]) {
-      const colorDataNo = colorData[no]
-      /* end of a number key, but it's a object */
-      if (typeof colorDataNo === 'object') {
-        color = colorDataNo.DEFAULT
-        key = [..._keys, no]
-        no = 'DEFAULT'
-      }
-      else {
-        color = colorData[no]
-        key = [..._keys, no]
-      }
-    }
-    else if (!no && colorData.DEFAULT) {
+    if ('DEFAULT' in colorData) {
       color = colorData.DEFAULT
       no = 'DEFAULT'
-      key = [..._keys, no]
+      key = [...keys, no]
     }
   }
-  else if (typeof colorData === 'string' && !no) {
+  else if (typeof colorData === 'string') {
     color = colorData
-    key = _keys
+    key = keys
+    no = keys.at(-1)
   }
 
   if (!color)
@@ -206,28 +186,26 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 }
 
 export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
-  let obj = theme[themeKey] as any
-  let index = -1
-
-  for (const k of keys) {
-    index += 1
-    if (obj && typeof obj !== 'string') {
-      const camel = camelize(keys.slice(index).join('-'))
-      if (obj[camel])
-        return obj[camel]
-      const hyphen = keys.slice(index).join('-')
-      if (obj[hyphen])
-        return obj[hyphen]
-
-      if (obj[k]) {
-        obj = obj[k]
-        continue
+  const obj = theme[themeKey]
+  function deepGet(current: any, path: string[]): any {
+    if (!current || typeof current !== 'object')
+      return undefined
+    if (path.length === 0)
+      return current
+    // First, check if the path is a flat key (e.g., foo-bar)
+    for (let i = path.length; i > 0; i--) {
+      const flatKey = path.slice(0, i).join('-')
+      if (flatKey in current) {
+        const v = current[flatKey]
+        if (i === path.length)
+          return v
+        // look for the rest of the path
+        return deepGet(v, path.slice(i))
       }
     }
     return undefined
   }
-
-  return obj
+  return deepGet(obj, keys)
 }
 
 // #endregion

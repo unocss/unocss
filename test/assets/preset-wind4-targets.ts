@@ -364,6 +364,13 @@ export const presetWind4Targets: string[] = [
   'object-position-$variable',
   'object-$fit',
 
+  // text-shadow
+  'text-shadow-xl',
+  'text-shadow-sky-300',
+  'text-shadow-color-sky-300',
+  'text-shadow-op-50',
+  'text-shadow-color-op-50',
+
   // variants - dark/light
   '.dark:text-xl',
   '@dark:text-xl',
@@ -406,10 +413,18 @@ export const presetWind4Targets: string[] = [
   // variants - multiple parents
   '@dark:contrast-more:p-10',
 
-  // variants - aria (theme)
+  // variants - aria
   'aria-hidden:hidden',
+  'aria-[invalid=spelling]:underline-red-600',
+  'aria-busy:text-green-600',
+  'aria-busy:aria-pressed:text-green-600',
+  'aria-busy:data-[bar]:text-green-600',
 
-  // variants - data (theme)
+  // variants - data
+  'data-[inline]:inline',
+  'data-[invalid~=grammar]:underline-green-600',
+  'data-[foo=x]:text-green-600',
+  'data-[foo=x]:data-[bar=y]:text-green-600',
   'data-dropdown:ring-green',
 
   // view-transition
