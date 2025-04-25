@@ -9,7 +9,7 @@ const strippedPrefixes = [
 
 const splitterRE = /[\s'"`;]+/g
 
-const elementRE = /<[^>\s/"'`]+\s((?:'[^']*'|"[^"]*"|`[^`]*`|\{[^}]*\}|=>|[^>"'`{])*)/g
+const elementRE = /<[^>\s/"'`{]+\s((?:'[^']*'|"[^"]*"|`[^`]*`|\{[^}]*\}|=>|[^>"'`{])*)/g
 const valuedAttributeRE = /(\?|(?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=?(?:"([^"]*)"|'([^']*)'|\{([^}]*)\})?/g
 
 export const defaultIgnoreAttributes = ['placeholder', 'fill', 'opacity', 'stroke-opacity']
