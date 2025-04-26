@@ -284,6 +284,188 @@ describe('transformerAttributifyJsx', async () => {
             />"
     `)
   })
+  // #4384
+  it('astro mdx', async () => {
+    const mdx = `function _createMdxContent(props) {
+  const _components = {
+    a: "a",
+    code: "code",
+    h1: "h1",
+    h2: "h2",
+    li: "li",
+    meta: "meta",
+    ol: "ol",
+    p: "p",
+    pre: "pre",
+    section: "section",
+    span: "span",
+    sup: "sup",
+    ...props.components
+  };
+  return _jsxs(_Fragment, {
+    children: [_jsx(_components.meta, {
+      charset: "utf-8"
+    }), _jsx(_components.h1, {
+      id: "heading",
+      children: "Heading"
+    }), "\\n", _jsx(_components.pre, {
+      class: "astro-code github-dark",
+      style: {
+        backgroundColor: "#24292e",
+        color: "#e1e4e8",
+        overflowX: "auto"
+      },
+      tabindex: "0",
+      "data-language": "html",
+      children: _jsx(_components.code, {
+        children: _jsxs(_components.span, {
+          class: "line",
+          children: [_jsx(_components.span, {
+            style: {
+              color: "#E1E4E8"
+            },
+            children: "<"
+          }), _jsx(_components.span, {
+            style: {
+              color: "#FDAEB7",
+              fontStyle: "italic"
+            },
+            children: "anything"
+          }), _jsx(_components.span, {
+            style: {
+              color: "#E1E4E8"
+            },
+            children: ">"
+          })]
+        })
+      })
+    }), "\\n", _jsx(_components.p, {
+      children: _jsx(_components.sup, {
+        children: _jsx(_components.a, {
+          href: "#user-content-fn-footnote",
+          id: "user-content-fnref-footnote",
+          "data-footnote-ref": "",
+          "aria-describedby": "footnote-label",
+          children: "1"
+        })
+      })
+    }), "\\n", _jsxs(_components.section, {
+      "data-footnotes": "",
+      class: "footnotes",
+      children: [_jsx(_components.h2, {
+        class: "sr-only",
+        id: "footnote-label",
+        children: "Footnotes"
+      }), "\\n", _jsxs(_components.ol, {
+        children: ["\\n", _jsxs(_components.li, {
+          id: "user-content-fn-footnote",
+          children: ["\\n", _jsxs(_components.p, {
+            children: ["Content ", _jsx(_components.a, {
+              href: "#user-content-fnref-footnote",
+              "data-footnote-backref": "",
+              "aria-label": "Back to reference 1",
+              class: "data-footnote-backref",
+              children: "↩"
+            })]
+          }), "\\n"]
+        }), "\\n"]
+      }), "\\n"]
+    })]
+  });
+}`
+    const code = new MagicString(mdx)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "function _createMdxContent(props) {
+        const _components = {
+          a: "a",
+          code: "code",
+          h1: "h1",
+          h2: "h2",
+          li: "li",
+          meta: "meta",
+          ol: "ol",
+          p: "p",
+          pre: "pre",
+          section: "section",
+          span: "span",
+          sup: "sup",
+          ...props.components
+        };
+        return _jsxs(_Fragment, {
+          children: [_jsx(_components.meta, {
+            charset: "utf-8"
+          }), _jsx(_components.h1, {
+            id: "heading",
+            children: "Heading"
+          }), "\\n", _jsx(_components.pre, {
+            class: "astro-code github-dark",
+            style: {
+              backgroundColor: "#24292e",
+              color: "#e1e4e8",
+              overflowX: "auto"
+            },
+            tabindex: "0",
+            "data-language": "html",
+            children: _jsx(_components.code, {
+              children: _jsxs(_components.span, {
+                class: "line",
+                children: [_jsx(_components.span, {
+                  style: {
+                    color: "#E1E4E8"
+                  },
+                  children: "<"
+                }), _jsx(_components.span, {
+                  style: {
+                    color: "#FDAEB7",
+                    fontStyle: "italic"
+                  },
+                  children: "anything"
+                }), _jsx(_components.span, {
+                  style: {
+                    color: "#E1E4E8"
+                  },
+                  children: ">"
+                })]
+              })
+            })
+          }), "\\n", _jsx(_components.p, {
+            children: _jsx(_components.sup, {
+              children: _jsx(_components.a, {
+                href: "#user-content-fn-footnote",
+                id: "user-content-fnref-footnote",
+                "data-footnote-ref": "",
+                "aria-describedby": "footnote-label",
+                children: "1"
+              })
+            })
+          }), "\\n", _jsxs(_components.section, {
+            "data-footnotes": "",
+            class: "footnotes",
+            children: [_jsx(_components.h2, {
+              class: "sr-only",
+              id: "footnote-label",
+              children: "Footnotes"
+            }), "\\n", _jsxs(_components.ol, {
+              children: ["\\n", _jsxs(_components.li, {
+                id: "user-content-fn-footnote",
+                children: ["\\n", _jsxs(_components.p, {
+                  children: ["Content ", _jsx(_components.a, {
+                    href: "#user-content-fnref-footnote",
+                    "data-footnote-backref": "",
+                    "aria-label": "Back to reference 1",
+                    class: "data-footnote-backref",
+                    children: "↩"
+                  })]
+                }), "\\n"]
+              }), "\\n"]
+            }), "\\n"]
+          })]
+        });
+      }"
+    `)
+  })
 })
 
 describe('transformerAttributifyJsxBabel', async () => {
