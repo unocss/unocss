@@ -9,7 +9,9 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({
+          preflight: { reset: false },
+        }),
       ],
     })
 
@@ -126,7 +128,12 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ themePreflight: true, reset: false }),
+        presetWind4({
+          preflight: {
+            theme: true,
+            reset: false,
+          },
+        }),
       ],
     })
 
@@ -138,7 +145,7 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({ preflight: { reset: false } }),
       ],
       theme: {
         colors: {
@@ -173,7 +180,9 @@ describe('preset-wind4', () => {
       envMode: 'dev',
       presets: [
         presetWind4({
-          reset: false,
+          preflight: {
+            reset: false,
+          },
           utilityResolver(vars, layer) {
             if (layer === 'theme') {
               const [key, value] = vars
@@ -206,7 +215,9 @@ describe('preset-wind4', () => {
       envMode: 'dev',
       presets: [
         presetWind4({
-          reset: false,
+          preflight: {
+            reset: false,
+          },
           utilityResolver: createRemToPxResolver(),
         }),
       ],
@@ -227,7 +238,9 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({
+          preflight: { reset: false },
+        }),
       ],
       theme: {
         colors: {

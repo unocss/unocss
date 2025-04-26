@@ -3,7 +3,16 @@
   "type": "module",
   "version": "66.1.0-beta.12",
   "description": "Tailwind 4 compact preset for UnoCSS",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "authors": [
+    {
+      "name": "Anthony Fu",
+      "email": "anthonyfu117@hotmail.com"
+    },
+    {
+      "name": "Chris",
+      "email": "hizyyv@gmail.com"
+    }
+  ],
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
   "homepage": "https://unocss.dev",
