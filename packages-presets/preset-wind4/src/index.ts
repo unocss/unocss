@@ -82,7 +82,7 @@ export interface PresetWind4Options extends PresetOptions {
    */
   important?: boolean | string
 
-  preflight?: {
+  preflights?: {
     /**
      * Reset the default preflight styles.
      *
@@ -118,10 +118,10 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
-  options.preflight = {
+  options.preflights = {
     reset: true,
     theme: 'on-demand',
-    ...(options.preflight ?? {}),
+    ...(options.preflights ?? {}),
   }
 
   return {

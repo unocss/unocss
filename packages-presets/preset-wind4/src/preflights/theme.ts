@@ -56,7 +56,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      if (options.preflight?.theme === false) {
+      if (options.preflights?.theme === false) {
         return undefined
       }
 
@@ -83,7 +83,7 @@ ${depCSS}
 }`, generator.config.envMode === 'dev')
       }
 
-      if (options.preflight?.theme === 'on-demand') {
+      if (options.preflights?.theme === 'on-demand') {
         if (trackedTheme.size === 0)
           return undefined
 

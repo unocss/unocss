@@ -396,7 +396,7 @@ input:where([type='button'], [type='reset'], [type='submit']),
 `
 
 export function reset(options: PresetWind4Options): Preflight<Theme> | undefined {
-  if (options.preflight?.reset === false)
+  if (options.preflights?.reset === false)
     return undefined
 
   return {
