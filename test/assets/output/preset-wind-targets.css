@@ -252,6 +252,11 @@
 .object-center-top,
 .object-ct{object-position:center top;}
 .dark .\.dark\:text-xl{font-size:1.25rem;line-height:1.75rem;}
+.aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"],
+.aria-busy\:data-\[bar\]\:text-green-600[data-bar][aria-busy="true"],
+.aria-busy\:text-green-600[aria-busy="true"],
+.data-\[foo\=x\]\:data-\[bar\=y\]\:text-green-600[data-bar=y][data-foo=x],
+.data-\[foo\=x\]\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}
 .capitalize{text-transform:capitalize;}
 .normal-case{text-transform:none;}
 .lining-nums{--un-numeric-figure:lining-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}

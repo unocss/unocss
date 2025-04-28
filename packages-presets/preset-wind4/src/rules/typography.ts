@@ -210,17 +210,28 @@ export const textStrokes: Rule<Theme>[] = [
   [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
 ]
 
+const opRE = /op(?:acity)?-/
 export const textShadows: Rule<Theme>[] = [
-  [/^text-shadow(?:-(.+))?$/, ([, s = 'DEFAULT'], { theme }) => {
-    const v = theme.textShadow?.[s]
+  [/^text-shadow(?:-(.+))?$/, (match, ctx) => {
+    const [_, s = 'DEFAULT'] = match
+    const v = ctx.theme.textShadow?.[s]
     if (v != null) {
       return {
         '--un-text-shadow': colorableShadows(v, '--un-text-shadow-color').join(','),
         'text-shadow': 'var(--un-text-shadow)',
       }
     }
-    return { 'text-shadow': h.bracket.cssvar.global(s) }
-  }, { autocomplete: 'text-shadow-$textShadow' }],
+    if (opRE.test(s))
+      return { '--un-text-shadow-opacity': h.bracket.percent.cssvar(s.replace(opRE, '')) }
+
+    return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s) }
+  }, {
+    autocomplete: [
+      'text-shadow-$textShadow',
+      'text-shadow(-color)?-$colors',
+      'text-shadow(-color)?-(op|opacity)-<percent>',
+    ],
+  }],
 
   // colors
   [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow'), { autocomplete: 'text-shadow-color-$colors' }],

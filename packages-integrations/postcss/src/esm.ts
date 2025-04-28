@@ -103,12 +103,13 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     }
 
     const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
+    const needCheckNodeMoudules = globs.some(i => i.includes('node_modules'))
     const plainContent = uno.config.content?.inline ?? []
 
     const entries = await glob(isScanTarget ? globs : [from], {
       cwd,
       absolute: true,
-      ignore: ['**/node_modules/**'],
+      ignore: needCheckNodeMoudules ? undefined : ['**/node_modules/**'],
       expandDirectories: false,
     })
 

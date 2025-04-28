@@ -187,7 +187,7 @@ The usage extracted from each source will be **merged** together.
 - **Type:** `string[]`
 - **Default:** `[]`
 
-Glob patterns to extract from the file system, in addition to other content sources.
+Glob patterns to extract from the file system, in addition to other content sources. `node_modules` are ignored by default, but unocss will scan from it when you specify the path includes `node_modules`.
 
 In dev mode, the files will be watched and trigger HMR.
 
