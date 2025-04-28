@@ -1,17 +1,11 @@
 :root {
   --header-height: 4.5rem;
 }
-
-html {
-}
 #app :is(html) {
   --un-bg-opacity: 1;
   background-color: rgb(242 242 242 / var(--un-bg-opacity));
   --un-text-opacity: 1;
   color: rgb(64 64 64 / var(--un-text-opacity));
-}
-
-html.dark {
 }
 #app :is(html.dark) {
   --un-bg-opacity: 1;
@@ -43,9 +37,6 @@ html.dark {
   background-color: rgb(168 85 247 / var(--un-bg-opacity));
   --un-bg-opacity: 0.75;
 }
-
-.hover-transform {
-}
 #app :is(.hover-transform:hover) {
   --un-translate-y: -1px;
   transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
@@ -70,9 +61,6 @@ html.dark {
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.basic-transition {
-}
 #app :is(.basic-transition) {
   transition-property: color, background-color, border-color,
     text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
@@ -85,9 +73,6 @@ html.dark {
 
 .cursor-pen {
   cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
-}
-
-.select-dark {
 }
 #app :is(.select-dark) {
   display: block;
@@ -126,9 +111,6 @@ html.dark {
 #app :is(.select-dark:focus) {
   --un-ring-opacity: 1;
 }
-
-.icon-btn {
-}
 #app :is(.icon-btn) {
   display: inline-block;
   cursor: pointer;
@@ -147,9 +129,6 @@ html.dark {
 }
 #app :is(.icon-btn:hover) {
   opacity: 1;
-}
-
-.d-header {
 }
 #app :is(.d-header) {
   position: sticky;
@@ -190,9 +169,6 @@ html.dark {
     background-color: rgb(45 45 45 / var(--un-bg-opacity));
   }
 }
-
-.d-container {
-}
 #app :is(.d-container) {
   margin-left: auto;
   margin-right: auto;
@@ -207,9 +183,6 @@ html.dark {
     padding-right: 1.5rem;
     padding-top: 3rem;
   }
-}
-
-input {
 }
 #app :is(input) {
   border-radius: 0.25rem;
@@ -231,9 +204,6 @@ input {
     var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow);
-}
-
-.btn {
 }
 #app :is(.btn:disabled) {
   cursor: not-allowed;

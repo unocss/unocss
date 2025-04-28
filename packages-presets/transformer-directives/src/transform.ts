@@ -68,4 +68,10 @@ export async function transformDirectives(
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
+  const oldCode = code.toString()
+  if (!oldCode.includes('@apply') && !applyVariable.some(s => oldCode.includes(s))) {
+    const newCode = oldCode.replace(/[^{}]*\{\s*\}\s*/g, '')
+    if (newCode !== oldCode)
+      code.update(0, code.original.length, newCode)
+  }
 }
