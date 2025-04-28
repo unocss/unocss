@@ -88,9 +88,7 @@ describe('transformer-directives', async () => {
     )
     await expect(result)
       .toMatchInlineSnapshot(`
-        "body {
-        }
-        @media (min-width: 640px) {
+        "@media (min-width: 640px) {
           @media (min-width: 1024px) {
             @media (min-width: 768px) {
               @media (min-width: 320px) {
