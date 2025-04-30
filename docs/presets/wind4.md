@@ -146,13 +146,13 @@ In PresetWind4, we've upgraded the `postProcess` hook to provide a more concise 
 For example, if you want to use the `presetRemToPx` preset to convert `rem` to `px`, you no longer need to import this preset separately as `presetWind4` provides this functionality internally.
 
 ```ts twoslash [uno.config.ts]
-import { createRemToPxResolver } from '@unocss/preset-wind4/utils' // [!code focus]
+import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code focus]
 import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetWind4({
-      utilityResolver: createRemToPxResolver() // [!code focus]
+      utilityResolver: createRemToPxProcessor() // [!code focus]
     }),
   ],
 })

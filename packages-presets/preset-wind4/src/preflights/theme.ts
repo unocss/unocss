@@ -1,5 +1,5 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
-import type { PresetWind4Options } from '..'
+import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
@@ -56,17 +56,17 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      if (options.preflights?.theme === false) {
+      const preflightsTheme = options.preflights!.theme as PreflightsTheme
+      if (preflightsTheme.mode === false) {
         return undefined
       }
 
       let deps
       const generateCSS = (deps: CSSEntry[]) => {
-        if (options.utilityResolver) {
-          const resolver = toArray(options.utilityResolver)
+        if (preflightsTheme.process) {
           for (const utility of deps) {
-            for (const r of resolver) {
-              r(utility, 'theme', ctx)
+            for (const process of toArray(preflightsTheme.process)) {
+              process(utility, ctx)
             }
           }
         }
@@ -83,7 +83,7 @@ ${depCSS}
 }`, generator.config.envMode === 'dev')
       }
 
-      if (options.preflights?.theme === 'on-demand') {
+      if (preflightsTheme.mode === 'on-demand') {
         if (trackedTheme.size === 0)
           return undefined
 
