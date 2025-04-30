@@ -1,4 +1,4 @@
-import type { Arrayable, BaseContext, CSSEntry, PresetOptions } from '@unocss/core'
+import type { Arrayable, CSSEntry, PreflightContext, PresetOptions } from '@unocss/core'
 import type { Theme } from './theme'
 import { definePreset } from '@unocss/core'
 import { extractorArbitraryVariants } from '@unocss/extractor-arbitrary-variants'
@@ -29,6 +29,26 @@ export interface DarkModeSelectors {
    * @default '.dark'
    */
   dark?: string
+}
+
+export interface PreflightsTheme {
+  /**
+   * Generate theme keys as CSS variables.
+   *
+   * - `true`: Generate theme keys fully.
+   * - `false`: Disable theme keys. (Not recommended ⚠️)
+   * - `'on-demand'`: Generate theme keys only when used.
+   *
+   * @default 'on-demand'
+   */
+  mode?: boolean | 'on-demand'
+
+  /**
+   * Process the theme keys.
+   *
+   * @default undefined
+   */
+  process?: Arrayable<(entry: CSSEntry, ctx: PreflightContext<Theme>) => void>
 }
 
 export interface PresetWind4Options extends PresetOptions {
@@ -83,32 +103,26 @@ export interface PresetWind4Options extends PresetOptions {
   important?: boolean | string
 
   /**
-   * Reset the default preflight styles.
-   *
-   * @default true
+   * Control the preflight styles.
    */
-  reset?: boolean
+  preflights?: {
+    /**
+     * Reset the default preflight styles.
+     *
+     * @default true
+     */
+    reset?: boolean
 
-  /**
-   * Generate theme keys as CSS variables.
-   *
-   * - `true`: Generate theme keys fully.
-   * - `false`: Disable theme keys. (Not recommended ⚠️)
-   * - `'on-demand'`: Generate theme keys only when used.
-   *
-   * @default 'on-demand'
-   */
-  themePreflight?: boolean | 'on-demand'
-
-  /**
-   * Resolve the layer utilits with custom logic.
-   *
-   * @param utility [key, value] {@link CSSEntry}
-   * @param layer Layer name
-   * @param ctx base generator context {@link BaseContext<Theme>}
-   * @returns
-   */
-  utilityResolver?: Arrayable<(utility: CSSEntry, layer: string, ctx: BaseContext<Theme>) => void>
+    /**
+     * Theme configuration for preflight styles.
+     *
+     * This can either be a specific mode from `PreflightsTheme['mode']` or a full `PreflightsTheme` object.
+     *
+     * The theme defines the base styles applied to elements and can be customized
+     * to match the design system or requirements of your project.
+     */
+    theme?: PreflightsTheme['mode'] | PreflightsTheme
+  }
 }
 
 export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}) => {
@@ -116,7 +130,15 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
-  options.themePreflight = options.themePreflight ?? 'on-demand'
+
+  const preflightsTheme = (typeof options.preflights?.theme === 'boolean' || typeof options.preflights?.theme === 'string')
+    ? { mode: options.preflights.theme ?? 'on-demand' }
+    : { mode: options.preflights?.theme?.mode ?? 'on-demand', ...options.preflights?.theme }
+
+  options.preflights = {
+    reset: options.preflights?.reset ?? true,
+    theme: preflightsTheme,
+  }
 
   return {
     name: PRESET_NAME,
@@ -138,9 +160,6 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
       shorthands,
     },
     options,
-    meta: {
-      themeDeps: trackedTheme,
-    },
     configResolved() {
       trackedTheme.clear()
     },
