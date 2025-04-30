@@ -183,7 +183,7 @@ export default defineConfig({
     presetWind4({
       preflights: { // [!code focus]
         theme: { // [!code focus]
-          mode: 'on-demand', // 默认 'on-demand' // [!code focus]
+          mode: 'on-demand', // Default by 'on-demand' // [!code focus]
           process: createRemToPxProcessor(), // [!code focus]
         } // [!code focus]
       }, // [!code focus]
