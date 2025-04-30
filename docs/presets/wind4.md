@@ -114,7 +114,11 @@ export const defaults: Theme['defaults'] = {
 
 PresetWind4's basic configuration is similar to [PresetWind3](/presets/wind3#options), with the following important changes.
 
-### Reset Styles
+### Preflights
+
+We have added the `preflights` configuration option in `PresetWind4` to control whether to enable preset styles.
+
+#### Reset
 
 In PresetWind4, we align the reset styles with tailwind4 and integrate them internally. You don't need to install any additional CSS reset package like `@unocss/reset` or `normalize.css`.
 
@@ -132,18 +136,43 @@ import { defineConfig } from 'unocss'
 export default defineConfig({
   presets: [
     presetWind4({
-      reset: true, // [!code focus]
-      // ^?
+      preflights: { // [!code focus]
+        reset: true, // [!code focus]
+      } // [!code focus]
     }),
   ],
 })
 ```
 
-### Utility Resolver
+#### Theme
 
-In PresetWind4, we've upgraded the `postProcess` hook to provide a more concise API. You can now directly customize `utilities` in the preset.
+Choose how to generate theme CSS variables.
 
-For example, if you want to use the `presetRemToPx` preset to convert `rem` to `px`, you no longer need to import this preset separately as `presetWind4` provides this functionality internally.
+##### Mode
+
+The UnoCSS engine with `presetWind4` installed will automatically collect dependencies on the theme when parsing utilities and generate CSS variables at the end.
+
+- `true`: Generate theme keys fully.
+- `false`: Disable theme keys. (Not recommended ⚠️)
+- `'on-demand'`: Generate theme keys only when used. -> ✅ **(By default)**
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: { // [!code focus]
+        theme: true, // [!code focus]
+      }, // [!code focus]
+    }),
+  ],
+})
+```
+
+##### Process
+
+And you can further control the output of your theme variables. For example, if you want to convert `rem` to `px` for theme variables, we provide the `createRemToPxProcessor` function to process your theme variables.
 
 ```ts twoslash [uno.config.ts]
 import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code focus]
@@ -152,25 +181,36 @@ import { defineConfig, presetWind4 } from 'unocss'
 export default defineConfig({
   presets: [
     presetWind4({
-      utilityResolver: createRemToPxProcessor() // [!code focus]
+      preflights: { // [!code focus]
+        theme: { // [!code focus]
+          mode: 'on-demand', // 默认 'on-demand' // [!code focus]
+          process: createRemToPxProcessor(), // [!code focus]
+        } // [!code focus]
+      }, // [!code focus]
     }),
   ],
 })
 ```
 
-You can customize more resolver sets to process `utilities` and output the CSS you want.
+By the way, if you want to use the `presetRemToPx` preset to convert `rem` to `px`, you no longer need to import this preset separately as `presetWind4` provides this functionality internally.
 
-For specific implementation methods, please refer to `postProcess` or the [presetWind4 test case](https://github.com/unocss/unocss/blob/60c15bb78d96704a4532e2bf502efa16125fdceb/test/preset-wind4.test.ts#L178-L232)
+```ts twoslash [uno.config.ts]
+import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code focus]
+import { defineConfig, presetWind4 } from 'unocss'
 
-### Theme Preflight
-
-Choose how to generate theme CSS variables.
-
-The UnoCSS engine with `presetWind4` installed will automatically collect dependencies on the theme when parsing utilities and generate CSS variables at the end.
-
-- `true`: Generate theme keys fully.
-- `false`: Disable theme keys. (Not recommended ⚠️)
-- `'on-demand'`: Generate theme keys only when used. -> ✅ **(By default)**
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: { // [!code focus]
+        theme: { // [!code focus]
+          process: createRemToPxProcessor(), // [!code focus]
+        } // [!code focus]
+      }, // [!code focus]
+    }),
+  ],
+  postprocess: [createRemToPxProcessor()], // [!code focus]
+})
+```
 
 ## Generated CSS
 
@@ -200,6 +240,11 @@ For example, commonly used utilities like `text-op-xx`, `bg-op-xx`, and so on.
 We've placed theme-related CSS variables in the `theme` layer to make it easier for you to override and use directly.
 It can be comprehensive or on-demand. It always comes from your theme configuration.
 
+::: info
+The generated key names may not be exactly the same as `Tailwind4`. We try to avoid making significant changes to the key names in the theme to respect users migrating from `presetWind3`.
+You can also customize the output you want in the [Preflights Theme Process](#process).
+:::
+
 ```css
 :root,
 :host {
@@ -217,6 +262,12 @@ It can be comprehensive or on-demand. It always comes from your theme configurat
 ## Compatibility with Other Presets
 
 `PresetWind4` enhances and is compatible with `PresetWind3`. Since other packages were originally developed for `PresetWind3`, some issues may arise when using them together. Known issues include:
+
+### presetRemToPx
+
+`presetRemToPx` is no longer needed in `PresetWind4` as it is already included internally. You can remove it from your configuration.
+
+Refer to the [`process`](#process) option in Options.
 
 ### presetWebFonts
 
@@ -250,5 +301,4 @@ Please refer to the [Compatibility](#compatibility) section for more information
 ::: warning
 
 - When using `@apply` to process rules that have `@property`, conflicts may occur between different layer levels.
-
-:::
+  :::
