@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:^",
-    "magic-string": "catalog:"
+    "magic-string": "catalog:",
+    "pathe": "catalog:"
   }
 }
