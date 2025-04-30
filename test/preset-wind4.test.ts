@@ -1,6 +1,6 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind4 from '@unocss/preset-wind4'
-import { createRemToPxResolver } from '@unocss/preset-wind4/utils'
+import { createRemToPxProcessor } from '@unocss/preset-wind4/utils'
 import { describe, expect, it } from 'vitest'
 import { presetWind4Targets } from './assets/preset-wind4-targets'
 
@@ -9,7 +9,9 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({
+          preflights: { reset: false },
+        }),
       ],
     })
 
@@ -126,7 +128,12 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ themePreflight: true, reset: false }),
+        presetWind4({
+          preflights: {
+            theme: true,
+            reset: false,
+          },
+        }),
       ],
     })
 
@@ -138,7 +145,7 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({ preflights: { reset: false } }),
       ],
       theme: {
         colors: {
@@ -173,17 +180,19 @@ describe('preset-wind4', () => {
       envMode: 'dev',
       presets: [
         presetWind4({
-          reset: false,
-          utilityResolver(vars, layer) {
-            if (layer === 'theme') {
-              const [key, value] = vars
-              if (key.includes('colors')) {
-                vars[0] = key.replace('colors', 'ui')
-              }
-              if ((value as string).includes('rem')) {
-                vars[1] = (value as string).replace('rem', 'px')
-              }
-            }
+          preflights: {
+            reset: false,
+            theme: {
+              process: [
+                (entry) => {
+                  const [key] = entry
+                  if (key.includes('colors')) {
+                    entry[0] = key.replace('colors', 'ui')
+                  }
+                },
+                createRemToPxProcessor(),
+              ],
+            },
           },
         }),
       ],
@@ -195,21 +204,26 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing: 0.25px;
+      --spacing: 4px;
       --ui-red-DEFAULT: oklch(0.704 0.191 22.216);
       }"
     `)
   })
 
-  it('unitResolver', async () => {
+  it('unit resolve rem to px', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
         presetWind4({
-          reset: false,
-          utilityResolver: createRemToPxResolver(),
+          preflights: {
+            reset: false,
+            theme: {
+              process: createRemToPxProcessor(),
+            },
+          },
         }),
       ],
+      postprocess: [createRemToPxProcessor()],
     })
     const { css } = await uno.generate('p-4 m-5rem')
     expect(css).toMatchInlineSnapshot(`
@@ -227,7 +241,9 @@ describe('preset-wind4', () => {
     const uno = await createGenerator({
       envMode: 'dev',
       presets: [
-        presetWind4({ reset: false }),
+        presetWind4({
+          preflights: { reset: false },
+        }),
       ],
       theme: {
         colors: {

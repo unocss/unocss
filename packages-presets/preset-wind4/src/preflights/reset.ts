@@ -4,6 +4,11 @@ import type { Theme } from '../theme'
 import { LAYER_PREFLIGHTS } from '@unocss/core'
 import { compressCSS, themeTracking } from '../utils'
 
+/*
+ * Credits to Tailwind Labs for the original implementation:
+ * https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/preflight.css
+ * License: MIT
+ */
 const resetCSS = `
 /*
   1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -391,7 +396,7 @@ input:where([type='button'], [type='reset'], [type='submit']),
 `
 
 export function reset(options: PresetWind4Options): Preflight<Theme> | undefined {
-  if (options.reset === false)
+  if (options.preflights?.reset === false)
     return undefined
 
   return {

@@ -1,9 +1,9 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
-import type { PresetWind4Options } from '..'
+import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, getThemeByKey, PRESET_NAME } from '../utils'
+import { compressCSS, getThemeByKey, trackedTheme } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -56,17 +56,17 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      if (options.themePreflight === false) {
+      const preflightsTheme = options.preflights!.theme as PreflightsTheme
+      if (preflightsTheme.mode === false) {
         return undefined
       }
 
       let deps
       const generateCSS = (deps: CSSEntry[]) => {
-        if (options.utilityResolver) {
-          const resolver = toArray(options.utilityResolver)
+        if (preflightsTheme.process) {
           for (const utility of deps) {
-            for (const r of resolver) {
-              r(utility, 'theme', ctx)
+            for (const process of toArray(preflightsTheme.process)) {
+              process(utility, ctx)
             }
           }
         }
@@ -83,12 +83,11 @@ ${depCSS}
 }`, generator.config.envMode === 'dev')
       }
 
-      if (options.themePreflight === 'on-demand') {
-        const self = generator.config.presets.find(p => p.name === PRESET_NAME)
-        if (!self || (self.meta!.themeDeps as Set<string>).size === 0)
+      if (preflightsTheme.mode === 'on-demand') {
+        if (trackedTheme.size === 0)
           return undefined
 
-        deps = Array.from(self.meta!.themeDeps as Set<string>).map((k) => {
+        deps = Array.from(trackedTheme).map((k) => {
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 
