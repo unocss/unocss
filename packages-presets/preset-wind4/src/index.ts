@@ -163,6 +163,9 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     configResolved() {
       trackedTheme.clear()
     },
+    meta: {
+      themeDeps: trackedTheme,
+    },
   }
 })
 
