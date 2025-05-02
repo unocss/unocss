@@ -26,8 +26,10 @@ export async function transformDirectives(
   }
   applyVariable = toArray(applyVariable || [])
 
+  const isHasApply = (code: string) => code.includes('@apply') || applyVariable.some(s => code.includes(s))
+
   const parseCode = originalCode || code.original
-  const hasApply = parseCode.includes('@apply') || applyVariable.some(s => parseCode.includes(s))
+  const hasApply = isHasApply(parseCode)
   const hasScreen = parseCode.includes('@screen')
   const hasFn = hasThemeFn(parseCode) || hasIconFn(parseCode)
 
@@ -68,4 +70,12 @@ export async function transformDirectives(
   walk(ast, (...args) => stack.push(processNode(...args)))
 
   await Promise.all(stack)
+
+  // Remove empty blocks
+  const oldCode = code.toString()
+  if (!isHasApply(oldCode)) {
+    const newCode = oldCode.replace(/[^{}]*\{\s*\}\s*/g, '')
+    if (newCode !== oldCode)
+      code.update(0, code.original.length, newCode)
+  }
 }

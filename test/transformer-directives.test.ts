@@ -88,9 +88,7 @@ describe('transformer-directives', async () => {
     )
     await expect(result)
       .toMatchInlineSnapshot(`
-        "body {
-        }
-        @media (min-width: 640px) {
+        "@media (min-width: 640px) {
           @media (min-width: 1024px) {
             @media (min-width: 768px) {
               @media (min-width: 320px) {
@@ -147,9 +145,7 @@ describe('transformer-directives', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        @media (min-width: 640px) {
+        "@media (min-width: 640px) {
           .btn:hover {
             --un-bg-opacity: 1;
             background-color: rgb(255 255 255 / var(--un-bg-opacity));
@@ -665,9 +661,7 @@ div {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        .btn:hover,
+        ".btn:hover,
         .btn:focus {
           --un-bg-opacity: 1;
           background-color: rgb(251 146 60 / var(--un-bg-opacity));
@@ -759,7 +753,6 @@ describe('transformer-directives with important', async () => {
     })
   }
 
-  // todo: remove empty class and merge same class
   it('basic', async () => {
     const result = await transform(
       `.btn {
@@ -770,9 +763,7 @@ describe('transformer-directives with important', async () => {
 
     await expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
             "Liberation Mono", "Courier New", monospace;
         }
@@ -807,9 +798,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn:focus) {
+        "#app :is(.btn:focus) {
           border-width: 1px;
         }
         #app :is(.btn:hover) {
@@ -829,9 +818,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        @media (min-width: 640px) {
+        "@media (min-width: 640px) {
           #app :is(.btn:hover) {
             --un-bg-opacity: 1;
             background-color: rgb(255 255 255 / var(--un-bg-opacity));
@@ -847,9 +834,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        "input {
-        }
-        #app :is(input:focus) {
+        "#app :is(input:focus) {
           border-width: 1px;
         }
         #app :is(input) {
@@ -866,10 +851,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn,
-        .box {
-        }
-        #app :is(.btn, .box:focus),
+        "#app :is(.btn, .box:focus),
         #app :is(.btn, .box:focus) {
           border-width: 1px;
         }
@@ -888,9 +870,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn.box {
-        }
-        #app :is(.btn.box:focus) {
+        "#app :is(.btn.box:focus) {
           border-width: 1px;
         }
         #app :is(.btn.box) {
@@ -912,9 +892,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           padding: 0.75rem;
         }
         #app :is(.btn:hover) {
@@ -946,9 +924,7 @@ describe('transformer-directives with important', async () => {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           --un-bg-opacity: 1;
           background-color: rgb(255 255 255 / var(--un-bg-opacity));
         }
@@ -986,13 +962,9 @@ describe('transformer-directives with important', async () => {
       .toMatchInlineSnapshot(`
         "nav {
           ul {
-            li {
-            }
             #app :is(li) {
               border-width: 1px;
             }
-          }
-          a {
           }
           #app :is(a) {
             padding-left: 0.5rem;
@@ -1271,9 +1243,7 @@ div {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           border-right-color: var(--theme-color);
         }
         "
@@ -1286,9 +1256,7 @@ div {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           border-radius: 0.25rem;
           font-size: 1.125rem;
           line-height: 1.75rem;
@@ -1305,10 +1273,17 @@ div {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn) {
+        "#app :is(.btn) {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
         }
         @keyframes pulse {
           0%,
@@ -1329,9 +1304,7 @@ div {
     )
     expect(result)
       .toMatchInlineSnapshot(`
-        ".btn {
-        }
-        #app :is(.btn:hover, .btn:focus) {
+        "#app :is(.btn:hover, .btn:focus) {
           --un-bg-opacity: 1;
           background-color: rgb(251 146 60 / var(--un-bg-opacity));
         }

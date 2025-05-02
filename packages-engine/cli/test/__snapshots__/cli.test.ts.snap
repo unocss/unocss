@@ -23,7 +23,7 @@ exports[`cli > should correctly deduplicate files of different types containing 
 }"
 `;
 
-exports[`cli > should correctly deduplicate files of different types containing @media 2`] = `".box {  }@media (min-width: 640px){.box{padding:0.5rem;}}"`;
+exports[`cli > should correctly deduplicate files of different types containing @media 2`] = `"@media (min-width: 640px){.box{padding:0.5rem;}}"`;
 
 exports[`cli > supports directives transformer 1`] = `""`;
 
