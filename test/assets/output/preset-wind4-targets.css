@@ -196,7 +196,7 @@
 .text-\[color\:var\(--color-x\)\]\:\[trick\]{--un-text-opacity:trick;color:color-mix(in oklch, var(--color-x) var(--un-text-opacity), transparent) /* var(--color-x) */;}
 .text-\[color\:var\(--color\)\],
 .text-\[var\(--color\)\]{color:color-mix(in oklch, var(--color) var(--un-text-opacity), transparent) /* var(--color) */;}
-.text-\[theme\(spacing\.sm\)\]{color:color-mix(in oklch, calc(var(--spacing) * 3.5) var(--un-text-opacity), transparent) /* calc(var(--spacing) * 3.5) */;}
+.text-\[theme\(spacing\.sm\)\]{color:color-mix(in oklch, 0.875rem var(--un-text-opacity), transparent) /* 0.875rem */;}
 .text-black\/10{--un-text-opacity:10%;color:color-mix(in oklch, var(--colors-black) var(--un-text-opacity), transparent) /* #000 */;}
 .aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"],
 .aria-busy\:data-\[bar\]\:text-green-600[data-bar][aria-busy="true"],
@@ -610,7 +610,7 @@
 .border-block-style-double{--un-border-style:double;border-block-start-style:double;border-block-end-style:double;}
 .border-ie-unset{--un-border-style:unset;border-inline-end-style:unset;}
 .border-is-style-double{--un-border-style:double;border-inline-start-style:double;}
-.bg-\[--css-spacing\,theme\(spacing\.sm\)\]{background-color:color-mix(in oklch, var(--css-spacing,calc(var(--spacing) * 3.5)) var(--un-bg-opacity), transparent) /* var(--css-spacing,calc(var(--spacing) * 3.5)) */;}
+.bg-\[--css-spacing\,theme\(spacing\.sm\)\]{background-color:color-mix(in oklch, var(--css-spacing,0.875rem) var(--un-bg-opacity), transparent) /* var(--css-spacing,0.875rem) */;}
 .bg-\[--test-variable\],
 .bg-\$test-variable{background-color:color-mix(in oklch, var(--test-variable) var(--un-bg-opacity), transparent) /* var(--test-variable) */;}
 .bg-\[\#153\]\/10{--un-bg-opacity:10%;background-color:color-mix(in oklch, #153 var(--un-bg-opacity), transparent) /* #153 */;}
@@ -1107,7 +1107,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .object-\$fit{object-fit:var(--fit);}
 .object-position-\$variable{object-position:var(--variable);}
 .ws-\$variable{white-space:var(--variable);}
-.\[--css-spacing\:theme\(spacing\.sm\)\]{--css-spacing:calc(var(--spacing) * 3.5);}
+.\[--css-spacing\:theme\(spacing\.sm\)\]{--css-spacing:0.875rem;}
 .\[--css-variable-color\:theme\(colors\.green\.500\)\,theme\(colors\.blue\.500\)\]{--css-variable-color:oklch(0.723 0.219 149.579),oklch(0.623 0.214 259.815);}
 .\[--css-variable-color\:theme\(colors\.red\.500\)\]{--css-variable-color:oklch(0.637 0.237 25.331);}
 .\[--css-variable-color\:theme\(colors\.red\.500\/50\%\)\]{--css-variable-color:oklch(0.637 0.237 25.331 / 50%);}
@@ -1127,7 +1127,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\[font-feature-settings\:\'cv02\'\,\'cv03\'\,\'cv04\'\,\'cv11\'\]{font-feature-settings:'cv02','cv03','cv04','cv11';}
 .\[font-variation-settings\:\"wght\"_400\,_\"opsz\"_14\]{font-variation-settings:"wght" 400, "opsz" 14;}
 .\[margin\:logical_1rem_2rem_3rem\]{margin:logical 1rem 2rem 3rem;}
-.\[padding\:theme\(spacing\.xl\)\]{padding:calc(var(--spacing) * 5);}
+.\[padding\:theme\(spacing\.xl\)\]{padding:1.25rem;}
 .content-center{align-content:center;}
 .content-start{align-content:flex-start;}
 .content-inherit{align-content:inherit;}
