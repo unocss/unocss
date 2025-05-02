@@ -2,18 +2,18 @@ import type { Theme } from './types'
 
 export const spacing = {
   'DEFAULT': '0.25rem',
-  'xs': 'calc(var(--spacing) * 3)',
-  'sm': 'calc(var(--spacing) * 3.5)',
-  'lg': 'calc(var(--spacing) * 4.5)',
-  'xl': 'calc(var(--spacing) * 5)',
-  '2xl': 'calc(var(--spacing) * 6)',
-  '3xl': 'calc(var(--spacing) * 7.5)',
-  '4xl': 'calc(var(--spacing) * 9)',
-  '5xl': 'calc(var(--spacing) * 12)',
-  '6xl': 'calc(var(--spacing) * 15)',
-  '7xl': 'calc(var(--spacing) * 18)',
-  '8xl': 'calc(var(--spacing) * 24)',
-  '9xl': 'calc(var(--spacing) * 32)',
+  'xs': '0.75rem',
+  'sm': '0.875rem',
+  'lg': '1.125rem',
+  'xl': '1.25rem',
+  '2xl': '1.5rem',
+  '3xl': '1.875rem',
+  '4xl': '2.25rem',
+  '5xl': '3rem',
+  '6xl': '3.75rem',
+  '7xl': '4.5rem',
+  '8xl': '6rem',
+  '9xl': '8rem',
 } satisfies Theme['spacing']
 
 export const radius = {

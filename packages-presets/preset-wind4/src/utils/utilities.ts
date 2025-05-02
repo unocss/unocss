@@ -31,44 +31,68 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
  * @see {@link directionMap}
  */
 export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
-  const spaceMap = {
-    'xs': 0.75 / 0.25,
-    'sm': 0.875 / 0.25,
-    'lg': 1.125 / 0.25,
-    'xl': 1.25 / 0.25,
-    '2xl': 1.5 / 0.25,
-    '3xl': 1.875 / 0.25,
-    '4xl': 2.25 / 0.25,
-    '5xl': 3 / 0.25,
-    '6xl': 3.75 / 0.25,
-    '7xl': 4.5 / 0.25,
-    '8xl': 6 / 0.25,
-    '9xl': 8 / 0.25,
+  function parseNumberWithUnit(str: string): [number | undefined, string | undefined] {
+    const match = str.match(numberWithUnitRE)
+    if (match) {
+      const [, n, unit] = match
+      const num = Number.parseFloat(n)
+      if (!Number.isNaN(num))
+        return [num, unit]
+    }
+    return [undefined, undefined]
   }
 
-  return (([_, direction, size]: string[]): CSSEntries | undefined => {
+  function resovleSpace(theme: Theme) {
+    let base: number | undefined
+    let unit: string | undefined
+
+    if (theme.spacing?.DEFAULT) {
+      const [v, u] = parseNumberWithUnit(theme.spacing.DEFAULT)
+      if (v != null && u != null) {
+        base = v
+        unit = u
+      }
+    }
+
+    return Object.entries(theme.spacing ?? {}).reduce((acc, [key, value]) => {
+      const [v, u] = parseNumberWithUnit(value)
+
+      if (v != null && u != null && u === unit) {
+        acc[key] = v / base!
+      }
+      else {
+        acc[key] = value
+      }
+
+      return acc
+    }, {} as Record<string, number | string>)
+  }
+
+  return (([_, direction, size]: string[], { theme }): CSSEntries | undefined => {
+    const spaceMap = resovleSpace(theme)
     let v: string | number | undefined
+
+    const isNegative = size?.startsWith('-')
+    if (isNegative)
+      size = size.slice(1)
 
     v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
 
     if (v != null) {
-      themeTracking('spacing')
-      return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${v})`])
+      if (!Number.isNaN(v)) {
+        themeTracking('spacing')
+        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
+      }
+      else {
+        themeTracking('spacing', size)
+        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, isNegative ? `calc(var(--spacing-${size} * -1)` : `var(--spacing-${size})`])
+      }
     }
 
-    v = h.bracket.cssvar.global.auto.fraction.rem(size)
+    v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
 
     if (v != null) {
       return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
-    }
-
-    if (size?.startsWith('-')) {
-      const _v = spaceMap[size.slice(1) as keyof typeof spaceMap]
-      if (_v != null) {
-        themeTracking('spacing')
-        v = `calc(var(--spacing) * -${_v})`
-        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
-      }
     }
   }) as DynamicMatcher<Theme>
 }
