@@ -552,19 +552,19 @@
 .border-red100{border-color:color-mix(in oklch, var(--colors-red-100) var(--un-border-opacity), transparent) /* oklch(0.936 0.032 17.717) */;}
 .border-red-200\/10{border-color:color-mix(in oklch, var(--colors-red-200) 10%, transparent) /* oklch(0.885 0.062 18.334) */;}
 .border-red-300\/20{border-color:color-mix(in oklch, var(--colors-red-300) 20%, transparent) /* oklch(0.808 0.114 19.571) */;}
-.border-x-\[rgb\(1\,2\,3\)\]\/\[0\.5\]{border-inline-color:color-mix(in oklch, rgb(1,2,3) 0.5, transparent) /* rgb(1,2,3) */;--un-border-inline-opacity:var(--un-border-opacity);}
-.border-x-\[rgb\(4_5_6\)\]\/\[0\.5\]{border-inline-color:color-mix(in oklch, rgb(4 5 6) 0.5, transparent) /* rgb(4 5 6) */;--un-border-inline-opacity:var(--un-border-opacity);}
+.border-x-\[rgb\(1\,2\,3\)\]\/\[0\.5\]{border-inline-color:color-mix(in oklch, rgb(1,2,3) 0.5, transparent) /* rgb(1,2,3) */;}
+.border-x-\[rgb\(4_5_6\)\]\/\[0\.5\]{border-inline-color:color-mix(in oklch, rgb(4 5 6) 0.5, transparent) /* rgb(4 5 6) */;}
 .border-x-\$color{--un-border-inline-opacity:var(--un-border-opacity);border-inline-color:color-mix(in oklch, var(--color) var(--un-border-inline-opacity), transparent) /* var(--color) */;}
 .border-y-red{--un-border-block-opacity:var(--un-border-opacity);border-block-color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-border-block-opacity), transparent) /* oklch(0.704 0.191 22.216) */;}
 .border-b-blue{--un-border-bottom-opacity:var(--un-border-opacity);border-bottom-color:color-mix(in oklch, var(--colors-blue-DEFAULT) var(--un-border-bottom-opacity), transparent) /* oklch(0.707 0.165 254.624) */;}
-.border-e-red-200\/10{border-inline-end-color:color-mix(in oklch, var(--colors-red-200) 10%, transparent) /* oklch(0.885 0.062 18.334) */;--un-border-inline-end-opacity:var(--un-border-opacity);}
-.border-e-red-300\/\[20\]{border-inline-end-color:color-mix(in oklch, var(--colors-red-300) 20, transparent) /* oklch(0.808 0.114 19.571) */;--un-border-inline-end-opacity:var(--un-border-opacity);}
+.border-e-red-200\/10{border-inline-end-color:color-mix(in oklch, var(--colors-red-200) 10%, transparent) /* oklch(0.885 0.062 18.334) */;}
+.border-e-red-300\/\[20\]{border-inline-end-color:color-mix(in oklch, var(--colors-red-300) 20, transparent) /* oklch(0.808 0.114 19.571) */;}
 .border-e-red-400{--un-border-inline-end-opacity:var(--un-border-opacity);border-inline-end-color:color-mix(in oklch, var(--colors-red-400) var(--un-border-inline-end-opacity), transparent) /* oklch(0.704 0.191 22.216) */;}
 .border-s-green-500{--un-border-inline-start-opacity:var(--un-border-opacity);border-inline-start-color:color-mix(in oklch, var(--colors-green-500) var(--un-border-inline-start-opacity), transparent) /* oklch(0.723 0.219 149.579) */;}
 .border-s-red-100{--un-border-inline-start-opacity:var(--un-border-opacity);border-inline-start-color:color-mix(in oklch, var(--colors-red-100) var(--un-border-inline-start-opacity), transparent) /* oklch(0.936 0.032 17.717) */;}
 .border-t-\[\#124\]{--un-border-top-opacity:var(--un-border-opacity);border-top-color:color-mix(in oklch, #124 var(--un-border-top-opacity), transparent) /* #124 */;}
 .border-t-\$color{--un-border-top-opacity:var(--un-border-opacity);border-top-color:color-mix(in oklch, var(--color) var(--un-border-top-opacity), transparent) /* var(--color) */;}
-.border-t-black\/10{border-top-color:color-mix(in oklch, var(--colors-black) 10%, transparent) /* #000 */;--un-border-top-opacity:var(--un-border-opacity);}
+.border-t-black\/10{border-top-color:color-mix(in oklch, var(--colors-black) 10%, transparent) /* #000 */;}
 .border-opacity-\$opacity-variable{--un-border-opacity:var(--opacity-variable);}
 .border-opacity-20{--un-border-opacity:20%;}
 .border-y-op-30{--un-border-block-opacity:30%;}

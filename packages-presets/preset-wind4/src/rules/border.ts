@@ -58,6 +58,7 @@ function borderColorResolver(direction: string) {
       const css = result[0]
       if (
         data?.color && !Object.values(SpecialColorKey).includes(data.color)
+        && !data.alpha
         && direction && direction !== ''
       ) {
         css[`--un-border${direction}-opacity`] = `var(--un-border-opacity)`
