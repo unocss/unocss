@@ -52,12 +52,13 @@ export const borders: Rule<Theme>[] = [
 function borderColorResolver(direction: string) {
   return ([, body]: string[], ctx: RuleContext<Theme>): [CSSObject, ...CSSValueInput[]] | undefined => {
     const data = parseColor(body, ctx.theme)
-    const result = colorCSSGenerator(data, `border${direction}-color`, 'border', ctx)
+    const result = colorCSSGenerator(data, `border${direction}-color`, `border${direction}`, ctx)
 
     if (result) {
       const css = result[0]
       if (
         data?.color && !Object.values(SpecialColorKey).includes(data.color)
+        && !data.alpha
         && direction && direction !== ''
       ) {
         css[`--un-border${direction}-opacity`] = `var(--un-border-opacity)`
@@ -80,18 +81,18 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
       return handlerBorderSize(['', a, b])
 
     if (hasParseableColor(b, ctx.theme)) {
-      const direcetions = directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
+      const directions = directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
         .filter(notNull)
 
       return [
-        direcetions
+        directions
           .map(d => d[0])
           .reduce((acc, item) => {
             // Merge multiple direction CSSObject into one
             Object.assign(acc, item)
             return acc
           }, {}),
-        ...direcetions.flatMap(d => d.slice(1)),
+        ...directions.flatMap(d => d.slice(1)),
       ]
     }
   }
