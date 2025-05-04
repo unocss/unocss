@@ -24,7 +24,7 @@ export const flex: Rule<Theme>[] = [
       themeTracking(`spacing`)
       return { 'flex-basis': `calc(var(--spacing) * ${v})` }
     }
-    return { 'flex-basis': h.bracket.cssvar.auto.rem(d) }
+    return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d) }
   }, { autocomplete: ['flex-basis-$spacing', 'basis-$spacing'] }],
 
   // directions

@@ -53,7 +53,6 @@ describe('preset-wind4', () => {
         "ring-offset-red2/5",
         "decoration-size-none",
         "decoration-offset-none",
-        "flex-basis-1/2",
         "basis-none",
         "gap-none",
         "inset-none",
