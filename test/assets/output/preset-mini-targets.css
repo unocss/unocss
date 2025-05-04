@@ -322,6 +322,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .flex-basis-0{flex-basis:0;}
 .flex-basis-\$variable{flex-basis:var(--variable);}
 .flex-basis-1\/2{flex-basis:50%;}
+.flex-basis-full{flex-basis:100%;}
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}
 .origin-top-left{transform-origin:top left;}

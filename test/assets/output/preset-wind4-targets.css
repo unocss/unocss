@@ -732,6 +732,8 @@
 .basis-auto{flex-basis:auto;}
 .flex-basis-\$variable{flex-basis:var(--variable);}
 .flex-basis-0{flex-basis:calc(var(--spacing) * 0);}
+.flex-basis-1\/2{flex-basis:50%;}
+.flex-basis-full{flex-basis:100%;}
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}
 .gap-\$variable{gap:var(--variable);}
