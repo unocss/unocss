@@ -42,7 +42,7 @@ describe('svelte-preprocessor', () => {
     })
   }
 
-  const cases = import.meta.glob('./cases/**/Input.svelte', { as: 'raw' })
+  const cases = import.meta.glob<string>('./cases/**/Input.svelte', { query: '?raw', import: 'default' })
   for (const [path, loadRaw] of Object.entries(cases)) {
     it(path.replace(/.\/cases\/(.+)\/Input.svelte/, '$1'), async () => {
       const dev = await preprocessSFC(await loadRaw(), path, { combine: false })

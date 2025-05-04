@@ -36,7 +36,7 @@ describe('attributify', async () => {
   })
 
   describe('cases', () => {
-    const cases = import.meta.glob('./cases/preset-attributify/*/input.html', { as: 'raw' })
+    const cases = import.meta.glob<string>('./cases/preset-attributify/*/input.html', { query: '?raw', import: 'default' })
     for (const [path, input] of Object.entries(cases)) {
       it(path, async () => {
         const { css, matched } = await uno.generate(await input(), { preflights: false })
