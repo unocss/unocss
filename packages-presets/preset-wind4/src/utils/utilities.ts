@@ -259,8 +259,10 @@ export function colorCSSGenerator(
       const alphaKey = `--un-${varName}-opacity`
       const value = keys ? generateThemeVariable('colors', keys) : color
 
-      css[alphaKey] = alpha
-      css[property] = `color-mix(in oklch, ${value} var(${alphaKey}), transparent)${rawColorComment}`
+      if (!alpha) {
+        css[alphaKey] = alpha
+      }
+      css[property] = `color-mix(in oklch, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
 
       result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
 
