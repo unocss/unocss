@@ -379,6 +379,9 @@ export const presetWind4Targets: string[] = [
   // variants combinators
   'svg:fill-red',
 
+  // variants noscript
+  'noscript:text-red-500',
+
   // variants supports: grid
   'supports-grid:block',
 

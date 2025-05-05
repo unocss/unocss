@@ -10,7 +10,7 @@ import { variantColorsMediaOrClass, variantColorsScheme } from './dark'
 import { variantDataAttribute, variantTaggedDataAttributes } from './data'
 import { variantLanguageDirections } from './directions'
 import { variantImportant } from './important'
-import { variantContrasts, variantCustomMedia, variantForcedColors, variantMotions, variantOrientations, variantPrint } from './media'
+import { variantContrasts, variantCustomMedia, variantForcedColors, variantMotions, variantNoscript, variantOrientations, variantPrint } from './media'
 import { variantCssLayer, variantInternalLayer, variantScope, variantSelector, variantStickyHover, variantTheme, variantVariables } from './misc'
 import { variantNegative } from './negative'
 import { placeholderModifier } from './placeholder'
@@ -30,6 +30,7 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     variantStartingStyle,
     variantImportant(),
     variantSupports,
+    variantNoscript,
     variantPrint,
     variantCustomMedia,
     ...variantContrasts,

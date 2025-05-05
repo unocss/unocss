@@ -2,6 +2,8 @@ import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
 import { h, variantGetParameter, variantParentMatcher } from '../utils'
 
+export const variantNoscript: VariantObject = variantParentMatcher('noscript', '@media (scripting: none)')
+
 export const variantPrint = variantParentMatcher('print', '@media print') as VariantObject<Theme>
 
 export const variantCustomMedia: VariantObject<Theme> = {
