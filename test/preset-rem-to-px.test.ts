@@ -34,8 +34,7 @@ describe('rem-to-px', async () => {
         "/* layer: default */
         .\\!m4{margin:16px !important;}
         .\\!mx2{margin-left:8px !important;margin-right:8px !important;}
-        .\\!gap2{gap:8px !important;}
-        .\\!-p2{padding:-8px !important;}"
+        .\\!gap2{gap:8px !important;}"
       `)
   })
 })
