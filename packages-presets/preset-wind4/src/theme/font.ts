@@ -75,6 +75,7 @@ export const tracking = {
 } satisfies Theme['tracking']
 
 export const leading = {
+  none: '1',
   tight: '1.25',
   snug: '1.375',
   normal: '1.5',
