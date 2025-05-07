@@ -72,12 +72,10 @@ export async function transformDirectives(
   await Promise.all(stack)
 
   // Remove empty blocks (ignore comments)
-  const oldCode = code.toString()
-  // Remove comments first
-  const codeWithoutComments = oldCode.replace(/\/\*[\s\S]*?\*\//g, '')
-  if (!isHasApply(codeWithoutComments)) {
-    const newCode = codeWithoutComments.replace(/[^{}]*\{\s*\}\s*/g, '')
-    if (newCode !== codeWithoutComments)
+  const oldCode = code.toString().replace(/\/\*[\s\S]*?\*\//g, '')
+  if (!isHasApply(oldCode)) {
+    const newCode = oldCode.replace(/[^{}]*\{\s*\}\s*/g, '')
+    if (newCode !== oldCode)
       code.update(0, code.original.length, newCode)
   }
 }
