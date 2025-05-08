@@ -71,10 +71,16 @@ export async function transformDirectives(
 
   await Promise.all(stack)
 
-  // Remove empty blocks
   const oldCode = code.toString()
+  // transformDirectives has recursive behavior, only for the last call
   if (!isHasApply(oldCode)) {
-    const newCode = oldCode.replace(/[^{}]*\{\s*\}\s*/g, '')
+    const newCode = oldCode.replace(/([^{}]+)\{\s*\}\s*/g, (m, selector) => {
+      // Only remove empty rules with valid selectors
+      if (/^[\s\w\-.,#:[\]=*"'>~+^$|()\\]+$/.test(selector.trim()))
+        return ''
+      return m
+    })
+
     if (newCode !== oldCode)
       code.update(0, code.original.length, newCode)
   }
