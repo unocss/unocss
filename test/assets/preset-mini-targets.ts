@@ -1029,6 +1029,10 @@ export const presetMiniTargets: string[] = [
   'text-[theme(spacing.sm)]',
   'c-[theme(colors.red.500/50%)]',
 
+  // field-sizing
+  'field-sizing-content',
+  'field-sizing-fixed',
+
   // variants
   'active:scale-4',
   'hover:scale-4',

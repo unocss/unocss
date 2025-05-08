@@ -655,6 +655,28 @@ div {
       `)
   })
 
+  it('@apply with empty block comments', async () => {
+    const result = await transform(
+      `
+.aaa {
+  @apply text-blue-500;
+  /* {} empty curly brace in comment will lead to wrong parsing */
+  font-weight: 900;
+}
+      `,
+    )
+    expect(result)
+      .toMatchInlineSnapshot(`
+        ".aaa {
+          --un-text-opacity: 1;
+          color: rgb(59 130 246 / var(--un-text-opacity));
+          /* {} empty curly brace in comment will lead to wrong parsing */
+          font-weight: 900;
+        }
+        "
+      `)
+  })
+
   it('@apply selector group', async () => {
     const result = await transform(
       '.btn { @apply: sgroup:bg-orange }',

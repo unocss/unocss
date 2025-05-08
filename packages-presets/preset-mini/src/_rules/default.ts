@@ -16,7 +16,7 @@ import { rings } from './ring'
 import { boxShadows } from './shadow'
 import { aspectRatio, sizes } from './size'
 import { margins, paddings } from './spacing'
-import { appearances, breaks, contains, contents, contentVisibility, cursors, displays, fontSmoothings, fontStyles, pointerEvents, resizes, textOverflows, textTransforms, textWraps, userSelects, whitespaces } from './static'
+import { appearances, breaks, contains, contents, contentVisibility, cursors, displays, fieldSizing, fontSmoothings, fontStyles, pointerEvents, resizes, textOverflows, textTransforms, textWraps, userSelects, whitespaces } from './static'
 import { svgUtilities } from './svg'
 import { transforms } from './transform'
 import { transitions } from './transition'
@@ -81,6 +81,7 @@ export const rules: Rule<Theme>[] = [
   contentVisibility,
   contents,
   containerParent,
+  fieldSizing,
 
   // should be the last
   questionMark,

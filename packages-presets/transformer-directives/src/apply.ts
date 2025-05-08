@@ -81,7 +81,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
   for (const i of utils) {
     const [, _selector, body, parent] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
-    if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-')) {
+    if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-' && !selectorOrGroup.startsWith('@property'))) {
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (selectorOrGroup && selectorOrGroup !== '.\\-') {
@@ -96,8 +96,8 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
           const selectorListAst = clone(ruleAST.prelude) as SelectorList
           const classSelectors: List<CssNode> = new List()
 
-          selectorListAst.children.forEach((selectorAst) => {
-            classSelectors.appendList((selectorAst as Selector).children.filter(i => i.type === 'ClassSelector' && i.name === '\\-'))
+          selectorListAst?.children?.forEach((selectorAst) => {
+            classSelectors.appendList((selectorAst as Selector)?.children?.filter(i => i.type === 'ClassSelector' && i.name === '\\-'))
           })
           classSelectors.forEach(i => Object.assign(i, clone(child)))
 
