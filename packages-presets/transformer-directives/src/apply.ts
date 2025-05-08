@@ -96,8 +96,8 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
           const selectorListAst = clone(ruleAST.prelude) as SelectorList
           const classSelectors: List<CssNode> = new List()
 
-          selectorListAst.children.forEach((selectorAst) => {
-            classSelectors.appendList((selectorAst as Selector).children.filter(i => i.type === 'ClassSelector' && i.name === '\\-'))
+          selectorListAst?.children?.forEach((selectorAst) => {
+            classSelectors.appendList((selectorAst as Selector)?.children?.filter(i => i.type === 'ClassSelector' && i.name === '\\-'))
           })
           classSelectors.forEach(i => Object.assign(i, clone(child)))
 
