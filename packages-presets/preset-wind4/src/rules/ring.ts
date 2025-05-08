@@ -6,7 +6,7 @@ import { shadowProperties } from './shadow'
 export const rings: Rule<Theme>[] = [
   // ring
   [/^ring(?:-(.+))?$/, ([, d]) => {
-    const v = h.px(d || '1')
+    const v = h.bracket.px(d || '1')
     if (v != null) {
       return [
         {
@@ -22,7 +22,7 @@ export const rings: Rule<Theme>[] = [
 
   // inset ring
   [/^inset-ring(?:-(.+))?$/, ([, d]) => {
-    const v = h.px(d || '1')
+    const v = h.bracket.px(d || '1')
     if (v != null) {
       return [
         {
@@ -38,7 +38,7 @@ export const rings: Rule<Theme>[] = [
 
   // offset
   [/^ring-offset(?:-(.+))?$/, ([, d]) => {
-    const v = h.px(d || '1')
+    const v = h.bracket.px(d || '1')
     if (v != null) {
       return {
         '--un-ring-offset-width': v,
