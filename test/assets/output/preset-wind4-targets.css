@@ -1582,8 +1582,15 @@ unocss .scope-\[unocss\]\:block{display:block;}
 @media (prefers-reduced-motion: reduce){
 .motion-reduce\:hover\:translate-0:hover{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
 }
+@media (scripting: enabled){
+.script-enabled\:text-red-500{color:color-mix(in oklch, var(--colors-red-500) var(--un-text-opacity), transparent) /* oklch(0.637 0.237 25.331) */;}
+}
+@media (scripting: initial-only){
+.scripting-initial-only\:text-red-500{color:color-mix(in oklch, var(--colors-red-500) var(--un-text-opacity), transparent) /* oklch(0.637 0.237 25.331) */;}
+}
 @media (scripting: none){
-.noscript\:text-red-500{color:color-mix(in oklch, var(--colors-red-500) var(--un-text-opacity), transparent) /* oklch(0.637 0.237 25.331) */;}
+.noscript\:text-red-500,
+.scripting-none\:text-red-500{color:color-mix(in oklch, var(--colors-red-500) var(--un-text-opacity), transparent) /* oklch(0.637 0.237 25.331) */;}
 }
 @media not (prefers-color-scheme: dark){
 .not-dark\:text-xl{font-size:var(--text-xl-fontSize);line-height:var(--un-leading, var(--text-xl-lineHeight));}

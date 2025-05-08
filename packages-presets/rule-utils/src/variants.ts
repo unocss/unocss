@@ -65,23 +65,25 @@ export function variantGetBracket(prefix: string, matcher: string, separators: s
   }
 }
 
-export function variantGetParameter(prefix: string, matcher: string, separators: string[]): string[] | undefined {
-  if (matcher.startsWith(prefix)) {
-    const body = variantGetBracket(prefix, matcher, separators)
-    if (body) {
-      const [label = '', rest = body[1]] = variantGetParameter('/', body[1], separators) ?? []
-      return [body[0], rest, label]
-    }
-    for (const separator of separators.filter(x => x !== '/')) {
-      const pos = matcher.indexOf(separator, prefix.length)
-      if (pos !== -1) {
-        const labelPos = matcher.indexOf('/', prefix.length)
-        const unlabelled = labelPos === -1 || pos <= labelPos
-        return [
-          matcher.slice(prefix.length, unlabelled ? pos : labelPos),
-          matcher.slice(pos + separator.length),
-          unlabelled ? '' : matcher.slice(labelPos + 1, pos),
-        ]
+export function variantGetParameter(prefix: Arrayable<string>, matcher: string, separators: string[]): string[] | undefined {
+  for (const p of toArray(prefix)) {
+    if (matcher.startsWith(p)) {
+      const body = variantGetBracket(p, matcher, separators)
+      if (body) {
+        const [label = '', rest = body[1]] = variantGetParameter('/', body[1], separators) ?? []
+        return [body[0], rest, label]
+      }
+      for (const separator of separators.filter(x => x !== '/')) {
+        const pos = matcher.indexOf(separator, p.length)
+        if (pos !== -1) {
+          const labelPos = matcher.indexOf('/', p.length)
+          const unlabelled = labelPos === -1 || pos <= labelPos
+          return [
+            matcher.slice(p.length, unlabelled ? pos : labelPos),
+            matcher.slice(pos + separator.length),
+            unlabelled ? '' : matcher.slice(labelPos + 1, pos),
+          ]
+        }
       }
     }
   }
