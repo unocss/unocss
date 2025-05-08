@@ -2,6 +2,31 @@ import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
 import { h, variantGetParameter, variantParentMatcher } from '../utils'
 
+export const variantNoscript: VariantObject = variantParentMatcher('noscript', '@media (scripting: none)')
+
+export const variantScripting: VariantObject<Theme> = {
+  name: 'scripting',
+  match(matcher, ctx) {
+    const variant = variantGetParameter(['script-', 'scripting-'], matcher, ctx.generator.config.separators)
+    if (variant) {
+      const [match, rest] = variant
+      const scriptingValues = ['none', 'initial-only', 'enabled']
+
+      if (scriptingValues.includes(match)) {
+        return {
+          matcher: rest,
+          handle: (input, next) => next({
+            ...input,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (scripting: ${match})`,
+          }),
+        }
+      }
+    }
+  },
+  multiPass: true,
+  autocomplete: ['(scripting|script)-(none|initial-only|enabled)'],
+}
+
 export const variantPrint = variantParentMatcher('print', '@media print') as VariantObject<Theme>
 
 export const variantCustomMedia: VariantObject<Theme> = {
@@ -27,6 +52,7 @@ export const variantCustomMedia: VariantObject<Theme> = {
     }
   },
   multiPass: true,
+  autocomplete: 'media-$media',
 }
 
 export const variantContrasts: Variant<Theme>[] = [
