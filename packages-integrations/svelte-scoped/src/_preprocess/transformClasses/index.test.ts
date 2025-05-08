@@ -75,12 +75,12 @@ describe('transform', async () => {
       <div class:uno-4cfcv2={shortcut} />
 
       <style>
-        :global(.uno-azh9r1) {
-          margin-bottom: 0.25rem;
-          width: 1.25rem;
-        }
         :global(.uno-4cfcv2) {
           width: 1.25rem;
+        }
+        :global(.uno-azh9r1) {
+          width: 1.25rem;
+          margin-bottom: 0.25rem;
         }
       </style>
       "
@@ -110,15 +110,15 @@ describe('transform', async () => {
         :global([dir="rtl"] .uno-tlm2ul) {
           right: 0;
         }
-        :global(.uno-tlm2ul) {
-          margin-bottom: 0.25rem;
-          font-size: 0.875rem;
-          line-height: 1.25rem;
-        }
         :global(.uno-tlm2ul > :not([hidden]) ~ :not([hidden])) {
           --un-space-x-reverse: 0;
           margin-left: calc(0.25rem * calc(1 - var(--un-space-x-reverse)));
           margin-right: calc(0.25rem * var(--un-space-x-reverse));
+        }
+        :global(.uno-tlm2ul) {
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+          margin-bottom: 0.25rem;
         }
       </style>
       "
@@ -257,22 +257,22 @@ describe('transform', async () => {
       >
 
       <style>
-        :global(.uno-3h14cd) {
-          --un-text-opacity: 1;
-          color: rgb(34 197 94 / var(--un-text-opacity));
-          color: rgb(96 165 250 / var(--un-text-opacity));
-          font-weight: 600;
-        }
         :global(.uno-ffvc5a) {
           --un-text-opacity: 1;
           color: rgb(220 38 38 / var(--un-text-opacity));
         }
-        :global(.uno-r4l94t) {
-          font-weight: 700;
-          text-decoration-line: underline;
+        :global(.uno-3h14cd) {
+          font-weight: 600;
+          --un-text-opacity: 1;
+          color: rgb(34 197 94 / var(--un-text-opacity));
+          color: rgb(96 165 250 / var(--un-text-opacity));
         }
         :global(.uno-br1nw8) {
           font-style: italic;
+        }
+        :global(.uno-r4l94t) {
+          text-decoration-line: underline;
+          font-weight: 700;
         }
       </style>
       "
