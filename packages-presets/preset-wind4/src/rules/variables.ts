@@ -46,7 +46,7 @@ export const cssProperty: Rule<Theme>[] = [
     const [prop, ...rest] = body.split(':')
     const value = rest.join(':')
 
-    if (!isURI(body) && /^[a-z-]+$/.test(prop) && isValidCSSBody(value)) {
+    if (!isURI(body) && /^[a-z-_]+$/i.test(prop) && isValidCSSBody(value)) {
       const parsed = h.bracket(`[${value}]`)
 
       if (parsed)
