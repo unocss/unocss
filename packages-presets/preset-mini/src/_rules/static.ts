@@ -138,3 +138,8 @@ export const fontSmoothings: Rule[] = [
     '-moz-osx-font-smoothing': 'auto',
   }],
 ]
+
+export const fieldSizing: Rule[] = [
+  ['field-sizing-fixed', { 'field-sizing': 'fixed' }],
+  ['field-sizing-content', { 'field-sizing': 'content' }],
+]

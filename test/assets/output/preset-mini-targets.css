@@ -1097,6 +1097,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\@container\/label-inline-size{container-type:inline-size;container-name:label;}
 .\@container\/label-normal{container-type:normal;container-name:label;}
 .\@container\/label-size{container-type:size;container-name:label;}
+.field-sizing-fixed{field-sizing:fixed;}
+.field-sizing-content{field-sizing:content;}
 @layer base{
 .layer-base\:translate-0{--un-translate-x:0;--un-translate-y:0;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 }

@@ -292,3 +292,8 @@ export const accessibility: Rule<Theme>[] = [
   ['forced-color-adjust-auto', { 'forced-color-adjust': 'auto' }],
   ['forced-color-adjust-none', { 'forced-color-adjust': 'none' }],
 ]
+
+export const fieldSizing: Rule<Theme>[] = [
+  ['field-sizing-fixed', { 'field-sizing': 'fixed' }],
+  ['field-sizing-content', { 'field-sizing': 'content' }],
+]

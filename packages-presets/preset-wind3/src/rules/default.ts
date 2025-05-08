@@ -110,6 +110,7 @@ export const rules: Rule<Theme>[] = [
   _.containerParent,
   viewTransition,
   dynamicViewportHeight,
+  _.fieldSizing,
 
   // should be the last
   _.questionMark,
