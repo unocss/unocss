@@ -26,4 +26,4 @@ export function createCoolLabsCompatibleProvider(name: WebFontsProviders, host: 
   }
 }
 
-export const CoolLabsFontsProvider: Provider = createCoolLabsCompatibleProvider('google', 'https://api.fonts.coollabs.io')
+export const CoolLabsFontsProvider: Provider = createCoolLabsCompatibleProvider('coollabs', 'https://api.fonts.coollabs.io')
