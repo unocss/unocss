@@ -92,13 +92,18 @@ export const contentVisibility: Rule<Theme>[] = [
 ]
 
 export const contents: Rule<Theme>[] = [
-  [/^content-(.+)$/, ([, v]) => [
-    {
-      '--un-content': h.bracket.cssvar(v),
-      'content': 'var(--un-content)',
-    },
-    defineProperty('--un-content', { initialValue: '""' }),
-  ]],
+  [/^content-(.+)$/, ([, v]) => {
+    const _v = h.bracket.cssvar(v)
+    if (_v != null) {
+      return [
+        {
+          '--un-content': h.bracket.cssvar(v),
+          'content': 'var(--un-content)',
+        },
+        defineProperty('--un-content', { initialValue: '""' }),
+      ]
+    }
+  }],
   ['content-empty', { content: '""' }],
   ['content-none', { content: 'none' }],
 ]
