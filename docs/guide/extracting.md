@@ -32,7 +32,7 @@ export default defineConfig({
     pipeline: {
       include: [
         // the default
-        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        /\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/,
         // include js/ts files
         'src/**/*.{js,ts}',
       ],
