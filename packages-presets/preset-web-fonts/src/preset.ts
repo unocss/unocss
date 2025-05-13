@@ -2,11 +2,11 @@ import type { Preset } from '@unocss/core'
 import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 import { LAYER_IMPORTS, toArray } from '@unocss/core'
 import { BunnyFontsProvider } from './providers/bunny'
+import { CoolLabsFontsProvider } from './providers/coollabs'
 import { FontshareProvider } from './providers/fontshare'
 import { FontSourceProvider } from './providers/fontsource'
 import { GoogleFontsProvider } from './providers/google'
 import { NoneProvider } from './providers/none'
-import { CoolLabsFontsProvider } from './providers/coollabs'
 
 const builtinProviders = {
   google: GoogleFontsProvider,
