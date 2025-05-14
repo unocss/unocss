@@ -147,6 +147,7 @@
 --colors-green-DEFAULT: oklch(0.792 0.209 151.711);
 --colors-violet-50: oklch(0.969 0.016 293.756);
 --colors-pink-100: oklch(0.948 0.028 342.258);
+--colors-yellow-DEFAULT: oklch(0.852 0.199 91.936);
 --colors-violet-200: oklch(0.894 0.057 293.283);
 --text-2xl-fontSize: 1.5rem;
 --text-2xl-lineHeight: 2rem;
@@ -221,6 +222,7 @@
 .next\:checked\:text-slate-200:checked+*{color:color-mix(in oklch, var(--colors-slate-200) var(--un-text-opacity), transparent) /* oklch(0.929 0.013 255.508) */;}
 .checked\:next\:hover\:text-slate-500:hover+*:checked{color:color-mix(in oklch, var(--colors-slate-500) var(--un-text-opacity), transparent) /* oklch(0.554 0.046 257.417) */;}
 .next\:checked\:children\:text-slate-600>*:checked+*{color:color-mix(in oklch, var(--colors-slate-600) var(--un-text-opacity), transparent) /* oklch(0.446 0.043 257.281) */;}
+.nth-\[2\]\:text-yellow:nth-child(2){color:color-mix(in oklch, var(--colors-yellow-DEFAULT) var(--un-text-opacity), transparent) /* oklch(0.852 0.199 91.936) */;}
 .c-\[\#157\],
 .c-\#157,
 .c-hex-157{color:color-mix(in oklch, #157 var(--un-text-opacity), transparent) /* #157 */;}
