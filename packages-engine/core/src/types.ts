@@ -805,7 +805,7 @@ export interface ContentOptions {
      * By default, `.ts` and `.js` files are NOT extracted.
      *
      * @see https://www.npmjs.com/package/picomatch
-     * @default [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]
+     * @default [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/]
      */
     include?: FilterPattern
 
