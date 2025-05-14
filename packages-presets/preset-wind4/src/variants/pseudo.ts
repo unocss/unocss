@@ -239,7 +239,7 @@ export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
         if (match) {
           let pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
           if (match[2]) {
-            const anPlusB = h.bracket(match[2]) ?? match[2]
+            const anPlusB = h.bracket(match[2])
             if (anPlusB) {
               pseudo = pseudo.replace(PseudoPlaceholder, anPlusB)
             }
