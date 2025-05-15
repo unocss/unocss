@@ -1205,6 +1205,7 @@ export const presetMiniTargets: string[] = [
   'group-aria-[.not-parent]/label:font-19',
 
   // variants - variables
+  'nth-[2]:text-yellow',
   '[&:nth-child(2)]:m-10',
   '[&>*]:m-11',
   '[*>&]:m-12',
