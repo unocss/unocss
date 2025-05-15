@@ -3,7 +3,8 @@
 @property --un-leading{syntax:"*";inherits:false;}
 @property --un-text-stroke-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 @property --un-text-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-@property --un-outline-color-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-outline-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-outline-style{syntax:"*";inherits:false;initial-value:solid;}
 @property --un-accent-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 @property --un-caret-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 @property --un-border-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
@@ -95,8 +96,6 @@
 @property --un-divide-x-reverse{syntax:"*";inherits:false;initial-value:0;}
 /* layer: theme */
 :root, :host {
---colors-gray-DEFAULT: oklch(0.707 0.022 261.325);
---colors-gray-400: oklch(0.707 0.022 261.325);
 --radius-md: 0.375rem;
 --radius-sm: 0.25rem;
 --radius-DEFAULT: 0.25rem;
@@ -124,6 +123,8 @@
 --colors-red-300: oklch(0.808 0.114 19.571);
 --colors-red-DEFAULT: oklch(0.704 0.191 22.216);
 --colors-sky-300: oklch(0.828 0.111 230.318);
+--colors-gray-DEFAULT: oklch(0.707 0.022 261.325);
+--colors-gray-400: oklch(0.707 0.022 261.325);
 --colors-black: #000;
 --colors-blue-DEFAULT: oklch(0.707 0.165 254.624);
 --colors-red-100: oklch(0.936 0.032 17.717);
@@ -468,10 +469,10 @@
 .outline-width-10px{outline-style:var(--un-outline-style);outline-width:10px;}
 .outline-width-revert{outline-style:var(--un-outline-style);outline-width:revert;}
 .outline-\[calc\(1rem-1px\)\]{outline-style:var(--un-outline-style);outline-width:calc(1rem - 1px);}
-.outline-\[var\(--red\)\]{outline-color:color-mix(in oklch, var(--red) var(--un-outline-color-opacity), transparent) /* var(--red) */;}
-.outline-\$variable{outline-color:color-mix(in oklch, var(--variable) var(--un-outline-color-opacity), transparent) /* var(--variable) */;}
-.outline-gray{outline-color:color-mix(in oklch, var(--colors-gray-DEFAULT) var(--un-outline-color-opacity), transparent) /* oklch(0.707 0.022 261.325) */;}
-.outline-gray-400{outline-color:color-mix(in oklch, var(--colors-gray-400) var(--un-outline-color-opacity), transparent) /* oklch(0.707 0.022 261.325) */;}
+.outline-\[var\(--red\)\]{outline-color:color-mix(in oklch, var(--red) var(--un-outline-opacity), transparent) /* var(--red) */;}
+.outline-\$variable{outline-color:color-mix(in oklch, var(--variable) var(--un-outline-opacity), transparent) /* var(--variable) */;}
+.outline-gray{outline-color:color-mix(in oklch, var(--colors-gray-DEFAULT) var(--un-outline-opacity), transparent) /* oklch(0.707 0.022 261.325) */;}
+.outline-gray-400{outline-color:color-mix(in oklch, var(--colors-gray-400) var(--un-outline-opacity), transparent) /* oklch(0.707 0.022 261.325) */;}
 .outline-offset-\[var\(--offset\)\]{outline-offset:var(--offset);}
 .outline-offset-\$variable{outline-offset:var(--variable);}
 .outline-offset-4{outline-offset:4px;}
