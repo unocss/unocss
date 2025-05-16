@@ -584,6 +584,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       if (this.config.details)
         context.rules = context.rules ?? []
 
+      context.variantHandlers = variantHandlers
+
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
@@ -591,26 +593,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
           if (this.config.details)
             context.rules!.push(staticMatch)
 
-          const index = this.config.rules.indexOf(staticMatch)
-          const entries = normalizeCSSValues(staticMatch[1]).filter(i => i.length)
-          const meta = staticMatch[2]
-          if (entries.length) {
-            context.generator.activatedRules.add(staticMatch)
-            return entries.map((css) => {
-              if (isString(css))
-                return [index, css, meta]
-              return [index, raw, css, meta, variantHandlers]
-            })
-          }
+          return this.resolveCSSResult(raw, staticMatch[1], staticMatch, context)
         }
       }
 
-      context.variantHandlers = variantHandlers
-
-      const { rulesDynamic } = this.config
-
       // match rules
-      for (const rule of rulesDynamic) {
+      for (const rule of this.config.rulesDynamic) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
@@ -661,64 +649,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
-        if (entries.length) {
-          context.generator.activatedRules.add(rule)
-          const index = this.config.rules.indexOf(rule)
-          return entries.map((css): ParsedUtil | RawUtil => {
-            if (isString(css))
-              return [index, css, meta]
-
-            // Extract variants from special symbols
-            let variants = variantHandlers
-            let entryMeta = meta
-            for (const entry of css) {
-              if (entry[0] === symbols.variants) {
-                if (typeof entry[1] === 'function') {
-                  variants = entry[1](variants) || variants
-                }
-                else {
-                  variants = [
-                    ...toArray(entry[1]),
-                    ...variants,
-                  ]
-                }
-              }
-              else if (entry[0] === symbols.parent) {
-                variants = [
-                  { parent: entry[1] },
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.selector) {
-                variants = [
-                  { selector: entry[1] },
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.layer) {
-                variants = [
-                  { layer: entry[1] },
-                  ...variants,
-                ]
-              }
-              else if (entry[0] === symbols.sort) {
-                entryMeta = {
-                  ...entryMeta,
-                  sort: entry[1],
-                }
-              }
-              else if (entry[0] === symbols.noMerge) {
-                entryMeta = {
-                  ...entryMeta,
-                  noMerge: entry[1],
-                }
-              }
-            }
-
-            return [index, raw, css as CSSEntries, entryMeta, variants]
-          })
-        }
+        return this.resolveCSSResult(raw, result, rule, context)
       }
     }
 
@@ -727,6 +658,74 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return undefined
 
     return parsed
+  }
+
+  private resolveCSSResult(
+    raw: string,
+    result: CSSValueInput | string | (CSSValueInput | string)[],
+    rule: Rule<Theme>,
+    context: RuleContext<Theme>,
+  ) {
+    const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
+    if (entries.length) {
+      context.generator.activatedRules.add(rule)
+      const index = context.generator.config.rules.indexOf(rule)
+      const meta = rule[2]
+
+      return entries.map((css): ParsedUtil | RawUtil => {
+        if (isString(css))
+          return [index, css, meta]
+
+        // Extract variants from special symbols
+        let variants = context.variantHandlers
+        let entryMeta = meta
+        for (const entry of css) {
+          if (entry[0] === symbols.variants) {
+            if (typeof entry[1] === 'function') {
+              variants = entry[1](variants) || variants
+            }
+            else {
+              variants = [
+                ...toArray(entry[1]),
+                ...variants,
+              ]
+            }
+          }
+          else if (entry[0] === symbols.parent) {
+            variants = [
+              { parent: entry[1] },
+              ...variants,
+            ]
+          }
+          else if (entry[0] === symbols.selector) {
+            variants = [
+              { selector: entry[1] },
+              ...variants,
+            ]
+          }
+          else if (entry[0] === symbols.layer) {
+            variants = [
+              { layer: entry[1] },
+              ...variants,
+            ]
+          }
+          else if (entry[0] === symbols.sort) {
+            entryMeta = {
+              ...entryMeta,
+              sort: entry[1],
+            }
+          }
+          else if (entry[0] === symbols.noMerge) {
+            entryMeta = {
+              ...entryMeta,
+              noMerge: entry[1],
+            }
+          }
+        }
+
+        return [index, raw, css as CSSEntries, entryMeta, variants]
+      })
+    }
   }
 
   stringifyUtil(
