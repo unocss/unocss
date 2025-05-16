@@ -4,6 +4,21 @@ export const presetWind4Targets: string[] = [
   // Compatible with presetMiniTargets
   ...presetMiniTargets,
 
+  // font
+  'font-sans',
+  'font-[custom-family-name]',
+  'font-[family:custom-family-name]',
+  'font-[family:$variable]',
+  'font-[family:--variable]',
+
+  // font-weight
+  'font-200',
+  'font-[number:200]',
+  'font-[number:$variable]',
+  'font-[number:--variable]',
+  'fw-200',
+  'fw-$variable',
+
   // animation
   'keyframes-pulse',
   'keyframes-pulse-alt',
