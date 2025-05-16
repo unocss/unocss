@@ -1,6 +1,6 @@
 import type { Arrayable, Awaitable } from '@unocss/core'
 
-export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'none' | Provider
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'none' | Provider
 
 export interface WebFontMeta {
   name: string
