@@ -19,8 +19,11 @@ export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
       transformIndexHtml: {
         order,
         handler: htmlHandler,
-        // Compatibility with Legacy Vite
+        // eslint-disable-next-line ts/ban-ts-comment
+        // @ts-ignore Compatibility with Legacy Vite
         enforce: order,
+        // eslint-disable-next-line ts/ban-ts-comment
+        // @ts-ignore Compatibility with Legacy Vite
         transform: htmlHandler,
       },
     } satisfies Plugin
