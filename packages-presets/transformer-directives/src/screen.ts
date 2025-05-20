@@ -1,4 +1,5 @@
 import type { Theme } from '@unocss/preset-mini'
+import type { Theme as ThemeWind4 } from '@unocss/preset-wind4'
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
 
@@ -24,10 +25,10 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
   const resolveBreakpoints = () => {
     let breakpoints: Record<string, string> | undefined
     if (uno.userConfig && uno.userConfig.theme)
-      breakpoints = (uno.userConfig.theme as Theme).breakpoints
+      breakpoints = (uno.userConfig.theme as Theme).breakpoints || (uno.config.theme as Theme).breakpoints
 
     if (!breakpoints)
-      breakpoints = (uno.config.theme as Theme).breakpoints
+      breakpoints = (uno.userConfig.theme as ThemeWind4).breakpoint || (uno.config.theme as ThemeWind4).breakpoint
 
     return breakpoints
       ? Object.entries(breakpoints)
