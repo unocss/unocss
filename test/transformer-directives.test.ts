@@ -1528,9 +1528,13 @@ describe('wind4', () => {
               var(--colors-red-500) var(--un-border-opacity),
               transparent
             );
+          }
+          @property --un-text-opacity {
             syntax: "<percentage>";
             inherits: false;
             initial-value: 100%;
+          }
+          @property --un-border-opacity {
             syntax: "<percentage>";
             inherits: false;
             initial-value: 100%;
