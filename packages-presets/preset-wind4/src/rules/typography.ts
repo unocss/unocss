@@ -25,7 +25,7 @@ export const fonts: Rule<Theme>[] = [
 
   // weights
   [
-    /^(?:font|fw)-?([^-]+)$/,
+    /^fw-?([^-]+)$/,
     ([, s], { theme }) => {
       let v: string | undefined
 
@@ -34,7 +34,7 @@ export const fonts: Rule<Theme>[] = [
         v = generateThemeVariable('fontWeight', s)
       }
       else {
-        v = h.bracket.global.number(s)
+        v = h.bracket.cssvar.global.number(s)
       }
 
       return {
@@ -140,7 +140,7 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: 'font-stretch-<percentage>' },
   ],
 
-  // family
+  // family & weight
   [
     /^font-(.+)$/,
     ([, d], { theme }) => {
@@ -149,16 +149,54 @@ export const fonts: Rule<Theme>[] = [
       if (theme.font?.[d]) {
         themeTracking(`font`, d)
         v = generateThemeVariable('font', d)
+
+        return {
+          'font-family': v,
+        }
       }
-      else {
-        v = h.bracket.cssvar.global(d)
+      else if (theme.fontWeight?.[d]) {
+        themeTracking(`fontWeight`, d)
+        v = generateThemeVariable('fontWeight', d)
+
+        return {
+          '--un-font-weight': v,
+          'font-weight': v,
+        }
       }
 
-      return {
-        'font-family': v,
+      v = h.number(d)
+      if (v != null) {
+        return {
+          '--un-font-weight': v,
+          'font-weight': v,
+        }
+      }
+
+      v = h.bracketOfFamily(d)
+      if (v != null) {
+        v = h.cssvar(v) ?? v
+        return {
+          'font-family': v,
+        }
+      }
+
+      v = h.bracketOfNumber(d)
+      if (v != null) {
+        v = h.cssvar.number(v)
+        return {
+          '--un-font-weight': v,
+          'font-weight': v,
+        }
+      }
+
+      v = h.bracket.cssvar.global(d)
+      if (v != null) {
+        return {
+          'font-family': v,
+        }
       }
     },
-    { autocomplete: 'font-$font' },
+    { autocomplete: ['font-$font', 'font-$fontWeight'] },
   ],
 ]
 
@@ -176,7 +214,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s]) => {
+  [/^indent-(.+)$/, ([, s]) => {
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
