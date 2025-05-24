@@ -1,11 +1,11 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { expect, it } from 'vitest'
 
 it('split string with custom separator', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
     ],
     separators: ['__'],
   })
@@ -17,7 +17,7 @@ it('split string with custom separator', async () => {
 it('unable to generate token variant with explicit separator without dash', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
     ],
     separators: '-',
   })

@@ -3,8 +3,8 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetUno,
   presetWebFonts,
+  presetWind3,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -12,7 +12,7 @@ import {
 export const defaultConfig = defineConfig({
   details: true,
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
   ],
 })

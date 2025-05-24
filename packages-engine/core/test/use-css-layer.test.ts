@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('use-css-layer', () => {
@@ -24,7 +24,7 @@ describe('use-css-layer', () => {
 
   it('change layer name', async () => {
     const uno = await createGenerator({
-      presets: [presetUno()],
+      presets: [presetWind3()],
       shortcuts: {
         'custom-shortcut': 'text-lg text-orange hover:text-teal',
       },

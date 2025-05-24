@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import MagicString from 'magic-string'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
@@ -9,7 +9,7 @@ import { transformApply } from '.'
 describe('transformApply', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
     ],
   })
 

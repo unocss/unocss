@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
@@ -45,7 +45,7 @@ describe('shortcuts', async () => {
       { 'test-inline-body-with-variant': 'dark:shortcut-only-inline-body text-red' },
     ],
     presets: [
-      presetUno(),
+      presetWind3(),
     ],
     rules: [
       [/^with-no-merge$/, (_, ctx) => [

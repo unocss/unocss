@@ -16,23 +16,6 @@ exports[`postcss > @screen 1`] = `
 exports[`postcss > @unocss 1`] = `
 "/* layer: preflights */
 *,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgb(0 0 0 / 0);--un-ring-shadow:0 0 rgb(0 0 0 / 0);--un-shadow-inset: ;--un-shadow:0 0 rgb(0 0 0 / 0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgb(147 197 253 / 0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgb(0 0 0 / 0);--un-ring-shadow:0 0 rgb(0 0 0 / 0);--un-shadow-inset: ;--un-shadow:0 0 rgb(0 0 0 / 0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgb(147 197 253 / 0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}
-/* layer: shortcuts */
-.container{width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
-@media (min-width: 640px){
-.container{max-width:640px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;}
-}
-@media (min-width: 768px){
-.container{max-width:768px;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
-}
-@media (min-width: 1024px){
-.container{max-width:1024px;margin-left:auto;margin-right:auto;padding-left:4rem;padding-right:4rem;}
-}
-@media (min-width: 1280px){
-.container{max-width:1280px;margin-left:auto;margin-right:auto;padding-left:5rem;padding-right:5rem;}
-}
-@media (min-width: 1536px){
-.container{max-width:1536px;margin-left:auto;margin-right:auto;padding-left:6rem;padding-right:6rem;}
-}
 /* layer: _pre */
 @media (prefers-contrast: less){
 .uno-layer-_pre\\:contrast-less\\:bg-gray-3{--un-bg-opacity:1;background-color:rgb(209 213 219 / var(--un-bg-opacity));}
@@ -43,7 +26,6 @@ exports[`postcss > @unocss 1`] = `
 .object-\\$fit{object-fit:var(--fit);}
 .object-position-\\$variable{object-position:var(--variable);}
 .not-sr-only{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal;}
-.static{position:static;}
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;line-clamp:100;}
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;}
 .line-clamp-none{overflow:visible;display:block;-webkit-box-orient:horizontal;-webkit-line-clamp:none;line-clamp:none;}
@@ -51,8 +33,6 @@ exports[`postcss > @unocss 1`] = `
 .isolate{isolation:isolate;}
 .isolate-auto,
 .isolation-auto{isolation:auto;}
-.grid{display:grid;}
-.aria-hidden\\:hidden[aria-hidden="true"]{display:none;}
 .inline-table{display:inline-table;}
 .table{display:table;}
 .table-caption{display:table-caption;}
@@ -81,7 +61,6 @@ exports[`postcss > @unocss 1`] = `
 @keyframes ping{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}
 .\\!animate-ping{animation:ping 1s cubic-bezier(0,0,.2,1) infinite !important;}
 .animate-\\[4s_linear_0s_infinite_alternate_move\\\\_eye\\]{animation:4s linear 0s infinite alternate move_eye;}
-.animate-\\[4s_linear_0s_infinite_alternate_move\\\\\\\\_eye\\]{animation:4s linear 0s infinite alternate move\\_eye;}
 .animate-\\$variable{animation:var(--variable);}
 .animate-pulse{animation:pulse 2s cubic-bezier(0.4,0,.6,1) infinite;}
 .animate-pulse-alt{animation:pulse-alt 1s ease-in-out infinite;}
@@ -288,11 +267,12 @@ exports[`postcss > @unocss 1`] = `
 .object-center-top,
 .object-ct{object-position:center top;}
 .dark .\\.dark\\:text-xl{font-size:1.25rem;line-height:1.75rem;}
-.aria-busy\\:aria-pressed\\:text-green-600[aria-pressed="true"][aria-busy="true"],
-.aria-busy\\:data-\\[bar\\]\\:text-green-600[data-bar][aria-busy="true"],
-.aria-busy\\:text-green-600[aria-busy="true"],
 .data-\\[foo\\=x\\]\\:data-\\[bar\\=y\\]\\:text-green-600[data-bar=y][data-foo=x],
 .data-\\[foo\\=x\\]\\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}
+.mix-shade-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (0 - 248) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) calc(113 + (0 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
+.mix-shift--50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (255 - 220) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) calc(38 + (255 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
+.mix-shift-50-c-red-600{--un-text-opacity:1;color:rgb(calc(220 + (0 - 220) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) calc(38 + (0 - 38) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
+.mix-tint-50-c-red-400{--un-text-opacity:1;color:rgb(calc(248 + (255 - 248) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) calc(113 + (255 - 113) * 50 / 100) / calc(var(--un-text-opacity) + (1 - var(--un-text-opacity)) * 50 / 100));}
 .capitalize{text-transform:capitalize;}
 .normal-case{text-transform:none;}
 .lining-nums{--un-numeric-figure:lining-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
@@ -317,7 +297,6 @@ exports[`postcss > @unocss 1`] = `
 .mix-blend-plus-lighter{mix-blend-mode:plus-lighter;}
 .mix-blend-normal{mix-blend-mode:normal;}
 .mix-blend-revert{mix-blend:revert;}
-.data-dropdown\\:ring-green[data-data-bs-toggle="dropdown"]{--un-ring-opacity:1;--un-ring-color:rgb(74 222 128 / var(--un-ring-opacity));}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .backdrop-blur{--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
 .backdrop-blur-4{--un-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
@@ -385,8 +364,12 @@ exports[`postcss > @unocss 1`] = `
 .backdrop-filter-none{-webkit-backdrop-filter:none;backdrop-filter:none;}
 .filter-unset{filter:unset;}
 .backdrop-filter-revert{-webkit-backdrop-filter:revert;backdrop-filter:revert;}
+.focus\\:placeholder-red-300:focus::placeholder{--un-placeholder-opacity:1;color:rgb(252 165 165 / var(--un-placeholder-opacity));}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{--un-placeholder-opacity:1;color:rgb(248 113 113 / var(--un-placeholder-opacity));}
+.hover\\:placeholder-op90:hover::placeholder{--un-placeholder-opacity:0.9;}
+.placeholder-op90::placeholder{--un-placeholder-opacity:0.9;}
+.placeholder-opacity-10::placeholder{--un-placeholder-opacity:0.1;}
 .view-transition-foo{view-transition-name:foo;}
 .view-transition-none{view-transition-name:none;}
 .min-h-dvh{min-height:100dvh;}
@@ -401,6 +384,9 @@ exports[`postcss > @unocss 1`] = `
 @media (hover: hover) and (pointer: fine){
 .\\@hover-text-red:hover{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
 [open] .\\@hover\\:\\[\\[open\\]_\\&\\]\\:text-blue:hover{--un-text-opacity:1;color:rgb(96 165 250 / var(--un-text-opacity));}
+}
+@media (hover: none) and (pointer: coarse){
+.media-touch\\:p-4{padding:1rem;}
 }
 @media (orientation: landscape){
 .landscape\\:hidden{display:none;}
@@ -422,6 +408,9 @@ exports[`postcss > @unocss 1`] = `
 }
 @media (prefers-reduced-motion: reduce){
 .motion-reduce\\:hover\\:translate-0:hover{--un-translate-x:0;--un-translate-y:0;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+}
+@media (prefers-reduced-transparency: reduce){
+.media-opacity_not_ok\\:opacity-0{opacity:0;}
 }
 @supports (display: grid){
 .supports-grid\\:block{display:block;}
