@@ -79,9 +79,10 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       : 0
 
   for (const i of utils) {
-    const [, _selector, body, parent] = i
+    const [, _selector, body, parent, meta] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
-    if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-' && !selectorOrGroup.startsWith('@property'))) {
+
+    if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-') || meta?.noMerge) {
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (selectorOrGroup && selectorOrGroup !== '.\\-') {
