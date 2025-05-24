@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('preset-icons', async () => {
@@ -13,7 +13,7 @@ describe('preset-icons', async () => {
   const uno = await createGenerator({
     presets: [
       presetIcons(),
-      presetUno(),
+      presetWind3(),
     ],
   })
 
@@ -40,7 +40,7 @@ describe('preset-icons', async () => {
           },
         },
       }),
-      presetUno(),
+      presetWind3(),
     ],
   })
 
@@ -66,7 +66,7 @@ describe('preset-icons', async () => {
   it('custom the usedProps in propsProcessor', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
         presetIcons({
           processor(props, { mode }) {
             if (mode === 'bg') {

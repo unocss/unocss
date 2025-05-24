@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 
 import { format as prettier } from 'prettier'
 // @ts-expect-error missing types
@@ -12,7 +12,7 @@ describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       presetIcons({
         prefix: 'i-',
         extraProperties: {

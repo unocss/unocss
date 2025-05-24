@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { presetMini } from '@unocss/preset-mini'
-import { presetUno } from '@unocss/preset-uno'
+import { presetWind3 } from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { runAsync, setGenerator } from '../packages-integrations/eslint-plugin/src/worker'
 
@@ -8,7 +8,7 @@ describe('worker', () => {
   it('blocklist', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       blocklist: [
         'block',
@@ -28,7 +28,7 @@ describe('worker', () => {
   it('sort', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
     setGenerator(uno, undefined)
@@ -36,7 +36,7 @@ describe('worker', () => {
     expect(rs).toMatchInlineSnapshot(`"w-8 text-red-300"`)
   })
 
-  it('sort presetMini should be same as presetUno', async () => {
+  it('sort presetMini should be same as presetWind3', async () => {
     const uno1 = await createGenerator({
       presets: [
         presetMini(),
@@ -44,7 +44,7 @@ describe('worker', () => {
     })
     const uno2 = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
 

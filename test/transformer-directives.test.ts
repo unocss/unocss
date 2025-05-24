@@ -3,7 +3,7 @@ import type { IconsOptions } from '@unocss/preset-icons'
 import { readFile } from 'node:fs/promises'
 import { createGenerator, mergeDeep } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
@@ -13,7 +13,7 @@ import { transformDirectives } from '../packages-presets/transformer-directives/
 describe('transformer-directives', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno({
+      presetWind3({
         dark: 'media',
       }),
     ],
@@ -270,7 +270,7 @@ describe('transformer-directives', async () => {
   it('dark class', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno({
+        presetWind3({
           dark: 'class',
         }),
       ],
@@ -723,7 +723,7 @@ div {
 describe('transformer-directives with important', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno({
+      presetWind3({
         dark: 'media',
         important: '#app',
       }),
@@ -1393,7 +1393,7 @@ describe('icon directive', () => {
 
     return createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
         presetIcons(mergeDeep(defaultOptions, iconsOptions ?? {})),
       ],
     })

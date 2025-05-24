@@ -1,7 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { CompileClassOptions } from '@unocss/transformer-compile-class'
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import transformerCompileClass from '@unocss/transformer-compile-class'
 import MagicString from 'magic-string'
 import { describe, expect, it, vi } from 'vitest'
@@ -12,7 +12,7 @@ describe('transformer-compile-class', () => {
   function createUno(options?: CompileClassOptions) {
     return createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       transformers: [
         transformerCompileClass(options),

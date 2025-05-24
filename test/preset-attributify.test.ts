@@ -1,13 +1,13 @@
 import { createGenerator, toEscapedSelector as e } from '@unocss/core'
 import { autocompleteExtractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('attributify', async () => {
   const uno = await createGenerator({
     presets: [
       presetAttributify({ strict: true }),
-      presetUno({ attributifyPseudo: true }),
+      presetWind3({ attributifyPseudo: true }),
     ],
     rules: [
       [/^custom-(\d+)$/, ([_, value], { rawSelector }) => {
@@ -71,7 +71,7 @@ describe('attributify', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true, prefix: 'un-', prefixedOnly: true }),
-        presetUno({ attributifyPseudo: true }),
+        presetWind3({ attributifyPseudo: true }),
       ],
     })
 
@@ -192,7 +192,7 @@ describe('attributify', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify({ trueToNonValued: true }),
-        presetUno(),
+        presetWind3(),
       ],
     })
     const { css } = await uno.generate(`
@@ -218,7 +218,7 @@ describe('attributify', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify(),
-        presetUno(),
+        presetWind3(),
       ],
     })
     const { css: css1 } = await uno.generate('<div v-for="(v, i) of [0].map(() => 1)" h-1px />', { preflights: false })

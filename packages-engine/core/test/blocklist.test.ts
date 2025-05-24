@@ -1,12 +1,12 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('blocklist', () => {
   it('basic', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
     const dos = await createGenerator({
@@ -17,7 +17,7 @@ describe('blocklist', () => {
         i => i.includes('green'),
       ],
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
     const { css: css1 } = await uno.generate('block text-red-200 hover:block bg-green text-green', { minify: true, preflights: false })
