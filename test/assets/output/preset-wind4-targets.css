@@ -1,4 +1,4 @@
-/* layer: cssvar-property */
+/* layer: properties */
 @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 @property --un-leading{syntax:"*";inherits:false;}
 @property --un-text-stroke-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
@@ -112,8 +112,8 @@
 --colors-green-900: oklch(39.3% 0.095 152.535);
 --container-lg: 32rem;
 --colors-green-400: oklch(79.2% 0.209 151.711);
---defaults-transition-timingFunction: cubic-bezier(0.4, 0, 0.2, 1);
---defaults-transition-duration: 150ms;
+--default-transition-timingFunction: cubic-bezier(0.4, 0, 0.2, 1);
+--default-transition-duration: 150ms;
 --ease-linear: linear;
 --ease-out: cubic-bezier(0, 0, 0.2, 1);
 --ease-in: cubic-bezier(0.4, 0, 1, 1);
