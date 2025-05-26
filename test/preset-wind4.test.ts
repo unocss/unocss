@@ -204,7 +204,7 @@ describe('preset-wind4', () => {
       "/* layer: theme */
       :root, :host {
       --spacing: 4px;
-      --ui-red-DEFAULT: oklch(0.704 0.191 22.216);
+      --ui-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }"
     `)
   })
@@ -296,7 +296,7 @@ describe('preset-wind4', () => {
       --colors-foo-primary-2: red;
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
-      --colors-red-DEFAULT: oklch(0.704 0.191 22.216);
+      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }
       /* layer: default */
       .text-foo-100-bar{color:color-mix(in oklch, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
@@ -306,7 +306,7 @@ describe('preset-wind4', () => {
       .text-foo-primary-2{color:color-mix(in oklch, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-3-kebab-value{color:color-mix(in oklch, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklch, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
-      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(0.704 0.191 22.216) */;}"
+      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}"
     `)
   })
 })
