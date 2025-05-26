@@ -160,7 +160,7 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: cssvar-property */
+      "/* layer: properties */
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
@@ -285,7 +285,7 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate(template)
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: cssvar-property */
+      "/* layer: properties */
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {

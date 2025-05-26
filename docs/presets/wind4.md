@@ -214,14 +214,15 @@ export default defineConfig({
 
 ## Generated CSS
 
-In the output of PresetWind4, two new layers have been added: `theme` and `cssvar-property`.
+In the output of PresetWind4, three new layers have been added: `base`, `theme`, and `properties`.
 
-|    Layer Name     |              Description              | order |
-| :---------------: | :-----------------------------------: | :---: |
-| `cssvar-property` | CSS properties defined by `@property` | -200  |
-|      `theme`      |      Theme-related CSS variables      | -150  |
+|  Layer Name  |              Description              | order |
+| :----------: | :-----------------------------------: | :---: |
+| `properties` | CSS properties defined by `@property` | -200  |
+|   `theme`    |      Theme-related CSS variables      | -150  |
+|    `base`    |      Base preflight/reset styles      | -100  |
 
-### `cssvar-property` Layer
+### `properties` Layer
 
 We have used `@property` to define CSS properties in many rules to achieve better performance and smaller size.
 

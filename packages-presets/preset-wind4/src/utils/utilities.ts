@@ -382,7 +382,7 @@ export function defineProperty(
     [symbols.variants]: () => [
       {
         parent: '',
-        layer: 'cssvar-property',
+        layer: 'properties',
         selector: () => `@property ${property}`,
       },
     ],
