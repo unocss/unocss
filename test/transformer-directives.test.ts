@@ -1502,7 +1502,7 @@ describe('wind4', () => {
       await expect(result)
         .toMatchInlineSnapshot(`
           ".btn {
-            color: oklch(0.637 0.237 25.331);
+            color: oklch(63.7% 0.237 25.331);
           }
           "
         `)
