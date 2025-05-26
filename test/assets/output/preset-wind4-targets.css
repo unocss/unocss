@@ -112,8 +112,8 @@
 --colors-green-900: oklch(0.393 0.095 152.535);
 --container-lg: 32rem;
 --colors-green-400: oklch(0.792 0.209 151.711);
---defaults-transition-timingFunction: cubic-bezier(0.4, 0, 0.2, 1);
---defaults-transition-duration: 150ms;
+--default-transition-timingFunction: cubic-bezier(0.4, 0, 0.2, 1);
+--default-transition-duration: 150ms;
 --ease-linear: linear;
 --ease-out: cubic-bezier(0, 0, 0.2, 1);
 --ease-in: cubic-bezier(0.4, 0, 1, 1);
