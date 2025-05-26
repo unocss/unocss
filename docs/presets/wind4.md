@@ -90,7 +90,7 @@ Below are the default values for `Theme.defaults`, which you can override in you
 ```ts twoslash [uno.config.ts]
 import type { Theme } from '@unocss/preset-wind4/theme'
 
-export const defaults: Theme['defaults'] = {
+export const defaults: Theme['default'] = {
   transition: {
     duration: '150ms',
     timingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',

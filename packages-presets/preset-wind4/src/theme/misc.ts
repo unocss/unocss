@@ -92,4 +92,4 @@ export const defaults = {
     featureSettings: 'var(--font-mono--font-feature-settings)',
     variationSettings: 'var(--font-mono--font-variation-settings)',
   },
-}
+} satisfies Theme['default']
