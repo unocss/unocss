@@ -1,6 +1,6 @@
 /// <reference types="vitest/globals" />
 
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import initUnocssRuntime from '@unocss/runtime'
 
 describe('runtime dom manipulation', async () => {
@@ -12,7 +12,7 @@ describe('runtime dom manipulation', async () => {
     await initUnocssRuntime({
       defaults: {
         presets: [
-          presetUno(),
+          presetWind3(),
         ],
         ...options,
       },

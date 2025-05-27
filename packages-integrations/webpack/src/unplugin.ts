@@ -153,7 +153,15 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         return
 
       lastTokenSize = tokens.size
-      Array.from(plugin.__vfsModules)
+      let virtualModules
+      if (plugin.__vfsModules instanceof Map) {
+        virtualModules = Array.from(plugin.__vfsModules.keys())
+      }
+      else {
+        virtualModules = Array.from(plugin.__vfsModules)
+      }
+
+      virtualModules
         .forEach((id) => {
           let path = decodeURIComponent(id.startsWith(plugin.__virtualModulePrefix) ? id.slice(plugin.__virtualModulePrefix.length) : id)
           // unplugin changes the id in the `load` hook, follow it

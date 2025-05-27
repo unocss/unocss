@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('preprocess', () => {
@@ -27,7 +27,7 @@ describe('preprocess', () => {
     const uno = await createGenerator({
       preprocess: m => m.startsWith('uno:') ? m.substr(4) : '',
       presets: [
-        presetUno(),
+        presetWind3(),
         presetIcons(),
       ],
       shortcuts: {
@@ -62,7 +62,7 @@ describe('preprocess', () => {
     const uno = await createGenerator({
       preprocess: m => prefixRE.test(m) ? m.replace(prefixRE, '') : '',
       presets: [
-        presetUno(),
+        presetWind3(),
         presetIcons(),
       ],
       shortcuts: {

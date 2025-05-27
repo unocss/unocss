@@ -26,8 +26,8 @@ export const transitions: Rule<Theme>[] = [
   [
     /^transition(?:-(\D+?))?(?:-(\d+))?$/,
     ([, prop, d], { theme }) => {
-      themeTracking('defaults', ['transition', 'timingFunction'])
-      themeTracking('defaults', ['transition', 'duration'])
+      themeTracking('default', ['transition', 'timingFunction'])
+      themeTracking('default', ['transition', 'duration'])
 
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,

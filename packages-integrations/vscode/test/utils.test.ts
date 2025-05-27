@@ -31,10 +31,28 @@ it('getColorString', () => {
   }
   `
 
+  const bgOklch = `
+  /* layer: default */
+  .bg-dark-red {
+    --un-bg-opacity: 1;
+    background-color: oklch(44.4% 0.177 26.899 / var(--un-bg-opacity));
+  }`
+
+  const bgOklchImportant = `
+  /* layer: default */
+  .\!bg-dark-red {
+    --un-bg-opacity: 1 !important;
+    background-color: oklch(44.4% 0.177 26.899 / var(--un-bg-opacity)) !important;
+  }`
+
   expect(getColorString(textAmber)).eql('rgba(251, 191, 36,  1)')
   expect(getColorString(textAmberImportant)).eql('rgba(251, 191, 36,  1 )')
+
   expect(getColorString(bgAmber)).eql('rgba(251, 191, 36,  1)')
   expect(getColorString(bgAmberImportant)).eql('rgba(251, 191, 36,  1 )')
+
+  expect(getColorString(bgOklch)).eql('oklch(44.4% 0.177 26.899 /  1)')
+  expect(getColorString(bgOklchImportant)).eql('oklch(44.4% 0.177 26.899 /  1 )')
 })
 
 it('addRemToPxComment', () => {

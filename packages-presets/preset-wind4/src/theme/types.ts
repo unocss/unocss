@@ -33,7 +33,7 @@ export interface Theme {
   perspective?: Record<string, string>
   textStrokeWidth?: Record<string, string>
   property?: Record<string, string>
-  defaults?: Record<string, Record<string, string>>
+  default?: Record<string, Record<string, string>>
 
   animation?: ThemeAnimation
   duration?: Record<string, string>

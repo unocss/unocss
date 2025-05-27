@@ -1,6 +1,6 @@
-import type { CSSObject, Rule, RuleContext } from '@unocss/core'
+import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, globalKeywords, h, isCSSMathFn, makeGlobalStaticRules } from '../utils'
+import { colorResolver, defineProperty, globalKeywords, h, isCSSMathFn, makeGlobalStaticRules } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size
@@ -8,15 +8,19 @@ export const outline: Rule<Theme>[] = [
 
   // color
   [/^outline-(?:color-)?(.+)$/, handleColorOrWidth, { autocomplete: 'outline-$colors' }],
+  [/^outline-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-outline-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'outline-(op|opacity)-<percent>' }],
 
   // offset
   [/^outline-offset-(.+)$/, ([, d]) => ({ 'outline-offset': h.bracket.cssvar.global.px(d) }), { autocomplete: 'outline-(offset)-<num>' }],
   ['outline-offset-none', { 'outline-offset': '0' }],
 
   // style
-  ['outline', {
-    'outline-style': 'var(--un-outline-style)',
-    'outline-width': '1px',
+  [/^outline$/, function* () {
+    yield {
+      'outline-style': 'var(--un-outline-style)',
+      'outline-width': '1px',
+    }
+    yield defineProperty('--un-outline-style', { initialValue: 'solid' })
   }],
   [/^outline-hidden$/, function* (_, { symbols }) {
     yield { 'outline-style': 'none' }
@@ -29,20 +33,29 @@ export const outline: Rule<Theme>[] = [
   ...['auto', 'dashed', 'dotted', 'double', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
 ]
 
-function handleWidth([, b]: string[]): CSSObject | undefined {
+function* handleWidth([, b]: string[]): Generator<CSSValueInput | undefined> {
   const v = h.bracket.cssvar.global.px(b)
   if (v != null) {
-    return {
+    yield {
       'outline-style': 'var(--un-outline-style)',
       'outline-width': v,
     }
+    yield defineProperty('--un-outline-style', { initialValue: 'solid' })
   }
 }
 
-function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (isCSSMathFn(h.bracket(match[1])))
-    return handleWidth(match)
-  return colorResolver('outline-color', 'outline-color')(match, ctx) as CSSObject | undefined
+function* handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): Generator<CSSValueInput | string | undefined> {
+  if (isCSSMathFn(h.bracket(match[1]))) {
+    yield* handleWidth(match)
+  }
+  else {
+    const result = colorResolver('outline-color', 'outline')(match, ctx)
+    if (result) {
+      for (const i of result) {
+        yield i
+      }
+    }
+  }
 }
 
 export const appearance: Rule<Theme>[] = [

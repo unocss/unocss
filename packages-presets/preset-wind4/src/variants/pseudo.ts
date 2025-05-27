@@ -4,6 +4,8 @@ import type { Theme } from '../theme'
 import { escapeRegExp, escapeSelector } from '@unocss/core'
 import { getBracket, h, variantGetBracket } from '../utils'
 
+const PseudoPlaceholder = '__pseudo_placeholder__'
+
 /**
  * Note: the order of following pseudo classes will affect the order of generated css.
  *
@@ -58,6 +60,7 @@ const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['even', ':nth-child(even)'],
   ['odd-of-type', ':nth-of-type(odd)'],
   ['odd', ':nth-child(odd)'],
+  ['nth', `:nth-child(${PseudoPlaceholder})`],
   'first-of-type',
   ['first', ':first-child'],
   'last-of-type',
@@ -228,13 +231,19 @@ export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
       name: 'pseudo',
       match(input, ctx) {
         if (!(PseudoClassesAndElementsRE && PseudoClassesAndElementsColonRE)) {
-          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:${ctx.generator.config.separators.join('|')})`)
+          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\[\\w+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
           PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         }
 
         const match = input.match(PseudoClassesAndElementsRE) || input.match(PseudoClassesAndElementsColonRE)
         if (match) {
-          const pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
+          let pseudo = PseudoClasses[match[1]] || PseudoClassesColon[match[1]] || `:${match[1]}`
+          if (match[2]) {
+            const anPlusB = h.bracket(match[2])
+            if (anPlusB) {
+              pseudo = pseudo.replace(PseudoPlaceholder, anPlusB)
+            }
+          }
 
           // order of pseudo classes
           let index: number | undefined = PseudoClassesKeys.indexOf(match[1])

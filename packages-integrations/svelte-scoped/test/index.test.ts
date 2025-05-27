@@ -1,7 +1,7 @@
 import type { UnocssSveltePreprocessOptions } from '../src/preprocess'
 import presetIcons from '@unocss/preset-icons'
 import presetTypography from '@unocss/preset-typography'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 
 import fs from 'fs-extra'
 import { format as prettier } from 'prettier'
@@ -17,7 +17,7 @@ const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
     safelist: ['mb-7px', 'uno-prose'],
     presets: [
-      presetUno(),
+      presetWind3(),
       presetIcons({
         prefix: 'i-',
         extraProperties: {

@@ -6,7 +6,7 @@ import prettier from 'prettier/standalone'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
 const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g
-const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\(.*\)/g
+const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:(?:rgb|hsl)a?|oklch)?\(.*\)/g
 const varFnRE = /var\((--[^,|)]+)(?:,([^)]+))?\)/
 
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
@@ -159,9 +159,6 @@ export function getColorString(str: string) {
     // rgb(248 113 113 / var(--no-value)) => rgba(248 113 113)
     colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/g, '')
   }
-
-  // if (!(new TinyColor(colorString).isValid))
-  //   return
 
   if (/\/\)/.test(colorString))
     colorString = colorString.replace(/ \/\)/g, '/ 1)')
