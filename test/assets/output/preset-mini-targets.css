@@ -716,6 +716,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-nowrap{text-wrap:nowrap;}
 .text-balance{text-wrap:balance;}
 .text-pretty{text-wrap:pretty;}
+.align-\[--variable\],
+.align-\[var\(--variable\)\],
+.align-\$variable{vertical-align:var(--variable);}
 .align-revert{vertical-align:revert;}
 .align-start,
 .v-top{vertical-align:top;}

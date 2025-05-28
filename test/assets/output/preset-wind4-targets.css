@@ -447,6 +447,9 @@
 .text-align-right,
 [dir="rtl"] .rtl\:text-right{text-align:right;}
 .text-align-inherit{text-align:inherit;}
+.align-\[--variable\],
+.align-\[var\(--variable\)\],
+.align-\$variable{vertical-align:var(--variable);}
 .align-revert{vertical-align:revert;}
 .align-start,
 .v-top{vertical-align:top;}
