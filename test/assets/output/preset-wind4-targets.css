@@ -480,6 +480,8 @@
 .outline-offset-none{outline-offset:0;}
 .outline{outline-style:var(--un-outline-style);outline-width:1px;}
 .outline-hidden{outline-style:none;}
+.outline-none{--un-outline-style:none;outline-style:none;}
+.focus-visible\:outline-none:focus-visible{--un-outline-style:none;outline-style:none;}
 .outline-solid{--un-outline-style:solid;outline-style:solid;}
 .outline-inset{--un-outline-style:inset;outline-style:inset;}
 .outline-inherit{--un-outline-style:inherit;outline-style:inherit;}

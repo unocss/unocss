@@ -30,6 +30,7 @@ export const outline: Rule<Theme>[] = [
       'outline-offset': `2px`,
     }
   }],
+  ['outline-none', { '--un-outline-style': 'none', 'outline-style': 'none' }],
   ...['auto', 'dashed', 'dotted', 'double', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
 ]
 
