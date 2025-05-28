@@ -1,4 +1,6 @@
+import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
+import type { Theme as ThemeWind4 } from '@unocss/preset-wind4'
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
 
@@ -23,11 +25,13 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
 
   const resolveBreakpoints = () => {
     let breakpoints: Record<string, string> | undefined
-    if (uno.userConfig && uno.userConfig.theme)
-      breakpoints = (uno.userConfig.theme as Theme).breakpoints
 
-    if (!breakpoints)
-      breakpoints = (uno.config.theme as Theme).breakpoints
+    const presetWind4: Preset<ThemeWind4> | undefined = uno.config.presets.find(p => p.name === '@unocss/preset-wind4')
+    if (presetWind4)
+      breakpoints = presetWind4.theme?.breakpoint
+
+    if (!breakpoints && uno.userConfig && uno.userConfig.theme)
+      breakpoints = (uno.userConfig.theme as Theme).breakpoints || (uno.config.theme as Theme).breakpoints
 
     return breakpoints
       ? Object.entries(breakpoints)
