@@ -140,11 +140,16 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     if (!match)
       return
 
-    const [original, fn, pseudoKey] = match
-    const label = match[3] ?? ''
+    const [original, fn, pseudoKey, numValue, labelPath] = match
     let pseudo = PseudoClasses[pseudoKey] || PseudoClassesColon[pseudoKey] || `:${pseudoKey}`
+
+    if (numValue && pseudo.includes(PseudoPlaceholder))
+      pseudo = pseudo.replace(PseudoPlaceholder, numValue)
+
     if (fn)
       pseudo = `:${fn}(${pseudo})`
+
+    const label = labelPath ?? ''
 
     return [
       label,
@@ -174,8 +179,8 @@ function taggedPseudoClassMatcher(tag: string, parent: string, combinator: strin
     match(input, ctx) {
       if (!(splitRE && pseudoRE && pseudoColonRE)) {
         splitRE = new RegExp(`(?:${ctx.generator.config.separators.join('|')})`)
-        pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(/[\\w-]+))?(?:${ctx.generator.config.separators.join('|')})`)
-        pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(/[\\w-]+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        pseudoRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesStr}))(?:(?:-([\\d]+))|(/[\\w-]+))?(?:${ctx.generator.config.separators.join('|')})`)
+        pseudoColonRE = new RegExp(`^${tag}-(?:(?:(${PseudoClassFunctionsStr})-)?(${PseudoClassesColonStr}))(?:(?:-([\\d]+))|(/[\\w-]+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         pseudoVarRE = new RegExp(`^${tag}-(?:(${PseudoClassFunctionsStr})-)?\\[(.+)\\](?:(/[\\w-]+))?(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
       }
 
@@ -231,7 +236,7 @@ export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
       name: 'pseudo',
       match(input, ctx) {
         if (!(PseudoClassesAndElementsRE && PseudoClassesAndElementsColonRE)) {
-          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\[\\w+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
+          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(?:(\\[\\w+\\])|(\\d+)))?(?:${ctx.generator.config.separators.join('|')})`)
           PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         }
 
@@ -243,6 +248,9 @@ export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
             if (anPlusB) {
               pseudo = pseudo.replace(PseudoPlaceholder, anPlusB)
             }
+          }
+          else if (match[3]) {
+            pseudo = pseudo.replace(PseudoPlaceholder, match[3])
           }
 
           // order of pseudo classes
@@ -274,7 +282,10 @@ export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
         }
       },
       multiPass: true,
-      autocomplete: `(${PseudoClassesAndElementsStr}|${PseudoClassesAndElementsColonStr}):`,
+      autocomplete: [
+        `(${PseudoClassesAndElementsStr}|${PseudoClassesAndElementsColonStr}):`,
+        `nth-<num>:`,
+      ],
     },
     {
       name: 'pseudo:multi',
@@ -307,17 +318,38 @@ export function variantPseudoClassFunctions(): VariantObject<Theme> {
   let PseudoClassFunctionsRE: RegExp
   let PseudoClassColonFunctionsRE: RegExp
   let PseudoClassVarFunctionRE: RegExp
+  let PseudoClassNumFunctionRE: RegExp
   return {
     match(input, ctx) {
       if (!(PseudoClassFunctionsRE && PseudoClassColonFunctionsRE)) {
         PseudoClassFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})(?:${ctx.generator.config.separators.join('|')})`)
         PseudoClassColonFunctionsRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         PseudoClassVarFunctionRE = new RegExp(`^(${PseudoClassFunctionsStr})-(\\[.+\\])(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
+        PseudoClassNumFunctionRE = new RegExp(`^(${PseudoClassFunctionsStr})-(${PseudoClassesStr})-(\\d+)(?:${ctx.generator.config.separators.join('|')})`)
       }
 
-      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE) || input.match(PseudoClassVarFunctionRE)
+      const match = input.match(PseudoClassFunctionsRE) || input.match(PseudoClassColonFunctionsRE) || input.match(PseudoClassVarFunctionRE) || input.match(PseudoClassNumFunctionRE)
       if (match) {
         const fn = match[1]
+
+        // Handle direct numeric values
+        if (match.length > 3 && match[3] && /^\d+$/.test(match[3])) {
+          const pseudoName = match[2]
+          const numValue = match[3]
+          let pseudo = PseudoClasses[pseudoName] || PseudoClassesColon[pseudoName] || `:${pseudoName}`
+
+          // Replace placeholder with numeric value if exists
+          if (pseudo.includes(PseudoPlaceholder)) {
+            pseudo = pseudo.replace(PseudoPlaceholder, numValue)
+          }
+
+          return {
+            matcher: input.slice(match[0].length),
+            selector: s => `${s}:${fn}(${pseudo})`,
+          }
+        }
+
+        // Handle bracket notation
         const fnVal = getBracket(match[2], '[', ']')
         const pseudo = fnVal ? h.bracket(match[2]) : (PseudoClasses[match[2]] || PseudoClassesColon[match[2]] || `:${match[2]}`)
         return {
@@ -327,7 +359,10 @@ export function variantPseudoClassFunctions(): VariantObject<Theme> {
       }
     },
     multiPass: true,
-    autocomplete: `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`,
+    autocomplete: [
+      `(${PseudoClassFunctionsStr})-(${PseudoClassesStr}|${PseudoClassesColonStr}):`,
+      `(${PseudoClassFunctionsStr})-(${PseudoClassesStr})-<num>:`,
+    ],
   }
 }
 
