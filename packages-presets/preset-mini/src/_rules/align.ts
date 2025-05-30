@@ -21,8 +21,8 @@ const verticalAlignAlias: Record<string, string> = {
 
 export const verticalAligns: Rule[] = [
   [
-    /^(?:vertical|align|v)-([-\w]+%?)$/,
-    ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] ?? h.numberWithUnit(v) }),
+    /^(?:vertical|align|v)-(.+)$/,
+    ([, v]) => ({ 'vertical-align': verticalAlignAlias[v] ?? h.bracket.cssvar.numberWithUnit(v) }),
     {
       autocomplete: [
         `(vertical|align|v)-(${Object.keys(verticalAlignAlias).join('|')})`,

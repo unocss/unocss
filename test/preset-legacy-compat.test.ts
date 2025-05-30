@@ -1,13 +1,13 @@
 import type { LegacyCompatOptions } from '@unocss/preset-legacy-compat'
 import { createGenerator } from '@unocss/core'
 import presetLegacyCompat from '@unocss/preset-legacy-compat'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 function generateUno(options: LegacyCompatOptions = {}) {
   return createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       presetLegacyCompat(options),
     ],
   })

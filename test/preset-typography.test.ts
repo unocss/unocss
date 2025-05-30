@@ -2,8 +2,8 @@ import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { TypographyOptions } from '@unocss/preset-typography'
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
-import { presetTypography } from '@unocss/preset-typography'
-import { presetUno } from '@unocss/preset-uno'
+import presetTypography from '@unocss/preset-typography'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 const testConfigs: {
@@ -144,7 +144,7 @@ describe('typography', () => {
       const uno = await createGenerator({
         presets: [
           presetAttributify(tc.attributifyOptions),
-          presetUno({ preflight: false }),
+          presetWind3({ preflight: false }),
           presetTypography(tc.typographyOptions),
         ],
       })
@@ -160,7 +160,7 @@ describe('typography elements modify', () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify(),
-        presetUno({ preflight: false }),
+        presetWind3({ preflight: false }),
         presetTypography(),
       ],
     })
@@ -181,7 +181,7 @@ describe('typography elements modify', () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify(),
-        presetUno({ preflight: false }),
+        presetWind3({ preflight: false }),
         presetTypography({
           compatibility: {
             noColonIs: true,

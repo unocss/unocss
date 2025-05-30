@@ -146,8 +146,9 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     shortcuts,
     theme,
     layers: {
-      'cssvar-property': -200,
-      'theme': -150,
+      properties: -200,
+      theme: -150,
+      base: -100,
     },
     preflights: preflights(options),
     variants: variants(options),

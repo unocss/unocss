@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { expect, it } from 'vitest'
 
 it('postprocess', async () => {
@@ -10,7 +10,7 @@ it('postprocess', async () => {
 
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       {
         name: 'inline-preset',
         postprocess: (obj) => {

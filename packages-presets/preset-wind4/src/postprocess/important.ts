@@ -19,6 +19,10 @@ export function important({ important: option }: PresetWind4Options): Postproces
   return [
     option === true
       ? (util) => {
+          // If the util is a property layer, we should not add `!important` to it
+          if (util.layer === 'properties')
+            return
+
           util.entries.forEach((i) => {
             if (i[1] != null && !String(i[1]).endsWith('!important'))
               i[1] += ' !important'

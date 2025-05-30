@@ -4,7 +4,7 @@ import postcssPlugin from '@unocss/postcss'
 import presetWind from '@unocss/preset-wind'
 import postcss from 'postcss'
 import { describe, expect, it } from 'vitest'
-import { presetWindTargets } from './assets/preset-wind-targets'
+import { targets } from './assets/preset-wind3-targets'
 
 const config: UserConfig = {
   content: {
@@ -12,7 +12,7 @@ const config: UserConfig = {
       './test/assets/preset-wind-targets.ts',
     ],
     inline: [{
-      code: presetWindTargets.join(' '),
+      code: targets.join(' '),
       id: 'targets.html',
     }],
   },
@@ -50,7 +50,7 @@ function pcss() {
       content: [
         './test/assets/preset-wind-targets.ts',
         {
-          raw: presetWindTargets.join(' '),
+          raw: targets.join(' '),
           extension: 'html',
         },
       ],
@@ -94,8 +94,6 @@ const processOptions = { from: file, to: file }
 describe('postcss', () => {
   it('@unocss', async () => {
     const { css } = await pcss().process('@unocss;', processOptions)
-
-    const targets = presetWindTargets
 
     const unmatched = []
     for (const i of targets) {
