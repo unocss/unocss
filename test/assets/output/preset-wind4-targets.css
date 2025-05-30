@@ -118,9 +118,11 @@
 --ease-out: cubic-bezier(0, 0, 0.2, 1);
 --ease-in: cubic-bezier(0.4, 0, 1, 1);
 --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+--fontWeight-thin: 100;
 --tracking-wide: 0.025em;
 --colors-blue-500: oklch(62.3% 0.214 259.815);
 --colors-red-300: oklch(80.8% 0.114 19.571);
+--font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
 --colors-sky-300: oklch(82.8% 0.111 230.318);
 --colors-gray-DEFAULT: oklch(70.7% 0.022 261.325);
@@ -132,7 +134,6 @@
 --colors-green-100: oklch(96.2% 0.044 156.743);
 --colors-blue-400: oklch(70.7% 0.165 254.624);
 --colors-rose-DEFAULT: oklch(71.2% 0.194 13.428);
---fontWeight-thin: 100;
 --textStrokeWidth-sm: thin;
 --colors-red-600: oklch(57.7% 0.245 27.325);
 --colors-green-600: oklch(62.7% 0.194 149.214);
@@ -276,37 +277,17 @@
 .text-opacity-\[13\.3333333\%\]{--un-text-opacity:13.3333333%;}
 .text-opacity-\$opacity-variable{--un-text-opacity:var(--opacity-variable);}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:60%;}
-.group-aria:hover .group-aria-\[\:hover\]\:font-11,
-.group:hover .group-\[\:hover\]\:font-11{--un-font-weight:11;font-weight:11;}
-.group-aria[data-attr] .group-aria-\[\[data-attr\]\]\:font-12,
-.group[data-attr] .group-\[\[data-attr\]\]\:font-12{--un-font-weight:12;font-weight:12;}
-.as-parent .group .group-\[\.as-parent_\&\]\:font-13,
-.as-parent .group-aria .group-aria-\[\.as-parent_\&\]\:font-13{--un-font-weight:13;font-weight:13;}
-.group-aria.not-parent .group-aria-\[\.not-parent\]\:font-14,
-.group.not-parent .group-\[\.not-parent\]\:font-14{--un-font-weight:14;font-weight:14;}
-.group-aria\/label:hover .group-aria-\[\:hover\]\/label\:font-16,
-.group\/label:hover .group-\[\:hover\]\/label\:font-16{--un-font-weight:16;font-weight:16;}
-.group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
-.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{--un-font-weight:17;font-weight:17;}
-.as-parent .group-aria\/label .group-aria-\[\.as-parent_\&\]\/label\:font-18,
-.as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{--un-font-weight:18;font-weight:18;}
-.group-aria\/label.not-parent .group-aria-\[\.not-parent\]\/label\:font-19,
-.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{--un-font-weight:19;font-weight:19;}
-.group[data-state=open] .group-data-\[state\=open\]\:font-bold{--un-font-weight:var(--fontWeight-bold);font-weight:var(--fontWeight-bold);}
-.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{--un-font-weight:var(--fontWeight-medium);font-weight:var(--fontWeight-medium);}
 .font-050,
 .font-50,
 .fw-050,
 .fw-50{--un-font-weight:50;font-weight:50;}
-.font-550{--un-font-weight:550;font-weight:550;}
+.font-\[200\],
+.font-\[number\:200\],
+.font-200,
+.fw-200{--un-font-weight:200;font-weight:200;}
 .font-900,
 .fw-900{--un-font-weight:900;font-weight:900;}
-.font-thin{--un-font-weight:var(--fontWeight-thin);font-weight:var(--fontWeight-thin);}
 .fw-inherit{--un-font-weight:inherit;font-weight:inherit;}
-.group-aria:hover .group-aria-hover\:font-10,
-.group:hover .group-hover\:font-10{--un-font-weight:10;font-weight:10;}
-.group-aria\/label:hover .group-aria-hover\/label\:font-15,
-.group\/label:hover .group-hover\/label\:font-15{--un-font-weight:15;font-weight:15;}
 .font-leading-2,
 .leading-2{--un-leading:calc(var(--spacing) * 2);line-height:calc(var(--spacing) * 2);}
 .leading-\$variable,
@@ -332,11 +313,42 @@
 .font-stretch-normal{font-stretch:normal;}
 .font-stretch-\[ultra-expanded\]{font-stretch:ultra-expanded;}
 .font-stretch-1\/2{font-stretch:50%;}
+.group-aria:hover .group-aria-\[\:hover\]\:font-11,
+.group:hover .group-\[\:hover\]\:font-11{--un-font-weight:11;font-weight:11;}
+.group-aria[data-attr] .group-aria-\[\[data-attr\]\]\:font-12,
+.group[data-attr] .group-\[\[data-attr\]\]\:font-12{--un-font-weight:12;font-weight:12;}
+.as-parent .group .group-\[\.as-parent_\&\]\:font-13,
+.as-parent .group-aria .group-aria-\[\.as-parent_\&\]\:font-13{--un-font-weight:13;font-weight:13;}
+.group-aria.not-parent .group-aria-\[\.not-parent\]\:font-14,
+.group.not-parent .group-\[\.not-parent\]\:font-14{--un-font-weight:14;font-weight:14;}
+.group-aria\/label:hover .group-aria-\[\:hover\]\/label\:font-16,
+.group\/label:hover .group-\[\:hover\]\/label\:font-16{--un-font-weight:16;font-weight:16;}
+.group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
+.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{--un-font-weight:17;font-weight:17;}
+.as-parent .group-aria\/label .group-aria-\[\.as-parent_\&\]\/label\:font-18,
+.as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{--un-font-weight:18;font-weight:18;}
+.group-aria\/label.not-parent .group-aria-\[\.not-parent\]\/label\:font-19,
+.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{--un-font-weight:19;font-weight:19;}
+.group[data-state=open] .group-data-\[state\=open\]\:font-bold{--un-font-weight:var(--fontWeight-bold);font-weight:var(--fontWeight-bold);}
+.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{--un-font-weight:var(--fontWeight-medium);font-weight:var(--fontWeight-medium);}
 .font-\[\"custom_fontFamily_name\"\]{font-family:"custom fontFamily name";}
+.font-\[custom-family-name\],
+.font-\[family\:custom-family-name\]{font-family:custom-family-name;}
+.font-\[family\:--variable\],
+.font-\[family\:\$variable\]{font-family:var(--variable);}
+.font-\[number\:--variable\],
+.font-\[number\:\$variable\]{--un-font-weight:var(--variable);font-weight:var(--variable);}
 .font-\[system-ui\]{font-family:system-ui;}
 .font-\$font-name{font-family:var(--font-name);}
+.font-550{--un-font-weight:550;font-weight:550;}
 .font-inherit{font-family:inherit;}
 .font-mono{font-family:var(--font-mono);}
+.font-sans{font-family:var(--font-sans);}
+.font-thin{--un-font-weight:var(--fontWeight-thin);font-weight:var(--fontWeight-thin);}
+.group-aria:hover .group-aria-hover\:font-10,
+.group:hover .group-hover\:font-10{--un-font-weight:10;font-weight:10;}
+.group-aria\/label:hover .group-aria-hover\/label\:font-15,
+.group\/label:hover .group-hover\/label\:font-15{--un-font-weight:15;font-weight:15;}
 .tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
 .tab-\$tabprop{-moz-tab-size:var(--tabprop);-o-tab-size:var(--tabprop);tab-size:var(--tabprop);}
 .tab-6{-moz-tab-size:6;-o-tab-size:6;tab-size:6;}
@@ -624,7 +636,7 @@
 .border-block-style-double{--un-border-style:double;border-block-start-style:double;border-block-end-style:double;}
 .border-ie-unset{--un-border-style:unset;border-inline-end-style:unset;}
 .border-is-style-double{--un-border-style:double;border-inline-start-style:double;}
-.bg-\[--css-spacing\,theme\(spacing\.sm\)\]{background-color:color-mix(in oklch, var(--css-spacing,0.875rem) var(--un-bg-opacity), transparent) /* var(--css-spacing,0.875rem) */;}
+.bg-\[--css-spacing\,theme\(spacing\.sm\)\]{background-color:color-mix(in oklch, var(--css-spacing, 0.875rem) var(--un-bg-opacity), transparent) /* var(--css-spacing, 0.875rem) */;}
 .bg-\[--test-variable\],
 .bg-\$test-variable{background-color:color-mix(in oklch, var(--test-variable) var(--un-bg-opacity), transparent) /* var(--test-variable) */;}
 .bg-\[\#153\]\/10{background-color:color-mix(in oklch, #153 10%, transparent) /* #153 */;}
