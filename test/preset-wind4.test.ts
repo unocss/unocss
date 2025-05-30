@@ -30,7 +30,6 @@ describe('preset-wind4', () => {
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
       [
-        "outline-none",
         "outline-size-none",
         "outline-color-red-1",
         "outline-blue-2",
@@ -76,7 +75,6 @@ describe('preset-wind4', () => {
         "preserve-flat",
         "indent-1/2",
         "indent-lg",
-        "focus-visible:outline-none",
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",
@@ -160,7 +158,7 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: cssvar-property */
+      "/* layer: properties */
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
@@ -204,7 +202,7 @@ describe('preset-wind4', () => {
       "/* layer: theme */
       :root, :host {
       --spacing: 4px;
-      --ui-red-DEFAULT: oklch(0.704 0.191 22.216);
+      --ui-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }"
     `)
   })
@@ -285,7 +283,7 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate(template)
     expect(css).toMatchInlineSnapshot(`
-      "/* layer: cssvar-property */
+      "/* layer: properties */
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
@@ -296,7 +294,7 @@ describe('preset-wind4', () => {
       --colors-foo-primary-2: red;
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
-      --colors-red-DEFAULT: oklch(0.704 0.191 22.216);
+      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }
       /* layer: default */
       .text-foo-100-bar{color:color-mix(in oklch, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
@@ -306,7 +304,7 @@ describe('preset-wind4', () => {
       .text-foo-primary-2{color:color-mix(in oklch, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-3-kebab-value{color:color-mix(in oklch, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklch, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
-      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(0.704 0.191 22.216) */;}"
+      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}"
     `)
   })
 })

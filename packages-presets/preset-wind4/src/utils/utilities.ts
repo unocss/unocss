@@ -42,7 +42,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     return [undefined, undefined]
   }
 
-  function resovleSpace(theme: Theme) {
+  function resolveSpace(theme: Theme) {
     let base: number | undefined
     let unit: string | undefined
 
@@ -70,7 +70,7 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
 
   return (([_, direction, size]: (string | undefined)[], { theme }): CSSEntries | undefined => {
     if (size != null && direction != null) {
-      const spaceMap = resovleSpace(theme)
+      const spaceMap = resolveSpace(theme)
       let v: string | number | undefined
 
       const isNegative = size.startsWith('-')
@@ -384,7 +384,7 @@ export function defineProperty(
     [symbols.variants]: () => [
       {
         parent: '',
-        layer: 'cssvar-property',
+        layer: 'properties',
         selector: () => `@property ${property}`,
       },
     ],

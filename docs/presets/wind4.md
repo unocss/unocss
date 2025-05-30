@@ -90,7 +90,7 @@ Below are the default values for `Theme.defaults`, which you can override in you
 ```ts twoslash [uno.config.ts]
 import type { Theme } from '@unocss/preset-wind4/theme'
 
-export const defaults: Theme['defaults'] = {
+export const defaults: Theme['default'] = {
   transition: {
     duration: '150ms',
     timingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -214,14 +214,15 @@ export default defineConfig({
 
 ## Generated CSS
 
-In the output of PresetWind4, two new layers have been added: `theme` and `cssvar-property`.
+In the output of PresetWind4, three new layers have been added: `base`, `theme`, and `properties`.
 
-|    Layer Name     |              Description              | order |
-| :---------------: | :-----------------------------------: | :---: |
-| `cssvar-property` | CSS properties defined by `@property` | -200  |
-|      `theme`      |      Theme-related CSS variables      | -150  |
+|  Layer Name  |              Description              | order |
+| :----------: | :-----------------------------------: | :---: |
+| `properties` | CSS properties defined by `@property` | -200  |
+|   `theme`    |      Theme-related CSS variables      | -150  |
+|    `base`    |      Base preflight/reset styles      | -100  |
 
-### `cssvar-property` Layer
+### `properties` Layer
 
 We have used `@property` to define CSS properties in many rules to achieve better performance and smaller size.
 
