@@ -55,3 +55,13 @@ export function transformThemeString(code: string, theme: Record<string, any>, t
     throw new Error(`theme of "${code}" did not found`)
   }
 }
+
+export function calcMaxWidthBySize(size: string) {
+  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
+  const unit = size.slice(value.length)
+  if (unit === 'px') {
+    const maxWidth = (Number.parseFloat(value) - 0.1)
+    return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
+  }
+  return `calc(${size} - 0.1px)`
+}

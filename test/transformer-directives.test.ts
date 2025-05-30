@@ -1543,4 +1543,60 @@ describe('wind4', () => {
         `)
     })
   })
+
+  describe('transformer screen', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    async function transform(code: string, _uno: UnoGenerator = uno) {
+      const s = new MagicString(code)
+      await transformDirectives(s, _uno, {})
+      return prettier.format(s.toString(), {
+        parser: 'css',
+        plugins: [parserCSS],
+      })
+    }
+
+    it('basic', async () => {
+      const result = await transform(`
+@screen sm {
+  .grid {
+    @apply grid-cols-1;
+  }
+}
+@screen at-lg {
+  .grid {
+    @apply grid-cols-3;
+  }
+}
+@screen lt-xl {
+  .grid {
+    @apply grid-cols-4;
+  }
+}
+`)
+      await expect(result)
+        .toMatchInlineSnapshot(`
+          "@media (min-width: 40rem) {
+            .grid {
+              grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+          }
+          @media (min-width: 64rem) and (max-width: calc(80rem - 0.1px)) {
+            .grid {
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+          }
+          @media (max-width: calc(80rem - 0.1px)) {
+            .grid {
+              grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+          }
+          "
+        `)
+    })
+  })
 })

@@ -1,5 +1,6 @@
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
+import { calcMaxWidthBySize } from '@unocss/rule-utils'
 
 // eslint-disable-next-line regexp/no-misleading-capturing-group
 const screenRuleRE = /(@screen [^{]+)(.+)/g
@@ -61,11 +62,4 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
       `${generateMediaQuery(breakpointName, prefix)}`,
     )
   }
-}
-
-function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
-  const unit = size.slice(value.length)
-  const maxWidth = (Number.parseFloat(value) - 0.1)
-  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
