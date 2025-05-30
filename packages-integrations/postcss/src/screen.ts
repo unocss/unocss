@@ -1,7 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-
 import type { Root } from 'postcss'
+import { calcMaxWidthBySize } from '@unocss/rule-utils'
 
 export async function parseScreen(root: Root, uno: UnoGenerator, directiveName: string) {
   // @ts-expect-error types
@@ -55,11 +55,4 @@ export async function parseScreen(root: Root, uno: UnoGenerator, directiveName: 
     rule.name = 'media'
     rule.params = `${generateMediaQuery(breakpointName, prefix)}`
   })
-}
-
-function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
-  const unit = size.slice(value.length)
-  const maxWidth = (Number.parseFloat(value) - 0.1)
-  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }
