@@ -161,9 +161,9 @@ export const fonts: Rule<Theme>[] = [
       }
 
       // Numeric font weight (e.g. font-700)
-      const num = h.number(d)
-      if (num != null) {
-        return { '--un-font-weight': num, 'font-weight': num }
+      v = h.number(d)
+      if (v != null) {
+        return { '--un-font-weight': v, 'font-weight': v }
       }
 
       // Bracketed font family (e.g. font-[family:Inter])
@@ -180,7 +180,7 @@ export const fonts: Rule<Theme>[] = [
         return { '--un-font-weight': v, 'font-weight': v }
       }
 
-      // Bracketed value that is a unknown (e.g. font-[xxx])
+      // Bracketed value that is a unknown (e.g. font-[sth])
       v = h.bracket(d)
       if (v != null && h.number(v) != null) {
         const num = h.number(v)
