@@ -146,54 +146,50 @@ export const fonts: Rule<Theme>[] = [
     ([, d], { theme }) => {
       let v: string | undefined
 
+      // Prefer theme font family
       if (theme.font?.[d]) {
-        themeTracking(`font`, d)
+        themeTracking('font', d)
         v = generateThemeVariable('font', d)
-
-        return {
-          'font-family': v,
-        }
+        return { 'font-family': v }
       }
-      else if (theme.fontWeight?.[d]) {
-        themeTracking(`fontWeight`, d)
+
+      // Prefer theme font weight
+      if (theme.fontWeight?.[d]) {
+        themeTracking('fontWeight', d)
         v = generateThemeVariable('fontWeight', d)
-
-        return {
-          '--un-font-weight': v,
-          'font-weight': v,
-        }
+        return { '--un-font-weight': v, 'font-weight': v }
       }
 
-      v = h.number(d)
-      if (v != null) {
-        return {
-          '--un-font-weight': v,
-          'font-weight': v,
-        }
+      // Numeric font weight (e.g. font-700)
+      const num = h.number(d)
+      if (num != null) {
+        return { '--un-font-weight': num, 'font-weight': num }
       }
 
+      // Bracketed font family (e.g. font-[family:Inter])
       v = h.bracketOfFamily(d)
-      if (v != null) {
+      if (v != null && h.number(v) == null) {
         v = h.cssvar(v) ?? v
-        return {
-          'font-family': v,
-        }
+        return { 'font-family': v }
       }
 
+      // Bracketed numeric font weight (e.g. font-[number:700])
       v = h.bracketOfNumber(d)
       if (v != null) {
         v = h.cssvar.number(v)
-        return {
-          '--un-font-weight': v,
-          'font-weight': v,
-        }
+        return { '--un-font-weight': v, 'font-weight': v }
+      }
+
+      // Bracketed value that is a unknown (e.g. font-[xxx])
+      v = h.bracket(d)
+      if (v != null && h.number(v) != null) {
+        const num = h.number(v)
+        return { '--un-font-weight': num, 'font-weight': num }
       }
 
       v = h.bracket.cssvar.global(d)
       if (v != null) {
-        return {
-          'font-family': v,
-        }
+        return { 'font-family': v }
       }
     },
     { autocomplete: ['font-$font', 'font-$fontWeight'] },

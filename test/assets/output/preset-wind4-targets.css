@@ -281,6 +281,7 @@
 .font-50,
 .fw-050,
 .fw-50{--un-font-weight:50;font-weight:50;}
+.font-\[200\],
 .font-\[number\:200\],
 .font-200,
 .fw-200{--un-font-weight:200;font-weight:200;}
