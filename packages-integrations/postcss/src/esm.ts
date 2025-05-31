@@ -170,6 +170,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     classes.clear()
     const excludes: string[] = []
     root.walkAtRules(directiveMap.unocss, (rule) => {
+      if (rule.params && rule.params.startsWith('!')) {
+        excludes.push(rule.params.slice(1).trim())
+        rule.replaceWith('')
+      }
+    })
+    root.walkAtRules(directiveMap.unocss, (rule) => {
       if (rule.params) {
         const source = rule.source
         const layers = rule.params.split(',').map(v => v.trim())
