@@ -3,7 +3,7 @@ import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { toArray } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, getThemeByKey, trackedTheme } from '../utils'
+import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -56,17 +56,35 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      const preflightsTheme = options.preflights!.theme as PreflightsTheme
-      if (preflightsTheme.mode === false) {
+      const { mode, process, safelist } = options.preflights!.theme as PreflightsTheme
+      if (mode === false) {
         return undefined
       }
 
-      let deps
+      if (safelist) {
+        safelist
+          .flatMap(s => typeof s === 'function' ? s(theme) : s)
+          .filter(Boolean)
+          .forEach((s) => {
+            const [key, prop] = s.trim().split(':') as [keyof Theme, string?]
+            if (key in theme) {
+              const props = prop?.split('-') ?? ['DEFAULT']
+              const v = getThemeByKey(theme, key, props)
+
+              if (typeof v === 'string') {
+                themeTracking(key, props)
+                detectThemeValue(v, theme)
+              }
+            }
+          })
+      }
+
+      let deps: CSSEntry[]
       const generateCSS = (deps: CSSEntry[]) => {
-        if (preflightsTheme.process) {
+        if (process) {
           for (const utility of deps) {
-            for (const process of toArray(preflightsTheme.process)) {
-              process(utility, ctx)
+            for (const p of toArray(process)) {
+              p(utility, ctx)
             }
           }
         }
@@ -83,7 +101,7 @@ ${depCSS}
 }`, generator.config.envMode === 'dev')
       }
 
-      if (preflightsTheme.mode === 'on-demand') {
+      if (mode === 'on-demand') {
         if (trackedTheme.size === 0)
           return undefined
 
