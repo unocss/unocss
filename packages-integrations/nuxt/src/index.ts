@@ -7,8 +7,6 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxt2, isNuxt3 } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
-import VitePlugin from '@unocss/vite'
-import WebpackPlugin from '@unocss/webpack'
 import { resolveOptions } from './options'
 
 export { UnocssNuxtOptions }
@@ -125,6 +123,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
       await nuxt.callHook('unocss:config', unoConfig)
 
       extendViteConfig(async (config) => {
+        const { default: VitePlugin } = await import('@unocss/vite')
         config.plugins = config.plugins || []
         config.plugins.unshift(...VitePlugin({
           mode: options.mode,
@@ -132,6 +131,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
       })
 
       extendWebpackConfig(async (config) => {
+        const { default: WebpackPlugin } = await import('@unocss/webpack')
         config.plugins = config.plugins || []
         config.plugins.unshift(WebpackPlugin({}, unoConfig))
       })
