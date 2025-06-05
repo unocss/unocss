@@ -1117,6 +1117,7 @@ export const presetMiniTargets: string[] = [
 
   // variants supports
   'supports-[(display:_grid)]:block',
+  'supports-[display:grid]:grid',
 
   // variants media
   'media-mouse:block',

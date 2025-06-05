@@ -1627,6 +1627,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .supports-\[\(display\:_grid\)\]\:block,
 .supports-grid\:block{display:block;}
 }
+@supports (display:grid){
+.supports-\[display\:grid\]\:grid{display:grid;}
+}
 @supports(display:grid){
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:color-mix(in oklch, var(--colors-red-DEFAULT) 33%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 *+.\[\@supports\(display\:grid\)\]\:\[\*\+\&\]\:bg-red\/34{background-color:color-mix(in oklch, var(--colors-red-DEFAULT) 34%, transparent) /* oklch(70.4% 0.191 22.216) */;}
