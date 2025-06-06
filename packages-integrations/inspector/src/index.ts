@@ -121,7 +121,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         // remove the base path from appUrl if possible
         const serverUrl = server.config.base && appUrl.endsWith(server.config.base)
           ? appUrl.slice(0, -server.config.base.length)
-          : appUrl
+          : appUrl.slice(0, -1) // remove the trailing slash
         // we removed the trailing slash from serverUrl when removing the base, add it back
         const inspectorUrl = `${serverUrl}/${baseUrl}/`
         // eslint-disable-next-line no-console
