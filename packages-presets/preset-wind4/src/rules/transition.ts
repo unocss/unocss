@@ -31,8 +31,8 @@ export const transitions: Rule<Theme>[] = [
 
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,
-        'transition-timing-function': `var(--un-ease, ${generateThemeVariable('defaults', ['transition', 'timingFunction'])})`,
-        'transition-duration': `var(--un-duration, ${generateThemeVariable('defaults', ['transition', 'duration'])})`,
+        'transition-timing-function': `var(--un-ease, ${generateThemeVariable('default', ['transition', 'timingFunction'])})`,
+        'transition-duration': `var(--un-duration, ${generateThemeVariable('default', ['transition', 'duration'])})`,
       }
 
       if (!prop && !d) {
