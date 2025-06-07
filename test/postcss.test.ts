@@ -117,7 +117,7 @@ describe('postcss', () => {
   })
 
   it('@unocss exclude layer', async () => {
-    const { css } = await pcssLite().process('@unocss !preflights;@unocss;', processOptions)
+    const { css } = await pcssLite().process('@unocss !preflights;', processOptions)
 
     expect(css).toMatchSnapshot()
   })
