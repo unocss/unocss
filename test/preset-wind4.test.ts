@@ -102,7 +102,6 @@ describe('preset-wind4', () => {
         "border-spacing-none",
         "divide-inline-$variable",
         "uno-layer-_pre:contrast-less:bg-gray-3",
-        "placeholder-inherit",
         "-space-x-4",
         "data-dropdown:ring-green",
       ]

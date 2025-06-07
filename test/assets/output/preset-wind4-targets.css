@@ -1486,6 +1486,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .line-clamp-100{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:100;}
 .line-clamp-7{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;}
 .line-clamp-none{overflow:visible;display:block;-webkit-box-orient:horizontal;-webkit-line-clamp:unset;}
+.placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{color:color-mix(in oklch, var(--colors-red-400) var(--un-placeholder-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .placeholder-opacity-60::placeholder{--un-placeholder-opacity:60%;}
 .snap-both{scroll-snap-type:both var(--un-scroll-snap-strictness);}
