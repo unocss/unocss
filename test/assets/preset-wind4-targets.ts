@@ -321,6 +321,7 @@ export const presetWind4Targets: string[] = [
   'object-center-top',
   'object-center-bottom',
   'object-[center_25%]',
+  'collapse',
 
   // tables
   'border-collapse',
@@ -483,6 +484,14 @@ export const presetWind4Targets: string[] = [
   'scheme-light-dark',
   'scheme-dark',
   'scheme-light',
+
+  // grid
+  'col-11',
+  '-col-12',
+  'col-span-$variable',
+  'row-11',
+  '-row-12',
+  'row-span-$variable',
 ]
 
 export const presetWindNonTargets: string[] = [

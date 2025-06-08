@@ -170,25 +170,51 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     classes.clear()
     const excludes: string[] = []
     root.walkAtRules(directiveMap.unocss, (rule) => {
+      const source = rule.source
       if (rule.params) {
-        const source = rule.source
-        const layers = rule.params.split(',').map(v => v.trim())
-        const css = postcss.parse(
-          layers
+        const excludeLayers = []
+        const includeLayers = []
+
+        for (const layer of rule.params.split(',')) {
+          const name = layer.trim()
+          if (!name)
+            continue
+
+          if (name.startsWith('!')) {
+            if (name.slice(1)) {
+              excludeLayers.push(name.slice(1))
+            }
+          }
+          else {
+            includeLayers.push(name)
+          }
+        }
+
+        if (excludeLayers.length > 0 && includeLayers.length > 0) {
+          console.warn(`Warning: Mixing normal and negated layer names in "@${directiveMap.unocss} ${rule.params}" is not recommended.`)
+        }
+
+        let result = ''
+
+        if (includeLayers.length > 0) {
+          result = includeLayers
             .map(i => (i === 'all' ? c.getLayers() : c.getLayer(i)) || '')
             .filter(Boolean)
-            .join('\n'),
-        )
+            .join('\n')
+          excludes.push(...includeLayers)
+        }
+        else if (excludeLayers.length > 0) {
+          result = c.getLayers(undefined, excludeLayers) || ''
+          excludes.push(...excludeLayers)
+        }
+
+        const css = postcss.parse(result)
         css.walkDecls((declaration) => {
           declaration.source = source
         })
         rule.replaceWith(css)
-        excludes.push(rule.params)
       }
-    })
-    root.walkAtRules(directiveMap.unocss, (rule) => {
-      if (!rule.params) {
-        const source = rule.source
+      else {
         const css = postcss.parse(c.getLayers(undefined, excludes) || '')
         css.walkDecls((declaration) => {
           declaration.source = source
