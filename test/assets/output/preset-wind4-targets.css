@@ -931,6 +931,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .display-\$var{display:var(--var);}
 .display-inherit{display:inherit;}
 .visible{visibility:visible;}
+.collapse{visibility:collapse;}
 .backface-hidden{backface-visibility:hidden;}
 .backface-revert{backface-visibility:revert;}
 .cursor-\[url\(cursor_2\.png\)_2_2\,_pointer\]{cursor:url(cursor_2.png) 2 2, pointer;}
