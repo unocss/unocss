@@ -1217,6 +1217,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .justify-normal{justify-content:normal;}
 .justify-inherit{justify-content:inherit;}
 .justify-items-end{justify-items:end;}
+.justify-items-center-safe{justify-items:safe center;}
+.justify-items-end-safe{justify-items:safe flex-end;}
 .justify-items-unset{justify-items:unset;}
 .justify-self-stretch{justify-self:stretch;}
 .justify-self-revert{justify-self:revert;}
