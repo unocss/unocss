@@ -777,12 +777,18 @@
 .-gap-row-5,
 .-gap-y-5{row-gap:calc(calc(var(--spacing) * 5) * -1);}
 .grid{display:grid;}
+.col-11{grid-column:11;}
+.-col-12{grid-column:-12;}
 .grid-col-\$variable{grid-column:var(--variable);}
 .grid-row-\$variable{grid-row:var(--variable);}
 .row-\[span_1\/span_2\]{grid-row:span 1/span 2;}
+.row-11{grid-row:11;}
+.-row-12{grid-row:-12;}
 .row-auto{grid-row:auto;}
+.col-span-\$variable{grid-column:span var(--variable)/span var(--variable);}
 .col-span-1{grid-column:span 1/span 1;}
 .row-span-\[hi\]{grid-row:span hi/span hi;}
+.row-span-\$variable{grid-row:span var(--variable)/span var(--variable);}
 .row-span-full{grid-row:1/-1;}
 .row-start-full{grid-row-start:full;}
 .row-end-1{grid-row-end:1;}
