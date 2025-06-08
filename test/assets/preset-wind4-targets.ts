@@ -321,6 +321,7 @@ export const presetWind4Targets: string[] = [
   'object-center-top',
   'object-center-bottom',
   'object-[center_25%]',
+  'collapse',
 
   // tables
   'border-collapse',
