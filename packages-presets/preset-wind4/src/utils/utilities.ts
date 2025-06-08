@@ -133,6 +133,11 @@ export function splitShorthand(body: string, type: string) {
  * @return object if string is parseable.
  */
 export function parseColor(body: string, theme: Theme) {
+  // console.log(getStringComponents(body, ['/', ':'], 3))
+  // console.log('\n')
+
+  // console.log(getStringComponent(body, '[', ']', ['/', ':']))
+
   const split = splitShorthand(body, 'color')
   if (!split)
     return
