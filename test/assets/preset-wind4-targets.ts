@@ -512,6 +512,11 @@ export const presetWind4Targets: string[] = [
   // justify-items
   'justify-items-center-safe',
   'justify-items-end-safe',
+
+  // align-self
+  'self-baseline-last',
+  'self-center-safe',
+  'self-end-safe',
 ]
 
 export const presetWindNonTargets: string[] = [

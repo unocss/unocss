@@ -88,6 +88,9 @@ export const alignments: StaticRule[] = [
   ['self-center', { 'align-self': 'center' }],
   ['self-stretch', { 'align-self': 'stretch' }],
   ['self-baseline', { 'align-self': 'baseline' }],
+  ['self-baseline-last', { 'align-self': 'last baseline' }],
+  ['self-center-safe', { 'align-self': 'safe center' }],
+  ['self-end-safe', { 'align-self': 'safe flex-end' }],
   ...makeGlobalStaticRules('self', 'align-self'),
 ]
 
