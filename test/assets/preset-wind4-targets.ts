@@ -492,6 +492,12 @@ export const presetWind4Targets: string[] = [
   'row-11',
   '-row-12',
   'row-span-$variable',
+
+  // align-contents
+  'content-center-safe',
+  'content-end-safe',
+  'content-stretch',
+  'content-normal',
 ]
 
 export const presetWindNonTargets: string[] = [

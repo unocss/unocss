@@ -1165,6 +1165,10 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\[padding\:theme\(spacing\.xl\)\]{padding:1.25rem;}
 .content-center{align-content:center;}
 .content-start{align-content:flex-start;}
+.content-center-safe{align-content:safe center;}
+.content-end-safe{align-content:safe flex-end;}
+.content-stretch{align-content:stretch;}
+.content-normal{align-content:normal;}
 .content-inherit{align-content:inherit;}
 .items-end{align-items:flex-end;}
 .items-unset{align-items:unset;}

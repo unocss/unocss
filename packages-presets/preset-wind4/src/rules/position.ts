@@ -58,6 +58,11 @@ export const alignments: StaticRule[] = [
   ['content-between', { 'align-content': 'space-between' }],
   ['content-around', { 'align-content': 'space-around' }],
   ['content-evenly', { 'align-content': 'space-evenly' }],
+  ['content-baseline', { 'align-content': 'baseline' }],
+  ['content-center-safe', { 'align-content': 'safe center' }],
+  ['content-end-safe', { 'align-content': 'safe flex-end' }],
+  ['content-stretch', { 'align-content': 'stretch' }],
+  ['content-normal', { 'align-content': 'normal' }],
   ...makeGlobalStaticRules('content', 'align-content'),
 
   // items
