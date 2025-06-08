@@ -1171,6 +1171,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .content-normal{align-content:normal;}
 .content-inherit{align-content:inherit;}
 .items-end{align-items:flex-end;}
+.items-baseline-last{align-items:last baseline;}
+.items-center-safe{align-items:safe center;}
+.items-end-safe{align-items:safe flex-end;}
 .items-unset{align-items:unset;}
 .self-stretch{align-self:stretch;}
 .self-revert{align-self:revert;}

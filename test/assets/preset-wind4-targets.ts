@@ -498,6 +498,11 @@ export const presetWind4Targets: string[] = [
   'content-end-safe',
   'content-stretch',
   'content-normal',
+
+  // align-items
+  'items-baseline-last',
+  'items-center-safe',
+  'items-end-safe',
 ]
 
 export const presetWindNonTargets: string[] = [
