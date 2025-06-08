@@ -23,14 +23,14 @@ export const grids: Rule<Theme>[] = [
 
   // global
   [/^(?:grid-)?(row|col)-(.+)$/, ([, c, v]) => ({
-    [`grid-${rowCol(c)}`]: h.bracket.cssvar.auto(v),
+    [`grid-${rowCol(c)}`]: h.bracket.number.cssvar.auto(v),
   })],
 
   // span
   [/^(?:grid-)?(row|col)-span-(.+)$/, ([, c, s]) => {
     if (s === 'full')
       return { [`grid-${rowCol(c)}`]: '1/-1' }
-    const v = h.bracket.number(s)
+    const v = h.bracket.number.cssvar(s)
     if (v != null)
       return { [`grid-${rowCol(c)}`]: `span ${v}/span ${v}` }
   }, { autocomplete: '(grid-row|grid-col|row|col)-span-<num>' }],
