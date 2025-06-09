@@ -45,6 +45,9 @@ export const justifies: StaticRule[] = [
   ['justify-self-end', { 'justify-self': 'end' }],
   ['justify-self-center', { 'justify-self': 'center' }],
   ['justify-self-stretch', { 'justify-self': 'stretch' }],
+  ['justify-self-baseline', { 'justify-self': 'baseline' }],
+  ['justify-self-center-safe', { 'justify-self': 'safe center' }],
+  ['justify-self-end-safe', { 'justify-self': 'safe flex-end' }],
   ...makeGlobalStaticRules('justify-self'),
 ]
 

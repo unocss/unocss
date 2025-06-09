@@ -1224,6 +1224,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .justify-items-end-safe{justify-items:safe flex-end;}
 .justify-items-unset{justify-items:unset;}
 .justify-self-stretch{justify-self:stretch;}
+.justify-self-baseline{justify-self:baseline;}
+.justify-self-center-safe{justify-self:safe center;}
+.justify-self-end-safe{justify-self:safe flex-end;}
 .justify-self-revert{justify-self:revert;}
 .order-\$variable{order:var(--variable);}
 .order-first{order:calc(-infinity);}
