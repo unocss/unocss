@@ -492,50 +492,6 @@ export const presetWind4Targets: string[] = [
   'row-11',
   '-row-12',
   'row-span-$variable',
-
-  // align-content
-  'content-center-safe',
-  'content-end-safe',
-  'content-stretch',
-  'content-normal',
-
-  // align-items
-  'items-baseline-last',
-  'items-center-safe',
-  'items-end-safe',
-
-  // justify-content
-  'justify-center-safe',
-  'justify-end-safe',
-  'justify-normal',
-
-  // justify-items
-  'justify-items-center-safe',
-  'justify-items-end-safe',
-
-  // align-self
-  'self-baseline-last',
-  'self-center-safe',
-  'self-end-safe',
-
-  // justify-self
-  'justify-self-baseline',
-  'justify-self-center-safe',
-  'justify-self-end-safe',
-
-  // place-content
-  'place-content-baseline',
-  'place-content-center-safe',
-  'place-content-end-safe',
-
-  // place-items
-  'place-items-baseline',
-  'place-items-center-safe',
-  'place-items-end-safe',
-
-  // place-self
-  'place-self-center-safe',
-  'place-self-end-safe',
 ]
 
 export const presetWindNonTargets: string[] = [
