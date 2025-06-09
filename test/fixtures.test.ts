@@ -3,9 +3,11 @@ import process from 'node:process'
 import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
 import { build } from 'vite'
+import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 
 const isWindows = process.platform === 'win32'
+const isRolldownVite = 'rolldownVersion' in vite
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
@@ -52,7 +54,7 @@ describe.concurrent('fixtures', () => {
     expect(css).not.contains('.text-teal')
   })
 
-  it.skipIf(isWindows)('vite legacy', async () => {
+  it.skipIf(isWindows || isRolldownVite)('vite legacy', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy')
     await fs.emptyDir(join(root, 'dist'))
     await build({
@@ -71,7 +73,7 @@ describe.concurrent('fixtures', () => {
     expect(css).contains('.text-red')
   }, 15000)
 
-  it.skipIf(isWindows)('vite legacy renderModernChunks false', async () => {
+  it.skipIf(isWindows || isRolldownVite)('vite legacy renderModernChunks false', async () => {
     const root = resolve(__dirname, 'fixtures/vite-legacy-chunks')
     await fs.emptyDir(join(root, 'dist'))
     await build({
