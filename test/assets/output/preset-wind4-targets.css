@@ -1242,6 +1242,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .place-items-end-safe{place-items:safe flex-end;}
 .place-items-unset{place-items:unset;}
 .place-self-stretch{place-self:stretch;}
+.place-self-center-safe{place-self:safe center;}
+.place-self-end-safe{place-self:safe flex-end;}
 .place-self-revert{place-self:revert;}
 .absolute{position:absolute;}
 .pos-fixed{position:fixed;}

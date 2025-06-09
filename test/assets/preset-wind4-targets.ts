@@ -532,6 +532,10 @@ export const presetWind4Targets: string[] = [
   'place-items-baseline',
   'place-items-center-safe',
   'place-items-end-safe',
+
+  // place-self
+  'place-self-center-safe',
+  'place-self-end-safe',
 ]
 
 export const presetWindNonTargets: string[] = [
