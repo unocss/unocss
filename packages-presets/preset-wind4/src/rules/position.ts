@@ -106,6 +106,9 @@ export const placements: StaticRule[] = [
   ['place-content-around', { 'place-content': 'space-around' }],
   ['place-content-evenly', { 'place-content': 'space-evenly' }],
   ['place-content-stretch', { 'place-content': 'stretch' }],
+  ['place-content-baseline', { 'place-content': 'baseline' }],
+  ['place-content-center-safe', { 'place-content': 'safe center' }],
+  ['place-content-end-safe', { 'place-content': 'safe flex-end' }],
   ...makeGlobalStaticRules('place-content'),
 
   // items

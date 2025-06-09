@@ -1232,6 +1232,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .order-first{order:calc(-infinity);}
 .order-none{order:0;}
 .place-content-stretch{place-content:stretch;}
+.place-content-baseline{place-content:baseline;}
+.place-content-center-safe{place-content:safe center;}
+.place-content-end-safe{place-content:safe flex-end;}
 .place-content-inherit{place-content:inherit;}
 .place-items-stretch{place-items:stretch;}
 .place-items-unset{place-items:unset;}
