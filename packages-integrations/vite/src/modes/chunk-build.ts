@@ -42,7 +42,11 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
       await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, fakeCssId)
       chunk.modules[fakeCssId] = {
         code: null,
+        // eslint-disable-next-line ts/ban-ts-comment
+        // @ts-ignore does not exist in rolldown
         originalLength: 0,
+        // eslint-disable-next-line ts/ban-ts-comment
+        // @ts-ignore does not exist in rolldown
         removedExports: [],
         renderedExports: [],
         renderedLength: 0,
