@@ -25,6 +25,9 @@ export const justifies: StaticRule[] = [
   ['justify-stretch', { 'justify-content': 'stretch' }],
   ['justify-left', { 'justify-content': 'left' }],
   ['justify-right', { 'justify-content': 'right' }],
+  ['justify-center-safe', { 'justify-content': 'safe center' }],
+  ['justify-end-safe', { 'justify-content': 'safe flex-end' }],
+  ['justify-normal', { 'justify-content': 'normal' }],
   ...makeGlobalStaticRules('justify', 'justify-content'),
 
   // items
@@ -32,6 +35,8 @@ export const justifies: StaticRule[] = [
   ['justify-items-end', { 'justify-items': 'end' }],
   ['justify-items-center', { 'justify-items': 'center' }],
   ['justify-items-stretch', { 'justify-items': 'stretch' }],
+  ['justify-items-center-safe', { 'justify-items': 'safe center' }],
+  ['justify-items-end-safe', { 'justify-items': 'safe flex-end' }],
   ...makeGlobalStaticRules('justify-items'),
 
   // selfs
@@ -40,6 +45,9 @@ export const justifies: StaticRule[] = [
   ['justify-self-end', { 'justify-self': 'end' }],
   ['justify-self-center', { 'justify-self': 'center' }],
   ['justify-self-stretch', { 'justify-self': 'stretch' }],
+  ['justify-self-baseline', { 'justify-self': 'baseline' }],
+  ['justify-self-center-safe', { 'justify-self': 'safe center' }],
+  ['justify-self-end-safe', { 'justify-self': 'safe flex-end' }],
   ...makeGlobalStaticRules('justify-self'),
 ]
 
@@ -58,6 +66,11 @@ export const alignments: StaticRule[] = [
   ['content-between', { 'align-content': 'space-between' }],
   ['content-around', { 'align-content': 'space-around' }],
   ['content-evenly', { 'align-content': 'space-evenly' }],
+  ['content-baseline', { 'align-content': 'baseline' }],
+  ['content-center-safe', { 'align-content': 'safe center' }],
+  ['content-end-safe', { 'align-content': 'safe flex-end' }],
+  ['content-stretch', { 'align-content': 'stretch' }],
+  ['content-normal', { 'align-content': 'normal' }],
   ...makeGlobalStaticRules('content', 'align-content'),
 
   // items
@@ -66,6 +79,9 @@ export const alignments: StaticRule[] = [
   ['items-center', { 'align-items': 'center' }],
   ['items-baseline', { 'align-items': 'baseline' }],
   ['items-stretch', { 'align-items': 'stretch' }],
+  ['items-baseline-last', { 'align-items': 'last baseline' }],
+  ['items-center-safe', { 'align-items': 'safe center' }],
+  ['items-end-safe', { 'align-items': 'safe flex-end' }],
   ...makeGlobalStaticRules('items', 'align-items'),
 
   // selfs
@@ -75,6 +91,9 @@ export const alignments: StaticRule[] = [
   ['self-center', { 'align-self': 'center' }],
   ['self-stretch', { 'align-self': 'stretch' }],
   ['self-baseline', { 'align-self': 'baseline' }],
+  ['self-baseline-last', { 'align-self': 'last baseline' }],
+  ['self-center-safe', { 'align-self': 'safe center' }],
+  ['self-end-safe', { 'align-self': 'safe flex-end' }],
   ...makeGlobalStaticRules('self', 'align-self'),
 ]
 
@@ -87,6 +106,9 @@ export const placements: StaticRule[] = [
   ['place-content-around', { 'place-content': 'space-around' }],
   ['place-content-evenly', { 'place-content': 'space-evenly' }],
   ['place-content-stretch', { 'place-content': 'stretch' }],
+  ['place-content-baseline', { 'place-content': 'baseline' }],
+  ['place-content-center-safe', { 'place-content': 'safe center' }],
+  ['place-content-end-safe', { 'place-content': 'safe flex-end' }],
   ...makeGlobalStaticRules('place-content'),
 
   // items
@@ -94,6 +116,9 @@ export const placements: StaticRule[] = [
   ['place-items-end', { 'place-items': 'end' }],
   ['place-items-center', { 'place-items': 'center' }],
   ['place-items-stretch', { 'place-items': 'stretch' }],
+  ['place-items-baseline', { 'place-items': 'baseline' }],
+  ['place-items-center-safe', { 'place-items': 'safe center' }],
+  ['place-items-end-safe', { 'place-items': 'safe flex-end' }],
   ...makeGlobalStaticRules('place-items'),
 
   // selfs
@@ -102,6 +127,8 @@ export const placements: StaticRule[] = [
   ['place-self-end', { 'place-self': 'end' }],
   ['place-self-center', { 'place-self': 'center' }],
   ['place-self-stretch', { 'place-self': 'stretch' }],
+  ['place-self-center-safe', { 'place-self': 'safe center' }],
+  ['place-self-end-safe', { 'place-self': 'safe flex-end' }],
   ...makeGlobalStaticRules('place-self'),
 ]
 
