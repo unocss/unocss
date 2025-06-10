@@ -284,6 +284,8 @@ export const presetWind4Targets: string[] = [
   'scroll-p-inline-none',
 
   // shadow, spacing
+  'shadow-2xs',
+  'inset-shadow-none',
   'mix-blend-normal',
   'mix-blend-hard-light',
   'mix-blend-plus-lighter',
@@ -382,7 +384,7 @@ export const presetWind4Targets: string[] = [
   'object-$fit',
 
   // text-shadow
-  'text-shadow-xl',
+  'text-shadow-lg',
   'text-shadow-sky-300',
   'text-shadow-color-sky-300',
   'text-shadow-op-50',
