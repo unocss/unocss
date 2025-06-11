@@ -68,31 +68,33 @@ export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
     }, {} as Record<string, number | string>)
   }
 
-  return (([_, direction, size]: string[], { theme }): CSSEntries | undefined => {
-    const spaceMap = resolveSpace(theme)
-    let v: string | number | undefined
+  return (([_, direction, size]: (string | undefined)[], { theme }): CSSEntries | undefined => {
+    if (size != null && direction != null) {
+      const spaceMap = resolveSpace(theme)
+      let v: string | number | undefined
 
-    const isNegative = size?.startsWith('-')
-    if (isNegative)
-      size = size.slice(1)
+      const isNegative = size.startsWith('-')
+      if (isNegative)
+        size = size.slice(1)
 
-    v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
+      v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
 
-    if (v != null) {
-      if (!Number.isNaN(v)) {
-        themeTracking('spacing')
-        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
+      if (v != null) {
+        if (!Number.isNaN(v)) {
+          themeTracking('spacing')
+          return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
+        }
+        else {
+          themeTracking('spacing', size)
+          return directionMap[direction].map(i => [`${propertyPrefix}${i}`, isNegative ? `calc(var(--spacing-${size} * -1)` : `var(--spacing-${size})`])
+        }
       }
-      else {
-        themeTracking('spacing', size)
-        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, isNegative ? `calc(var(--spacing-${size} * -1)` : `var(--spacing-${size})`])
+
+      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
+
+      if (v != null) {
+        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
       }
-    }
-
-    v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
-
-    if (v != null) {
-      return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
     }
   }) as DynamicMatcher<Theme>
 }

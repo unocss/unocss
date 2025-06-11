@@ -12,6 +12,6 @@ export const unitOnlyMap: Record<string, number> = {
   lvh: 100,
   lvw: 100,
 }
-export const bracketTypeRe = /^\[(color|image|length|size|position|quoted|string):/i
+export const bracketTypeRe = /^\[(color|image|length|size|position|quoted|string|number|family):/i
 export const splitComma = /,(?![^()]*\))/g
 export const remRE = /(-?[.\d]+)rem/g

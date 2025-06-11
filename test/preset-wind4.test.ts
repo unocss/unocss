@@ -30,7 +30,6 @@ describe('preset-wind4', () => {
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
       [
-        "outline-none",
         "outline-size-none",
         "outline-color-red-1",
         "outline-blue-2",
@@ -76,7 +75,6 @@ describe('preset-wind4', () => {
         "preserve-flat",
         "indent-1/2",
         "indent-lg",
-        "focus-visible:outline-none",
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",
@@ -104,7 +102,6 @@ describe('preset-wind4', () => {
         "border-spacing-none",
         "divide-inline-$variable",
         "uno-layer-_pre:contrast-less:bg-gray-3",
-        "placeholder-inherit",
         "-space-x-4",
         "data-dropdown:ring-green",
       ]

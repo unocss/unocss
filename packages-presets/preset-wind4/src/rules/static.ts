@@ -20,6 +20,7 @@ export const displays: Rule<Theme>[] = [
 export const appearances: Rule<Theme>[] = [
   ['visible', { visibility: 'visible' }],
   ['invisible', { visibility: 'hidden' }],
+  ['collapse', { visibility: 'collapse' }],
   ['backface-visible', { 'backface-visibility': 'visible' }],
   ['backface-hidden', { 'backface-visibility': 'hidden' }],
   ...makeGlobalStaticRules('backface', 'backface-visibility'),

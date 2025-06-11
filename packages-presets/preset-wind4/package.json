@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-wind4",
   "type": "module",
-  "version": "66.1.2",
+  "version": "66.1.4",
   "description": "Tailwind 4 compact preset for UnoCSS",
   "authors": [
     {

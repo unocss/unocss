@@ -25,7 +25,7 @@ export const fonts: Rule<Theme>[] = [
 
   // weights
   [
-    /^(?:font|fw)-?([^-]+)$/,
+    /^fw-?([^-]+)$/,
     ([, s], { theme }) => {
       let v: string | undefined
 
@@ -34,7 +34,7 @@ export const fonts: Rule<Theme>[] = [
         v = generateThemeVariable('fontWeight', s)
       }
       else {
-        v = h.bracket.global.number(s)
+        v = h.bracket.cssvar.global.number(s)
       }
 
       return {
@@ -140,25 +140,59 @@ export const fonts: Rule<Theme>[] = [
     { autocomplete: 'font-stretch-<percentage>' },
   ],
 
-  // family
+  // family & weight
   [
     /^font-(.+)$/,
     ([, d], { theme }) => {
       let v: string | undefined
 
+      // Prefer theme font family
       if (theme.font?.[d]) {
-        themeTracking(`font`, d)
+        themeTracking('font', d)
         v = generateThemeVariable('font', d)
-      }
-      else {
-        v = h.bracket.cssvar.global(d)
+        return { 'font-family': v }
       }
 
-      return {
-        'font-family': v,
+      // Prefer theme font weight
+      if (theme.fontWeight?.[d]) {
+        themeTracking('fontWeight', d)
+        v = generateThemeVariable('fontWeight', d)
+        return { '--un-font-weight': v, 'font-weight': v }
+      }
+
+      // Numeric font weight (e.g. font-700)
+      v = h.number(d)
+      if (v != null) {
+        return { '--un-font-weight': v, 'font-weight': v }
+      }
+
+      // Bracketed font family (e.g. font-[family:Inter])
+      v = h.bracketOfFamily(d)
+      if (v != null && h.number(v) == null) {
+        v = h.cssvar(v) ?? v
+        return { 'font-family': v }
+      }
+
+      // Bracketed numeric font weight (e.g. font-[number:700])
+      v = h.bracketOfNumber(d)
+      if (v != null) {
+        v = h.cssvar.number(v)
+        return { '--un-font-weight': v, 'font-weight': v }
+      }
+
+      // Bracketed value that is a unknown (e.g. font-[sth])
+      v = h.bracket(d)
+      if (v != null && h.number(v) != null) {
+        const num = h.number(v)
+        return { '--un-font-weight': num, 'font-weight': num }
+      }
+
+      v = h.bracket.cssvar.global(d)
+      if (v != null) {
+        return { 'font-family': v }
       }
     },
-    { autocomplete: 'font-$font' },
+    { autocomplete: ['font-$font', 'font-$fontWeight'] },
   ],
 ]
 
@@ -176,7 +210,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent(?:-(.+))?$/, ([, s]) => {
+  [/^indent-(.+)$/, ([, s]) => {
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
