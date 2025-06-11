@@ -44,6 +44,9 @@ describe('preset-wind4', () => {
         "color-bluegray-400/10",
         "color-bluegray/10",
         "text-red2",
+        "text-[color:--variable]",
+        "text-[color:var(--color)]",
+        "text-[color:var(--color-x)]:[trick]",
         "ring-red2",
         "ring-red2/5",
         "ring-width-px",
@@ -167,7 +170,10 @@ describe('preset-wind4', () => {
       --colors-test: #fff;
       }
       /* layer: default */
-      .c-foo{color:color-mix(in oklch, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}"
+      .c-foo{color:color-mix(in srgb, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
+      @supports (color: color-mix(in lab, red, red)){
+      .c-foo{color:color-mix(in oklab, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
+      }"
     `)
   })
 
@@ -296,14 +302,24 @@ describe('preset-wind4', () => {
       --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }
       /* layer: default */
-      .text-foo-100-bar{color:color-mix(in oklch, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
-      .text-foo-bar{color:color-mix(in oklch, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
-      .text-foo-baz-qux{color:color-mix(in oklch, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
-      .text-foo-primary-1{color:color-mix(in oklch, var(--colors-foo-primary-1-DEFAULT) var(--un-text-opacity), transparent) /* red */;}
-      .text-foo-primary-2{color:color-mix(in oklch, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
-      .text-foo-primary-3-kebab-value{color:color-mix(in oklch, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
-      .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklch, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
-      .text-red{color:color-mix(in oklch, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}"
+      .text-foo-100-bar{color:color-mix(in srgb, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-foo-bar{color:color-mix(in srgb, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
+      .text-foo-baz-qux{color:color-mix(in srgb, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
+      .text-foo-primary-1{color:color-mix(in srgb, var(--colors-foo-primary-1-DEFAULT) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-2{color:color-mix(in srgb, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-3-kebab-value{color:color-mix(in srgb, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in srgb, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
+      .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-foo-100-bar{color:color-mix(in oklab, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-foo-bar{color:color-mix(in oklab, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
+      .text-foo-baz-qux{color:color-mix(in oklab, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
+      .text-foo-primary-1{color:color-mix(in oklab, var(--colors-foo-primary-1-DEFAULT) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-2{color:color-mix(in oklab, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-3-kebab-value{color:color-mix(in oklab, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
+      .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklab, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
+      .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
+      }"
     `)
   })
 })

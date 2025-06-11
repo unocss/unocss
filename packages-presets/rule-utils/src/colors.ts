@@ -43,6 +43,15 @@ export const hueInterpolationMethods = ['shorter', 'longer', 'increasing', 'decr
 export const alphaPlaceholders = ['%alpha', '<alpha-value>']
 export const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'), 'g')
 
+export function isInterpolatedMethod(type?: string): boolean {
+  if (!type)
+    return false
+
+  return rectangularColorSpace.some(space => type.includes(space))
+    || polarColorSpace.some(space => type.includes(space))
+    || hueInterpolationMethods.some(method => type.includes(method))
+}
+
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
   if (color != null) {
