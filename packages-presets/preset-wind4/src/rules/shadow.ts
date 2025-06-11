@@ -33,17 +33,17 @@ function handleShadow(themeKey: 'shadow' | 'insetShadow') {
     const { theme } = ctx
     const v = theme[themeKey]?.[d || 'DEFAULT']
     const c = d ? h.bracket.cssvar(d) : undefined
-    const colorVar = hyphenate(themeKey)
+    const shadowVar = hyphenate(themeKey)
 
     if ((v != null || c != null) && !hasParseableColor(c, theme)) {
       return [
         {
-          '--un-shadow': colorableShadows((v || c)!, `--un-${colorVar}-color`).join(','),
+          [`--un-${shadowVar}`]: colorableShadows((v || c)!, `--un-${shadowVar}-color`).join(','),
           'box-shadow': 'var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow)',
         },
         ...Object.values(shadowProperties),
       ]
     }
-    return colorResolver(`--un-${colorVar}-color`, colorVar)(match, ctx)
+    return colorResolver(`--un-${shadowVar}-color`, shadowVar)(match, ctx)
   }
 }

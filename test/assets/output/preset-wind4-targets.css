@@ -363,15 +363,13 @@
 .text-stroke-blue-500{-webkit-text-stroke-color:color-mix(in srgb, var(--colors-blue-500) var(--un-text-stroke-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
 .text-stroke-op-\$opacity-variable{--un-text-stroke-opacity:var(--opacity-variable);}
 .text-stroke-op-60{--un-text-stroke-opacity:60%;}
-.text-shadow{--un-text-shadow:0 0 1px var(--un-text-shadow-color, rgb(0 0 0 / 0.2)),0 0 1px var(--un-text-shadow-color, rgb(1 0 5 / 0.1));text-shadow:var(--un-text-shadow);}
 .text-shadow-\$var{--un-text-shadow-color:color-mix(in oklab, var(--var) var(--un-text-shadow-opacity), transparent) /* var(--var) */;}
-.text-shadow-lg{--un-text-shadow:3px 3px 6px var(--un-text-shadow-color, rgb(0 0 0 / 0.26)),0 0 5px var(--un-text-shadow-color, rgb(15 3 86 / 0.22));text-shadow:var(--un-text-shadow);}
+.text-shadow-lg{--un-text-shadow:0 1px 2px var(--un-text-shadow-color, rgb(0 0 0 / 0.1)),0 3px 2px var(--un-text-shadow-color, rgb(0 0 0 / 0.1)),0 4px 8px var(--un-text-shadow-color, rgb(0 0 0 / 0.1));text-shadow:var(--un-text-shadow);}
 .text-shadow-none{--un-text-shadow:0 0 var(--un-text-shadow-color, rgb(0 0 0 / 0));text-shadow:var(--un-text-shadow);}
 .text-shadow-color-op-50,
 .text-shadow-op-50{--un-text-shadow-opacity:50%;}
 .text-shadow-color-sky-300,
 .text-shadow-sky-300{--un-text-shadow-color:color-mix(in srgb, var(--colors-sky-300) var(--un-text-shadow-opacity), transparent) /* oklch(82.8% 0.111 230.318) */;}
-.text-shadow-xl{--un-text-shadow:1px 1px 3px var(--un-text-shadow-color, rgb(0 0 0 / 0.29)),2px 4px 7px var(--un-text-shadow-color, rgb(73 64 125 / 0.35));text-shadow:var(--un-text-shadow);}
 .text-shadow-color-red-300{--un-text-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-text-shadow-opacity), transparent) /* oklch(80.8% 0.114 19.571) */;}
 .text-shadow-color-op-\$opacity-variable{--un-text-shadow-opacity:var(--opacity-variable);}
 .text-shadow-color-op-30{--un-text-shadow-opacity:30%;}
@@ -1020,6 +1018,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .shadow-\[0px_4px_4px_0px_rgba\(237\,_0\,_0\,_1\)\]{--un-shadow:0px 4px 4px 0px var(--un-shadow-color, rgba(237, 0, 0, 1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-\[0px_4px_4px_0px_rgba\(238_0_0\/1\)\]{--un-shadow:0px 4px 4px 0px var(--un-shadow-color, rgba(238, 0, 0, 1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-\$variable{--un-shadow:var(--variable);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.shadow-2xs{--un-shadow:0 1px var(--un-shadow-color, rgb(0 0 0 / 0.05));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-current{--un-shadow-color:currentColor;}
 .backdrop\:shadow-green::backdrop{--un-shadow-color:color-mix(in srgb, var(--colors-green-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .shadow-green-500{--un-shadow-color:color-mix(in srgb, var(--colors-green-500) var(--un-shadow-opacity), transparent) /* oklch(72.3% 0.219 149.579) */;}
@@ -1030,6 +1029,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .backdrop-element\:shadow-green-100::backdrop{--un-shadow-color:color-mix(in srgb, var(--colors-green-100) var(--un-shadow-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
 .shadow-op-\$opacity-variable{--un-shadow-opacity:var(--opacity-variable);}
 .shadow-op-50{--un-shadow-opacity:50%;}
+.inset-shadow-none{--un-inset-shadow:0 0 var(--un-inset-shadow-color, rgb(0 0 0 / 0));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .origin-top-left{transform-origin:top left;}
 .perspect-\$variable{perspective:var(--variable);}
 .perspect-100{perspective:100px;}
@@ -1168,10 +1168,20 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\[padding\:theme\(spacing\.xl\)\]{padding:1.25rem;}
 .content-center{align-content:center;}
 .content-start{align-content:flex-start;}
+.content-center-safe{align-content:safe center;}
+.content-end-safe{align-content:safe flex-end;}
+.content-stretch{align-content:stretch;}
+.content-normal{align-content:normal;}
 .content-inherit{align-content:inherit;}
 .items-end{align-items:flex-end;}
+.items-baseline-last{align-items:last baseline;}
+.items-center-safe{align-items:safe center;}
+.items-end-safe{align-items:safe flex-end;}
 .items-unset{align-items:unset;}
 .self-stretch{align-self:stretch;}
+.self-baseline-last{align-self:last baseline;}
+.self-center-safe{align-self:safe center;}
+.self-end-safe{align-self:safe flex-end;}
 .self-revert{align-self:revert;}
 .box-border{box-sizing:border-box;}
 .box-content{box-sizing:content-box;}
@@ -1208,19 +1218,35 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .top-1\/2{top:50%;}
 .justify-start{justify-content:flex-start;}
 .justify-center{justify-content:center;}
+.justify-center-safe{justify-content:safe center;}
+.justify-end-safe{justify-content:safe flex-end;}
+.justify-normal{justify-content:normal;}
 .justify-inherit{justify-content:inherit;}
 .justify-items-end{justify-items:end;}
+.justify-items-center-safe{justify-items:safe center;}
+.justify-items-end-safe{justify-items:safe flex-end;}
 .justify-items-unset{justify-items:unset;}
 .justify-self-stretch{justify-self:stretch;}
+.justify-self-baseline{justify-self:baseline;}
+.justify-self-center-safe{justify-self:safe center;}
+.justify-self-end-safe{justify-self:safe flex-end;}
 .justify-self-revert{justify-self:revert;}
 .order-\$variable{order:var(--variable);}
 .order-first{order:calc(-infinity);}
 .order-none{order:0;}
 .place-content-stretch{place-content:stretch;}
+.place-content-baseline{place-content:baseline;}
+.place-content-center-safe{place-content:safe center;}
+.place-content-end-safe{place-content:safe flex-end;}
 .place-content-inherit{place-content:inherit;}
 .place-items-stretch{place-items:stretch;}
+.place-items-baseline{place-items:baseline;}
+.place-items-center-safe{place-items:safe center;}
+.place-items-end-safe{place-items:safe flex-end;}
 .place-items-unset{place-items:unset;}
 .place-self-stretch{place-self:stretch;}
+.place-self-center-safe{place-self:safe center;}
+.place-self-end-safe{place-self:safe flex-end;}
 .place-self-revert{place-self:revert;}
 .absolute{position:absolute;}
 .pos-fixed{position:fixed;}
