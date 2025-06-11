@@ -11,6 +11,7 @@ export function resolveId(id: string, importer?: string) {
       let virtual = match[1]
         ? `__uno_${match[1]}.css`
         : '__uno.css'
+      virtual += match[2] || ''
       if (importer)
         virtual = resolve(importer, '..', virtual)
       else

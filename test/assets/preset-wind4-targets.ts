@@ -284,6 +284,8 @@ export const presetWind4Targets: string[] = [
   'scroll-p-inline-none',
 
   // shadow, spacing
+  'shadow-2xs',
+  'inset-shadow-none',
   'mix-blend-normal',
   'mix-blend-hard-light',
   'mix-blend-plus-lighter',
@@ -321,6 +323,7 @@ export const presetWind4Targets: string[] = [
   'object-center-top',
   'object-center-bottom',
   'object-[center_25%]',
+  'collapse',
 
   // tables
   'border-collapse',
@@ -381,7 +384,7 @@ export const presetWind4Targets: string[] = [
   'object-$fit',
 
   // text-shadow
-  'text-shadow-xl',
+  'text-shadow-lg',
   'text-shadow-sky-300',
   'text-shadow-color-sky-300',
   'text-shadow-op-50',
@@ -483,6 +486,14 @@ export const presetWind4Targets: string[] = [
   'scheme-light-dark',
   'scheme-dark',
   'scheme-light',
+
+  // grid
+  'col-11',
+  '-col-12',
+  'col-span-$variable',
+  'row-11',
+  '-row-12',
+  'row-span-$variable',
 ]
 
 export const presetWindNonTargets: string[] = [

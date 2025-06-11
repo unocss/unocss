@@ -116,6 +116,12 @@ describe('postcss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('@unocss exclude layer', async () => {
+    const { css } = await pcssLite().process('@unocss !preflights;', processOptions)
+
+    expect(css).toMatchSnapshot()
+  })
+
   describe('@apply', () => {
     it('basic', async () => {
       const { css } = await pcssLite().process('div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}', processOptions)

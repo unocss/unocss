@@ -39,17 +39,19 @@ export const shadow = {
   'xl': [`0 20px 25px -5px rgb(0 0 0 / 0.1)`, `0 8px 10px -6px rgb(0 0 0 / 0.1)`],
   '2xl': `0 25px 50px -12px rgb(0 0 0 / 0.25)`,
   'none': '0 0 rgb(0 0 0 / 0)',
+  /* @deprecated see: https://github.com/tailwindlabs/tailwindcss/blob/bea843c90ab77b47622200daafb918f7044d9f88/packages/tailwindcss/theme.css#L458 */
   'inner': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
 } satisfies Theme['shadow']
 
 export const insetShadow = {
-  'DEFAULT': 'inset 0 1px 1px rgb(0 0 0 / 0.05)',
   '2xs': 'inset 0 1px rgb(0 0 0 / 0.05)',
   'xs': 'inset 0 1px 1px rgb(0 0 0 / 0.05)',
   'sm': 'inset 0 2px 4px rgb(0 0 0 / 0.05)',
+  'none': '0 0 rgb(0 0 0 / 0)',
 } satisfies Theme['insetShadow']
 
 export const dropShadow = {
+  /* @deprecated see: https://github.com/tailwindlabs/tailwindcss/blob/bea843c90ab77b47622200daafb918f7044d9f88/packages/tailwindcss/theme.css#L459 */
   'DEFAULT': ['0 1px 2px rgb(0 0 0 / 0.1)', '0 1px 1px rgb(0 0 0 / 0.06)'],
   'xs': '0 1px 1px rgb(0 0 0 / 0.05)',
   'sm': '0 1px 2px rgb(0 0 0 / 0.15)',
@@ -60,12 +62,12 @@ export const dropShadow = {
 } satisfies Theme['dropShadow']
 
 export const textShadow = {
-  DEFAULT: ['0 0 1px rgb(0 0 0 / 0.2)', '0 0 1px rgb(1 0 5 / 0.1)'],
-  none: '0 0 rgb(0 0 0 / 0)',
-  sm: '1px 1px 3px rgb(36 37 47 / 0.25)',
-  md: ['0 1px 2px rgb(30 29 39 / 0.19)', '1px 2px 4px rgb(54 64 147 / 0.18)'],
-  lg: ['3px 3px 6px rgb(0 0 0 / 0.26)', '0 0 5px rgb(15 3 86 / 0.22)'],
-  xl: ['1px 1px 3px rgb(0 0 0 / 0.29)', '2px 4px 7px rgb(73 64 125 / 0.35)'],
+  'none': '0 0 rgb(0 0 0 / 0)',
+  '2xs': '0 1px 0 rgb(0 0 0 / 0.15)',
+  'xs': '0 1px 1px rgb(0 0 0 / 0.2)',
+  'sm': ['0 1px 0 rgb(0 0 0 / 0.075)', '0 1px 1px rgb(0 0 0 / 0.075)', '0 2px 2px rgb(0 0 0 / 0.075)'],
+  'md': ['0 1px 1px rgb(0 0 0 / 0.1)', '0 1px 2px rgb(0 0 0 / 0.1)', '0 2px 4px rgb(0 0 0 / 0.1)'],
+  'lg': ['0 1px 2px rgb(0 0 0 / 0.1)', '0 3px 2px rgb(0 0 0 / 0.1)', '0 4px 8px rgb(0 0 0 / 0.1)'],
 } satisfies Theme['textShadow']
 
 export const perspective = {
