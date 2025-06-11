@@ -1,6 +1,6 @@
-import type { Theme } from '@unocss/preset-mini'
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
+import { calcMaxWidthBySize } from '@unocss/rule-utils'
 
 // eslint-disable-next-line regexp/no-misleading-capturing-group
 const screenRuleRE = /(@screen [^{]+)(.+)/g
@@ -22,12 +22,8 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
   }
 
   const resolveBreakpoints = () => {
-    let breakpoints: Record<string, string> | undefined
-    if (uno.userConfig && uno.userConfig.theme)
-      breakpoints = (uno.userConfig.theme as Theme).breakpoints
-
-    if (!breakpoints)
-      breakpoints = (uno.config.theme as Theme).breakpoints
+    const key = uno.config.presets.some(p => p.name === '@unocss/preset-wind4') ? 'breakpoint' : 'breakpoints'
+    const breakpoints = uno.config.theme[key as keyof typeof uno.config.theme] as Record<string, string> | undefined
 
     return breakpoints
       ? Object.entries(breakpoints)
@@ -66,11 +62,4 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
       `${generateMediaQuery(breakpointName, prefix)}`,
     )
   }
-}
-
-function calcMaxWidthBySize(size: string) {
-  const value = size.match(/^-?\d+\.?\d*/)?.[0] || ''
-  const unit = size.slice(value.length)
-  const maxWidth = (Number.parseFloat(value) - 0.1)
-  return Number.isNaN(maxWidth) ? size : `${maxWidth}${unit}`
 }

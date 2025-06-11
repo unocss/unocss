@@ -4,7 +4,7 @@ import { getMatchedPositions, getMatchedPositionsFromCode as match } from '#inte
 import { createGenerator } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'
 import presetAttributify from '@unocss/preset-attributify'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import cssDirectives from '@unocss/transformer-directives'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { describe, expect, it } from 'vitest'
@@ -14,7 +14,7 @@ describe('matched-positions', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true }),
-        presetUno({ attributifyPseudo: true }),
+        presetWind3({ attributifyPseudo: true }),
       ],
     })
 
@@ -59,7 +59,7 @@ describe('matched-positions', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify({ strict: true }),
-        presetUno({ attributifyPseudo: true }),
+        presetWind3({ attributifyPseudo: true }),
       ],
       theme: {
         colors: {
@@ -88,7 +88,7 @@ describe('matched-positions', async () => {
   it('css-directive', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       transformers: [cssDirectives()],
     })
@@ -118,7 +118,7 @@ describe('matched-positions', async () => {
   it('class-based', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       shortcuts: {
         '<custom-shortcut': 'text-lg',
@@ -160,7 +160,7 @@ describe('matched-positions', async () => {
   it('arbitrary property', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
 
@@ -189,7 +189,7 @@ describe('matched-positions', async () => {
   it('variant-group', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       shortcuts: {
         '<custom-shortcut': 'text-lg',
@@ -234,7 +234,7 @@ describe('matched-positions', async () => {
   it('colon highlighting #2460', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
 
@@ -253,7 +253,7 @@ describe('matched-positions', async () => {
   it('with include and exclude', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
 
@@ -362,7 +362,7 @@ let transition = 'ease-in-out duration-300'
   it('with include and exclude in attributify', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
         presetAttributify(),
       ],
     })
@@ -433,7 +433,7 @@ let transition = 'ease-in-out duration-300'
   it('skip comment with include and exclude', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
         presetAttributify(),
       ],
     })
@@ -478,7 +478,7 @@ describe('matched-positions-pug', async () => {
 
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       presetAttributify({ strict: true }),
     ],
     extractors: [
@@ -566,7 +566,7 @@ describe('matched-positions-pug', async () => {
     const uno = await createGenerator({
       presets: [
         presetAttributify(),
-        presetUno(),
+        presetWind3(),
       ],
       shortcuts: {
         '<custom-shortcut': 'text-teal',

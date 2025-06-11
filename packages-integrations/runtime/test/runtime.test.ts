@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetTagify from '@unocss/preset-tagify'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { autoPrefixer, decodeHtml } from '../src/utils'
 
@@ -40,7 +40,7 @@ describe('runtime auto prefixer', () => {
   it('without autoprefixer', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
     })
 
@@ -51,7 +51,7 @@ describe('runtime auto prefixer', () => {
   it('using autoprefixer', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
       ],
       postprocess: [
         autoPrefixer(mockElementWithStyle().style as any),
@@ -59,13 +59,13 @@ describe('runtime auto prefixer', () => {
     })
 
     const { css } = await uno.generate(targets, { preflights: false })
-    await expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-uno-autoprefixer.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/runtime-preset-wind3-autoprefixer.css')
   })
 
   it('runtime tagify', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno(),
+        presetWind3(),
         presetTagify(),
       ],
     })

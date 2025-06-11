@@ -124,24 +124,14 @@ export function number(str: string) {
 }
 
 export function percent(str: string) {
-  if (str.endsWith('%'))
-    return str
-  if (numberRE.test(str)) {
-    const num = Number.parseFloat(str)
-    if (!Number.isNaN(num))
-      return `${round(num)}%`
+  if (str.endsWith('%')) {
+    str = str.slice(0, -1)
+  }
+  const num = number(str)
+  if (num != null) {
+    return `${num}%`
   }
 }
-
-// export function percent(str: string) {
-//   if (str.endsWith('%'))
-//     str = str.slice(0, -1)
-//   if (!numberRE.test(str))
-//     return
-//   const num = Number.parseFloat(str)
-//   if (!Number.isNaN(num))
-//     return `${round(num / 100)}`
-// }
 
 export function fraction(str: string) {
   if (!str)
@@ -167,8 +157,13 @@ function bracketWithType(str: string, requiredType?: string) {
       base = str.slice(1, -1)
     }
     else {
-      if (!requiredType)
+      if (!requiredType) {
         hintedType = match[1]
+      }
+      else if (match[1] !== requiredType) {
+        return
+      }
+
       base = str.slice(match[0].length, -1)
     }
 
@@ -179,8 +174,10 @@ function bracketWithType(str: string, requiredType?: string) {
     if (base === '=""')
       return
 
-    if (base.startsWith('--'))
-      base = `var(${base})`
+    if (base.startsWith('--')) {
+      const [name, defaultValue] = base.slice(2).split(',')
+      base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+    }
 
     let curly = 0
     for (const i of base) {
@@ -234,16 +231,28 @@ export function bracketOfColor(str: string) {
 }
 
 export function bracketOfLength(str: string) {
-  return bracketWithType(str, 'length')
+  return bracketWithType(str, 'length') || bracketWithType(str, 'size')
 }
 
 export function bracketOfPosition(str: string) {
   return bracketWithType(str, 'position')
 }
 
+export function bracketOfFamily(str: string) {
+  return bracketWithType(str, 'family')
+}
+
+export function bracketOfNumber(str: string) {
+  return bracketWithType(str, 'number')
+}
+
 export function cssvar(str: string) {
-  if (/^\$[^\s'"`;{}]/.test(str)) {
-    const [name, defaultValue] = str.slice(1).split(',')
+  if (str.startsWith('var('))
+    return str
+
+  const match = str.match(/^(?:\$|--)([^\s'"`;{}]+)$/)
+  if (match) {
+    const [name, defaultValue] = match[1].split(',')
     return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
   }
 }

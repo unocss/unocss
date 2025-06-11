@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { Menu } from 'floating-vue'
 
-const outputLayers = computed(() => output.value?.layers || [])
+const outputLayers = computed(() => ['ALL', ...(output.value?.layers ?? [])])
 
 function toggleLayer(layer: string) {
-  const _layers = [...unref(selectedLayers.value)]
+  let _layers = [...unref(selectedLayers.value)]
   const index = _layers.indexOf(layer)
-  if (index > -1) {
-    _layers.splice(index, 1)
+
+  if (layer === 'ALL') {
+    // If ALL is clicked, deselect all others and select only ALL
+    _layers = ['ALL']
   }
   else {
-    _layers.push(layer)
+    // If another layer is clicked, remove ALL if present
+    _layers = _layers.filter(l => l !== 'ALL')
+    if (index > -1) {
+      _layers.splice(index, 1)
+    }
+    else {
+      _layers.push(layer)
+    }
   }
 
   // Keep the order of layers

@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
 import transformerAttributifyJsxBabel from '@unocss/transformer-attributify-jsx-babel'
 import MagicString from 'magic-string'
@@ -66,7 +66,7 @@ const tagCouldBeAttrCode = `
 describe('transformerAttributifyJsx', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       presetAttributify(),
     ],
   })
@@ -289,7 +289,7 @@ describe('transformerAttributifyJsx', async () => {
 describe('transformerAttributifyJsxBabel', async () => {
   const uno = await createGenerator({
     presets: [
-      presetUno(),
+      presetWind3(),
       presetAttributify(),
     ],
   })

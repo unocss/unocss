@@ -26,13 +26,13 @@ export const transitions: Rule<Theme>[] = [
   [
     /^transition(?:-(\D+?))?(?:-(\d+))?$/,
     ([, prop, d], { theme }) => {
-      themeTracking('defaults', ['transition', 'timingFunction'])
-      themeTracking('defaults', ['transition', 'duration'])
+      themeTracking('default', ['transition', 'timingFunction'])
+      themeTracking('default', ['transition', 'duration'])
 
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,
-        'transition-timing-function': `var(--un-ease, ${generateThemeVariable('defaults', ['transition', 'timingFunction'])})`,
-        'transition-duration': `var(--un-duration, ${generateThemeVariable('defaults', ['transition', 'duration'])})`,
+        'transition-timing-function': `var(--un-ease, ${generateThemeVariable('default', ['transition', 'timingFunction'])})`,
+        'transition-duration': `var(--un-duration, ${generateThemeVariable('default', ['transition', 'duration'])})`,
       }
 
       if (!prop && !d) {

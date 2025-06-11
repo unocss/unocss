@@ -208,7 +208,7 @@ Set `false` to disable.
 ##### include
 
 - **Type:** `FilterPattern`
-- **Default:** `[/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/]`
+- **Default:** `[/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/]`
 
 Patterns that filter the files being extracted. Supports regular expressions and `picomatch` glob patterns.
 

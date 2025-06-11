@@ -2,7 +2,7 @@ import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import { describe, expect, it } from 'vitest'
 import { presetMiniNonTargets, presetMiniTargets, specialPresetMiniTargets } from './assets/preset-mini-targets'
-import { presetWindTargets } from './assets/preset-wind-targets'
+import { targets } from './assets/preset-wind3-targets'
 
 const uno = await createGenerator({
   presets: [
@@ -83,7 +83,7 @@ describe('preset-mini', () => {
   })
 
   it('utils from preset-wind should be non-targets', async () => {
-    const code = presetWindTargets.join(' ')
+    const code = targets.join(' ')
     const { css, matched } = await uno.generate(code, { preflights: false })
 
     expect(Array.from(matched)).toEqual([
@@ -98,6 +98,9 @@ describe('preset-mini', () => {
       'max-h-lvh',
       'data-[foo=x]:text-green-600',
       'data-[foo=x]:data-[bar=y]:text-green-600',
+      'placeholder-opacity-10',
+      'placeholder-op90',
+      'hover:placeholder-op90',
     ])
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
@@ -111,7 +114,10 @@ describe('preset-mini', () => {
       .min-h-lvh{min-height:100lvh;}
       .min-h-svh{min-height:100svh;}
       .data-\\[foo\\=x\\]\\:data-\\[bar\\=y\\]\\:text-green-600[data-bar=y][data-foo=x],
-      .data-\\[foo\\=x\\]\\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}"
+      .data-\\[foo\\=x\\]\\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}
+      .hover\\:placeholder-op90:hover::placeholder{opacity:0.9;}
+      .placeholder-op90::placeholder{opacity:0.9;}
+      .placeholder-opacity-10::placeholder{opacity:0.1;}"
     `)
   })
 
@@ -449,20 +455,20 @@ describe('preset-mini', () => {
 
     expect((await uno.generate('bg-primary/50 ring-5 ring-primary ring-opacity-50', { preflights: false })).css)
       .toMatchInlineSnapshot(`
-    "/* layer: default */
-    .bg-primary\\/50{background-color:var(--base-primary, oklch(var(--primary) / 0.5));}
-    .ring-5{--un-ring-width:5px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
-    .ring-primary{--un-ring-opacity:1;--un-ring-color:var(--base-primary, oklch(var(--primary) / var(--un-ring-opacity)));}
-    .ring-opacity-50{--un-ring-opacity:0.5;}"
-  `)
+        "/* layer: default */
+        .bg-primary\\/50{background-color:var(--base-primary, oklch(var(--primary) / 0.5));}
+        .ring-5{--un-ring-width:5px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+        .ring-primary{--un-ring-opacity:1;--un-ring-color:var(--base-primary, oklch(var(--primary) / var(--un-ring-opacity)));}
+        .ring-opacity-50{--un-ring-opacity:0.5;}"
+      `)
 
     expect((await uno.generate('border-5 border-primary border-opacity-50', { preflights: false })).css)
       .toMatchInlineSnapshot(`
-    "/* layer: default */
-    .border-5{border-width:5px;}
-    .border-primary{--un-border-opacity:1;border-color:var(--base-primary, oklch(var(--primary) / var(--un-border-opacity)));}
-    .border-opacity-50{--un-border-opacity:0.5;}"
-  `)
+        "/* layer: default */
+        .border-5{border-width:5px;}
+        .border-primary{--un-border-opacity:1;border-color:var(--base-primary, oklch(var(--primary) / var(--un-border-opacity)));}
+        .border-opacity-50{--un-border-opacity:0.5;}"
+      `)
   })
 
   it('`containers` key of theme', async () => {

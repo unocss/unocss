@@ -32,7 +32,7 @@ export const theme = {
   blur,
   perspective,
   property,
-  defaults,
+  default: defaults,
 
   // for rules & variants
   container,

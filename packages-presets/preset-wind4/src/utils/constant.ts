@@ -3,4 +3,5 @@ export const CONTROL_NO_NEGATIVE = '$$mini-no-negative'
 export const SpecialColorKey = {
   transparent: 'transparent',
   current: 'currentColor',
+  inherit: 'inherit',
 }

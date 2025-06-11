@@ -16,23 +16,29 @@ function getPropName(minmax: string, hw: string) {
 function getSizeValue(theme: Theme, hw: string, prop: string) {
   let v: string | undefined
 
-  if (theme.container?.[prop]) {
-    themeTracking('container', prop)
-    v = generateThemeVariable('container', prop)
+  const keys: (keyof Theme)[] = ['container', 'spacing']
+  for (const key of keys) {
+    if ((theme[key] as Record<string, any>)?.[prop]) {
+      themeTracking(key, prop)
+      v = generateThemeVariable(key, prop)
+      break
+    }
   }
 
-  switch (prop) {
-    case 'fit':
-    case 'max':
-    case 'min':
-      v = `${prop}-content`
-      break
-    case 'screen':
-      v = hw === 'w' ? '100vw' : '100vh'
-      break
+  if (!v) {
+    switch (prop) {
+      case 'fit':
+      case 'max':
+      case 'min':
+        v = `${prop}-content`
+        break
+      case 'screen':
+        v = hw === 'w' ? '100vw' : '100vh'
+        break
+    }
   }
 
-  if (h.number(prop) != null) {
+  if (!v && h.number(prop) != null) {
     themeTracking(`spacing`)
     v = `calc(var(--spacing) * ${h.number(prop)})`
   }

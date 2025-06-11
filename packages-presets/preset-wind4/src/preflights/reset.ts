@@ -1,7 +1,6 @@
 import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
-import { LAYER_PREFLIGHTS } from '@unocss/core'
 import { compressCSS, themeTracking } from '../utils'
 
 /*
@@ -43,7 +42,7 @@ html,
   -webkit-text-size-adjust: 100%; /* 2 */
   tab-size: 4; /* 3 */
   font-family: var(
-    --defaults-font-family,
+    --default-font-family,
     ui-sans-serif,
     system-ui,
     sans-serif,
@@ -52,17 +51,9 @@ html,
     'Segoe UI Symbol',
     'Noto Color Emoji'
   ); /* 4 */
-  font-feature-settings: var(--defaults-font-featureSettings, normal); /* 5 */
-  font-variation-settings: var(--defaults-font-variationSettings, normal); /* 6 */
+  font-feature-settings: var(--default-font-featureSettings, normal); /* 5 */
+  font-variation-settings: var(--default-font-variationSettings, normal); /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
-}
-
-/*
-  Inherit line-height from \`html\` so users can set them as a class directly on the \`html\` element.
-*/
-
-body {
-  line-height: inherit;
 }
 
 /*
@@ -131,7 +122,7 @@ kbd,
 samp,
 pre {
   font-family: var(
-    --defaults-monoFont-family,
+    --default-monoFont-family,
     ui-monospace,
     SFMono-Regular,
     Menlo,
@@ -141,8 +132,8 @@ pre {
     'Courier New',
     monospace
   ); /* 1 */
-  font-feature-settings: var(--defaults-monoFont-featureSettings, normal); /* 2 */
-  font-variation-settings: var(--defaults-monoFont-variationSettings, normal); /* 3 */
+  font-feature-settings: var(--default-monoFont-featureSettings, normal); /* 2 */
+  font-variation-settings: var(--default-monoFont-variationSettings, normal); /* 3 */
   font-size: 1em; /* 4 */
 }
 
@@ -296,13 +287,23 @@ textarea,
 }
 
 /*
-  1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-  2. Set the default placeholder color to a semi-transparent version of the current text color.
+  Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
 */
 
 ::placeholder {
-  opacity: 1; /* 1 */
-  color: color-mix(in oklab, currentColor 50%, transparent); /* 2 */
+  opacity: 1;
+}
+
+/*
+  Set the default placeholder color to a semi-transparent version of the current text color in browsers that do not
+  crash when using \`color-mix(…)\` with \`currentcolor\`. (https://github.com/tailwindlabs/tailwindcss/issues/17194)
+*/
+
+@supports (not (-webkit-appearance: -apple-pay-button)) /* Not Safari */ or
+  (contain-intrinsic-size: 1px) /* Safari 17+ */ {
+  ::placeholder {
+    color: color-mix(in oklab, currentcolor 50%, transparent);
+  }
 }
 
 /*
@@ -403,17 +404,11 @@ export function reset(options: PresetWind4Options): Preflight<Theme> | undefined
     getCSS: ({ generator }) => {
       themeTracking('font', 'sans')
       themeTracking('font', 'mono')
-
-      themeTracking('defaults', ['font', 'family'])
-      themeTracking('defaults', ['font', 'featureSettings'])
-      themeTracking('defaults', ['font', 'variationSettings'])
-
-      themeTracking('defaults', ['monoFont', 'family'])
-      themeTracking('defaults', ['monoFont', 'featureSettings'])
-      themeTracking('defaults', ['monoFont', 'variationSettings'])
+      themeTracking('default', ['font', 'family'])
+      themeTracking('default', ['monoFont', 'family'])
 
       return compressCSS(resetCSS, generator.config.envMode === 'dev')
     },
-    layer: LAYER_PREFLIGHTS,
+    layer: 'base',
   }
 }

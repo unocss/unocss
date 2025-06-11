@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { expect, it } from 'vitest'
 
 const targets = [
@@ -13,7 +13,7 @@ it('options properties does not override each other', async () => {
   const uno1 = await createGenerator({
     presets: [
       presetAttributify({ prefix: 'uno-' }),
-      presetUno(),
+      presetWind3(),
       presetIcons({ prefix: 'icon-' }),
     ],
   })
@@ -25,7 +25,7 @@ it('options properties does not override each other', async () => {
   const uno2 = await createGenerator({
     presets: [
       presetIcons({ prefix: 'icon-' }),
-      presetUno(),
+      presetWind3(),
       presetAttributify({ prefix: 'uno-' }),
     ],
   })

@@ -14,6 +14,10 @@ export const variantSupports: VariantObject<Theme> = {
         supports = ctx.theme.supports?.[match] ?? ''
 
       if (supports) {
+        if (!(supports.startsWith('(') && supports.endsWith(')'))) {
+          supports = `(${supports})`
+        }
+
         return {
           matcher: rest,
           handle: (input, next) => next({

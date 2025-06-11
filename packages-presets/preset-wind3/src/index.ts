@@ -31,7 +31,7 @@ export interface PresetWind3Options extends PresetMiniOptions {
 /**
  * The Tailwind CSS v3 / Windi CSS compact preset for UnoCSS.
  *
- * @see https://unocss.dev/presets/wind
+ * @see https://unocss.dev/presets/wind3
  */
 export const presetWind3 = definePreset((options: PresetWind3Options = {}) => {
   options.important = options.important ?? false

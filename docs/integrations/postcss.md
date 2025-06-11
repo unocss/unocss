@@ -89,6 +89,12 @@ If you want to include all layers no matter whether they are previously included
 @unocss all;
 ```
 
+Or if you want to exclude a specific layer, you can use the `@unocss !<layer>` directive:
+
+```css
+@unocss !preflights, !<other-layer>;
+```
+
 ### `@apply`
 
 ```css

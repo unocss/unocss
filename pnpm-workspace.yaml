@@ -137,7 +137,7 @@ catalog:
   typescript: ^5.8.3
   unbuild: ^3.5.0
   unconfig: ^7.3.2
-  unplugin: ^2.3.2
+  unplugin: ^2.3.4
   unplugin-auto-import: ^19.1.2
   unplugin-utils: ^0.2.4
   unplugin-vue-components: ^28.5.0

@@ -1,12 +1,12 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('prefix', () => {
   it('preset prefix', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno({ prefix: 'h-' }),
+        presetWind3({ prefix: 'h-' }),
       ],
       rules: [
         ['bar', { color: 'bar' }, { prefix: 'bar-' }],
@@ -49,7 +49,7 @@ describe('prefix', () => {
   it('uses first truthy prefix', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno({
+        presetWind3({
           prefix: ['', 'h-'],
         }),
       ],
@@ -61,7 +61,7 @@ describe('prefix', () => {
   it('generate tagged attributify', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno({
+        presetWind3({
           prefix: 'h-',
           attributifyPseudo: true,
         }),
@@ -74,7 +74,7 @@ describe('prefix', () => {
   it('multiple preset prefix', async () => {
     const uno = await createGenerator({
       presets: [
-        presetUno({ prefix: ['h-', 'x-'] }),
+        presetWind3({ prefix: ['h-', 'x-'] }),
       ],
       rules: [
         ['bar', { color: 'bar' }, { prefix: ['bar-', 'foo-', ''] }],
