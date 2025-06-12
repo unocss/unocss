@@ -49,8 +49,8 @@
     "synckit": "catalog:"
   },
   "devDependencies": {
-    "@unocss/eslint-plugin": "workspace:*",
     "@typescript/native-preview": "catalog:",
+    "@unocss/eslint-plugin": "workspace:*",
     "svelte-eslint-parser": "catalog:",
     "vue-eslint-parser": "catalog:"
   }
