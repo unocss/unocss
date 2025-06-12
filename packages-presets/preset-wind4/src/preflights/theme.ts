@@ -1,9 +1,9 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
 import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
-import { toArray } from '@unocss/core'
+import { toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, getThemeByKey, trackedTheme } from '../utils'
+import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -56,17 +56,33 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      const preflightsTheme = options.preflights!.theme as PreflightsTheme
-      if (preflightsTheme.mode === false) {
+      const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
+      const { mode, process } = options.preflights!.theme as PreflightsTheme
+      if (mode === false) {
         return undefined
       }
 
-      let deps
+      if (safelist.length > 0) {
+        for (const s of safelist) {
+          const [key, ...prop] = s.trim().split(':')
+          if (key in theme && prop.length <= 1) {
+            const props = prop.length === 0 ? ['DEFAULT'] : prop[0].split('-')
+            const v = getThemeByKey(theme, key as keyof Theme, props)
+
+            if (typeof v === 'string') {
+              themeTracking(key, props)
+              detectThemeValue(v, theme)
+            }
+          }
+        }
+      }
+
+      let deps: CSSEntry[]
       const generateCSS = (deps: CSSEntry[]) => {
-        if (preflightsTheme.process) {
+        if (process) {
           for (const utility of deps) {
-            for (const process of toArray(preflightsTheme.process)) {
-              process(utility, ctx)
+            for (const p of toArray(process)) {
+              p(utility, ctx)
             }
           }
         }
@@ -83,7 +99,7 @@ ${depCSS}
 }`, generator.config.envMode === 'dev')
       }
 
-      if (preflightsTheme.mode === 'on-demand') {
+      if (mode === 'on-demand') {
         if (trackedTheme.size === 0)
           return undefined
 
@@ -91,7 +107,7 @@ ${depCSS}
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 
-          if (v) {
+          if (typeof v === 'string') {
             return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
           }
 

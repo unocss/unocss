@@ -322,4 +322,53 @@ describe('preset-wind4', () => {
       }"
     `)
   })
+
+  it('theme safelist', async () => {
+    const uno = await createGenerator<object>({
+      envMode: 'dev',
+      theme: {
+        custom: {
+          foo: 'var(--custom-bar)',
+          bar: 'var(--custom-baz-DEFAULT, inherit)',
+          baz: {
+            DEFAULT: 'inherit',
+          },
+        },
+      },
+      presets: [
+        presetWind4({
+          preflights: {
+            reset: false,
+          },
+        }),
+      ],
+      safelist: [
+        'spacing',
+        'colors:red-100',
+        'breakpoint:sm',
+        ({ theme }) => {
+          if ('custom' in theme) {
+            return [
+              'custom:foo',
+            ]
+          }
+          return []
+        },
+      ],
+    })
+
+    const { getLayer } = await uno.generate('')
+    const css = getLayer('theme')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host {
+      --spacing: 0.25rem;
+      --colors-red-100: oklch(93.6% 0.032 17.717);
+      --breakpoint-sm: 40rem;
+      --custom-foo: var(--custom-bar);
+      --custom-bar: var(--custom-baz-DEFAULT, inherit);
+      --custom-baz-DEFAULT: inherit;
+      }"
+    `)
+  })
 })
