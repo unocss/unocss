@@ -195,12 +195,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const tokens: Readonly<Set<string> | CountableSet<string>> = isString(input)
       ? await this.applyExtractors(
-        input,
-        id,
-        extendedInfo
-          ? new CountableSet<string>()
-          : new Set<string>(),
-      )
+          input,
+          id,
+          extendedInfo
+            ? new CountableSet<string>()
+            : new Set<string>(),
+        )
       : Array.isArray(input)
         ? new Set<string>(input)
         : input
