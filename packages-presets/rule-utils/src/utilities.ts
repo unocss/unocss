@@ -78,14 +78,14 @@ export function getStringComponent(str: string, open: string, close: string, sep
   ]
 }
 
-export function getStringComponents(str: string, separators: string | string[], limit?: number) {
+export function getStringComponents(str: string, separators: string | string[], limit?: number, open: string = '(', close: string = ')') {
   limit = limit ?? 10
   const components = []
   let i = 0
   while (str !== '') {
     if (++i > limit)
       return
-    const componentPair = getStringComponent(str, '(', ')', separators)
+    const componentPair = getStringComponent(str, open, close, separators)
     if (!componentPair)
       return
     const [component, rest] = componentPair

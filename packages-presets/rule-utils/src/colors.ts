@@ -36,10 +36,21 @@ export interface ParsedColorValue {
   alpha: string | number | undefined
 }
 
-/* eslint-disable no-case-declarations */
 export const cssColorFunctions = ['hsl', 'hsla', 'hwb', 'lab', 'lch', 'oklab', 'oklch', 'rgb', 'rgba']
+export const rectangularColorSpace = ['srgb', 'srgb-linear', 'display-p3', 'a98-rgb', 'prophoto-rgb', 'rec2020', 'lab', 'oklab', 'xyz', 'xyz-d50', 'xyz-d65']
+export const polarColorSpace = ['hsl', 'hwb', 'lch', 'oklch']
+export const hueInterpolationMethods = ['shorter', 'longer', 'increasing', 'decreasing'] // hue interpolation methods for polar color spaces
 export const alphaPlaceholders = ['%alpha', '<alpha-value>']
 export const alphaPlaceholdersRE = new RegExp(alphaPlaceholders.map(v => escapeRegExp(v)).join('|'), 'g')
+
+export function isInterpolatedMethod(type?: string): boolean {
+  if (!type)
+    return false
+
+  return rectangularColorSpace.some(space => type.includes(space))
+    || polarColorSpace.some(space => type.includes(space))
+    || hueInterpolationMethods.some(method => type.includes(method))
+}
 
 export function hex2rgba(hex = ''): RGBAColorValue | undefined {
   const color = parseHexColor(hex)
@@ -129,7 +140,7 @@ function parseHexColor(str: string): CSSColorValue | undefined {
 
   switch (body.length) {
     case 3:
-    case 4:
+    case 4: {
       const digits = Array.from(body, s => Number.parseInt(s, 16)).map(n => (n << 4) | n)
       return {
         type: 'rgb',
@@ -138,9 +149,10 @@ function parseHexColor(str: string): CSSColorValue | undefined {
           ? undefined
           : Math.round(digits[3] / 255 * 100) / 100,
       }
+    }
 
     case 6:
-    case 8:
+    case 8: {
       const value = Number.parseInt(body, 16)
       return {
         type: 'rgb',
@@ -151,6 +163,7 @@ function parseHexColor(str: string): CSSColorValue | undefined {
           ? undefined
           : Math.round((value & 0xFF) / 255 * 100) / 100,
       }
+    }
   }
 }
 
