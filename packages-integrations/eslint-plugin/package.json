@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "unbuild",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsgo --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src",
     "test:attw": "attw --pack"
   },
