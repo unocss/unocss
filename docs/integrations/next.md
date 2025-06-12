@@ -33,7 +33,9 @@ bun add -D unocss @unocss/postcss @unocss/reset
 
 ### Configuration
 
-Create `uno.config.ts` at the root of your project.
+Create `uno.config.ts` or `uno.config.js` at the root of your project.
+
+::: code-group
 
 ```ts [uno.config.ts]
 import {
@@ -51,6 +53,25 @@ export default defineConfig({
   ],
 })
 ```
+
+```js [uno.config.js]
+import {
+  defineConfig,
+  presetAttributify,
+  presetIcons,
+  presetWebFonts,
+  presetWind3
+} from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind3(),
+    // ...
+  ],
+})
+```
+
+:::
 
 Create `postcss.config.mjs` at the root of your project.
 
@@ -116,7 +137,7 @@ export default function RootLayout({
 }
 ```
 
-```javascript [layout.js]
+```js [layout.js]
 import { Geist, Geist_Mono } from 'next/font/google'
 import '@unocss/reset/tailwind.css'
 import './globals.css'
@@ -153,51 +174,34 @@ export default function RootLayout({ children }) {
 
 Style your components with unocss!
 
-```tsx
-/* index.tsx */
-const Home: NextPage = () => {
+::: code-group
+
+```tsx [page.tsx]
+export default function Home() {
   return (
-    <>
-      <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-        <span text="blue 5xl hover:red" cursor="default">Nextjs</span>
-        <div className="i-carbon-car inline-block" text="4xl" />
-        <button className="btn w-10rem">Button</button>
-      </main>
-    </>
+    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
+      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
+      <div className="i-carbon-car inline-block text-4xl" />
+      <button className="btn w-10rem">Button</button>
+    </main>
   )
 }
 ```
 
-<!-- TODO: Complete HMR and trouble shooting -->
-
-## Hot Module Reload
-
-To support HMR you have to opt-out of webpack's caching.
-
-```js{5}
-// next.config.js
-const nextConfig = {
-  reactStrictMode: true,
-  webpack: (config) => {
-+   config.cache = false
-    config.plugins.push(UnoCSS())
-    return config
-  }
+```js [page.js]
+export default function Home() {
+  return (
+    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
+      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
+      <div className="i-carbon-car inline-block text-4xl" />
+      <button className="btn w-10rem">Button</button>
+    </main>
+  )
 }
 ```
 
-## Troubleshooting
+:::
 
-### Error concerning virtual module
+## License
 
-```bash
-Error: ENOENT: no such file or directory, open '.../_virtual_/__uno.css'
-```
-
-Try deleting the `.next` directory and restart the dev server.
-
-### Other
-
-You might need to bump your target up to at least `es2015` in your `tsconfig.json` to build your project.
-
-Files with `.js` extension are not supported by default. Change your file extensions to `.jsx` or try to include js files in your config with `include: /\.js$/`. [Learn more](/guide/extracting#extracting-from-build-tools-pipeline).
+- MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)
