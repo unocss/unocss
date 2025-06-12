@@ -35,6 +35,7 @@ const Configs: DefaultTheme.NavItemWithLink[] = [
 const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'Vite', link: '/integrations/vite' },
   { text: 'Nuxt', link: '/integrations/nuxt' },
+  { text: 'Next', link: '/integrations/next' },
   { text: 'Astro', link: '/integrations/astro' },
   { text: 'Svelte Scoped', link: '/integrations/svelte-scoped' },
   { text: 'Webpack', link: '/integrations/webpack' },
