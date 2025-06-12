@@ -1,7 +1,7 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
 import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
-import { toArray } from '@unocss/core'
+import { toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
 
@@ -56,27 +56,25 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
-      const { mode, process, safelist } = options.preflights!.theme as PreflightsTheme
+      const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
+      const { mode, process } = options.preflights!.theme as PreflightsTheme
       if (mode === false) {
         return undefined
       }
 
-      if (safelist) {
-        safelist
-          .flatMap(s => typeof s === 'function' ? s(theme) : s)
-          .filter(Boolean)
-          .forEach((s) => {
-            const [key, prop] = s.trim().split(':') as [keyof Theme, string?]
-            if (key in theme) {
-              const props = prop?.split('-') ?? ['DEFAULT']
-              const v = getThemeByKey(theme, key, props)
+      if (safelist.length > 0) {
+        for (const s of safelist) {
+          const [key, ...prop] = s.trim().split(':')
+          if (key in theme && prop.length <= 1) {
+            const props = prop.length === 0 ? ['DEFAULT'] : prop[0].split('-')
+            const v = getThemeByKey(theme, key as keyof Theme, props)
 
-              if (typeof v === 'string') {
-                themeTracking(key, props)
-                detectThemeValue(v, theme)
-              }
+            if (typeof v === 'string') {
+              themeTracking(key, props)
+              detectThemeValue(v, theme)
             }
-          })
+          }
+        }
       }
 
       let deps: CSSEntry[]
@@ -109,7 +107,7 @@ ${depCSS}
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 
-          if (v) {
+          if (typeof v === 'string') {
             return [`--${key}${`${key === 'spacing' && prop === 'DEFAULT' ? '' : `-${prop}`}`}`, v]
           }
 

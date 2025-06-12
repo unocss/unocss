@@ -47,23 +47,6 @@ export interface PreflightsTheme {
    * Process the theme keys.
    */
   process?: Arrayable<(entry: CSSEntry, ctx: PreflightContext<Theme>) => void>
-
-  /**
-   * These theme keys will be generated as CSS variables.
-   *
-   * Please follow the writing standards to ensure the CSS variables are generated correctly.
-   *
-   * **Convention**: `${themeKey}:${props from theme and join with '-'}`
-   *
-   * @example
-   * ```ts
-   * // For example, `colors:blue-500` will generate `--colors-blue-500`.
-   * {
-   *   safelist: ['colors:blue-500'],
-   * }
-   * ```
-   */
-  safelist?: (string | ((theme: Theme) => Arrayable<string>))[]
 }
 
 export interface PresetWind4Options extends PresetOptions {

@@ -323,23 +323,21 @@ describe('preset-wind4', () => {
         presetWind4({
           preflights: {
             reset: false,
-            theme: {
-              safelist: [
-                'spacing',
-                'colors:red-100',
-                'breakpoint:sm',
-                (theme) => {
-                  if ('custom' in theme) {
-                    return [
-                      'custom:foo',
-                    ]
-                  }
-                  return []
-                },
-              ],
-            },
           },
         }),
+      ],
+      safelist: [
+        'spacing',
+        'colors:red-100',
+        'breakpoint:sm',
+        ({ theme }) => {
+          if ('custom' in theme) {
+            return [
+              'custom:foo',
+            ]
+          }
+          return []
+        },
       ],
     })
 
