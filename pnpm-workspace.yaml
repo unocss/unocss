@@ -57,6 +57,7 @@ catalog:
   '@types/webpack-sources': ^3.2.3
   '@types/ws': ^8.18.1
   '@typescript-eslint/utils': ^8.34.0
+  '@typescript/native-preview': latest
   '@vitejs/plugin-legacy': ^6.1.1
   '@vitejs/plugin-vue': ^5.2.4
   '@vitest/ui': ^3.2.3

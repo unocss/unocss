@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "unbuild",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsgo --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src",
     "test:attw": "attw --pack"
   },
@@ -49,6 +49,7 @@
     "synckit": "catalog:"
   },
   "devDependencies": {
+    "@typescript/native-preview": "catalog:",
     "@unocss/eslint-plugin": "workspace:*",
     "svelte-eslint-parser": "catalog:",
     "vue-eslint-parser": "catalog:"
