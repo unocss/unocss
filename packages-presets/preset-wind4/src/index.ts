@@ -45,8 +45,6 @@ export interface PreflightsTheme {
 
   /**
    * Process the theme keys.
-   *
-   * @default undefined
    */
   process?: Arrayable<(entry: CSSEntry, ctx: PreflightContext<Theme>) => void>
 }

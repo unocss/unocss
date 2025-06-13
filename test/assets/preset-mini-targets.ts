@@ -1050,6 +1050,7 @@ export const presetMiniTargets: string[] = [
   '[padding:theme(spacing.xl)]',
   '[color:theme(colors.blue.300/40%)]',
   '[--css-variable:"wght"_400,_"opsz"_14]',
+  '[--css-variable-4:""wght"_400,_"opsz"_14"]',
   '[--css-variable-color:theme(colors.red.500)]',
   '[--css-variable-color:theme(colors.red.500/50%)]',
   '[--css-variable-color:theme(colors.green.500),theme(colors.blue.500)]',

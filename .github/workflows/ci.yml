@@ -53,6 +53,7 @@ jobs:
         run: pnpm test
 
       - name: Typecheck
+        if: matrix.node_version != '18.20.7'
         run: pnpm typecheck
 
       - name: Check types

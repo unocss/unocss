@@ -231,8 +231,8 @@ export interface RuleMeta {
 export type CSSValue = CSSObject | CSSEntries
 export type CSSValues = CSSValue | CSSValue[]
 
-export type DynamicMatcher<Theme extends object = object> =
-  (
+export type DynamicMatcher<Theme extends object = object>
+  = (
     match: RegExpMatchArray,
     context: Readonly<RuleContext<Theme>>
   ) =>

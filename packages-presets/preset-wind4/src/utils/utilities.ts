@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { symbols, toArray } from '@unocss/core'
-import { colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor } from '@unocss/rule-utils'
 import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
@@ -127,17 +127,37 @@ export function splitShorthand(body: string, type: string) {
  * 'red-100' // From theme, plus scale
  * 'red-100/20' // From theme, plus scale/opacity
  * '[rgb(100 2 3)]/[var(--op)]' // Bracket with rgb color and bracket with opacity
+ * '[rgb(100 2 3)]/[var(--op)]/[in_oklab]' // Bracket with rgb color, bracket with opacity and bracket with interpolation method
  *
  * @param body - Color string to be parsed.
  * @param theme - {@link Theme} object.
  * @return object if string is parseable.
  */
 export function parseColor(body: string, theme: Theme) {
-  const split = splitShorthand(body, 'color')
+  let split
+  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3) ?? []
+
+  if (front != null) {
+    const match = (front.match(bracketTypeRe) ?? [])[1]
+
+    if (match == null || match === 'color') {
+      split = [front, ...rest]
+    }
+  }
+
   if (!split)
     return
 
-  const [main, opacity] = split
+  let opacity: string | undefined
+  let [main, opacityOrModifier, modifier] = split as [string, string | undefined, string | undefined]
+
+  if (isInterpolatedMethod(opacityOrModifier) || isInterpolatedMethod(h.bracket(opacityOrModifier ?? ''))) {
+    modifier = opacityOrModifier
+  }
+  else {
+    opacity = opacityOrModifier
+  }
+
   const colors = main
     .replace(/([a-z])(\d)/g, '$1-$2')
     .split(/-/g)
@@ -167,6 +187,7 @@ export function parseColor(body: string, theme: Theme) {
 
   return {
     opacity,
+    modifier: (modifier && h.bracket.cssvar(modifier)) || modifier,
     name,
     no,
     color: color ?? SpecialColorKey[name as keyof typeof SpecialColorKey],
@@ -247,7 +268,7 @@ export function colorCSSGenerator(
   if (!data)
     return
 
-  const { color, keys, alpha } = data
+  const { color, keys, alpha, modifier } = data
   const rawColorComment = ctx?.generator.config.envMode === 'dev' && color ? ` /* ${color} */` : ''
   const css: CSSObject = {}
 
@@ -260,16 +281,24 @@ export function colorCSSGenerator(
     else {
       const alphaKey = `--un-${varName}-opacity`
       const value = keys ? generateThemeVariable('colors', keys) : color
-
-      if (!alpha) {
-        css[alphaKey] = alpha
+      let method = modifier ?? (keys ? 'in srgb' : 'in oklab')
+      if (!method.startsWith('in ') && !method.startsWith('var(')) {
+        method = `in ${method}`
       }
-      css[property] = `color-mix(in oklch, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
 
+      css[property] = `color-mix(${method}, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
       result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
 
       if (keys) {
         themeTracking(`colors`, keys)
+        if (!modifier) {
+          result.push({
+            [symbols.parent]: '@supports (color: color-mix(in lab, red, red))',
+            [symbols.noMerge]: true,
+            [symbols.shortcutsNoMerge]: true,
+            [property]: `color-mix(in oklab, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`,
+          })
+        }
       }
       if (ctx?.theme) {
         detectThemeValue(color, ctx.theme)

@@ -29,7 +29,8 @@ export function detectThemeValue(value: string, theme: Theme) {
     if (variable) {
       const [key, ...path] = variable.split('-')
       const themeValue = getThemeByKey(theme, key as keyof Theme, path)
-      if (themeValue != null) {
+
+      if (typeof themeValue === 'string') {
         themeTracking(key, path)
         detectThemeValue(themeValue, theme)
       }
