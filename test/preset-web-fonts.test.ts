@@ -227,4 +227,50 @@ describe('fontsource provider', async () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  it('specific subsets', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            fm: {
+              name: 'Fira Mono',
+              weights: ['400', '700'],
+              subsets: ['cyrillic', 'latin'],
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-fm')
+
+    expect(css).toMatchSnapshot()
+  })
+
+  it('prefer static', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            dm: {
+              name: 'Dm Sans',
+              // When `preferStatic` is true, it will use static font files
+              // So it produces `@font-face` for `400` and `700`
+              weights: ['400', '700'],
+              preferStatic: true,
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-dm')
+
+    expect(css).toMatchSnapshot()
+  })
 })

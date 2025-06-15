@@ -7,6 +7,11 @@ export interface WebFontMeta {
   weights?: (string | number)[] // wght axis
   italic?: boolean // ital axis
   variable?: Record<string, Partial<Axes>> // variable font
+  subsets?: string[] // e.g. 'latin', 'cyrillic'
+  /**
+   * Prefer static font files over variable
+   */
+  preferStatic?: boolean
   /**
    * Override the provider
    * @default <matches root config>

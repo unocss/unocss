@@ -25,9 +25,10 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
           }
         }
 
-        const { subsets, weights } = metadata
+        const { weights } = metadata
+        const subsets = metadata.subsets.filter(subset => font.subsets ? font.subsets.includes(subset) : true)
 
-        if (metadata.variable) {
+        if (metadata.variable && !font.preferStatic) {
           let variableData = variablesMap.get(id)
           const url = `https://api.fontsource.org/v1/variable/${id}`
 
