@@ -50,7 +50,8 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       customFetch = fetcher,
       timeouts = {},
     } = options
-
+    const fontLayer = 'fonts'
+    const layerName = inlineImports ? fontLayer : LAYER_IMPORTS
     const processors = toArray(options.processors || [])
 
     const fontObject = Object.fromEntries(
@@ -161,9 +162,12 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
             return css
           },
-          layer: inlineImports ? undefined : LAYER_IMPORTS,
+          layer: layerName,
         },
       ],
+      layers: {
+        [fontLayer]: -200,
+      },
     }
 
     if (extendTheme) {
