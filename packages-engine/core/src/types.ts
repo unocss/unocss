@@ -378,7 +378,7 @@ export type Variant<Theme extends object = object> = VariantFunction<Theme> | Va
 
 export type Preprocessor = (matcher: string) => string | undefined
 export type Postprocessor = (util: UtilObject) => void
-export type ThemeExtender<T> = (theme: T) => T | void
+export type ThemeExtender<Theme extends object = object> = (theme: Theme, config: Readonly<ResolvedConfig<Theme>>) => Theme | void
 
 export interface ConfigBase<Theme extends object = object> {
   /**
@@ -514,7 +514,7 @@ export interface ConfigBase<Theme extends object = object> {
    *
    * First presets runs first and the user config
    */
-  configResolved?: (config: ResolvedConfig) => void
+  configResolved?: (config: ResolvedConfig<Theme>) => void
 
   /**
    * Expose internal details for debugging / inspecting

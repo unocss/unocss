@@ -46,7 +46,6 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
       provider: defaultProvider = 'google',
       extendTheme = true,
       inlineImports = true,
-      themeKey = 'fontFamily',
       customFetch = fetcher,
       timeouts = {},
     } = options
@@ -171,7 +170,10 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
     }
 
     if (extendTheme) {
-      preset.extendTheme = (theme) => {
+      preset.extendTheme = (theme, config) => {
+        const hasWind4 = config.presets.some(p => p.name === '@unocss/preset-wind4')
+        const themeKey = options.themeKey ?? (hasWind4 ? 'font' : 'fontFamily')
+
         if (!theme[themeKey])
           theme[themeKey] = {}
         const obj = Object.fromEntries(

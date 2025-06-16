@@ -3,6 +3,7 @@ import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 
 const options: WebFontsOptions = {
@@ -273,4 +274,24 @@ describe('fontsource provider', async () => {
 
     expect(css).toMatchSnapshot()
   })
+})
+
+it('with presetWind4', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetWind4({ preflights: { reset: false } }),
+      presetWebFonts({
+        fonts: {
+          custom: {
+            name: 'Fira Code',
+            weights: ['400'],
+          },
+        },
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate('font-custom')
+
+  expect(css).toMatchSnapshot()
 })
