@@ -1,4 +1,4 @@
-# @unocss/preset-wind
+# @unocss/preset-wind3
 
 Tailwind / Windi CSS compact preset for [UnoCSS](https://github.com/unocss/unocss).
 
