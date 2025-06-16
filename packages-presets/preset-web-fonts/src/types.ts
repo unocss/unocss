@@ -87,7 +87,11 @@ export interface WebFontsOptions {
   /**
    * Key for the theme object
    *
-   * @default 'fontFamily'
+   * Automatically detect the key based on the preset used
+   *
+   * @default
+   * `preset-wind3` -> 'fontFamily'
+   * `preset-wind4` -> 'font'
    */
   themeKey?: string
 
