@@ -23,6 +23,7 @@ export default antfu(
       'packages-presets/reset/**/*.css',
       'packages-presets/preset-icons/src/collections.json',
       'packages-integrations/eslint-plugin/fixtures',
+      'packages-integrations/vscode/src/generated',
 
       // Nested CSS
       'interactive/markdown.css',
