@@ -1,7 +1,12 @@
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll } from 'vitest'
-import { staticFontsourceMockData, variableFontsourceMockData, variableMockData } from './assets/mock/fontsource'
+import {
+  staticFontsourceMockData,
+  variableFontsourceMockDataDmSans,
+  variableFontsourceMockDataNotoSansSC,
+  variableMockData,
+} from './assets/mock/fontsource'
 import googleResponse from './assets/mock/google'
 
 export const restHandlers = [
@@ -15,7 +20,10 @@ export const restHandlers = [
     const { id } = params
     let data: any
     if (id === 'dm-sans') {
-      data = variableFontsourceMockData
+      data = variableFontsourceMockDataDmSans
+    }
+    else if (id === 'noto-sans-sc') {
+      data = variableFontsourceMockDataNotoSansSC
     }
     else {
       data = staticFontsourceMockData
