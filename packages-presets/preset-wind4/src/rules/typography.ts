@@ -2,7 +2,7 @@ import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
 import { bracketTypeRe } from '../utils/handlers/regex'
-import { generateThemeVariable, themeTracking } from '../utils/theme-track'
+import { generateThemeVariable, themeTracking } from '../utils/track'
 
 export const fonts: Rule<Theme>[] = [
   // text

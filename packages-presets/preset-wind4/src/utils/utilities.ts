@@ -6,7 +6,7 @@ import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
 import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords } from './mappings'
-import { detectThemeValue, generateThemeVariable, themeTracking } from './theme-track'
+import { detectThemeValue, generateThemeVariable, propertyTracking, themeTracking } from './track'
 
 // #region Number Resolver
 export function numberResolver(size: string, defaultValue?: string | number): number | undefined {
@@ -420,8 +420,10 @@ export function defineProperty(
     syntax: JSON.stringify(syntax),
     inherits: inherits ? 'true' : 'false',
   }
-  if (initialValue != null)
+  if (initialValue != null) {
     value['initial-value'] = initialValue as keyof CSSObjectInput
+    propertyTracking(property, String(initialValue))
+  }
   return value
 }
 // #endregion
