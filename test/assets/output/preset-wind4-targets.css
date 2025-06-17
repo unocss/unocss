@@ -90,6 +90,11 @@
 @property --un-pan-x{syntax:"*";inherits:false;}
 @property --un-pan-y{syntax:"*";inherits:false;}
 @property --un-pinch-zoom{syntax:"*";inherits:false;}
+@property --un-numeric-figure{syntax:"*";inherits:false;}
+@property --un-numeric-fraction{syntax:"*";inherits:false;}
+@property --un-numeric-spacing{syntax:"*";inherits:false;}
+@property --un-ordinal{syntax:"*";inherits:false;}
+@property --un-slashed-zero{syntax:"*";inherits:false;}
 @property --un-space-y-reverse{syntax:"*";inherits:false;initial-value:0;}
 @property --un-space-x-reverse{syntax:"*";inherits:false;initial-value:0;}
 @property --un-divide-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
@@ -1574,8 +1579,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .touch-none{touch-action:none;}
 .touch-initial{touch-action:initial;}
 .lining-nums{--un-numeric-figure:lining-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
-.lining-nums,
-.tabular-nums{syntax:"*";inherits:false;}
 .tabular-nums{--un-numeric-spacing:tabular-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
 .normal-nums{font-variant-numeric:normal;}
 .view-transition-foo{view-transition-name:foo;}

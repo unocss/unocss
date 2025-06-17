@@ -649,7 +649,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        return this.resolveCSSResult(raw, result, rule, context)
+        const resolvedResult = this.resolveCSSResult(raw, result, rule, context)
+        if (resolvedResult) {
+          return resolvedResult
+        }
       }
     }
 
