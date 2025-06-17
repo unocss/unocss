@@ -270,36 +270,8 @@ You can also customize the output you want in the [Preflights Theme Process](#pr
 
 Refer to the [`process`](#process) option in Options.
 
-### presetWebFonts
-
-When using `presetWebFonts` with `PresetWind4`, the `fontFamily` theme key is no longer supported.
-Please make the following adjustment:
-
-```ts twoslash [uno.config.ts]
-import { defineConfig, presetWebFonts, presetWind4 } from 'unocss'
-
-export default defineConfig({
-  presets: [
-    presetWind4(),
-    presetWebFonts({
-      themeKey: 'font', // [!code ++]
-      // ^?
-    }),
-  ],
-})
-```
-
 ### presetLegacyCompat
 
 In `presetWind4`, we use the `oklch` color model to support better color contrast and color perception. Therefore, it is not compatible with `presetLegacyCompat` and is **not recommended** for use together.
 
 Please refer to the [Compatibility](#compatibility) section for more information.
-
-### transformDirectives
-
-`transformDirectives` doesn't work well with `PresetWind4`. There are some known issues, so please use it with caution.
-
-::: warning
-
-- When using `@apply` to process rules that have `@property`, conflicts may occur between different layer levels.
-  :::

@@ -64,6 +64,8 @@ Currently supported Providers:
 - `google` - [Google Fonts](https://fonts.google.com/)
 - `bunny` - [Privacy-Friendly Google Fonts](https://fonts.bunny.net/)
 - `fontshare` - [Quality Font Service by ITF](https://www.fontshare.com/)
+- `fontsource` - [Self-Host Open Source Fonts in Neatly Bundled NPM Packages](https://fontsource.org/)
+- `coollabs` - [A Privacy-Friendly Drop-In Replacement for Google Fonts](https://fonts.coollabs.io/)
 
 ::: info
 PR welcome to add more providers. 🙌
@@ -106,7 +108,7 @@ export default defineConfig({
 Provider service of the web fonts.
 
 ```ts
-type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'none'
+type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'none'
 ```
 
 ### fonts

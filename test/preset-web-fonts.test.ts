@@ -3,6 +3,7 @@ import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 
 const options: WebFontsOptions = {
@@ -36,7 +37,7 @@ const classes = new Set([
 it('web-fonts (inline: false)', async () => {
   const uno = await createGenerator({
     presets: [
-      presetMini(),
+      presetMini({ preflight: false }),
       presetWebFonts({
         ...options,
         inlineImports: false,
@@ -51,7 +52,7 @@ it('web-fonts (inline: false)', async () => {
 it('web-fonts (inline: true)', async () => {
   const uno = await createGenerator({
     presets: [
-      presetMini(),
+      presetMini({ preflight: false }),
       presetWebFonts({
         ...options,
         inlineImports: true,
@@ -66,7 +67,7 @@ it('web-fonts (inline: true)', async () => {
 it('web-fonts weight sort', async () => {
   const uno = await createGenerator({
     presets: [
-      presetMini(),
+      presetMini({ preflight: false }),
       presetWebFonts({
         provider: 'google',
         fonts: {
@@ -92,7 +93,7 @@ it('web-fonts weight sort', async () => {
 it('web-fonts weight deduplicate', async () => {
   const uno = await createGenerator({
     presets: [
-      presetMini(),
+      presetMini({ preflight: false }),
       presetWebFonts({
         provider: 'google',
         fonts: {
@@ -118,7 +119,7 @@ it('web-fonts weight deduplicate', async () => {
 it('createLocalFontProcessor', async () => {
   const uno = await createGenerator({
     presets: [
-      presetMini(),
+      presetMini({ preflight: false }),
       presetWebFonts({
         provider: 'google',
         fonts: {
@@ -158,7 +159,7 @@ describe('fontsource provider', async () => {
   it.each(Object.entries(fontMap))('%s', async (_, fonts) => {
     const uno = await createGenerator({
       presets: [
-        presetMini(),
+        presetMini({ preflight: false }),
         presetWebFonts({
           provider: 'fontsource',
           fonts: fonts.reduce((acc, font) => {
@@ -177,7 +178,7 @@ describe('fontsource provider', async () => {
   it('custom wght', async () => {
     const uno = await createGenerator({
       presets: [
-        presetMini(),
+        presetMini({ preflight: false }),
         presetWebFonts({
           provider: 'fontsource',
           fonts: {
@@ -202,7 +203,7 @@ describe('fontsource provider', async () => {
   it('custom variable', async () => {
     const uno = await createGenerator({
       presets: [
-        presetMini(),
+        presetMini({ preflight: false }),
         presetWebFonts({
           provider: 'fontsource',
           fonts: {
@@ -227,4 +228,70 @@ describe('fontsource provider', async () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  it('specific subsets', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini({ preflight: false }),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            fm: {
+              name: 'Fira Mono',
+              weights: ['400', '700'],
+              subsets: ['cyrillic', 'latin'],
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-fm')
+
+    expect(css).toMatchSnapshot()
+  })
+
+  it('prefer static', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini({ preflight: false }),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            dm: {
+              name: 'Dm Sans',
+              // When `preferStatic` is true, it will use static font files
+              // So it produces `@font-face` for `400` and `700`
+              weights: ['400', '700'],
+              preferStatic: true,
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-dm')
+
+    expect(css).toMatchSnapshot()
+  })
+})
+
+it('with presetWind4', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetWind4({ preflights: { reset: false } }),
+      presetWebFonts({
+        fonts: {
+          custom: {
+            name: 'Fira Code',
+            weights: ['400'],
+          },
+        },
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate('font-custom')
+
+  expect(css).toMatchSnapshot()
 })

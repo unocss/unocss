@@ -1,16 +1,16 @@
-import type { Disposable } from 'vscode'
+import type { ConfigurationScope, Disposable } from 'vscode'
 import type { ConfigShorthandTypeMap } from './generated/meta'
 import { languages, window, workspace } from 'vscode'
 import { defaultLanguageIds } from './constants'
 import { configs } from './generated/meta'
 
-export function getConfig(): ConfigShorthandTypeMap & {
+export function getConfig(scope?: ConfigurationScope): ConfigShorthandTypeMap & {
   watchChanged: (keys: (keyof ConfigShorthandTypeMap)[], callback: () => void) => Disposable
 } {
   function watchChanged(keys: (keyof ConfigShorthandTypeMap)[], callback: () => void) {
     const fullKeys = keys.map(key => configs[key].key)
     return workspace.onDidChangeConfiguration((e) => {
-      if (fullKeys.some(key => e.affectsConfiguration(key))) {
+      if (fullKeys.some(key => e.affectsConfiguration(key, scope))) {
         callback()
       }
     })
@@ -20,7 +20,7 @@ export function getConfig(): ConfigShorthandTypeMap & {
     watchChanged,
   } as any
 
-  const config = workspace.getConfiguration()
+  const config = workspace.getConfiguration(undefined, scope)
 
   for (const [key, value] of Object.entries(configs) as any) {
     Object.defineProperty(object, key, {

@@ -161,6 +161,7 @@ describe('preset-wind4', () => {
     const { css } = await uno.generate('c-foo')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
@@ -289,6 +290,7 @@ describe('preset-wind4', () => {
     const { css } = await uno.generate(template)
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {

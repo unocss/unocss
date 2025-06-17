@@ -3,10 +3,46 @@ import type { Arrayable, Awaitable } from '@unocss/core'
 export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'none' | Provider
 
 export interface WebFontMeta {
+  /**
+   * The name of the font family
+   * @example 'Fira Code'
+   */
   name: string
+
+  /**
+   * Font weight(s) to include, and respect the weight order
+   * @example [400, 700]
+   */
   weights?: (string | number)[] // wght axis
+
+  /**
+   * Use italic style
+   */
   italic?: boolean // ital axis
+
+  /**
+   * Variable font settings
+   * @example
+   * ```ts
+   * variable: {
+   *   wght: { default: '400', min: '100', max: '900', step: '100' },
+   *   wdth: { default: '100', min: '50', max: '200', step: '10' },
+   *   slnt: { default: '0', min: '-20', max: '20', step: '1' },
+   * }
+   */
   variable?: Record<string, Partial<Axes>> // variable font
+
+  /**
+   * The font subsets to include
+   * @example ['latin', 'cyrillic']
+   */
+  subsets?: string[]
+
+  /**
+   * Prefer static font files over variable
+   */
+  preferStatic?: boolean
+
   /**
    * Override the provider
    * @default <matches root config>
@@ -51,7 +87,11 @@ export interface WebFontsOptions {
   /**
    * Key for the theme object
    *
-   * @default 'fontFamily'
+   * Automatically detect the key based on the preset used
+   *
+   * @default
+   * `preset-wind3` -> 'fontFamily'
+   * `preset-wind4` -> 'font'
    */
   themeKey?: string
 
