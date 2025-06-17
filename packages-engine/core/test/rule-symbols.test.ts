@@ -1,5 +1,5 @@
 import type { VariantHandler } from '@unocss/core'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, symbols } from '@unocss/core'
 import { expect, it } from 'vitest'
 
 it('shortcuts-no-merge', async () => {
@@ -216,4 +216,27 @@ it('sort', async () => {
       .b{color:red;}
       .a{color:green;}"
     `)
+})
+
+it('hoist static rule', async () => {
+  const uno = await createGenerator({
+    rules: [
+      ['foo', [
+        { color: 'red' },
+        {
+          [symbols.parent]: '@media (min-width: 640px)',
+          [symbols.selector]: s => `${s}:hover`,
+          color: 'blue',
+        },
+      ]],
+    ],
+  })
+  const { css } = await uno.generate('foo', { preflights: false })
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .foo{color:red;}
+    @media (min-width: 640px){
+    .foo:hover{color:blue;}
+    }"
+  `)
 })
