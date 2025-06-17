@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { defineConfig, presetAttributify, presetIcons, presetWind3, transformerDirectives } from 'unocss'
+import { defineConfig, presetAttributify, presetIcons, presetWind4, transformerDirectives } from 'unocss'
 
 export default defineConfig({
   theme: {
@@ -22,7 +22,7 @@ export default defineConfig({
     },
   },
   presets: [
-    presetWind3(),
+    presetWind4(),
     presetIcons(),
     presetAttributify(),
   ],
