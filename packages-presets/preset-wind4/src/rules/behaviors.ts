@@ -1,5 +1,5 @@
-import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import { type CSSValueInput, type Rule, type RuleContext, symbols } from '@unocss/core'
 import { colorResolver, defineProperty, globalKeywords, h, isCSSMathFn, makeGlobalStaticRules } from '../utils'
 
 export const outline: Rule<Theme>[] = [
@@ -15,21 +15,21 @@ export const outline: Rule<Theme>[] = [
   ['outline-offset-none', { 'outline-offset': '0' }],
 
   // style
-  [/^outline$/, function* () {
-    yield {
+  ['outline', [
+    {
       'outline-style': 'var(--un-outline-style)',
       'outline-width': '1px',
-    }
-    yield defineProperty('--un-outline-style', { initialValue: 'solid' })
-  }],
-  [/^outline-hidden$/, function* (_, { symbols }) {
-    yield { 'outline-style': 'none' }
-    yield {
+    },
+    defineProperty('--un-outline-style', { initialValue: 'solid' }),
+  ]],
+  ['outline-hidden', [
+    { 'outline-style': 'none' },
+    {
       [symbols.parent]: `@media (forced-colors: active)`,
       'outline': `2px solid transparent`,
       'outline-offset': `2px`,
-    }
-  }],
+    },
+  ]],
   ['outline-none', { '--un-outline-style': 'none', 'outline-style': 'none' }],
   ...['auto', 'dashed', 'dotted', 'double', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
 ]
