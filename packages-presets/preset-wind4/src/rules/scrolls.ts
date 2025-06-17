@@ -1,22 +1,22 @@
-import type { Rule } from '@unocss/core'
+import type { Rule, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { defineProperty, directionSize } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
-  // snap type
-  [/^snap-(x|y|both)$/, function* ([, d]) {
-    yield {
-      'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)`,
-    }
-    yield defineProperty('--un-scroll-snap-strictness', { initialValue: 'proximity' })
-  }, { autocomplete: 'snap-(x|y|both)' }],
-
-  [/^snap-(mandatory|proximity)$/, function* ([, d]) {
-    yield {
-      '--un-scroll-snap-strictness': d,
-    }
-    yield defineProperty('--un-scroll-snap-strictness', { initialValue: 'proximity' })
-  }, { autocomplete: 'snap-(mandatory|proximity)' }],
+  ...['x', 'y', 'both'].map<StaticRule>(d => [
+    `snap-${d}`,
+    [
+      { 'scroll-snap-type': `${d} var(--un-scroll-snap-strictness)` },
+      defineProperty('--un-scroll-snap-strictness', { initialValue: 'proximity' }),
+    ],
+  ]),
+  ...['mandatory', 'proximity'].map<StaticRule>(d => [
+    `snap-${d}`,
+    [
+      { '--un-scroll-snap-strictness': d },
+      defineProperty('--un-scroll-snap-strictness', { initialValue: 'proximity' }),
+    ],
+  ]),
   ['snap-none', { 'scroll-snap-type': 'none' }],
 
   // snap align
