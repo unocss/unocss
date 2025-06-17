@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, DynamicRule, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
@@ -154,7 +154,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       // expand shortcuts
       const expanded = await this.expandShortcut(context.currentSelector, context)
-
       const utils = expanded
         ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
         // no shortcuts
@@ -582,22 +581,19 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const parse = async (
       [raw, processed, variantHandlers]: VariantMatchedResult<Theme>,
     ): Promise<(ParsedUtil | RawUtil)[] | undefined> => {
+      if (this.config.details)
+        context.rules = context.rules ?? []
+
       // Avoid context pollution in loop with await
       const scopeContext = {
         ...context,
         variantHandlers,
       }
 
-      if (this.config.details)
-        scopeContext.rules = scopeContext.rules ?? []
-
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
         if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-          if (this.config.details)
-            scopeContext.rules!.push(staticMatch)
-
           return this.resolveCSSResult(raw, staticMatch[1], staticMatch, scopeContext)
         }
       }
@@ -634,9 +630,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
         let result = await handler(match, scopeContext)
         if (!result)
           continue
-
-        if (this.config.details)
-          scopeContext.rules!.push(rule as DynamicRule<Theme>)
 
         // Handle generator result
         if (typeof result !== 'string') {
@@ -676,6 +669,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
   ) => {
     const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
     if (entries.length) {
+      if (this.config.details) {
+        context.rules!.push(rule)
+      }
       context.generator.activatedRules.add(rule)
       const index = context.generator.config.rules.indexOf(rule)
       const meta = rule[2]
