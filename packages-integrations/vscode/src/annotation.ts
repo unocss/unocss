@@ -100,12 +100,14 @@ export async function registerAnnotations(
       if (!isTarget)
         return reset(editor)
 
+      const docConfig = getConfig(doc)
+
       const result = await ctx.uno.generate(code, { id, preflights: false, minify: true })
 
       const colorRanges: DecorationOptions[] = []
 
-      const remToPxRatio = config.remToPxPreview
-        ? config.remToPxRatio
+      const remToPxRatio = docConfig.remToPxPreview
+        ? docConfig.remToPxRatio
         : -1
 
       const positions = await getMatchedPositionsFromDoc(ctx.uno, doc)
@@ -116,7 +118,7 @@ export async function registerAnnotations(
           try {
             const md = await getPrettiedMarkdown(ctx!.uno, isAttributify ? [i[2], `[${i[2]}=""]`] : i[2], remToPxRatio)
 
-            if (config.colorPreview) {
+            if (docConfig.colorPreview) {
               const color = getColorString(md)
               if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
                 colorRanges.push({
@@ -143,7 +145,7 @@ export async function registerAnnotations(
 
       editor.setDecorations(colorDecoration, colorRanges)
 
-      if (config.underline) {
+      if (docConfig.underline) {
         editor.setDecorations(NoneDecoration, [])
         editor.setDecorations(UnderlineDecoration, ranges)
       }
