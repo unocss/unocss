@@ -154,6 +154,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       // expand shortcuts
       const expanded = await this.expandShortcut(context.currentSelector, context)
+
       const utils = expanded
         ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
         // no shortcuts
@@ -581,19 +582,23 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const parse = async (
       [raw, processed, variantHandlers]: VariantMatchedResult<Theme>,
     ): Promise<(ParsedUtil | RawUtil)[] | undefined> => {
-      if (this.config.details)
-        context.rules = context.rules ?? []
+      // Avoid context pollution in loop with await
+      const scopeContext = {
+        ...context,
+        variantHandlers,
+      }
 
-      context.variantHandlers = variantHandlers
+      if (this.config.details)
+        scopeContext.rules = scopeContext.rules ?? []
 
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
         if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
           if (this.config.details)
-            context.rules!.push(staticMatch)
+            scopeContext.rules!.push(staticMatch)
 
-          return this.resolveCSSResult(raw, staticMatch[1], staticMatch, context)
+          return this.resolveCSSResult(raw, staticMatch[1], staticMatch, scopeContext)
         }
       }
 
@@ -626,12 +631,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (!match)
           continue
 
-        let result = await handler(match, context)
+        let result = await handler(match, scopeContext)
         if (!result)
           continue
 
         if (this.config.details)
-          context.rules!.push(rule as DynamicRule<Theme>)
+          scopeContext.rules!.push(rule as DynamicRule<Theme>)
 
         // Handle generator result
         if (typeof result !== 'string') {
@@ -649,7 +654,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        const resolvedResult = this.resolveCSSResult(raw, result, rule, context)
+        const resolvedResult = this.resolveCSSResult(raw, result, rule, scopeContext)
         if (resolvedResult) {
           return resolvedResult
         }
@@ -663,12 +668,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
     return parsed
   }
 
-  private resolveCSSResult(
+  private resolveCSSResult = (
     raw: string,
     result: CSSValueInput | string | (CSSValueInput | string)[],
     rule: Rule<Theme>,
     context: RuleContext<Theme>,
-  ) {
+  ) => {
     const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
     if (entries.length) {
       context.generator.activatedRules.add(rule)
