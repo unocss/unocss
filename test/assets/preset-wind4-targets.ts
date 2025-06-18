@@ -502,6 +502,113 @@ export const presetWind4Targets: string[] = [
   'row-11',
   '-row-12',
   'row-span-$variable',
+
+  // mask-clip
+  'mask-clip-border',
+  'mask-clip-padding',
+  'mask-clip-content',
+  'mask-clip-fill',
+  'mask-clip-stroke',
+  'mask-clip-view',
+  'mask-no-clip',
+
+  // mask-composite
+  'mask-add',
+  'mask-subtract',
+  'mask-intersect',
+  'mask-exclude',
+
+  // mask-image
+  'mask-[url(https://test.unocss.png)]',
+  'mask-[var(--my-mask)]',
+  'mask-none',
+  'mask-l-from-50%',
+  'mask-l-from-red-400',
+  'mask-b-to-90%',
+  'mask-x-from-70%',
+  'mask-y-to-90%',
+  'mask-linear-50',
+  '-mask-linear-50',
+  'mask-linear-from-1/3',
+  'mask-linear-from-4',
+  'mask-linear-from-60%',
+  'mask-linear-from-60px',
+  'mask-linear-from-#f90',
+  'mask-linear-from-red-400',
+  'mask-linear-to-80%',
+  'mask-linear-[70deg,transparent_10%,black,transparent_80%]',
+  'mask-linear-[var(--my-mask-linear)]',
+  'mask-radial-4',
+  'mask-radial-50%',
+  'mask-radial-[100%_100%]',
+  'mask-radial-from-75%',
+  'mask-radial-at-left',
+  'mask-radial-at-bottom-right',
+  'mask-radial-circle',
+  'mask-radial-ellipse',
+  'mask-radial-closest-side',
+  'mask-radial-closest-corner',
+  'mask-radial-farthest-side',
+  'mask-radial-farthest-corner',
+  'mask-conic-25',
+  '-mask-conic-25',
+  'mask-conic-from-55%',
+  'mask-conic-to-85%',
+
+  // mask-mode
+  'mask-alpha',
+  'mask-luminance',
+  'mask-match',
+
+  // mask-origin
+  'mask-origin-border',
+  'mask-origin-padding',
+  'mask-origin-content',
+  'mask-origin-fill',
+  'mask-origin-stroke',
+  'mask-origin-view',
+
+  // mask-position
+  'mask-top',
+  'mask-left',
+  'mask-center',
+  'mask-right',
+  'mask-bottom',
+  'mask-top-left',
+  'mask-top-right',
+  'mask-bottom-left',
+  'mask-bottom-right',
+  'mask-right-bottom',
+  'mask-tl',
+  'mask-tr',
+  'mask-bl',
+  'mask-br',
+  'mask-tb',
+  'mask-l',
+  'mask-t',
+  'mask-r',
+  'mask-b',
+  'mask-pos-[left_-10%_top_1rem]',
+  'mask-position-[var(--my-mask-position)]',
+
+  // mask-repeat
+  'mask-repeat',
+  'mask-no-repeat',
+  'mask-repeat-x',
+  'mask-repeat-y',
+  'mask-repeat-space',
+  'mask-repeat-round',
+
+  // mask-size
+  'mask-auto',
+  'mask-cover',
+  'mask-contain',
+  'mask-size-4',
+  'mask-size-[auto_1rem]',
+
+  // mask-type
+  'mask-type-alpha',
+  'mask-type-luminance',
 ]
 
 export const presetWindNonTargets: string[] = [
