@@ -422,8 +422,8 @@ export function defineProperty(
   }
   if (initialValue != null) {
     value['initial-value'] = initialValue as keyof CSSObjectInput
-    propertyTracking(property, String(initialValue))
   }
+  propertyTracking(property, initialValue ? String(initialValue) : 'initial')
   return value
 }
 // #endregion

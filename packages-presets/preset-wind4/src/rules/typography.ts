@@ -280,7 +280,7 @@ const fontVariantNumericProperties = [
   defineProperty('--un-numeric-fraction'),
 ]
 const baseFontVariantNumeric = {
-  'font-variant-numeric': 'var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)',
+  'font-variant-numeric': 'var(--un-ordinal,) var(--un-slashed-zero,) var(--un-numeric-figure,) var(--un-numeric-spacing,) var(--un-numeric-fraction,)',
 }
 
 export const fontVariantNumeric: Rule<Theme>[] = [
