@@ -110,11 +110,11 @@ catalog:
   pnpm: ^10.12.1
   postcss: ^8.5.5
   postcss-nested: ^7.0.2
+  premove: ^4.0.0
   prettier: ^2.8.8
   prettier-plugin-svelte: ^2.10.1
   pug: ^3.0.3
   react: ^18.3.1
-  rimraf: ^6.0.1
   rollup: ^4.43.0
   sanitize.css: ^13.0.0
   semver: ^7.7.2
