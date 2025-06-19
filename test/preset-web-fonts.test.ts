@@ -274,6 +274,27 @@ describe('fontsource provider', async () => {
 
     expect(css).toMatchSnapshot()
   })
+
+  it('numbered subsets support', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini({ preflight: false }),
+        presetWebFonts({
+          provider: 'fontsource',
+          fonts: {
+            sc: {
+              name: 'Noto Sans SC',
+              subsets: ['chinese-simplified'],
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-sc')
+
+    expect(css).toMatchSnapshot()
+  })
 })
 
 it('with presetWind4', async () => {

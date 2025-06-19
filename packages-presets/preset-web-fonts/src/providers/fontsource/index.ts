@@ -1,5 +1,5 @@
 import type { Provider, WebFontsProviders } from '../../types'
-import type { FontObject, FontSourceResponse, Variable } from './types'
+import type { FontObject, FontSourceResponse, Subset, Variable, Weight } from './types'
 import { mergeDeep } from '@unocss/core'
 
 export function createFontSourceProvider(name: WebFontsProviders, host: string): Provider {
@@ -12,7 +12,7 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
       const list = await Promise.all(fonts.map(async (font) => {
         const css: string[] = []
         const id = font.name.toLowerCase().replace(/\s+/g, '-')
-        let metadata = fontsMap.get(id)!
+        let metadata = fontsMap.get(id)
 
         if (!metadata) {
           const url = `https://api.fontsource.org/v1/fonts/${id}`
@@ -25,8 +25,9 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
           }
         }
 
-        const { weights } = metadata
+        const { weights, unicodeRange, variants, family } = metadata
         const subsets = metadata.subsets.filter(subset => font.subsets ? font.subsets.includes(subset) : true)
+        const style = font.italic ? 'italic' : 'normal'
 
         if (metadata.variable && !font.preferStatic) {
           let variableData = variablesMap.get(id)
@@ -43,27 +44,57 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
           const mergeAxes = mergeDeep(variableData.axes, font.variable ?? {})
 
           for (const subset of subsets) {
-            const url = `${host}/fontsource/fonts/${metadata.id}:vf@latest/${subset}-${font.italic ? 'wght-italic' : 'wght-normal'}.woff2`
+            if (unicodeRange[subset]) {
+              const url = `${host}/fontsource/fonts/${metadata.id}:vf@latest/${subset}-wght-${style}.woff2`
 
-            const fontObj: FontObject = {
-              family: `${metadata.family}`,
-              display: 'swap',
-              style: font.italic ? 'italic' : 'normal',
-              weight: 400,
-              src: [{
-                url,
-                format: 'woff2-variations',
-              }],
-              variable: {
-                wght: mergeAxes.wght ?? undefined,
-                wdth: mergeAxes.wdth ?? undefined,
-                slnt: mergeAxes.slnt ?? undefined,
-              },
-              unicodeRange: metadata.unicodeRange[subset as keyof typeof metadata.unicodeRange],
-              comment: `${metadata.id}-${subset}-wght-normal`,
+              const fontObj: FontObject = {
+                family,
+                display: 'swap',
+                style,
+                weight: 400,
+                src: [{
+                  url,
+                  format: 'woff2-variations',
+                }],
+                variable: {
+                  wght: mergeAxes.wght ?? undefined,
+                  wdth: mergeAxes.wdth ?? undefined,
+                  slnt: mergeAxes.slnt ?? undefined,
+                },
+                unicodeRange: unicodeRange[subset],
+                comment: `${metadata.id}-${subset}-wght-normal`,
+              }
+
+              css.push(generateFontFace(fontObj))
             }
+            // if it is numbered subset
+            else {
+              Object.entries(unicodeRange)
+                .filter(([subKey]) => !metadata.subsets.includes(subKey as Subset))
+                .forEach(([subKey, range]) => {
+                  const url = `${host}/fontsource/fonts/${metadata.id}:vf@latest/${subKey.slice(1, -1)}-wght-${style}.woff2`
 
-            css.push(generateFontFace(fontObj))
+                  const fontObj: FontObject = {
+                    family,
+                    display: 'swap',
+                    style,
+                    weight: 400,
+                    src: [{
+                      url,
+                      format: 'woff2-variations',
+                    }],
+                    variable: {
+                      wght: mergeAxes.wght ?? undefined,
+                      wdth: mergeAxes.wdth ?? undefined,
+                      slnt: mergeAxes.slnt ?? undefined,
+                    },
+                    unicodeRange: range,
+                    comment: `${metadata.id}-${subKey}-wght-normal`,
+                  }
+
+                  css.push(generateFontFace(fontObj))
+                })
+            }
           }
         }
         else {
@@ -71,23 +102,19 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
 
           for (const subset of subsets) {
             for (const weight of _weights) {
-              const url = `${host}/fontsource/fonts/${
-                metadata.id
-              }@latest/${subset}-${weight}-${font.italic ? 'italic' : 'normal'}`
+              const url = variants[weight as Weight][style][subset].url
 
               const fontObj: FontObject = {
-                family: metadata.family,
+                family,
                 display: 'swap',
-                style: font.italic ? 'italic' : 'normal',
+                style,
                 weight: Number(weight),
                 src: [{
-                  url: `${url}.woff2`,
+                  url: url.woff2,
                   format: 'woff2',
                 }],
-                unicodeRange: metadata.unicodeRange[subset as keyof typeof metadata.unicodeRange],
-                comment: `${metadata.id}-${subset}-${weight}${
-                  font.italic ? '-italic' : '-normal'
-                }`,
+                unicodeRange: unicodeRange[subset],
+                comment: `${metadata.id}-${subset}-${weight}-${style}`,
               }
 
               css.push(generateFontFace(fontObj))

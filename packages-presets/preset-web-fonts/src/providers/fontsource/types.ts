@@ -3,12 +3,7 @@ import type { Axes } from '../../types'
 export type Subset = 'cyrillic' | 'cyrillic-ext' | 'greek' | 'greek-ext' | 'hebrew' | 'latin' | 'latin-ext' | 'math' | 'symbols' | 'vietnamese'
 export type Style = 'italic' | 'normal'
 export type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-
-export interface Url {
-  woff2: string
-  woff: string
-  ttf: string
-}
+export type Format = 'woff2' | 'woff' | 'ttf'
 
 export interface FontSourceResponse {
   id: string
@@ -19,7 +14,7 @@ export interface FontSourceResponse {
   unicodeRange: Record<Subset, string>
   subsets: Subset[]
   defSubset: Subset
-  variants: Record<Weight, Record<Style, Record<Subset, Record<'url', Url>>>>
+  variants: Record<Weight, Record<Style, Record<Subset, Record<'url', Record<Format, string>>>>>
   lastModified: string
   version: string
   category: string
