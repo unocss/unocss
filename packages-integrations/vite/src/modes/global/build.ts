@@ -14,6 +14,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
   const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
   const vfsLayers = new Map<string, string>()
   const resolveContexts = new Map<string, Rollup.PluginContext>()
+  const unocssImporters = new Set<string>()
   let viteConfig: ResolvedConfig
 
   // use maps to differentiate multiple build. using outDir as key
@@ -91,6 +92,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         if (entry) {
           const layer = resolveLayer(entry)
           if (layer) {
+            if (importer)
+              unocssImporters.add(importer)
             if (vfsLayers.has(layer)) {
               this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(vfsLayers.get(layer))}`)
               return vfsLayers.get(layer)
@@ -113,6 +116,13 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             moduleSideEffects: true,
           }
         }
+      },
+      shouldTransformCachedModule({ id }) {
+        // Ensure that importers of __uno.css files are never cached, otherwise,
+        // in watch mode, resolveId will only be called during the initial build,
+        // but vfsLayers is emptied at the beginning of each subsequent build
+        // (#4616)
+        return unocssImporters.delete(id)
       },
       async configResolved(config) {
         const distDirs = [
