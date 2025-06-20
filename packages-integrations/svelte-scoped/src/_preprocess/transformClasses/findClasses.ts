@@ -5,7 +5,7 @@ export interface FoundClass {
   type: ClassForms
 }
 
-type ClassForms = 'regular' | 'directive' | 'directiveShorthand'
+type ClassForms = 'regular' | 'directive' | 'directiveShorthand' | 'clsxObject' | 'clsxObjectShorthand'
 
 const classesRE = /class=(["'`])([\s\S]*?)\1/g // class="mb-1"
 const classDirectivesRE = /class:(\S+?)="?\{/g // class:mb-1={foo} and class:mb-1="{foo}"
