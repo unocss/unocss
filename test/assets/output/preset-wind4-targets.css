@@ -1362,6 +1362,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .animate-none{animation:none;}
 .animate-inherit{animation:inherit;}
 .animate-unset{animation:unset;}
+.bg-conic-120{--un-gradient-position:from 120deg in oklab;;background-image:conic-gradient(var(--un-gradient-stops));}
 .bg-linear-\[70deg\,blue\,pink\]{--un-gradient-position:70deg,blue,pink;background-image:linear-gradient(var(--un-gradient-stops));}
 .from-\$bg-from{--un-gradient-from:color-mix(in oklab, var(--bg-from) var(--un-from-opacity), transparent);--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
 .from-current{--un-gradient-from:currentColor;--un-gradient-stops:var(--un-gradient-via-stops, var(--un-gradient-position), var(--un-gradient-from) var(--un-gradient-from-position), var(--un-gradient-to) var(--un-gradient-to-position));}
@@ -1391,6 +1392,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .to-90\%{--un-gradient-to-position:90%;}
 .via-20\%{--un-gradient-via-position:20%;}
 .bg-repeating-conic{background-image:repeating-conic-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))));}
+.bg-conic{--un-gradient-position: in oklab;background-image:conic-gradient(var(--un-gradient-stops));}
 .bg-linear{--un-gradient-position: in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
 .bg-linear-to-t{--un-gradient-position:to top in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
 .bg-linear-to-tl{--un-gradient-position:to top left in oklab;background-image:linear-gradient(var(--un-gradient-stops));}

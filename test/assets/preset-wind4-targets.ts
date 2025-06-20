@@ -133,6 +133,8 @@ export const presetWind4Targets: string[] = [
   'stops-[blue,pink]',
   'bg-linear',
   'bg-radial',
+  'bg-conic',
+  'bg-conic-120',
   'bg-repeating-conic',
 
   // behaviors
