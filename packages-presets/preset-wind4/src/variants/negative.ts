@@ -8,7 +8,7 @@ const anchoredNumberRE = /^-?[0-9.]+(?:[a-z]+|%)?$/
 const numberRE = /-?[0-9.]+(?:[a-z]+|%)?/
 
 const ignoreProps = [
-  /\b(opacity|color|flex|backdrop-filter|^filter|transform)\b/,
+  /\b(opacity|color|flex|backdrop-filter|^filter|transform|mask-image)\b/,
 ]
 
 function negateMathFunction(value: string) {

@@ -107,6 +107,7 @@ describe('preset-wind4', () => {
         "uno-layer-_pre:contrast-less:bg-gray-3",
         "-space-x-4",
         "data-dropdown:ring-green",
+        "mask-tb",
       ]
     `)
   })

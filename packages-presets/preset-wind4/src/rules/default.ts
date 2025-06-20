@@ -16,6 +16,7 @@ import { gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
 import { lineClamps } from './line-clamp'
+import { masks } from './mask'
 import { placeholders } from './placeholder'
 import { alignments, boxSizing, flexGridJustifiesAlignments, floats, insets, justifies, orders, placements, positions, zIndexes } from './position'
 import { questionMark } from './question-mark'
@@ -114,6 +115,7 @@ export const rules: Rule<Theme>[] = [
   backgroundBlendModes,
   mixBlendModes,
   dynamicViewportHeight,
+  masks,
 
   columns,
   filters,
