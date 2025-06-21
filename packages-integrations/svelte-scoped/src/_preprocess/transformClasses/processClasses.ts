@@ -2,6 +2,7 @@ import type { UnoGenerator } from '@unocss/core'
 import type { TransformClassesOptions } from '../types'
 import type { FoundClass } from './findClasses'
 import { processClassBody } from './processClassBody'
+import { processClsx } from './processClsx.js'
 import { processDirective } from './processDirective'
 
 export interface ProcessResult {
@@ -28,25 +29,26 @@ export async function processClasses(classes: FoundClass[], options: TransformCl
   }
 
   for (const foundClass of classes) {
-    if (foundClass.type === 'regular') {
-      const { rulesToGenerate, codeUpdate } = await processClassBody(foundClass, options, uno, filename)
+    const { rulesToGenerate, codeUpdate } = await processClass(foundClass, options, uno, filename)
 
-      if (rulesToGenerate)
-        Object.assign(result.rulesToGenerate, rulesToGenerate)
+    if (rulesToGenerate)
+      Object.assign(result.rulesToGenerate, rulesToGenerate)
 
-      if (codeUpdate)
-        result.codeUpdates.push(codeUpdate)
-    }
-    else {
-      const { rulesToGenerate, codeUpdate } = await processDirective(foundClass, options, uno, filename) || {}
-
-      if (rulesToGenerate)
-        Object.assign(result.rulesToGenerate, rulesToGenerate)
-
-      if (codeUpdate)
-        result.codeUpdates.push(codeUpdate)
-    }
+    if (codeUpdate)
+      result.codeUpdates.push(codeUpdate)
   }
 
   return result
+}
+
+async function processClass(foundClass: FoundClass, options: TransformClassesOptions, uno: UnoGenerator, filename: string): Promise<Partial<ProcessResult>> {
+  if (foundClass.type === 'regular') {
+    return await processClassBody(foundClass, options, uno, filename)
+  }
+
+  if (foundClass.type === 'clsxObject' || foundClass.type === 'clsxObjectShorthand') {
+    return await processClsx(foundClass, options, uno, filename) ?? {}
+  }
+
+  return await processDirective(foundClass, options, uno, filename) ?? {}
 }

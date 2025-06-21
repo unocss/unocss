@@ -162,6 +162,9 @@ catalogs:
     '@vueuse/nuxt':
       specifier: ^13.3.0
       version: 13.3.0
+    acorn:
+      specifier: ^8.14.1
+      version: 8.14.1
     astro:
       specifier: ^4.16.18
       version: 4.16.18
@@ -411,6 +414,9 @@ catalogs:
     windicss:
       specifier: ^3.5.6
       version: 3.5.6
+    zimmerframe:
+      specifier: ^1.1.2
+      version: 1.1.2
 
 overrides:
   '@typescript-eslint/utils': ^8.34.0
@@ -1179,12 +1185,18 @@ importers:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../packages-presets/reset
+      acorn:
+        specifier: 'catalog:'
+        version: 8.14.1
       css-tree:
         specifier: 'catalog:'
         version: 3.1.0
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
+      zimmerframe:
+        specifier: 'catalog:'
+        version: 1.1.2
     devDependencies:
       prettier-plugin-svelte:
         specifier: 'catalog:'
