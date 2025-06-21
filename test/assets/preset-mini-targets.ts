@@ -1270,6 +1270,7 @@ export const presetMiniTargets: string[] = [
   'group-data-[state=open]:font-bold',
   'group-data-[state=open]/named:font-medium',
   'peer-data-[state=closed]:border-3',
+  'has-data-[state=closed]:border-4',
 
   // variants - container parent
   '@container',

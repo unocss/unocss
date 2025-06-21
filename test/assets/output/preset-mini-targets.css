@@ -484,7 +484,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .b-2,
 .border-size-2{border-width:2px;}
 .border{border-width:1px;}
-.border-4{border-width:4px;}
+.border-4,
+.has-data-\[state\=closed\]\:border-4:has([data-state=closed]){border-width:4px;}
 .border-x{border-left-width:1px;border-right-width:1px;}
 .border-b{border-bottom-width:1px;}
 .border-e-4{border-inline-end-width:4px;}
