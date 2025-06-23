@@ -464,7 +464,12 @@
 .mbs-\$height{margin-block-start:var(--height);}
 .mbs-unset{margin-block-start:unset;}
 .\*-p-2 > *,
+.\*\:data-\[inline\]\:p-2 > *[data-inline],
 .\*\:p-2 > *,
+.\*\*-p-2 *,
+.\*\*\:aria-\[id\=avatar\]\:p-2 *[aria-id=avatar],
+.\*\*\:data-\[inline\]\:p-2 *[data-inline],
+.\*\*\:p-2 *,
 .has-hover\:p-2:has(:hover),
 .p-2,
 .p2,
@@ -479,6 +484,11 @@
 .p-unset{padding:unset;}
 .pa{padding:auto;}
 .hover\:\!p-1:hover{padding:calc(var(--spacing) * 1) !important;}
+.\*\:data-\[inline\]\:hover\:p-2 > *:hover[data-inline]{padding:calc(var(--spacing) * 2);}
+.\*\:hover\:p-2 > *:hover{padding:calc(var(--spacing) * 2);}
+.\*\*\:aria-\[id\=avatar\]\:hover\:p-2 *:hover[aria-id=avatar]{padding:calc(var(--spacing) * 2);}
+.\*\*\:data-\[inline\]\:hover\:p-2 *:hover[data-inline]{padding:calc(var(--spacing) * 2);}
+.\*\*\:hover\:data-\[inline\]\:p-2 *[data-inline]:hover{padding:calc(var(--spacing) * 2);}
 .hover\:p-5:hover{padding:calc(var(--spacing) * 5);}
 .group-aria:focus .group-aria-focus\:p-4,
 .group:focus .group-focus\:p-4{padding:calc(var(--spacing) * 4);}

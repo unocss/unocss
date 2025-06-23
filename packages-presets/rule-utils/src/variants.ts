@@ -2,7 +2,7 @@ import type { Arrayable, VariantHandler, VariantHandlerContext, VariantObject } 
 import { escapeRegExp, toArray } from '@unocss/core'
 import { getBracket } from './utilities'
 
-export function variantMatcher<T extends object = object>(name: string, handler: Arrayable<(input: VariantHandlerContext) => Record<string, any>>): VariantObject<T> {
+export function variantMatcher<T extends object = object>(name: string, handler: Arrayable<(input: VariantHandlerContext) => Record<string, any>>, options: Omit<VariantObject<T>, 'match'> = {}): VariantObject<T> {
   let re: RegExp
   return {
     name,
@@ -19,6 +19,7 @@ export function variantMatcher<T extends object = object>(name: string, handler:
             ...input,
             ...handler(input),
           }),
+          ...options,
         }))
         return handlers.length === 1
           ? handlers[0]

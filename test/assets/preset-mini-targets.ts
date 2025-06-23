@@ -1099,6 +1099,7 @@ export const presetMiniTargets: string[] = [
   '-!mb-safe',
   '!-ms-safe',
   '*:p-2',
+  '*:hover:p-2',
   '*-p-2',
 
   // variants class
