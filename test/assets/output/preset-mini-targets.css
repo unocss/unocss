@@ -894,6 +894,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .fw-900{font-weight:900;}
 .font-thin{font-weight:100;}
 .fw-inherit{font-weight:inherit;}
+.has-aria-\[hidden\=false\]\:font-20:has([aria-hidden=false]){font-weight:20;}
 .group-aria:hover .group-aria-hover\:font-10,
 .group:hover .group-hover\:font-10{font-weight:10;}
 .group-aria\/label:hover .group-aria-hover\/label\:font-15,
