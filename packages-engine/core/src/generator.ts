@@ -128,9 +128,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     if (this.cache.has(cacheKey))
       return this.cache.get(cacheKey)
 
-    let current = raw
-    for (const p of this.config.preprocess)
-      current = p(raw)!
+    const current = this.config.preprocess.reduce((acc, p) => p(acc) ?? acc, raw)
 
     if (this.isBlocked(current)) {
       this.blocked.add(raw)
