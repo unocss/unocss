@@ -391,6 +391,7 @@
 .font-\[number\:\$variable\]{--un-font-weight:var(--variable);font-weight:var(--variable);}
 .font-\[system-ui\]{font-family:system-ui;}
 .font-\$font-name{font-family:var(--font-name);}
+.has-aria-\[hidden\=false\]\:font-20:has([aria-hidden=false]){--un-font-weight:20;font-weight:20;}
 .font-550{--un-font-weight:550;font-weight:550;}
 .font-inherit{font-family:inherit;}
 .font-mono{font-family:var(--font-mono);}

@@ -1235,6 +1235,7 @@ export const presetMiniTargets: string[] = [
   'group-aria-[[data-attr]]/label:font-17',
   'group-aria-[.as-parent_&]/label:font-18',
   'group-aria-[.not-parent]/label:font-19',
+  'has-aria-[hidden=false]:font-20',
 
   // variants - variables
   'nth-[2]:text-yellow',
