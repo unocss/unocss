@@ -441,6 +441,16 @@ export const presetWind4Targets: string[] = [
   '-scroll-p-px',
   '-space-x-4',
 
+  '*:data-[inline]:p-2',
+  '*:data-[inline]:hover:p-2',
+  '**:p-2',
+  '**-p-2',
+  '**:data-[inline]:p-2',
+  '**:data-[inline]:hover:p-2',
+  '**:hover:data-[inline]:p-2',
+  '**:aria-[id=avatar]:p-2',
+  '**:aria-[id=avatar]:hover:p-2',
+
   // variants experimental
   '@hover-text-red',
   '@hover:[[open]_&]:text-blue',

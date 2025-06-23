@@ -697,6 +697,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .p-none{padding:0;}
 .p-unset{padding:unset;}
 .pa{padding:auto;}
+.\*\:hover\:p-2 > *:hover{padding:0.5rem;}
 .hover\:\!p-1:hover{padding:0.25rem !important;}
 .hover\:p-5:hover{padding:1.25rem;}
 .p-xy,
