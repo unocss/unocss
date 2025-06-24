@@ -144,3 +144,24 @@ export const variantStickyHover: Variant<Theme>[] = [
     selector: `${input.selector || ''}:hover`,
   })),
 ]
+
+export const variantImplicitGroup: Variant = {
+  name: 'implicit-group',
+  match(matcher, ctx) {
+    const variant = variantGetParameter('in-', matcher, ctx.generator.config.separators)
+    if (variant) {
+      const [match, rest] = variant
+      const group = h.bracket(match) ?? match
+      if (group) {
+        return {
+          matcher: rest,
+          handle: (input, next) => next({
+            ...input,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
+            selector: `:where(*:is(${group})) &`,
+          }),
+        }
+      }
+    }
+  },
+}

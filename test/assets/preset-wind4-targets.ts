@@ -621,6 +621,10 @@ export const presetWind4Targets: string[] = [
   // mask-type
   'mask-type-alpha',
   'mask-type-luminance',
+
+  // implicit group
+  'in-[div]:bg-red-400',
+  'in-[a>button:hover]:font-bold',
 ]
 
 export const presetWindNonTargets: string[] = [
