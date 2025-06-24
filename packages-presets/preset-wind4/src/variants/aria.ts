@@ -45,4 +45,5 @@ export const variantTaggedAriaAttributes: Variant<Theme>[] = [
   taggedAria('parent'),
   taggedAria('previous'),
   taggedAria('has'),
+  taggedAria('in'),
 ]

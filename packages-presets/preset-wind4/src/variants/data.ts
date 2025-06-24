@@ -44,4 +44,5 @@ export const variantTaggedDataAttributes: Variant<Theme>[] = [
   taggedData('parent'),
   taggedData('previous'),
   taggedData('has'),
+  taggedData('in'),
 ]

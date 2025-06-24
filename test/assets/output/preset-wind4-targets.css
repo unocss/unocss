@@ -1752,6 +1752,12 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .in-\[div\]\:bg-red-400{
 :where(*:is(div)) &{background-color:color-mix(in srgb, var(--colors-red-400) var(--un-bg-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }
+.in-aria-\[hidden\=false\]\:font-21{
+:where(*:is([aria-hidden=false])) &{--un-font-weight:21;font-weight:21;}
+}
+.in-data-\[state\=closed\]\:border-5{
+:where(*:is([data-state=closed])) &{border-width:5px;}
+}
 @layer base{
 .layer-base\:translate-0{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
 }
