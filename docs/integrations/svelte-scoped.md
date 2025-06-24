@@ -42,14 +42,15 @@ A regular UnoCSS/Tailwind CSS setup places utility styles in a global CSS file w
 
 Because Svelte Scoped rewrites your utility class names, you are limited in where you can write them:
 
-| Supported Syntax          | Example                          |
-| ------------------------- | -------------------------------- |
-| Class attribute           | `<div class="mb-1" />`           |
-| Class directive           | `<div class:mb-1={condition} />` |
-| Class directive shorthand | `<div class:logo />`             |
-| Class prop                | `<Button class="mb-1" />`        |
+| Supported Syntax          | Example                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| Class attribute           | `<div class="mb-1" />`                                                                      |
+| Class directive           | `<div class:mb-1={condition} />`                                                            |
+| Class directive shorthand | `<div class:logo />`                                                                        |
+| Class prop                | `<Button class="mb-1" />`                                                                   |
+| `clsx` like               | `<div class={["mb-1", { logo, 'font-bold': isBold() }, isUnderlined() && 'underline' ]} />` |
 
-Svelte Scoped is designed to be a drop-in replacement for a project that uses utility styles. As such, expressions found within class attributes are also supported (e.g. `<div class="mb-1 {foo ? 'mr-1' : 'mr-2'}" />`) but we recommend you use the class directive syntax moving forward. Note also that if you've used class names in other ways like placing them in a `<script>` block or using attributify mode then you'll need to take additional steps before using Svelte Scoped. You can utilize the `safelist` option and also check the [presets](#presets-support) section below for more tips.
+Svelte Scoped is designed to be a drop-in replacement for a project that uses utility styles. As such, expressions found within class attributes are also supported (e.g. `<div class="mb-1 {foo ? 'mr-1' : 'mr-2'}" />`) but we recommend you use the `clsx` syntax moving forward. Note also that if you've used class names in other ways like placing them in a `<script>` block or using attributify mode then you'll need to take additional steps before using Svelte Scoped. You can utilize the `safelist` option and also check the [presets](#presets-support) section below for more tips.
 
 ### Context aware
 
