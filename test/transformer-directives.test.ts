@@ -90,19 +90,19 @@ describe('wind3', () => {
       )
       await expect(result)
         .toMatchInlineSnapshot(`
-        "@media (min-width: 640px) {
-          @media (min-width: 1024px) {
-            @media (min-width: 768px) {
-              @media (min-width: 320px) {
-                body {
-                  width: 40em;
+          "@media (min-width: 640px) {
+            @media (min-width: 1024px) {
+              @media (min-width: 768px) {
+                @media (min-width: 320px) {
+                  body {
+                    width: 40em;
+                  }
                 }
               }
             }
           }
-        }
-        "
-      `)
+          "
+        `)
     })
 
     it('breakpoints', async () => {

@@ -84,6 +84,10 @@ describe('preset-wind4', () => {
         "placeholder-color-red-1",
         "hover:not-first:checked:bg-true-gray/10",
         "hover:is-first:checked:bg-true-gray/10",
+        "group-aria-focus:p-4",
+        "parent-aria-hover:text-center",
+        "group-aria-hover:font-10",
+        "group-aria-hover/label:font-15",
         "@container-inline-size",
         "@container/label-inline-size",
         "@container-size",
@@ -401,6 +405,38 @@ describe('preset-wind4', () => {
       --custom-bar: var(--custom-baz-DEFAULT, inherit);
       --custom-baz-DEFAULT: inherit;
       }"
+    `)
+  })
+
+  it('nested pseudo selectors', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'peer-data-[variant=inset]:peer-data-[state=collapsed]:b-1',
+      'peer-aria-checked:has-aria-[level=3]:b-2',
+      'has-aria-[hidden=false]:in-data-[state=collapsed]:b-3',
+      'md:has-aria-[hidden=false]:peer-data-[dialog=open]:group-data-[vv=w]/accordion:b-4',
+    ])
+    await expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .has-aria-\\[hidden\\=false\\]\\:in-data-\\[state\\=collapsed\\]\\:b-3{:where(*[data-state=collapsed]) &{
+      &:has(*[aria-hidden=false]){border-width:3px;}
+      }}
+      .peer-aria-checked\\:has-aria-\\[level\\=3\\]\\:b-2{&:has(*[aria-level=3]){
+      &:is(:where(.peer)[aria-checked="true"] ~ *){border-width:2px;}
+      }}
+      .peer-data-\\[variant\\=inset\\]\\:peer-data-\\[state\\=collapsed\\]\\:b-1{&:is(:where(.peer)[data-state=collapsed] ~ *){
+      &:is(:where(.peer)[data-variant=inset] ~ *){border-width:1px;}
+      }}
+      .md\\:has-aria-\\[hidden\\=false\\]\\:peer-data-\\[dialog\\=open\\]\\:group-data-\\[vv\\=w\\]\\/accordion\\:b-4{&:is(:where(.group\\/accordion)[data-vv=w] *){&:is(:where(.peer)[data-dialog=open] ~ *){@media (min-width: 48rem){
+      &:has(*[aria-hidden=false]){border-width:4px;}
+      }}}}"
     `)
   })
 })

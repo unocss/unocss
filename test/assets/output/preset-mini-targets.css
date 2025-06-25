@@ -629,9 +629,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .marker\:bg-violet-200 *::marker,
 .marker\:bg-violet-200::marker{--un-bg-opacity:1;background-color:rgb(221 214 254 / var(--un-bg-opacity));}
 .first-line\:bg-green-400::first-line{--un-bg-opacity:1;background-color:rgb(74 222 128 / var(--un-bg-opacity));}
-.peer-aria:checked~.peer-aria-checked\:bg-blue-500,
 .peer:checked~.peer-checked\:bg-blue-500{--un-bg-opacity:1;background-color:rgb(59 130 246 / var(--un-bg-opacity));}
-.previous-aria\/label:checked+.previous-aria-checked\/label\:bg-red-500,
 .previous\/label:checked+.previous-checked\/label\:bg-red-500{--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));}
 .focus-within\:has-first\:checked\:bg-gray\/20:checked:has(:first-child):focus-within{background-color:rgb(156 163 175 / 0.2);}
 .focus-within\:where-first\:checked\:bg-gray\/20:checked:where(:first-child):focus-within{background-color:rgb(156 163 175 / 0.2);}
@@ -702,7 +700,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:p-5:hover{padding:1.25rem;}
 .p-xy,
 .pxy,
-.group-aria:focus .group-aria-focus\:p-4,
 .group:focus .group-focus\:p-4{padding:1rem;}
 .first\:p-2:first-child{padding:0.5rem;}
 .p-x,
@@ -729,7 +726,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .pbs-\$title2{padding-block-start:var(--title2);}
 .pis-10px{padding-inline-start:10px;}
 .group:hover:focus .group-hover\:group-focus\:text-center,
-.parent-aria:hover>.parent-aria-hover\:text-center,
 .parent:hover>.parent-hover\:text-center{text-align:center;}
 .text-left,
 [dir="ltr"] .ltr\:text-left{text-align:left;}
@@ -868,24 +864,24 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .text-opacity-\[13\.3333333\%\]{--un-text-opacity:13.3333333%;}
 .text-opacity-\$opacity-variable{--un-text-opacity:var(--opacity-variable);}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
-.as-parent .group .group-\[\.as-parent_\&\]\:font-13,
-.as-parent .group-aria .group-aria-\[\.as-parent_\&\]\:font-13{font-weight:13;}
-.as-parent .group-aria\/label .group-aria-\[\.as-parent_\&\]\/label\:font-18,
+.as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
-.group-aria:hover .group-aria-\[\:hover\]\:font-11,
 .group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
-.group-aria.not-parent .group-aria-\[\.not-parent\]\:font-14,
 .group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
-.group-aria[data-attr] .group-aria-\[\[data-attr\]\]\:font-12,
 .group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
-.group-aria\/label:hover .group-aria-\[\:hover\]\/label\:font-16,
-.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
-.group-aria\/label.not-parent .group-aria-\[\.not-parent\]\/label\:font-19,
-.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
-.group-aria\/label[data-attr] .group-aria-\[\[data-attr\]\]\/label\:font-17,
-.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17{font-weight:17;}
 .group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
+.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
+.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17,
+.group\/named[data-x=y] .group-data-\[x\=y\]\/named\:font-17,
+.parent\/named[data-x=y]>.parent-data-\[x\=y\]\/named\:font-17,
+.peer\/named[data-x=y]~.peer-data-\[x\=y\]\/named\:font-17,
+.previous\/named[data-x=y]+.previous-data-\[x\=y\]\/named\:font-17{font-weight:17;}
+.group\/named[aria-level="1"] .group-aria-\[level\=\"1\"\]\/named\:font-21,
+.parent\/named[aria-level="3"]>.parent-aria-\[level\=\"3\"\]\/named\:font-21,
+.peer\/named[aria-level="2"]~.peer-aria-\[level\=\"2\"\]\/named\:font-21{font-weight:21;}
 .group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
+.previous\/named[aria-level="4"]+.previous-aria-\[level\=\"4\"\]\/named\:hover\:font-21:hover{font-weight:21;}
 .font-050,
 .font-50,
 .fw-050,
@@ -896,9 +892,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .font-thin{font-weight:100;}
 .fw-inherit{font-weight:inherit;}
 .has-aria-\[hidden\=false\]\:font-20:has([aria-hidden=false]){font-weight:20;}
-.group-aria:hover .group-aria-hover\:font-10,
 .group:hover .group-hover\:font-10{font-weight:10;}
-.group-aria\/label:hover .group-aria-hover\/label\:font-15,
 .group\/label:hover .group-hover\/label\:font-15{font-weight:15;}
 .font-leading-2,
 .leading-2{line-height:0.5rem;}

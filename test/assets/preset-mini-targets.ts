@@ -1204,7 +1204,7 @@ export const presetMiniTargets: string[] = [
   'scope-[unocss]:block',
   'scope-[[data-any]]:inline',
 
-  // variants - taggedData
+  // variants - tagged
   'group-focus:p-4',
   'peer-checked:bg-blue-500',
   'parent-hover:text-center',
@@ -1216,9 +1216,15 @@ export const presetMiniTargets: string[] = [
   'group-[.not-parent]:font-14',
   'group-hover/label:font-15',
   'group-[:hover]/label:font-16',
-  'group-[[data-attr]]/label:font-17',
   'group-[.as-parent_&]/label:font-18',
   'group-[.not-parent]/label:font-19',
+
+  // variants - taggedData
+  'group-[[data-attr]]/label:font-17',
+  'group-data-[x=y]/named:font-17',
+  'peer-data-[x=y]/named:font-17',
+  'parent-data-[x=y]/named:font-17',
+  'previous-data-[x=y]/named:font-17',
 
   // variants - taggedAria
   'group-aria-focus:p-4',
@@ -1226,16 +1232,12 @@ export const presetMiniTargets: string[] = [
   'parent-aria-hover:text-center',
   'previous-aria-checked/label:bg-red-500',
   'group-aria-hover:font-10',
-  'group-aria-[:hover]:font-11',
-  'group-aria-[[data-attr]]:font-12',
-  'group-aria-[.as-parent_&]:font-13',
-  'group-aria-[.not-parent]:font-14',
   'group-aria-hover/label:font-15',
-  'group-aria-[:hover]/label:font-16',
-  'group-aria-[[data-attr]]/label:font-17',
-  'group-aria-[.as-parent_&]/label:font-18',
-  'group-aria-[.not-parent]/label:font-19',
   'has-aria-[hidden=false]:font-20',
+  'group-aria-[level="1"]/named:font-21',
+  'peer-aria-[level="2"]/named:font-21',
+  'parent-aria-[level="3"]/named:font-21',
+  'previous-aria-[level="4"]/named:hover:font-21',
 
   // variants - variables
   'nth-[2]:text-yellow',
