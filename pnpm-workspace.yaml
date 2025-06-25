@@ -143,7 +143,7 @@ catalog:
   unplugin-utils: ^0.2.4
   unplugin-vue-components: ^28.7.0
   unplugin-vue-markdown: ^28.3.1
-  vite: ^6.3.5
+  vite: ^7.0.0
   vite-plugin-inspect: ^11.1.0
   vite-plugin-pages: ^0.32.5
   vite-plugin-windicss: ^1.9.4
