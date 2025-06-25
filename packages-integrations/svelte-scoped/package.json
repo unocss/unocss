@@ -60,8 +60,10 @@
     "@unocss/config": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/reset": "workspace:*",
+    "acorn": "catalog:",
     "css-tree": "catalog:",
-    "magic-string": "catalog:"
+    "magic-string": "catalog:",
+    "zimmerframe": "catalog:"
   },
   "devDependencies": {
     "prettier-plugin-svelte": "catalog:",

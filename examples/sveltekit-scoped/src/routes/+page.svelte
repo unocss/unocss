@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from "$lib/Button.svelte";
+  import ClsxDemo from "$lib/ClsxDemo.svelte";
   import Counter from "$lib/Counter.svelte";
   import Forms from "$lib/Forms.svelte";
   import Logos from "./Logos.svelte";
@@ -45,9 +46,13 @@
 
   <Counter />
 
-  <div class="my-5 border" />
+  <div class="my-5 border"></div>
 
   <Forms />
+
+  <div class="my-5 border"></div>
+
+  <ClsxDemo />
 
   <div class="corner">Fixed</div>
 </div>
