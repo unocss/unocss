@@ -273,22 +273,30 @@ describe('preset-wind4', () => {
               },
             },
           },
+          'baz1': '#000',
+          'qux': {
+            2: '#000',
+          },
+          'quxx_1': '#000',
         },
       },
     })
 
-    const template = `
-<div class="text-foo-bar">1</div>
-<div class="text-foo-100-bar">2</div>
-<div class="text-foo-baz-qux">3</div>
-<div class="text-foo-primary-1">4</div>
-<div class="text-foo-primary-2">5</div>
-<div class="text-foo-primary-3-kebab-value">6</div>
-<div class="text-foo-primary-veryCool-kebab-value-test">7</div>
-<div class="text-red">8</div>
-    `
+    const templates = [
+      'text-foo-bar',
+      'text-foo-100-bar',
+      'text-foo-baz-qux',
+      'text-foo-primary-1',
+      'text-foo-primary-2',
+      'text-foo-primary-3-kebab-value',
+      'text-foo-primary-veryCool-kebab-value-test',
+      'text-red',
+      'text-baz1',
+      'text-qux2',
+      'text-quxx_1',
+    ]
 
-    const { css } = await uno.generate(template)
+    const { css } = await uno.generate(templates)
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
@@ -303,8 +311,12 @@ describe('preset-wind4', () => {
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
       --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
+      --colors-baz1: #000;
+      --colors-qux-2: #000;
+      --colors-quxx_1: #000;
       }
       /* layer: default */
+      .text-baz1{color:color-mix(in srgb, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-100-bar{color:color-mix(in srgb, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in srgb, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-baz-qux{color:color-mix(in srgb, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
@@ -312,8 +324,11 @@ describe('preset-wind4', () => {
       .text-foo-primary-2{color:color-mix(in srgb, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-3-kebab-value{color:color-mix(in srgb, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in srgb, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
+      .text-qux2{color:color-mix(in srgb, var(--colors-qux-2) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-quxx_1{color:color-mix(in srgb, var(--colors-quxx_1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
       @supports (color: color-mix(in lab, red, red)){
+      .text-baz1{color:color-mix(in oklab, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-100-bar{color:color-mix(in oklab, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in oklab, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-baz-qux{color:color-mix(in oklab, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
@@ -321,6 +336,8 @@ describe('preset-wind4', () => {
       .text-foo-primary-2{color:color-mix(in oklab, var(--colors-foo-primary-2) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-3-kebab-value{color:color-mix(in oklab, var(--colors-foo-primary-3-kebab-value) var(--un-text-opacity), transparent) /* red */;}
       .text-foo-primary-veryCool-kebab-value-test{color:color-mix(in oklab, var(--colors-foo-primary-veryCool-kebab-value-test) var(--un-text-opacity), transparent) /* red */;}
+      .text-qux2{color:color-mix(in oklab, var(--colors-qux-2) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-quxx_1{color:color-mix(in oklab, var(--colors-quxx_1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
       }"
     `)

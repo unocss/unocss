@@ -166,7 +166,7 @@ export function parseColor(body: string, theme: Theme) {
   if (!name)
     return
 
-  let { no, keys, color } = parseThemeColor(theme, colors) ?? {}
+  let { no, keys, color } = parseThemeColor(theme, colors) ?? parseThemeColor(theme, [main]) ?? {}
 
   if (!color) {
     const bracket = h.bracketOfColor(main)
