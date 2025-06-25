@@ -273,7 +273,10 @@ describe('preset-wind4', () => {
               },
             },
           },
-          'baz1': '#000',
+          'baz1': {
+            DEFAULT: '#000',
+            qux1: '#fff',
+          },
           'qux': {
             2: '#000',
           },
@@ -293,6 +296,7 @@ describe('preset-wind4', () => {
       'text-foo-primary-veryCool-kebab-value-test',
       'text-red',
       'text-baz1',
+      'text-baz1-qux1',
       'text-qux2',
       'text-quxx_1',
       'text-a2b',
@@ -313,14 +317,16 @@ describe('preset-wind4', () => {
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
       --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
-      --colors-baz1: #000;
+      --colors-baz1-DEFAULT: #000;
+      --colors-baz1-qux1: #fff;
       --colors-qux-2: #000;
       --colors-quxx_1: #000;
       --colors-a2b: #000;
       }
       /* layer: default */
       .text-a2b{color:color-mix(in srgb, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
-      .text-baz1{color:color-mix(in srgb, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-baz1{color:color-mix(in srgb, var(--colors-baz1-DEFAULT) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-baz1-qux1{color:color-mix(in srgb, var(--colors-baz1-qux1) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-100-bar{color:color-mix(in srgb, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in srgb, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-baz-qux{color:color-mix(in srgb, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
@@ -333,7 +339,8 @@ describe('preset-wind4', () => {
       .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
       @supports (color: color-mix(in lab, red, red)){
       .text-a2b{color:color-mix(in oklab, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
-      .text-baz1{color:color-mix(in oklab, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-baz1{color:color-mix(in oklab, var(--colors-baz1-DEFAULT) var(--un-text-opacity), transparent) /* #000 */;}
+      .text-baz1-qux1{color:color-mix(in oklab, var(--colors-baz1-qux1) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-100-bar{color:color-mix(in oklab, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in oklab, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
       .text-foo-baz-qux{color:color-mix(in oklab, var(--colors-foo-baz-qux) var(--un-text-opacity), transparent) /* #f00 */;}
