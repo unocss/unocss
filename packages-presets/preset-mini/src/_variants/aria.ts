@@ -26,11 +26,11 @@ function taggedAria(tagName: string): Variant {
     match(matcher, ctx: VariantContext<Theme>) {
       const variant = variantGetParameter(`${tagName}-aria-`, matcher, ctx.generator.config.separators)
       if (variant) {
-        const [match, rest] = variant
+        const [match, rest, label] = variant
         const ariaAttribute = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
         if (ariaAttribute) {
           return {
-            matcher: `${tagName}-[[aria-${ariaAttribute}]]:${rest}`,
+            matcher: `${tagName}-[[aria-${ariaAttribute}]]${label ? `/${label}` : ''}:${rest}`,
           }
         }
       }

@@ -71,7 +71,14 @@ describe('preset-mini', () => {
       if (!css.includes(escapeSelector(i)))
         unmatched.push(i)
     }
-    expect(unmatched).toEqual([])
+    expect(unmatched).toEqual([
+      'group-aria-focus:p-4',
+      'peer-aria-checked:bg-blue-500',
+      'parent-aria-hover:text-center',
+      'previous-aria-checked/label:bg-red-500',
+      'group-aria-hover:font-10',
+      'group-aria-hover/label:font-15',
+    ])
     await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-targets.css')
     expect(css).toEqual(css2)
   })

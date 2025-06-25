@@ -29,12 +29,27 @@ function taggedData(tagName: string): Variant<Theme> {
         const [match, rest, label] = variant
         const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
         if (dataAttribute) {
+          const tagSelectorMap: Record<string, string> = {
+            group: `&:is(:where(.group${label ? `\\/${label}` : ''})[data-${dataAttribute}] *)`,
+            peer: `&:is(:where(.peer${label ? `\\/${label}` : ''})[data-${dataAttribute}] ~ *)`,
+            previous: `:where(*[data-${dataAttribute}] + &)`,
+            parent: `:where(*[data-${dataAttribute}] > &)`,
+            has: `&:has(*[data-${dataAttribute}])`,
+            in: `:where(*[data-${dataAttribute}]) &`,
+          }
+
           return {
-            matcher: `${tagName}-[[data-${dataAttribute}]]${label ? `/${label}` : ''}:${rest}`,
+            matcher: rest,
+            handle: (input, next) => next({
+              ...input,
+              parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
+              selector: tagSelectorMap[tagName],
+            }),
           }
         }
       }
     },
+    multiPass: true,
   }
 }
 
