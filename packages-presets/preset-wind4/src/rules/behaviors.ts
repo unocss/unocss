@@ -1,5 +1,6 @@
+import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { type CSSValueInput, type Rule, type RuleContext, symbols } from '@unocss/core'
+import { symbols } from '@unocss/core'
 import { colorResolver, defineProperty, globalKeywords, h, isCSSMathFn, makeGlobalStaticRules } from '../utils'
 
 export const outline: Rule<Theme>[] = [
