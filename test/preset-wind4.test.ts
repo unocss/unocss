@@ -278,6 +278,7 @@ describe('preset-wind4', () => {
             2: '#000',
           },
           'quxx_1': '#000',
+          'a2b': '#000',
         },
       },
     })
@@ -294,6 +295,7 @@ describe('preset-wind4', () => {
       'text-baz1',
       'text-qux2',
       'text-quxx_1',
+      'text-a2b',
     ]
 
     const { css } = await uno.generate(templates)
@@ -314,8 +316,10 @@ describe('preset-wind4', () => {
       --colors-baz1: #000;
       --colors-qux-2: #000;
       --colors-quxx_1: #000;
+      --colors-a2b: #000;
       }
       /* layer: default */
+      .text-a2b{color:color-mix(in srgb, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
       .text-baz1{color:color-mix(in srgb, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-100-bar{color:color-mix(in srgb, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in srgb, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
@@ -328,6 +332,7 @@ describe('preset-wind4', () => {
       .text-quxx_1{color:color-mix(in srgb, var(--colors-quxx_1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
       @supports (color: color-mix(in lab, red, red)){
+      .text-a2b{color:color-mix(in oklab, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
       .text-baz1{color:color-mix(in oklab, var(--colors-baz1) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-100-bar{color:color-mix(in oklab, var(--colors-foo-100-bar) var(--un-text-opacity), transparent) /* #000 */;}
       .text-foo-bar{color:color-mix(in oklab, var(--colors-foo-bar) var(--un-text-opacity), transparent) /* #fff */;}
