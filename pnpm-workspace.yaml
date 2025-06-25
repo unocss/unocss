@@ -65,6 +65,7 @@ catalog:
   '@vueuse/core': ^13.3.0
   '@vueuse/math': ^13.3.0
   '@vueuse/nuxt': ^13.3.0
+  acorn: ^8.14.1
   astro: ^4.16.18
   autoprefixer: ^10.4.21
   brotli-size: ^4.0.0
@@ -157,3 +158,4 @@ catalog:
   webpack: ^5.99.9
   webpack-sources: ^3.3.2
   windicss: ^3.5.6
+  zimmerframe: ^1.1.2
