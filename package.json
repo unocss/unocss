@@ -139,27 +139,6 @@
     "vue": "catalog:",
     "vue-router": "catalog:"
   },
-  "pnpm": {
-    "overrides": {
-      "is-arguments": "npm:@nolyfill/is-arguments@^1.0.44",
-      "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39",
-      "is-generator-function": "npm:@nolyfill/is-generator-function@^1.0.44",
-      "is-regex": "npm:@nolyfill/is-regex@^1.0.44",
-      "is-typed-array": "npm:@nolyfill/is-typed-array@^1.0.44",
-      "object.assign": "npm:@nolyfill/object.assign@^1.0.44",
-      "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.44"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "core-js",
-      "esbuild",
-      "msw",
-      "nuxt-tsconfig-stub",
-      "sharp",
-      "simple-git-hooks"
-    ]
-  },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:",
     "magic-string": "catalog:",
