@@ -18,7 +18,7 @@
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-presets/preset-wind4"
   },
   "bugs": {
