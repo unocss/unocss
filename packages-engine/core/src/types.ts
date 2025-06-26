@@ -820,11 +820,6 @@ export interface ContentOptions {
      */
     exclude?: FilterPattern
   }
-
-  /**
-   * @deprecated Renamed to `inline`
-   */
-  plain?: (string | { code: string, id?: string })[]
 }
 
 /**
@@ -859,25 +854,6 @@ export interface PluginOptions {
    * The usage extracted from each source will be **merged** together.
    */
   content?: ContentOptions
-
-  /** ========== DEPRECATED OPTIONS ========== */
-
-  /**
-   * @deprecated Renamed to `content`
-   */
-  extraContent?: ContentOptions
-
-  /**
-   * Patterns that filter the files being extracted.
-   * @deprecated moved to `content.pipeline.include`
-   */
-  include?: FilterPattern
-
-  /**
-   * Patterns that filter the files NOT being extracted.
-   * @deprecated moved to `content.pipeline.exclude`
-   */
-  exclude?: FilterPattern
 }
 
 export interface UserConfig<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme>, GeneratorOptions, PluginOptions, CliOptions { }
