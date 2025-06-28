@@ -159,10 +159,6 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
       shorthands,
     },
     options,
-    configResolved() {
-      trackedTheme.clear()
-      trackedProperties.clear()
-    },
     meta: {
       themeDeps: trackedTheme,
       propertyDeps: trackedProperties,
