@@ -22,8 +22,8 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
       filter = config.content?.pipeline === false
         ? () => false
         : createFilter(
-            config.content?.pipeline?.include ?? config.include ?? [/\.vue$/],
-            config.content?.pipeline?.exclude ?? config.exclude ?? defaultPipelineExclude,
+            config.content?.pipeline?.include ?? [/\.vue$/],
+            config.content?.pipeline?.exclude ?? defaultPipelineExclude,
           )
     },
     async transform(code, id) {

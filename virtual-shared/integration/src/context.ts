@@ -54,8 +54,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
       : createFilter(
-          rawConfig.content?.pipeline?.include || rawConfig.include || defaultPipelineInclude,
-          rawConfig.content?.pipeline?.exclude || rawConfig.exclude || defaultPipelineExclude,
+          rawConfig.content?.pipeline?.include || defaultPipelineInclude,
+          rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
           { resolve: typeof configOrPath === 'string' ? configOrPath : root },
         )
     tokens.clear()
