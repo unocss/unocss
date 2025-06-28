@@ -38,7 +38,7 @@ export interface TransformerAttributifyJsxOptions {
 }
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
-const elementRE = /<([^/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|(\{[^}]*\})|[^{>])+)>/g
+const elementRE = /<([^<>?/\s0-9$_!"'`,.]+)\s*((?:'[^']*'|"[^"]*"|`[^`]*`|\{[^}]*\}|=>|[^>"'`{])*)>/g
 const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?])([a-z()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?|\{[^}]*\}/gi
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
