@@ -333,7 +333,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2021-PRESENT Anthony Fu',
+      copyright: 'Copyright © 2021-PRESENT <a target="_blank" href="https://github.com/antfu">Anthony Fu</a>',
     },
   },
 })
