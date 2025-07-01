@@ -1508,6 +1508,28 @@ describe('wind4', () => {
         `)
     })
 
+    it('theme() with defaults', async () => {
+      const result = await transform(
+        `.btn {
+          color: theme('not.exists.color', #fff);
+          font-family: theme('not.exists.font', 'ui-sans-serif', 'system-ui');
+        }`,
+      )
+
+      await expect(result)
+        .toMatchInlineSnapshot(`
+          ".btn {
+            color: #fff;
+            font-family: "ui-sans-serif", "system-ui";
+          }
+          "
+        `)
+
+      await expect(transform(`.foo { color: theme('not.exists' ) }`)).rejects.toThrow()
+      await expect(transform(`.foo { color: theme('not.exists', ) }`)).rejects.toThrow()
+      await expect(transform(`.foo { color: theme('not.exists' #fff) }`)).rejects.toThrow('comma')
+    })
+
     it('border opacity', async () => {
       const result = await transform(
         `.btn {
