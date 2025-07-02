@@ -479,13 +479,13 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .break-normal{overflow-wrap:normal;word-break:normal;}
 .break-words{overflow-wrap:break-word;}
 .break-keep{word-break:keep-all;}
-.peer[data-state=closed]~.peer-data-\[state\=closed\]\:border-3,
-.border-width-3{border-width:3px;}
 .b-2,
 .border-size-2{border-width:2px;}
 .border{border-width:1px;}
 .border-4,
 .has-data-\[state\=closed\]\:border-4:has([data-state=closed]){border-width:4px;}
+.border-width-3,
+.peer[data-state=closed]~.peer-data-\[state\=closed\]\:border-3{border-width:3px;}
 .border-x{border-left-width:1px;border-right-width:1px;}
 .border-b{border-bottom-width:1px;}
 .border-e-4{border-inline-end-width:4px;}
@@ -869,7 +869,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
 .group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
 .group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
-.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
 .group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
 .group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
 .group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17,
@@ -877,11 +876,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .parent\/named[data-x=y]>.parent-data-\[x\=y\]\/named\:font-17,
 .peer\/named[data-x=y]~.peer-data-\[x\=y\]\/named\:font-17,
 .previous\/named[data-x=y]+.previous-data-\[x\=y\]\/named\:font-17{font-weight:17;}
-.group\/named[aria-level="1"] .group-aria-\[level\=\"1\"\]\/named\:font-21,
-.parent\/named[aria-level="3"]>.parent-aria-\[level\=\"3\"\]\/named\:font-21,
-.peer\/named[aria-level="2"]~.peer-aria-\[level\=\"2\"\]\/named\:font-21{font-weight:21;}
-.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
-.previous\/named[aria-level="4"]+.previous-aria-\[level\=\"4\"\]\/named\:hover\:font-21:hover{font-weight:21;}
 .font-050,
 .font-50,
 .fw-050,
@@ -891,9 +885,15 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .fw-900{font-weight:900;}
 .font-thin{font-weight:100;}
 .fw-inherit{font-weight:inherit;}
+.group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/named[aria-level="1"] .group-aria-\[level\=\"1\"\]\/named\:font-21,
+.parent\/named[aria-level="3"]>.parent-aria-\[level\=\"3\"\]\/named\:font-21,
+.peer\/named[aria-level="2"]~.peer-aria-\[level\=\"2\"\]\/named\:font-21{font-weight:21;}
+.group\/named[data-state=open] .group-data-\[state\=open\]\/named\:font-medium{font-weight:500;}
 .has-aria-\[hidden\=false\]\:font-20:has([aria-hidden=false]){font-weight:20;}
 .group:hover .group-hover\:font-10{font-weight:10;}
 .group\/label:hover .group-hover\/label\:font-15{font-weight:15;}
+.previous\/named[aria-level="4"]+.previous-aria-\[level\=\"4\"\]\/named\:hover\:font-21:hover{font-weight:21;}
 .font-leading-2,
 .leading-2{line-height:0.5rem;}
 .leading-\$variable,

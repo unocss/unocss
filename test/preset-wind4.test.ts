@@ -1,6 +1,8 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetWind4 from '@unocss/preset-wind4'
 import { createRemToPxProcessor } from '@unocss/preset-wind4/utils'
+import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { presetWind4Targets } from './assets/preset-wind4-targets'
 
@@ -423,20 +425,47 @@ describe('preset-wind4', () => {
       'has-aria-[hidden=false]:in-data-[state=collapsed]:b-3',
       'md:has-aria-[hidden=false]:peer-data-[dialog=open]:group-data-[vv=w]/accordion:b-4',
     ])
-    await expect(css).toMatchInlineSnapshot(`
+
+    const prettified = prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
       "/* layer: default */
-      .has-aria-\\[hidden\\=false\\]\\:in-data-\\[state\\=collapsed\\]\\:b-3{:where(*[data-state=collapsed]) &{
-      &:has(*[aria-hidden=false]){border-width:3px;}
-      }}
-      .peer-aria-checked\\:has-aria-\\[level\\=3\\]\\:b-2{&:has(*[aria-level=3]){
-      &:is(:where(.peer)[aria-checked="true"] ~ *){border-width:2px;}
-      }}
-      .peer-data-\\[variant\\=inset\\]\\:peer-data-\\[state\\=collapsed\\]\\:b-1{&:is(:where(.peer)[data-state=collapsed] ~ *){
-      &:is(:where(.peer)[data-variant=inset] ~ *){border-width:1px;}
-      }}
-      .md\\:has-aria-\\[hidden\\=false\\]\\:peer-data-\\[dialog\\=open\\]\\:group-data-\\[vv\\=w\\]\\/accordion\\:b-4{&:is(:where(.group\\/accordion)[data-vv=w] *){&:is(:where(.peer)[data-dialog=open] ~ *){@media (min-width: 48rem){
-      &:has(*[aria-hidden=false]){border-width:4px;}
-      }}}}"
+      .has-aria-\\[hidden\\=false\\]\\:in-data-\\[state\\=collapsed\\]\\:b-3 {
+        :where(*[data-state="collapsed"]) & {
+          &:has(*[aria-hidden="false"]) {
+            border-width: 3px;
+          }
+        }
+      }
+      .peer-aria-checked\\:has-aria-\\[level\\=3\\]\\:b-2 {
+        &:has(*[aria-level="3"]) {
+          &:is(:where(.peer)[aria-checked="true"] ~ *) {
+            border-width: 2px;
+          }
+        }
+      }
+      .peer-data-\\[variant\\=inset\\]\\:peer-data-\\[state\\=collapsed\\]\\:b-1 {
+        &:is(:where(.peer)[data-state="collapsed"] ~ *) {
+          &:is(:where(.peer)[data-variant="inset"] ~ *) {
+            border-width: 1px;
+          }
+        }
+      }
+      .md\\:has-aria-\\[hidden\\=false\\]\\:peer-data-\\[dialog\\=open\\]\\:group-data-\\[vv\\=w\\]\\/accordion\\:b-4 {
+        &:is(:where(.group\\/accordion)[data-vv="w"] *) {
+          &:is(:where(.peer)[data-dialog="open"] ~ *) {
+            @media (min-width: 48rem) {
+              &:has(*[aria-hidden="false"]) {
+                border-width: 4px;
+              }
+            }
+          }
+        }
+      }
+      "
     `)
   })
 })

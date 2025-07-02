@@ -1,5 +1,7 @@
 import { createGenerator, escapeSelector } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
+import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { presetMiniNonTargets, presetMiniTargets, specialPresetMiniTargets } from './assets/preset-mini-targets'
 import { targets } from './assets/preset-wind3-targets'
@@ -504,6 +506,174 @@ describe('preset-mini', () => {
       @container name (min-width: 768px){
       .\\@desktop\\/name\\:text-lg{font-size:1.125rem;line-height:1.75rem;}
       }"
+    `)
+  })
+
+  it('nested tagged variants', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini({ preflight: false }),
+      ],
+    })
+
+    const classes = [
+      'group-data-[state=collapsed]:group-data-[variant=inset]:group-data-[label=open]:ml-2',
+      'group-data-[state=collapsed]/x-y:group-data-[variant=inset]:group-data-[label=open]:ml-2',
+      'group-data-[state=collapsed]:group-data-[variant=inset]/x-y:group-data-[label=open]:ml-2',
+      'group-data-[state=collapsed]:group-data-[variant=inset]:group-data-[label=open]/x-y:ml-2',
+      'group-data-[state=collapsed]/x-y:group-data-[variant=inset]/x-y:group-data-[label=open]:ml-2',
+      'group-data-[state=collapsed]/x-y:group-data-[variant=inset]:group-data-[label=open]/x-y:ml-2',
+      'group-data-[state=collapsed]:group-data-[variant=inset]/x-y:group-data-[label=open]/x-y:ml-2',
+      'group-data-[state=collapsed]/x-y:group-data-[variant=inset]/x-y:group-data-[label=open]/x-y:ml-2',
+    ]
+
+    const { css } = await uno.generate(classes)
+
+    const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
+    expect(unmatched).toEqual([])
+
+    const prettified = prettier.format(css, {
+      printWidth: 120,
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .group[data-state="collapsed"]
+        .group\\/x-y[data-variant="inset"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\:group-data-\\[variant\\=inset\\]\\/x-y\\:group-data-\\[label\\=open\\]\\/x-y\\:ml-2,
+      .group[data-state="collapsed"][data-variant="inset"]
+        .group\\/x-y[data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\:group-data-\\[variant\\=inset\\]\\:group-data-\\[label\\=open\\]\\/x-y\\:ml-2,
+      .group[data-state="collapsed"][data-variant="inset"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\:group-data-\\[variant\\=inset\\]\\:group-data-\\[label\\=open\\]\\:ml-2,
+      .group[data-variant="inset"]
+        .group\\/x-y[data-state="collapsed"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\/x-y\\:group-data-\\[variant\\=inset\\]\\:group-data-\\[label\\=open\\]\\/x-y\\:ml-2,
+      .group\\/x-y[data-state="collapsed"]
+        .group[data-variant="inset"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\/x-y\\:group-data-\\[variant\\=inset\\]\\:group-data-\\[label\\=open\\]\\:ml-2,
+      .group\\/x-y[data-state="collapsed"][data-variant="inset"]
+        .group[data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\/x-y\\:group-data-\\[variant\\=inset\\]\\/x-y\\:group-data-\\[label\\=open\\]\\:ml-2,
+      .group\\/x-y[data-state="collapsed"][data-variant="inset"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\/x-y\\:group-data-\\[variant\\=inset\\]\\/x-y\\:group-data-\\[label\\=open\\]\\/x-y\\:ml-2,
+      .group\\/x-y[data-variant="inset"]
+        .group[data-state="collapsed"][data-label="open"]
+        .group-data-\\[state\\=collapsed\\]\\:group-data-\\[variant\\=inset\\]\\/x-y\\:group-data-\\[label\\=open\\]\\:ml-2 {
+        margin-left: 0.5rem;
+      }
+      "
+    `)
+  })
+
+  // https://github.com/unocss/unocss/issues/4589
+  it('nested multiple tagged variants', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini({ preflight: false }),
+      ],
+    })
+
+    /**
+     * - [tw3](https://play.tailwindcss.com/csSNYuI8Bh)
+     * - [tw4](https://play.tailwindcss.com/1uWuSBWmzQ)
+     */
+    const classes = [
+      'group-aria-[label=open]:group-data-[variant=inset]:ml-2',
+      'group-aria-[label=open]:peer-data-[variant=inset]:ml-2',
+      'group-aria-[label=open]:parent-data-[variant=inset]:ml-2',
+      'group-aria-[label=open]:previous-data-[variant=inset]:ml-2',
+      'group-aria-[label=open]:has-data-[variant=inset]:ml-2',
+      'peer-aria-[label=open]:group-data-[variant=inset]:ml-2',
+      'peer-aria-[label=open]:peer-data-[variant=inset]:ml-2',
+      'peer-aria-[label=open]:parent-data-[variant=inset]:ml-2',
+      'peer-aria-[label=open]:previous-data-[variant=inset]:ml-2',
+      'peer-aria-[label=open]:has-data-[variant=inset]:ml-2',
+      'parent-aria-[label=open]:group-data-[variant=inset]:ml-2',
+      'parent-aria-[label=open]:peer-data-[variant=inset]:ml-2',
+      'parent-aria-[label=open]:parent-data-[variant=inset]:ml-2',
+      'parent-aria-[label=open]:previous-data-[variant=inset]:ml-2',
+      'parent-aria-[label=open]:has-data-[variant=inset]:ml-2',
+      'previous-aria-[label=open]:group-data-[variant=inset]:ml-2',
+      'previous-aria-[label=open]:peer-data-[variant=inset]:ml-2',
+      'previous-aria-[label=open]:parent-data-[variant=inset]:ml-2',
+      'previous-aria-[label=open]:previous-data-[variant=inset]:ml-2',
+      'previous-aria-[label=open]:has-data-[variant=inset]:ml-2',
+      'has-aria-[label=open]:group-data-[variant=inset]:ml-2',
+      'has-aria-[label=open]:peer-data-[variant=inset]:ml-2',
+      'has-aria-[label=open]:parent-data-[variant=inset]:ml-2',
+      'has-aria-[label=open]:previous-data-[variant=inset]:ml-2',
+      'has-aria-[label=open]:has-data-[variant=inset]:ml-2',
+    ]
+
+    const { css } = await uno.generate(classes)
+
+    const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
+    expect(unmatched).toEqual([])
+
+    const prettified = prettier.format(css, {
+      printWidth: 120,
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .group[aria-label="open"] .group-aria-\\[label\\=open\\]\\:has-data-\\[variant\\=inset\\]\\:ml-2:has([data-variant="inset"]),
+      .group[aria-label="open"]
+        .parent[data-variant="inset"]
+        > .group-aria-\\[label\\=open\\]\\:parent-data-\\[variant\\=inset\\]\\:ml-2,
+      .group[aria-label="open"] .peer[data-variant="inset"] ~ .group-aria-\\[label\\=open\\]\\:peer-data-\\[variant\\=inset\\]\\:ml-2,
+      .group[aria-label="open"]
+        .previous[data-variant="inset"]
+        + .group-aria-\\[label\\=open\\]\\:previous-data-\\[variant\\=inset\\]\\:ml-2,
+      .group[aria-label="open"][data-variant="inset"] .group-aria-\\[label\\=open\\]\\:group-data-\\[variant\\=inset\\]\\:ml-2,
+      .group[data-variant="inset"] .has-aria-\\[label\\=open\\]\\:group-data-\\[variant\\=inset\\]\\:ml-2:has([aria-label="open"]),
+      .has-aria-\\[label\\=open\\]\\:has-data-\\[variant\\=inset\\]\\:ml-2:has([data-variant="inset"]):has([aria-label="open"]),
+      .parent[aria-label="open"][data-variant="inset"] > .parent-aria-\\[label\\=open\\]\\:parent-data-\\[variant\\=inset\\]\\:ml-2,
+      .parent[aria-label="open"]
+        > .group[data-variant="inset"]
+        .parent-aria-\\[label\\=open\\]\\:group-data-\\[variant\\=inset\\]\\:ml-2,
+      .parent[aria-label="open"]
+        > .parent-aria-\\[label\\=open\\]\\:has-data-\\[variant\\=inset\\]\\:ml-2:has([data-variant="inset"]),
+      .parent[aria-label="open"]
+        > .peer[data-variant="inset"]
+        ~ .parent-aria-\\[label\\=open\\]\\:peer-data-\\[variant\\=inset\\]\\:ml-2,
+      .parent[aria-label="open"]
+        > .previous[data-variant="inset"]
+        + .parent-aria-\\[label\\=open\\]\\:previous-data-\\[variant\\=inset\\]\\:ml-2,
+      .parent[data-variant="inset"]
+        > .has-aria-\\[label\\=open\\]\\:parent-data-\\[variant\\=inset\\]\\:ml-2:has([aria-label="open"]),
+      .peer[aria-label="open"][data-variant="inset"] ~ .peer-aria-\\[label\\=open\\]\\:peer-data-\\[variant\\=inset\\]\\:ml-2,
+      .peer[aria-label="open"] ~ .group[data-variant="inset"] .peer-aria-\\[label\\=open\\]\\:group-data-\\[variant\\=inset\\]\\:ml-2,
+      .peer[aria-label="open"]
+        ~ .parent[data-variant="inset"]
+        > .peer-aria-\\[label\\=open\\]\\:parent-data-\\[variant\\=inset\\]\\:ml-2,
+      .peer[aria-label="open"] ~ .peer-aria-\\[label\\=open\\]\\:has-data-\\[variant\\=inset\\]\\:ml-2:has([data-variant="inset"]),
+      .peer[aria-label="open"]
+        ~ .previous[data-variant="inset"]
+        + .peer-aria-\\[label\\=open\\]\\:previous-data-\\[variant\\=inset\\]\\:ml-2,
+      .peer[data-variant="inset"] ~ .has-aria-\\[label\\=open\\]\\:peer-data-\\[variant\\=inset\\]\\:ml-2:has([aria-label="open"]),
+      .previous[aria-label="open"][data-variant="inset"]
+        + .previous-aria-\\[label\\=open\\]\\:previous-data-\\[variant\\=inset\\]\\:ml-2,
+      .previous[aria-label="open"]
+        + .group[data-variant="inset"]
+        .previous-aria-\\[label\\=open\\]\\:group-data-\\[variant\\=inset\\]\\:ml-2,
+      .previous[aria-label="open"]
+        + .parent[data-variant="inset"]
+        > .previous-aria-\\[label\\=open\\]\\:parent-data-\\[variant\\=inset\\]\\:ml-2,
+      .previous[aria-label="open"]
+        + .peer[data-variant="inset"]
+        ~ .previous-aria-\\[label\\=open\\]\\:peer-data-\\[variant\\=inset\\]\\:ml-2,
+      .previous[aria-label="open"]
+        + .previous-aria-\\[label\\=open\\]\\:has-data-\\[variant\\=inset\\]\\:ml-2:has([data-variant="inset"]),
+      .previous[data-variant="inset"]
+        + .has-aria-\\[label\\=open\\]\\:previous-data-\\[variant\\=inset\\]\\:ml-2:has([aria-label="open"]) {
+        margin-left: 0.5rem;
+      }
+      "
     `)
   })
 })
