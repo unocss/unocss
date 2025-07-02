@@ -627,6 +627,9 @@ export const presetWind4Targets: string[] = [
   'in-[a>button:hover]:font-bold',
   'in-data-[state=closed]:border-5',
   'in-aria-[hidden=false]:font-21',
+
+  // inert
+  'inert:opacity-25',
 ]
 
 export const presetWindNonTargets: string[] = [

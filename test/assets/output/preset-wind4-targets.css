@@ -1757,6 +1757,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .in-data-\[state\=closed\]\:border-5{
 :where(*[data-state=closed]) &{border-width:5px;}
 }
+.inert\:opacity-25{
+&:is([inert],[inert] *){opacity:25%;}
+}
 .parent-aria-\[level\=\"3\"\]\/named\:font-21{
 :where(*[aria-level="3"] > &){--un-font-weight:21;font-weight:21;}
 }
