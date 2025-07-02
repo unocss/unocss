@@ -11,7 +11,7 @@ export function createTransformerPlugins(ctx: UnocssPluginContext): Plugin[] {
         .then(t => t?.code)
     }
     return {
-      name: `unocss:transformers:${order}`,
+      name: `unocss:transformers:${_order}`,
       enforce: order,
       transform(code, id) {
         return applyTransformers(ctx, code, id, order)
