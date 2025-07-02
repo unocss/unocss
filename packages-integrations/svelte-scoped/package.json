@@ -56,6 +56,9 @@
     "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test",
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
+  "peerDependencies": {
+    "svelte": "catalog:"
+  },
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
