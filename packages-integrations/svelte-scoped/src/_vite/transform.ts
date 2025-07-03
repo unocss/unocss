@@ -8,10 +8,10 @@ import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { hasThemeFn } from '@unocss/rule-utils'
 import MagicString from 'magic-string'
 import { transformClasses } from '../_common/transformClasses/index.js'
 import { checkForApply, transformStyle } from '../_common/transformStyle'
+import { themeRE } from '../_common/transformTheme'
 
 // from svelte/compiler/preprocess
 const regexStyleTags
@@ -146,9 +146,11 @@ async function transformStyleTag(s: MagicString, uno: UnoGenerator, options: Uno
 
   for (const { index, '0': tag_with_content, '2': content } of matches) {
     const { hasApply, applyVariables } = checkForApply(content, options.applyVariables)
-    const _hasThemeFn = options.transformThemeDirective === false ? false : hasThemeFn(content)
+    const hasThemeFn = options.transformThemeDirective === false
+      ? false
+      : !!content.match(themeRE)
 
-    if (!hasApply && !_hasThemeFn)
+    if (!hasApply && !hasThemeFn)
       continue
 
     const ss = new MagicString(content)
@@ -158,7 +160,7 @@ async function transformStyleTag(s: MagicString, uno: UnoGenerator, options: Uno
       uno,
       prepend: '',
       applyVariables,
-      transformThemeFn: _hasThemeFn,
+      transformThemeFn: hasThemeFn,
     })
 
     const idx = index + tag_with_content.indexOf(content)
