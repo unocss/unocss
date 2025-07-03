@@ -6,9 +6,11 @@ import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
+import MagicString from 'magic-string'
 import { transformClasses } from '../_common/transformClasses'
 import { checkForApply, transformStyle } from '../_common/transformStyle'
 import { themeRE } from '../_common/transformTheme'
+import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import { wrapSelectorsWithGlobal } from './wrapGlobal'
 
 export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
@@ -27,7 +29,23 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()
 
-      return await transformClasses({ content, filename: filename || '', uno, options })
+      const s = new MagicString(content)
+
+      const transformed = await transformClasses({ s, filename: filename ?? '', uno, options, removeCommentsToMakeGlobalWrappingEasy: true })
+
+      if (!transformed)
+        return
+
+      const cssPreparedForSvelteCompiler = wrapSelectorsWithGlobal(transformed.generatedStyles)
+
+      addGeneratedStylesIntoStyleBlock(s, cssPreparedForSvelteCompiler)
+
+      if (s.hasChanged()) {
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true, source: filename ?? '' }),
+        }
+      }
     },
 
     style: async ({ content, attributes, filename }) => {
@@ -66,14 +84,22 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       }
 
       if (hasApply || hasThemeFn) {
-        return await transformStyle({
-          content,
+        const s = new MagicString(content)
+
+        await transformStyle({
+          s,
           uno,
-          filename,
           prepend: preflightsSafelistCss,
           applyVariables,
           transformThemeFn: hasThemeFn,
         })
+
+        if (s.hasChanged()) {
+          return {
+            code: s.toString(),
+            map: s.generateMap({ hires: true, source: filename ?? '' }),
+          }
+        }
       }
 
       if (preflightsSafelistCss)
