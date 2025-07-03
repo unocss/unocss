@@ -57,7 +57,13 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "peerDependencies": {
+    "@sveltejs/vite-plugin-svelte": "catalog:",
     "svelte": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@sveltejs/vite-plugin-svelte": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@unocss/config": "workspace:*",

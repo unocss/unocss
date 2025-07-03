@@ -52,6 +52,7 @@ catalog:
   '@shikijs/markdown-it': ^3.7.0
   '@shikijs/vitepress-twoslash': ^3.7.0
   '@sveltejs/kit': ^2.22.0
+  '@sveltejs/vite-plugin-svelte': ^6.0.0-next
   '@types/connect': ^3.4.38
   '@types/css-tree': ^2.3.10
   '@types/fs-extra': ^11.0.4
