@@ -124,7 +124,7 @@ In PresetWind4, we align the reset styles with tailwind4 and integrate them inte
 
 ```ts [main.ts]
 import '@unocss/reset/tailwind.css' // [!code --]
-import '@unocss/reset/tailwind-compact.css' // [!code --]
+import '@unocss/reset/tailwind-compat.css' // [!code --]
 ```
 
 You only need to control whether to enable reset styles through a switch:
