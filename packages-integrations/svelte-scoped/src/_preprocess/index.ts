@@ -1,14 +1,15 @@
 import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
-import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
+import type { SvelteScopedContext } from '../types'
+import type { UnocssSveltePreprocessOptions } from './types'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { createGenerator, warnOnce } from '@unocss/core'
 import presetUno from '@unocss/preset-uno'
-import { transformClasses } from './transformClasses'
-import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
-import { checkForApply, transformStyle } from './transformStyle'
-import { themeRE } from './transformTheme'
+import { transformClasses } from '../_common/transformClasses'
+import { checkForApply, transformStyle } from '../_common/transformStyle'
+import { themeRE } from '../_common/transformTheme'
+import { wrapSelectorsWithGlobal } from './wrapGlobal'
 
 export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)

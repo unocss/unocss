@@ -1,6 +1,6 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { Processed } from 'svelte/types/compiler/preprocess'
-import type { TransformApplyOptions } from './types'
+import type { TransformApplyOptions } from '../types'
 import { toArray } from '@unocss/core'
 import MagicString from 'magic-string'
 import { transformApply } from './transformApply'

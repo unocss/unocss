@@ -1,12 +1,12 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { Processed } from 'svelte/types/compiler/preprocess'
-import type { TransformClassesOptions } from '../types'
+import type { TransformClassesOptions } from '../../types'
 import type { ProcessResult } from './processClasses'
 import MagicString from 'magic-string'
+import { wrapSelectorsWithGlobal } from '../../_preprocess/wrapGlobal'
 import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import { findClasses } from './findClasses'
 import { processClasses } from './processClasses'
-import { wrapSelectorsWithGlobal } from './wrapGlobal'
 
 export async function transformClasses({ content, filename, uno, options }: { content: string, filename: string, uno: UnoGenerator, options: TransformClassesOptions }): Promise<Processed | void> {
   const classesToProcess = findClasses(content)
