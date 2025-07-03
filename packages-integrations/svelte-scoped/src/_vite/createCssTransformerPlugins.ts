@@ -1,6 +1,6 @@
 import type { PluginOptions, UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
+import type { SvelteScopedContext } from '../types'
 import { applyTransformers } from '#integration/transformers'
 import { cssIdRE } from '@unocss/core'
 

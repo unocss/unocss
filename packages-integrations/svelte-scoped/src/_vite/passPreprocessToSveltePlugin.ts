@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
+import type { SvelteScopedContext } from '../types'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import UnocssSveltePreprocess from '../preprocess'
 

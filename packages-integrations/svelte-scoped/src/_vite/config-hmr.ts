@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
+import type { SvelteScopedContext } from '../types'
 
 export function ConfigHMRPlugin({ ready }: SvelteScopedContext): Plugin {
   return {

@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
+import type { SvelteScopedContext } from '../types'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_CSS_FILE_NAME, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import { checkTransformPageChunkHook, generateGlobalCss } from './global'
