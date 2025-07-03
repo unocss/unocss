@@ -1,15 +1,18 @@
 import type { UnoGenerator } from '@unocss/core'
-import type { Processed } from 'svelte/types/compiler/preprocess'
+import type MagicString from 'magic-string'
 import type { TransformClassesOptions } from '../../types'
 import type { ProcessResult } from './processClasses'
-import MagicString from 'magic-string'
-import { wrapSelectorsWithGlobal } from '../../_preprocess/wrapGlobal'
-import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import { findClasses } from './findClasses'
 import { processClasses } from './processClasses'
 
-export async function transformClasses({ content, filename, uno, options }: { content: string, filename: string, uno: UnoGenerator, options: TransformClassesOptions }): Promise<Processed | void> {
-  const classesToProcess = findClasses(content)
+export async function transformClasses({ s, filename, uno, options, removeCommentsToMakeGlobalWrappingEasy }: {
+  s: MagicString
+  filename: string
+  uno: UnoGenerator
+  options: TransformClassesOptions
+  removeCommentsToMakeGlobalWrappingEasy: boolean
+}): Promise<{ generatedStyles: string } | void> {
+  const classesToProcess = findClasses(s.original)
   if (!classesToProcess.length)
     return
 
@@ -17,35 +20,19 @@ export async function transformClasses({ content, filename, uno, options }: { co
   if (!Object.keys(rulesToGenerate).length)
     return
 
-  const { map, code } = updateTemplateCodeIfNeeded(codeUpdates, content, filename)
+  if (codeUpdates.length) {
+    for (const { start, end, content } of codeUpdates)
+      s.overwrite(start, end, content)
+  }
 
-  const generatedStyles = await generateStyles(rulesToGenerate, uno)
-  const codeWithGeneratedStyles = addGeneratedStylesIntoStyleBlock(code, generatedStyles)
+  const generatedStyles = await generateStyles(rulesToGenerate, uno, removeCommentsToMakeGlobalWrappingEasy)
 
   return {
-    code: codeWithGeneratedStyles,
-    map,
+    generatedStyles,
   }
 }
 
-function updateTemplateCodeIfNeeded(codeUpdates: ProcessResult['codeUpdate'][], source: string, filename: string) {
-  if (!codeUpdates.length)
-    return { code: source, map: undefined }
-
-  const s = new MagicString(source)
-
-  for (const { start, end, content } of codeUpdates)
-    s.overwrite(start, end, content)
-
-  return {
-    code: s.toString(),
-    map: s.generateMap({ hires: true, source: filename }),
-  }
-}
-
-const REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY = true
-
-async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'], uno: UnoGenerator<object>) {
+async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'], uno: UnoGenerator<object>, minify: boolean) {
   const shortcutsForThisComponent = Object.entries(rulesToGenerate)
   uno.config.shortcuts.push(...shortcutsForThisComponent)
 
@@ -53,9 +40,8 @@ async function generateStyles(rulesToGenerate: ProcessResult['rulesToGenerate'],
   const { css } = await uno.generate(selectorsToGenerate, {
     preflights: false,
     safelist: false,
-    minify: REMOVE_COMMENTS_TO_MAKE_GLOBAL_WRAPPING_EASY,
+    minify,
   })
 
-  const cssPreparedForSvelteCompiler = wrapSelectorsWithGlobal(css)
-  return cssPreparedForSvelteCompiler
+  return css
 }
