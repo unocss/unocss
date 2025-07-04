@@ -16,10 +16,29 @@ export default createRule({
     messages: {
       'invalid-order': 'UnoCSS utilities are not ordered',
     },
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          unoFunctions: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
-  defaultOptions: [],
+  defaultOptions: [
+    {
+      unoFunctions: ['clsx', 'classnames'],
+    },
+  ],
   create(context) {
+    const { unoFunctions = ['clsx', 'classnames'] } = context.options[0] || {}
+
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
@@ -94,6 +113,43 @@ export default createRule({
             }
           })
         }
+      },
+      CallExpression(node) {
+        if (!(node.callee.type === 'Identifier' && unoFunctions.includes(node.callee.name.toLowerCase())))
+          return
+
+        const checkPossibleStringLiteral = (...nodes: TSESTree.Expression[]) => {
+          nodes.forEach((node) => {
+            if (node.type === 'Literal' && typeof node.value === 'string') {
+              checkLiteral(node)
+            }
+          })
+        }
+
+        // Future node types
+        // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=FAEwpgxgNghgTmABAMwK4DsIBcCWB7dRaAZwA8AKAOmuhmOIDkYBbMYgLkXOKzh3QDmAHzwAjAFaQsASgDaAXWmcefQcGAQCPIlGKIAvIgDkABwC0ARhOlEzOGYBM1oxq1ZEYKAcQAeEDgA3HTpGFjB9U0trW3snUiNEAHoAPld0bU8Hbz9A4PomVn0Ab0irGztHZwBfJNTNdPdPAGZs-yDafLDikgpgRGNzMpjK%2BIAaPsReVCQAfmNRKDwIAGsEziN0AjAjcf6ppAAyA-nFlZ2JooAiAAtPRcvOfdHES4B3PDgoEAeUGF0wKrAaQ1FJAA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
+
+        node.arguments.forEach((arg) => {
+          if (arg.type === 'Literal') {
+            return checkPossibleStringLiteral(arg)
+          }
+
+          // true ? 'block' : 'none',
+          if (arg.type === 'ConditionalExpression') {
+            return checkPossibleStringLiteral(arg.consequent, arg.alternate)
+          }
+
+          // true && 'block',
+          if (arg.type === 'LogicalExpression') {
+            return checkPossibleStringLiteral(arg.left, arg.right)
+          }
+
+          // {"hello": true, "world": false}
+          if (arg.type === 'ObjectExpression') {
+            const keys = arg.properties.filter(p => p.type === 'Property').map(p => p.key)
+            return checkPossibleStringLiteral(...keys)
+          }
+        })
       },
     }
 
