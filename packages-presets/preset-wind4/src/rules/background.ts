@@ -159,6 +159,7 @@ export const backgroundStyles: Rule<Theme>[] = [
   ['bg-auto', { 'background-size': 'auto' }],
   ['bg-cover', { 'background-size': 'cover' }],
   ['bg-contain', { 'background-size': 'contain' }],
+  [/^bg-size-(.+)$/, ([, v]) => ({ 'background-size': h.bracket.cssvar(v) })],
 
   // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],
