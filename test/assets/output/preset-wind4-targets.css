@@ -1436,6 +1436,8 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .box-decoration-initial{box-decoration-break:initial;}
 .bg-auto{background-size:auto;}
 .bg-cover{background-size:cover;}
+.bg-contain{background-size:contain;}
+.bg-size-\[auto_100px\]{background-size:auto 100px;}
 .bg-fixed{background-attachment:fixed;}
 .bg-local{background-attachment:local;}
 .bg-scroll{background-attachment:scroll;}
