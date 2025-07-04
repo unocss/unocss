@@ -178,12 +178,15 @@ run({
     `clsx('ml-1 mr-1')`,
     `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`,
     `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`,
+    { code: `superclass('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`, options: [{ unoFunctions: ['superclass'] }] },
+    { code: `abc('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`, options: [{ unoFunctions: ['abc'] }] },
+    `notSorted('mr-1 ml-1')`,
   ],
   invalid: [
     {
       code: `clsx('mr-1 ml-1')`,
       output: output => expect(output).toMatchInlineSnapshot(`
-          "clsx('ml-1 mr-1')"
+            "clsx('ml-1 mr-1')"
       `),
       errors: [
         {
@@ -197,21 +200,25 @@ run({
             "clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })"
       `),
       errors: [
-        {
-          messageId: 'invalid-order',
-        },
-        {
-          messageId: 'invalid-order',
-        },
-        {
-          messageId: 'invalid-order',
-        },
-        {
-          messageId: 'invalid-order',
-        },
-        {
-          messageId: 'invalid-order',
-        },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoFunctions: ['superclass'] }],
+      code: `superclass('pr1 pl1', test ? 'mr-1 ml-1' : 'right-1 left-1', test && 'top-1 bottom-1', { 'top-1 bottom-1': test })`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "superclass('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
       ],
     },
   ],
