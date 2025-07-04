@@ -223,3 +223,64 @@ run({
     },
   ],
 })
+
+run({
+  name: 'order-unoVariables',
+  rule,
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    `const clsButton = 'ml-1 mr-1'`,
+    `const notSorted = 'mr-1 ml-1'`,
+    `const buttonClassNames = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }`,
+    { code: `const CLS_BUTTON = 'ml-1 mr-1'`, options: [{ unoVariables: ['^CLS_'] }] },
+    { code: `const CLS_BUTTON = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }`, options: [{ unoVariables: ['^CLS_'] }] },
+  ],
+  invalid: [
+    {
+      code: `const clsButton = 'mr-1 ml-1'`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const clsButton = 'ml-1 mr-1'"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: `const buttonClassNames = { default: 'pr1 pl1', variants: { light: 'mr-1 ml-1', dark: 'right-1 left-1' } }`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const buttonClassNames = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoVariables: ['^CLS_'] }],
+      code: `const CLS_BUTTON = 'mr-1 ml-1'`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const CLS_BUTTON = 'ml-1 mr-1'"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoVariables: ['^CLS_'] }],
+      code: `const CLS_BUTTON = { default: 'pr1 pl1', variants: { light: 'mr-1 ml-1', dark: 'right-1 left-1' } }`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const CLS_BUTTON = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+  ],
+})

@@ -22,22 +22,29 @@ export default createRule({
         properties: {
           unoFunctions: {
             type: 'array',
-            items: {
-              type: 'string',
-            },
+            items: { type: 'string' },
+          },
+          unoVariables: {
+            type: 'array',
+            items: { type: 'string' },
           },
         },
-        additionalProperties: false,
       },
     ],
   },
   defaultOptions: [
     {
       unoFunctions: ['clsx', 'classnames'],
+      unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
     },
   ],
   create(context) {
-    const { unoFunctions = ['clsx', 'classnames'] } = context.options[0] || {}
+    const { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
+
+    const unoVariablesRegexes = unoVariables.map(regex => new RegExp(regex, 'i'))
+    function isUnoVariable(name: string) {
+      return unoVariablesRegexes.some(reg => reg.test(name))
+    }
 
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
       if (typeof node.value !== 'string' || !node.value.trim())
@@ -150,6 +157,35 @@ export default createRule({
             return checkPossibleStringLiteral(...keys)
           }
         })
+      },
+
+      // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=MYewdgzgLgBMA2EBCBXKVwwLwwOQFsAnAWgEZcAoUSWAIyjAGF4BDCCAORfwFMJsYAbwowYAEx4AzFinhQAXHnzxiAJgAOAD1wAaETE2Lho0QE9FBFRu36AvhXvVoMek1bsuvCKoHHxUmTkLZTUtXX1DIX0zYKswuwcYNjhwaCA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
+      VariableDeclarator(node) {
+        if (node.id.type !== 'Identifier' || !node.init)
+          return
+
+        if (node.init.type === 'Literal' && typeof node.init.value === 'string' && isUnoVariable(node.id.name)) {
+          return checkLiteral(node.init)
+        }
+
+        function handleObjectExpression(node: TSESTree.ObjectExpression) {
+          node.properties.forEach((p) => {
+            if (p.type !== 'Property')
+              return
+            if (p.value.type === 'Literal' && typeof p.value.value === 'string') {
+              return checkLiteral(p.value)
+            }
+            if (p.value.type === 'ObjectExpression') {
+              return handleObjectExpression(p.value)
+            }
+          })
+        }
+        if (node.init.type === 'ObjectExpression' && isUnoVariable(node.id.name)) {
+          return handleObjectExpression(node.init)
+        }
+        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression' && isUnoVariable(node.id.name)) {
+          return handleObjectExpression(node.init.expression)
+        }
       },
     }
 
