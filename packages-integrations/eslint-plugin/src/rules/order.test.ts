@@ -165,3 +165,54 @@ run({
     },
   ],
 })
+
+run({
+  name: 'order-unoFunctions',
+  rule,
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    `clsx('ml-1 mr-1')`,
+    `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`,
+    `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`,
+  ],
+  invalid: [
+    {
+      code: `clsx('mr-1 ml-1')`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+          "clsx('ml-1 mr-1')"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+    {
+      code: `clsx('pr1 pl1', test ? 'mr-1 ml-1' : 'right-1 left-1', test && 'top-1 bottom-1', { 'top-1 bottom-1': test })`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+        {
+          messageId: 'invalid-order',
+        },
+        {
+          messageId: 'invalid-order',
+        },
+        {
+          messageId: 'invalid-order',
+        },
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+  ],
+})
