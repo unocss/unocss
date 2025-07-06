@@ -51,7 +51,7 @@ npm i -D @unocss/transformer-attributify-jsx
 
 ```ts
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
-// uno.config.ts
+// uno.config.js
 import { defineConfig, presetAttributify } from 'unocss'
 
 export default defineConfig({
@@ -67,8 +67,6 @@ export default defineConfig({
 ```
 
 ## Caveats
-
-If you encounter any issues with this package, there is [@unocss/transformer-attributify-jsx-babel](https://github.com/unocss/unocss/tree/main/packages-presets/transformer-attributify-jsx-babel) package that uses Babel to transform JSX.
 
 > ⚠️ The rules are almost the same as those of `preset-attributify`, but there are several precautions
 

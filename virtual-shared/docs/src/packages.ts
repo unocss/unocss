@@ -37,7 +37,6 @@ export const allPackages = [
   "@unocss/reset",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
-  "@unocss/transformer-attributify-jsx-babel",
   "@unocss/transformer-compile-class",
   "@unocss/transformer-directives",
   "@unocss/transformer-variant-group",

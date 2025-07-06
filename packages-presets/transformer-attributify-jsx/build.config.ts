@@ -8,5 +8,7 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     'magic-string',
+    '@babel/parser',
+    '@babel/traverse',
   ],
 })
