@@ -51,7 +51,7 @@ npm i -D @unocss/transformer-attributify-jsx
 
 ```ts
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetAttributify } from 'unocss'
 
 export default defineConfig({
