@@ -63,7 +63,6 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/preset-wind3': r('./packages-presets/preset-wind3/src/'),
   '@unocss/preset-wind4': r('./packages-presets/preset-wind4/src/'),
   '@unocss/rule-utils': r('./packages-presets/rule-utils/src/'),
-  '@unocss/transformer-attributify-jsx-babel': r('./packages-presets/transformer-attributify-jsx-babel/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages-presets/transformer-attributify-jsx/src/'),
   '@unocss/transformer-compile-class': r('./packages-presets/transformer-compile-class/src/'),
   '@unocss/transformer-directives': r('./packages-presets/transformer-directives/src/'),

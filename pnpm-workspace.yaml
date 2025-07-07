@@ -25,9 +25,8 @@ catalog:
   '@antfu/ni': ^25.0.0
   '@antfu/utils': ^9.2.0
   '@arethetypeswrong/cli': ^0.17.4
-  '@babel/core': ^7.28.0
-  '@babel/plugin-syntax-jsx': ^7.27.1
-  '@babel/preset-typescript': ^7.27.1
+  '@babel/parser': ^7.28.0
+  '@babel/traverse': ^7.28.0
   '@codemirror/lang-css': ^6.3.1
   '@codemirror/lang-html': ^6.4.9
   '@codemirror/lang-javascript': ^6.2.4

@@ -38,6 +38,8 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
+    "@babel/parser": "catalog:",
+    "@babel/traverse": "catalog:",
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
