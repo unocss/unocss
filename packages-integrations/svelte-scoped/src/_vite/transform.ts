@@ -15,11 +15,11 @@ import { themeRE } from '../_common/transformTheme'
 
 // from svelte/compiler/preprocess
 const regexStyleTags
-	// eslint-disable-next-line regexp/no-dupe-disjunctions
-	= /<style((?:\s+[^=>'"/\s]+=(?:"[^"]*"|'[^']*'|[^>\s]+)|\s+[^=>'"/\s]+)*\s*)(?:\/>|>([\s\S]*?)<\/style>)/g
+  // eslint-disable-next-line regexp/no-dupe-disjunctions
+  = /<style((?:\s+[^=>'"/\s]+=(?:"[^"]*"|'[^']*'|[^>\s]+)|\s+[^=>'"/\s]+)*\s*)(?:\/>|>([\s\S]*?)<\/style>)/g
 const regexScriptTags
-	// eslint-disable-next-line regexp/no-dupe-disjunctions
-	= /<script((?:\s+[^=>'"/\s]+=(?:"[^"]*"|'[^']*'|[^>\s]+)|\s+[^=>'"/\s]+)*\s*)(?:\/>|>([\s\S]*?)<\/script>)/g
+  // eslint-disable-next-line regexp/no-dupe-disjunctions
+  = /<script((?:\s+[^=>'"/\s]+=(?:"[^"]*"|'[^']*'|[^>\s]+)|\s+[^=>'"/\s]+)*\s*)(?:\/>|>([\s\S]*?)<\/script>)/g
 
 export function transformPlugin(context: SvelteScopedContext, options: UnocssSvelteScopedViteOptions): Plugin {
   const servers: ViteDevServer[] = []
