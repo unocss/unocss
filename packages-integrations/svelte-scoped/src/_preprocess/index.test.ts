@@ -6,7 +6,7 @@ import { format as prettier } from 'prettier'
 // @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 import { describe, expect, it } from 'vitest'
-import { transformClasses } from '.'
+import { UnocssSveltePreprocess } from '.'
 
 describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'
@@ -29,14 +29,24 @@ describe('transform', async () => {
   })
 
   async function transform(content: string, { combine = true, format = true } = {}) {
-    const transformed = (await transformClasses({ content, filename: 'Foo.svelte', uno, options: { combine } }))?.code
-    if (transformed && format) {
-      return prettier(transformed, {
+    const { markup } = UnocssSveltePreprocess({
+      combine,
+      classPrefix: 'uno-',
+    }, { ready: Promise.resolve(null as never), uno })
+
+    let { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
+
+    if (!code || code === content)
+      return
+
+    if (format) {
+      code = prettier(code, {
         parser: 'svelte',
         plugins: [prettierSvelte],
       })
     }
-    return transformed
+
+    return code
   }
 
   it('simple', async () => {

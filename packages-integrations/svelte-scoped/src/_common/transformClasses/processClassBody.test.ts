@@ -1,4 +1,4 @@
-import type { TransformClassesOptions } from '../types'
+import type { TransformClassesOptions } from '../../types'
 import type { ProcessResult } from './processClasses'
 import { describe, expect, it } from 'vitest'
 import { processClassBody } from './processClassBody'

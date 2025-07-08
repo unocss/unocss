@@ -63,6 +63,7 @@
     "acorn": "catalog:",
     "css-tree": "catalog:",
     "magic-string": "catalog:",
+    "pathe": "catalog:",
     "zimmerframe": "catalog:"
   },
   "devDependencies": {
