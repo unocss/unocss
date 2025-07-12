@@ -42,7 +42,7 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "devDependencies": {
-    "magic-string": "catalog:",
-    "unconfig": "catalog:"
+    "magic-string": "catalog:utils",
+    "unconfig": "catalog:utils"
   }
 }

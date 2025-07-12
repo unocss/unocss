@@ -39,6 +39,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "unconfig": "catalog:"
+    "unconfig": "catalog:utils"
   }
 }

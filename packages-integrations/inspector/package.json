@@ -44,9 +44,9 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "colorette": "catalog:",
-    "gzip-size": "catalog:",
-    "sirv": "catalog:",
-    "vue-flow-layout": "catalog:"
+    "colorette": "catalog:utils",
+    "gzip-size": "catalog:build",
+    "sirv": "catalog:utils",
+    "vue-flow-layout": "catalog:vue"
   }
 }

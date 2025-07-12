@@ -38,8 +38,8 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
-    "fzf": "catalog:",
-    "lru-cache": "catalog:"
+    "fzf": "catalog:utils",
+    "lru-cache": "catalog:utils"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"

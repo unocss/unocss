@@ -47,8 +47,8 @@
     }
   },
   "devDependencies": {
-    "@types/pug": "catalog:",
+    "@types/pug": "catalog:types",
     "@unocss/core": "workspace:*",
-    "pug": "catalog:"
+    "pug": "catalog:docs"
   }
 }

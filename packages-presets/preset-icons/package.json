@@ -58,11 +58,11 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
-    "@iconify/utils": "catalog:",
+    "@iconify/utils": "catalog:icons",
     "@unocss/core": "workspace:*",
-    "ofetch": "catalog:"
+    "ofetch": "catalog:utils"
   },
   "devDependencies": {
-    "@iconify/types": "catalog:"
+    "@iconify/types": "catalog:icons"
   }
 }

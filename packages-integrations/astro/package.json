@@ -55,6 +55,6 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "astro": "catalog:"
+    "astro": "catalog:frameworks"
   }
 }

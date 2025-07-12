@@ -41,17 +41,17 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "catalog:",
+    "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "magic-string": "catalog:",
-    "synckit": "catalog:"
+    "magic-string": "catalog:utils",
+    "synckit": "catalog:utils"
   },
   "devDependencies": {
-    "@typescript/native-preview": "catalog:",
+    "@typescript/native-preview": "catalog:typescript",
     "@unocss/eslint-plugin": "workspace:*",
-    "svelte-eslint-parser": "catalog:",
-    "vue-eslint-parser": "catalog:"
+    "svelte-eslint-parser": "catalog:eslint",
+    "vue-eslint-parser": "catalog:vue"
   }
 }

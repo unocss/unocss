@@ -5,16 +5,16 @@
   },
   "devDependencies": {
     "@unocss/vite": "workspace:*",
-    "@vitejs/plugin-vue": "catalog:",
-    "autoprefixer": "catalog:",
-    "fs-extra": "catalog:",
-    "local-pkg": "catalog:",
-    "postcss": "catalog:",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "autoprefixer": "catalog:css",
+    "fs-extra": "catalog:utils",
+    "local-pkg": "catalog:utils",
+    "postcss": "catalog:css",
     "tailwindcss4": "npm:tailwindcss@4.0.0-beta.1",
     "unocss": "workspace:*",
-    "vite": "catalog:",
-    "vite-plugin-windicss": "catalog:",
-    "vue": "catalog:",
-    "windicss": "catalog:"
+    "vite": "catalog:vite",
+    "vite-plugin-windicss": "catalog:vite",
+    "vue": "catalog:vue",
+    "windicss": "catalog:css"
   }
 }

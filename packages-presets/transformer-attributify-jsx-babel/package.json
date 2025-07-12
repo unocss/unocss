@@ -38,12 +38,12 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
-    "@babel/core": "catalog:",
-    "@babel/plugin-syntax-jsx": "catalog:",
-    "@babel/preset-typescript": "catalog:",
+    "@babel/core": "catalog:babel",
+    "@babel/plugin-syntax-jsx": "catalog:babel",
+    "@babel/preset-typescript": "catalog:babel",
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "magic-string": "catalog:"
+    "magic-string": "catalog:utils"
   }
 }
