@@ -1,6 +1,10 @@
-import type { Theme } from '@unocss/preset-mini'
+import type { PreflightContext } from '@unocss/core'
 
-export function DEFAULT(theme: Theme) {
+export function DEFAULT(ctx: PreflightContext) {
+  const { theme, generator } = ctx
+  const hasWind4 = generator.config.presets.some(p => p.name === '@unocss/preset-wind4')
+  const fontKey = hasWind4 ? 'font' : 'fontFamily'
+
   return {
     'h1,h2,h3,h4,h5,h6': {
       'color': 'var(--un-prose-headings)',
@@ -57,7 +61,7 @@ export function DEFAULT(theme: Theme) {
       'color': 'var(--un-prose-code)',
       'font-size': '.875em',
       'font-weight': 600,
-      'font-family': theme.fontFamily?.mono,
+      'font-family': (theme as any)[fontKey]?.mono,
     },
     ':not(pre) > code::before,:not(pre) > code::after': {
       content: '"`"',
