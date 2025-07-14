@@ -8,7 +8,7 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
 
   return {
     name,
-    async getPreflight(fonts) {
+    async getPreflight(fonts, fetcher) {
       const list = await Promise.all(fonts.map(async (font) => {
         const css: string[] = []
         const id = font.name.toLowerCase().replace(/\s+/g, '-')
@@ -17,7 +17,7 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
         if (!metadata) {
           const url = `https://api.fontsource.org/v1/fonts/${id}`
           try {
-            metadata = await (await import('ofetch')).$fetch<FontSourceResponse>(url)
+            metadata = await fetcher(url) as FontSourceResponse
             fontsMap.set(id, metadata)
           }
           catch {
@@ -34,7 +34,7 @@ export function createFontSourceProvider(name: WebFontsProviders, host: string):
           const url = `https://api.fontsource.org/v1/variable/${id}`
 
           try {
-            variableData = await (await import('ofetch')).$fetch<Variable>(url)
+            variableData = await fetcher(url) as Variable
             variablesMap.set(id, variableData)
           }
           catch {

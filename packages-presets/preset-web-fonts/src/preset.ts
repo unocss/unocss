@@ -127,7 +127,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
             preflights.push(await importUrl(url))
         }
 
-        preflights.push(await provider.getPreflight?.(fontsForProvider))
+        preflights.push(await provider.getPreflight?.(fontsForProvider, fetchWithTimeout))
       }
 
       const css = preflights.filter(Boolean).join('\n')
