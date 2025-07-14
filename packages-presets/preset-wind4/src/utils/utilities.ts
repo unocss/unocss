@@ -23,6 +23,43 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
 }
 // #endregion
 
+function parseNumberWithUnit(str: string): [number | undefined, string | undefined] {
+  const match = str.match(numberWithUnitRE)
+  if (match) {
+    const [, n, unit] = match
+    const num = Number.parseFloat(n)
+    if (!Number.isNaN(num))
+      return [num, unit]
+  }
+  return [undefined, undefined]
+}
+
+export function resolveSpace(theme: Theme) {
+  let base: number | undefined
+  let unit: string | undefined
+
+  if (theme.spacing?.DEFAULT) {
+    const [v, u] = parseNumberWithUnit(theme.spacing.DEFAULT)
+    if (v != null && u != null) {
+      base = v
+      unit = u
+    }
+  }
+
+  return Object.entries(theme.spacing ?? {}).reduce((acc, [key, value]) => {
+    const [v, u] = parseNumberWithUnit(value)
+
+    if (v != null && u != null && u === unit) {
+      acc[key] = v / base!
+    }
+    else {
+      acc[key] = value
+    }
+
+    return acc
+  }, {} as Record<string, number | string>)
+}
+
 // #region Direction with size
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
@@ -31,43 +68,6 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
  * @see {@link directionMap}
  */
 export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
-  function parseNumberWithUnit(str: string): [number | undefined, string | undefined] {
-    const match = str.match(numberWithUnitRE)
-    if (match) {
-      const [, n, unit] = match
-      const num = Number.parseFloat(n)
-      if (!Number.isNaN(num))
-        return [num, unit]
-    }
-    return [undefined, undefined]
-  }
-
-  function resolveSpace(theme: Theme) {
-    let base: number | undefined
-    let unit: string | undefined
-
-    if (theme.spacing?.DEFAULT) {
-      const [v, u] = parseNumberWithUnit(theme.spacing.DEFAULT)
-      if (v != null && u != null) {
-        base = v
-        unit = u
-      }
-    }
-
-    return Object.entries(theme.spacing ?? {}).reduce((acc, [key, value]) => {
-      const [v, u] = parseNumberWithUnit(value)
-
-      if (v != null && u != null && u === unit) {
-        acc[key] = v / base!
-      }
-      else {
-        acc[key] = value
-      }
-
-      return acc
-    }, {} as Record<string, number | string>)
-  }
-
   return (([_, direction, size]: (string | undefined)[], { theme }): CSSEntries | undefined => {
     if (size != null && direction != null) {
       const spaceMap = resolveSpace(theme)
