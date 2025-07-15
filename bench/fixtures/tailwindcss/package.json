@@ -1,7 +1,7 @@
 {
   "private": true,
   "dependencies": {
-    "postcss": "catalog:",
+    "postcss": "catalog:css",
     "tailwindcss": "^3.4.17"
   }
 }

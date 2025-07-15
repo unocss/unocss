@@ -6,7 +6,7 @@ import prettier from 'prettier/standalone'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
 const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g
-const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:(?:rgb|hsl)a?|oklch)?\(.*\)/g
+const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|rgba|hsl|hsla|oklch)\(.*\)/g
 const varFnRE = /var\((--[^,|)]+)(?:,([^)]+))?\)/
 
 export function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {

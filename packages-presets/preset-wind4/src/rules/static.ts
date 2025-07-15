@@ -115,6 +115,9 @@ export const breaks: Rule<Theme>[] = [
   ['break-all', { 'word-break': 'break-all' }],
   ['break-keep', { 'word-break': 'keep-all' }],
   ['break-anywhere', { 'overflow-wrap': 'anywhere' }],
+  ['wrap-break-word', { 'overflow-wrap': 'break-word' }],
+  ['wrap-anywhere', { 'overflow-wrap': 'anywhere' }],
+  ['wrap-normal', { 'overflow-wrap': 'normal' }],
 ]
 
 export const textWraps: Rule<Theme>[] = [

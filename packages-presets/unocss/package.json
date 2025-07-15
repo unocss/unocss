@@ -1,7 +1,7 @@
 {
   "name": "unocss",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-presets/unocss"
   },
   "sponsor": {
@@ -158,6 +158,6 @@
   },
   "devDependencies": {
     "@unocss/webpack": "workspace:*",
-    "vite": "catalog:"
+    "vite": "catalog:vite"
   }
 }

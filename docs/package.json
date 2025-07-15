@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev",
@@ -9,15 +9,15 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "catalog:",
-    "@iconify-json/logos": "catalog:",
-    "@iconify-json/mdi": "catalog:",
-    "@iconify-json/ph": "catalog:",
-    "@iconify-json/twemoji": "catalog:",
-    "@iconify-json/vscode-icons": "catalog:",
-    "ofetch": "catalog:",
+    "@iconify-json/carbon": "catalog:icons",
+    "@iconify-json/logos": "catalog:icons",
+    "@iconify-json/mdi": "catalog:icons",
+    "@iconify-json/ph": "catalog:icons",
+    "@iconify-json/twemoji": "catalog:icons",
+    "@iconify-json/vscode-icons": "catalog:icons",
+    "ofetch": "catalog:utils",
     "unocss": "workspace:*",
-    "vitepress": "catalog:",
-    "vitepress-plugin-group-icons": "catalog:"
+    "vitepress": "catalog:docs",
+    "vitepress-plugin-group-icons": "catalog:docs"
   }
 }

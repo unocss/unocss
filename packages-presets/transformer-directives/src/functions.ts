@@ -8,14 +8,25 @@ export async function handleFunction({ code, uno, options }: TransformerDirectiv
 
   switch (node.name) {
     case 'theme': {
-      if (node.children.size !== 1)
+      if (!node.children.size)
         throw new Error('theme() expect exact one argument')
 
       if (node.children.first!.type !== 'String')
         throw new Error('theme() expect a string argument')
 
+      let defaultValueLoc: [number, number] | undefined
+      if (node.children.size > 1) {
+        const remains = node.children.toArray().slice(1)
+        if (!(remains[0].type === 'Operator' && remains[0].value === ','))
+          throw new Error('theme() expect a comma between expression string and default value')
+        if (remains.length > 1)
+          defaultValueLoc = [remains[1].loc!.start.offset, node.children.last!.loc!.end.offset]
+      }
+
       const themeStr = node.children.first.value
-      const value = transformThemeString(themeStr, uno.config.theme, throwOnMissing)
+      let value = transformThemeString(themeStr, uno.config.theme, !defaultValueLoc && throwOnMissing)
+      if (!value && defaultValueLoc)
+        value = code.slice(defaultValueLoc[0], defaultValueLoc[1])
       if (value)
         code.overwrite(node.loc!.start.offset, node.loc!.end.offset, value)
 

@@ -1,14 +1,14 @@
 {
   "name": "@unocss/transformer-directives",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "description": "UnoCSS transformer for `@apply` directive",
   "author": "hannoeru <me@hanlee.co>",
   "license": "MIT",
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-presets/transformer-directives"
   },
   "bugs": {
@@ -39,9 +39,9 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "css-tree": "catalog:"
+    "css-tree": "catalog:css"
   },
   "devDependencies": {
-    "magic-string": "catalog:"
+    "magic-string": "catalog:utils"
   }
 }

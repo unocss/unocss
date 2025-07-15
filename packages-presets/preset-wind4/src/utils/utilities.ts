@@ -159,14 +159,27 @@ export function parseColor(body: string, theme: Theme) {
   }
 
   const colors = main
-    .replace(/([a-z])(\d)/g, '$1-$2')
+    .replace(/([a-z])(\d)(?![-_a-z])/g, '$1-$2')
     .split(/-/g)
   const [name] = colors
 
   if (!name)
     return
 
-  let { no, keys, color } = parseThemeColor(theme, colors) ?? {}
+  let parsed = parseThemeColor(theme, colors)
+  if (!parsed && colors.length >= 2) {
+    // If the last part of the color is numbers, merge the last two parts
+    // e.g. ['foo', 'bar', '1'] should be parsed as ['foo', 'bar1']
+    // try the last key is `bar1` in the theme.
+    const last = colors.at(-1)
+    const secondLast = colors.at(-2)
+    if (/^\d+$/.test(last!)) {
+      const keys = colors.slice(0, -2).concat([`${secondLast}${last}`])
+      parsed = parseThemeColor(theme, keys)
+    }
+  }
+
+  let { no, keys, color } = parsed ?? {}
 
   if (!color) {
     const bracket = h.bracketOfColor(main)

@@ -1,14 +1,14 @@
 {
   "name": "@unocss/preset-typography",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "description": "Typography preset for UnoCSS",
   "author": "Jeff Yang",
   "license": "MIT",
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-presets/preset-typography"
   },
   "bugs": {

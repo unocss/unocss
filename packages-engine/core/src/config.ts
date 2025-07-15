@@ -74,7 +74,6 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   let pipelineDisabled = false
   const filesystem: ContentOptions['filesystem'][] = []
   const inline: ContentOptions['inline'][] = []
-  const plain: ContentOptions['plain'][] = []
 
   for (const options of optionsArray) {
     if (options.pipeline === false) {
@@ -96,9 +95,6 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
     if (options.inline) {
       inline.push(options.inline)
     }
-    if (options.plain) {
-      plain.push(options.plain)
-    }
   }
 
   const mergedContent: ContentOptions = {
@@ -114,9 +110,6 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
   }
   if (inline.length) {
     mergedContent.inline = uniq(inline.flat()) as ContentOptions['inline']
-  }
-  if (plain.length) {
-    mergedContent.plain = uniq(plain.flat()) as ContentOptions['plain']
   }
 
   return mergedContent

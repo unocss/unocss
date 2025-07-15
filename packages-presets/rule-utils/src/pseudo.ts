@@ -381,10 +381,6 @@ export function createTaggedPseudoClasses<T extends object = object>(
     tagWithPrefix('peer', '~'),
     tagWithPrefix('parent', '>'),
     tagWithPrefix('previous', '+'),
-    tagWithPrefix('group-aria', ' '),
-    tagWithPrefix('peer-aria', '~'),
-    tagWithPrefix('parent-aria', '>'),
-    tagWithPrefix('previous-aria', '+'),
   ]
 }
 

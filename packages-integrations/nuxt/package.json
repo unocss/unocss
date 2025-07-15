@@ -1,7 +1,7 @@
 {
   "name": "@unocss/nuxt",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-integrations/nuxt"
   },
   "bugs": {
@@ -43,7 +43,7 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "catalog:",
+    "@nuxt/kit": "catalog:nuxt",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
@@ -59,6 +59,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "catalog:"
+    "@nuxt/schema": "catalog:nuxt"
   }
 }

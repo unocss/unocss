@@ -74,6 +74,9 @@ export const presetWind4Targets: string[] = [
 
   // background
   'bg-auto',
+  'bg-cover',
+  'bg-contain',
+  'bg-size-[auto_100px]',
   'bg-blend-normal',
   'bg-blend-color-burn',
   'bg-blend-luminosity',
@@ -82,7 +85,6 @@ export const presetWind4Targets: string[] = [
   'bg-clip-border',
   'bg-clip-text',
   'bg-clip-unset',
-  'bg-cover',
   'bg-fixed',
   'bg-linear-to-t',
   'bg-linear-to-tl',
@@ -627,6 +629,9 @@ export const presetWind4Targets: string[] = [
   'in-[a>button:hover]:font-bold',
   'in-data-[state=closed]:border-5',
   'in-aria-[hidden=false]:font-21',
+
+  // inert
+  'inert:opacity-25',
 ]
 
 export const presetWindNonTargets: string[] = [

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-wind4",
   "type": "module",
-  "version": "66.3.1",
+  "version": "66.3.3",
   "description": "Tailwind 4 compact preset for UnoCSS",
   "authors": [
     {
@@ -18,7 +18,7 @@
   "homepage": "https://unocss.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unocss/unocss",
+    "url": "git+https://github.com/unocss/unocss.git",
     "directory": "packages-presets/preset-wind4"
   },
   "bugs": {
