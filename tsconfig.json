@@ -140,9 +140,6 @@
       "@unocss/rule-utils": [
         "./packages-presets/rule-utils/src/"
       ],
-      "@unocss/transformer-attributify-jsx-babel": [
-        "./packages-presets/transformer-attributify-jsx-babel/src/"
-      ],
       "@unocss/transformer-attributify-jsx": [
         "./packages-presets/transformer-attributify-jsx/src/"
       ],
