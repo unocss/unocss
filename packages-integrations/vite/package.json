@@ -54,17 +54,17 @@
     "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0"
   },
   "dependencies": {
-    "@ampproject/remapping": "catalog:",
+    "@ampproject/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/inspector": "workspace:*",
-    "chokidar": "catalog:",
-    "magic-string": "catalog:",
-    "pathe": "catalog:",
-    "tinyglobby": "catalog:",
-    "unplugin-utils": "catalog:"
+    "chokidar": "catalog:utils",
+    "magic-string": "catalog:utils",
+    "pathe": "catalog:utils",
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
-    "vite": "catalog:"
+    "vite": "catalog:vite"
   }
 }

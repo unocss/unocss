@@ -26,7 +26,7 @@
     "build": "esno scripts/copy.ts"
   },
   "devDependencies": {
-    "@csstools/normalize.css": "catalog:",
-    "sanitize.css": "catalog:"
+    "@csstools/normalize.css": "catalog:css",
+    "sanitize.css": "catalog:css"
   }
 }

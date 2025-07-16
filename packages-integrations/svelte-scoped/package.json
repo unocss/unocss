@@ -60,13 +60,13 @@
     "@unocss/config": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/reset": "workspace:*",
-    "acorn": "catalog:",
-    "css-tree": "catalog:",
-    "magic-string": "catalog:",
-    "zimmerframe": "catalog:"
+    "acorn": "catalog:utils",
+    "css-tree": "catalog:css",
+    "magic-string": "catalog:utils",
+    "zimmerframe": "catalog:utils"
   },
   "devDependencies": {
-    "prettier-plugin-svelte": "catalog:",
-    "svelte": "catalog:"
+    "prettier-plugin-svelte": "catalog:svelte",
+    "svelte": "catalog:svelte"
   }
 }

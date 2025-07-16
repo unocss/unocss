@@ -156,12 +156,12 @@
     "@types/vscode": "^1.71.0",
     "@unocss/nuxt": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "esno": "catalog:",
-    "find-up": "catalog:",
-    "jiti": "catalog:",
-    "prettier": "catalog:",
-    "tsup": "catalog:",
-    "unconfig": "catalog:",
+    "esno": "catalog:utils",
+    "find-up": "catalog:utils",
+    "jiti": "catalog:utils",
+    "prettier": "catalog:utils",
+    "tsup": "catalog:typescript",
+    "unconfig": "catalog:utils",
     "vscode-ext-gen": "^1.1.0"
   }
 }

@@ -65,20 +65,20 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
-    "@ampproject/remapping": "catalog:",
+    "@ampproject/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "chokidar": "catalog:",
-    "magic-string": "catalog:",
-    "pathe": "catalog:",
-    "tinyglobby": "catalog:",
-    "unplugin": "catalog:",
-    "unplugin-utils": "catalog:",
-    "webpack-sources": "catalog:"
+    "chokidar": "catalog:utils",
+    "magic-string": "catalog:utils",
+    "pathe": "catalog:utils",
+    "tinyglobby": "catalog:utils",
+    "unplugin": "catalog:utils",
+    "unplugin-utils": "catalog:utils",
+    "webpack-sources": "catalog:build"
   },
   "devDependencies": {
-    "@types/webpack": "catalog:",
-    "@types/webpack-sources": "catalog:",
-    "webpack": "catalog:"
+    "@types/webpack": "catalog:types",
+    "@types/webpack-sources": "catalog:types",
+    "webpack": "catalog:build"
   }
 }

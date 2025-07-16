@@ -5,8 +5,8 @@
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@vue/reactivity": "catalog:",
-    "fuse.js": "catalog:",
-    "prettier": "catalog:"
+    "@vue/reactivity": "catalog:vue",
+    "fuse.js": "catalog:utils",
+    "prettier": "catalog:utils"
   }
 }

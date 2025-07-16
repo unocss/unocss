@@ -13,5 +13,10 @@ export default defineConfig({
     name: 'unit',
     setupFiles: ['./test/setup.ts'],
     exclude: [...defaultExclude, '**/svelte-scoped/**', '**/test-dom/**'],
+    projects: [
+      'vitest.config.ts',
+      'packages-integrations/svelte-scoped/vitest.config.ts',
+      'packages-integrations/runtime/vitest.config.ts',
+    ],
   },
 })

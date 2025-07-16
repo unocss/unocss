@@ -62,8 +62,8 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "css-tree": "catalog:",
-    "postcss": "catalog:",
-    "tinyglobby": "catalog:"
+    "css-tree": "catalog:css",
+    "postcss": "catalog:css",
+    "tinyglobby": "catalog:utils"
   }
 }

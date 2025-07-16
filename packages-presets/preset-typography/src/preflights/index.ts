@@ -86,7 +86,7 @@ export function getPreflights(
   }
 
   if (cssExtend)
-    return getCSS({ escapedSelector, selectorName: selectorName!, preflights: mergeDeep(DEFAULT(context.theme), cssExtend), compatibility, important: important === true })
+    return getCSS({ escapedSelector, selectorName: selectorName!, preflights: mergeDeep(DEFAULT(context), cssExtend), compatibility, important: important === true })
 
-  return getCSS({ escapedSelector, selectorName: selectorName!, preflights: DEFAULT(context.theme), compatibility, important: important === true })
+  return getCSS({ escapedSelector, selectorName: selectorName!, preflights: DEFAULT(context), compatibility, important: important === true })
 }
