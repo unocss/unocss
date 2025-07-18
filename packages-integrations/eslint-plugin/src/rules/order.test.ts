@@ -23,6 +23,11 @@ run({
         <div class="m1 mx1 mr-1"></div>
       </template>
     `,
+    html`
+      <template>
+        <div class="m-class f-class"></div>
+      </template>
+    `,
   ],
   invalid: [
     {
@@ -65,6 +70,9 @@ run({
   valid: [
     html`
       <div className="m1 mx1 mr-1"></div>
+    `,
+    html`
+      <div className="m-class f-class"></div>
     `,
     html`
       <div className={"m1 mx1 mr-1"}></div>

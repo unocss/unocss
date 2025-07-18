@@ -14,17 +14,19 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   const expandedResult = parseVariantGroup(rules) // todo read seperators from config
   rules = expandedResult.expanded
 
-  const result = await Promise.all(rules.split(/\s+/g)
-    .map(async (i) => {
-      const token = await uno.parseToken(i)
-      if (token == null) {
-        unknown.push(i)
-        return undefined
-      }
-      const variantRank = (token[0][5]?.variantHandlers?.length || 0) * 100_000
-      const order = token[0][0] + variantRank
-      return [order, i] as const
-    }))
+  const result: Array<[number, string] | undefined> = []
+  const arr = rules.split(/\s+/g)
+  for (const i of arr) {
+    const token = await uno.parseToken(i)
+    if (token == null) {
+      unknown.push(i)
+      result.push(undefined)
+      continue
+    }
+    const variantRank = (token[0][5]?.variantHandlers?.length || 0) * 100_000
+    const order = token[0][0] + variantRank
+    result.push([order, i])
+  }
 
   let sorted = result
     .filter(notNull)
