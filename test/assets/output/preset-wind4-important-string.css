@@ -1,0 +1,20 @@
+/* layer: properties */
+@property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-scale-x{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-y{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-z{syntax:"*";inherits:false;initial-value:1;}
+/* layer: default */
+#app :is(.text-red){color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+#app :is(.text-opacity-50){--un-text-opacity:50%;}
+#app :is(.after\:m-4)::after{margin:calc(var(--spacing) * 4);}
+#app :is(.dark .dark\:bg-blue){background-color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent);}
+#app :is(.selection\:bg-yellow) *::selection,
+#app :is(.selection\:bg-yellow)::selection{background-color:color-mix(in srgb, var(--colors-yellow-DEFAULT) var(--un-bg-opacity), transparent);}
+#app :is(.important\:scale-100){--un-scale-x:100% !important;--un-scale-y:100% !important;scale:var(--un-scale-x) var(--un-scale-y) !important;}
+@supports (color: color-mix(in lab, red, red)){
+#app :is(.text-red){color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+#app :is(.dark .dark\:bg-blue){background-color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent);}
+#app :is(.selection\:bg-yellow) *::selection{background-color:color-mix(in oklab, var(--colors-yellow-DEFAULT) var(--un-bg-opacity), transparent);}
+#app :is(.selection\:bg-yellow)::selection{background-color:color-mix(in oklab, var(--colors-yellow-DEFAULT) var(--un-bg-opacity), transparent);}
+}
