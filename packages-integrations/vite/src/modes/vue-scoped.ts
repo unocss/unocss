@@ -26,13 +26,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     async configResolved() {
       const { config } = await ctx.ready
 
-      const presets = ctx.uno.config.presets
-      globalLayers = presets.some(p => p.name === '@unocss/preset-wind4')
-        ? ['properties', 'theme', 'base']
-        : ['preflights']
-      if (presets.some(p => p.name === '@unocss/preset-icons')) {
-        globalLayers.push('icons')
-      }
+      globalLayers = ctx.uno.config.preflights.map(p => p.layer ?? '')
 
       filter = config.content?.pipeline === false
         ? () => false
