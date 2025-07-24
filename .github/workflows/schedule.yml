@@ -29,10 +29,10 @@ jobs:
       - name: Update iconify-collections
         run: pnpm run update:iconify-collections
 
-      - name: Update iconify collections
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Commit iconify collection changes
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: 'chore(preset-icons): update iconify collections'
           commit_options: --no-verify --signoff
-          file_pattern: packages-presets/preset-icons/src/collections.json
+          file_pattern: packages-presets/preset-icons/src/collections.ts
           commit_author: Author <actions@github.com>
