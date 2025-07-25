@@ -4,6 +4,8 @@ import { trackedProperties } from '../utils/track'
 
 export function properties(): Preflight<Theme> | undefined {
   return {
+    layer: 'properties',
+    mode: 'global',
     getCSS: () => {
       if (trackedProperties.size > 0) {
         const parent = `@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b))))`
@@ -15,6 +17,5 @@ export function properties(): Preflight<Theme> | undefined {
         return `${parent}{${root}{${css}}}`
       }
     },
-    layer: 'properties',
   }
 }

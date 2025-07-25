@@ -259,6 +259,10 @@ export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | n
 export interface Preflight<Theme extends object = object> {
   getCSS: (context: PreflightContext<Theme>) => Promise<string | undefined> | string | undefined
   layer?: string
+  /**
+   * Decide the preflight applied somewhere. #4829
+   */
+  mode?: 'global'
 }
 
 export interface BlocklistMeta {

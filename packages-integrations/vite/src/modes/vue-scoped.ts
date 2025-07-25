@@ -1,6 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { defaultPipelineExclude } from '#integration/defaults'
+import { LAYER_PREFLIGHTS } from '@unocss/core'
 import { createFilter } from 'unplugin-utils'
 
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
@@ -25,8 +26,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     enforce: 'pre',
     async configResolved() {
       const { config } = await ctx.ready
-
-      globalLayers = ctx.uno.config.preflights.map(p => p.layer ?? '')
+      globalLayers = ctx.uno.config.preflights.filter(p => p.mode === 'global').map(p => p.layer || LAYER_PREFLIGHTS)
 
       filter = config.content?.pipeline === false
         ? () => false

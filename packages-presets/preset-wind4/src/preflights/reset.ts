@@ -401,6 +401,8 @@ export function reset(options: PresetWind4Options): Preflight<Theme> | undefined
     return undefined
 
   return {
+    layer: 'base',
+    mode: 'global',
     getCSS: ({ generator }) => {
       themeTracking('font', 'sans')
       themeTracking('font', 'mono')
@@ -409,6 +411,5 @@ export function reset(options: PresetWind4Options): Preflight<Theme> | undefined
 
       return compressCSS(resetCSS, generator.config.envMode === 'dev')
     },
-    layer: 'base',
   }
 }
