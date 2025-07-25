@@ -54,7 +54,6 @@ function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
 export function theme(options: PresetWind4Options): Preflight<Theme> {
   return {
     layer: 'theme',
-    mode: 'global',
     getCSS(ctx) {
       const { theme, generator } = ctx
       const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
