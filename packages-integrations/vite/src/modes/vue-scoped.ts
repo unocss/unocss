@@ -5,13 +5,29 @@ import { createFilter } from 'unplugin-utils'
 
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.vue$/], defaultPipelineExclude)
+  let globalLayers: string[] = []
+  let globalStylesInserted = false
 
   async function transformSFC(code: string) {
     await ctx.ready
-    const { css } = await ctx.uno.generate(code)
+    const { css, getLayers } = await ctx.uno.generate(code)
     if (!css)
       return null
-    return `${code}\n<style scoped>${css}</style>`
+
+    const result = [
+      code,
+      `<style scoped>${getLayers(undefined, globalLayers)}</style>`,
+    ]
+
+    if (!globalStylesInserted) {
+      const globalCSS = getLayers(globalLayers)
+      if (globalCSS) {
+        result.push(`<style>${globalCSS}</style>`)
+        globalStylesInserted = true
+      }
+    }
+
+    return result.join('\n')
   }
 
   return {
@@ -19,6 +35,9 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     enforce: 'pre',
     async configResolved() {
       const { config } = await ctx.ready
+      globalLayers = ctx.uno.config.preflights.map(p => p.layer ?? '')
+      globalStylesInserted = false
+
       filter = config.content?.pipeline === false
         ? () => false
         : createFilter(
