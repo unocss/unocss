@@ -36,7 +36,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     async configResolved() {
       const { config } = await ctx.ready
       globalLayers = ctx.uno.config.preflights.map(p => p.layer ?? '')
-      globalStylesInserted = false // Reset when config is resolved
+      globalStylesInserted = false
 
       filter = config.content?.pipeline === false
         ? () => false
