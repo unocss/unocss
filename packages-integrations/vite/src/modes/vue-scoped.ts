@@ -6,6 +6,7 @@ import { createFilter } from 'unplugin-utils'
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.vue$/], defaultPipelineExclude)
   let globalLayers: string[] = []
+  let globalStylesInserted = false
 
   async function transformSFC(code: string) {
     await ctx.ready
@@ -13,11 +14,20 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     if (!css)
       return null
 
-    return [
+    const result = [
       code,
-      `<style>${getLayers(globalLayers)}</style>`,
       `<style scoped>${getLayers(undefined, globalLayers)}</style>`,
-    ].join('\n')
+    ]
+
+    if (!globalStylesInserted) {
+      const globalCSS = getLayers(globalLayers)
+      if (globalCSS) {
+        result.push(`<style>${globalCSS}</style>`)
+        globalStylesInserted = true
+      }
+    }
+
+    return result.join('\n')
   }
 
   return {
@@ -25,8 +35,8 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     enforce: 'pre',
     async configResolved() {
       const { config } = await ctx.ready
-
       globalLayers = ctx.uno.config.preflights.map(p => p.layer ?? '')
+      globalStylesInserted = false // Reset when config is resolved
 
       filter = config.content?.pipeline === false
         ? () => false
