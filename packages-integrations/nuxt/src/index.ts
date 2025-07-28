@@ -27,11 +27,12 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     nuxtLayers: false,
 
     // presets
-    uno: true,
+    uno: false,
     attributify: false,
     webFonts: false,
     icons: false,
     wind: false,
+    wind3: true,
   },
   async setup(options, nuxt) {
     // preset shortcuts

@@ -7,6 +7,7 @@ import presetTypography from '@unocss/preset-typography'
 import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind from '@unocss/preset-wind'
+import presetWind3 from '@unocss/preset-wind3'
 
 export function resolveOptions(options: UnocssNuxtOptions) {
   if (options.presets == null) {
@@ -19,6 +20,7 @@ export function resolveOptions(options: UnocssNuxtOptions) {
       webFonts: presetWebFonts,
       typography: presetTypography,
       wind: presetWind,
+      wind3: presetWind3,
     }
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]

@@ -6,6 +6,7 @@ import type { TypographyOptions } from '@unocss/preset-typography'
 import type { PresetUnoOptions } from '@unocss/preset-uno'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
 import type { PresetWindOptions } from '@unocss/preset-wind'
+import type { PresetWind3Options } from '@unocss/preset-wind3'
 import type { VitePluginConfig } from '@unocss/vite'
 
 export interface UnocssNuxtOptions extends UserConfig {
@@ -61,9 +62,11 @@ export interface UnocssNuxtOptions extends UserConfig {
   components?: boolean
 
   /**
+   * @deprecated use `wind3` instead
+   *
    * Enable the default preset
    * Only works when `presets` is not specified
-   * @default true
+   * @default false
    */
   uno?: boolean | PresetUnoOptions
 
@@ -103,11 +106,20 @@ export interface UnocssNuxtOptions extends UserConfig {
   typography?: boolean | TypographyOptions
 
   /**
+   * @deprecated use `wind3` instead
+   *
    * Enable the wind preset
    * Only works when `presets` is not specified
    * @default false
    */
   wind?: boolean | PresetWindOptions
+
+  /**
+   * Enable the wind3 preset
+   * Only works when `presets` is not specified
+   * @default true
+   */
+  wind3?: boolean | PresetWind3Options
 }
 
 declare module '@nuxt/schema' {
