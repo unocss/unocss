@@ -183,6 +183,8 @@ run({
     'clsx(String.raw`bg-[var(--some\_variable\_with\_underscore)] pl1 pr1`)',
     { code: `superclass('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`, options: [{ unoFunctions: ['superclass'] }] },
     { code: `abc('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`, options: [{ unoFunctions: ['abc'] }] },
+    // eslint-disable-next-line no-template-curly-in-string
+    'clsx(`pl1 pr1 ${more}`, test ? `ml-1 mr-1 ${more}` : `left-1 right-1 ${more}`, test && `bottom-1 top-1 ${more}`, { [`bottom-1 top-1 ${more}`]: test })',
     `notSorted('mr-1 ml-1')`,
   ],
   invalid: [
@@ -246,6 +248,33 @@ run({
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: 'clsx(`pr1 pl1 ${more}`, test ? `mr-1 ml-1 ${more}` : `right-1 left-1 ${more}`, test && `top-1 bottom-1 ${more}`, { [`top-1 bottom-1 ${more}`]: test })',
+      output: output => expect(output).toMatchInlineSnapshot(
+        // eslint-disable-next-line no-template-curly-in-string
+        '   "clsx(`pl1 pr1 ${more}`, test ? `ml-1 mr-1 ${more}` : `left-1 right-1 ${more}`, test && `bottom-1 top-1 ${more}`, { [`bottom-1 top-1 ${more}`]: test })"',
+      ),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: 'clsx(`pr1 pl1 ${more} none-uno-class mr-1 ml-1 ${more} none-uno-class2`)',
+      output: output => expect(output).toMatchInlineSnapshot(
+        // eslint-disable-next-line no-template-curly-in-string
+        '   "clsx(`pl1 pr1 ${more} none-uno-class ml-1 mr-1 ${more} none-uno-class2`)"',
+      ),
+      errors: [
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
       ],

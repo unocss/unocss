@@ -83,23 +83,44 @@ export default createRule({
       }
     }
 
-    function checkTemplateElement(node: TSESTree.TemplateElement) {
-      const input = node.value.raw
+    function checkTemplateElement(quasi: TSESTree.TemplateElement) {
+      const input = quasi.value.raw
       if (!input)
         return
-      const sorted = syncAction(
+
+      const getRange = () => {
+        const text = context.sourceCode.getText(quasi)
+        const raw = quasi.value.raw
+        if (!text.includes(raw))
+          return
+        const rawStart = text.indexOf(raw)
+        const start = quasi.range[0] + rawStart
+        const end = quasi.range[0] + rawStart + raw.length
+        if (start < quasi.range[0] || end > quasi.range[1])
+          return
+        return [start, end] as const
+      }
+      const realRange = getRange()
+      if (!realRange)
+        return
+
+      let sorted = syncAction(
         context.settings.unocss?.configPath,
         'sort',
         input,
       ).trim()
+      if (/^\s/.test(input) && !/^\s/.test(sorted))
+        sorted = ` ${sorted}`
+      if (/\s$/.test(input) && !/\s$/.test(sorted))
+        sorted += ' '
 
       if (sorted !== input) {
         context.report({
-          node,
-          loc: node.loc,
+          node: quasi,
+          loc: quasi.loc,
           messageId: 'invalid-order',
           fix(fixer) {
-            return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
+            return fixer.replaceTextRange(realRange, sorted)
           },
         })
       }
@@ -162,10 +183,10 @@ export default createRule({
             }
 
             // `some-class more-class`
-            const isSimpleTemplateLiteral = (node: TSESTree.Expression): node is TSESTree.TemplateLiteral => {
-              return node.type === 'TemplateLiteral' && node.expressions.length === 0 && node.quasis.length === 1
+            const isSimpleTemplateLiteral = (node: TSESTree.TemplateLiteral) => {
+              return node.expressions.length === 0 && node.quasis.length === 1
             }
-            if (isSimpleTemplateLiteral(node)) {
+            if (node.type === 'TemplateLiteral' && isSimpleTemplateLiteral(node)) {
               return checkTemplateElement(node.quasis[0])
             }
 
@@ -175,6 +196,13 @@ export default createRule({
             }
             if (node.type === 'TaggedTemplateExpression' && isStringRaw(node.tag) && isSimpleTemplateLiteral(node.quasi)) {
               return checkTemplateElement(node.quasi.quasis[0])
+            }
+
+            // TemplateLiteral with interpolations
+            if (node.type === 'TemplateLiteral' && node.expressions.length > 0 && node.quasis.length > 0) {
+              node.quasis.forEach((quasi) => {
+                checkTemplateElement(quasi)
+              })
             }
           })
         }
