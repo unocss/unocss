@@ -179,6 +179,8 @@ run({
     `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`,
     `clsx('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`,
     'clsx(`pl1 pr1`, test ? `ml-1 mr-1` : `left-1 right-1`, test && `bottom-1 top-1`, { [`bottom-1 top-1`]: test })',
+    'clsx(String.raw`pl1 pr1`, test ? String.raw`ml-1 mr-1` : String.raw`left-1 right-1`, test && String.raw`bottom-1 top-1`, { [String.raw`bottom-1 top-1`]: test })',
+    'clsx(String.raw`bg-[var(--some\_variable\_with\_underscore)] pl1 pr1`)',
     { code: `superclass('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`, options: [{ unoFunctions: ['superclass'] }] },
     { code: `abc('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`, options: [{ unoFunctions: ['abc'] }] },
     `notSorted('mr-1 ml-1')`,
