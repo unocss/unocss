@@ -163,7 +163,7 @@ export default createRule({
 
             // `some-class more-class`
             const isSimpleTemplateLiteral = (node: TSESTree.Expression): node is TSESTree.TemplateLiteral => {
-              return node.type === 'TemplateLiteral' && !node.expressions.length && node.quasis.length === 1
+              return node.type === 'TemplateLiteral' && node.expressions.length === 0 && node.quasis.length === 1
             }
             if (isSimpleTemplateLiteral(node)) {
               return checkTemplateElement(node.quasis[0])
@@ -180,7 +180,7 @@ export default createRule({
         }
 
         node.arguments.forEach((arg) => {
-          if (arg.type === 'Literal') {
+          if (arg.type === 'Literal' || arg.type === 'TemplateLiteral' || arg.type === 'TaggedTemplateExpression') {
             return checkPossibleLiteral(arg)
           }
 
