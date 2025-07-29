@@ -32,6 +32,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     webFonts: false,
     icons: false,
     wind: false,
+    wind4: false,
   },
   async setup(options, nuxt) {
     // preset shortcuts

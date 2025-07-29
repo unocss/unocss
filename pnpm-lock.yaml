@@ -1125,6 +1125,9 @@ importers:
       '@unocss/preset-wind':
         specifier: workspace:*
         version: link:../../packages-deprecated/preset-wind
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../packages-presets/reset
