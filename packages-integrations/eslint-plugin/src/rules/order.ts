@@ -39,7 +39,12 @@ export default createRule({
     },
   ],
   create(context) {
-    const { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
+    let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
+
+    unoFunctions = unoFunctions.map(name => name.toLowerCase())
+    function isUnoFunction(name: string) {
+      return unoFunctions.includes(name.toLowerCase())
+    }
 
     const unoVariablesRegexes = unoVariables.map(regex => new RegExp(regex, 'i'))
     function isUnoVariable(name: string) {
@@ -73,6 +78,28 @@ export default createRule({
               return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
             else
               return fixer.replaceText(nodeOrToken, sorted)
+          },
+        })
+      }
+    }
+
+    function checkTemplateElement(node: TSESTree.TemplateElement) {
+      const input = node.value.raw
+      if (!input)
+        return
+      const sorted = syncAction(
+        context.settings.unocss?.configPath,
+        'sort',
+        input,
+      ).trim()
+
+      if (sorted !== input) {
+        context.report({
+          node,
+          loc: node.loc,
+          messageId: 'invalid-order',
+          fix(fixer) {
+            return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
           },
         })
       }
@@ -121,40 +148,56 @@ export default createRule({
           })
         }
       },
+
+      // for Future node types
+      // https://typescript-eslint.io/play/#ts=5.8.3&showAST=es&fileType=.tsx&code=PTAEDMCcHsFtQBYBckAcDOAuEB3PA6AO1VgCt18BjOYVAQ0oGs6BzAU2EoBt0APAfgZIAlgDc2AFToAjALzUAJm1AAoEKG59OPXvgX4k6FUu51IywnVht09Sss29QAbxWhQSAJ6plAYS506OgAanRcAK7KsqD%2BgegAgpCQdJ6gAD4xAUEAIsKUItCWkKkZ6EiQwoQs6aCE4bDSbJA10sIslUg1dVxcLdDQXGx0hDXhhErglWwKANxuHt5%2BWei5%2BcKFZqnRAEps1JAKADxlFVUANKDDngB8c%2B5ePplxiclbT0GhEWwA2gC6dxAxmtChodAAKfCQyqocKGTDvEJhSJ-ACU8JOlRYcwAvsY9gFzIDCMCRo4IVDiLCsKC%2BPhYh8kT9fmjQBiqnMVNRCGUPDYkABGUDRcqRTmFHlIPkAJiFEDC6DYYu5nUlZQAzLKRYquTy2LxynR6egAHJWKKgADksEgAFoACyoXgWlSDTqmIKm6zo8qY0bjNiTQjTFRqMDoYSwVCDDSBbXLT3msnzC2oG38x2ga02qWOi1neaqgWgfiW6RcaBMC2geEWwiFNh5gvS0AAMhbpfLlfz7mcoAARAg2D1oH34VqLn2cNBIFwFKO5TxlNj8yiQ%2BpYNPlEgEMNQPXQ6AAAaFwVt3llGVni3gQZOw%2BgQD6coB6M1AABloO1KGEAKK8VDmIJ1kIA93FAG1QEGcAkDHPlT3bQspRA9xwIqFhkBrG89SrV9hElZIuAPQBRU0AODkjxPVt22vW8LXvQBJb0AGBVABBNQAwFzXMAD0lSMAklVkfSqA9OXjM1ZSTe5YIoo9MN4Q9u3PIsz0PKTQAAEmcPUDSNBNsRkpsyjg0AAGU%2BJYfBkhwRTb1AaQWBtb5RDMMEbRtdA4DYAAdAB9eyKhkQYUV%2BHSxL0iSjNOEyzIsvUrJsuyHKclzrE87zhF8th-JUtT9WSTSzW0lcgA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
       CallExpression(node) {
-        if (!(node.callee.type === 'Identifier' && unoFunctions.includes(node.callee.name.toLowerCase())))
+        if (!(node.callee.type === 'Identifier' && isUnoFunction(node.callee.name)))
           return
 
-        const checkPossibleStringLiteral = (...nodes: TSESTree.Expression[]) => {
+        const checkPossibleLiteral = (...nodes: TSESTree.Expression[]) => {
           nodes.forEach((node) => {
             if (node.type === 'Literal' && typeof node.value === 'string') {
-              checkLiteral(node)
+              return checkLiteral(node)
+            }
+
+            // `some-class more-class`
+            const isSimpleTemplateLiteral = (node: TSESTree.Expression): node is TSESTree.TemplateLiteral => {
+              return node.type === 'TemplateLiteral' && !node.expressions.length && node.quasis.length === 1
+            }
+            if (isSimpleTemplateLiteral(node)) {
+              return checkTemplateElement(node.quasis[0])
+            }
+
+            // String.raw`some-class more-class`
+            const isStringRaw = (tag: TSESTree.Expression) => {
+              return tag.type === 'MemberExpression' && tag.object.type === 'Identifier' && tag.object.name === 'String' && tag.property.type === 'Identifier' && tag.property.name === 'raw'
+            }
+            if (node.type === 'TaggedTemplateExpression' && isStringRaw(node.tag) && isSimpleTemplateLiteral(node.quasi)) {
+              return checkTemplateElement(node.quasi.quasis[0])
             }
           })
         }
 
-        // Future node types
-        // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=FAEwpgxgNghgTmABAMwK4DsIBcCWB7dRaAZwA8AKAOmuhmOIDkYBbMYgLkXOKzh3QDmAHzwAjAFaQsASgDaAXWmcefQcGAQCPIlGKIAvIgDkABwC0ARhOlEzOGYBM1oxq1ZEYKAcQAeEDgA3HTpGFjB9U0trW3snUiNEAHoAPld0bU8Hbz9A4PomVn0Ab0irGztHZwBfJNTNdPdPAGZs-yDafLDikgpgRGNzMpjK%2BIAaPsReVCQAfmNRKDwIAGsEziN0AjAjcf6ppAAyA-nFlZ2JooAiAAtPRcvOfdHES4B3PDgoEAeUGF0wKrAaQ1FJAA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
-
         node.arguments.forEach((arg) => {
           if (arg.type === 'Literal') {
-            return checkPossibleStringLiteral(arg)
+            return checkPossibleLiteral(arg)
           }
 
           // true ? 'block' : 'none',
           if (arg.type === 'ConditionalExpression') {
-            return checkPossibleStringLiteral(arg.consequent, arg.alternate)
+            return checkPossibleLiteral(arg.consequent, arg.alternate)
           }
 
           // true && 'block',
           if (arg.type === 'LogicalExpression') {
-            return checkPossibleStringLiteral(arg.left, arg.right)
+            return checkPossibleLiteral(arg.left, arg.right)
           }
 
           // {"hello": true, "world": false}
           if (arg.type === 'ObjectExpression') {
             const keys = arg.properties.filter(p => p.type === 'Property').map(p => p.key)
-            return checkPossibleStringLiteral(...keys)
+            return checkPossibleLiteral(...keys)
           }
         })
       },
