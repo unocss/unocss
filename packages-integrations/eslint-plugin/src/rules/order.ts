@@ -120,6 +120,9 @@ export default createRule({
           loc: quasi.loc,
           messageId: 'invalid-order',
           fix(fixer) {
+            const realRange = getRange()
+            if (!realRange)
+              return null
             return fixer.replaceTextRange(realRange, sorted)
           },
         })
