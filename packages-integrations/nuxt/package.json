@@ -52,7 +52,6 @@
     "unocss": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/schema": "catalog:nuxt",
-    "@unocss/preset-attributify": "workspace:*"
+    "@nuxt/schema": "catalog:nuxt"
   }
 }
