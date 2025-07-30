@@ -135,6 +135,9 @@ export default createRule({
     }
     function checkPossibleLiteral(...nodes: TSESTree.Expression[]) {
       nodes.forEach((node) => {
+        if (!isPossibleLiteral(node))
+          return
+
         if (node.type === 'Literal' && typeof node.value === 'string') {
           return checkLiteral(node)
         }
@@ -217,7 +220,7 @@ export default createRule({
           return
 
         node.arguments.forEach((arg) => {
-          if (arg.type === 'Literal' || arg.type === 'TemplateLiteral' || arg.type === 'TaggedTemplateExpression') {
+          if (isPossibleLiteral(arg)) {
             return checkPossibleLiteral(arg)
           }
 
