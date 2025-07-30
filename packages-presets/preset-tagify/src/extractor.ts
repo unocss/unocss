@@ -21,6 +21,7 @@ export function extractorTagify(options: TagifyOptions): Extractor {
                 return false
             }
             else {
+              exclude.lastIndex = 0 // reset regexp lastIndex
               if (exclude.test(match))
                 return false
             }
