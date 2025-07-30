@@ -27,16 +27,15 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     nuxtLayers: false,
 
     // presets
-    uno: false,
     attributify: false,
     webFonts: false,
     icons: false,
-    wind: false,
     wind3: true,
+    wind4: false,
   },
   async setup(options, nuxt) {
     // preset shortcuts
-    resolveOptions(options)
+    await resolveOptions(options)
 
     const loadConfig = createRecoveryConfigLoader<UserConfig>()
 

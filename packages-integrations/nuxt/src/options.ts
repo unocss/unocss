@@ -1,31 +1,28 @@
 import type { UnocssNuxtOptions } from './types'
 import { defaultPipelineExclude } from '#integration/defaults'
-import presetAttributify from '@unocss/preset-attributify'
-import presetIcons from '@unocss/preset-icons'
-import presetTagify from '@unocss/preset-tagify'
-import presetTypography from '@unocss/preset-typography'
-import presetUno from '@unocss/preset-uno'
-import presetWebFonts from '@unocss/preset-web-fonts'
-import presetWind from '@unocss/preset-wind'
-import presetWind3 from '@unocss/preset-wind3'
 
-export function resolveOptions(options: UnocssNuxtOptions) {
+export async function resolveOptions(options: UnocssNuxtOptions) {
+  if (options.wind3 && options.wind4) {
+    console.warn('[unocss/nuxt]: wind3 and wind4 presets are mutually exclusive. wind3 will be disabled in favor of wind4.')
+    options.wind3 = false
+  }
+
   if (options.presets == null) {
     options.presets = []
     const presetMap = {
-      uno: presetUno,
-      attributify: presetAttributify,
-      tagify: presetTagify,
-      icons: presetIcons,
-      webFonts: presetWebFonts,
-      typography: presetTypography,
-      wind: presetWind,
-      wind3: presetWind3,
+      wind3: import('unocss').then(m => m.presetWind3),
+      wind4: import('unocss').then(m => m.presetWind4),
+      attributify: import('unocss').then(m => m.presetAttributify),
+      icons: import('unocss').then(m => m.presetIcons),
+      webFonts: import('unocss').then(m => m.presetWebFonts),
+      typography: import('unocss').then(m => m.presetTypography),
+      tagify: import('unocss').then(m => m.presetTagify),
     }
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]
-      if (option)
-        options.presets.push(preset(typeof option === 'boolean' ? {} as any : option))
+      if (option) {
+        options.presets.push((await preset)(typeof option === 'boolean' ? {} as any : option))
+      }
     }
   }
 

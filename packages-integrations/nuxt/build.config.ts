@@ -11,4 +11,5 @@ export default defineBuildConfig({
     '@nuxt/schema',
   ],
   alias: aliasVirtual,
+  failOnWarn: false,
 })
