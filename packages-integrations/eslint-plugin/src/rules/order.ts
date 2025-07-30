@@ -109,9 +109,9 @@ export default createRule({
         'sort',
         input,
       ).trim()
-      if (/^\s/.test(input) && !/^\s/.test(sorted))
+      if (/^\s/.test(input))
         sorted = ` ${sorted}`
-      if (/\s$/.test(input) && !/\s$/.test(sorted))
+      if (/\s$/.test(input))
         sorted += ' '
 
       if (sorted !== input) {
@@ -126,13 +126,50 @@ export default createRule({
       }
     }
 
+    // check if `checkPossibleLiteral` will handle this `node` ?
+    function isPossibleLiteral(node: TSESTree.Node) {
+      return node.type === 'Literal' || node.type === 'TemplateLiteral' || node.type === 'TaggedTemplateExpression'
+    }
+    function checkPossibleLiteral(...nodes: TSESTree.Expression[]) {
+      nodes.forEach((node) => {
+        if (node.type === 'Literal' && typeof node.value === 'string') {
+          return checkLiteral(node)
+        }
+
+        // `some-class more-class`
+        const isSimpleTemplateLiteral = (node: TSESTree.TemplateLiteral) => {
+          return node.expressions.length === 0 && node.quasis.length === 1
+        }
+        if (node.type === 'TemplateLiteral' && isSimpleTemplateLiteral(node)) {
+          return checkTemplateElement(node.quasis[0])
+        }
+
+        // String.raw`some-class more-class`
+        const isStringRaw = (tag: TSESTree.Expression) => {
+          return tag.type === 'MemberExpression'
+            && tag.object.type === 'Identifier' && tag.object.name === 'String'
+            && tag.property.type === 'Identifier' && tag.property.name === 'raw'
+        }
+        if (node.type === 'TaggedTemplateExpression' && isStringRaw(node.tag) && isSimpleTemplateLiteral(node.quasi)) {
+          return checkTemplateElement(node.quasi.quasis[0])
+        }
+
+        // TemplateLiteral with interpolations
+        if (node.type === 'TemplateLiteral' && node.expressions.length > 0 && node.quasis.length > 0) {
+          return void node.quasis.forEach((quasi) => {
+            checkTemplateElement(quasi)
+          })
+        }
+      })
+    }
+
     const scriptVisitor: RuleListener = {
       JSXAttribute(node) {
         if (typeof node.name.name === 'string' && CLASS_FIELDS.includes(node.name.name.toLowerCase()) && node.value) {
-          if (node.value.type === 'Literal')
-            checkLiteral(node.value)
-          else if (node.value.type === 'JSXExpressionContainer' && node.value.expression.type === 'Literal')
-            checkLiteral(node.value.expression)
+          if (isPossibleLiteral(node.value))
+            return checkPossibleLiteral(node.value)
+          else if (node.value.type === 'JSXExpressionContainer' && isPossibleLiteral(node.value.expression))
+            return checkPossibleLiteral(node.value.expression)
         }
       },
       SvelteAttribute(node: SvelteAttribute) {
@@ -176,37 +213,6 @@ export default createRule({
         if (!(node.callee.type === 'Identifier' && isUnoFunction(node.callee.name)))
           return
 
-        const checkPossibleLiteral = (...nodes: TSESTree.Expression[]) => {
-          nodes.forEach((node) => {
-            if (node.type === 'Literal' && typeof node.value === 'string') {
-              return checkLiteral(node)
-            }
-
-            // `some-class more-class`
-            const isSimpleTemplateLiteral = (node: TSESTree.TemplateLiteral) => {
-              return node.expressions.length === 0 && node.quasis.length === 1
-            }
-            if (node.type === 'TemplateLiteral' && isSimpleTemplateLiteral(node)) {
-              return checkTemplateElement(node.quasis[0])
-            }
-
-            // String.raw`some-class more-class`
-            const isStringRaw = (tag: TSESTree.Expression) => {
-              return tag.type === 'MemberExpression' && tag.object.type === 'Identifier' && tag.object.name === 'String' && tag.property.type === 'Identifier' && tag.property.name === 'raw'
-            }
-            if (node.type === 'TaggedTemplateExpression' && isStringRaw(node.tag) && isSimpleTemplateLiteral(node.quasi)) {
-              return checkTemplateElement(node.quasi.quasis[0])
-            }
-
-            // TemplateLiteral with interpolations
-            if (node.type === 'TemplateLiteral' && node.expressions.length > 0 && node.quasis.length > 0) {
-              node.quasis.forEach((quasi) => {
-                checkTemplateElement(quasi)
-              })
-            }
-          })
-        }
-
         node.arguments.forEach((arg) => {
           if (arg.type === 'Literal' || arg.type === 'TemplateLiteral' || arg.type === 'TaggedTemplateExpression') {
             return checkPossibleLiteral(arg)
@@ -230,31 +236,37 @@ export default createRule({
         })
       },
 
-      // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=MYewdgzgLgBMA2EBCBXKVwwLwwOQFsAnAWgEZcAoUSWAIyjAGF4BDCCAORfwFMJsYAbwowYAEx4AzFinhQAXHnzxiAJgAOAD1wAaETE2Lho0QE9FBFRu36AvhXvVoMek1bsuvCKoHHxUmTkLZTUtXX1DIX0zYKswuwcYNjhwaCA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
+      // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=MYewdgzgLgBApgDygJwIYGEA2qIQHKoC2cMAvDAOQBeAtAIwAMDFAUCwPTswBuqyAlqgBGmEgBM4wbGij9wLUJFhSIAIQCuUKODKVCyeq0XQYKjVvAAmXQAN99GABIA3ohQZsuAsQC%2BNheAmZpraYADMtvZ0Tq5IaFg4%2BERwfjA4poFQbJwwIEIAVpKwElJ8qLLyxrBCUGAJXskQus4sMDASAGao6phQAFx6mDSWAA4IFAA0rTAA7vxQABYAonGoAzYdoggw83CEEDTAcGBQcMgwQgDmNDMLuzCnSDQiqMAA1jFu8Z5JvjZTbQQAxabTaAE8BhRCENRuNpj4WAiOFx0lV2pJpOU5GAAkoLrV6r84BBrOQQeiuj1%2BoNhmNJtMgTByeDIdDaXC2gifGkmlUgA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
       VariableDeclarator(node) {
-        if (node.id.type !== 'Identifier' || !node.init)
+        if (node.id.type !== 'Identifier' || !node.init || !isUnoVariable(node.id.name))
           return
 
-        if (node.init.type === 'Literal' && typeof node.init.value === 'string' && isUnoVariable(node.id.name)) {
-          return checkLiteral(node.init)
+        if (isPossibleLiteral(node.init)) {
+          return checkPossibleLiteral(node.init)
+        }
+
+        if (node.init.type === 'TSAsExpression' && isPossibleLiteral(node.init.expression)) {
+          return checkPossibleLiteral(node.init.expression)
         }
 
         function handleObjectExpression(node: TSESTree.ObjectExpression) {
           node.properties.forEach((p) => {
             if (p.type !== 'Property')
               return
-            if (p.value.type === 'Literal' && typeof p.value.value === 'string') {
-              return checkLiteral(p.value)
+
+            if (isPossibleLiteral(p.value)) {
+              return checkPossibleLiteral(p.value)
             }
+
             if (p.value.type === 'ObjectExpression') {
               return handleObjectExpression(p.value)
             }
           })
         }
-        if (node.init.type === 'ObjectExpression' && isUnoVariable(node.id.name)) {
+        if (node.init.type === 'ObjectExpression') {
           return handleObjectExpression(node.init)
         }
-        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression' && isUnoVariable(node.id.name)) {
+        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression') {
           return handleObjectExpression(node.init.expression)
         }
       },

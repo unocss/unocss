@@ -77,6 +77,12 @@ run({
     html`
       <div className={"m1 mx1 mr-1"}></div>
     `,
+    html`
+      <div className={\`m1 mx1 mr-1\`}></div>
+    `,
+    html`
+      <div className={\`m1 mx1 mr-1 \${more}\`}></div>
+    `,
   ],
   invalid: [
     {
@@ -98,6 +104,32 @@ run({
       `,
       output: output => expect(output).toMatchInlineSnapshot(`
           "<div className={"m1 mx1 mr-1"}></div>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+    {
+      code: html`
+        <div className={\`mx1 m1 mr-1\`}></div>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+       "<div className={\`m1 mx1 mr-1\`}></div>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+    {
+      code: html`
+        <div className={\`mx1 m1 mr-1 \${more}\`}></div>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+       "<div className={\`m1 mx1 mr-1 \${more}\`}></div>"
       `),
       errors: [
         {
@@ -292,6 +324,8 @@ run({
   },
   valid: [
     `const clsButton = 'ml-1 mr-1'`,
+    // eslint-disable-next-line no-template-curly-in-string
+    'const clsButton = `ml-1 mr-1 ${more}`',
     `const notSorted = 'mr-1 ml-1'`,
     `const buttonClassNames = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }`,
     { code: `const CLS_BUTTON = 'ml-1 mr-1'`, options: [{ unoVariables: ['^CLS_'] }] },
@@ -304,6 +338,29 @@ run({
             "const clsButton = 'ml-1 mr-1'"
       `),
       errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: 'const clsButton = `mr-1 ml-1 ${more}`',
+      output: output => expect(output).toMatchInlineSnapshot(
+        // eslint-disable-next-line no-template-curly-in-string
+        '   "const clsButton = `ml-1 mr-1 ${more}`"   ',
+      ),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      code: 'const clsButton = `pr1 pl1 ${more} none-uno-class mr-1 ml-1 ${more} none-uno-class2`',
+      output: output => expect(output).toMatchInlineSnapshot(
+        // eslint-disable-next-line no-template-curly-in-string
+        '   "const clsButton = `pl1 pr1 ${more} none-uno-class ml-1 mr-1 ${more} none-uno-class2`"  ',
+      ),
+      errors: [
+        { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
       ],
     },
