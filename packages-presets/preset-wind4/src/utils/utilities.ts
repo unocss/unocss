@@ -25,10 +25,11 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
 
 // #region Direction with size
 /**
- * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
+ * Returns a {@link DynamicMatcher} that generates spacing CSS properties for directional utilities.
  *
- * @param propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
- * @see {@link directionMap}
+ * @param property - The base CSS property name (e.g. 'margin', 'padding').
+ * @param map - Optional mapping of direction keys to property postfixes. Defaults to {@link directionMap}.
+ * @param formatter - Optional function to format the final property name. Defaults to `(p, d) => \`\${p}\${d}\``.
  */
 export function directionSize(
   property: string,
