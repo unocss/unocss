@@ -33,4 +33,11 @@ describe('sort rules', async () => {
     expect(await sort('hover:(pt-2 p-4) hover:text-red hover:focus:(m1 mx2) foo'))
       .toMatchInlineSnapshot('"foo hover:(p-4 pt-2 text-red) hover:focus:(m1 mx2)"')
   })
+
+  it('should not add extra space', async () => {
+    expect(await sort('none-uno-class mr-1 ml-1'))
+      .toMatchInlineSnapshot('"none-uno-class ml-1 mr-1"')
+    expect(await sort(' none-uno-class mr-1 ml-1 '))
+      .toMatchInlineSnapshot('"none-uno-class ml-1 mr-1"')
+  })
 })

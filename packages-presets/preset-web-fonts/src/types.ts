@@ -135,7 +135,7 @@ export interface WebFontsOptions {
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight?: (fonts: WebFontMeta[]) => Awaitable<string | undefined>
+  getPreflight?: (fonts: WebFontMeta[], fetcher: (url: string) => Promise<any>) => Awaitable<string | undefined>
   getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
   getFontName?: (font: WebFontMeta) => string
 }
