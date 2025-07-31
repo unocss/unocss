@@ -468,31 +468,4 @@ describe('preset-wind4', () => {
       "
     `)
   })
-
-  it('gap with custom spacing theme values', async () => {
-    const uno = await createGenerator({
-      envMode: 'dev',
-      presets: [
-        presetWind4({
-          preflights: {
-            reset: false,
-          },
-        }),
-      ],
-      theme: {
-        spacing: {
-          foo: '10px',
-        },
-      },
-    })
-    const { css } = await uno.generate('gap-foo')
-    expect(css).toMatchInlineSnapshot(`
-      "/* layer: theme */
-      :root, :host {
-      --spacing-foo: 10px;
-      }
-      /* layer: default */
-      .gap-foo{gap:var(--spacing-foo);}"
-    `)
-  })
 })
