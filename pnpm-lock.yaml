@@ -1116,15 +1116,15 @@ importers:
       '@unocss/preset-typography':
         specifier: workspace:*
         version: link:../../packages-presets/preset-typography
-      '@unocss/preset-uno':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/preset-uno
       '@unocss/preset-web-fonts':
         specifier: workspace:*
         version: link:../../packages-presets/preset-web-fonts
-      '@unocss/preset-wind':
+      '@unocss/preset-wind3':
         specifier: workspace:*
-        version: link:../../packages-deprecated/preset-wind
+        version: link:../../packages-presets/preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../packages-presets/reset
