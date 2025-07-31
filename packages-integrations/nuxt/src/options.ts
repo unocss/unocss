@@ -1,5 +1,12 @@
 import type { UnocssNuxtOptions } from './types'
 import { defaultPipelineExclude } from '#integration/defaults'
+import presetAttributify from '@unocss/preset-attributify'
+import presetIcons from '@unocss/preset-icons'
+import presetTagify from '@unocss/preset-tagify'
+import presetTypography from '@unocss/preset-typography'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 
 export async function resolveOptions(options: UnocssNuxtOptions) {
   if (options.wind3 && options.wind4) {
@@ -10,18 +17,18 @@ export async function resolveOptions(options: UnocssNuxtOptions) {
   if (options.presets == null) {
     options.presets = []
     const presetMap = {
-      wind3: import('@unocss/preset-wind3').then(m => m.default),
-      wind4: import('@unocss/preset-wind4').then(m => m.default),
-      attributify: import('@unocss/preset-attributify').then(m => m.default),
-      icons: import('@unocss/preset-icons').then(m => m.default),
-      webFonts: import('@unocss/preset-web-fonts').then(m => m.default),
-      typography: import('@unocss/preset-typography').then(m => m.default),
-      tagify: import('@unocss/preset-tagify').then(m => m.default),
+      wind3: presetWind3,
+      wind4: presetWind4,
+      attributify: presetAttributify,
+      icons: presetIcons,
+      webFonts: presetWebFonts,
+      typography: presetTypography,
+      tagify: presetTagify,
     }
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]
       if (option) {
-        options.presets.push((await preset)(typeof option === 'boolean' ? {} as any : option))
+        options.presets.push(preset(typeof option === 'boolean' ? {} as any : option))
       }
     }
   }

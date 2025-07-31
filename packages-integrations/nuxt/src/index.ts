@@ -35,7 +35,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   },
   async setup(options, nuxt) {
     // preset shortcuts
-    await resolveOptions(options)
+    resolveOptions(options)
 
     const loadConfig = createRecoveryConfigLoader<UserConfig>()
 
