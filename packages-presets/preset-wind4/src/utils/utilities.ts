@@ -23,43 +23,6 @@ export function numberResolver(size: string, defaultValue?: string | number): nu
 }
 // #endregion
 
-function parseNumberWithUnit(str: string): [number | undefined, string | undefined] {
-  const match = str.match(numberWithUnitRE)
-  if (match) {
-    const [, n, unit] = match
-    const num = Number.parseFloat(n)
-    if (!Number.isNaN(num))
-      return [num, unit]
-  }
-  return [undefined, undefined]
-}
-
-export function resolveSpace(theme: Theme) {
-  let base: number | undefined
-  let unit: string | undefined
-
-  if (theme.spacing?.DEFAULT) {
-    const [v, u] = parseNumberWithUnit(theme.spacing.DEFAULT)
-    if (v != null && u != null) {
-      base = v
-      unit = u
-    }
-  }
-
-  return Object.entries(theme.spacing ?? {}).reduce((acc, [key, value]) => {
-    const [v, u] = parseNumberWithUnit(value)
-
-    if (v != null && u != null && u === unit) {
-      acc[key] = v / base!
-    }
-    else {
-      acc[key] = value
-    }
-
-    return acc
-  }, {} as Record<string, number | string>)
-}
-
 // #region Direction with size
 /**
  * Provide {@link DynamicMatcher} function returning spacing definition. See spacing rules.
@@ -67,33 +30,34 @@ export function resolveSpace(theme: Theme) {
  * @param propertyPrefix - Property for the css value to be created. Postfix will be appended according to direction matched.
  * @see {@link directionMap}
  */
-export function directionSize(propertyPrefix: string): DynamicMatcher<Theme> {
+export function directionSize(
+  property: string,
+  map: Record<string, string[]> = directionMap,
+  formatter: (p: string, d: string) => string = (p, d) => `${p}${d}`,
+): DynamicMatcher<Theme> {
   return (([_, direction, size]: (string | undefined)[], { theme }): CSSEntries | undefined => {
     if (size != null && direction != null) {
-      const spaceMap = resolveSpace(theme)
       let v: string | number | undefined
 
       const isNegative = size.startsWith('-')
       if (isNegative)
         size = size.slice(1)
 
-      v = numberResolver(size, spaceMap[size as keyof typeof spaceMap])
+      v = numberResolver(size)
 
-      if (v != null) {
-        if (!Number.isNaN(v)) {
-          themeTracking('spacing')
-          return directionMap[direction].map(i => [`${propertyPrefix}${i}`, `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
-        }
-        else {
-          themeTracking('spacing', size)
-          return directionMap[direction].map(i => [`${propertyPrefix}${i}`, isNegative ? `calc(var(--spacing-${size} * -1)` : `var(--spacing-${size})`])
-        }
+      if (v != null && !Number.isNaN(v)) {
+        themeTracking('spacing')
+        return map[direction].map(i => [formatter(property, i), `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
+      }
+      else if (theme.spacing && size in theme.spacing) {
+        themeTracking('spacing', size)
+        return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--spacing-${size}) * -1)` : `var(--spacing-${size})`])
       }
 
       v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
 
       if (v != null) {
-        return directionMap[direction].map(i => [`${propertyPrefix}${i}`, v])
+        return map[direction].map(i => [formatter(property, i), v])
       }
     }
   }) as DynamicMatcher<Theme>
