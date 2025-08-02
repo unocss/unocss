@@ -142,6 +142,14 @@ export const backgroundStyles: Rule<Theme>[] = [
   [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
+  [/^bg-gradient-to-([rltb]{1,2})$/, ([, d]) => {
+    return {
+      '--un-gradient-position': `to ${positionMap[d]} in oklab`,
+      'background-image': 'linear-gradient(var(--un-gradient-stops))',
+    }
+  }, {
+    autocomplete: Object.keys(positionMap).filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c))).map(k => `bg-gradient-to-${k}`),
+  }],
   // ignore any center position
   [/^bg-(linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
     return {

@@ -138,6 +138,7 @@ export const presetWind4Targets: string[] = [
   'bg-conic',
   'bg-conic-120',
   'bg-repeating-conic',
+  'bg-gradient-to-r',
 
   // behaviors
   'list-none',

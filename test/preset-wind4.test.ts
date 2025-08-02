@@ -27,7 +27,7 @@ describe('preset-wind4', () => {
         unmatched.push(i)
     }
 
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
+    await expect(`${css}\n`).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
 
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
