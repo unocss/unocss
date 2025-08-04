@@ -17,7 +17,7 @@ export default defineBuildConfig({
     '@jridgewell/resolve-uri',
     '@unocss/core',
     '@unocss/config',
-    '@unocss/preset-uno',
+    '@unocss/preset-wind3',
     '@unocss/reset',
     'css-tree',
     'svelte',

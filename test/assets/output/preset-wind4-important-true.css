@@ -1,0 +1,15 @@
+/* layer: properties */
+@property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-scale-x{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-y{syntax:"*";inherits:false;initial-value:1;}
+@property --un-scale-z{syntax:"*";inherits:false;initial-value:1;}
+/* layer: default */
+.text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) !important;}
+.text-opacity-50{--un-text-opacity:50% !important;}
+.dark .dark\:bg-blue{background-color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent) !important;}
+.important\:scale-100{--un-scale-x:100% !important;--un-scale-y:100% !important;scale:var(--un-scale-x) var(--un-scale-y) !important;}
+@supports (color: color-mix(in lab, red, red)){
+.text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) !important;}
+.dark .dark\:bg-blue{background-color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent) !important;}
+}

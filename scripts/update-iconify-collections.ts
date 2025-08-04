@@ -26,7 +26,7 @@ async function update() {
       'utf-8',
     )
 
-    execa('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION])
+    await execa('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION])
   }
   catch (err) {
     console.log(err)

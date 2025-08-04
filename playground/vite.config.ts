@@ -19,9 +19,10 @@ export default defineConfig({
     alias,
   },
   define: {
-    __SHA__: JSON.stringify(SHA),
-    __LASTEST_TAG__: JSON.stringify(LASTEST_TAG),
-    __LASTEST_TAG_SHA__: JSON.stringify(LASTEST_TAG_SHA),
+    '__SHA__': JSON.stringify(SHA),
+    '__LASTEST_TAG__': JSON.stringify(LASTEST_TAG),
+    '__LASTEST_TAG_SHA__': JSON.stringify(LASTEST_TAG_SHA),
+    'process.env.BABEL_TYPES_8_BREAKING': 'false',
   },
   plugins: [
     Vue(),

@@ -46,7 +46,14 @@ jobs:
       - name: Install
         run: pnpm install
 
+      - name: Build for macOS
+        if: runner.os == 'macOS'
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          pnpm build
+
       - name: Build
+        if: runner.os != 'macOS'
         run: pnpm build
 
       - name: Test
