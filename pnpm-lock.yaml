@@ -172,9 +172,6 @@ catalogs:
     '@nuxt/kit':
       specifier: ^4.0.2
       version: 4.0.2
-    '@nuxt/schema':
-      specifier: ^4.0.2
-      version: 4.0.2
     nuxt-tsconfig-stub:
       specifier: ^0.0.2
       version: 0.0.2
@@ -1137,10 +1134,6 @@ importers:
       unocss:
         specifier: workspace:*
         version: link:../../packages-presets/unocss
-    devDependencies:
-      '@nuxt/schema':
-        specifier: catalog:nuxt
-        version: 4.0.2
 
   packages-integrations/postcss:
     dependencies:
