@@ -15,7 +15,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@iconify-json/lucide": "^1.2.60",
-    "@types/node": "^24.1.0",
+    "@types/node": "^24.2.0",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@unocss/postcss": "latest",

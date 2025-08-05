@@ -110,6 +110,7 @@
     "msw": "catalog:testing",
     "nuxt": "catalog:nuxt",
     "nuxt-tsconfig-stub": "catalog:nuxt",
+    "pkg-types": "catalog:nuxt",
     "pnpm": "catalog:utils",
     "postcss": "catalog:css",
     "premove": "catalog:utils",

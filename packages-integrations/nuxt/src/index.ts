@@ -1,11 +1,10 @@
-import type { NuxtPlugin } from '@nuxt/schema'
 import type { UserConfig } from '@unocss/core'
 import type { VitePluginConfig } from '@unocss/vite'
 import type { UnocssNuxtOptions } from './types'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxt2, isNuxt3 } from '@nuxt/kit'
+import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxtMajorVersion } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { resolveOptions } from './options'
 
@@ -56,9 +55,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
         getContents: () => {
           const lines = [
             InjectModes.includes(options.mode) ? 'import \'uno.css\'' : '',
-            isNuxt2()
-              ? 'export default () => {}'
-              : 'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',
+            'import { defineNuxtPlugin } from \'#imports\'; export default defineNuxtPlugin(() => {})',
           ]
           if (options.preflight)
             lines.unshift('import \'@unocss/reset/tailwind.css\'')
@@ -105,7 +102,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
 
       // Override cssnano config
       if (
-        isNuxt3()
+        isNuxtMajorVersion(3, nuxt)
         && nuxt.options.builder === '@nuxt/vite-builder'
         && nuxt.options.postcss.plugins.cssnano
         && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')
@@ -149,18 +146,6 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
             src: '/__unocss/',
           },
         })
-      })
-    }
-
-    // TODO: remove Nuxt 2 support in next major
-    // Nuxt 2
-    if (isNuxt2()) {
-      nuxt.hook('app:resolve', (config) => {
-        const plugin: NuxtPlugin = { src: 'unocss.mjs', mode: 'client' }
-        if (config.plugins)
-          config.plugins.push(plugin)
-        else
-          config.plugins = [plugin]
       })
     }
   },
