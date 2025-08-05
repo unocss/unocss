@@ -326,7 +326,10 @@ it('nth-child with bracket notation', async () => {
   })
 
   const result = await uno.generate([
+    'nth-[2n]:foo-1',
     'nth-[2n+1]:foo-1',
+    'nth-[-2n+1]:foo-1',
+    'nth-[2n+1_of_li.foo]:foo-1',
     'nth-[odd]:foo-2',
     'nth-[3]:foo-3',
   ])
@@ -334,6 +337,10 @@ it('nth-child with bracket notation', async () => {
   expect(result.matched)
     .toMatchInlineSnapshot(`
       Set {
+        "nth-[2n]:foo-1",
+        "nth-[2n+1]:foo-1",
+        "nth-[-2n+1]:foo-1",
+        "nth-[2n+1_of_li.foo]:foo-1",
         "nth-[odd]:foo-2",
         "nth-[3]:foo-3",
       }
@@ -342,6 +349,10 @@ it('nth-child with bracket notation', async () => {
   expect(result.css)
     .toMatchInlineSnapshot(`
       "/* layer: default */
+      .nth-\\[-2n\\+1\\]\\:foo-1:nth-child(-2n+1){order:1;}
+      .nth-\\[2n\\]\\:foo-1:nth-child(2n){order:1;}
+      .nth-\\[2n\\+1_of_li\\.foo\\]\\:foo-1:nth-child(2n+1 of li.foo){order:1;}
+      .nth-\\[2n\\+1\\]\\:foo-1:nth-child(2n+1){order:1;}
       .nth-\\[3\\]\\:foo-3:nth-child(3){order:3;}
       .nth-\\[odd\\]\\:foo-2:nth-child(odd){order:2;}"
     `)

@@ -258,7 +258,7 @@ export function createPseudoClassesAndElements<T extends object = object>(utils:
       name: 'pseudo',
       match(input, ctx) {
         if (!(PseudoClassesAndElementsRE && PseudoClassesAndElementsColonRE)) {
-          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\d+|\\[\\w+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
+          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\d+|\\[(\\w|[+-.])+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
           PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         }
 
@@ -269,7 +269,7 @@ export function createPseudoClassesAndElements<T extends object = object>(utils:
             let anPlusB: string | undefined
             if (match[2].startsWith('[') && match[2].endsWith(']')) {
               // Handle bracket notation like [2n+1] or [odd]
-              anPlusB = h.bracket(match[2])
+              anPlusB = h.bracket(match[2])?.replaceAll('_', ' ')
             }
             else {
               // Handle simple numeric notation like 2, 3, etc.
