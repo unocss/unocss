@@ -4,26 +4,32 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetTagify from '@unocss/preset-tagify'
 import presetTypography from '@unocss/preset-typography'
-import presetUno from '@unocss/preset-uno'
 import presetWebFonts from '@unocss/preset-web-fonts'
-import presetWind from '@unocss/preset-wind'
+import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 
-export function resolveOptions(options: UnocssNuxtOptions) {
+export async function resolveOptions(options: UnocssNuxtOptions) {
+  if (options.wind3 && options.wind4) {
+    console.warn('[unocss/nuxt]: wind3 and wind4 presets are mutually exclusive. wind3 will be disabled in favor of wind4.')
+    options.wind3 = false
+  }
+
   if (options.presets == null) {
     options.presets = []
     const presetMap = {
-      uno: presetUno,
+      wind3: presetWind3,
+      wind4: presetWind4,
       attributify: presetAttributify,
-      tagify: presetTagify,
       icons: presetIcons,
       webFonts: presetWebFonts,
       typography: presetTypography,
-      wind: presetWind,
+      tagify: presetTagify,
     }
     for (const [key, preset] of Object.entries(presetMap)) {
       const option = options[key as keyof UnocssNuxtOptions]
-      if (option)
+      if (option) {
         options.presets.push(preset(typeof option === 'boolean' ? {} as any : option))
+      }
     }
   }
 

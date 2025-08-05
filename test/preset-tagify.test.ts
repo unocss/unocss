@@ -95,6 +95,34 @@ describe('tagify', () => {
     `)
   })
 
+  it('exclude tags with regexp carry g flag', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+        presetTagify({
+          excludedTags: [
+            /^h[1-5]$/g,
+            'table',
+          ],
+        }),
+      ],
+    })
+
+    const code = `
+      <table />
+      <h1> excluded heading </h1>
+      <h2> excluded heading </h2>
+      <h6> tagified heading </h6>
+      <b> bordered </b>
+    `
+
+    expect((await uno.generate(code, { preflights: false })).css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      h6{height:1.5rem;}
+      b{border-width:1px;}"
+    `)
+  })
+
   it('extraProperties', async () => {
     const uno = await createGenerator({
       presets: [

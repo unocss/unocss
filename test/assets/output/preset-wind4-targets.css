@@ -159,6 +159,7 @@
 --colors-green-500: oklch(72.3% 0.219 149.579);
 --colors-green-900: oklch(39.3% 0.095 152.535);
 --container-lg: 32rem;
+--spacing-lg: 1.125rem;
 --colors-green-400: oklch(79.2% 0.209 151.711);
 --default-transition-timingFunction: cubic-bezier(0.4, 0, 0.2, 1);
 --default-transition-duration: 150ms;
@@ -414,7 +415,8 @@
 .peer:where(.child)~.peer-where-\[\.child\]\:m-1,
 .previous:is(div)+.previous-is-\[div\]\:m-1,
 .has-\[\:hover\]\:m-1:has(:hover){margin:calc(var(--spacing) * 1);}
-.m--lg{margin:calc(var(--spacing) * -4.5);}
+.-m-lg,
+.m--lg{margin:calc(var(--spacing-lg) * -1);}
 .m-\[3em\]{margin:3em;}
 .\!m-\$c-m{margin:var(--c-m) !important;}
 .m-0{margin:calc(var(--spacing) * 0);}
@@ -431,8 +433,7 @@
 .children\:m-auto>*,
 .m-auto{margin:auto;}
 .m-inherit{margin:inherit;}
-.-m-lg{margin:calc(calc(var(--spacing) * 4.5) * -1);}
-.m-lg{margin:calc(var(--spacing) * 4.5);}
+.m-lg{margin:var(--spacing-lg);}
 .all\:m1\/1 *{margin:100%;}
 .mx-1{margin-inline:calc(var(--spacing) * 1);}
 .my-\[var\(--hello-space-y\)\]{margin-block:var(--hello-space-y);}

@@ -17,6 +17,8 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   const result: Array<[number, string] | undefined> = []
   const arr = rules.split(/\s+/g)
   for (const i of arr) {
+    if (!i)
+      continue
     const token = await uno.parseToken(i)
     if (token == null) {
       unknown.push(i)

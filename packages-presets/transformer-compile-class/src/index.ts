@@ -107,7 +107,6 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         }
 
         if (body) {
-          body = body.split(/\s+/).sort().join(' ')
           let hash: string
           let explicitName = false
 

@@ -3,9 +3,9 @@ import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { IconsOptions } from '@unocss/preset-icons'
 import type { TagifyOptions } from '@unocss/preset-tagify'
 import type { TypographyOptions } from '@unocss/preset-typography'
-import type { PresetUnoOptions } from '@unocss/preset-uno'
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
-import type { PresetWindOptions } from '@unocss/preset-wind'
+import type { PresetWind3Options } from '@unocss/preset-wind3'
+import type { PresetWind4Options } from '@unocss/preset-wind4'
 import type { VitePluginConfig } from '@unocss/vite'
 
 export interface UnocssNuxtOptions extends UserConfig {
@@ -61,13 +61,6 @@ export interface UnocssNuxtOptions extends UserConfig {
   components?: boolean
 
   /**
-   * Enable the default preset
-   * Only works when `presets` is not specified
-   * @default true
-   */
-  uno?: boolean | PresetUnoOptions
-
-  /**
    * Enable attributify mode and the options of it
    * Only works when `presets` is not specified
    * @default false
@@ -103,11 +96,18 @@ export interface UnocssNuxtOptions extends UserConfig {
   typography?: boolean | TypographyOptions
 
   /**
-   * Enable the wind preset
+   * Enable the wind3 preset
+   * Only works when `presets` is not specified
+   * @default true
+   */
+  wind3?: boolean | PresetWind3Options
+
+  /**
+   * Enable the wind4 preset
    * Only works when `presets` is not specified
    * @default false
    */
-  wind?: boolean | PresetWindOptions
+  wind4?: boolean | PresetWind4Options
 }
 
 declare module '@nuxt/schema' {

@@ -109,7 +109,7 @@ The prefix to use for the tagify variant.
 
 ### excludedTags
 
-- **Type:** `string[] | RegExp[]`
+- **Type:** `(string | RegExp)[]`
 - **Default:** `['b', /^h\d+$/, 'table']`
 
 Tags excluded from processing.
