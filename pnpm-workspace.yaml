@@ -23,8 +23,8 @@ overrides:
 
 catalogs:
   babel:
-    '@babel/parser': ^8.0.0-beta.1
-    '@babel/traverse': ^8.0.0-beta.1
+    '@babel/parser': ^7.28.0
+    '@babel/traverse': ^7.28.0
 
   build:
     '@ampproject/remapping': ^2.3.0
