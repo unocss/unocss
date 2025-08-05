@@ -1246,12 +1246,15 @@ importers:
       '@types/vscode':
         specifier: ^1.71.0
         version: 1.97.0
-      '@unocss/nuxt':
+      '@unocss/autocomplete':
         specifier: workspace:*
-        version: link:../nuxt
-      '@unocss/preset-uno':
+        version: link:../../packages-engine/autocomplete
+      '@unocss/core':
         specifier: workspace:*
-        version: link:../../packages-deprecated/preset-uno
+        version: link:../../packages-engine/core
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
       esno:
         specifier: catalog:utils
         version: 4.8.0

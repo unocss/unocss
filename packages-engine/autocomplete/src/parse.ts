@@ -40,9 +40,11 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
     ...extraShorthands,
   }
 
-  template = template.replace(/<(\w+)>/g, (_, key) => {
-    if (!newShorthands[key])
-      throw new Error(`Unknown template shorthand: ${key}`)
+  template = template.replace(/<(\w+)>/g, (match, key, _, raw) => {
+    if (!newShorthands[key]) {
+      console.warn(`⚠️ Unknown template shorthand: <${key}> in ${raw}`)
+      return match
+    }
     return newShorthands[key]
   })
 
@@ -64,8 +66,10 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
           type: 'theme',
           objects: m[1].split('|').map((i) => {
             return i.split('.').reduce((v, k) => {
-              if (!k || !v[k])
-                throw new Error(`Invalid theme key ${k}`)
+              if (!k || !v[k]) {
+                console.warn(`⚠️ Invalid theme key: ${k} in ${m.input}`)
+                return {}
+              }
               return v[k]
             }, theme)
           }),
