@@ -96,6 +96,7 @@ catalogs:
     '@nuxt/schema': ^4.0.2
     nuxt: ^4.0.2
     nuxt-tsconfig-stub: ^0.0.2
+    pkg-types: ^2.2.0
 
   svelte:
     '@sveltejs/kit': ^2.27.0

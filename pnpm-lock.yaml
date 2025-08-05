@@ -175,6 +175,9 @@ catalogs:
     nuxt-tsconfig-stub:
       specifier: ^0.0.2
       version: 0.0.2
+    pkg-types:
+      specifier: ^2.2.0
+      version: 2.2.0
   svelte:
     prettier-plugin-svelte:
       specifier: ^2.10.1
@@ -681,6 +684,9 @@ importers:
       nuxt-tsconfig-stub:
         specifier: catalog:nuxt
         version: 0.0.2
+      pkg-types:
+        specifier: catalog:nuxt
+        version: 2.2.0
       pnpm:
         specifier: catalog:utils
         version: 10.14.0
