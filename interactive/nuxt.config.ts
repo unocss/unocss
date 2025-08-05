@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 
   components: {
     dirs: [
-      './components',
+      '~/components',
     ],
     transform: {
       include: [/\.vue$/, /\.md$/],
