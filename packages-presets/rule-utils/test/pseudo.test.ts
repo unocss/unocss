@@ -1,5 +1,6 @@
 import type { PseudoVariantUtilities } from '../src/pseudo'
 import { createGenerator } from '@unocss/core'
+import { h } from '@unocss/preset-wind4/utils'
 import { expect, it } from 'vitest'
 import {
   createPartClasses,
@@ -21,15 +22,7 @@ const utils: PseudoVariantUtilities = {
       return undefined
     return [str.slice(startIndex + 1, endIndex), str.slice(endIndex + 1)]
   },
-  h: {
-    bracket: (str: string) => {
-      // Simple bracket value parser for tests
-      if (str && str.startsWith('[') && str.endsWith(']')) {
-        return str.slice(1, -1)
-      }
-      return undefined
-    },
-  },
+  h,
   variantGetBracket,
 }
 

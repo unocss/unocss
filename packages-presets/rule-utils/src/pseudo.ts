@@ -272,7 +272,7 @@ export function createPseudoClassesAndElements<T extends object = object>(utils:
             let anPlusB: string | undefined
             if (match[2].startsWith('[') && match[2].endsWith(']')) {
               // Handle bracket notation like [2n+1] or [odd]
-              anPlusB = h.bracket(match[2])?.replaceAll('_', ' ')
+              anPlusB = h.bracket(match[2])
             }
             else {
               // Handle simple numeric notation like 2, 3, etc.
