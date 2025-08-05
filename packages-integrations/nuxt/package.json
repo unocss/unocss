@@ -57,8 +57,5 @@
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "unocss": "workspace:*"
-  },
-  "devDependencies": {
-    "@nuxt/schema": "catalog:nuxt"
   }
 }

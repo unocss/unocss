@@ -1,4 +1,4 @@
-import type { DocItem } from '../types'
+import type { DocItem } from '../app/types'
 import fs from 'fs-extra'
 import { $fetch } from 'ofetch'
 import pLimit from 'p-limit'
@@ -21,6 +21,6 @@ await Promise.all(
   })),
 )
 
-await fs.writeJSON('./data/mdn-index.json', searchIndex, { spaces: 2 })
+await fs.writeJSON('../app/data/mdn-index.json', searchIndex, { spaces: 2 })
 
 export {}

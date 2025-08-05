@@ -7,10 +7,11 @@ import { globSync } from 'tinyglobby'
 
 const { writeFileSync } = fs
 
-await fs.ensureDir('guides/vendor/')
+await fs.ensureDir('../app/guides/vendor/')
+await fs.ensureDir('../app/data/')
 
 const code = genArrayFromRaw(
-  globSync(['guides/**/*.{md,vue}'], { expandDirectories: false })
+  globSync(['../app/guides/**/*.{md,vue}'], { expandDirectories: false })
     .map((file) => {
       const ext = parse(file).ext
       const yml = `${file.slice(0, -ext.length)}.yml`
@@ -29,7 +30,7 @@ const code = genArrayFromRaw(
     }),
 )
 
-writeFileSync('data/guides.ts', `
+writeFileSync('../app/data/guides.ts', `
 import type { GuideItem } from '~/types'
 
 export const guideIndex: GuideItem[] = ${code}

@@ -4,10 +4,11 @@
   "version": "66.4.1",
   "private": true,
   "scripts": {
-    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
-    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev",
+    "build": "nuxi prepare && pnpm run prepare && nuxi generate",
+    "dev": "nuxi prepare && pnpm run prepare && nuxi dev",
     "preview": "nuxi preview",
-    "fetch": "esno scripts/fetch.ts"
+    "fetch": "esno scripts/fetch.ts",
+    "prepare": "esno scripts/prepare.ts"
   },
   "devDependencies": {
     "@antfu/utils": "catalog:utils",
