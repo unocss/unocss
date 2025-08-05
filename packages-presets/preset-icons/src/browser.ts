@@ -10,7 +10,7 @@ export const presetIcons = createPresetIcons(async (options) => {
   if (fetcher && cdn)
     return createCDNFetchLoader(fetcher, cdn)
   if (cdn)
-    return createCDNLoader(cdn)
+    return await createCDNLoader(cdn)
   return loadIcon
 })
 

@@ -27,7 +27,7 @@ const _factory = /* @__PURE__ */ createPresetIcons(async (options) => {
   }
 
   if (cdn)
-    loaders.push(createCDNLoader(cdn))
+    loaders.push(await createCDNLoader(cdn))
 
   loaders.push(loadIcon)
 

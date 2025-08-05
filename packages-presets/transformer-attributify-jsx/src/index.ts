@@ -1,5 +1,4 @@
 import type { SourceCodeTransformer } from '@unocss/core'
-import process from 'node:process'
 import { parse } from '@babel/parser'
 import traverse from '@babel/traverse'
 import { toArray } from '@unocss/core'
@@ -70,8 +69,13 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     idFilter,
     async transform(code, _, { uno }) {
       // Skip if running in VSCode extension context
-      if (process.env.VSCODE_CWD)
-        return
+      try {
+        if ((await import('node:process')).env.VSCODE_CWD)
+          return
+      }
+      catch {
+        // Ignore import error in browser environment
+      }
       const tasks: Promise<void>[] = []
       const ast = parse(code.toString(), {
         sourceType: 'module',

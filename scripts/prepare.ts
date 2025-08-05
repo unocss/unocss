@@ -38,12 +38,11 @@ async function preparePackagesBundle() {
     'reset',
     'svelte',
     'runtime',
-    'mdc',
     'shared',
-    'pug',
     'scope',
     'babel',
     '/config',
+    'extractor',
   ]
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
