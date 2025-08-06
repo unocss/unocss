@@ -1,7 +1,10 @@
 import type { SourceCodeTransformer } from '@unocss/core'
 import { parse } from '@babel/parser'
-import traverse from '@babel/traverse'
+import _traverse from '@babel/traverse'
 import { toArray } from '@unocss/core'
+
+// @ts-expect-error ignore
+const traverse = (_traverse.default || _traverse) as typeof _traverse
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
 
