@@ -215,6 +215,9 @@ run({
     'clsx(String.raw`bg-[var(--some\_variable\_with\_underscore)] pl1 pr1`)',
     { code: `superclass('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', 'bottom-1 top-1')`, options: [{ unoFunctions: ['superclass'] }] },
     { code: `abc('pl1 pr1', test ? 'ml-1 mr-1' : 'left-1 right-1', test && 'bottom-1 top-1', { 'bottom-1 top-1': test })`, options: [{ unoFunctions: ['abc'] }] },
+    { code: `cva({ variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })`, options: [{ unoFunctions: ['cva'] }] },
+    { code: `cva('bottom-1 top-1', { variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })`, options: [{ unoFunctions: ['cva'] }] },
+    { code: `tv({ base: 'bottom-1 top-1', variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })`, options: [{ unoFunctions: ['tv'] }] },
     // eslint-disable-next-line no-template-curly-in-string
     'clsx(`pl1 pr1 ${more}`, test ? `ml-1 mr-1 ${more}` : `left-1 right-1 ${more}`, test && `bottom-1 top-1 ${more}`, { [`bottom-1 top-1 ${more}`]: test })',
     `notSorted('mr-1 ml-1')`,
@@ -279,6 +282,41 @@ run({
       errors: [
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoFunctions: ['cva'] }],
+      code: `cva({ variants: { size: { small: 'px-2 text-sm py-1', medium: 'px-4 text-base py-2' } } })`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "cva({ variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoFunctions: ['cva'] }],
+      code: `cva('top-1 bottom-1', { variants: { size: { small: 'px-2 text-sm py-1', medium: 'px-4 text-base py-2' } } })`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "cva('bottom-1 top-1', { variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoFunctions: ['tv'] }],
+      code: `tv({ base: 'top-1 bottom-1', variants: { size: { small: 'px-2 text-sm py-1', medium: 'px-4 text-base py-2' } } })`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "tv({ base: 'bottom-1 top-1', variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })"
+      `),
+      errors: [
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
