@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.4.0",
+  "version": "66.4.1",
   "private": true,
   "packageManager": "pnpm@10.14.0",
   "scripts": {
@@ -110,6 +110,7 @@
     "msw": "catalog:testing",
     "nuxt": "catalog:nuxt",
     "nuxt-tsconfig-stub": "catalog:nuxt",
+    "pkg-types": "catalog:nuxt",
     "pnpm": "catalog:utils",
     "postcss": "catalog:css",
     "premove": "catalog:utils",
