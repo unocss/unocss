@@ -2,6 +2,7 @@ import type { IconifyJSON } from '@iconify/types'
 import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils'
 import type { CSSObject } from '@unocss/core'
 import type { IconsOptions } from './types'
+import { getEnvFlags } from '#integration/env'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
@@ -186,21 +187,6 @@ export function createCDNFetchLoader(
     }
 
     return result
-  }
-}
-
-export function getEnvFlags() {
-  // eslint-disable-next-line node/prefer-global/process
-  const isNode = typeof process !== 'undefined' && process.stdout
-  // eslint-disable-next-line node/prefer-global/process
-  const isVSCode = isNode && !!process.env.VSCODE_CWD
-  // eslint-disable-next-line node/prefer-global/process
-  const isESLint = isNode && !!process.env.ESLINT
-
-  return {
-    isNode,
-    isVSCode,
-    isESLint,
   }
 }
 

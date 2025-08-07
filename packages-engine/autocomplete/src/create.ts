@@ -1,5 +1,7 @@
-import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator, Variant } from '@unocss/core'
+import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator } from '@unocss/core'
+import type { AutocompleteParseError } from './parse'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
+import { getEnvFlags } from '#integration/env'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { byLengthAsc, byStartAsc, Fzf } from 'fzf'
 import { LRUCache } from 'lru-cache'
@@ -12,6 +14,7 @@ export function createAutocomplete(
 ): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
+  const errorCache = new Map<string, AutocompleteParseError[]>()
 
   let staticUtils: string[] = []
 
@@ -28,6 +31,7 @@ export function createAutocomplete(
     suggestInFile,
     templates,
     cache,
+    errorCache,
     reset,
     /**
      * Enumerate possible suggestions from 'aa' - 'zz'
@@ -60,12 +64,6 @@ export function createAutocomplete(
     return matched
   }
 
-  function getParsed(template: string) {
-    if (!templateCache.has(template))
-      templateCache.set(template, parseAutocomplete(template, uno.config.theme, uno.config.autocomplete.shorthands))
-    return templateCache.get(template)!.suggest
-  }
-
   async function suggest(input: string, allowsEmptyInput = false) {
     await ready
     if (!allowsEmptyInput && input.length < 1)
@@ -84,7 +82,7 @@ export function createAutocomplete(
     // match and ignore existing variants
     const matched = await uno.matchVariants(_input)
 
-    let result = (await Promise.all(matched.map(async ([, processed, , variants]) => {
+    let result = (await Promise.all(matched.map(async ([, processed]) => {
       let idx = processed ? input.search(escapeRegExp(processed)) : input.length
       // This input contains variants that modifies the processed part,
       // autocomplete will need to reverse it which is not possible
@@ -98,8 +96,7 @@ export function createAutocomplete(
           suggestSelf(processed),
           suggestStatic(processed),
           suggestUnoCache(processed),
-          ...suggestFromPreset(processed),
-          ...suggestVariant(processed, variants),
+          suggestFromTemplateFunction(processed),
         ]),
         variantPrefix,
         variantSuffix,
@@ -178,24 +175,16 @@ export function createAutocomplete(
     return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
   }
 
-  function suggestFromPreset(input: string) {
-    return templates.map(fn => typeof fn === 'function'
-      ? fn(input)
-      : getParsed(fn)(input, matchType)) || []
-  }
-
-  function suggestVariant(input: string, used: Set<Variant>) {
-    return uno.config.variants
-      .filter(v => v.autocomplete && (v.multiPass || !used.has(v)))
-      .flatMap(v => toArray(v.autocomplete || []))
-      .map(fn => typeof fn === 'function'
-        ? fn(input)
-        : getParsed(fn)(input, matchType))
+  async function suggestFromTemplateFunction(input: string) {
+    return Promise.all(templates.filter(fn => typeof fn === 'function').map(fn => fn(input)))
+      .then(i => i.flat())
+      .catch(() => [])
   }
 
   async function reset() {
     templateCache.clear()
     cache.clear()
+    errorCache.clear()
 
     if (!uno) {
       uno = await Promise.resolve(_uno)
@@ -210,7 +199,31 @@ export function createAutocomplete(
       ...uno.config.autocomplete.templates || [],
       ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
       ...uno.config.shortcuts.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
+      ...uno.config.variants
+        .filter(v => v.autocomplete && v.multiPass)
+        .flatMap(v => toArray(v.autocomplete || [])),
     )
+
+    for (const template of templates) {
+      if (typeof template !== 'function') {
+        if (templateCache.has(template) || errorCache.has(template)) {
+          continue
+        }
+        const parsed = parseAutocomplete(template, uno.config.theme, uno.config.autocomplete.shorthands)
+        if (parsed.errors.length) {
+          errorCache.set(template, parsed.errors)
+        }
+        templateCache.set(template, parsed)
+      }
+    }
+
+    if (errorCache.size && !getEnvFlags().isVSCode) {
+      const message = Array.from(errorCache.values())
+        .flat()
+        .map(error => error.toString())
+        .join('\n')
+      throw new Error(message)
+    }
   }
 
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {

@@ -1,7 +1,20 @@
 import type { AutoCompleteMatchType, AutocompleteTemplateGroup, AutocompleteTemplatePart, ParsedAutocompleteTemplate } from './types'
 import { uniq } from '@unocss/core'
 import { Fzf } from 'fzf'
+import { name } from '../package.json'
 import { cartesian } from './utils'
+
+export class AutocompleteParseError extends Error {
+  constructor(message: string, public readonly template?: string) {
+    super(message)
+    this.name = name
+    this.template = template
+  }
+
+  toString() {
+    return `⚠️ [${this.name}]: ${this.message}. ${this.template ? `Template: ${this.template}` : ''}`
+  }
+}
 
 export const shorthands: Record<string, string> = {
   directions: '(x|y|t|b|l|r|s|e)',
@@ -34,6 +47,7 @@ function handleRegexMatch(
 
 export function parseAutocomplete(template: string, theme: any = {}, extraShorthands: Record<string, string> = {}): ParsedAutocompleteTemplate {
   const parts: AutocompleteTemplatePart[] = []
+  const errors: AutocompleteParseError[] = []
 
   const newShorthands = {
     ...shorthands,
@@ -42,7 +56,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
 
   template = template.replace(/<(\w+)>/g, (match, key, _, raw) => {
     if (!newShorthands[key]) {
-      console.warn(`⚠️ Unknown template shorthand: <${key}> in ${raw}`)
+      errors.push(new AutocompleteParseError(`Unknown template shorthand: <${key}>`, raw))
       return match
     }
     return newShorthands[key]
@@ -50,11 +64,16 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
 
   handleGroups(template)
 
+  if (errors.length) {
+    parts.length = 0
+  }
+
   const fzf = new Fzf(getAllCombination(parts))
 
   return {
     parts,
     suggest,
+    errors,
   }
 
   function handleNonGroup(input: string) {
@@ -67,7 +86,7 @@ export function parseAutocomplete(template: string, theme: any = {}, extraShorth
           objects: m[1].split('|').map((i) => {
             return i.split('.').reduce((v, k) => {
               if (!k || !v[k]) {
-                console.warn(`⚠️ Invalid theme key: ${k} in ${m.input}`)
+                errors.push(new AutocompleteParseError(`Invalid theme key: ${k}`, m.input))
                 return {}
               }
               return v[k]

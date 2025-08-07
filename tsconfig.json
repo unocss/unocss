@@ -95,6 +95,9 @@
       "#integration/transformers": [
         "./virtual-shared/integration/src/transformers.ts"
       ],
+      "#integration/env": [
+        "./virtual-shared/integration/src/env.ts"
+      ],
       "#integration/utils": [
         "./virtual-shared/integration/src/utils.ts"
       ],

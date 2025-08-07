@@ -46,6 +46,11 @@ export async function registerAutoComplete(
     const autocomplete = createAutocomplete(ctx.uno, {
       matchType: config.autocompleteMatchType,
     })
+    if (autocomplete.errorCache.size > 0) {
+      for (const error of Array.from(autocomplete.errorCache.values()).flat()) {
+        log.appendLine(error.toString())
+      }
+    }
 
     autoCompletes.set(ctx, autocomplete)
     return autocomplete
