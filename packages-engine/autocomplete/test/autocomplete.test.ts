@@ -205,6 +205,34 @@ describe('autocomplete', async () => {
         ]
       `)
   })
+
+  it('error on invalid template', async () => {
+    const uno = await createGenerator({
+      theme: {
+        colors: {
+          red: '#f00',
+        },
+      },
+      autocomplete: {
+        shorthands: {
+          valid: `(foo|bar)`,
+        },
+        templates: [
+          'bg-<invalid>',
+          'bg-<valid>',
+          'bg-$colors',
+          'bg-$error',
+        ],
+      },
+    })
+
+    process.env.VSCODE_CWD = ''
+
+    expect(() => createAutocomplete(uno as any)).toThrowErrorMatchingInlineSnapshot(`
+      [Error: ⚠️ [@unocss/autocomplete]: Unknown template shorthand: <invalid>. Template: bg-<invalid>.
+      ⚠️ [@unocss/autocomplete]: Invalid theme key: error. Template: bg-$error.]
+    `)
+  })
 })
 
 describe('autocomplete with attributify prefix', async () => {

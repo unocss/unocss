@@ -12,7 +12,7 @@ export class AutocompleteParseError extends Error {
   }
 
   toString() {
-    return `⚠️ [${this.name}]: ${this.message}. ${this.template ? `Template: ${this.template}` : ''}`
+    return `⚠️ [${this.name}]: ${this.message}. ${this.template ? `Template: ${this.template}.` : ''}`
   }
 }
 
