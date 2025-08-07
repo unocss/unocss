@@ -19,7 +19,6 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '../packages-integrations/nuxt/src/index.ts',
-    '~/modules/markdown',
   ],
 
   ssr: false,
@@ -44,7 +43,7 @@ export default defineNuxtConfig({
 
   components: {
     dirs: [
-      './components',
+      '~/components',
     ],
     transform: {
       include: [/\.vue$/, /\.md$/],
@@ -80,5 +79,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-08-01',
+  compatibilityDate: '2025-08-05',
 })

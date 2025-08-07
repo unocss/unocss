@@ -1,7 +1,12 @@
-import type { DocItem } from '../types'
+import type { DocItem } from '../app/types'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 import { $fetch } from 'ofetch'
 import pLimit from 'p-limit'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const MDN = 'https://developer.mozilla.org'
 const LANG = 'en-US'
@@ -21,6 +26,6 @@ await Promise.all(
   })),
 )
 
-await fs.writeJSON('./data/mdn-index.json', searchIndex, { spaces: 2 })
+await fs.writeJSON(path.join(__dirname, '../app/data/mdn-index.json'), searchIndex, { spaces: 2 })
 
 export {}

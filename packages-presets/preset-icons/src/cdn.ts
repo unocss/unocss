@@ -1,9 +1,9 @@
 import type { UniversalIconLoader } from '@iconify/utils'
-import { $fetch } from 'ofetch'
 import { createCDNFetchLoader } from './core'
 
-export function createCDNLoader(
+export async function createCDNLoader(
   cdnBase: string,
-): UniversalIconLoader {
+): Promise<UniversalIconLoader> {
+  const { $fetch } = await import('ofetch')
   return createCDNFetchLoader($fetch, cdnBase)
 }

@@ -234,10 +234,27 @@ export default createRule({
             return checkPossibleLiteral(arg.left, arg.right)
           }
 
-          // {"hello": true, "world": false}
-          if (arg.type === 'ObjectExpression') {
-            const keys = arg.properties.filter(p => p.type === 'Property').map(p => p.key)
+          function handleObjectExpression(node: TSESTree.ObjectExpression) {
+            node.properties.forEach((p) => {
+              if (p.type !== 'Property')
+                return
+
+              if (isPossibleLiteral(p.value)) {
+                return checkPossibleLiteral(p.value)
+              }
+
+              if (p.value.type === 'ObjectExpression') {
+                return handleObjectExpression(p.value)
+              }
+            })
+
+            // {"hello": true, "world": false}
+            const keys = node.properties.filter(p => p.type === 'Property').map(p => p.key)
             return checkPossibleLiteral(...keys)
+          }
+
+          if (arg.type === 'ObjectExpression') {
+            return handleObjectExpression(arg)
           }
         })
       },
