@@ -1,17 +1,13 @@
 import type { AutoCompleteExtractorResult, AutoCompleteFunction, AutoCompleteTemplate, SuggestResult, UnoGenerator } from '@unocss/core'
 import type { AutocompleteParseError } from './parse'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
-import { getEnvFlags } from '#integration/env'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { byLengthAsc, byStartAsc, Fzf } from 'fzf'
 import { LRUCache } from 'lru-cache'
 import { parseAutocomplete } from './parse'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 
-export function createAutocomplete(
-  uno: UnoGenerator,
-  options: AutocompleteOptions = {},
-): UnocssAutocomplete {
+export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
   const cache = new LRUCache<string, string[]>({ max: 5000 })
   const errorCache = new Map<string, AutocompleteParseError[]>()
@@ -20,7 +16,10 @@ export function createAutocomplete(
 
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
 
-  const matchType = options.matchType ?? 'prefix'
+  const {
+    matchType = 'prefix',
+    throwErrors = true,
+  } = options
 
   reset()
 
@@ -211,7 +210,7 @@ export function createAutocomplete(
       }
     }
 
-    if (errorCache.size && !getEnvFlags().isVSCode) {
+    if (errorCache.size && throwErrors) {
       const message = Array.from(errorCache.values())
         .flat()
         .map(error => error.toString())

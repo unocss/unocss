@@ -226,11 +226,19 @@ describe('autocomplete', async () => {
       },
     })
 
-    process.env.VSCODE_CWD = ''
-
     expect(() => createAutocomplete(uno as any)).toThrowErrorMatchingInlineSnapshot(`
       [Error: ⚠️ [@unocss/autocomplete]: Unknown template shorthand: <invalid>. Template: bg-<invalid>.
       ⚠️ [@unocss/autocomplete]: Invalid theme key: error. Template: bg-$error.]
+    `)
+
+    const ac = createAutocomplete(uno as any, { throwErrors: false })
+
+    expect(await ac.suggest('bg-')).toMatchInlineSnapshot(`
+      [
+        "bg-bar",
+        "bg-foo",
+        "bg-red",
+      ]
     `)
   })
 })
