@@ -37,6 +37,6 @@ export interface UnocssAutocomplete {
   templates: (string | AutoCompleteFunction)[]
   cache: LRUCache<string, string[]>
   errorCache: Map<string, AutocompleteParseError[]>
-  reset: () => Promise<void>
+  reset: () => void
   enumerate: () => Promise<Set<string>>
 }
