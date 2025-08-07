@@ -141,7 +141,6 @@ describe('autocomplete', async () => {
           "lt-md",
           "lt-sm",
           "lt-xl",
-          "ltr:",
           "lt-2xl",
         ]
       `)
@@ -334,7 +333,6 @@ describe('autocomplete with attributify prefix', async () => {
           "u-lt-md",
           "u-lt-sm",
           "u-lt-xl",
-          "u-ltr:",
           "u-lt-2xl",
         ]
       `)

@@ -96,7 +96,7 @@ export function createAutocomplete(
           suggestSelf(processed),
           suggestStatic(processed),
           suggestUnoCache(processed),
-          suggestFromTemplateFunction(processed),
+          suggestFromTemplates(processed),
         ]),
         variantPrefix,
         variantSuffix,
@@ -175,10 +175,12 @@ export function createAutocomplete(
     return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
   }
 
-  async function suggestFromTemplateFunction(input: string) {
-    return Promise.all(templates.filter(fn => typeof fn === 'function').map(fn => fn(input)))
-      .then(i => i.flat())
-      .catch(() => [])
+  async function suggestFromTemplates(input: string) {
+    const ps = await Promise.allSettled([
+      Array.from(templateCache.values()).map(({ suggest }) => suggest(input, matchType) ?? []).flat(),
+      ...templates.filter(fn => typeof fn === 'function').map(fn => fn(input)),
+    ])
+    return ps.flatMap(i => i.status === 'fulfilled' ? i.value : [])
   }
 
   async function reset() {
