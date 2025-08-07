@@ -173,7 +173,7 @@ export function createAutocomplete(
 
   async function suggestFromTemplates(input: string) {
     const ps = await Promise.allSettled([
-      Array.from(templateCache.values()).map(({ suggest }) => suggest(input, matchType) ?? []).flat(),
+      Array.from(templateCache.values()).flatMap(({ suggest }) => suggest(input, matchType) ?? []),
       ...templates.filter(fn => typeof fn === 'function').map(fn => fn(input)),
     ])
     return ps.flatMap(i => i.status === 'fulfilled' ? i.value : [])
