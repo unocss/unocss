@@ -142,13 +142,18 @@ export const backgroundStyles: Rule<Theme>[] = [
   [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
-  // ignore any center position
-  [/^bg-(linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
+  [/^bg-(gradient|linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
     return {
       '--un-gradient-position': `${d in positionMap ? `to ${positionMap[d]} ` : ' '}${resolveModifier(s)}`,
-      'background-image': `${m}-gradient(var(--un-gradient-stops))`,
+      'background-image': `${m === 'gradient' ? 'linear' : m}-gradient(var(--un-gradient-stops))`,
     }
-  }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap).filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c))).join('|')})` }],
+  }, {
+    autocomplete: ['gradient', 'linear', 'radial', 'conic'].map((i) => {
+      return `bg-${i}-to-(${Object.keys(positionMap)
+        .filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c)))
+        .join('|')})`
+    }),
+  }],
   ['bg-none', { 'background-image': 'none' }],
 
   ['box-decoration-slice', { 'box-decoration-break': 'slice' }],

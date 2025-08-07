@@ -1428,6 +1428,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .via-20\%{--un-gradient-via-position:20%;}
 .bg-repeating-conic{background-image:repeating-conic-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))));}
 .bg-conic{--un-gradient-position: in oklab;background-image:conic-gradient(var(--un-gradient-stops));}
+.bg-gradient-to-r{--un-gradient-position:to right in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
 .bg-linear{--un-gradient-position: in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
 .bg-linear-to-t{--un-gradient-position:to top in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
 .bg-linear-to-tl{--un-gradient-position:to top left in oklab;background-image:linear-gradient(var(--un-gradient-stops));}
