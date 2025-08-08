@@ -19,6 +19,7 @@ const ExcludeCssVarKeys = [
   'aria',
   'media',
   'supports',
+  'containers',
 ]
 
 function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
