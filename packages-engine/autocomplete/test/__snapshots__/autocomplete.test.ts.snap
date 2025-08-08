@@ -3,7 +3,6 @@
 exports[`autocomplete > should accept variants 1`] = `
 [
   "dark:md:m-xy",
-  "dark:md:marker:",
   "dark:md:max-block",
   "dark:md:max-block-auto",
   "dark:md:max-block-lg",
@@ -108,8 +107,6 @@ exports[`autocomplete > should accept variants 1`] = `
   "dark:md:min-w-sm",
   "dark:md:min-w-xl",
   "dark:md:min-w-xs",
-  "dark:md:motion-reduce:",
-  "dark:md:motion-safe:",
   "dark:md:m-bs-0",
   "dark:md:m-be-0",
   "dark:md:m-is-0",
@@ -382,14 +379,14 @@ exports[`autocomplete > should provide autocomplete 1`] = `
   "keyframes-": "keyframes-back-in-down keyframes-back-in-left keyframes-back-in-right keyframes-back-in-up keyframes-back-out-down keyframes-back-out-left keyframes-back-out-right keyframes-back-out-up keyframes-bounce keyframes-bounce-alt",
   "leading-": "leading-loose leading-none leading-normal leading-relaxed leading-snug leading-tight",
   "line-clamp-": "line-clamp-inherit line-clamp-initial line-clamp-none line-clamp-revert line-clamp-revert-layer line-clamp-unset line-clamp-0 line-clamp-1 line-clamp-2 line-clamp-3",
-  "m-": "m-xy marker: max-block max-block-auto max-block-lg max-block-md max-block-none max-block-prose max-block-screen max-block-sm",
+  "m-": "m-xy max-block max-block-auto max-block-lg max-block-md max-block-none max-block-prose max-block-screen max-block-sm max-block-xl",
   "max-w-": "max-w-auto max-w-full max-w-lg max-w-md max-w-none max-w-prose max-w-screen max-w-sm max-w-xl max-w-xs",
   "mx-": "m-xy mx-0 mx-1 mx-2 mx-3 mx-4 mx-5 mx-6 mx-8 mx-10",
   "object-": "object-b object-bc object-bl object-bottom object-bottom-center object-bottom-left object-bottom-right object-br object-c object-cb",
   "origin-": "origin-b origin-bc origin-bl origin-bottom origin-bottom-center origin-bottom-left origin-bottom-right origin-br origin-c origin-cb",
   "outline-": "outline-amber outline-auto outline-black outline-blue outline-bluegray outline-blueGray outline-coolgray outline-coolGray outline-current outline-cyan",
   "outline-offset-": "outline-offset-0 outline-offset-1 outline-offset-2 outline-offset-3 outline-offset-4 outline-offset-5 outline-offset-6 outline-offset-8 outline-offset-10 outline-offset-12",
-  "placeholder-": "placeholder-.dark: placeholder-.light: placeholder-@dark: placeholder-@hover: placeholder-@light: placeholder-*: placeholder-accent-amber placeholder-accent-black placeholder-accent-blue placeholder-accent-bluegray",
+  "placeholder-": "placeholder-accent-amber placeholder-accent-black placeholder-accent-blue placeholder-accent-bluegray placeholder-accent-blueGray placeholder-accent-coolgray placeholder-accent-coolGray placeholder-accent-current placeholder-accent-cyan placeholder-accent-dark",
   "rows-": "rows-0 rows-1 rows-2 rows-3 rows-4 rows-5 rows-6 rows-8 rows-10 rows-12",
   "scale-": "scale-0 scale-10 scale-20 scale-30 scale-40 scale-50 scale-60 scale-70 scale-80 scale-90",
   "scale-x-": "scale-x-0 scale-x-10 scale-x-20 scale-x-30 scale-x-40 scale-x-50 scale-x-60 scale-x-70 scale-x-80 scale-x-90",
@@ -443,7 +440,6 @@ exports[`autocomplete > should provide skip DEFAULT 1`] = `
 exports[`autocomplete with attributify prefix > should accept variants 1`] = `
 [
   "u-dark:md:m-xy",
-  "u-dark:md:marker:",
   "u-dark:md:max-block",
   "u-dark:md:max-block-auto",
   "u-dark:md:max-block-lg",
@@ -462,6 +458,7 @@ exports[`autocomplete with attributify prefix > should accept variants 1`] = `
   "u-dark:md:max-h-none",
   "u-dark:md:max-h-prose",
   "u-dark:md:max-h-screen",
+  "u-dark:md:max-h-screen-lg",
 ]
 `;
 
@@ -489,14 +486,14 @@ exports[`autocomplete with attributify prefix > should provide autocomplete 1`] 
   "u-keyframes-": "u-keyframes-back-in-down u-keyframes-back-in-left u-keyframes-back-in-right u-keyframes-back-in-up u-keyframes-back-out-down u-keyframes-back-out-left u-keyframes-back-out-right u-keyframes-back-out-up u-keyframes-bounce u-keyframes-bounce-alt",
   "u-leading-": "u-leading-loose u-leading-none u-leading-normal u-leading-relaxed u-leading-snug u-leading-tight",
   "u-line-clamp-": "u-line-clamp-inherit u-line-clamp-initial u-line-clamp-none u-line-clamp-revert u-line-clamp-revert-layer u-line-clamp-unset u-line-clamp-0 u-line-clamp-1 u-line-clamp-2 u-line-clamp-3",
-  "u-m-": "u-m-xy u-marker: u-max-block u-max-block-auto u-max-block-lg u-max-block-md u-max-block-none u-max-block-prose u-max-block-screen u-max-block-sm",
+  "u-m-": "u-m-xy u-max-block u-max-block-auto u-max-block-lg u-max-block-md u-max-block-none u-max-block-prose u-max-block-screen u-max-block-sm u-max-block-xl",
   "u-max-w-": "u-max-w-auto u-max-w-full u-max-w-lg u-max-w-md u-max-w-none u-max-w-prose u-max-w-screen u-max-w-sm u-max-w-xl u-max-w-xs",
   "u-mx-": "u-m-xy u-mx-0 u-mx-1 u-mx-2 u-mx-3 u-mx-4 u-mx-5 u-mx-6 u-mx-8 u-mx-10",
   "u-object-": "u-object-b u-object-bc u-object-bl u-object-bottom u-object-bottom-center u-object-bottom-left u-object-bottom-right u-object-br u-object-c u-object-cb",
   "u-origin-": "u-origin-b u-origin-bc u-origin-bl u-origin-bottom u-origin-bottom-center u-origin-bottom-left u-origin-bottom-right u-origin-br u-origin-c u-origin-cb",
   "u-outline-": "u-outline-amber u-outline-auto u-outline-black u-outline-blue u-outline-bluegray u-outline-blueGray u-outline-coolgray u-outline-coolGray u-outline-current u-outline-cyan",
   "u-outline-offset-": "u-outline-offset-0 u-outline-offset-1 u-outline-offset-2 u-outline-offset-3 u-outline-offset-4 u-outline-offset-5 u-outline-offset-6 u-outline-offset-8 u-outline-offset-10 u-outline-offset-12",
-  "u-placeholder-": "u-placeholder-.dark: u-placeholder-.light: u-placeholder-@dark: u-placeholder-@hover: u-placeholder-@light: u-placeholder-*: u-placeholder-accent-amber u-placeholder-accent-black u-placeholder-accent-blue u-placeholder-accent-bluegray",
+  "u-placeholder-": "u-placeholder-accent-amber u-placeholder-accent-black u-placeholder-accent-blue u-placeholder-accent-bluegray u-placeholder-accent-blueGray u-placeholder-accent-coolgray u-placeholder-accent-coolGray u-placeholder-accent-current u-placeholder-accent-cyan u-placeholder-accent-dark",
   "u-rows-": "u-rows-0 u-rows-1 u-rows-2 u-rows-3 u-rows-4 u-rows-5 u-rows-6 u-rows-8 u-rows-10 u-rows-12",
   "u-scale-": "u-scale-0 u-scale-10 u-scale-20 u-scale-30 u-scale-40 u-scale-50 u-scale-60 u-scale-70 u-scale-80 u-scale-90",
   "u-scale-x-": "u-scale-x-0 u-scale-x-10 u-scale-x-20 u-scale-x-30 u-scale-x-40 u-scale-x-50 u-scale-x-60 u-scale-x-70 u-scale-x-80 u-scale-x-90",

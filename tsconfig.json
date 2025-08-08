@@ -80,6 +80,9 @@
       "#integration/defaults": [
         "./virtual-shared/integration/src/defaults.ts"
       ],
+      "#integration/env": [
+        "./virtual-shared/integration/src/env.ts"
+      ],
       "#integration/hash": [
         "./virtual-shared/integration/src/hash.ts"
       ],

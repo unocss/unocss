@@ -1,4 +1,5 @@
 import type { SourceCodeTransformer } from '@unocss/core'
+import { getEnvFlags } from '#integration/env'
 import { parse } from '@babel/parser'
 import _traverse from '@babel/traverse'
 import { toArray } from '@unocss/core'
@@ -73,7 +74,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     async transform(code, _, { uno }) {
       // Skip if running in VSCode extension context
       try {
-        if ((await import('node:process')).env.VSCODE_CWD)
+        if (getEnvFlags().isVSCode)
           return
       }
       catch {

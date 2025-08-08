@@ -1,4 +1,5 @@
 import { defineBuildConfig } from 'unbuild'
+import { aliasVirtual } from '../../alias'
 
 const externals = [
   'ms',
@@ -15,6 +16,7 @@ export default defineBuildConfig({
     'src/browser',
     'src/core',
   ],
+  alias: aliasVirtual,
   clean: true,
   declaration: true,
   externals,

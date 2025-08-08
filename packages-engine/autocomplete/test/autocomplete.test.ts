@@ -141,7 +141,6 @@ describe('autocomplete', async () => {
           "lt-md",
           "lt-sm",
           "lt-xl",
-          "ltr:",
           "lt-2xl",
         ]
       `)
@@ -205,6 +204,42 @@ describe('autocomplete', async () => {
           "bg-mode-normal",
         ]
       `)
+  })
+
+  it('error on invalid template', async () => {
+    const uno = await createGenerator({
+      theme: {
+        colors: {
+          red: '#f00',
+        },
+      },
+      autocomplete: {
+        shorthands: {
+          valid: `(foo|bar)`,
+        },
+        templates: [
+          'bg-<invalid>',
+          'bg-<valid>',
+          'bg-$colors',
+          'bg-$error',
+        ],
+      },
+    })
+
+    expect(() => createAutocomplete(uno as any)).toThrowErrorMatchingInlineSnapshot(`
+      [Error: ⚠️ [@unocss/autocomplete]: Unknown template shorthand: <invalid>. Template: bg-<invalid>.
+      ⚠️ [@unocss/autocomplete]: Invalid theme key: error. Template: bg-$error.]
+    `)
+
+    const ac = createAutocomplete(uno as any, { throwErrors: false })
+
+    expect(await ac.suggest('bg-')).toMatchInlineSnapshot(`
+      [
+        "bg-bar",
+        "bg-foo",
+        "bg-red",
+      ]
+    `)
   })
 })
 
@@ -334,7 +369,6 @@ describe('autocomplete with attributify prefix', async () => {
           "u-lt-md",
           "u-lt-sm",
           "u-lt-xl",
-          "u-ltr:",
           "u-lt-2xl",
         ]
       `)
