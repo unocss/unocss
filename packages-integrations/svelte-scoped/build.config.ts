@@ -9,7 +9,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
-    '@ampproject/remapping',
+    '@jridgewell/remapping',
     '@jridgewell/trace-mapping',
     '@jridgewell/gen-mapping',
     '@jridgewell/set-array',

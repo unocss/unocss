@@ -13,9 +13,9 @@ catalogs:
       specifier: ^7.28.0
       version: 7.28.0
   build:
-    '@ampproject/remapping':
+    '@jridgewell/remapping':
       specifier: ^2.3.0
-      version: 2.3.0
+      version: 2.3.4
     brotli-size:
       specifier: ^4.0.0
       version: 4.0.0
@@ -958,9 +958,9 @@ importers:
 
   packages-engine/cli:
     dependencies:
-      '@ampproject/remapping':
+      '@jridgewell/remapping':
         specifier: catalog:build
-        version: 2.3.0
+        version: 2.3.4
       '@unocss/config':
         specifier: workspace:*
         version: link:../config
@@ -1209,9 +1209,9 @@ importers:
 
   packages-integrations/vite:
     dependencies:
-      '@ampproject/remapping':
+      '@jridgewell/remapping':
         specifier: catalog:build
-        version: 2.3.0
+        version: 2.3.4
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -1279,9 +1279,9 @@ importers:
 
   packages-integrations/webpack:
     dependencies:
-      '@ampproject/remapping':
+      '@jridgewell/remapping':
         specifier: catalog:build
-        version: 2.3.0
+        version: 2.3.4
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -3213,6 +3213,9 @@ packages:
 
   '@jridgewell/gen-mapping@0.3.12':
     resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
+
+  '@jridgewell/remapping@2.3.4':
+    resolution: {integrity: sha512-aG+WvAz17rhbzhKNkSeMLgbkPPK82ovXdONvmucbGhUqcroRFLLVhoGAk4xEI17gHpXgNX3sr0/B1ybRUsbEWw==}
 
   '@jridgewell/resolve-uri@3.1.2':
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
@@ -11478,6 +11481,11 @@ snapshots:
   '@jridgewell/gen-mapping@0.3.12':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
+      '@jridgewell/trace-mapping': 0.3.29
+
+  '@jridgewell/remapping@2.3.4':
+    dependencies:
+      '@jridgewell/gen-mapping': 0.3.12
       '@jridgewell/trace-mapping': 0.3.29
 
   '@jridgewell/resolve-uri@3.1.2': {}
