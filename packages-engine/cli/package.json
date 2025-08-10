@@ -44,7 +44,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@ampproject/remapping": "catalog:build",
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",

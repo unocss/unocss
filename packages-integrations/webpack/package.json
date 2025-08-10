@@ -65,7 +65,7 @@
     "webpack": "^4 || ^5"
   },
   "dependencies": {
-    "@ampproject/remapping": "catalog:build",
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "chokidar": "catalog:utils",

@@ -27,7 +27,7 @@ catalogs:
     '@babel/traverse': ^7.28.0
 
   build:
-    '@ampproject/remapping': ^2.3.0
+    '@jridgewell/remapping': ^2.3.0
     brotli-size: ^4.0.0
     bumpp: ^10.2.2
     gzip-size: ^6.0.0
