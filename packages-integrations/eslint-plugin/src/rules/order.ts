@@ -29,6 +29,7 @@ export default createRule({
             items: { type: 'string' },
           },
         },
+        additionalProperties: false,
       },
     ],
   },
