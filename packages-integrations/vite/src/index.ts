@@ -64,7 +64,7 @@ export default function UnocssPlugin<Theme extends object>(
     plugins.push(...PerModuleModePlugin(ctx))
   }
   else if (mode === 'vue-scoped') {
-    plugins.push(...VueScopedPlugin(ctx))
+    plugins.push(VueScopedPlugin(ctx))
   }
   // @ts-expect-error alerts users who were already using this mode before it became its own package
   else if (mode === 'svelte-scoped') {
