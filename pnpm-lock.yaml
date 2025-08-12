@@ -7,10 +7,10 @@ settings:
 catalogs:
   babel:
     '@babel/parser':
-      specifier: ^7.28.0
+      specifier: ^7.27.7
       version: 7.28.0
     '@babel/traverse':
-      specifier: ^7.28.0
+      specifier: ^7.27.7
       version: 7.28.0
   build:
     '@jridgewell/remapping':
