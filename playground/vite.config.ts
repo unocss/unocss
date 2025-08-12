@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 import { alias } from '../alias'
+import { importMapPlugin } from './vite-plugin-import-map'
 
 const git = SimpleGit()
 
@@ -49,6 +50,7 @@ export default defineConfig({
       vueTemplate: true,
       dts: 'src/auto-imports.d.ts',
     }),
+    importMapPlugin(),
   ],
   optimizeDeps: {
     exclude: [
