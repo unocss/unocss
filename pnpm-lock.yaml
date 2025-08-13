@@ -241,7 +241,7 @@ catalogs:
   typescript:
     '@typescript/native-preview':
       specifier: latest
-      version: 7.0.0-dev.20250615.1
+      version: 7.0.0-dev.20250812.1
     tsup:
       specifier: ^8.5.0
       version: 8.5.0
@@ -533,7 +533,7 @@ importers:
         version: 8.18.1
       '@typescript/native-preview':
         specifier: catalog:typescript
-        version: 7.0.0-dev.20250615.1
+        version: 7.0.0-dev.20250812.1
       '@unocss/astro':
         specifier: workspace:*
         version: link:packages-integrations/astro
@@ -1064,7 +1064,7 @@ importers:
     devDependencies:
       '@typescript/native-preview':
         specifier: catalog:typescript
-        version: 7.0.0-dev.20250615.1
+        version: 7.0.0-dev.20250812.1
       '@unocss/eslint-plugin':
         specifier: workspace:*
         version: 'link:'
@@ -3957,9 +3957,6 @@ packages:
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
 
-  '@shikijs/core@1.24.2':
-    resolution: {integrity: sha512-BpbNUSKIwbKrRRA+BQj0BEWSw+8kOPKDJevWeSE/xIqGX7K0xrCZQ9kK0nnEQyrzsUoka1l81ZtJ2mGaCA32HQ==}
-
   '@shikijs/core@1.29.2':
     resolution: {integrity: sha512-vju0lY9r27jJfOY4Z7+Rt/nIOjzJpZ3y+nYpqtUZInVoXQ/TJZcfGnNOGnKjFdVZb8qexiCuSlZRKcGfhhTTZQ==}
 
@@ -3969,9 +3966,6 @@ packages:
   '@shikijs/core@3.9.2':
     resolution: {integrity: sha512-3q/mzmw09B2B6PgFNeiaN8pkNOixWS726IHmJEpjDAcneDPMQmUg2cweT9cWXY4XcyQS3i6mOOUgQz9RRUP6HA==}
 
-  '@shikijs/engine-javascript@1.24.2':
-    resolution: {integrity: sha512-EqsmYBJdLEwEiO4H+oExz34a5GhhnVp+jH9Q/XjPjmBPc6TE/x4/gD0X3i0EbkKKNqXYHHJTJUpOLRQNkEzS9Q==}
-
   '@shikijs/engine-javascript@1.29.2':
     resolution: {integrity: sha512-iNEZv4IrLYPv64Q6k7EPpOCE/nuvGiKl7zxdq0WFuRPF5PAE9PRo2JGq/d8crLusM59BRemJ4eOqrFrC4wiQ+A==}
 
@@ -3980,9 +3974,6 @@ packages:
 
   '@shikijs/engine-javascript@3.9.2':
     resolution: {integrity: sha512-kUTRVKPsB/28H5Ko6qEsyudBiWEDLst+Sfi+hwr59E0GLHV0h8RfgbQU7fdN5Lt9A8R1ulRiZyTvAizkROjwDA==}
-
-  '@shikijs/engine-oniguruma@1.24.2':
-    resolution: {integrity: sha512-ZN6k//aDNWRJs1uKB12pturKHh7GejKugowOFGAuG7TxDRLod1Bd5JhpOikOiFqPmKjKEPtEA6mRCf7q3ulDyQ==}
 
   '@shikijs/engine-oniguruma@1.29.2':
     resolution: {integrity: sha512-7iiOx3SG8+g1MnlzZVDYiaeHe7Ez2Kf2HrJzdmGwkRisT7r4rak0e655AcM/tF9JG/kg5fMNYlLLKglbN7gBqA==}
@@ -4022,11 +4013,10 @@ packages:
   '@shikijs/transformers@2.5.0':
     resolution: {integrity: sha512-SI494W5X60CaUwgi8u4q4m4s3YAFSxln3tzNjOSYqq54wlVgz0/NbbXEb3mdLbqMBztcmS7bVTaEd2w0qMmfeg==}
 
-  '@shikijs/twoslash@1.24.2':
-    resolution: {integrity: sha512-zcwYUNdSQDKquF1t+XrtoXM+lx9rCldAkZnT+e5fULKlLT6F8/F9fwICGhBm9lWp5/U4NptH+YcJUdvFOR0SRg==}
-
-  '@shikijs/types@1.24.2':
-    resolution: {integrity: sha512-bdeWZiDtajGLG9BudI0AHet0b6e7FbR0EsE4jpGaI0YwHm/XJunI9+3uZnzFtX65gsyJ6ngCIWUfA4NWRPnBkQ==}
+  '@shikijs/twoslash@3.9.2':
+    resolution: {integrity: sha512-LRAhdZwp+4AXyScSgWAyoo1EM6lf2iTQPivl3w9fWSBi3yp4MJZfbed/6dcemd20jW4A9olzB3j1mFAKv/CRFw==}
+    peerDependencies:
+      typescript: '>=5.5.0'
 
   '@shikijs/types@1.29.2':
     resolution: {integrity: sha512-VJjK0eIijTZf0QSTODEXCqinjBn0joAHQ+aPSBzrv4O2d/QSbsMw+ZeSRx03kV34Hy7NzUvV/7NqfYGRLrASmw==}
@@ -4042,9 +4032,6 @@ packages:
 
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
-
-  '@shikijs/vscode-textmate@9.3.1':
-    resolution: {integrity: sha512-79QfK1393x9Ho60QFyLti+QfdJzRQCVLFb97kOIV7Eo9vQU/roINgk7m24uv0a7AUvN//RDH36FLjjK48v0s9g==}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -4384,50 +4371,50 @@ packages:
     resolution: {integrity: sha512-ldgiJ+VAhQCfIjeOgu8Kj5nSxds0ktPOSO9p4+0VDH2R2pLvQraaM5Oen2d7NxzMCm+Sn/vJT+mv2H5u6b/3fA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-cWT5VWicH+yHoADtSVYUIfNGW01/AjujFmwwrHcJa8aCAQ0jL144anBKlcfmUDLeU7BuQBl5SjVoH80SNNxQcQ==}
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-rHIwOgk0Wt0oB7L08H/A4Y/DXX01o1Dd45ztThpIIRwEA5RFJ+qFRQUqCRcqGXEvRL0BXN54rTLdeVn93idjTw==}
     engines: {node: '>=20.6.0'}
     cpu: [arm64]
     os: [darwin]
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-EnN51kQheZZcYFPlncW/VcwKnlrpevSUkyuV9/HOmS0rmU95lzXzzzSTre5M5+o8x0mir2npVJx4pHSZB2g+Pg==}
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-yUh3/R8q4hrWCj2rmihS3o7XDD103sTp1PlDyCFeeEt8DAidVehR3PXhV9z40S4O5rtvDqW57x/rm4CEdQMmvg==}
     engines: {node: '>=20.6.0'}
     cpu: [x64]
     os: [darwin]
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-LlsL+mbtKONIsI96d+d1mFOBQM96wA6bKuTAxgvR7h+e7r3Hh5JpN4ycmS8oPeh2N+Ywyd8LxEHnoKeoVodCqQ==}
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-S3fzbbdq3LYIULtKSNdMUQNLrs3HBxF+HzcOboiuwobzeEsFbw3TBTMpcADrMkNDeTheYNhJVx1rU/7QfDjszg==}
     engines: {node: '>=20.6.0'}
     cpu: [arm64]
     os: [linux]
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-Rn33YQpmiF/tO9j25WX2+u8EVApHzjOVIREezkO8EJ+JKw5zq+Nbptq09nIv7kpZJyVJ+ofN7qC+OOOkCUU7eg==}
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-6AMjSxzmRol9gObBTZFHE3ynmgTTMG5EKdABDqL2pnlm2dpevCzLaaSZ4V1NkFYP81QnrhdYLBpM4Dw+b07mjA==}
     engines: {node: '>=20.6.0'}
     cpu: [arm]
     os: [linux]
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-GK2jgDXP6Kp6ihrshy0JVADmp1l1v+ap3jEatZmGUc9iOjBITVQRxO5E9DNBn08UwffOHtXBrwPL7shm42e4QQ==}
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-o8mJRRNPI4pJC3IYIs06pddFZNVa7two/5wUtvaHzL99htJlnLG83AEYra/knJQH4Hw6SZ7sRH8PswfSqObhuw==}
     engines: {node: '>=20.6.0'}
     cpu: [x64]
     os: [linux]
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-YlHSm/JAdeVZZ7iZAmI2n5s5jK+8wcGvwE2SHJOe71B4oTB5p9bsoEzOgTr8s+3qRcD3VV5UrNj98e6bvzC1vQ==}
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-ShB1MrPLqMMUVR6Vqgb+5uT7Ria9qJwuZRgReqwn6SL3nAuu3K2M6rVlrBz+NOIPKUs0HQTFkwH2KCqZT7K8TA==}
     engines: {node: '>=20.6.0'}
     cpu: [arm64]
     os: [win32]
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-1ohNYWAvSO1q7LhBeHSAZXvT8egoQaO61Rj9maXVFh2U5fK+3ot3FQ8hizXV0EE3viMeUaWDUEXdF8cgeHPgZw==}
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-83pMZxZZ0GmOtsNgC8eg+A49Ax8blRrr7u3qt6G9xQ9ko1e1rbEVAG0/n/ZFjsobEBRzqKv5JLvg1yLVwDwFFw==}
     engines: {node: '>=20.6.0'}
     cpu: [x64]
     os: [win32]
 
-  '@typescript/native-preview@7.0.0-dev.20250615.1':
-    resolution: {integrity: sha512-gNnBeO7OdA1LyAbsDvyeOM+Cil+5jlW0PVDdlJSsYdA2NgZjnMERWY+9S1KlfANyMMFXeQjk7Z4dZwzbmEoF2Q==}
+  '@typescript/native-preview@7.0.0-dev.20250812.1':
+    resolution: {integrity: sha512-18iGFO/rA6tiEkbuB/VA56n0dURfSDYF7+2IkF1rPtliNOPxsU7GrQb6D/S/KRv0yUNn7ntcTkYWpeNAJ/1uDw==}
     engines: {node: '>=20.6.0'}
     hasBin: true
 
@@ -7390,6 +7377,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-emoji@2.2.0:
     resolution: {integrity: sha512-Z3lTE9pLaJF47NyMhd4ww1yFTAP8YhYI8SleJiHzM46Fgpm5cnNzSl9XfzFNqbaz+VlJrIj3fXQ4DeN1Rjm6cw==}
@@ -7527,9 +7515,6 @@ packages:
 
   oniguruma-parser@0.12.1:
     resolution: {integrity: sha512-8Unqkvk1RYc6yq2WBYRj4hdnsAxVze8i7iPfQr8e4uSP3tRv0rpZcbGUDvxfQQcdwHt/e9PrMvGCsa8OqG9X3w==}
-
-  oniguruma-to-es@0.7.0:
-    resolution: {integrity: sha512-HRaRh09cE0gRS3+wi2zxekB+I5L8C/gN60S+vb11eADHUaB/q4u8wGGOX3GvwvitG8ixaeycZfeoyruKQzUgNg==}
 
   oniguruma-to-es@2.3.0:
     resolution: {integrity: sha512-bwALDxriqfKGfUufKGGepCzu9x7nJQuoRoAFp4AnwehhC2crqrDIAP/uN2qdlsAvSMpeRC3+Yzhqc7hLmle5+g==}
@@ -8250,9 +8235,6 @@ packages:
   regenerator-transform@0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}
 
-  regex-recursion@4.3.0:
-    resolution: {integrity: sha512-5LcLnizwjcQ2ALfOj95MjcatxyqF5RPySx9yT+PaXu3Gox2vyAtLDjHB8NTJLtMGkvyau6nI3CfpwFCjPUIs/A==}
-
   regex-recursion@5.1.1:
     resolution: {integrity: sha512-ae7SBCbzVNrIjgSbh7wMznPcQel1DNlDtzensnFxpiNpXt1U2ju/bHugH422r+4LAVS1FpW1YCwilmnNsjum9w==}
 
@@ -8582,6 +8564,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
@@ -8993,9 +8976,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  twoslash-protocol@0.2.12:
-    resolution: {integrity: sha512-5qZLXVYfZ9ABdjqbvPc4RWMr7PrpPaaDSeaYY55vl/w1j6H6kzsWK/urAEIXlzYlyrFmyz1UbwIt+AA0ck+wbg==}
-
   twoslash-protocol@0.3.3:
     resolution: {integrity: sha512-26NXjXEj+2NgytwOjjhFtNpQI7Zgct6PTyLg6JO7fIbO7MIm+kx89IxvBustgBOSKxoWjNBN2LXjNHHMD7+k0g==}
 
@@ -9003,11 +8983,6 @@ packages:
     resolution: {integrity: sha512-CoIvzNK9QRJUUTTEzT0bFcf5kJc9wgBQHRcj5VcmhzFvcSdk/hevExeahcSHClpz1eE4EHJtma2+1wbK+GOjeg==}
     peerDependencies:
       typescript: ^5.5.0
-
-  twoslash@0.2.12:
-    resolution: {integrity: sha512-tEHPASMqi7kqwfJbkk7hc/4EhlrKCSLcur+TcvYki3vhIfaRMXnXjaYFgXpoZRbT6GdprD4tGuVBEmTpUgLBsw==}
-    peerDependencies:
-      typescript: '*'
 
   twoslash@0.3.3:
     resolution: {integrity: sha512-Yen1RBSYh/NUR6tfK6xT7DsXkBYby7lfp078Q7XoJR5dtAeG9jB5PVL1oF2sZwHapLjaqcZNlw7GSB8himZNsQ==}
@@ -12295,15 +12270,6 @@ snapshots:
 
   '@sec-ant/readable-stream@0.4.1': {}
 
-  '@shikijs/core@1.24.2':
-    dependencies:
-      '@shikijs/engine-javascript': 1.24.2
-      '@shikijs/engine-oniguruma': 1.24.2
-      '@shikijs/types': 1.24.2
-      '@shikijs/vscode-textmate': 9.3.1
-      '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.5
-
   '@shikijs/core@1.29.2':
     dependencies:
       '@shikijs/engine-javascript': 1.29.2
@@ -12329,12 +12295,6 @@ snapshots:
       '@types/hast': 3.0.4
       hast-util-to-html: 9.0.5
 
-  '@shikijs/engine-javascript@1.24.2':
-    dependencies:
-      '@shikijs/types': 1.24.2
-      '@shikijs/vscode-textmate': 9.3.1
-      oniguruma-to-es: 0.7.0
-
   '@shikijs/engine-javascript@1.29.2':
     dependencies:
       '@shikijs/types': 1.29.2
@@ -12352,11 +12312,6 @@ snapshots:
       '@shikijs/types': 3.9.2
       '@shikijs/vscode-textmate': 10.0.2
       oniguruma-to-es: 4.3.3
-
-  '@shikijs/engine-oniguruma@1.24.2':
-    dependencies:
-      '@shikijs/types': 1.24.2
-      '@shikijs/vscode-textmate': 9.3.1
 
   '@shikijs/engine-oniguruma@1.29.2':
     dependencies:
@@ -12407,19 +12362,14 @@ snapshots:
       '@shikijs/core': 2.5.0
       '@shikijs/types': 2.5.0
 
-  '@shikijs/twoslash@1.24.2(typescript@5.8.3)':
+  '@shikijs/twoslash@3.9.2(typescript@5.8.3)':
     dependencies:
-      '@shikijs/core': 1.24.2
-      '@shikijs/types': 1.24.2
-      twoslash: 0.2.12(typescript@5.8.3)
+      '@shikijs/core': 3.9.2
+      '@shikijs/types': 3.9.2
+      twoslash: 0.3.3(typescript@5.8.3)
+      typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-      - typescript
-
-  '@shikijs/types@1.24.2':
-    dependencies:
-      '@shikijs/vscode-textmate': 9.3.1
-      '@types/hast': 3.0.4
 
   '@shikijs/types@1.29.2':
     dependencies:
@@ -12438,7 +12388,7 @@ snapshots:
 
   '@shikijs/vitepress-twoslash@3.9.2(@nuxt/kit@3.18.0(magicast@0.3.5))(typescript@5.8.3)':
     dependencies:
-      '@shikijs/twoslash': 1.24.2(typescript@5.8.3)
+      '@shikijs/twoslash': 3.9.2(typescript@5.8.3)
       floating-vue: 5.2.2(@nuxt/kit@3.18.0(magicast@0.3.5))(vue@3.5.18(typescript@5.8.3))
       mdast-util-from-markdown: 2.0.2
       mdast-util-gfm: 3.1.0
@@ -12453,8 +12403,6 @@ snapshots:
       - typescript
 
   '@shikijs/vscode-textmate@10.0.2': {}
-
-  '@shikijs/vscode-textmate@9.3.1': {}
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -12735,8 +12683,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.38.0(typescript@5.8.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.38.0(typescript@5.8.3)
-      '@typescript-eslint/types': 8.38.0
+      '@typescript-eslint/tsconfig-utils': 8.39.0(typescript@5.8.3)
+      '@typescript-eslint/types': 8.39.0
       debug: 4.4.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -12838,36 +12786,36 @@ snapshots:
       '@typescript-eslint/types': 8.39.0
       eslint-visitor-keys: 4.2.1
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20250615.1':
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20250812.1':
     optional: true
 
-  '@typescript/native-preview@7.0.0-dev.20250615.1':
+  '@typescript/native-preview@7.0.0-dev.20250812.1':
     optionalDependencies:
-      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-linux-arm': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-linux-x64': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20250615.1
-      '@typescript/native-preview-win32-x64': 7.0.0-dev.20250615.1
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20250812.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20250812.1
 
   '@typescript/vfs@1.6.1(typescript@5.8.3)':
     dependencies:
@@ -16703,12 +16651,6 @@ snapshots:
 
   oniguruma-parser@0.12.1: {}
 
-  oniguruma-to-es@0.7.0:
-    dependencies:
-      emoji-regex-xs: 1.0.0
-      regex: 5.1.1
-      regex-recursion: 4.3.0
-
   oniguruma-to-es@2.3.0:
     dependencies:
       emoji-regex-xs: 1.0.0
@@ -17475,10 +17417,6 @@ snapshots:
   regenerator-transform@0.15.2:
     dependencies:
       '@babel/runtime': 7.26.9
-
-  regex-recursion@4.3.0:
-    dependencies:
-      regex-utilities: 2.3.0
 
   regex-recursion@5.1.1:
     dependencies:
@@ -18369,8 +18307,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  twoslash-protocol@0.2.12: {}
-
   twoslash-protocol@0.3.3: {}
 
   twoslash-vue@0.3.3(typescript@5.8.3):
@@ -18378,14 +18314,6 @@ snapshots:
       '@vue/language-core': 3.0.5(typescript@5.8.3)
       twoslash: 0.3.3(typescript@5.8.3)
       twoslash-protocol: 0.3.3
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
-
-  twoslash@0.2.12(typescript@5.8.3):
-    dependencies:
-      '@typescript/vfs': 1.6.1(typescript@5.8.3)
-      twoslash-protocol: 0.2.12
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color

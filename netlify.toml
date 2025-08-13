@@ -1,6 +1,6 @@
 [build]
 publish = "docs/dist"
-command = "pnpm run deploy"
+command = "git fetch --tags && pnpm run deploy"
 
 [build.environment]
 NODE_VERSION = "22"
