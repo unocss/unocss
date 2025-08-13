@@ -23,7 +23,7 @@ export interface WebFontMeta {
   /**
    * Font width axis
    */
-  width?: string | number // wdth axis
+  width?: (string | number)[] // wdth axis
 
   /**
    * Variable font settings
