@@ -21,6 +21,11 @@ export interface WebFontMeta {
   italic?: boolean // ital axis
 
   /**
+   * Font width axis
+   */
+  width?: string | number // wdth axis
+
+  /**
    * Variable font settings
    * @example
    * ```ts

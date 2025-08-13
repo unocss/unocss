@@ -1,22 +1,29 @@
 import type { Provider, WebFontsProviders } from '../types'
+import type { FontAxis } from './google'
+import { generateFontAxes } from './google'
 
 export function createCoolLabsCompatibleProvider(name: WebFontsProviders, host: string): Provider {
   return {
     name,
     getImportUrl(fonts) {
-      const sort = (weights: string[][]) => {
-        const firstW = weights.map(w => w[0])
-        const lastW = weights.map(w => w[1])
-        return `${firstW.join(';')};${lastW.join(';')}`
-      }
-
       const strings = fonts
         .map((i) => {
           let name = i.name.replace(/\s+/g, '+')
-          if (i.weights?.length) {
-            name += i.italic
-              ? `:ital,wght@${sort(i.weights.map(w => [`0,${w}`, `1,${w}`]))}`
-              : `:wght@${i.weights.join(';')}`
+          const axisValues: FontAxis[] = []
+          if (i.italic)
+            axisValues.push({ axis: 'ital', values: ['0', '1'] })
+
+          if (i.width)
+            axisValues.push({ axis: 'wdth', values: Array.isArray(i.width) ? i.width : [i.width.toString()] })
+
+          if (i.weights?.length)
+            axisValues.push({ axis: 'wght', values: i.weights.map(w => w.toString()) })
+
+          if (axisValues.length) {
+            name += ':'
+            name += axisValues.map(a => a.axis).join(',')
+            name += '@'
+            name += generateFontAxes(axisValues)
           }
           return `family=${name}`
         })
