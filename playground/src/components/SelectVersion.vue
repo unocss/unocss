@@ -25,9 +25,6 @@ async function getVersionsList() {
 const sha = __SHA__
 const latestVersion = __LASTEST_TAG__
 const latestVersionSha = __LASTEST_TAG_SHA__
-console.log('[playground] sha: ', sha)
-console.log('[playground] latestVersion: ', latestVersion)
-console.log('[playground] latestVersionSha: ', latestVersionSha)
 
 const isRelease = sha === latestVersionSha
 
@@ -74,8 +71,6 @@ onMounted(async () => {
     'latest',
     ...await getVersionsList(),
   ]
-
-  console.log(versions.value)
 })
 </script>
 

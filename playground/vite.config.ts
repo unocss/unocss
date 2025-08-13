@@ -14,10 +14,6 @@ const SHA = await git.revparse(['HEAD'])
 const LASTEST_TAG = (await git.raw(['describe', '--tags', '--abbrev=0'])).trim()
 const LASTEST_TAG_SHA = await git.revparse([LASTEST_TAG])
 
-console.log('[node] sha: ', SHA)
-console.log('[node] latestVersion: ', LASTEST_TAG)
-console.log('[node] latestVersionSha: ', LASTEST_TAG_SHA)
-
 export default defineConfig({
   base: '/play/',
   resolve: {
