@@ -39,7 +39,7 @@ export function createGoogleCompatibleProvider(name: WebFontsProviders, host: st
             axisValues.push({ axis: 'ital', values: ['0', '1'] })
 
           if (i.width)
-            axisValues.push({ axis: 'wdth', values: Array.isArray(i.width) ? i.width : [i.width.toString()] })
+            axisValues.push({ axis: 'wdth', values: Array.isArray(i.width) ? i.width.map(w => w.toString()) : [i.width.toString()] })
 
           if (i.weights?.length)
             axisValues.push({ axis: 'wght', values: i.weights.map(w => w.toString()) })
