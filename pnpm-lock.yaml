@@ -7,11 +7,11 @@ settings:
 catalogs:
   babel:
     '@babel/parser':
-      specifier: ^7.27.7
-      version: 7.28.0
+      specifier: 7.27.7
+      version: 7.27.7
     '@babel/traverse':
-      specifier: ^7.27.7
-      version: 7.28.0
+      specifier: 7.27.7
+      version: 7.27.7
   build:
     '@jridgewell/remapping':
       specifier: ^2.3.0
@@ -1469,10 +1469,10 @@ importers:
     dependencies:
       '@babel/parser':
         specifier: catalog:babel
-        version: 7.28.0
+        version: 7.27.7
       '@babel/traverse':
         specifier: catalog:babel
-        version: 7.28.0
+        version: 7.27.7
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
@@ -1930,6 +1930,11 @@ packages:
     resolution: {integrity: sha512-muE8Tt8M22638HU31A3CgfSUciwz1fhATfoVai05aPXGor//CdWDCbnlY1yvBPo07njuVOCNGCSp/GTt12lIug==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/parser@7.27.7':
+    resolution: {integrity: sha512-qnzXzDXdr/po3bOTbTIQZ7+TxNKxpkN5IifVLXS+r7qwynkZfPyjZfE7hCXbo7IoO9TNcSyibgONsf2HauUd3Q==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/parser@7.28.0':
     resolution: {integrity: sha512-jVZGvOxOuNSsuQuLRTh13nU0AogFlw32w/MT+LV6D3sP5WdbW61E77RnkbaO2dUvmPAYrBDJXGn5gGS6tH4j8g==}
     engines: {node: '>=6.0.0'}
@@ -2330,6 +2335,10 @@ packages:
 
   '@babel/template@7.27.2':
     resolution: {integrity: sha512-LPDZ85aEJyYSd18/DkjNh4/y1ntkE5KwUHWTiqgRxruuZL2F1yuHligVHLvcHY2vMHXttKFpJn6LwfI7cw7ODw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/traverse@7.27.7':
+    resolution: {integrity: sha512-X6ZlfR/O/s5EQ/SnUSLzr+6kGnkg8HXGMzpgsMsrJVcfDtH1vIp6ctCN4eZ1LS5c0+te5Cb6Y514fASjMRJ1nw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/traverse@7.28.0':
@@ -10203,6 +10212,10 @@ snapshots:
       '@babel/template': 7.27.2
       '@babel/types': 7.28.1
 
+  '@babel/parser@7.27.7':
+    dependencies:
+      '@babel/types': 7.28.1
+
   '@babel/parser@7.28.0':
     dependencies:
       '@babel/types': 7.28.1
@@ -10702,8 +10715,20 @@ snapshots:
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/parser': 7.28.0
+      '@babel/parser': 7.27.7
       '@babel/types': 7.28.1
+
+  '@babel/traverse@7.27.7':
+    dependencies:
+      '@babel/code-frame': 7.27.1
+      '@babel/generator': 7.28.0
+      '@babel/parser': 7.27.7
+      '@babel/template': 7.27.2
+      '@babel/types': 7.28.1
+      debug: 4.4.1
+      globals: 11.12.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@babel/traverse@7.28.0':
     dependencies:
