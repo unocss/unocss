@@ -1133,7 +1133,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:scale-4:hover{--un-scale-x:4%;--un-scale-y:4%;scale:var(--un-scale-x) var(--un-scale-y);}
 .active\:scale-4:active{--un-scale-x:4%;--un-scale-y:4%;scale:var(--un-scale-x) var(--un-scale-y);}
 .scale-x-\$variable{--un-scale-x:var(--variable);scale:var(--un-scale-x) var(--un-scale-y);}
-.-scale-x-full{--un-scale-x:-100%;scale:calc(var(--un-scale-x) * -1) var(--un-scale-y);}
+.-scale-x-full{--un-scale-x:-100%;scale:var(--un-scale-x) var(--un-scale-y);}
 .transform,
 .transform-cpu{transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
 .transform-gpu{transform:translateZ(0) var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
