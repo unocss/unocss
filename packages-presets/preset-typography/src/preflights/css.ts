@@ -1,3 +1,9 @@
+/*
+ * Credits to Tailwind Labs for the original implementation:
+ * https://github.com/tailwindlabs/tailwindcss-typography/blob/main/src/styles.js
+ * License: MIT
+ */
+
 function round(num: number) {
   return num
     .toFixed(7)
