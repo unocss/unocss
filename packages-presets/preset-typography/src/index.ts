@@ -77,7 +77,6 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
   const selectorName = options?.selectorName || options?.className || 'prose'
   const selectorNameRE = new RegExp(`^${selectorName}$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
-  const invertRE = new RegExp(`^${selectorName}-invert$`)
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
 
   return {
@@ -148,19 +147,26 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
         { layer: 'typography' },
       ],
       [
-        invertRE,
-        () => {
-          return {
-            '--un-prose-body': 'var(--un-prose-invert-body)',
-            '--un-prose-headings': 'var(--un-prose-invert-headings)',
-            '--un-prose-links': 'var(--un-prose-invert-links)',
-            '--un-prose-lists': 'var(--un-prose-invert-lists)',
-            '--un-prose-hr': 'var(--un-prose-invert-hr)',
-            '--un-prose-captions': 'var(--un-prose-invert-captions)',
-            '--un-prose-code': 'var(--un-prose-invert-code)',
-            '--un-prose-borders': 'var(--un-prose-invert-borders)',
-            '--un-prose-bg-soft': 'var(--un-prose-invert-bg-soft)',
-          }
+        `${selectorName}-invert`,
+        {
+          '--un-prose-body': 'var(--un-prose-invert-body)',
+          '--un-prose-headings': 'var(--un-prose-invert-headings)',
+          '--un-prose-lead': 'var(--un-prose-invert-lead)',
+          '--un-prose-links': 'var(--un-prose-invert-links)',
+          '--un-prose-bold': 'var(--un-prose-invert-bold)',
+          '--un-prose-counters': 'var(--un-prose-invert-counters)',
+          '--un-prose-bullets': 'var(--un-prose-invert-bullets)',
+          '--un-prose-hr': 'var(--un-prose-invert-hr)',
+          '--un-prose-quotes': 'var(--un-prose-invert-quotes)',
+          '--un-prose-quote-borders': 'var(--un-prose-invert-quote-borders)',
+          '--un-prose-captions': 'var(--un-prose-invert-captions)',
+          '--un-prose-kbd': 'var(--un-prose-invert-kbd)',
+          '--un-prose-kbd-shadows': 'var(--un-prose-invert-kbd-shadows)',
+          '--un-prose-code': 'var(--un-prose-invert-code)',
+          '--un-prose-pre-code': 'var(--un-prose-invert-pre-code)',
+          '--un-prose-pre-bg': 'var(--un-prose-invert-pre-bg)',
+          '--un-prose-th-borders': 'var(--un-prose-invert-th-borders)',
+          '--un-prose-td-borders': 'var(--un-prose-invert-td-borders)',
         },
         { layer: 'typography' },
       ],
