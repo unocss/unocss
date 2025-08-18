@@ -35,21 +35,19 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
 
   for (const [selectorOrKey, cssObjectOrValue] of Object.entries(preflights)) {
     if (typeof cssObjectOrValue !== 'object') {
-      css += `${selectorOrKey}:${cssObjectOrValue} ${important ? '!important' : ''};`
+      css += `${selectorOrKey}:${cssObjectOrValue}${important ? ' !important' : ''};`
     }
     else {
       const _selector = `:where(${selectorOrKey})${notProseSelector}`
       css += `${_selector} {`
       for (const [key, value] of Object.entries(cssObjectOrValue)) {
-        css += `${key}:${value} ${important ? '!important' : ''};`
+        css += `${key}:${value}${important ? ' !important' : ''};`
       }
       css += `}`
     }
   }
 
-  return `{
-${css}
-}`
+  return `{${css}}`
 }
 
 // #region modifiers

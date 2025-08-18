@@ -1,8 +1,8 @@
 import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyOptions } from './types'
-import { definePreset, toEscapedSelector } from '@unocss/core'
-import { modifiers } from './constants'
+import { definePreset, mergeDeep, toEscapedSelector } from '@unocss/core'
+import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
 import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
 /**
@@ -26,7 +26,6 @@ import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './re
  * @public
  */
 export const presetTypography = definePreset((options?: TypographyOptions<Theme>): Preset<Theme> => {
-  const escapedSelectors = new Set<string>()
   const selectorName = options?.selectorName ?? 'prose'
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
   const cssVarPrefix = options?.cssVarPrefix ?? '--un-prose'
@@ -35,6 +34,7 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
 
   // Regex
   const selectorNameRE = new RegExp(`^${selectorName}$`)
+  const defaultRE = new RegExp(`^${selectorName}-default$`)
   const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
   const sizeRE = new RegExp(`^${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})$`)
 
@@ -42,14 +42,22 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
     name: '@unocss/preset-typography',
     enforce: 'post',
     layers: { typography: -20 },
-    rules: [
+    shortcuts: [
       [
         selectorNameRE,
+        () => [`${selectorName}-default`, 'prose-gray'],
+        { layer: 'typography' },
+      ],
+    ],
+    rules: [
+      [
+        defaultRE,
         (_, { rawSelector }) => {
-          escapedSelectors.add(toEscapedSelector(rawSelector))
-          return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
+          const entry = mergeDeep(ProseDefaultCSSObject, ProseDefaultSize.base)
+          const css = getCSS(entry, options ?? {})
+          return `${toEscapedSelector(rawSelector)}${css}`
         },
-        { layer: 'typography', autocomplete: 'prose' },
+        { layer: 'typography', autocomplete: 'prose', internal: true },
       ],
       // Colors
       [
@@ -89,16 +97,14 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
           const css = getCSS(baseSize, options ?? {})
           let selector = toEscapedSelector(rawSelector)
 
+          if (typeof options?.important === 'string') {
+            selector = `${options.important} ${selector}`
+          }
           if (!options?.compatibility?.noColonIs) {
             selector = `:is(${selector})`
           }
-          if (typeof options?.important === 'string') {
-            selector = options?.compatibility?.noColonIs ? `:is(${options.important}) ${selector}` : `${options.important} ${selector}`
-          }
 
-          return `${selector}{
-${css}
-}`
+          return `${selector}${css}`
         },
         { layer: 'typography', autocomplete: `${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})` },
       ],

@@ -1,4 +1,4 @@
-import type { TypographyColorScheme, TypographySizeScheme } from './types'
+import type { TypographyColorScheme, TypographyCSSObject, TypographySizeScheme } from './types'
 
 export const modifiers = [
   ['headings', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th'],
@@ -61,6 +61,231 @@ export const defaultColorScheme: TypographyColorScheme = {
 const round = (num: number) => num.toFixed(7).replace(/0+$/, '').replace(/\.$/, '')
 const rem = (px: number) => `${round(px / 16)}rem`
 const em = (px: number, base: number) => `${round(px / base)}em`
+
+export const ProseDefaultCSSObject: TypographyCSSObject = {
+  'color': 'var(--un-prose-body)',
+  'max-width': '65ch',
+  'p': {}, // Required to maintain correct order when merging
+  '[class~="lead"]': {
+    color: 'var(--un-prose-lead)',
+  },
+  'a': {
+    'color': 'var(--un-prose-links)',
+    'text-decoration': 'underline',
+    'font-weight': '500',
+  },
+  'strong': {
+    'color': 'var(--un-prose-bold)',
+    'font-weight': '600',
+  },
+  'a strong': {
+    color: 'inherit',
+  },
+  'blockquote strong': {
+    color: 'inherit',
+  },
+  'thead th strong': {
+    color: 'inherit',
+  },
+  'ol': {
+    'list-style-type': 'decimal',
+  },
+  'ol[type="A"]': {
+    'list-style-type': 'upper-alpha',
+  },
+  'ol[type="a"]': {
+    'list-style-type': 'lower-alpha',
+  },
+  'ol[type="A" s]': {
+    'list-style-type': 'upper-alpha',
+  },
+  'ol[type="a" s]': {
+    'list-style-type': 'lower-alpha',
+  },
+  'ol[type="I"]': {
+    'list-style-type': 'upper-roman',
+  },
+  'ol[type="i"]': {
+    'list-style-type': 'lower-roman',
+  },
+  'ol[type="I" s]': {
+    'list-style-type': 'upper-roman',
+  },
+  'ol[type="i" s]': {
+    'list-style-type': 'lower-roman',
+  },
+  'ol[type="1"]': {
+    'list-style-type': 'decimal',
+  },
+  'ul': {
+    'list-style-type': 'disc',
+  },
+  'ol > li::marker': {
+    'font-weight': '400',
+    'color': 'var(--un-prose-counters)',
+  },
+  'ul > li::marker': {
+    color: 'var(--un-prose-bullets)',
+  },
+  'dt': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '600',
+  },
+  'hr': {
+    'border-color': 'var(--un-prose-hr)',
+    'border-top-width': '1px',
+  },
+  'blockquote': {
+    'font-weight': '500',
+    'font-style': 'italic',
+    'color': 'var(--un-prose-quotes)',
+    'border-inline-start-width': '0.25rem',
+    'border-inline-start-color': 'var(--un-prose-quote-borders)',
+    'quotes': '"\\201C""\\201D""\\2018""\\2019"',
+  },
+  'blockquote p:first-of-type::before': {
+    content: 'open-quote',
+  },
+  'blockquote p:last-of-type::after': {
+    content: 'close-quote',
+  },
+  'h1': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '800',
+  },
+  'h1 strong': {
+    'font-weight': '900',
+    'color': 'inherit',
+  },
+  'h2': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '700',
+  },
+  'h2 strong': {
+    'font-weight': '800',
+    'color': 'inherit',
+  },
+  'h3': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '600',
+  },
+  'h3 strong': {
+    'font-weight': '700',
+    'color': 'inherit',
+  },
+  'h4': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '600',
+  },
+  'h4 strong': {
+    'font-weight': '700',
+    'color': 'inherit',
+  },
+  'img': {}, // Required to maintain correct order when merging
+  'picture': {
+    display: 'block',
+  },
+  'video': {}, // Required to maintain correct order when merging
+  'kbd': {
+    'font-weight': '500',
+    'font-family': 'inherit',
+    'color': 'var(--un-prose-kbd)',
+    'box-shadow': '0 0 0 1px rgb(var(--un-prose-kbd-shadows) / 10%), 0 3px 0 rgb(var(--un-prose-kbd-shadows) / 10%)',
+  },
+  'code': {
+    'color': 'var(--un-prose-code)',
+    'font-weight': '600',
+  },
+  'code::before': {
+    content: '"`"',
+  },
+  'code::after': {
+    content: '"`"',
+  },
+  'a code': {
+    color: 'inherit',
+  },
+  'h1 code': {
+    color: 'inherit',
+  },
+  'h2 code': {
+    color: 'inherit',
+  },
+  'h3 code': {
+    color: 'inherit',
+  },
+  'h4 code': {
+    color: 'inherit',
+  },
+  'blockquote code': {
+    color: 'inherit',
+  },
+  'thead th code': {
+    color: 'inherit',
+  },
+  'pre': {
+    'color': 'var(--un-prose-pre-code)',
+    'background-color': 'var(--un-prose-pre-bg)',
+    'overflow-x': 'auto',
+    'font-weight': '400',
+  },
+  'pre code': {
+    'background-color': 'transparent',
+    'border-width': '0',
+    'border-radius': '0',
+    'padding': '0',
+    'font-weight': 'inherit',
+    'color': 'inherit',
+    'font-size': 'inherit',
+    'font-family': 'inherit',
+    'line-height': 'inherit',
+  },
+  'pre code::before': {
+    content: 'none',
+  },
+  'pre code::after': {
+    content: 'none',
+  },
+  'table': {
+    'width': '100%',
+    'table-layout': 'auto',
+    'margin-top': em(32, 16),
+    'margin-bottom': em(32, 16),
+  },
+  'thead': {
+    'border-bottom-width': '1px',
+    'border-bottom-color': 'var(--un-prose-th-borders)',
+  },
+  'thead th': {
+    'color': 'var(--un-prose-headings)',
+    'font-weight': '600',
+    'vertical-align': 'bottom',
+  },
+  'tbody tr': {
+    'border-bottom-width': '1px',
+    'border-bottom-color': 'var(--un-prose-td-borders)',
+  },
+  'tbody tr:last-child': {
+    'border-bottom-width': '0',
+  },
+  'tbody td': {
+    'vertical-align': 'baseline',
+  },
+  'tfoot': {
+    'border-top-width': '1px',
+    'border-top-color': 'var(--un-prose-th-borders)',
+  },
+  'tfoot td': {
+    'vertical-align': 'top',
+  },
+  'th, td': {
+    'text-align': 'start',
+  },
+  'figure > *': {}, // Required to maintain correct order when merging
+  'figcaption': {
+    color: 'var(--un-prose-captions)',
+  },
+}
 
 export const ProseDefaultSize: TypographySizeScheme = {
   'sm': {
