@@ -270,7 +270,7 @@ export function colorCSSGenerator(
       if (keys) {
         themeTracking(`colors`, keys)
         if (!modifier) {
-          const colorValue = ['shadow', 'inset-shadow', 'text-shadow'].includes(varName)
+          const colorValue = ['shadow', 'inset-shadow', 'text-shadow', 'drop-shadow'].includes(varName)
             ? `${alpha ? `color-mix(in oklab, ${value} ${alpha}, transparent)` : `${value}`} var(${alphaKey})`
             : `${value} ${alpha ?? `var(${alphaKey})`}`
           result.push({

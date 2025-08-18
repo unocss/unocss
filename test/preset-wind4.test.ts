@@ -584,4 +584,46 @@ describe('important', () => {
       }"
     `)
   })
+
+  it('drop-shadow with opacity', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'drop-shadow',
+      'drop-shadow/50',
+      'drop-shadow-sm',
+      'drop-shadow-sm/50',
+      'drop-shadow-red-300',
+      'drop-shadow-red-300/30',
+    ].join(' '), { preflights: false })
+
+    await expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-blur{syntax:"*";inherits:false;}
+      @property --un-brightness{syntax:"*";inherits:false;}
+      @property --un-contrast{syntax:"*";inherits:false;}
+      @property --un-drop-shadow{syntax:"*";inherits:false;}
+      @property --un-drop-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      @property --un-grayscale{syntax:"*";inherits:false;}
+      @property --un-hue-rotate{syntax:"*";inherits:false;}
+      @property --un-invert{syntax:"*";inherits:false;}
+      @property --un-saturate{syntax:"*";inherits:false;}
+      @property --un-sepia{syntax:"*";inherits:false;}
+      /* layer: default */
+      .drop-shadow{--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, rgb(0 0 0 / 0.1))) drop-shadow(0 1px 1px var(--un-drop-shadow-color, rgb(0 0 0 / 0.06)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
+      .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in srgb, var(--colors-red-300) 30%, transparent);}
+      .drop-shadow-sm{--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, rgb(0 0 0 / 0.15)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow-sm\\/50{--un-drop-shadow-opacity:50%;--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.15) l a b / 50%)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow\\/50{--un-drop-shadow-opacity:50%;--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.1) l a b / 50%))) drop-shadow(0 1px 1px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.06) l a b / 50%)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      @supports (color: color-mix(in lab, red, red)){
+      .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
+      .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-drop-shadow-opacity), transparent);}
+      }"
+    `)
+  })
 })
