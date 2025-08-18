@@ -401,7 +401,9 @@ export const presetWind4Targets: string[] = [
 
   // text-shadow
   'text-shadow-lg',
+  'text-shadow-lg/50',
   'text-shadow-sky-300',
+  'text-shadow-sky-300/30',
   'text-shadow-color-sky-300',
   'text-shadow-op-50',
   'text-shadow-color-op-50',

@@ -555,4 +555,33 @@ describe('important', () => {
       }"
     `)
   })
+
+  it('text-shadow with opacity', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'text-shadow-sm',
+      'text-shadow-sm/50',
+      'text-shadow-red-300',
+      'text-shadow-red-300/30',
+    ].join(' '), { preflights: false })
+
+    await expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-text-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .text-shadow-red-300{--un-text-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-text-shadow-opacity), transparent);}
+      .text-shadow-red-300\\/30{--un-text-shadow-color:color-mix(in srgb, var(--colors-red-300) 30%, transparent);}
+      .text-shadow-sm{--un-text-shadow:0 1px 0 var(--un-text-shadow-color, rgb(0 0 0 / 0.075)),0 1px 1px var(--un-text-shadow-color, rgb(0 0 0 / 0.075)),0 2px 2px var(--un-text-shadow-color, rgb(0 0 0 / 0.075));text-shadow:var(--un-text-shadow);}
+      .text-shadow-sm\\/50{--un-text-shadow-opacity:50%;--un-text-shadow:0 1px 0 var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%)),0 1px 1px var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%)),0 2px 2px var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%));text-shadow:var(--un-text-shadow);}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-shadow-red-300{--un-text-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-text-shadow-opacity), transparent);}
+      .text-shadow-red-300\\/30{--un-text-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-text-shadow-opacity), transparent);}
+      }"
+    `)
+  })
 })
