@@ -2,7 +2,6 @@ import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyOptions } from './types'
 import { definePreset, toEscapedSelector } from '@unocss/core'
-import { alphaPlaceholders } from '@unocss/rule-utils'
 import { getCSS, getElements, modifiers, resolveColorScheme, resolveSizeScheme } from './resolve'
 
 /**
