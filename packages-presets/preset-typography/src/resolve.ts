@@ -1,20 +1,52 @@
+import type { TypographyColorScheme, TypographyCSSObject, TypographyOptions, TypographySizeScheme } from './types'
+import { mergeDeep, toArray } from '@unocss/core'
+
+export function resolveColorScheme(userColorScheme?: TypographyColorScheme): Required<TypographyColorScheme> {
+  const defaultScheme: TypographyColorScheme = {
+    'body': [700, 300],
+    'headings': [900, 'white'],
+    'lead': [600, 400],
+    'links': [900, 'white'],
+    'bold': [900, 'white'],
+    'counters': [500, 400],
+    'bullets': [300, 600],
+    'hr': [200, 700],
+    'quotes': [900, 100],
+    'quote-borders': [200, 700],
+    'captions': [500, 400],
+    'kbd': [900, 'white'],
+    'kbd-shadows': [900, 'white'],
+    'code': [900, 'white'],
+    'pre-code': [200, 300],
+    'pre-bg': [800, 'rgb(0 0 0 / 50%)'],
+    'th-borders': [300, 600],
+    'td-borders': [200, 700],
+  }
+
+  if (userColorScheme) {
+    for (const key in userColorScheme) {
+      const [color, invertColor] = toArray(userColorScheme[key as keyof TypographyColorScheme])
+      const [defaultColor, defaultInvertColor] = defaultScheme[key as keyof TypographyColorScheme] as [string, string]
+      defaultScheme[key as keyof TypographyColorScheme] = [color ?? defaultColor, invertColor ?? defaultInvertColor]
+    }
+  }
+
+  return defaultScheme as Required<TypographyColorScheme>
+}
+
+// #region Prose Size
+
 /*
  * Credits to Tailwind Labs for the original implementation:
  * https://github.com/tailwindlabs/tailwindcss-typography/blob/main/src/styles.js
  * License: MIT
  */
 
-function round(num: number) {
-  return num
-    .toFixed(7)
-    .replace(/0+$/, '')
-    .replace(/\.$/, '')
-}
+const round = (num: number) => num.toFixed(7).replace(/0+$/, '').replace(/\.$/, '')
 const rem = (px: number) => `${round(px / 16)}rem`
 const em = (px: number, base: number) => `${round(px / base)}em`
 
-// #region Prose Size
-export const ProseSize = {
+const ProseDefaultSize = {
   'sm': {
     'font-size': rem(14),
     'line-height': round(24 / 14),
@@ -1011,372 +1043,77 @@ export const ProseSize = {
     },
   },
 }
-// #endregion Prose Size
 
-// #region Prose Default
-export const ProseDefault = {
-  'p': {}, // Required to maintain correct order when merging
-  '[class~="lead"]': {
-    color: 'var(--un-prose-lead)',
-  },
-  'a': {
-    'color': 'var(--un-prose-links)',
-    'text-decoration': 'underline',
-    'font-weight': '500',
-  },
-  'strong': {
-    'color': 'var(--un-prose-bold)',
-    'font-weight': '600',
-  },
-  'a strong': {
-    color: 'inherit',
-  },
-  'blockquote strong': {
-    color: 'inherit',
-  },
-  'thead th strong': {
-    color: 'inherit',
-  },
-  'ol': {
-    'list-style-type': 'decimal',
-  },
-  'ol[type="A"]': {
-    'list-style-type': 'upper-alpha',
-  },
-  'ol[type="a"]': {
-    'list-style-type': 'lower-alpha',
-  },
-  'ol[type="A" s]': {
-    'list-style-type': 'upper-alpha',
-  },
-  'ol[type="a" s]': {
-    'list-style-type': 'lower-alpha',
-  },
-  'ol[type="I"]': {
-    'list-style-type': 'upper-roman',
-  },
-  'ol[type="i"]': {
-    'list-style-type': 'lower-roman',
-  },
-  'ol[type="I" s]': {
-    'list-style-type': 'upper-roman',
-  },
-  'ol[type="i" s]': {
-    'list-style-type': 'lower-roman',
-  },
-  'ol[type="1"]': {
-    'list-style-type': 'decimal',
-  },
-  'ul': {
-    'list-style-type': 'disc',
-  },
-  'ol > li::marker': {
-    'font-weight': '400',
-    'color': 'var(--un-prose-counters)',
-  },
-  'ul > li::marker': {
-    color: 'var(--un-prose-bullets)',
-  },
-  'dt': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '600',
-  },
-  'hr': {
-    'border-color': 'var(--un-prose-hr)',
-    'border-top-width': '1px',
-  },
-  'blockquote': {
-    'font-weight': '500',
-    'font-style': 'italic',
-    'color': 'var(--un-prose-quotes)',
-    'border-inline-start-width': '0.25rem',
-    'border-inline-start-color': 'var(--un-prose-quote-borders)',
-    'quotes': '"\\201C""\\201D""\\2018""\\2019"',
-  },
-  'blockquote p:first-of-type::before': {
-    content: 'open-quote',
-  },
-  'blockquote p:last-of-type::after': {
-    content: 'close-quote',
-  },
-  'h1': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '800',
-  },
-  'h1 strong': {
-    'font-weight': '900',
-    'color': 'inherit',
-  },
-  'h2': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '700',
-  },
-  'h2 strong': {
-    'font-weight': '800',
-    'color': 'inherit',
-  },
-  'h3': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '600',
-  },
-  'h3 strong': {
-    'font-weight': '700',
-    'color': 'inherit',
-  },
-  'h4': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '600',
-  },
-  'h4 strong': {
-    'font-weight': '700',
-    'color': 'inherit',
-  },
-  'img': {}, // Required to maintain correct order when merging
-  'picture': {
-    display: 'block',
-  },
-  'video': {}, // Required to maintain correct order when merging
-  'kbd': {
-    'font-weight': '500',
-    'font-family': 'inherit',
-    'color': 'var(--un-prose-kbd)',
-    'box-shadow': '0 0 0 1px rgb(var(--un-prose-kbd-shadows) / 10%), 0 3px 0 rgb(var(--un-prose-kbd-shadows) / 10%)',
-  },
-  'code': {
-    'color': 'var(--un-prose-code)',
-    'font-weight': '600',
-  },
-  'code::before': {
-    content: '"`"',
-  },
-  'code::after': {
-    content: '"`"',
-  },
-  'a code': {
-    color: 'inherit',
-  },
-  'h1 code': {
-    color: 'inherit',
-  },
-  'h2 code': {
-    color: 'inherit',
-  },
-  'h3 code': {
-    color: 'inherit',
-  },
-  'h4 code': {
-    color: 'inherit',
-  },
-  'blockquote code': {
-    color: 'inherit',
-  },
-  'thead th code': {
-    color: 'inherit',
-  },
-  'pre': {
-    'color': 'var(--un-prose-pre-code)',
-    'background-color': 'var(--un-prose-pre-bg)',
-    'overflowX': 'auto',
-    'font-weight': '400',
-  },
-  'pre code': {
-    'background-color': 'transparent',
-    'border-width': '0',
-    'border-radius': '0',
-    'padding': '0',
-    'font-weight': 'inherit',
-    'color': 'inherit',
-    'font-size': 'inherit',
-    'font-family': 'inherit',
-    'line-height': 'inherit',
-  },
-  'pre code::before': {
-    content: 'none',
-  },
-  'pre code::after': {
-    content: 'none',
-  },
-  'table': {
-    'width': '100%',
-    'table-layout': 'auto',
-    'margin-top': em(32, 16),
-    'margin-bottom': em(32, 16),
-  },
-  'thead': {
-    'border-bottom-width': '1px',
-    'border-bottom-color': 'var(--un-prose-th-borders)',
-  },
-  'thead th': {
-    'color': 'var(--un-prose-headings)',
-    'font-weight': '600',
-    'vertical-align': 'bottom',
-  },
-  'tbody tr': {
-    'border-bottom-width': '1px',
-    'border-bottom-color': 'var(--un-prose-td-borders)',
-  },
-  'tbody tr:last-child': {
-    'border-bottom-width': '0',
-  },
-  'tbody td': {
-    'vertical-align': 'baseline',
-  },
-  'tfoot': {
-    'border-top-width': '1px',
-    'border-top-color': 'var(--un-prose-th-borders)',
-  },
-  'tfoot td': {
-    'vertical-align': 'top',
-  },
-  'th, td': {
-    'text-align': 'start',
-  },
-  'figure > *': {}, // Required to maintain correct order when merging
-  'figcaption': {
-    color: 'var(--un-prose-captions)',
-  },
+export function resolveSizeScheme(userSizeScheme?: TypographySizeScheme): TypographySizeScheme {
+  if (userSizeScheme) {
+    return mergeDeep(ProseDefaultSize, userSizeScheme)
+  }
+  return ProseDefaultSize
 }
 // #endregion
 
-// #region Prose Colors
+export function getCSS(preflights: TypographyCSSObject, options: TypographyOptions): string {
+  const selectorName = options.selectorName || 'prose'
+  const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
+  const important = options.important === true
 
-/**
- * Color scheme definitions for prose typography
- */
-interface ProseColorScheme {
-  'body'?: string
-  'headings'?: string
-  'lead'?: string
-  'links'?: string
-  'bold'?: string
-  'counters'?: string
-  'bullets'?: string
-  'hr'?: string
-  'quotes'?: string
-  'quote-borders'?: string
-  'captions'?: string
-  'kbd'?: string
-  'kbd-shadows'?: string
-  'code'?: string
-  'pre-code'?: string
-  'pre-bg'?: string
-  'th-borders'?: string
-  'td-borders'?: string
-  // Invert colors
-  'invert-body'?: string
-  'invert-headings'?: string
-  'invert-lead'?: string
-  'invert-links'?: string
-  'invert-bold'?: string
-  'invert-counters'?: string
-  'invert-bullets'?: string
-  'invert-hr'?: string
-  'invert-quotes'?: string
-  'invert-quote-borders'?: string
-  'invert-captions'?: string
-  'invert-kbd'?: string
-  'invert-kbd-shadows'?: string
-  'invert-code'?: string
-  'invert-pre-code'?: string
-  'invert-pre-bg'?: string
-  'invert-th-borders'?: string
-  'invert-td-borders'?: string
+  let css = ''
+
+  for (const [selectorOrKey, cssObjectOrValue] of Object.entries(preflights)) {
+    if (typeof cssObjectOrValue !== 'object') {
+      css += `${selectorOrKey}:${cssObjectOrValue} ${important ? '!important' : ''};`
+    }
+    else {
+      const _selector = `:where(${selectorOrKey})${notProseSelector}`
+      css += `${_selector} {`
+      for (const [key, value] of Object.entries(cssObjectOrValue)) {
+        css += `${key}:${value} ${important ? '!important' : ''};`
+      }
+      css += `}`
+    }
+  }
+
+  return `{
+${css}
+}`
 }
 
-/**
- * Neutral color palette names that support full prose color scheme
- */
-const NEUTRAL_COLORS = ['slate', 'gray', 'zinc', 'neutral', 'stone'] as const
+// #region modifiers
+export const modifiers = [
+  ['headings', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th'],
+  ['h1'],
+  ['h2'],
+  ['h3'],
+  ['h4'],
+  ['h5'],
+  ['h6'],
+  ['p'],
+  ['a'],
+  ['blockquote'],
+  ['figure'],
+  ['figcaption'],
+  ['strong'],
+  ['em'],
+  ['kbd'],
+  ['code'],
+  ['pre'],
+  ['ol'],
+  ['ul'],
+  ['li'],
+  ['table'],
+  ['thead'],
+  ['tr'],
+  ['th'],
+  ['td'],
+  ['img'],
+  ['video'],
+  ['hr'],
+]
 
-/**
- * Accent color palette names that only override link colors
- */
-const ACCENT_COLORS = [
-  'red',
-  'orange',
-  'amber',
-  'yellow',
-  'lime',
-  'green',
-  'emerald',
-  'teal',
-  'cyan',
-  'sky',
-  'blue',
-  'indigo',
-  'violet',
-  'purple',
-  'fuchsia',
-  'pink',
-  'rose',
-] as const
-
-/**
- * Generates prose color scheme based on the provided color palette and key
- * @param colors - Color palette object containing color definitions
- * @param key - Color palette key (e.g., 'slate', 'blue', etc.)
- * @returns ProseColorScheme object with CSS custom properties
- */
-export function ProseColors(
-  colors: Record<string, Record<number | string, string>> & { white: string },
-  key: string,
-  prefix: string = '--un-prose',
-): ProseColorScheme {
-  let scheme: ProseColorScheme
-
-  if (NEUTRAL_COLORS.includes(key as typeof NEUTRAL_COLORS[number])) {
-    scheme = {
-      // Light mode colors
-      'body': colors[key][700],
-      'headings': colors[key][900],
-      'lead': colors[key][600],
-      'links': colors[key][900],
-      'bold': colors[key][900],
-      'counters': colors[key][500],
-      'bullets': colors[key][300],
-      'hr': colors[key][200],
-      'quotes': colors[key][900],
-      'quote-borders': colors[key][200],
-      'captions': colors[key][500],
-      'kbd': colors[key][900],
-      'kbd-shadows': colors[key][900],
-      'code': colors[key][900],
-      'pre-code': colors[key][200],
-      'pre-bg': colors[key][800],
-      'th-borders': colors[key][300],
-      'td-borders': colors[key][200],
-
-      // Dark mode (inverted) colors
-      'invert-body': colors[key][300],
-      'invert-headings': colors.white,
-      'invert-lead': colors[key][400],
-      'invert-links': colors.white,
-      'invert-bold': colors.white,
-      'invert-counters': colors[key][400],
-      'invert-bullets': colors[key][600],
-      'invert-hr': colors[key][700],
-      'invert-quotes': colors[key][100],
-      'invert-quote-borders': colors[key][700],
-      'invert-captions': colors[key][400],
-      'invert-kbd': colors.white,
-      'invert-kbd-shadows': colors.white,
-      'invert-code': colors.white,
-      'invert-pre-code': colors[key][300],
-      'invert-pre-bg': 'rgb(0 0 0 / 50%)',
-      'invert-th-borders': colors[key][600],
-      'invert-td-borders': colors[key][700],
-    }
+export function getElements(modifier: string) {
+  for (const [name, ...selectors] of modifiers) {
+    if (name === modifier)
+      return selectors.length > 0 ? selectors : [name]
   }
-
-  if (ACCENT_COLORS.includes(key as typeof ACCENT_COLORS[number])) {
-    scheme = {
-      'links': colors[key][600],
-      'invert-links': colors[key][500],
-    }
-  }
-
-  return Object.fromEntries(
-    Object.entries(scheme).map(([key, value]) => [`${prefix}-${key}`, value]),
-  )
 }
 // #endregion
