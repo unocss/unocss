@@ -2,7 +2,8 @@ import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyOptions } from './types'
 import { definePreset, toEscapedSelector } from '@unocss/core'
-import { getCSS, getElements, modifiers, resolveColorScheme, resolveSizeScheme } from './resolve'
+import { modifiers } from './constants'
+import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
 /**
  * UnoCSS Preset for Typography
