@@ -1061,11 +1061,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .shadow-\[0px_4px_4px_0px_rgba\(238_0_0\/1\)\]{--un-shadow:0px 4px 4px 0px var(--un-shadow-color, rgba(238, 0, 0, 1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-\$variable{--un-shadow:var(--variable);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-2xs{--un-shadow:0 1px var(--un-shadow-color, rgb(0 0 0 / 0.05));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.shadow-2xs\/50{--un-shadow-opacity:50%;--un-shadow:0 1px var(--un-shadow-color, oklab(from rgb(0 0 0 / 0.05) l a b / 50%));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .shadow-current{--un-shadow-color:currentColor;}
 .backdrop\:shadow-green::backdrop{--un-shadow-color:color-mix(in srgb, var(--colors-green-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .shadow-green-500{--un-shadow-color:color-mix(in srgb, var(--colors-green-500) var(--un-shadow-opacity), transparent) /* oklch(72.3% 0.219 149.579) */;}
+.shadow-green-500\/50{--un-shadow-color:color-mix(in srgb, var(--colors-green-500) 50%, transparent) /* oklch(72.3% 0.219 149.579) */;}
 .shadow-green-900\/50{--un-shadow-color:color-mix(in srgb, var(--colors-green-900) 50%, transparent) /* oklch(39.3% 0.095 152.535) */;}
 .shadow-none{--un-shadow:0 0 var(--un-shadow-color, rgb(0 0 0 / 0));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+.shadow-red{--un-shadow-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .shadow-transparent{--un-shadow-color:transparent;}
 .shadow-xl{--un-shadow:0 20px 25px -5px var(--un-shadow-color, rgb(0 0 0 / 0.1)),0 8px 10px -6px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .backdrop-element\:shadow-green-100::backdrop{--un-shadow-color:color-mix(in srgb, var(--colors-green-100) var(--un-shadow-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
@@ -1967,7 +1970,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .aria-\[invalid\=spelling\]\:underline-red-600[aria-invalid=spelling]{text-decoration-color:color-mix(in oklab, var(--colors-red-600) var(--un-line-opacity), transparent) /* oklch(57.7% 0.245 27.325) */;}
 .backdrop\:shadow-green::backdrop{--un-shadow-color:color-mix(in oklab, var(--colors-green-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .shadow-green-500{--un-shadow-color:color-mix(in oklab, var(--colors-green-500) var(--un-shadow-opacity), transparent) /* oklch(72.3% 0.219 149.579) */;}
-.shadow-green-900\/50{--un-shadow-color:color-mix(in oklab, var(--colors-green-900) 50%, transparent) /* oklch(39.3% 0.095 152.535) */;}
+.shadow-green-500\/50{--un-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-green-500) 50%, transparent) var(--un-shadow-opacity), transparent) /* oklch(72.3% 0.219 149.579) */;}
+.shadow-green-900\/50{--un-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-green-900) 50%, transparent) var(--un-shadow-opacity), transparent) /* oklch(39.3% 0.095 152.535) */;}
+.shadow-red{--un-shadow-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .backdrop-element\:shadow-green-100::backdrop{--un-shadow-color:color-mix(in oklab, var(--colors-green-100) var(--un-shadow-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
 .fill-green-400{fill:color-mix(in oklab, var(--colors-green-400) var(--un-fill-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .all-\[svg\]\:fill-red svg{fill:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-fill-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}

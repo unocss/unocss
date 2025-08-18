@@ -298,6 +298,9 @@ export const presetWind4Targets: string[] = [
 
   // shadow, spacing
   'shadow-2xs',
+  'shadow-2xs/50',
+  'shadow-red',
+  'shadow-green-500/50',
   'inset-shadow-none',
   'mix-blend-normal',
   'mix-blend-hard-light',
