@@ -98,6 +98,29 @@ export interface TypographyOptions<T = object> {
    */
   colorScheme?: TypographyColorScheme
 
+  /**
+   * Size scheme for typography elements.
+   *
+   * Allows you to customize the CSS styles of various typographic elements.
+   * Similar to {@link cssExtend}, but it applies granular overlays to different sizes of text.
+   *
+   * Example:
+   *
+   * {
+   *
+   *   'sm': {@link TypographyCSSObject}
+   *
+   *   'base': {@link TypographyCSSObject}
+   *
+   *   'lg': {@link TypographyCSSObject}
+   *
+   *   'xl': {@link TypographyCSSObject}
+   *
+   *   '2xl': {@link TypographyCSSObject}
+   *
+   * }
+   *
+   */
   sizeScheme?: TypographySizeScheme
 
   /**

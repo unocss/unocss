@@ -2,6 +2,7 @@ import type { TypographyColorScheme, TypographyCSSObject, TypographyOptions, Typ
 import { clone, mergeDeep, toArray } from '@unocss/core'
 import { defaultColorScheme, modifiers, ProseDefaultSize } from './constants'
 
+// #region Prose Color
 export function resolveColorScheme(userColorScheme?: TypographyColorScheme): Required<TypographyColorScheme> {
   const scheme = clone(defaultColorScheme)
 
@@ -15,9 +16,9 @@ export function resolveColorScheme(userColorScheme?: TypographyColorScheme): Req
 
   return scheme as Required<TypographyColorScheme>
 }
+// #endregion
 
 // #region Prose Size
-
 export function resolveSizeScheme(userSizeScheme?: TypographySizeScheme): TypographySizeScheme {
   if (userSizeScheme) {
     return mergeDeep(ProseDefaultSize, userSizeScheme)
@@ -51,7 +52,6 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
 }
 
 // #region modifiers
-
 export function getElements(modifier: string) {
   for (const [name, ...selectors] of modifiers) {
     if (name === modifier)
