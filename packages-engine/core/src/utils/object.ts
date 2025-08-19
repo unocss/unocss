@@ -33,11 +33,12 @@ export function clearIdenticalEntries(entry: CSSEntries): CSSEntries {
   })
 }
 
+export const VirtualKey = '__virtual_key__'
 export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => (value != null && typeof value !== 'function') ? `${key}:${value};` : undefined)
+    .map(([key, value]) => (value != null && typeof value !== 'function') ? key !== VirtualKey ? `${key}:${value};` : value : undefined)
     .filter(Boolean)
     .join('')
 }
