@@ -1,9 +1,11 @@
 import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
-import type { TypographyOptions } from './types'
+import type { TypographyCSSObject, TypographyOptions } from './types'
 import { definePreset, mergeDeep } from '@unocss/core'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
 import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
+
+export * from './types'
 
 export const presetTypography = definePreset((options?: TypographyOptions<Theme>): Preset<Theme> => {
   const selectorName = options?.selectorName ?? 'prose'
@@ -11,6 +13,10 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
   const cssVarPrefix = options?.cssVarPrefix ?? '--un-prose'
   const resolvedColorScheme = resolveColorScheme(options?.colorScheme)
   const resolvedSizeScheme = resolveSizeScheme(options?.sizeScheme)
+  const extended = (entries: TypographyCSSObject, theme: Theme) => {
+    const extend = typeof options?.cssExtend === 'function' ? options?.cssExtend(theme) : options?.cssExtend
+    return mergeDeep(entries, extend ?? {})
+  }
 
   // Regex
   const defaultRE = new RegExp(`^${selectorName}-default$`)
@@ -31,9 +37,9 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
     rules: [
       [
         defaultRE,
-        (_, { symbols }) => {
-          const entry = mergeDeep(ProseDefaultCSSObject, ProseDefaultSize.base)
-          const css = getCSS(entry, options ?? {})
+        (_, { symbols, theme }) => {
+          const entries = extended(mergeDeep(ProseDefaultCSSObject, ProseDefaultSize.base), theme)
+          const css = getCSS(entries, options ?? {})
           return {
             [symbols.body]: css,
           }
@@ -73,9 +79,8 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
       // Size
       [
         sizeRE,
-        ([, size], { symbols }) => {
-          const baseSize = resolvedSizeScheme[size]
-          const css = getCSS(baseSize, options ?? {})
+        ([, size], { symbols, theme }) => {
+          const css = getCSS(extended(resolvedSizeScheme[size], theme), options ?? {})
 
           return {
             [symbols.body]: css,

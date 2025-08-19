@@ -1,5 +1,6 @@
 import type { AttributifyOptions } from '@unocss/preset-attributify'
 import type { TypographyOptions } from '@unocss/preset-typography'
+import type { Theme } from '@unocss/preset-wind3'
 import { createGenerator } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import presetTypography from '@unocss/preset-typography'
@@ -64,7 +65,7 @@ const testConfigs: {
     name: 'prose-custom-css-function',
     input: 'prose',
     typographyOptions: {
-      cssExtend: (theme) => {
+      cssExtend: (theme: Theme) => {
         const purple = theme.colors?.purple as Record<string, string>
         return {
           'code': {
