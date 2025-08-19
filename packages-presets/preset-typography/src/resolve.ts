@@ -47,7 +47,7 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
     }
   }
 
-  return `{${css}}`
+  return css
 }
 
 // #region modifiers
