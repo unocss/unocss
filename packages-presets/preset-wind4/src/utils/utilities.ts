@@ -270,11 +270,14 @@ export function colorCSSGenerator(
       if (keys) {
         themeTracking(`colors`, keys)
         if (!modifier) {
+          const colorValue = ['shadow', 'inset-shadow', 'text-shadow', 'drop-shadow'].includes(varName)
+            ? `${alpha ? `color-mix(in oklab, ${value} ${alpha}, transparent)` : `${value}`} var(${alphaKey})`
+            : `${value} ${alpha ?? `var(${alphaKey})`}`
           result.push({
             [symbols.parent]: '@supports (color: color-mix(in lab, red, red))',
             [symbols.noMerge]: true,
             [symbols.shortcutsNoMerge]: true,
-            [property]: `color-mix(in oklab, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`,
+            [property]: `color-mix(in oklab, ${colorValue}, transparent)${rawColorComment}`,
           })
         }
       }
@@ -299,7 +302,7 @@ export function colorResolver(property: string, varName: string) {
 
 // #endregion
 
-export function colorableShadows(shadows: string | string[], colorVar: string) {
+export function colorableShadows(shadows: string | string[], colorVar: string, alpha?: string) {
   const colored = []
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
@@ -320,19 +323,20 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     if (parseCssColor(components.at(0))) {
       const color = parseCssColor(components.shift())
       if (color)
-        colorVarValue = `, ${colorToString(color)}`
+        colorVarValue = colorToString(color)
     }
     else if (parseCssColor(lastComp)) {
       const color = parseCssColor(components.pop())
       if (color)
-        colorVarValue = `, ${colorToString(color)}`
+        colorVarValue = colorToString(color)
     }
     else if (lastComp && cssVarFnRE.test(lastComp)) {
-      const color = components.pop()!
-      colorVarValue = `, ${color}`
+      const color = components.pop()
+      if (color)
+        colorVarValue = color
     }
 
-    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
+    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}, ${alpha ? `oklab(from ${colorVarValue} l a b / ${alpha})` : colorVarValue})`)
   }
 
   return colored
