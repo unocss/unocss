@@ -29,6 +29,7 @@ Map {
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",
@@ -78,6 +79,7 @@ Map {
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",
@@ -125,6 +127,7 @@ Map {
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",

@@ -240,3 +240,46 @@ it('hoist static rule', async () => {
     }"
   `)
 })
+
+it('custom css body with apply variants', async () => {
+  const style = `
+    color: blue;
+    .bar {
+      font-size: 1rem;
+    }
+  `
+  const uno = await createGenerator({
+    rules: [
+      ['foo', [
+        { color: 'red' },
+        {
+          [symbols.body]: style,
+        },
+      ]],
+    ],
+    variants: [
+      {
+        name: 'hover',
+        match: (matcher) => {
+          if (matcher.startsWith('hover:')) {
+            return {
+              matcher: matcher.slice(6),
+              selector: s => `${s}:hover`,
+            }
+          }
+        },
+      },
+    ],
+  })
+
+  expect((await uno.generate('hover:foo')).css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .hover\\:foo:hover{
+        color: blue;
+        .bar {
+          font-size: 1rem;
+        }
+      }
+    .hover\\:foo:hover{color:red;}"
+  `)
+})
