@@ -1407,12 +1407,13 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-      '@unocss/preset-mini':
-        specifier: workspace:*
-        version: link:../preset-mini
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../rule-utils
+    devDependencies:
+      '@unocss/preset-mini':
+        specifier: workspace:*
+        version: link:../preset-mini
 
   packages-presets/preset-web-fonts:
     dependencies:

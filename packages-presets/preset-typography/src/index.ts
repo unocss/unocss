@@ -2,6 +2,7 @@ import type { Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyCSSObject, TypographyOptions } from './types'
 import { definePreset, mergeDeep } from '@unocss/core'
+import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
 import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
@@ -68,8 +69,20 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
           else {
             return Object.entries(resolvedColorScheme).reduce((acc, [key, value]) => {
               const [colorKey, invertKey] = value as [string, string]
-              acc[`${cssVarPrefix}-${key}`] = baseColor[colorKey] ?? theme[colorKey as keyof Theme] ?? colorKey
-              acc[`${cssVarPrefix}-invert-${key}`] = baseColor[invertKey] ?? theme[invertKey as keyof Theme] ?? invertKey
+              const resolve = (key: string) => baseColor[key] ?? theme[key as keyof Theme] ?? key
+              const color = resolve(colorKey)
+              const invertColor = resolve(invertKey)
+              const cssVarColorKey = `${cssVarPrefix}-${key}`
+              const cssVarInvertColorKey = `${cssVarPrefix}-invert-${key}`
+
+              acc[cssVarColorKey] = colorToString(color, `var(${cssVarColorKey}-opacity)`)
+              acc[cssVarInvertColorKey] = colorToString(invertColor, `var(${cssVarInvertColorKey}-opacity)`)
+
+              for (const [c, k] of [[color, `${cssVarColorKey}-opacity`], [invertColor, `${cssVarInvertColorKey}-opacity`]]) {
+                if (alphaPlaceholders.some(p => c.includes(p)))
+                  acc[k] = '1'
+              }
+
               return acc
             }, {} as Record<string, string>)
           }
