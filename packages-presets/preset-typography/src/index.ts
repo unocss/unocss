@@ -8,6 +8,26 @@ import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './re
 
 export * from './types'
 
+/**
+ * UnoCSS Preset for Typography
+ *
+ * ```js
+ * // uno.config.ts
+ * import { presetAttributify, presetWind3/4, defineConfig, presetTypography } from 'unocss'
+ *
+ * export default defineConfig({
+ *   presets: [
+ *     presetWind3/4(), // required!
+ *     presetAttributify(), // required if using attributify mode
+ *     presetTypography()
+ *   ]
+ * })
+ * ```
+ *
+ * @see https://unocss.dev/presets/typography
+ * @returns typography preset
+ * @public
+ */
 export const presetTypography = definePreset((options?: TypographyOptions<Theme>): Preset<Theme> => {
   const selectorName = options?.selectorName ?? 'prose'
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
