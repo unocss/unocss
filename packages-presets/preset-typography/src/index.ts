@@ -149,7 +149,7 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
                 return {
                   matcher: matcher.slice(selectorName.length + modifier.length + 2),
                   selector: (s) => {
-                    const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
+                    const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
                     const escapedSelector = disableNotUtility
                       ? elements.map(e => `${s} ${e}`).join(',')
                       : `${s} :is(:where(${elements})${notProseSelector})`

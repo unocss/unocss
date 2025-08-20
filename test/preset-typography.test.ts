@@ -171,11 +171,11 @@ describe('typography elements modify', () => {
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: default */
-      [hover\\:prose-p-m2=""] :is(:where(p):not(:where(.not-prose,.not-prose *))):hover{margin:0.5rem;}
-      .prose-img\\:rounded :is(:where(img):not(:where(.not-prose,.not-prose *))),
-      [prose-img\\:rounded=""] :is(:where(img):not(:where(.not-prose,.not-prose *))){border-radius:0.25rem;}
-      .prose-headings\\:text-red :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where(.not-prose,.not-prose *))),
-      [prose-headings\\:text-red=""] :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where(.not-prose,.not-prose *))){--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
+      [hover\\:prose-p-m2=""] :is(:where(p):not(:where([class~="not-prose"],[class~="not-prose"] *))):hover{margin:0.5rem;}
+      .prose-img\\:rounded :is(:where(img):not(:where([class~="not-prose"],[class~="not-prose"] *))),
+      [prose-img\\:rounded=""] :is(:where(img):not(:where([class~="not-prose"],[class~="not-prose"] *))){border-radius:0.25rem;}
+      .prose-headings\\:text-red :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where([class~="not-prose"],[class~="not-prose"] *))),
+      [prose-headings\\:text-red=""] :is(:where(h1,h2,h3,h4,h5,h6,th):not(:where([class~="not-prose"],[class~="not-prose"] *))){--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
     `)
   })
 
