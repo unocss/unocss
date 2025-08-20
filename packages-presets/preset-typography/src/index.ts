@@ -1,7 +1,7 @@
-import type { Preset } from '@unocss/core'
+import type { CSSObject, Preset } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import type { TypographyCSSObject, TypographyOptions } from './types'
-import { definePreset, mergeDeep } from '@unocss/core'
+import { definePreset, mergeDeep, symbols } from '@unocss/core'
 import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
 import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
@@ -17,6 +17,15 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
   const extended = (entries: TypographyCSSObject, theme: Theme) => {
     const extend = typeof options?.cssExtend === 'function' ? options?.cssExtend(theme) : options?.cssExtend
     return mergeDeep(entries, extend ?? {})
+  }
+  const normalizeSelector = (s: string) => {
+    if (typeof options?.important === 'string') {
+      s = `${options.important} ${s}`
+    }
+    if (!options?.compatibility?.noColonIs) {
+      s = `:is(${s})`
+    }
+    return s
   }
 
   // Regex
@@ -43,6 +52,7 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
           const css = getCSS(entries, options ?? {})
           return {
             [symbols.body]: css,
+            [symbols.selector]: normalizeSelector,
           }
         },
         { layer: 'typography', autocomplete: 'prose', internal: true },
@@ -50,7 +60,7 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
       // Colors
       [
         colorsRE,
-        ([, color], { theme }) => {
+        ([, color], { theme, symbols }) => {
           const baseColor = theme.colors?.[color] as Record<string, string> | string
           if (!baseColor || typeof baseColor !== 'object')
             return
@@ -64,6 +74,7 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
             return {
               [`${cssVarPrefix}-links`]: baseColor['600'],
               [`${cssVarPrefix}-invert-links`]: baseColor['500'],
+              [symbols.selector]: normalizeSelector,
             }
           }
           else {
@@ -84,7 +95,9 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
               }
 
               return acc
-            }, {} as Record<string, string>)
+            }, {
+              [symbols.selector]: normalizeSelector,
+            } as CSSObject)
           }
         },
         { layer: 'typography', autocomplete: `${selectorName}-$colors` },
@@ -113,26 +126,29 @@ export const presetTypography = definePreset((options?: TypographyOptions<Theme>
       // Invert
       [
         `${selectorName}-invert`,
-        {
-          [`${cssVarPrefix}-body`]: `var(${cssVarPrefix}-invert-body)`,
-          [`${cssVarPrefix}-headings`]: `var(${cssVarPrefix}-invert-headings)`,
-          [`${cssVarPrefix}-lead`]: `var(${cssVarPrefix}-invert-lead)`,
-          [`${cssVarPrefix}-links`]: `var(${cssVarPrefix}-invert-links)`,
-          [`${cssVarPrefix}-bold`]: `var(${cssVarPrefix}-invert-bold)`,
-          [`${cssVarPrefix}-counters`]: `var(${cssVarPrefix}-invert-counters)`,
-          [`${cssVarPrefix}-bullets`]: `var(${cssVarPrefix}-invert-bullets)`,
-          [`${cssVarPrefix}-hr`]: `var(${cssVarPrefix}-invert-hr)`,
-          [`${cssVarPrefix}-quotes`]: `var(${cssVarPrefix}-invert-quotes)`,
-          [`${cssVarPrefix}-quote-borders`]: `var(${cssVarPrefix}-invert-quote-borders)`,
-          [`${cssVarPrefix}-captions`]: `var(${cssVarPrefix}-invert-captions)`,
-          [`${cssVarPrefix}-kbd`]: `var(${cssVarPrefix}-invert-kbd)`,
-          [`${cssVarPrefix}-kbd-shadows`]: `var(${cssVarPrefix}-invert-kbd-shadows)`,
-          [`${cssVarPrefix}-code`]: `var(${cssVarPrefix}-invert-code)`,
-          [`${cssVarPrefix}-pre-code`]: `var(${cssVarPrefix}-invert-pre-code)`,
-          [`${cssVarPrefix}-pre-bg`]: `var(${cssVarPrefix}-invert-pre-bg)`,
-          [`${cssVarPrefix}-th-borders`]: `var(${cssVarPrefix}-invert-th-borders)`,
-          [`${cssVarPrefix}-td-borders`]: `var(${cssVarPrefix}-invert-td-borders)`,
-        },
+        [
+          {
+            [`${cssVarPrefix}-body`]: `var(${cssVarPrefix}-invert-body)`,
+            [`${cssVarPrefix}-headings`]: `var(${cssVarPrefix}-invert-headings)`,
+            [`${cssVarPrefix}-lead`]: `var(${cssVarPrefix}-invert-lead)`,
+            [`${cssVarPrefix}-links`]: `var(${cssVarPrefix}-invert-links)`,
+            [`${cssVarPrefix}-bold`]: `var(${cssVarPrefix}-invert-bold)`,
+            [`${cssVarPrefix}-counters`]: `var(${cssVarPrefix}-invert-counters)`,
+            [`${cssVarPrefix}-bullets`]: `var(${cssVarPrefix}-invert-bullets)`,
+            [`${cssVarPrefix}-hr`]: `var(${cssVarPrefix}-invert-hr)`,
+            [`${cssVarPrefix}-quotes`]: `var(${cssVarPrefix}-invert-quotes)`,
+            [`${cssVarPrefix}-quote-borders`]: `var(${cssVarPrefix}-invert-quote-borders)`,
+            [`${cssVarPrefix}-captions`]: `var(${cssVarPrefix}-invert-captions)`,
+            [`${cssVarPrefix}-kbd`]: `var(${cssVarPrefix}-invert-kbd)`,
+            [`${cssVarPrefix}-kbd-shadows`]: `var(${cssVarPrefix}-invert-kbd-shadows)`,
+            [`${cssVarPrefix}-code`]: `var(${cssVarPrefix}-invert-code)`,
+            [`${cssVarPrefix}-pre-code`]: `var(${cssVarPrefix}-invert-pre-code)`,
+            [`${cssVarPrefix}-pre-bg`]: `var(${cssVarPrefix}-invert-pre-bg)`,
+            [`${cssVarPrefix}-th-borders`]: `var(${cssVarPrefix}-invert-th-borders)`,
+            [`${cssVarPrefix}-td-borders`]: `var(${cssVarPrefix}-invert-td-borders)`,
+            [symbols.selector]: normalizeSelector,
+          },
+        ],
         { layer: 'typography' },
       ],
     ],
