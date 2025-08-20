@@ -242,7 +242,7 @@ describe('typography with custom theme colors', () => {
 })
 
 describe('autocomplete for typography', async () => {
-  it('prose tempaltes', async () => {
+  it('prose templates', async () => {
     const uno = await createGenerator({
       presets: [
         presetTypography(),
