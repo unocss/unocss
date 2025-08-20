@@ -1,65 +1,23 @@
 import type { CSSObject, Preset } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
-import type { TypographyCompatibilityOptions } from './types/compatibilityOptions'
-import { definePreset, toEscapedSelector } from '@unocss/core'
-import { alphaPlaceholders } from '@unocss/rule-utils'
-import { getElements, getPreflights } from './preflights'
+import type { TypographyCSSObject, TypographyOptions, TypographyTheme } from './types'
+import { definePreset, mergeDeep, symbols } from '@unocss/core'
+import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
+import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
+import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
-/**
- * @public
- */
-export interface TypographyOptions {
-  /**
-   * The selector name to use the typographic utilities.
-   * To undo the styles to the elements, use it like
-   * `not-${selectorName}` which is by default `not-prose`.
-   *
-   * Note: `not` utility is only available in class mode.
-   *
-   * @default `prose`
-   */
-  selectorName?: string
-
-  /**
-   * Extend or override CSS selectors with CSS declaration block.
-   *
-   * @default undefined
-   */
-  cssExtend?: Record<string, CSSObject> | ((theme: Theme) => Record<string, CSSObject>)
-
-  /**
-   * Compatibility option. Notice that it will affect some features.
-   * For more instructions, see
-   * [README](https://github.com/unocss/unocss/tree/main/packages-presets/preset-typography)
-   *
-   * @default undefined
-   */
-  compatibility?: TypographyCompatibilityOptions
-
-  /**
-   * @deprecated use `selectorName` instead. It will be removed in 1.0.
-   */
-  className?: string
-
-  /**
-   * Control whether prose's utilities should be marked with !important.
-   *
-   * @default false
-   */
-  important?: boolean | string
-}
+export * from './types'
 
 /**
  * UnoCSS Preset for Typography
  *
  * ```js
  * // uno.config.ts
- * import { presetAttributify, presetUno, defineConfig, presetTypography } from 'unocss'
+ * import { presetAttributify, presetWind3/4, defineConfig, presetTypography } from 'unocss'
  *
  * export default defineConfig({
  *   presets: [
+ *     presetWind3/4(), // required!
  *     presetAttributify(), // required if using attributify mode
- *     presetUno(), // required
  *     presetTypography()
  *   ]
  * })
@@ -69,99 +27,147 @@ export interface TypographyOptions {
  * @returns typography preset
  * @public
  */
-export const presetTypography = definePreset((options?: TypographyOptions): Preset<Theme> => {
-  if (options?.className)
-    console.warn('[unocss:preset-typography] "className" is deprecated. Please use "selectorName" instead.')
-
-  const escapedSelectors = new Set<string>()
-  const selectorName = options?.selectorName || options?.className || 'prose'
-  const selectorNameRE = new RegExp(`^${selectorName}$`)
-  const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
-  const invertRE = new RegExp(`^${selectorName}-invert$`)
+export const presetTypography = definePreset(<Theme extends TypographyTheme = TypographyTheme>(options?: TypographyOptions<Theme>): Preset<Theme> => {
+  const selectorName = options?.selectorName ?? 'prose'
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
+  const cssVarPrefix = options?.cssVarPrefix ?? '--un-prose'
+  const resolvedColorScheme = resolveColorScheme(options?.colorScheme)
+  const resolvedSizeScheme = resolveSizeScheme(options?.sizeScheme)
+  const extended = (entries: TypographyCSSObject, theme: Theme) => {
+    const extend = typeof options?.cssExtend === 'function' ? options?.cssExtend(theme) : options?.cssExtend
+    return mergeDeep(entries, extend ?? {})
+  }
+  const normalizeSelector = (s: string) => {
+    if (typeof options?.important === 'string') {
+      s = `${options.important} ${s}`
+    }
+    if (!options?.compatibility?.noColonIs) {
+      s = `:is(${s})`
+    }
+    return s
+  }
+
+  // Regex
+  const defaultRE = new RegExp(`^${selectorName}-default$`)
+  const colorsRE = new RegExp(`^${selectorName}-([-\\w]+)$`)
+  const sizeRE = new RegExp(`^${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})$`)
 
   return {
     name: '@unocss/preset-typography',
     enforce: 'post',
     layers: { typography: -20 },
+    shortcuts: [
+      [
+        selectorName,
+        [`${selectorName}-default`, 'prose-gray'],
+        { layer: 'typography' },
+      ],
+    ],
     rules: [
       [
-        selectorNameRE,
-        (_, { rawSelector }) => {
-          escapedSelectors.add(toEscapedSelector(rawSelector))
-          return { 'color': 'var(--un-prose-body)', 'max-width': '65ch' }
+        defaultRE,
+        (_, { symbols, theme }) => {
+          const entries = extended(mergeDeep(ProseDefaultCSSObject, ProseDefaultSize.base), theme)
+          const css = getCSS(entries, options ?? {})
+          return {
+            [symbols.body]: css,
+            [symbols.selector]: normalizeSelector,
+          }
         },
-        { layer: 'typography' },
+        { layer: 'typography', autocomplete: 'prose', internal: true },
       ],
+      // Colors
       [
         colorsRE,
-        ([, color], { theme }) => {
+        ([, color], { theme, symbols }) => {
           const baseColor = theme.colors?.[color] as Record<string, string> | string
-          if (baseColor == null)
+          if (!baseColor || typeof baseColor !== 'object')
             return
 
-          const colorObject = typeof baseColor === 'object' ? baseColor : {}
-          const TagColorMap = {
-            'body': 700,
-            'headings': 900,
-            'links': 900,
-            'lists': 400,
-            'hr': 200,
-            'captions': 500,
-            'code': 900,
-            'borders': 200,
-            'bg-soft': 100,
-            // invert colors (dark mode)
-            'invert-body': 200,
-            'invert-headings': 100,
-            'invert-links': 100,
-            'invert-lists': 500,
-            'invert-hr': 700,
-            'invert-captions': 400,
-            'invert-code': 100,
-            'invert-borders': 700,
-            'invert-bg-soft': 800,
-          }
+          /**
+           * Accent color palette names that only override link colors use [600, 500]
+           */
+          const ACCENT_COLORS = ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 
-          const result: any = {}
-
-          for (const key in TagColorMap) {
-            const value = TagColorMap[key as keyof typeof TagColorMap]
-            const color = colorObject[value] ?? baseColor
-            let hasAlpha = false
-
-            for (const placeholder of alphaPlaceholders) {
-              if (color.includes(placeholder)) {
-                hasAlpha = true
-                result[`--un-prose-${key}-opacity`] = 1
-                result[`--un-prose-${key}`] = color.replace(placeholder, `var(--un-prose-${key}-opacity)`)
-                break
-              }
+          if (ACCENT_COLORS.includes(color)) {
+            return {
+              [`${cssVarPrefix}-links`]: baseColor['600'],
+              [`${cssVarPrefix}-invert-links`]: baseColor['500'],
+              [symbols.selector]: normalizeSelector,
             }
-
-            if (!hasAlpha)
-              result[`--un-prose-${key}`] = color
           }
+          else {
+            return Object.entries(resolvedColorScheme).reduce((acc, [key, value]) => {
+              const [colorKey, invertKey] = value as [string, string]
+              const resolve = (key: string) => baseColor[key] ?? theme[key as keyof Theme] ?? key
+              const color = resolve(colorKey)
+              const invertColor = resolve(invertKey)
+              const cssVarColorKey = `${cssVarPrefix}-${key}`
+              const cssVarInvertColorKey = `${cssVarPrefix}-invert-${key}`
 
-          return result
+              acc[cssVarColorKey] = colorToString(color, `var(${cssVarColorKey}-opacity)`)
+              acc[cssVarInvertColorKey] = colorToString(invertColor, `var(${cssVarInvertColorKey}-opacity)`)
+
+              for (const [c, k] of [[color, `${cssVarColorKey}-opacity`], [invertColor, `${cssVarInvertColorKey}-opacity`]]) {
+                if (alphaPlaceholders.some(p => c.includes(p)))
+                  acc[k] = '1'
+              }
+
+              return acc
+            }, {
+              [symbols.selector]: normalizeSelector,
+            } as CSSObject)
+          }
         },
-        { layer: 'typography' },
+        { layer: 'typography', autocomplete: `${selectorName}-$colors` },
       ],
+      // Size
       [
-        invertRE,
-        () => {
+        sizeRE,
+        ([, size], { symbols, theme }) => {
+          const css = getCSS(extended(resolvedSizeScheme[size], theme), options ?? {})
+
           return {
-            '--un-prose-body': 'var(--un-prose-invert-body)',
-            '--un-prose-headings': 'var(--un-prose-invert-headings)',
-            '--un-prose-links': 'var(--un-prose-invert-links)',
-            '--un-prose-lists': 'var(--un-prose-invert-lists)',
-            '--un-prose-hr': 'var(--un-prose-invert-hr)',
-            '--un-prose-captions': 'var(--un-prose-invert-captions)',
-            '--un-prose-code': 'var(--un-prose-invert-code)',
-            '--un-prose-borders': 'var(--un-prose-invert-borders)',
-            '--un-prose-bg-soft': 'var(--un-prose-invert-bg-soft)',
+            [symbols.body]: css,
+            [symbols.selector]: (selector) => {
+              if (typeof options?.important === 'string') {
+                selector = `${options.important} ${selector}`
+              }
+              if (!options?.compatibility?.noColonIs) {
+                selector = `:is(${selector})`
+              }
+              return selector
+            },
           }
         },
+        { layer: 'typography', autocomplete: `${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})` },
+      ],
+      // Invert
+      [
+        `${selectorName}-invert`,
+        [
+          {
+            [`${cssVarPrefix}-body`]: `var(${cssVarPrefix}-invert-body)`,
+            [`${cssVarPrefix}-headings`]: `var(${cssVarPrefix}-invert-headings)`,
+            [`${cssVarPrefix}-lead`]: `var(${cssVarPrefix}-invert-lead)`,
+            [`${cssVarPrefix}-links`]: `var(${cssVarPrefix}-invert-links)`,
+            [`${cssVarPrefix}-bold`]: `var(${cssVarPrefix}-invert-bold)`,
+            [`${cssVarPrefix}-counters`]: `var(${cssVarPrefix}-invert-counters)`,
+            [`${cssVarPrefix}-bullets`]: `var(${cssVarPrefix}-invert-bullets)`,
+            [`${cssVarPrefix}-hr`]: `var(${cssVarPrefix}-invert-hr)`,
+            [`${cssVarPrefix}-quotes`]: `var(${cssVarPrefix}-invert-quotes)`,
+            [`${cssVarPrefix}-quote-borders`]: `var(${cssVarPrefix}-invert-quote-borders)`,
+            [`${cssVarPrefix}-captions`]: `var(${cssVarPrefix}-invert-captions)`,
+            [`${cssVarPrefix}-kbd`]: `var(${cssVarPrefix}-invert-kbd)`,
+            [`${cssVarPrefix}-kbd-shadows`]: `var(${cssVarPrefix}-invert-kbd-shadows)`,
+            [`${cssVarPrefix}-code`]: `var(${cssVarPrefix}-invert-code)`,
+            [`${cssVarPrefix}-pre-code`]: `var(${cssVarPrefix}-invert-pre-code)`,
+            [`${cssVarPrefix}-pre-bg`]: `var(${cssVarPrefix}-invert-pre-bg)`,
+            [`${cssVarPrefix}-th-borders`]: `var(${cssVarPrefix}-invert-th-borders)`,
+            [`${cssVarPrefix}-td-borders`]: `var(${cssVarPrefix}-invert-td-borders)`,
+            [symbols.selector]: normalizeSelector,
+          },
+        ],
         { layer: 'typography' },
       ],
     ],
@@ -178,7 +184,7 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
                 return {
                   matcher: matcher.slice(selectorName.length + modifier.length + 2),
                   selector: (s) => {
-                    const notProseSelector = `:not(:where(.not-${selectorName},.not-${selectorName} *))`
+                    const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
                     const escapedSelector = disableNotUtility
                       ? elements.map(e => `${s} ${e}`).join(',')
                       : `${s} :is(:where(${elements})${notProseSelector})`
@@ -189,16 +195,7 @@ export const presetTypography = definePreset((options?: TypographyOptions): Pres
             }
           }
         },
-      },
-    ],
-    preflights: [
-      {
-        layer: 'typography',
-        getCSS: (context) => {
-          if (escapedSelectors.size > 0) {
-            return getPreflights(context, { escapedSelectors, ...options, selectorName })
-          }
-        },
+        autocomplete: `${selectorName}-(${modifiers.map(m => `${m[0]}:`).join('|')})`,
       },
     ],
   }
