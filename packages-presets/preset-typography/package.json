@@ -39,8 +39,5 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*"
-  },
-  "devDependencies": {
-    "@unocss/preset-mini": "workspace:*"
   }
 }

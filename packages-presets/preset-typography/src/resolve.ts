@@ -27,7 +27,7 @@ export function resolveSizeScheme(userSizeScheme?: TypographySizeScheme): Typogr
 }
 // #endregion
 
-export function getCSS(preflights: TypographyCSSObject, options: TypographyOptions): string {
+export function getCSS(preflights: TypographyCSSObject, options: TypographyOptions<any>): string {
   const selectorName = options.selectorName || 'prose'
   const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
   const important = options.important === true

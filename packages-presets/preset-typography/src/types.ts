@@ -6,6 +6,10 @@ export interface TypographyCompatibilityOptions {
   noColonNot?: boolean
 }
 
+export interface TypographyTheme {
+  colors?: Record<string, any>
+}
+
 export interface TypographyColorScheme {
   'body'?: Arrayable<string | number>
   'headings'?: Arrayable<string | number>
@@ -31,7 +35,7 @@ export interface TypographyCSSObject extends Record<string, CSSObject | string |
 
 export interface TypographySizeScheme extends Record<string, TypographyCSSObject> {}
 
-export interface TypographyOptions<T = object> {
+export interface TypographyOptions<T extends TypographyTheme = TypographyTheme> {
   /**
    * The selector name to use the typographic utilities.
    * To undo the styles to the elements, use it like

@@ -1,6 +1,5 @@
 import type { CSSObject, Preset } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
-import type { TypographyCSSObject, TypographyOptions } from './types'
+import type { TypographyCSSObject, TypographyOptions, TypographyTheme } from './types'
 import { definePreset, mergeDeep, symbols } from '@unocss/core'
 import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
@@ -28,7 +27,7 @@ export * from './types'
  * @returns typography preset
  * @public
  */
-export const presetTypography = definePreset((options?: TypographyOptions<Theme>): Preset<Theme> => {
+export const presetTypography = definePreset(<Theme extends TypographyTheme = TypographyTheme>(options?: TypographyOptions<Theme>): Preset<Theme> => {
   const selectorName = options?.selectorName ?? 'prose'
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
   const cssVarPrefix = options?.cssVarPrefix ?? '--un-prose'
