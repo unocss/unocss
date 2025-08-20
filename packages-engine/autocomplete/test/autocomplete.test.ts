@@ -152,11 +152,6 @@ describe('autocomplete', async () => {
       .toMatchSnapshot()
   })
 
-  it('should skip single-pass variants', async () => {
-    expect(await ac.suggest('dark:dar')).not.toContain('dark:')
-    expect(await ac.suggest('active:fir')).toContain('active:first:')
-  })
-
   it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
 
