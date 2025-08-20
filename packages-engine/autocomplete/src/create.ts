@@ -192,9 +192,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       ...uno.config.autocomplete.templates || [],
       ...uno.config.rulesDynamic.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
       ...uno.config.shortcuts.flatMap(i => toArray(i?.[2]?.autocomplete || [])),
-      ...uno.config.variants
-        .filter(v => v.autocomplete && v.multiPass)
-        .flatMap(v => toArray(v.autocomplete || [])),
+      ...uno.config.variants.flatMap(v => toArray(v.autocomplete || [])),
     )
 
     for (const template of templates) {

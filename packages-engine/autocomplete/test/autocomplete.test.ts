@@ -141,6 +141,7 @@ describe('autocomplete', async () => {
           "lt-md",
           "lt-sm",
           "lt-xl",
+          "ltr:",
           "lt-2xl",
         ]
       `)
@@ -149,11 +150,6 @@ describe('autocomplete', async () => {
   it('should accept variants', async () => {
     expect(await ac.suggest('dark:md:m-'))
       .toMatchSnapshot()
-  })
-
-  it('should skip single-pass variants', async () => {
-    expect(await ac.suggest('dark:dar')).not.toContain('dark:')
-    expect(await ac.suggest('active:fir')).toContain('active:first:')
   })
 
   it('should support extractors', async () => {
@@ -369,6 +365,7 @@ describe('autocomplete with attributify prefix', async () => {
           "u-lt-md",
           "u-lt-sm",
           "u-lt-xl",
+          "u-ltr:",
           "u-lt-2xl",
         ]
       `)
