@@ -2,6 +2,7 @@
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { nextTick, provide } from 'vue'
+import DarkModeToggle from './components/DarkModeToggle.vue'
 import HomePage from './components/HomePage.vue'
 
 const { isDark } = useData()
@@ -44,6 +45,9 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 <template>
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <DefaultTheme.Layout>
+    <template #nav-bar-content-after>
+      <DarkModeToggle />
+    </template>
     <template #home-features-after>
       <HomePage />
     </template>

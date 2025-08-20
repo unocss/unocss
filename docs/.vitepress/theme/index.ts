@@ -2,6 +2,7 @@ import type { Theme } from 'vitepress'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import DefaultTheme from 'vitepress/theme'
 import { h, watch } from 'vue'
+import DarkModeToggle from './components/DarkModeToggle.vue'
 import RainbowAnimationSwitcher from './components/RainbowAnimationSwitcher.vue'
 import UnoCSSLayout from './UnoCSSLayout.vue'
 
@@ -21,6 +22,7 @@ export default {
     return h(UnoCSSLayout)
   },
   enhanceApp({ app, router }) {
+    app.component('DarkModeToggle', DarkModeToggle)
     app.component('RainbowAnimationSwitcher', RainbowAnimationSwitcher)
     app.use(TwoslashFloatingVue)
 
