@@ -107,11 +107,11 @@
     --un-backdrop-saturate: ;
     --un-backdrop-sepia: ;
   }
-  :global(.uno-prose) {
+  :is(.uno-prose) {
     color: var(--un-prose-body);
     max-width: 65ch;
     :where(p):not(
-        :where([class~="not-uno-prose"], [class~="not-uno-prose"] *)
+        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
       ) {
       margin-top: 1.25em;
       margin-bottom: 1.25em;
@@ -680,11 +680,11 @@
   :global(.mb-7px) {
     margin-bottom: 7px;
   }
-  :global(.usp-3ddsgd) {
+  :is(.usp-3ddsgd) {
     color: var(--un-prose-body);
     max-width: 65ch;
     :where(p):not(
-        :where([class~="not-uno-prose"], [class~="not-uno-prose"] *)
+        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
       ) {
       margin-top: 1.25em;
       margin-bottom: 1.25em;
