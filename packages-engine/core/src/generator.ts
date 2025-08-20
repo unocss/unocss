@@ -591,7 +591,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
-      if (staticMatch) {
+      if (staticMatch && Array.isArray(staticMatch)) {
         const [_, rule] = staticMatch
         if (rule[1] && (internal || !rule[2]?.internal)) {
           return this.resolveCSSResult(raw, rule[1], staticMatch, scopeContext)
