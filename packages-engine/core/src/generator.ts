@@ -592,13 +592,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
       if (staticMatch) {
-        if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
-          return this.resolveCSSResult(raw, staticMatch[1], staticMatch, scopeContext)
+        const [_, rule] = staticMatch
+        if (rule[1] && (internal || !rule[2]?.internal)) {
+          return this.resolveCSSResult(raw, rule[1], staticMatch, scopeContext)
         }
       }
 
       // match rules
-      for (const rule of this.config.rulesDynamic) {
+      for (const [index, rule] of this.config.rulesDynamic) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
@@ -646,7 +647,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        const resolvedResult = this.resolveCSSResult(raw, result, rule, scopeContext)
+        const resolvedResult = this.resolveCSSResult(raw, result, [index, rule], scopeContext)
         if (resolvedResult) {
           return resolvedResult
         }
@@ -663,16 +664,16 @@ class UnoGeneratorInternal<Theme extends object = object> {
   private resolveCSSResult = (
     raw: string,
     result: CSSValueInput | string | (CSSValueInput | string)[],
-    rule: Rule<Theme>,
+    matchedRule: [number, Rule<Theme>],
     context: RuleContext<Theme>,
   ) => {
+    const [index, rule] = matchedRule
     const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
     if (entries.length) {
       if (this.config.details) {
         context.rules!.push(rule)
       }
       context.generator.activatedRules.add(rule)
-      const index = context.generator.config.rules.indexOf(rule)
       const meta = rule[2]
 
       return entries.map((css): ParsedUtil | RawUtil => {

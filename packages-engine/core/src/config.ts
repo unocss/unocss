@@ -1,4 +1,4 @@
-import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, DynamicRule, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { DEFAULT_LAYERS } from './constants'
 import { extractorSplit } from './extractors'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
@@ -159,18 +159,18 @@ export async function resolveConfig<Theme extends object = object>(
 
   const rulesSize = rules.length
 
-  const rulesDynamic = rules
-    .filter((rule) => {
-      if (!isStaticRule(rule))
-        return true
-      // Put static rules into the map for faster lookup
+  const rulesDynamic: Array<[number, DynamicRule<Theme>]> = []
+  rules.forEach((rule, index) => {
+    if (!isStaticRule(rule)) {
+      rulesDynamic.push([index, rule])
+    }
+    else {
       const prefixes = toArray(rule[2]?.prefix || '')
       prefixes.forEach((prefix) => {
-        rulesStaticMap[prefix + rule[0]] = rule
+        rulesStaticMap[prefix + rule[0]] = [index, rule]
       })
-      return false
-    })
-    .reverse() as ResolvedConfig<Theme>['rulesDynamic']
+    }
+  })
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
@@ -199,7 +199,7 @@ export async function resolveConfig<Theme extends object = object>(
     theme: mergeThemes(sources.map(p => p.theme)),
     rules,
     rulesSize,
-    rulesDynamic,
+    rulesDynamic: rulesDynamic.reverse(),
     rulesStaticMap,
     preprocess: getMerged('preprocess'),
     postprocess: getMerged('postprocess'),
