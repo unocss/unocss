@@ -239,7 +239,7 @@ export default defineConfig({
         fontServeBaseUrl: '/assets/fonts',
 
         // Custom fetch function to download the fonts
-        customFetch: async url => axios.get(url)
+        fetch: async url => axios.get(url)
       })
     }),
   ],

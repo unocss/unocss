@@ -44,7 +44,7 @@ export interface LocalFontProcessorOptions {
   /**
    * Custom fetch function to provide the font data.
    */
-  customFetch?: (url: string) => Promise<any>
+  fetch?: typeof fetch
 }
 
 export function createLocalFontProcessor(options?: LocalFontProcessorOptions): WebFontProcessor {
@@ -55,7 +55,7 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
   const fontServeBaseUrl = options?.fontServeBaseUrl || '/assets/fonts'
 
   async function _downloadFont(url: string, assetPath: string) {
-    const fetcher = options?.customFetch ?? fetch
+    const fetcher = options?.fetch ?? fetch
     const response = await fetcher(url)
       .then(r => r.arrayBuffer())
     await fsp.mkdir(fontAssetsDir, { recursive: true })
