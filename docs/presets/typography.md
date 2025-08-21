@@ -36,7 +36,9 @@ bun add -D @unocss/preset-typography
 This preset is included in the `unocss` package, you can also import it from there:
 
 ```ts
-import presetTypography from 'unocss'
+import presetTypography from '@unocss/preset-typography'
+// or
+import { presetTypography } from 'unocss'
 ```
 
 :::
