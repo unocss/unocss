@@ -876,8 +876,8 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   postprocess: Postprocessor[]
   rulesSize: number
   rules: readonly Rule<Theme>[]
-  rulesDynamic: readonly DynamicRule<Theme>[]
-  rulesStaticMap: Record<string, StaticRule | undefined>
+  rulesDynamic: readonly [number, DynamicRule<Theme>][]
+  rulesStaticMap: Record<string, [number, StaticRule] | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
