@@ -1492,7 +1492,7 @@ describe('wind4', () => {
         `)
     })
 
-    it('selector list', async () => {
+    it('grouping selectors', async () => {
       const result = await transform(
         `.btn:focus-visible, .btn:hover {
           @apply outline;
