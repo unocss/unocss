@@ -1492,6 +1492,28 @@ describe('wind4', () => {
         `)
     })
 
+    it('selector list', async () => {
+      const result = await transform(
+        `.btn:focus-visible, .btn:hover {
+          @apply outline;
+        }`,
+      )
+      await expect(result)
+        .toMatchInlineSnapshot(`
+          ".btn:focus-visible,
+          .btn:hover {
+            outline-style: var(--un-outline-style);
+            outline-width: 1px;
+          }
+          @property --un-outline-style {
+            syntax: "*";
+            inherits: false;
+            initial-value: solid;
+          }
+          "
+        `)
+    })
+
     it('theme()', async () => {
       const result = await transform(
         `.btn {
