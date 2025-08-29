@@ -2,8 +2,9 @@ import crypto from 'node:crypto'
 
 const hash
   // crypto.hash is supported in Node 21.7.0+, 20.12.0+
-  = crypto.hash
-    ?? ((
+  = (typeof crypto.hash === 'function')
+    ? crypto.hash
+    : ((
       algorithm: string,
       data: crypto.BinaryLike,
       outputEncoding: crypto.BinaryToTextEncoding,
