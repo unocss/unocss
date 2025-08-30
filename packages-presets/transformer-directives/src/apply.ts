@@ -85,7 +85,10 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
     if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-') || meta?.noMerge) {
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
-      if (selectorOrGroup && selectorOrGroup !== '.\\-') {
+      if (meta?.noMerge) {
+        newSelector = _selector!
+      }
+      else if (selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
         const ruleAST = parse(`${selectorOrGroup}{}`, {
           context: 'rule',
@@ -128,7 +131,6 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         code.appendRight(childNode!.loc!.end.offset + semicolonOffset, body)
     }
   }
-  // todo: after transformered remove empty css like `selector{}`
   code.remove(
     childNode!.loc!.start.offset,
     childNode!.loc!.end.offset + semicolonOffset,
