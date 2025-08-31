@@ -155,22 +155,25 @@ export async function resolveConfig<Theme extends object = object>(
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = getMerged('rules')
-  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
-
   const rulesSize = rules.length
+  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
+  const rulesDynamic: ResolvedConfig<Theme>['rulesDynamic'] = []
 
-  const rulesDynamic: Array<[number, DynamicRule<Theme>]> = []
-  rules.forEach((rule, index) => {
-    if (!isStaticRule(rule)) {
-      rulesDynamic.push([index, rule])
-    }
-    else {
-      const prefixes = toArray(rule[2]?.prefix || '')
+  for (const [index, rule] of rules.entries()) {
+    const meta = rule[2] ?? (rule[2] = {})
+    meta.__index = index
+
+    if (isStaticRule(rule)) {
+      // Put static rules into the map for faster lookup
+      const prefixes = toArray(meta.prefix ?? '')
       prefixes.forEach((prefix) => {
-        rulesStaticMap[prefix + rule[0]] = [index, rule]
+        rulesStaticMap[prefix + rule[0]] = rule
       })
     }
-  })
+    else {
+      (rulesDynamic as DynamicRule<Theme>[]).unshift(rule)
+    }
+  }
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
@@ -199,7 +202,7 @@ export async function resolveConfig<Theme extends object = object>(
     theme: mergeThemes(sources.map(p => p.theme)),
     rules,
     rulesSize,
-    rulesDynamic: rulesDynamic.reverse(),
+    rulesDynamic,
     rulesStaticMap,
     preprocess: getMerged('preprocess'),
     postprocess: getMerged('postprocess'),

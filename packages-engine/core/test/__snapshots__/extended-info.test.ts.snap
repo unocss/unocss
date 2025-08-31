@@ -11,6 +11,7 @@ Map {
         "name:bar1;",
         undefined,
         {
+          "__index": 0,
           "layer": "a",
           "sort": undefined,
         },
@@ -24,6 +25,7 @@ Map {
                 "name": "bar1",
               },
               {
+                "__index": 0,
                 "layer": "a",
               },
             ],
@@ -61,6 +63,7 @@ Map {
         "name:bar2;",
         undefined,
         {
+          "__index": 1,
           "layer": "b",
           "sort": undefined,
         },
@@ -74,6 +77,7 @@ Map {
                 "name": "bar2",
               },
               {
+                "__index": 1,
                 "layer": "b",
               },
             ],
@@ -111,6 +115,7 @@ Map {
         "name:1;",
         undefined,
         {
+          "__index": 2,
           "layer": "c",
           "sort": undefined,
         },
@@ -122,6 +127,7 @@ Map {
               /\\^c\\(\\\\d\\+\\)\\$/,
               [Function],
               {
+                "__index": 2,
                 "layer": "c",
               },
             ],

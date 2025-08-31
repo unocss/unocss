@@ -591,15 +591,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       // use map to for static rules
       const staticMatch = this.config.rulesStaticMap[processed]
-      if (staticMatch && Array.isArray(staticMatch)) {
-        const [_, rule] = staticMatch
-        if (rule[1] && (internal || !rule[2]?.internal)) {
-          return this.resolveCSSResult(raw, rule[1], staticMatch, scopeContext)
+      if (staticMatch) {
+        if (staticMatch[1] && (internal || !staticMatch[2]?.internal)) {
+          return this.resolveCSSResult(raw, staticMatch[1], staticMatch, scopeContext)
         }
       }
 
       // match rules
-      for (const [index, rule] of this.config.rulesDynamic) {
+      for (const rule of this.config.rulesDynamic) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
@@ -647,7 +646,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        const resolvedResult = this.resolveCSSResult(raw, result, [index, rule], scopeContext)
+        const resolvedResult = this.resolveCSSResult(raw, result, rule, scopeContext)
         if (resolvedResult) {
           return resolvedResult
         }
@@ -664,10 +663,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
   private resolveCSSResult = (
     raw: string,
     result: CSSValueInput | string | (CSSValueInput | string)[],
-    matchedRule: [number, Rule<Theme>],
+    rule: Rule<Theme>,
     context: RuleContext<Theme>,
   ) => {
-    const [index, rule] = matchedRule
     const entries = normalizeCSSValues(result).filter(i => i.length) as (string | CSSEntriesInput)[]
     if (entries.length) {
       if (this.config.details) {
@@ -678,7 +676,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       return entries.map((css): ParsedUtil | RawUtil => {
         if (isString(css))
-          return [index, css, meta]
+          return [meta!.__index!, css, meta]
 
         // Extract variants from special symbols
         let variants = context.variantHandlers
@@ -730,7 +728,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        return [index, raw, css as CSSEntries, entryMeta, variants]
+        return [meta!.__index!, raw, css as CSSEntries, entryMeta, variants]
       })
     }
   }

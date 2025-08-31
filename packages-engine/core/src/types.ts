@@ -229,6 +229,13 @@ export interface RuleMeta {
   __hash?: string
 
   /**
+   * Internal index of the rulelist
+   * @internal
+   * @private
+   */
+  __index?: number
+
+  /**
    * Custom metadata
    */
   custom?: Record<string, any>
@@ -876,8 +883,8 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   postprocess: Postprocessor[]
   rulesSize: number
   rules: readonly Rule<Theme>[]
-  rulesDynamic: readonly [number, DynamicRule<Theme>][]
-  rulesStaticMap: Record<string, [number, StaticRule] | undefined>
+  rulesDynamic: readonly DynamicRule<Theme>[]
+  rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
