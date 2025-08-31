@@ -37,7 +37,10 @@ jobs:
         run: pnpm build
 
       - name: Publish to NPM
-        run: npm i -g npm@latest && pnpm -r publish --access public --no-git-checks
+        run: pnpm -r publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Publish to VSCE & OVSX
         run: npm run publish
