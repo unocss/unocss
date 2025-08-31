@@ -59,7 +59,7 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
     shortcuts: [
       [
         selectorName,
-        [`${selectorName}-default`, 'prose-gray'],
+        [`${selectorName}-default`, `${selectorName}-gray`],
         { layer: 'typography' },
       ],
     ],
