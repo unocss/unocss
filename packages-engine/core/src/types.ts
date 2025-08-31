@@ -229,6 +229,13 @@ export interface RuleMeta {
   __hash?: string
 
   /**
+   * Internal index of the rulelist
+   * @internal
+   * @private
+   */
+  __index?: number
+
+  /**
    * Custom metadata
    */
   custom?: Record<string, any>

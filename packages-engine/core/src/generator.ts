@@ -672,12 +672,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
         context.rules!.push(rule)
       }
       context.generator.activatedRules.add(rule)
-      const index = context.generator.config.rules.indexOf(rule)
       const meta = rule[2]
 
       return entries.map((css): ParsedUtil | RawUtil => {
         if (isString(css))
-          return [index, css, meta]
+          return [meta!.__index!, css, meta]
 
         // Extract variants from special symbols
         let variants = context.variantHandlers
@@ -729,7 +728,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
         }
 
-        return [index, raw, css as CSSEntries, entryMeta, variants]
+        return [meta!.__index!, raw, css as CSSEntries, entryMeta, variants]
       })
     }
   }
