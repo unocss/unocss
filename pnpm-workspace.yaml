@@ -27,6 +27,7 @@ catalogs:
   babel:
     '@babel/parser': 7.27.7
     '@babel/traverse': 7.27.7
+
   build:
     '@jridgewell/remapping': ^2.3.0
     brotli-size: ^4.0.0
@@ -37,6 +38,7 @@ catalogs:
     unbuild: ^3.6.0
     webpack: ^5.101.0
     webpack-sources: ^3.3.3
+
   css:
     '@codemirror/lang-css': ^6.3.1
     '@csstools/normalize.css': ^12.1.1
@@ -46,6 +48,7 @@ catalogs:
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
+
   docs:
     '@codemirror/lang-html': ^6.4.9
     '@codemirror/lang-javascript': ^6.2.4
@@ -60,15 +63,18 @@ catalogs:
     theme-vitesse: ^0.8.3
     vitepress: ^1.6.3
     vitepress-plugin-group-icons: ^1.6.1
+
   eslint:
     '@antfu/eslint-config': ^5.1.0
     eslint: ^9.32.0
     eslint-plugin-antfu: ^3.1.1
     eslint-vitest-rule-tester: ^2.2.1
     svelte-eslint-parser: ^1.3.1
+
   frameworks:
     astro: ^4.16.18
     react: ^18.3.1
+
   icons:
     '@iconify-json/carbon': ^1.2.11
     '@iconify-json/iconoir': ^1.2.7
@@ -84,19 +90,23 @@ catalogs:
     '@iconify-json/vscode-icons': ^1.2.24
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.0.0
+
   nuxt:
     '@nuxt/kit': ^4.0.2
     nuxt: ^4.0.2
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.2.0
+
   svelte:
     prettier-plugin-svelte: ^2.10.1
     svelte: ^5.37.3
+
   testing:
     '@vitest/ui': ^3.2.4
     jsdom: ^26.1.0
     msw: ^2.7.0
     vitest: ^3.2.4
+
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.10
@@ -111,12 +121,14 @@ catalogs:
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
+
   typescript:
     '@typescript-eslint/utils': ^8.39.0
     '@typescript/native-preview': latest
     tsup: ^8.5.0
     tsx: ^4.20.3
     typescript: 5.8.3
+
   utils:
     '@antfu/ni': ^25.0.0
     '@antfu/utils': ^9.2.0
@@ -161,6 +173,7 @@ catalogs:
     unplugin-auto-import: ^19.3.0
     unplugin-utils: ^0.2.4
     zimmerframe: ^1.1.2
+
   vite:
     '@vitejs/plugin-legacy': ^6.1.1
     '@vitejs/plugin-vue': ^5.2.4
@@ -168,6 +181,7 @@ catalogs:
     vite-plugin-inspect: ^11.3.2
     vite-plugin-pages: ^0.33.1
     vite-plugin-windicss: ^1.9.4
+
   vue:
     '@vue/reactivity': ^3.5.18
     '@vueuse/core': ^13.6.0
