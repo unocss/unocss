@@ -15,7 +15,7 @@ import UnocssSveltePreprocess from '../src/preprocess'
 
 const defaultOptions: UnocssSveltePreprocessOptions = {
   configOrPath: {
-    safelist: ['mb-7px', 'uno-prose'],
+    safelist: ['mb-7px'],
     presets: [
       presetWind3(),
       presetIcons({
@@ -27,6 +27,9 @@ const defaultOptions: UnocssSveltePreprocessOptions = {
       }),
       presetTypography({
         selectorName: 'uno-prose',
+        compatibility: {
+          noColonIs: true,
+        },
       }),
     ],
   },
