@@ -11,6 +11,8 @@ packages:
   - virtual-shared/*
   - test/fixtures/*
 
+autoInstallPeers: true
+
 overrides:
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
   is-core-module: npm:@nolyfill/is-core-module@^1.0.39
@@ -45,7 +47,6 @@ catalogs:
     postcss: ^8.5.6
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
-    tailwindcss: ^3.4.17
     windicss: ^3.5.6
 
   docs:
@@ -72,7 +73,6 @@ catalogs:
 
   frameworks:
     astro: ^4.16.18
-    core-js: ^3.45.0
     react: ^18.3.1
 
   icons:
@@ -93,13 +93,11 @@ catalogs:
 
   nuxt:
     '@nuxt/kit': ^4.0.2
-    '@nuxt/schema': ^4.0.2
     nuxt: ^4.0.2
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.2.0
 
   svelte:
-    '@sveltejs/kit': ^2.27.0
     prettier-plugin-svelte: ^2.10.1
     svelte: ^5.37.3
 
@@ -140,7 +138,6 @@ catalogs:
     chokidar: ^3.6.0
     colorette: ^2.0.20
     consola: ^3.4.2
-    cross-env: ^7.0.3
     esno: ^4.8.0
     execa: ^9.6.0
     find-up: ^6.3.0
@@ -155,7 +152,6 @@ catalogs:
     lru-cache: ^11.1.0
     lz-string: ^1.5.0
     magic-string: ^0.30.17
-    npm-run-path: ^6.0.0
     ofetch: ^1.4.1
     p-limit: ^6.2.0
     pathe: ^2.0.3
@@ -200,10 +196,9 @@ catalogs:
     vue-router: ^4.5.1
     vue-virtual-scroller: ^2.0.0-beta.8
 
-autoInstallPeers: true
+cleanupUnusedCatalogs: true
+
 ignoreWorkspaceRootCheck: true
-shamefullyHoist: true
-strictPeerDependencies: false
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
@@ -214,3 +209,7 @@ onlyBuiltDependencies:
   - nuxt-tsconfig-stub
   - sharp
   - simple-git-hooks
+
+shamefullyHoist: true
+
+strictPeerDependencies: false
