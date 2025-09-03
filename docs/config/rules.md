@@ -19,10 +19,10 @@ rules: [
 
 The following CSS will be generated whenever `m-1` is detected in users' codebase:
 
-<!-- eslint-skip -->
-
 ```css
-.m-1 { margin: 0.25rem; }
+.m-1 {
+  margin: 0.25rem;
+}
 ```
 
 > **Note**: The body syntax follows CSS property syntax, eg. `font-weight` instead of `fontWeight`. If there is a hyphen `-` in the property name it should be quoted.
@@ -40,7 +40,8 @@ To make it smarter, change the matcher to a `RegExp` and the body to a function:
 ```ts
 rules: [
   [/^m-(\d+)$/, ([, d]) => ({ margin: `${d / 4}rem` })],
-  [/^p-(\d+)$/, match => ({ padding: `${match[1] / 4}rem` })],
+  // You can get rich context information from the second argument, such as `theme`, `symbols`, etc.
+  [/^p-(\d+)$/, (match, ctx) => ({ padding: `${match[1] / 4}rem` })],
 ]
 ```
 
@@ -92,43 +93,26 @@ Which will make `h-100dvh` generates:
 .h-100dvh { height: 100vh; height: 100dvh; }
 ```
 
-## Ordering
-
-UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
-
-When using dynamic rules, it may match multiple tokens. By default, the output of those matched under a single dynamic rule will be sorted alphabetically within the group.
-
-## Rules merging
-
-By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
-
-For example, `<div class="m-2 hover:m2">` will generate:
-
-```css
-.hover\:m2:hover,
-.m-2 {
-  margin: 0.5rem;
-}
-```
-
-Instead of two separate rules:
-
-```css
-.hover\:m2:hover {
-  margin: 0.5rem;
-}
-.m-2 {
-  margin: 0.5rem;
-}
-```
-
 ## Special symbols
 
-Since v0.61, UnoCSS supports special symbols to define additional meta information for your generated CSS. You can access symbols from the second argument of the dynamic rule matcher function.
+Since v0.61, UnoCSS supports special symbols to define additional meta information for your generated CSS. You can access the symbols from the `symbols` object from `@unocss/core` or the second argument of the dynamic rule matcher function.
 
 For example:
 
-```ts
+::: code-group
+
+```ts [Static Rules]
+import { symbols } from '@unocss/core'
+
+rules: [
+  ['grid', {
+    [symbols.parent]: '@supports (display: grid)',
+    display: 'grid',
+  }],
+]
+```
+
+```ts [Dynamic Rules]
 rules: [
   [/^grid$/, ([, d], { symbols }) => {
     return {
@@ -138,6 +122,8 @@ rules: [
   }],
 ]
 ```
+
+:::
 
 Will generate:
 
@@ -149,23 +135,45 @@ Will generate:
 }
 ```
 
+:::tip
+If you know exactly how a rule is generated, we recommend using **static rules** to improve UnoCSS performance.
+:::
+
 ### Available symbols
 
-- `symbols.parent`: The parent wrapper of the generated CSS rule (eg. `@supports`, `@media`, etc.)
-- `symbols.selector`: A function to modify the selector of the generated CSS rule (see the example below)
-- `symbols.layer`: A string/function/regex match that sets the UnoCSS layer of the generated CSS rule
-- `symbols.variants`: An array of variant handler that are applied to the current CSS object
-- `symbols.shortcutsNoMerge`: A boolean to disable the merging of the current rule in shortcuts
-- `symbols.noMerge`: A boolean to disable the merging of the current rule in shortcuts
-- `symbols.sort`: A number to overwrite sorting order of the current CSS object
+| Symbols                    | Description                                                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `symbols.parent`           | The parent wrapper of the generated CSS rule (e.g., `@supports`, `@media`, etc.)                           |
+| `symbols.selector`         | A function to modify the selector of the generated CSS rule (see example below)                            |
+| `symbols.layer`            | Sets the UnoCSS layer of the generated CSS rule (can be string, function, or regex match)                  |
+| `symbols.variants`         | An array of variant handlers applied to the current CSS object                                             |
+| `symbols.shortcutsNoMerge` | Boolean to disable merging of the current rule in shortcuts                                                |
+| `symbols.noMerge`          | Boolean to disable merging of the current rule                                                             |
+| `symbols.sort`             | Number to overwrite sorting order of the current CSS object                                                |
+| `symbols.body`             | Fully control the body of the generated CSS rule (see [#4889](https://github.com/unocss/unocss/pull/4889)) |
 
 ## Multi-selector rules
 
-Since v0.61, UnoCSS supports multi-selector via [JavaScript Generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
+Since v0.61, UnoCSS supports multi-selector via [JavaScript Generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator). And generates _multiple_ CSS rules from a _single_ rule.
 
 For example:
 
-```ts
+::: code-group
+
+```ts [Static Rules]
+rules: [
+  ['button-red', [
+    { background: 'red' },
+    {
+      [symbols.selector]: selector => `${selector}:hover`,
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix
+      background: `color-mix(in srgb, red 90%, black)`
+    },
+  ]],
+]
+```
+
+```ts [Dynamic Rules]
 rules: [
   [/^button-(.*)$/, function* ([, color], { symbols }) {
     yield {
@@ -179,6 +187,8 @@ rules: [
   }],
 ]
 ```
+
+:::
 
 Will generate multiple CSS rules:
 
@@ -237,4 +247,99 @@ ${selector}::after {
     }],
   ],
 })
+```
+
+::: warning
+The above method can fully control the generated CSS, but it cannot be extended through `variants`, losing the flexibility brought by its variant.
+
+e.g. `hover:custom-xxx` -> The `hover` variant won't work.
+:::
+
+So if you want to fully customize the output while still enjoying the convenience of variants, you can consider using `symbols.body` to achieve this.
+
+::: code-group
+
+```ts [Static Rules]
+import { symbols } from '@unocss/core'
+
+rules: [
+  ['custom-red', {
+    // symbols.body doesn't need `{}` wrapping the styles
+    [symbols.body]: `
+      font-size: 1rem;
+      &::after {
+        content: 'after';
+      }
+      & > .bar {
+        color: red;
+      }
+    `,
+    [symbols.selector]: selector => `:is(${selector})`,
+  }]
+]
+```
+
+```ts [Dynamic Rules]
+rules: [
+  [/^custom-(.+)$/, ([_, c], { symbols }) => {
+    return {
+      [symbols.body]: `
+        font-size: 1rem;
+        &::after {
+          content: 'after';
+        }
+        & > .bar {
+          color: ${c};
+        }
+      `,
+      [symbols.selector]: selector => `:is(${selector})`,
+    }
+  }]
+]
+```
+
+:::
+
+Will generate fully CSS rules from `hover:custom-red`:
+
+```css
+:is(.hover\:custom-red):hover {
+  font-size: 1rem;
+  &::after {
+    content: 'after';
+  }
+  & > .bar {
+    color: red;
+  }
+}
+```
+
+## Ordering
+
+UnoCSS respects the order of the rules you defined in the generated CSS. Latter ones come with higher priority.
+
+When using dynamic rules, it may match multiple tokens. By default, the output of those matched under a single dynamic rule will be sorted alphabetically within the group.
+
+## Rules merging
+
+By default, UnoCSS will merge CSS rules with the same body to minimize the CSS size.
+
+For example, `<div class="m-2 hover:m2">` will generate:
+
+```css
+.hover\:m2:hover,
+.m-2 {
+  margin: 0.5rem;
+}
+```
+
+Instead of two separate rules:
+
+```css
+.hover\:m2:hover {
+  margin: 0.5rem;
+}
+.m-2 {
+  margin: 0.5rem;
+}
 ```
