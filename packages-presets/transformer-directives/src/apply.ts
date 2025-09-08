@@ -116,6 +116,9 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
           const [first, ...parentSelectors] = parent.split(' $$ ').reverse()
           css = `${parentSelectors.reduce((p, c, i) => i === parentSelectors.length - 1 ? `${p}{${c}{${css}}}${'}'.repeat(i)}` : `${p}{${c}`, first)}`
         }
+        else if (parent === '.\\-') {
+          css = `${className}{${css}}`
+        }
         else {
           css = `${parent}{${css}}`
         }
