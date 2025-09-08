@@ -131,7 +131,8 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
         try {
           preflights.push(await provider.getPreflight?.(fontsForProvider, fetchWithTimeout))
-        } catch (e) {
+        }
+        catch (e) {
           console.warn(`[unocss] Web fonts preflight fetch failed.`, e)
         }
       }
