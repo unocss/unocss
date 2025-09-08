@@ -1600,6 +1600,25 @@ describe('wind4', () => {
           "
         `)
     })
+
+    it('implicitly :where() selector in apply', async () => {
+      const result = await transform(`.foo { @apply space-y-reverse divide-dotted; }`)
+
+      await expect(result).toMatchInlineSnapshot(`
+        ".foo {
+          :where(& > :not(:last-child)) {
+            --un-space-y-reverse: 1;
+            border-style: dotted;
+          }
+        }
+        @property --un-space-y-reverse {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0;
+        }
+        "
+      `)
+    })
   })
 
   describe('transformer screen', async () => {
