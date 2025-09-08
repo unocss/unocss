@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "66.5.0",
+  "version": "66.5.1",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && pnpm run prepare && nuxi generate",
