@@ -5,6 +5,7 @@ import { INCLUDE_COMMENT_IDE } from '#integration/constants'
 import { isCssId } from '#integration/utils'
 import { DecorationRangeBehavior, MarkdownString, Range, window, workspace } from 'vscode'
 import { getConfig } from './configs'
+import { CssVarsIntelliSenseService } from './css-vars-intellisense'
 import { getMatchedPositionsFromDoc } from './getMatched'
 import { log } from './log'
 import { getColorString, getPrettiedMarkdown, throttle } from './utils'
@@ -113,35 +114,59 @@ export async function registerAnnotations(
       const positions = await getMatchedPositionsFromDoc(ctx.uno, doc)
       const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
 
-      const ranges: DecorationOptions[] = (
-        await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
-          try {
-            const md = await getPrettiedMarkdown(ctx!.uno, isAttributify ? [i[2], `[${i[2]}=""]`] : i[2], remToPxRatio)
+      const service = CssVarsIntelliSenseService.isAvailable(ctx.uno)
+        ? new CssVarsIntelliSenseService(ctx.uno, remToPxRatio)
+        : null
 
-            if (docConfig.colorPreview) {
-              const color = getColorString(md)
-              if (color && !colorRanges.find(r => r.range.start.isEqual(doc.positionAt(i[0])))) {
-                colorRanges.push({
-                  range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-                  renderOptions: { before: { backgroundColor: color } },
-                })
+      const ranges: DecorationOptions[] = (
+        await Promise.all(positions.map(async (i): Promise<DecorationOptions | undefined> => {
+          try {
+            const util = i[2]
+            const range = new Range(doc.positionAt(i[0]), doc.positionAt(i[1]))
+
+            let md: MarkdownString | null
+
+            if (service) {
+              md = await service.getHoverTooltip(util)
+              if (docConfig.colorPreview) {
+                const colorInfo = await service.getColorInfo(util)
+                if (colorInfo) {
+                  colorRanges.push({
+                    range,
+                    renderOptions: { before: { backgroundColor: colorInfo.hex } },
+                  })
+                }
               }
             }
+            else {
+              md = new MarkdownString(await getPrettiedMarkdown(ctx.uno, isAttributify ? [util, `[${util}=""]`] : util, remToPxRatio))
+              if (docConfig.colorPreview) {
+                const color = getColorString(md.value)
+                if (color) {
+                  colorRanges.push({
+                    range,
+                    renderOptions: { before: { backgroundColor: color } },
+                  })
+                }
+              }
+            }
+
+            if (!md)
+              return undefined
+
             return {
-              range: new Range(doc.positionAt(i[0]), doc.positionAt(i[1])),
-              get hoverMessage() {
-                return new MarkdownString(md)
-              },
+              range,
+              hoverMessage: md,
             }
           }
           catch (e: any) {
             log.appendLine(`⚠️ Failed to parse ${i[2]}`)
             log.appendLine(String(e.stack ?? e))
-            return undefined!
+            return undefined
           }
         }),
         )
-      ).filter(Boolean)
+      ).filter(Boolean) as DecorationOptions[]
 
       editor.setDecorations(colorDecoration, colorRanges)
 
