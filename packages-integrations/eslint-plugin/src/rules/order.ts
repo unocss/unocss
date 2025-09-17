@@ -257,6 +257,14 @@ export default createRule({
           if (arg.type === 'ObjectExpression') {
             return handleObjectExpression(arg)
           }
+
+          if (arg.type === 'ArrayExpression') {
+            return arg.elements.forEach((element) => {
+              if (element && isPossibleLiteral(element)) {
+                return checkPossibleLiteral(element)
+              }
+            })
+          }
         })
       },
 
