@@ -220,6 +220,8 @@ run({
     { code: `tv({ base: 'bottom-1 top-1', variants: { size: { small: 'text-sm px-2 py-1', medium: 'text-base px-4 py-2' } } })`, options: [{ unoFunctions: ['tv'] }] },
     // eslint-disable-next-line no-template-curly-in-string
     'clsx(`pl1 pr1 ${more}`, test ? `ml-1 mr-1 ${more}` : `left-1 right-1 ${more}`, test && `bottom-1 top-1 ${more}`, { [`bottom-1 top-1 ${more}`]: test })',
+    `clsx(['ml-1 mr-1'])`,
+    `clsx(['flex flex-col'], ['bottom-1 top-1'])`,
     `notSorted('mr-1 ml-1')`,
   ],
   invalid: [
@@ -346,6 +348,34 @@ run({
       ),
       errors: [
         { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: `clsx(['mr-1 ml-1'])`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "clsx(['ml-1 mr-1'])"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: `clsx(['mr-1 ml-1'], ['top-1 bottom-1'])`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "clsx(['ml-1 mr-1'], ['bottom-1 top-1'])"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: `clsx(['flex-col flex'], className)`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "clsx(['flex flex-col'], className)"
+      `),
+      errors: [
         { messageId: 'invalid-order' },
       ],
     },
