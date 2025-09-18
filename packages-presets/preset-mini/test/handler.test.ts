@@ -155,7 +155,7 @@ describe('value handler', () => {
     expect(h.degree('10 deg')).eql(undefined)
     expect(h.degree('10deg')).eql('10deg')
     expect(h.degree('10.0deg')).eql('10deg')
-    expect(h.degree('0deg')).eql('0')
+    expect(h.degree('0deg')).eql('0deg')
     expect(h.degree('.1deg')).eql('0.1deg')
     expect(h.degree('.20deg')).eql('0.2deg')
     expect(h.degree('00.30deg')).eql('0.3deg')
