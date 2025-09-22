@@ -86,7 +86,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (meta?.noMerge) {
-        newSelector = _selector!
+        newSelector = selectorOrGroup!
       }
       else if (selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
