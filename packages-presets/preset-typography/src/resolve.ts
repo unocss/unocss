@@ -39,7 +39,8 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
       css += `${selectorOrKey}:${cssObjectOrValue}${important ? ' !important' : ''};`
     }
     else {
-      const _selector = `:where(${selectorOrKey})${notProseSelector}`
+      const [selectorOrGroup, pseudo] = selectorOrKey.split('::')
+      const _selector = `:where(${selectorOrGroup})${notProseSelector}${pseudo ? `::${pseudo}` : ''}`
       css += `${_selector} {`
       for (const [key, value] of Object.entries(cssObjectOrValue)) {
         css += `${key}:${value}${important ? ' !important' : ''};`
