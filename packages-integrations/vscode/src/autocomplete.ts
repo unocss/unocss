@@ -7,6 +7,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import { CompletionItem, CompletionItemKind, CompletionList, languages, MarkdownString, Range, window } from 'vscode'
 import { getConfig, getLanguageIds } from './configs'
 import { delimiters } from './constants'
+import { CssVarsIntelliSenseService } from './css-vars-intellisense'
 import { log } from './log'
 import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, isVueWithPug, shouldProvideAutocomplete } from './utils'
 
@@ -153,25 +154,45 @@ export async function registerAutoComplete(
         if (!result.suggestions.length)
           return
 
+        const remToPxRatio = config.remToPxPreview ? config.remToPxRatio : -1
+        const service = CssVarsIntelliSenseService.isAvailable(ctx.uno)
+          ? new CssVarsIntelliSenseService(ctx.uno, remToPxRatio)
+          : null
+
         const completionItems: UnoCompletionItem[] = []
 
         const suggestions = result.suggestions.slice(0, config.autocompleteMaxItems)
-        const isAttributify = ctx.uno.config.presets.some(p => p.name === '@unocss/preset-attributify')
-        for (const [value, label] of suggestions) {
-          const css = await getCSS(ctx!.uno, isAttributify ? [value, `[${value}=""]`] : value)
-          const colorString = getColorString(css)
-          const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)
-          const resolved = result.resolveReplacement(value)
 
-          item.insertText = resolved.replacement
-          item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
+        if (service) {
+          for (const [value, label] of suggestions) {
+            const colorInfo = await service.getColorInfo(value)
+            const itemKind = colorInfo ? CompletionItemKind.Color : CompletionItemKind.EnumMember
+            const item = new UnoCompletionItem(label, itemKind, value, ctx.uno)
+            const resolved = result.resolveReplacement(value)
 
-          if (colorString) {
-            item.documentation = colorString
-            item.sortText = /-\d$/.test(label) ? '1' : '2' // reorder color completions
+            item.insertText = resolved.replacement
+            item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
+
+            if (colorInfo) {
+              item.documentation = colorInfo.hex
+              item.sortText = /-\d$/.test(label) ? '1' : '2'
+            }
+            completionItems.push(item)
           }
-          completionItems.push(item)
+        }
+        else {
+          // --- OLD LOGIC (Simplified to avoid double color preview) ---
+          for (const [value, label] of suggestions) {
+            // For non-intelligent presets, we let `annotation.ts` handle the color preview.
+            // Here, we just provide the completion item without trying to detect the color.
+            const itemKind = CompletionItemKind.EnumMember
+            const item = new UnoCompletionItem(label, itemKind, value, ctx.uno)
+            const resolved = result.resolveReplacement(value)
+
+            item.insertText = resolved.replacement
+            item.range = new Range(doc.positionAt(resolved.start), doc.positionAt(resolved.end))
+            completionItems.push(item)
+          }
         }
 
         return new CompletionList(completionItems, true)
@@ -188,10 +209,28 @@ export async function registerAutoComplete(
         ? config.remToPxRatio
         : -1
 
-      if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
-      else
-        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
+      if (CssVarsIntelliSenseService.isAvailable(item.uno)) {
+        const provider = new CssVarsIntelliSenseService(item.uno, remToPxRatio)
+        const tooltips = await provider.getCompletionTooltip(item.value)
+        if (tooltips) {
+          item.detail = tooltips.detail
+          item.documentation = tooltips.documentation
+        }
+      }
+      else {
+        if (item.kind === CompletionItemKind.Color) {
+          item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
+
+          const css = await getCSS(item.uno, item.value)
+          const color = getColorString(css)
+          if (color)
+            item.documentation = new MarkdownString(color)
+        }
+        else {
+          item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
+        }
+      }
+
       return item
     },
   }
