@@ -50,10 +50,17 @@ async function parseApply({ s, uno, applyVariables }: TransformApplyContext, nod
   if (!utils.length)
     return
 
+  let end = childNode.loc!.end.offset
+
+  const maybeSemi = s.slice(end, end + 1)
+  if (maybeSemi === ';') {
+    end += 1
+  }
+
+  s.remove(childNode.loc!.start.offset, end)
+
   for (const util of utils)
     writeUtilStyles(util, s, node, childNode)
-
-  s.remove(childNode!.loc!.start.offset, childNode!.loc!.end.offset)
 }
 
 function getChildNodeValue(childNode: CssNode, applyVariables: string[]): string | undefined {
