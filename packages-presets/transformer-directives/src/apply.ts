@@ -109,7 +109,9 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         })
         newSelector = generate(prelude)
       }
-      let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
+
+      let css = `${newSelector.includes('.\\-') ? className.split(',').map(e => newSelector.replace(/.\\-/g, e.trim())).join(',') : newSelector}{${body}}`
+
       if (parent) {
         if (parent.includes(' $$ ')) {
           // split '&&'
