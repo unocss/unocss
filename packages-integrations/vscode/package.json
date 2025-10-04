@@ -163,6 +163,6 @@
     "prettier": "catalog:utils",
     "tsup": "catalog:typescript",
     "unconfig": "catalog:utils",
-    "vscode-ext-gen": "^1.1.0"
+    "vscode-ext-gen": "^1.3.0"
   }
 }
