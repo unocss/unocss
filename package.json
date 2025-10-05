@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.5.1",
+  "version": "66.5.2",
   "private": true,
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.18.0",
   "scripts": {
     "prepare": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -96,7 +96,7 @@
     "codemirror-theme-vars": "catalog:docs",
     "eslint": "catalog:eslint",
     "eslint-plugin-antfu": "catalog:eslint",
-    "eslint-plugin-format": "^1.0.1",
+    "eslint-plugin-format": "^1.0.2",
     "eslint-vitest-rule-tester": "catalog:eslint",
     "esno": "catalog:utils",
     "execa": "catalog:utils",
