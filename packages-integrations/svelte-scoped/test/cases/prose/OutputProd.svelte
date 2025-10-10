@@ -235,14 +235,20 @@
       margin-bottom: 1.25em;
       padding-inline-start: 1.625em;
     }
-    :where(ol > li::marker):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(ol > li):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::marker
       ) {
       font-weight: 400;
       color: var(--un-prose-counters);
     }
-    :where(ul > li::marker):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(ul > li):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::marker
       ) {
       color: var(--un-prose-bullets);
     }
@@ -274,13 +280,19 @@
       margin-bottom: 1.6em;
       padding-inline-start: 1em;
     }
-    :where(blockquote p:first-of-type::before):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(blockquote p:first-of-type):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::before
       ) {
       content: open-quote;
     }
-    :where(blockquote p:last-of-type::after):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(blockquote p:last-of-type):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::after
       ) {
       content: close-quote;
     }
@@ -388,13 +400,19 @@
       font-weight: 600;
       font-size: 0.875em;
     }
-    :where(code::before):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(code):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::before
       ) {
       content: "`";
     }
-    :where(code::after):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(code):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::after
       ) {
       content: "`";
     }
@@ -465,13 +483,19 @@
       font-family: inherit;
       line-height: inherit;
     }
-    :where(pre code::before):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(pre code):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::before
       ) {
       content: none;
     }
-    :where(pre code::after):not(
-        :where([class~="not-uno-prose"], :global([class~="not-uno-prose"] *))
+    :where(pre code):not(
+        :where(
+            [class~="not-uno-prose"],
+            :global([class~="not-uno-prose"] *)
+          )::after
       ) {
       content: none;
     }
