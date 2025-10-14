@@ -53,12 +53,16 @@ function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
 }
 
 export function theme(options: PresetWind4Options): Preflight<Theme> {
+  const preflightsTheme: PreflightsTheme = (typeof options.preflights?.theme === 'boolean' || typeof options.preflights?.theme === 'string')
+    ? { mode: options.preflights.theme ?? 'on-demand' }
+    : { mode: options.preflights?.theme?.mode ?? 'on-demand', ...options.preflights?.theme }
+
   return {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
       const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
-      const { mode, process } = options.preflights!.theme as PreflightsTheme
+      const { mode, process } = preflightsTheme
       if (mode === false) {
         return undefined
       }
