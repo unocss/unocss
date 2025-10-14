@@ -133,18 +133,18 @@ export interface PresetWind4Options extends PresetOptions {
        * Custom parent selector (e.g., @supports query or @layer).
        *
        * - `string`: Use custom parent selector
-       * - `false`: No parent wrapper, apply properties directly to root
+       * - `false`: No parent wrapper, apply properties directly to selector
        * - `undefined`: Use default @supports query
        *
        * @default '@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b))))'
        */
       parent?: string | false
       /**
-       * Custom root selector for applying properties.
+       * Custom selector for applying properties.
        *
        * @default '*, ::before, ::after, ::backdrop'
        */
-      root?: string
+      selector?: string
     }
   }
 }

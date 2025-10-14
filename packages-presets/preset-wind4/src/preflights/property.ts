@@ -15,7 +15,7 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
     ? propertyConfig.parent
     : '@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b))))'
 
-  const rootSelector = propertyConfig?.root
+  const selector = propertyConfig?.selector
     ?? '*, ::before, ::after, ::backdrop'
 
   return {
@@ -28,8 +28,8 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
         .join('')
 
       return parentSelector === false
-        ? `${rootSelector}{${css}}`
-        : `${parentSelector}{${rootSelector}{${css}}}`
+        ? `${selector}{${css}}`
+        : `${parentSelector}{${selector}{${css}}}`
     },
     layer: 'properties',
   }

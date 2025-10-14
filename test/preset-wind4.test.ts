@@ -635,7 +635,7 @@ describe('important', () => {
             reset: false,
             property: {
               parent: false,
-              root: ':host',
+              selector: ':host',
             },
           },
         }),
