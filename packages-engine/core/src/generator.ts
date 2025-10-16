@@ -879,7 +879,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
         rawStringifiedUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+
+      const isNoMerge = Object.fromEntries(item[2])[symbols.shortcutsNoMerge]
+      const variants = [...item[4], ...(!isNoMerge ? parentVariants : [])]
+      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, variants, raw)
 
       // find existing layer and merge
       const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
