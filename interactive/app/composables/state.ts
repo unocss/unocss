@@ -8,7 +8,7 @@ import { createGenerator } from '@unocss/core'
 import { breakpointsTailwind } from '@vueuse/core'
 import { guideIndex as guides } from '~/data/guides'
 import { mdnIndex as docs } from '~/data/mdn-index'
-import { defaultConfig } from '~/uno.config'
+import { defaultConfig } from '../../uno.config'
 
 export { defaultConfigRaw }
 

@@ -9,7 +9,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   externals: [
-    '@ampproject/remapping',
+    '@jridgewell/remapping',
     '@jridgewell/trace-mapping',
     '@jridgewell/gen-mapping',
     '@jridgewell/set-array',
@@ -17,7 +17,7 @@ export default defineBuildConfig({
     '@jridgewell/resolve-uri',
     '@unocss/core',
     '@unocss/config',
-    '@unocss/preset-uno',
+    '@unocss/preset-wind3',
     '@unocss/reset',
     'css-tree',
     'svelte',

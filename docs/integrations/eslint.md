@@ -57,6 +57,13 @@ In legacy `.eslintrc` style:
 - `@unocss/blocklist` - Disallow specific class selectors [Optional].
 - `@unocss/enforce-class-compile` - Enforce class compile [Optional].
 
+### Rule options
+
+#### `@unocss/order`
+
+- `unoFunctions` (string[]) - mark function calls of matched names to enforce this rule. These are plain names, not patterns, case insensitive. Default: `['clsx', 'classnames']`.
+- `unoVariables` (string[]) - mark variable declarations of matched names to enforce this rule. These are regex patterns with flags `i`. Default: `['^cls', 'classNames?$']`. for example will match variable names `clsButton` and `buttonClassNames`.
+
 ### Optional rules
 
 These rules are not enabled by default. To enable it, add the following to your `.eslintrc`:

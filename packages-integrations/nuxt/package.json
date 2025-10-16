@@ -1,7 +1,7 @@
 {
   "name": "@unocss/nuxt",
   "type": "module",
-  "version": "66.3.2",
+  "version": "66.5.4",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -43,22 +43,19 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "catalog:",
+    "@nuxt/kit": "catalog:nuxt",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-tagify": "workspace:*",
     "@unocss/preset-typography": "workspace:*",
-    "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
-    "@unocss/preset-wind": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
     "@unocss/webpack": "workspace:*",
     "unocss": "workspace:*"
-  },
-  "devDependencies": {
-    "@nuxt/schema": "catalog:"
   }
 }

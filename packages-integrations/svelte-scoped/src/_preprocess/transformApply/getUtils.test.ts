@@ -34,6 +34,7 @@ describe('getUtils', async () => {
           "margin-bottom:0.25rem;margin-right:0.25rem;",
           undefined,
           {
+            "__index": 90,
             "layer": undefined,
             "sort": undefined,
           },
@@ -46,6 +47,7 @@ describe('getUtils', async () => {
           "margin-right:0.5rem;",
           undefined,
           {
+            "__index": 90,
             "layer": undefined,
             "sort": 24,
           },
@@ -69,6 +71,7 @@ describe('getUtils', async () => {
           "margin-right:0.25rem;font-weight:500;",
           undefined,
           {
+            "__index": 90,
             "layer": undefined,
             "sort": 24,
           },

@@ -2,7 +2,7 @@ import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { colorResolver, defineProperty, h } from '../utils'
 import { borderStyles } from './border'
-import { notLastChildSelector } from './spacing'
+import { notLastChildSelectorVariant } from './spacing'
 
 export const divides: Rule<Theme>[] = [
 // color & opacity
@@ -10,15 +10,15 @@ export const divides: Rule<Theme>[] = [
     const result = colorResolver('border-color', 'divide')(match, ctx)
     if (result) {
       yield {
-        [ctx.symbols.selector]: notLastChildSelector,
+        [ctx.symbols.variants]: [notLastChildSelectorVariant(match[0])],
         ...result[0] as CSSObject,
       }
       yield result[1]
     }
   }, { autocomplete: 'divide-$colors' }],
-  [/^divide-op(?:acity)?-?(.+)$/, function* ([, opacity], { symbols }) {
+  [/^divide-op(?:acity)?-?(.+)$/, function* ([match, opacity], { symbols }) {
     yield {
-      [symbols.selector]: notLastChildSelector,
+      [symbols.variants]: [notLastChildSelectorVariant(match)],
       '--un-divide-opacity': h.bracket.percent(opacity),
     }
   }, { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
@@ -26,24 +26,24 @@ export const divides: Rule<Theme>[] = [
   // divides
   [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y)', 'divide-(x|y)-reverse'] }],
   [/^divide-?([xy])-?(.+)$/, handlerDivide],
-  [/^divide-?([xy])-reverse$/, function* ([, d]: string[], { symbols }: RuleContext<Theme>) {
+  [/^divide-?([xy])-reverse$/, function* ([m, d]: string[], { symbols }: RuleContext<Theme>) {
     yield {
-      [symbols.selector]: notLastChildSelector,
+      [symbols.variants]: [notLastChildSelectorVariant(m)],
       [`--un-divide-${d}-reverse`]: '1',
     }
     yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 })
   }],
 
   // styles
-  [new RegExp(`^divide-(${borderStyles.join('|')})$`), function* ([, style]: string[], { symbols }: RuleContext<Theme>) {
+  [new RegExp(`^divide-(${borderStyles.join('|')})$`), function* ([match, style]: string[], { symbols }: RuleContext<Theme>) {
     yield {
-      [symbols.selector]: notLastChildSelector,
+      [symbols.variants]: [notLastChildSelectorVariant(match)],
       'border-style': style,
     }
   }, { autocomplete: borderStyles.map(i => `divide-${i}`) }],
 ]
 
-function* handlerDivide([, d, s]: string[], { symbols }: RuleContext<Theme>) {
+function* handlerDivide([m, d, s]: string[], { symbols }: RuleContext<Theme>) {
   let v = h.bracket.cssvar.px(s || '1')
   if (v != null) {
     if (v === '0')
@@ -65,7 +65,7 @@ function* handlerDivide([, d, s]: string[], { symbols }: RuleContext<Theme>) {
 
     if (results) {
       yield {
-        [symbols.selector]: notLastChildSelector,
+        [symbols.variants]: [notLastChildSelectorVariant(m)],
         [`--un-divide-${d}-reverse`]: 0,
         ...Object.fromEntries(results.flat()),
       }

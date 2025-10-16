@@ -5,7 +5,7 @@ import path from 'path'
 import { createContext } from '#integration/context'
 import { isCssId } from '#integration/utils'
 import { createNanoEvents, notNull } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { exists } from 'fs-extra'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
@@ -29,7 +29,7 @@ export class ContextLoader {
   private fileContextCache = new Map<string, UnocssPluginContext<UserConfig<any>> | null>()
   private configExistsCache = new Map<string, boolean>()
   private defaultUnocssConfig: UserConfigDefaults = {
-    presets: [presetUno()],
+    presets: [presetWind3()],
   }
 
   public events = createNanoEvents<{

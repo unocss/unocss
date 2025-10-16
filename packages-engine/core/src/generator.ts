@@ -1,8 +1,8 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
-import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, warnOnce } from './utils'
+import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, VirtualKey, warnOnce } from './utils'
 import { createNanoEvents } from './utils/events'
 
 export const symbols: ControlSymbols = {
@@ -13,6 +13,7 @@ export const symbols: ControlSymbols = {
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
   layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
   sort: '$$symbol-sort' as unknown as ControlSymbols['sort'],
+  body: '$$symbol-body' as unknown as ControlSymbols['body'],
 }
 
 class UnoGeneratorInternal<Theme extends object = object> {
@@ -671,12 +672,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
         context.rules!.push(rule)
       }
       context.generator.activatedRules.add(rule)
-      const index = context.generator.config.rules.indexOf(rule)
       const meta = rule[2]
 
       return entries.map((css): ParsedUtil | RawUtil => {
         if (isString(css))
-          return [index, css, meta]
+          return [meta!.__index!, css, meta]
 
         // Extract variants from special symbols
         let variants = context.variantHandlers
@@ -723,9 +723,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
               noMerge: entry[1],
             }
           }
+          else if (entry[0] === symbols.body) {
+            (entry as unknown as CSSEntry)[0] = VirtualKey
+          }
         }
 
-        return [index, raw, css as CSSEntries, entryMeta, variants]
+        return [meta!.__index!, raw, css as CSSEntries, entryMeta, variants]
       })
     }
   }
@@ -876,7 +879,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
         rawStringifiedUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
+
+      const isNoMerge = Object.fromEntries(item[2])[symbols.shortcutsNoMerge]
+      const variants = [...item[4], ...(!isNoMerge ? parentVariants : [])]
+      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, variants, raw)
 
       // find existing layer and merge
       const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())

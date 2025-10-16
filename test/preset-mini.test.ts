@@ -86,9 +86,8 @@ describe('preset-mini', () => {
   })
 
   it('specialPresetMiniTargets', async () => {
-    const code = specialPresetMiniTargets.join(' ')
-    const { css: css2 } = await uno.generate(code)
-    await expect(css2).toMatchFileSnapshot('./assets/output/preset-mini-special-targets.css')
+    const { css } = await uno.generate(specialPresetMiniTargets, { preflights: false })
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-mini-special-targets.css')
   })
 
   it('utils from preset-wind should be non-targets', async () => {

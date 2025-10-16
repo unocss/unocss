@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-icons",
   "type": "module",
-  "version": "66.3.2",
+  "version": "66.5.4",
   "description": "Pure CSS Icons for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -58,11 +58,11 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
-    "@iconify/utils": "catalog:",
+    "@iconify/utils": "catalog:icons",
     "@unocss/core": "workspace:*",
-    "ofetch": "catalog:"
+    "ofetch": "catalog:utils"
   },
   "devDependencies": {
-    "@iconify/types": "catalog:"
+    "@iconify/types": "catalog:icons"
   }
 }

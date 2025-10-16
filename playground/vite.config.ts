@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 import { alias } from '../alias'
+import { importMapPlugin } from './vite-plugin-import-map'
 
 const git = SimpleGit()
 
@@ -19,9 +20,10 @@ export default defineConfig({
     alias,
   },
   define: {
-    __SHA__: JSON.stringify(SHA),
-    __LASTEST_TAG__: JSON.stringify(LASTEST_TAG),
-    __LASTEST_TAG_SHA__: JSON.stringify(LASTEST_TAG_SHA),
+    '__SHA__': JSON.stringify(SHA),
+    '__LASTEST_TAG__': JSON.stringify(LASTEST_TAG),
+    '__LASTEST_TAG_SHA__': JSON.stringify(LASTEST_TAG_SHA),
+    'process.env.BABEL_TYPES_8_BREAKING': 'false',
   },
   plugins: [
     Vue(),
@@ -48,6 +50,7 @@ export default defineConfig({
       vueTemplate: true,
       dts: 'src/auto-imports.d.ts',
     }),
+    importMapPlugin(),
   ],
   optimizeDeps: {
     exclude: [

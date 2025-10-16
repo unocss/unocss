@@ -85,6 +85,7 @@ declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
 declare const SymbolLayer: unique symbol
 declare const SymbolSort: unique symbol
+declare const SymbolBody: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -115,6 +116,10 @@ export interface ControlSymbols {
    * Sort modifier
    */
   sort: typeof SymbolSort
+  /**
+   * Custom css body modifier
+   */
+  body: typeof SymbolBody
 }
 
 export interface ControlSymbolsValue {
@@ -125,6 +130,7 @@ export interface ControlSymbolsValue {
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
   [SymbolSort]: number
+  [SymbolBody]: string
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
@@ -221,6 +227,13 @@ export interface RuleMeta {
    * @private
    */
   __hash?: string
+
+  /**
+   * Internal index of the rulelist
+   * @internal
+   * @private
+   */
+  __index?: number
 
   /**
    * Custom metadata

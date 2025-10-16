@@ -1,5 +1,6 @@
 import type { PseudoVariantUtilities } from '../src/pseudo'
 import { createGenerator } from '@unocss/core'
+import { h } from '@unocss/preset-wind4/utils'
 import { expect, it } from 'vitest'
 import {
   createPartClasses,
@@ -21,15 +22,7 @@ const utils: PseudoVariantUtilities = {
       return undefined
     return [str.slice(startIndex + 1, endIndex), str.slice(endIndex + 1)]
   },
-  h: {
-    bracket: (str: string) => {
-      // Simple bracket value parser for tests
-      if (str && str.startsWith('[') && str.endsWith(']')) {
-        return str.slice(1, -1)
-      }
-      return undefined
-    },
-  },
+  h,
   variantGetBracket,
 }
 
@@ -325,25 +318,57 @@ it('nth-child with bracket notation', async () => {
     ],
   })
 
-  const result = await uno.generate([
-    'nth-[2n+1]:foo-1',
-    'nth-[odd]:foo-2',
-    'nth-[3]:foo-3',
-  ])
+  const result = await uno.generate(
+    [
+      'nth{}-[2n+1]:foo-1',
+      'nth{}-[2n+1_of_li.foo]:foo-1',
+      'nth{}-[odd]:foo-2',
+      'nth{}-[3]:foo-3',
+    ].flatMap(template => ['', '-last', '-last-of-type', '-of-type']
+      .map(suffix => template.replace('{}', suffix))),
+  )
 
   expect(result.matched)
     .toMatchInlineSnapshot(`
       Set {
+        "nth-[2n+1]:foo-1",
+        "nth-last-[2n+1]:foo-1",
+        "nth-last-of-type-[2n+1]:foo-1",
+        "nth-of-type-[2n+1]:foo-1",
+        "nth-[2n+1_of_li.foo]:foo-1",
+        "nth-last-[2n+1_of_li.foo]:foo-1",
+        "nth-last-of-type-[2n+1_of_li.foo]:foo-1",
+        "nth-of-type-[2n+1_of_li.foo]:foo-1",
         "nth-[odd]:foo-2",
+        "nth-last-[odd]:foo-2",
+        "nth-last-of-type-[odd]:foo-2",
+        "nth-of-type-[odd]:foo-2",
         "nth-[3]:foo-3",
+        "nth-last-[3]:foo-3",
+        "nth-last-of-type-[3]:foo-3",
+        "nth-of-type-[3]:foo-3",
       }
     `)
 
   expect(result.css)
     .toMatchInlineSnapshot(`
       "/* layer: default */
+      .nth-\\[2n\\+1_of_li\\.foo\\]\\:foo-1:nth-child(2n+1 of li.foo){order:1;}
+      .nth-\\[2n\\+1\\]\\:foo-1:nth-child(2n+1){order:1;}
       .nth-\\[3\\]\\:foo-3:nth-child(3){order:3;}
-      .nth-\\[odd\\]\\:foo-2:nth-child(odd){order:2;}"
+      .nth-\\[odd\\]\\:foo-2:nth-child(odd){order:2;}
+      .nth-last-\\[2n\\+1_of_li\\.foo\\]\\:foo-1:nth-last-child(2n+1 of li.foo){order:1;}
+      .nth-last-\\[2n\\+1\\]\\:foo-1:nth-last-child(2n+1){order:1;}
+      .nth-last-\\[3\\]\\:foo-3:nth-last-child(3){order:3;}
+      .nth-last-\\[odd\\]\\:foo-2:nth-last-child(odd){order:2;}
+      .nth-last-of-type-\\[2n\\+1_of_li\\.foo\\]\\:foo-1:nth-last-of-type(2n+1 of li.foo){order:1;}
+      .nth-last-of-type-\\[2n\\+1\\]\\:foo-1:nth-last-of-type(2n+1){order:1;}
+      .nth-last-of-type-\\[3\\]\\:foo-3:nth-last-of-type(3){order:3;}
+      .nth-last-of-type-\\[odd\\]\\:foo-2:nth-last-of-type(odd){order:2;}
+      .nth-of-type-\\[2n\\+1_of_li\\.foo\\]\\:foo-1:nth-of-type(2n+1 of li.foo){order:1;}
+      .nth-of-type-\\[2n\\+1\\]\\:foo-1:nth-of-type(2n+1){order:1;}
+      .nth-of-type-\\[3\\]\\:foo-3:nth-of-type(3){order:3;}
+      .nth-of-type-\\[odd\\]\\:foo-2:nth-of-type(odd){order:2;}"
     `)
 })
 

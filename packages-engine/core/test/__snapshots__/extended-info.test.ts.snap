@@ -11,6 +11,7 @@ Map {
         "name:bar1;",
         undefined,
         {
+          "__index": 0,
           "layer": "a",
           "sort": undefined,
         },
@@ -24,11 +25,13 @@ Map {
                 "name": "bar1",
               },
               {
+                "__index": 0,
                 "layer": "a",
               },
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",
@@ -60,6 +63,7 @@ Map {
         "name:bar2;",
         undefined,
         {
+          "__index": 1,
           "layer": "b",
           "sort": undefined,
         },
@@ -73,11 +77,13 @@ Map {
                 "name": "bar2",
               },
               {
+                "__index": 1,
                 "layer": "b",
               },
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",
@@ -109,6 +115,7 @@ Map {
         "name:1;",
         undefined,
         {
+          "__index": 2,
           "layer": "c",
           "sort": undefined,
         },
@@ -120,11 +127,13 @@ Map {
               /\\^c\\(\\\\d\\+\\)\\$/,
               [Function],
               {
+                "__index": 2,
                 "layer": "c",
               },
             ],
           ],
           "symbols": {
+            "body": "$$symbol-body",
             "layer": "$$symbol-layer",
             "noMerge": "$$symbol-no-merge",
             "parent": "$$symbol-parent",

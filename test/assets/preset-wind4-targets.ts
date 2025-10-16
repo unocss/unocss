@@ -74,6 +74,9 @@ export const presetWind4Targets: string[] = [
 
   // background
   'bg-auto',
+  'bg-cover',
+  'bg-contain',
+  'bg-size-[auto_100px]',
   'bg-blend-normal',
   'bg-blend-color-burn',
   'bg-blend-luminosity',
@@ -82,7 +85,6 @@ export const presetWind4Targets: string[] = [
   'bg-clip-border',
   'bg-clip-text',
   'bg-clip-unset',
-  'bg-cover',
   'bg-fixed',
   'bg-linear-to-t',
   'bg-linear-to-tl',
@@ -136,6 +138,7 @@ export const presetWind4Targets: string[] = [
   'bg-conic',
   'bg-conic-120',
   'bg-repeating-conic',
+  'bg-gradient-to-r',
 
   // behaviors
   'list-none',
@@ -224,7 +227,11 @@ export const presetWind4Targets: string[] = [
   'drop-shadow-[0_4px_3px_#000]',
   'drop-shadow-none',
   'drop-shadow-sm',
+  'drop-shadow-sm/50',
+  'drop-shadow-red-300',
+  'drop-shadow-red-300/30',
   'drop-shadow-color-red-300',
+  'drop-shadow-op-30',
   'drop-shadow-color-op-30',
   'grayscale',
   'grayscale-90',
@@ -295,6 +302,9 @@ export const presetWind4Targets: string[] = [
 
   // shadow, spacing
   'shadow-2xs',
+  'shadow-2xs/50',
+  'shadow-red',
+  'shadow-green-500/50',
   'inset-shadow-none',
   'mix-blend-normal',
   'mix-blend-hard-light',
@@ -395,7 +405,9 @@ export const presetWind4Targets: string[] = [
 
   // text-shadow
   'text-shadow-lg',
+  'text-shadow-lg/50',
   'text-shadow-sky-300',
+  'text-shadow-sky-300/30',
   'text-shadow-color-sky-300',
   'text-shadow-op-50',
   'text-shadow-color-op-50',

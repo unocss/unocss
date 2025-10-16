@@ -12,7 +12,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -20,11 +20,13 @@ jobs:
         uses: pnpm/action-setup@v4
 
       - name: Set node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
+
+      - run: npm i -g npm@latest
 
       - run: pnpm dlx changelogithub
         env:
@@ -38,9 +40,6 @@ jobs:
 
       - name: Publish to NPM
         run: pnpm -r publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
 
       - name: Publish to VSCE & OVSX
         run: npm run publish

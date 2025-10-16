@@ -80,6 +80,9 @@
       "#integration/defaults": [
         "./virtual-shared/integration/src/defaults.ts"
       ],
+      "#integration/env": [
+        "./virtual-shared/integration/src/env.ts"
+      ],
       "#integration/hash": [
         "./virtual-shared/integration/src/hash.ts"
       ],
@@ -139,9 +142,6 @@
       ],
       "@unocss/rule-utils": [
         "./packages-presets/rule-utils/src/"
-      ],
-      "@unocss/transformer-attributify-jsx-babel": [
-        "./packages-presets/transformer-attributify-jsx-babel/src/"
       ],
       "@unocss/transformer-attributify-jsx": [
         "./packages-presets/transformer-attributify-jsx/src/"

@@ -124,7 +124,7 @@ In PresetWind4, we align the reset styles with tailwind4 and integrate them inte
 
 ```ts [main.ts]
 import '@unocss/reset/tailwind.css' // [!code --]
-import '@unocss/reset/tailwind-compact.css' // [!code --]
+import '@unocss/reset/tailwind-compat.css' // [!code --]
 ```
 
 You only need to control whether to enable reset styles through a switch:
@@ -136,9 +136,9 @@ import { defineConfig } from 'unocss'
 export default defineConfig({
   presets: [
     presetWind4({
-      preflights: { // [!code focus]
-        reset: true, // [!code focus]
-      } // [!code focus]
+      preflights: { // [!code ++]
+        reset: true, // [!code ++]
+      } // [!code ++]
     }),
   ],
 })
@@ -162,9 +162,9 @@ import { defineConfig, presetWind4 } from 'unocss'
 export default defineConfig({
   presets: [
     presetWind4({
-      preflights: { // [!code focus]
-        theme: true, // [!code focus]
-      }, // [!code focus]
+      preflights: { // [!code ++]
+        theme: true, // [!code ++]
+      }, // [!code ++]
     }),
   ],
 })
@@ -175,18 +175,18 @@ export default defineConfig({
 And you can further control the output of your theme variables. For example, if you want to convert `rem` to `px` for theme variables, we provide the `createRemToPxProcessor` function to process your theme variables.
 
 ```ts twoslash [uno.config.ts]
-import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code focus]
+import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code ++]
 import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetWind4({
-      preflights: { // [!code focus]
-        theme: { // [!code focus]
-          mode: 'on-demand', // Default by 'on-demand' // [!code focus]
-          process: createRemToPxProcessor(), // [!code focus]
-        } // [!code focus]
-      }, // [!code focus]
+      preflights: { // [!code ++]
+        theme: { // [!code ++]
+          mode: 'on-demand', // Default by 'on-demand' // [!code ++]
+          process: createRemToPxProcessor(), // [!code ++]
+        } // [!code ++]
+      }, // [!code ++]
     }),
   ],
 })
@@ -195,21 +195,109 @@ export default defineConfig({
 By the way, if you want to use the `presetRemToPx` preset to convert `rem` to `px`, you no longer need to import this preset separately as `presetWind4` provides this functionality internally.
 
 ```ts twoslash [uno.config.ts]
-import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code focus]
+import { createRemToPxProcessor } from '@unocss/preset-wind4/utils' // [!code ++]
 import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetWind4({
-      preflights: { // [!code focus]
-        theme: { // [!code focus]
-          process: createRemToPxProcessor(), // [!code focus]
-        } // [!code focus]
-      }, // [!code focus]
+      preflights: { // [!code ++]
+        theme: { // [!code ++]
+          process: createRemToPxProcessor(), // [!code ++]
+        } // [!code ++]
+      }, // [!code ++]
     }),
   ],
-  postprocess: [createRemToPxProcessor()], // [!code focus]
+  postprocess: [createRemToPxProcessor()], // [!code ++]
 })
+```
+
+#### Property
+
+Control the generation of `@property` CSS rules in the `properties` layer.
+
+By default, PresetWind4 uses `@property` to define CSS custom properties for better browser optimization. These properties are automatically generated based on your utilities usage and wrapped in a `@supports` query for progressive enhancement.
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: true, // Enable (default) | `false` to disable [!code ++]
+      },
+    }),
+  ],
+})
+```
+
+##### Parent and Selector
+
+You can customize the parent wrapper and selector:
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: {
+          // Custom parent selector (e.g., use @layer instead of @supports)
+          parent: '@layer custom-properties',
+          // Custom selector for applying properties
+          selector: ':where(*, ::before, ::after)',
+        },
+      },
+    }),
+  ],
+})
+```
+
+If you don't want the `@supports` wrapper and want properties applied directly:
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: {
+          parent: false, // No parent wrapper
+        },
+      },
+    }),
+  ],
+})
+```
+
+**Default output:**
+
+```css
+@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or
+  ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+  *,
+  ::before,
+  ::after,
+  ::backdrop {
+    --un-text-opacity: 100%;
+    /* ... */
+  }
+}
+```
+
+**With `parent: false`:**
+
+```css
+*,
+::before,
+::after,
+::backdrop {
+  --un-text-opacity: 100%;
+  /* ... */
+}
 ```
 
 ## Generated CSS

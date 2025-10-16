@@ -1,10 +1,10 @@
-import type { UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { UnoGenerator, UserConfigDefaults } from '@unocss/core'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
 import type { SvelteScopedContext, UnocssSveltePreprocessOptions } from './types'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { createGenerator, warnOnce } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
 import { transformClasses } from './transformClasses'
 import { wrapSelectorsWithGlobal } from './transformClasses/wrapGlobal'
 import { checkForApply, transformStyle } from './transformStyle'
@@ -16,12 +16,24 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
 
   let uno: UnoGenerator
 
-  const loadConfig = createRecoveryConfigLoader()
+  const makeGenerator = async () => {
+    if (unoContextFromVite) {
+      await unoContextFromVite.ready
+      return unoContextFromVite.uno
+    }
+
+    const defaults: UserConfigDefaults = {
+      presets: [
+        presetWind3(),
+      ],
+    }
+
+    return await createGenerator((await createRecoveryConfigLoader()(process.cwd(), options.configOrPath)).config, defaults)
+  }
 
   return {
     markup: async ({ content, filename }) => {
-      if (!uno)
-        uno = await getGenerator((await loadConfig(process.cwd(), options.configOrPath)).config, unoContextFromVite)
+      uno ??= await makeGenerator()
 
       if (isViteBuild && options.combine === undefined)
         options.combine = isViteBuild()
@@ -55,8 +67,7 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
       if (!changeNeeded)
         return
 
-      if (!uno)
-        uno = await getGenerator((await loadConfig()).config)
+      uno ??= await makeGenerator()
 
       let preflightsSafelistCss = ''
       if (addPreflights || addSafelist) {
@@ -79,18 +90,4 @@ export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = 
         return { code: preflightsSafelistCss + content }
     },
   }
-}
-
-async function getGenerator(config: UserConfig, unoContextFromVite?: SvelteScopedContext) {
-  if (unoContextFromVite) {
-    await unoContextFromVite.ready
-    return unoContextFromVite.uno
-  }
-
-  const defaults: UserConfigDefaults = {
-    presets: [
-      presetUno(),
-    ],
-  }
-  return createGenerator(config, defaults)
 }

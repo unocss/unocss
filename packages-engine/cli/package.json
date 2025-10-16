@@ -1,7 +1,7 @@
 {
   "name": "@unocss/cli",
   "type": "module",
-  "version": "66.3.2",
+  "version": "66.5.4",
   "description": "CLI for UnoCSS",
   "author": {
     "name": "Johann Schopplich",
@@ -44,18 +44,18 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@ampproject/remapping": "catalog:",
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
-    "cac": "catalog:",
-    "chokidar": "catalog:",
-    "colorette": "catalog:",
-    "consola": "catalog:",
-    "magic-string": "catalog:",
-    "pathe": "catalog:",
-    "perfect-debounce": "catalog:",
-    "tinyglobby": "catalog:",
-    "unplugin-utils": "catalog:"
+    "cac": "catalog:utils",
+    "chokidar": "catalog:utils",
+    "colorette": "catalog:utils",
+    "consola": "catalog:utils",
+    "magic-string": "catalog:utils",
+    "pathe": "catalog:utils",
+    "perfect-debounce": "catalog:utils",
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
   }
 }

@@ -28,6 +28,8 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
     meta.provider = resolveProvider(meta.provider || defaultProvider)
     if (meta.weights)
       meta.weights = [...new Set(meta.weights.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))]
+    if (meta.widths)
+      meta.widths = [...new Set(meta.widths.sort((a, b) => a.toString().localeCompare(b.toString(), 'en', { numeric: true })))]
     return meta as ResolvedWebFontMeta
   }
 
@@ -127,7 +129,12 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
             preflights.push(await importUrl(url))
         }
 
-        preflights.push(await provider.getPreflight?.(fontsForProvider))
+        try {
+          preflights.push(await provider.getPreflight?.(fontsForProvider, fetchWithTimeout))
+        }
+        catch (e) {
+          console.warn(`[unocss] Web fonts preflight fetch failed.`, e)
+        }
       }
 
       const css = preflights.filter(Boolean).join('\n')

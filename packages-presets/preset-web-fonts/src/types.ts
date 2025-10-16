@@ -21,6 +21,12 @@ export interface WebFontMeta {
   italic?: boolean // ital axis
 
   /**
+   * Font width(s) to include, and respect the width order
+   * @example [62.5, 125]
+   */
+  widths?: (string | number)[] // wdth axis
+
+  /**
    * Variable font settings
    * @example
    * ```ts
@@ -135,7 +141,7 @@ export interface WebFontsOptions {
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight?: (fonts: WebFontMeta[]) => Awaitable<string | undefined>
+  getPreflight?: (fonts: WebFontMeta[], fetcher: (url: string) => Promise<any>) => Awaitable<string | undefined>
   getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
   getFontName?: (font: WebFontMeta) => string
 }

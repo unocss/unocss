@@ -18,8 +18,8 @@ packages-integrations/vscode/LICENSE
 packages-integrations/vscode/src/generated
 packages-presets/unocss/README.md
 result.json
-interactive/guides/vendor/*.md
-interactive/data/guides.ts
+interactive/app/guides/vendor/*.md
+interactive/app/data/guides.ts
 interactive/public/play
 interactive/public/shiki
 .svelte-kit

@@ -1,4 +1,4 @@
-import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, DynamicRule, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { DEFAULT_LAYERS } from './constants'
 import { extractorSplit } from './extractors'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
@@ -155,22 +155,25 @@ export async function resolveConfig<Theme extends object = object>(
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = getMerged('rules')
-  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
-
   const rulesSize = rules.length
+  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
+  const rulesDynamic: ResolvedConfig<Theme>['rulesDynamic'] = []
 
-  const rulesDynamic = rules
-    .filter((rule) => {
-      if (!isStaticRule(rule))
-        return true
+  for (const [index, rule] of rules.entries()) {
+    const meta = rule[2] ?? (rule[2] = {})
+    meta.__index = index
+
+    if (isStaticRule(rule)) {
       // Put static rules into the map for faster lookup
-      const prefixes = toArray(rule[2]?.prefix || '')
+      const prefixes = toArray(meta.prefix ?? '')
       prefixes.forEach((prefix) => {
         rulesStaticMap[prefix + rule[0]] = rule
       })
-      return false
-    })
-    .reverse() as ResolvedConfig<Theme>['rulesDynamic']
+    }
+    else {
+      (rulesDynamic as DynamicRule<Theme>[]).unshift(rule)
+    }
+  }
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),

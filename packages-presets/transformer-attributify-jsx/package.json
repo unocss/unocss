@@ -1,7 +1,7 @@
 {
   "name": "@unocss/transformer-attributify-jsx",
   "type": "module",
-  "version": "66.3.2",
+  "version": "66.5.4",
   "description": "Support valueless attributify in JSX/TSX.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -38,9 +38,11 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
+    "@babel/parser": "catalog:babel",
+    "@babel/traverse": "catalog:babel",
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
-    "magic-string": "catalog:"
+    "magic-string": "catalog:utils"
   }
 }

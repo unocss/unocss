@@ -1,9 +1,10 @@
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import type { GenerateResult, UserConfig } from 'unocss'
 import { evaluateUserConfig } from '#docs'
 import { unocssBundle } from '#docs/unocss-bundle'
-import { createAutocomplete } from '@unocss/autocomplete'
+import reset from '@unocss/reset/tailwind.css?raw'
 import MagicString from 'magic-string'
 import { createGenerator } from 'unocss'
 
@@ -16,7 +17,10 @@ export const output = shallowRef<GenerateResult>()
 export const annotations = shallowRef<HighlightAnnotation[]>()
 
 let customConfig: UserConfig = {}
-let autocomplete = (async () => createAutocomplete(await __uno))()
+let autocomplete = (async () => {
+  return (await unocssBundle.get('@unocss/autocomplete')!())
+    .createAutocomplete(await __uno) as UnocssAutocomplete
+})()
 let initial = true
 
 const { transformedHTML, transformed, getTransformed, transformedCSS } = useTransformer()
@@ -32,7 +36,7 @@ async function reGenerate() {
   await uno.setConfig(customConfig, defaultConfig.value)
   await detectTransformer()
   generate()
-  autocomplete = Promise.resolve(createAutocomplete(uno))
+  autocomplete = Promise.resolve((await unocssBundle.get('@unocss/autocomplete')!()).createAutocomplete(uno))
 }
 
 export async function getHint(context: CompletionContext): Promise<CompletionResult | null> {
@@ -70,6 +74,13 @@ debouncedWatch(
           layer: customCSSLayerName,
           getCSS: () => cleanOutput(transformedCSS.value || ''),
         })
+        // @ts-expect-error ignore
+        if (!result.presets?.some(preset => preset.name === '@unocss/preset-wind4')) {
+          preflights.push({
+            layer: 'base',
+            getCSS: () => reset,
+          })
+        }
 
         result.preflights = preflights
         customConfig = result

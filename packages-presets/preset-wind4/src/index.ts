@@ -120,6 +120,32 @@ export interface PresetWind4Options extends PresetOptions {
      * to match the design system or requirements of your project.
      */
     theme?: PreflightsTheme['mode'] | PreflightsTheme
+
+    /**
+     * Configuration for property preflight generation.
+     *
+     * - `false`: Disable property preflight
+     * - `true` or `undefined`: Enable with default configuration
+     * - `object`: Enable with custom configuration
+     */
+    property?: boolean | {
+      /**
+       * Custom parent selector (e.g., @supports query or @layer).
+       *
+       * - `string`: Use custom parent selector
+       * - `false`: No parent wrapper, apply properties directly to selector
+       * - `undefined`: Use default @supports query
+       *
+       * @default '@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b))))'
+       */
+      parent?: string | false
+      /**
+       * Custom selector for applying properties.
+       *
+       * @default '*, ::before, ::after, ::backdrop'
+       */
+      selector?: string
+    }
   }
 }
 
@@ -128,15 +154,6 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
   options.attributifyPseudo = options.attributifyPseudo ?? false
   options.variablePrefix = options.variablePrefix ?? 'un-'
   options.important = options.important ?? false
-
-  const preflightsTheme = (typeof options.preflights?.theme === 'boolean' || typeof options.preflights?.theme === 'string')
-    ? { mode: options.preflights.theme ?? 'on-demand' }
-    : { mode: options.preflights?.theme?.mode ?? 'on-demand', ...options.preflights?.theme }
-
-  options.preflights = {
-    reset: options.preflights?.reset ?? true,
-    theme: preflightsTheme,
-  }
 
   return {
     name: PRESET_NAME,

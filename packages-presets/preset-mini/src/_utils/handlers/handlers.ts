@@ -259,7 +259,7 @@ export function degree(str: string) {
   const num = Number.parseFloat(n)
   if (!Number.isNaN(num)) {
     if (num === 0)
-      return '0'
+      return '0deg'
     return unit ? `${round(num)}${unit}` : `${round(num)}deg`
   }
 }

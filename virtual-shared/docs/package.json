@@ -1,12 +1,12 @@
 {
   "type": "module",
-  "version": "66.3.2",
+  "version": "66.5.4",
   "private": true,
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@vue/reactivity": "catalog:",
-    "fuse.js": "catalog:",
-    "prettier": "catalog:"
+    "@vue/reactivity": "catalog:vue",
+    "fuse.js": "catalog:utils",
+    "prettier": "catalog:utils"
   }
 }

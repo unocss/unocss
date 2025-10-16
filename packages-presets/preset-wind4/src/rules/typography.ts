@@ -1,6 +1,17 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorableShadows, colorResolver, defineProperty, getStringComponent, globalKeywords, h, isCSSMathFn, numberResolver } from '../utils'
+import {
+  colorableShadows,
+  colorResolver,
+  defineProperty,
+  getStringComponent,
+  getStringComponents,
+  globalKeywords,
+  h,
+  hasParseableColor,
+  isCSSMathFn,
+  numberResolver,
+} from '../utils'
 import { bracketTypeRe } from '../utils/handlers/regex'
 import { generateThemeVariable, themeTracking } from '../utils/track'
 
@@ -244,22 +255,30 @@ export const textStrokes: Rule<Theme>[] = [
   [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
 ]
 
-const opRE = /op(?:acity)?-/
-export const textShadows: Rule<Theme>[] = [
-  [/^text-shadow(?:-(.+))?$/, (match, ctx) => {
-    const [_, s = 'DEFAULT'] = match
-    const v = ctx.theme.textShadow?.[s]
-    if (v != null) {
-      return {
-        '--un-text-shadow': colorableShadows(v, '--un-text-shadow-color').join(','),
-        'text-shadow': 'var(--un-text-shadow)',
-      }
-    }
-    if (opRE.test(s))
-      return { '--un-text-shadow-opacity': h.bracket.percent.cssvar(s.replace(opRE, '')) }
+function handleTextShadow(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
+  const [, s] = match
+  const { theme } = ctx
+  let res: string[] = []
+  if (s) {
+    res = getStringComponents(s, '/', 2) ?? []
+  }
+  const v = theme.textShadow?.[res[0]]
+  const c = s ? h.bracket.cssvar(s) : undefined
 
-    return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s) }
-  }, {
+  if ((v != null || c != null) && !hasParseableColor(c, theme)) {
+    const alpha = res[1] ? h.bracket.percent.cssvar(res[1]) : undefined
+    return {
+      '--un-text-shadow-opacity': alpha,
+      '--un-text-shadow': colorableShadows((v || c)!, '--un-text-shadow-color', alpha).join(','),
+      'text-shadow': 'var(--un-text-shadow)',
+    }
+  }
+
+  return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s) }
+}
+
+export const textShadows: Rule<Theme>[] = [
+  [/^text-shadow-(.+)$/, handleTextShadow, {
     autocomplete: [
       'text-shadow-$textShadow',
       'text-shadow(-color)?-$colors',
@@ -269,7 +288,7 @@ export const textShadows: Rule<Theme>[] = [
 
   // colors
   [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow'), { autocomplete: 'text-shadow-color-$colors' }],
-  [/^text-shadow-color-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow-color-(op|opacity)-<percent>' }],
+  [/^text-shadow(?:-color)?-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow(-color)?-(op|opacity)-<percent>' }],
 ]
 
 const fontVariantNumericProperties = [

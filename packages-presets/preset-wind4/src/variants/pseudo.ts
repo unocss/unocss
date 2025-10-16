@@ -7,7 +7,6 @@ import {
   createPseudoClassesAndElements,
   createPseudoClassFunctions,
   createTaggedPseudoClasses,
-
 } from '@unocss/rule-utils'
 import { getBracket, h, variantGetBracket } from '../utils'
 

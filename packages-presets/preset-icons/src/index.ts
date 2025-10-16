@@ -1,9 +1,10 @@
 import type { UniversalIconLoader } from '@iconify/utils'
 import type { IconsAPI, IconsOptions } from './core'
+import { getEnvFlags } from '#integration/env'
 import { loadIcon } from '@iconify/utils'
 import { definePreset } from '@unocss/core'
 import { createCDNLoader } from './cdn'
-import { combineLoaders, createPresetIcons, getEnvFlags } from './core'
+import { combineLoaders, createPresetIcons } from './core'
 
 export * from './core'
 
@@ -27,7 +28,7 @@ const _factory = /* @__PURE__ */ createPresetIcons(async (options) => {
   }
 
   if (cdn)
-    loaders.push(createCDNLoader(cdn))
+    loaders.push(await createCDNLoader(cdn))
 
   loaders.push(loadIcon)
 

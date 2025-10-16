@@ -60,6 +60,9 @@ export const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['odd-of-type', ':nth-of-type(odd)'],
   ['odd', ':nth-child(odd)'],
   ['nth', `:nth-child(${PseudoPlaceholder})`],
+  ['nth-last', `:nth-last-child(${PseudoPlaceholder})`],
+  ['nth-last-of-type', `:nth-last-of-type(${PseudoPlaceholder})`],
+  ['nth-of-type', `:nth-of-type(${PseudoPlaceholder})`],
   'first-of-type',
   ['first', ':first-child'],
   'last-of-type',
@@ -258,7 +261,7 @@ export function createPseudoClassesAndElements<T extends object = object>(utils:
       name: 'pseudo',
       match(input, ctx) {
         if (!(PseudoClassesAndElementsRE && PseudoClassesAndElementsColonRE)) {
-          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\d+|\\[\\w+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
+          PseudoClassesAndElementsRE = new RegExp(`^(${PseudoClassesAndElementsStr})(?:-(\\d+|\\[(\\w|[+-.])+\\]))?(?:${ctx.generator.config.separators.join('|')})`)
           PseudoClassesAndElementsColonRE = new RegExp(`^(${PseudoClassesAndElementsColonStr})(?:${ctx.generator.config.separators.filter(x => x !== '-').join('|')})`)
         }
 

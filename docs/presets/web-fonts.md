@@ -236,7 +236,10 @@ export default defineConfig({
         fontAssetsDir: 'public/assets/fonts',
 
         // Base URL to serve the fonts from the client
-        fontServeBaseUrl: '/assets/fonts'
+        fontServeBaseUrl: '/assets/fonts',
+
+        // Custom fetch function to download the fonts
+        fetch: async url => axios.get(url)
       })
     }),
   ],

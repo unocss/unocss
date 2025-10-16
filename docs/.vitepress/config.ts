@@ -21,15 +21,16 @@ const Guides: DefaultTheme.NavItemWithLink[] = [
 const Configs: DefaultTheme.NavItemWithLink[] = [
   { text: 'Overview', link: '/config/' },
   { text: 'Rules', link: '/config/rules' },
+  { text: 'Variants', link: '/config/variants' },
   { text: 'Shortcuts', link: '/config/shortcuts' },
   { text: 'Theme', link: '/config/theme' },
-  { text: 'Variants', link: '/config/variants' },
   { text: 'Extractors', link: '/config/extractors' },
-  { text: 'Transformers', link: '/config/transformers' },
   { text: 'Preflights', link: '/config/preflights' },
+  { text: 'Safelist', link: '/config/safelist' },
   { text: 'Layers', link: '/config/layers' },
-  { text: 'AutoComplete', link: '/config/autocomplete' },
   { text: 'Presets', link: '/config/presets' },
+  { text: 'Transformers', link: '/config/transformers' },
+  { text: 'AutoComplete', link: '/config/autocomplete' },
 ]
 
 const Integrations: DefaultTheme.NavItemWithLink[] = [
