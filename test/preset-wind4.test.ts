@@ -657,4 +657,31 @@ describe('important', () => {
       }"
     `)
   })
+
+  it('with no-merge shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      shortcuts: [
+        ['btn', 'text-red dark:text-blue'],
+      ],
+    })
+
+    const { css } = await uno.generate('hover:btn')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      /* layer: shortcuts */
+      .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .dark .hover\\:btn{color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
 })
