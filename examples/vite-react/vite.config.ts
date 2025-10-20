@@ -9,6 +9,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     UnoCSS({
+      virtualModulePrefix: '__custom_react',
       shortcuts: [
         { logo: 'i-logos-react w-6em h-6em transform transition-800 hover:rotate-180' },
       ],

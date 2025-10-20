@@ -1,6 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ViteDevServer } from 'vite'
 import { Buffer } from 'node:buffer'
+import { ResolvedIdRegexes } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
@@ -41,11 +42,12 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
           return entry
       },
       async load(id) {
+        await ctx.ready
+        ResolvedIdRegexes.set(ctx.uno.config.virtualModulePrefix)
         const layer = resolveLayer(getPath(id))
         if (!layer)
           return null
 
-        await ctx.ready
         const { css } = await ctx.uno.generate('', { preflights: true })
         if (!css)
           return null

@@ -2,7 +2,7 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
-import { LAYER_MARK_ALL } from '#integration/constants'
+import { LAYER_MARK_ALL, ResolvedIdRegexes } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
@@ -17,7 +17,7 @@ const HASH_LENGTH = 6
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
+  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig, ready } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
@@ -123,6 +123,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       apply: 'serve',
       enforce: 'pre',
       async configureServer(_server) {
+        await ready
+        ResolvedIdRegexes.set(ctx.uno.config.virtualModulePrefix)
         servers.push(_server)
 
         _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {

@@ -4,7 +4,7 @@ import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { RESOLVED_ID_RE } from '#integration/constants'
+import { ResolvedIdRegexes } from '#integration/constants'
 import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
 
@@ -25,6 +25,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
       root = config.root
     },
     async resolveId(id, importer) {
+      const { RESOLVED_ID_RE } = ResolvedIdRegexes.get()
       if (RESOLVED_ID_RE.test(id)) {
         // https://github.com/withastro/astro/blob/087270c61fd5c91ddd37db5c8fd93a8a0ef41f94/packages/astro/src/core/util.ts#L91-L93
         // Align data-astro-dev-id with data-vite-dev-id to fix https://github.com/unocss/unocss/issues/2513
@@ -71,6 +72,8 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
     injectReset = false,
     injectExtra = [],
   } = options
+
+  ResolvedIdRegexes.set(options.virtualModulePrefix)
 
   return {
     name: 'unocss',

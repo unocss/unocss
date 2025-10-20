@@ -1,7 +1,10 @@
 import { resolve } from 'pathe'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE, VIRTUAL_ENTRY_ALIAS } from './constants'
+import { LAYER_MARK_ALL, ResolvedIdRegexes, VIRTUAL_ENTRY_ALIAS } from './constants'
 
 export function resolveId(id: string, importer?: string) {
+  const prefix = ResolvedIdRegexes.currentPrefix()
+  const { RESOLVED_ID_WITH_QUERY_RE } = ResolvedIdRegexes.get()
+
   if (id.match(RESOLVED_ID_WITH_QUERY_RE))
     return id
 
@@ -9,8 +12,8 @@ export function resolveId(id: string, importer?: string) {
     const match = id.match(alias)
     if (match) {
       let virtual = match[1]
-        ? `__uno_${match[1]}.css`
-        : '__uno.css'
+        ? `${prefix}_${match[1]}.css`
+        : `${prefix}.css`
       virtual += match[2] || ''
       if (importer)
         virtual = resolve(importer, '..', virtual)
@@ -22,6 +25,7 @@ export function resolveId(id: string, importer?: string) {
 }
 
 export function resolveLayer(id: string) {
+  const { RESOLVED_ID_RE } = ResolvedIdRegexes.get()
   const match = id.match(RESOLVED_ID_RE)
   if (match)
     return match[1] || LAYER_MARK_ALL
