@@ -1,7 +1,7 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
 import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
-import { toArray, uniq } from '@unocss/core'
+import { escapeSelector, toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
 
@@ -92,7 +92,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
           }
         }
 
-        const resolvedDeps = deps.map(([key, value]) => (key && value) ? `${key}: ${value};` : undefined).filter(Boolean)
+        const resolvedDeps = deps.map(([key, value]) => (key && value) ? `${escapeSelector(key)}: ${value};` : undefined).filter(Boolean)
         if (resolvedDeps.length === 0) {
           return undefined
         }
