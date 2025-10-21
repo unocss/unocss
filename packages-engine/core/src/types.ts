@@ -688,6 +688,14 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+
+  /**
+   * Custom prefix for virtual modules
+   *
+   * @default '__uno'
+   */
+  virtualModulePrefix?: string
+
   /**
    * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
    */
@@ -873,7 +881,7 @@ export interface UserConfig<Theme extends object = object> extends ConfigBase<Th
 export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> { }
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
-  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'virtualModulePrefix'>,
   'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]
@@ -891,6 +899,7 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
     shorthands: Record<string, string>
   }
   separators: string[]
+  virtualModulePrefix: string
 }
 
 export interface GenerateResult<T = Set<string>> {
