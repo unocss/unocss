@@ -1,7 +1,7 @@
 import type { CSSEntry, Preflight } from '@unocss/core'
 import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
-import { toArray, uniq } from '@unocss/core'
+import { escapeSelector, toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
 
@@ -53,12 +53,16 @@ function getThemeVarsMap(theme: Theme, keys: string[]): Map<string, string> {
 }
 
 export function theme(options: PresetWind4Options): Preflight<Theme> {
+  const preflightsTheme: PreflightsTheme = (typeof options.preflights?.theme === 'boolean' || typeof options.preflights?.theme === 'string')
+    ? { mode: options.preflights.theme ?? 'on-demand' }
+    : { mode: options.preflights?.theme?.mode ?? 'on-demand', ...options.preflights?.theme }
+
   return {
     layer: 'theme',
     getCSS(ctx) {
       const { theme, generator } = ctx
       const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
-      const { mode, process } = options.preflights!.theme as PreflightsTheme
+      const { mode, process } = preflightsTheme
       if (mode === false) {
         return undefined
       }
@@ -88,7 +92,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
           }
         }
 
-        const resolvedDeps = deps.map(([key, value]) => (key && value) ? `${key}: ${value};` : undefined).filter(Boolean)
+        const resolvedDeps = deps.map(([key, value]) => (key && value) ? `${escapeSelector(key)}: ${value};` : undefined).filter(Boolean)
         if (resolvedDeps.length === 0) {
           return undefined
         }

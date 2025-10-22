@@ -487,7 +487,7 @@ describe('important', () => {
       'dark:bg-blue',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
+    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
   })
 
   it(`should prefix selector with provided important string and wrap the original selector in ":is()"`, async () => {
@@ -508,7 +508,7 @@ describe('important', () => {
       'selection:bg-yellow',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
+    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
   })
 
   it('shadow with opacity', async () => {
@@ -527,7 +527,7 @@ describe('important', () => {
       'shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-inset-ring-color{syntax:"*";inherits:false;}
       @property --un-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
@@ -570,7 +570,7 @@ describe('important', () => {
       'text-shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-text-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: default */
@@ -601,7 +601,7 @@ describe('important', () => {
       'drop-shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-blur{syntax:"*";inherits:false;}
       @property --un-brightness{syntax:"*";inherits:false;}
@@ -623,6 +623,64 @@ describe('important', () => {
       @supports (color: color-mix(in lab, red, red)){
       .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
       .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-drop-shadow-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('custom properties', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: {
+            reset: false,
+            property: {
+              parent: false,
+              selector: ':host',
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('text-red')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      :host{--un-text-opacity:100%;}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); }
+      /* layer: default */
+      .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('with no-merge shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      shortcuts: [
+        ['btn', 'text-red dark:text-blue'],
+      ],
+    })
+
+    const { css } = await uno.generate('hover:btn')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      /* layer: shortcuts */
+      .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .dark .hover\\:btn{color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
       }"
     `)
   })
