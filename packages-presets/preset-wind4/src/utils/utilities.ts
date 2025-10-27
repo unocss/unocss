@@ -1,6 +1,6 @@
 import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { symbols, toArray } from '@unocss/core'
+import { escapeSelector, symbols, toArray } from '@unocss/core'
 import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor } from '@unocss/rule-utils'
 import { SpecialColorKey } from './constant'
 import { h } from './handlers'
@@ -52,7 +52,7 @@ export function directionSize(
       }
       else if (theme.spacing && size in theme.spacing) {
         themeTracking('spacing', size)
-        return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--spacing-${size}) * -1)` : `var(--spacing-${size})`])
+        return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--${escapeSelector(`spacing-${size}`)}) * -1)` : `var(--${escapeSelector(`spacing-${size}`)})`])
       }
 
       v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
