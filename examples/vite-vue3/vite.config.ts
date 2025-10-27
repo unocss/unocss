@@ -7,7 +7,9 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     Vue(),
-    UnoCSS(),
+    UnoCSS({
+      virtualModulePrefix: '__custom_vue3',
+    }),
     // legacy(),
   ],
 })

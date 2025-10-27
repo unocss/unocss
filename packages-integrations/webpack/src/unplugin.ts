@@ -3,7 +3,7 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import type { WebpackPluginOptions } from '.'
 import { isAbsolute, normalize } from 'node:path'
 import process from 'node:process'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
+import { LAYER_MARK_ALL, ResolvedIdRegexes } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { createContext } from '#integration/context'
 import { getHash } from '#integration/hash'
@@ -38,6 +38,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       timer = setTimeout(updateModules, UPDATE_DEBOUNCE)
     })
 
+    ResolvedIdRegexes.set(ctx.uno.config.virtualModulePrefix)
     // TODO: detect webpack's watch mode and enable watcher
     tasks.push(setupContentExtractor(ctx, typeof configOrPath === 'object' && configOrPath?.watch))
 
@@ -48,6 +49,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       name: 'unocss:webpack',
       enforce: 'pre',
       transformInclude(id) {
+        const { RESOLVED_ID_RE } = ResolvedIdRegexes.get()
         return filter('', id) && !id.endsWith('.html') && !RESOLVED_ID_RE.test(id)
       },
       async transform(code, id) {
