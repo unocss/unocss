@@ -881,7 +881,7 @@ export interface UserConfig<Theme extends object = object> extends ConfigBase<Th
 export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> { }
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
-  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'virtualModulePrefix'>,
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
   'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]
@@ -899,7 +899,6 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
     shorthands: Record<string, string>
   }
   separators: string[]
-  virtualModulePrefix: string
 }
 
 export interface GenerateResult<T = Set<string>> {
