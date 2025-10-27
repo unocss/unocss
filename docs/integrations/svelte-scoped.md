@@ -237,26 +237,6 @@ Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In S
 </head>
 ```
 
-If using SvelteKit, you also must add the following to the `transformPageChunk` hook in your `src/hooks.server.js` file:
-
-```js [src/hooks.server.js]
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-  const response = await resolve(event, {
-    transformPageChunk: ({ html }) =>
-      html.replace(
-        '%unocss-svelte-scoped.global%',
-        'unocss_svelte_scoped_global_styles'
-      ),
-  })
-  return response
-}
-```
-
-This transformation must be in a file whose [path includes `hooks` and `server`](https://github.com/unocss/unocss/blob/main/packages-integrations/svelte-scoped/src/_vite/global.ts#L12) (e.g. `src/hooks.server.js`, `src/hooks.server.ts`) as `svelte-scoped` will be looking in your server hooks file to replace `unocss_svelte_scoped_global_styles` with your global styles. Make sure to not import this transformation from another file, such as when using [sequence](https://kit.svelte.dev/docs/modules#sveltejs-kit-hooks-sequence) from `@sveltejs/kit/hooks`.
-
-_In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically._
-
 ## Svelte Preprocessor
 
 Use utility styles to build a component library that is not dependent on including a companion CSS file by using a preprocessor to place generated styles directly into built components. Check out the [SvelteKit Library example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) in Stackblitz:
