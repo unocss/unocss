@@ -1,5 +1,5 @@
 import { defineConfig } from '@unocss/vite'
-import { presetAttributify, presetIcons, presetWind4 } from 'unocss'
+import { presetAttributify, presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 
 export default defineConfig({
   shortcuts: [
@@ -14,5 +14,13 @@ export default defineConfig({
         'vertical-align': 'middle',
       },
     }),
+    presetWebFonts({
+      provider: 'google',
+      fonts: {
+        jbm: 'JetBrains Mono',
+        lobster: 'Lobster',
+      },
+    }),
   ],
+  outputToCssLayers: true,
 })
