@@ -1192,6 +1192,11 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .object-\$fit{object-fit:var(--fit);}
 .object-position-\$variable{object-position:var(--variable);}
 .ws-\$variable{white-space:var(--variable);}
+.\[--cell-size\:--spacing\(1\.5\)\]{--cell-size:calc(var(--spacing) * 1.5);}
+.\[--cell-size\:--spacing\(8\)\]{--cell-size:calc(var(--spacing) * 8);}
+.\[--cell-size\:--spacing\(var\(--count\,1\)\)_hello\]{--cell-size:calc(var(--spacing) * var(--count,1)) hello;}
+.\[--cell-size\:--spacing\(var\(--count\,1\)\)\]{--cell-size:calc(var(--spacing) * var(--count,1));}
+.\[--cell-size\:--spacing\(var\(--count\)\)\]{--cell-size:calc(var(--spacing) * var(--count));}
 .\[--css-spacing\:theme\(spacing\.sm\)\]{--css-spacing:0.875rem;}
 .\[--css-variable-4\:\"\"wght\"_400\,_\"opsz\"_14\"\]{--css-variable-4:""wght" 400, "opsz" 14";}
 .\[--css-variable-color\:theme\(colors\.green\.500\)\,theme\(colors\.blue\.500\)\]{--css-variable-color:oklch(72.3% 0.219 149.579),oklch(62.3% 0.214 259.815);}

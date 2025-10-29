@@ -38,13 +38,22 @@ export const cssVariables: Rule<Theme>[] = [
   }],
 ]
 
+// #4965
+const SPACING_PROPERTY_REGEX = /(--spacing)\(([\s\S]+?)\)/
 export const cssProperty: Rule<Theme>[] = [
   [/^\[(.*)\]$/, ([_, body]) => {
     if (!body.includes(':'))
       return
 
     const [prop, ...rest] = body.split(':')
-    const value = rest.join(':')
+    let value = rest.join(':')
+
+    if (SPACING_PROPERTY_REGEX.test(value)) {
+      const spacingMatch = value.match(SPACING_PROPERTY_REGEX)!
+      const spacingValue = spacingMatch[2]
+      const spacingVar = spacingMatch[1]
+      value = value.replace(SPACING_PROPERTY_REGEX, `calc(var(${spacingVar}) * ${spacingValue})`)
+    }
 
     if (!isURI(body) && /^[\w-]+$/.test(prop) && isValidCSSBody(value)) {
       const parsed = h.bracket(`[${value}]`)
