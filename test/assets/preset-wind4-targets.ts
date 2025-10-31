@@ -642,6 +642,13 @@ export const presetWind4Targets: string[] = [
 
   // inert
   'inert:opacity-25',
+
+  // property shortcuts
+  '[--cell-size:--spacing(8)]',
+  '[--cell-size:--spacing(1.5)]',
+  '[--cell-size:--spacing(var(--count))]',
+  '[--cell-size:--spacing(var(--count,1))]',
+  '[--cell-size:--spacing(var(--count,1))_hello]',
 ]
 
 export const presetWindNonTargets: string[] = [
