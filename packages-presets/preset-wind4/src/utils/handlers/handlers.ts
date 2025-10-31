@@ -1,3 +1,5 @@
+import type { RuleContext } from '@unocss/core'
+import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
 import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
@@ -147,7 +149,7 @@ export function fraction(str: string) {
   }
 }
 
-function bracketWithType(str: string, requiredType?: string) {
+function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<RuleContext<Theme>>) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
     let hintedType: string | undefined
@@ -175,8 +177,15 @@ function bracketWithType(str: string, requiredType?: string) {
       return
 
     if (base.startsWith('--')) {
-      const [name, defaultValue] = base.slice(2).split(',')
-      base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+      // --spacing(4) => calc(var(--spacing) * 4);
+      const match = base.match(/^--(\w+)\(([^)]+)\)$/)
+      if (match != null && ctx?.theme) {
+        const [, name, factor] = match
+      }
+      else {
+        const [name, defaultValue] = base.slice(2).split(',')
+        base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+      }
     }
 
     let curly = 0
@@ -222,28 +231,28 @@ function bracketWithType(str: string, requiredType?: string) {
   }
 }
 
-export function bracket(str: string) {
-  return bracketWithType(str)
+export function bracket(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, undefined, ctx)
 }
 
-export function bracketOfColor(str: string) {
-  return bracketWithType(str, 'color')
+export function bracketOfColor(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, 'color', ctx)
 }
 
-export function bracketOfLength(str: string) {
-  return bracketWithType(str, 'length') || bracketWithType(str, 'size')
+export function bracketOfLength(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, 'length', ctx) || bracketWithType(str, 'size', ctx)
 }
 
-export function bracketOfPosition(str: string) {
-  return bracketWithType(str, 'position')
+export function bracketOfPosition(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, 'position', ctx)
 }
 
-export function bracketOfFamily(str: string) {
-  return bracketWithType(str, 'family')
+export function bracketOfFamily(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, 'family', ctx)
 }
 
-export function bracketOfNumber(str: string) {
-  return bracketWithType(str, 'number')
+export function bracketOfNumber(str: string, ctx?: Readonly<RuleContext<Theme>>) {
+  return bracketWithType(str, 'number', ctx)
 }
 
 export function cssvar(str: string) {
