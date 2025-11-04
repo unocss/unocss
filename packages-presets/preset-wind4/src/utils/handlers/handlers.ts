@@ -2,6 +2,8 @@ import type { RuleContext } from '@unocss/core'
 import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
+import { themeTracking } from '../track'
+import { getThemeByKey } from '../utilities'
 import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
@@ -177,10 +179,23 @@ function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<Rule
       return
 
     if (base.startsWith('--')) {
-      // --spacing(4) => calc(var(--spacing) * 4);
-      const match = base.match(/^--(\w+)\(([^)]+)\)$/)
+      const match = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
       if (match != null && ctx?.theme) {
         const [, name, factor] = match
+        const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
+        const valOrObj = getThemeByKey(ctx.theme, key, paths)
+        const isDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
+        const val = typeof valOrObj === 'object' ? valOrObj.DEFAULT : valOrObj
+
+        if (val != null) {
+          const varKey = isDefault
+            ? key === 'spacing'
+              ? name
+              : `${name}.DEFAULT`
+            : name
+          themeTracking(key, paths.length ? paths : undefined)
+          base = `calc(${`var(--${escapeSelector(varKey.replaceAll('.', '-'))})`} * ${factor})`
+        }
       }
       else {
         const [name, defaultValue] = base.slice(2).split(',')
