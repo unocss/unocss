@@ -1,18 +1,29 @@
 import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
+import { dirname } from 'node:path'
 import process from 'node:process'
 import { sortRules } from '#integration/sort-rules'
 import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
 
-const promises = new Map<string | undefined, Promise<UnoGenerator<any>> | undefined>()
+const promises = new Map<string, Promise<UnoGenerator<any>> | undefined>()
 
 // bypass icon rules in ESLint
 process.env.ESLINT ||= 'true'
 
-async function _getGenerator(configPath?: string) {
+async function _getGenerator(configPath?: string, id?: string) {
+  // Determine the search directory:
+  // 1. If configPath is provided, use process.cwd() (existing behavior for explicit config)
+  // 2. If filename is provided and no configPath, search from the file's directory (monorepo support)
+  // 3. Otherwise, use process.cwd() as fallback
+  const searchFrom = configPath
+    ? process.cwd()
+    : id
+      ? dirname(id)
+      : process.cwd()
+
   const { config, sources } = await loadConfig(
-    process.cwd(),
+    searchFrom,
     configPath,
   )
   if (!sources.length)
@@ -23,25 +34,36 @@ async function _getGenerator(configPath?: string) {
   })
 }
 
-export async function getGenerator(configPath?: string) {
-  let promise = promises.get(configPath)
+function getCacheKey(configPath?: string, id?: string): string {
+  // Create a cache key based on configPath or the directory of the filename
+  if (configPath)
+    return `config:${configPath}`
+  if (id)
+    return `dir:${dirname(id)}`
+  return `cwd:${process.cwd()}`
+}
+
+export async function getGenerator(configPath?: string, id?: string) {
+  const cacheKey = getCacheKey(configPath, id)
+  let promise = promises.get(cacheKey)
   if (!promise) {
-    promise = _getGenerator(configPath)
-    promises.set(configPath, promise)
+    promise = _getGenerator(configPath, id)
+    promises.set(cacheKey, promise)
   }
   return await promise
 }
 
 export function setGenerator(generator: Awaited<UnoGenerator<any>>, configPath?: string | undefined) {
-  promises.set(configPath, Promise.resolve(generator))
+  const cacheKey = configPath ? `config:${configPath}` : `cwd:${process.cwd()}`
+  promises.set(cacheKey, Promise.resolve(generator))
 }
 
-async function actionSort(configPath: string | undefined, classes: string) {
-  return await sortRules(classes, await getGenerator(configPath))
+async function actionSort(configPath: string | undefined, classes: string, id?: string) {
+  return await sortRules(classes, await getGenerator(configPath, id))
 }
 
 async function actionBlocklist(configPath: string | undefined, classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]> {
-  const uno = await getGenerator(configPath)
+  const uno = await getGenerator(configPath, id)
   const blocked = new Map<string, BlocklistMeta | undefined>()
 
   const extracted = await uno.applyExtractors(classes, id)
@@ -81,7 +103,7 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
   return [...blocked]
 }
 
-export function runAsync(configPath: string | undefined, action: 'sort', classes: string): Promise<string>
+export function runAsync(configPath: string | undefined, action: 'sort', classes: string, id?: string): Promise<string>
 export function runAsync(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]>
 export async function runAsync(configPath: string | undefined, action: string, ...args: any[]): Promise<any> {
   switch (action) {
@@ -94,7 +116,7 @@ export async function runAsync(configPath: string | undefined, action: string, .
   }
 }
 
-export function run(configPath: string | undefined, action: 'sort', classes: string): string
+export function run(configPath: string | undefined, action: 'sort', classes: string, id?: string): string
 export function run(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(configPath: string | undefined, action: string, ...args: any[]): any {
   // @ts-expect-error cast

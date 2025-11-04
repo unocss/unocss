@@ -34,6 +34,7 @@ export default createRule({
           context.settings.unocss?.configPath,
           'sort',
           input,
+          context.filename,
         )
         if (sorted !== input) {
           context.report({
