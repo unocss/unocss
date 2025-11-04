@@ -1,5 +1,6 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
+import { resolve } from 'node:path'
 
 export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
   const { ready } = ctx
@@ -17,7 +18,8 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
 
       server.watcher.add(sources)
       server.watcher.on('change', async (p) => {
-        if (!sources.includes(p))
+        const resolvedChangedPath = resolve(p)
+        if (!sources.some(source => resolve(source) === resolvedChangedPath))
           return
 
         await ctx.reloadConfig()
