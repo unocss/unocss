@@ -1,5 +1,4 @@
 import type { UnoGenerator } from '@unocss/core'
-import type { Theme } from '@unocss/preset-mini'
 import type { Root } from 'postcss'
 import { calcMaxWidthBySize } from '@unocss/rule-utils'
 
@@ -22,12 +21,8 @@ export async function parseScreen(root: Root, uno: UnoGenerator, directiveName: 
     }
 
     const resolveBreakpoints = () => {
-      let breakpoints: Record<string, string> | undefined
-      if (uno.userConfig && uno.userConfig.theme)
-        breakpoints = (uno.userConfig.theme as Theme).breakpoints
-
-      if (!breakpoints)
-        breakpoints = (uno.config.theme as Theme).breakpoints
+      const key = uno.config.presets.some(p => p.name === '@unocss/preset-wind4') ? 'breakpoint' : 'breakpoints'
+      const breakpoints = uno.config.theme[key as keyof typeof uno.config.theme] as Record<string, string> | undefined
 
       return breakpoints
         ? Object.entries(breakpoints)
