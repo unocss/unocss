@@ -1,4 +1,5 @@
 import type { UnocssPluginContext } from '@unocss/core'
+import type {} from '@vitejs/devtools-kit'
 import type { IncomingMessage } from 'connect'
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from './types'

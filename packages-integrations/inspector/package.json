@@ -48,5 +48,8 @@
     "gzip-size": "catalog:build",
     "sirv": "catalog:utils",
     "vue-flow-layout": "catalog:vue"
+  },
+  "devDependencies": {
+    "@vitejs/devtools-kit": "catalog:types"
   }
 }

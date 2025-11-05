@@ -1,4 +1,5 @@
 import type { UnocssPluginContext } from '@unocss/core'
+import type {} from '@vitejs/devtools-kit'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
 import { dirname, resolve } from 'node:path'
@@ -15,10 +16,12 @@ const _dirname = typeof __dirname !== 'undefined'
   : dirname(fileURLToPath(import.meta.url))
 
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
+  const baseUrl = '__unocss'
+
   async function configureServer(server: ViteDevServer) {
     await ctx.ready
-    const baseUrl = '__unocss'
 
+    // TODO: migrate to Vite DevTools and use it's RPC layer
     server.middlewares.use(`/${baseUrl}`, sirv(resolve(_dirname, '../dist/client'), {
       single: true,
       dev: true,
@@ -134,6 +137,17 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
     name: 'unocss:inspector',
     apply: 'serve',
     configureServer,
+    devtools: {
+      setup(ctx) {
+        ctx.docks.register({
+          id: 'unocss',
+          title: 'UnoCSS',
+          icon: 'https://unocss.dev/logo.svg',
+          type: 'iframe',
+          url: `/${baseUrl}`,
+        })
+      },
+    },
   } as Plugin
 }
 
