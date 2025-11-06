@@ -121,6 +121,7 @@ catalogs:
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
+    '@vitejs/devtools-kit': ^0.0.0-alpha.10
 
   typescript:
     '@typescript-eslint/utils': ^8.45.0
