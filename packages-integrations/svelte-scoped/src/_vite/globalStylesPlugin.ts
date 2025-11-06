@@ -30,15 +30,22 @@ export function GlobalStylesPlugin(ctx: SvelteScopedContext, injectReset?: Unocs
     },
 
     // serve
-    async transform(code) {
+    async transform(code, id) {
       await ctx.ready
 
-      if (isSvelteKit && viteConfig.command === 'serve' && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
-        // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping.
-        const tag = `<link href=\\"${viteConfig.base ?? '/'}${GLOBAL_STYLES_CSS_FILE_NAME}\\" rel=\\"stylesheet\\" data-title=\\"${DEV_GLOBAL_STYLES_DATA_TITLE}\\" />`
+      if (isSvelteKit) {
+        // Check for outdated setup.
+        if (id.includes('hooks') && id.includes('server') && code.includes('unocss_svelte_scoped_global_styles')) {
+          this.warn(`[unocss] You are probably using an outdated setup for your sveltekit app. The server hook to handle an unocss styles palceholder is no longer needed.`)
+        }
 
-        return {
-          code: code.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, tag),
+        if (viteConfig.command === 'serve' && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
+          // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping.
+          const tag = `<link href=\\"${viteConfig.base ?? '/'}${GLOBAL_STYLES_CSS_FILE_NAME}\\" rel=\\"stylesheet\\" data-title=\\"${DEV_GLOBAL_STYLES_DATA_TITLE}\\" />`
+
+          return {
+            code: code.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, tag),
+          }
         }
       }
     },

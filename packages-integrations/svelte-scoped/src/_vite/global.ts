@@ -10,9 +10,6 @@ export async function generateGlobalCss(uno: UnoGenerator, injectReset?: UnocssS
   return reset + css
 }
 
-const SVELTE_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your \`index.html\` file.`
-const SVELTE_KIT_ERROR = `[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your \`app.html\` file.`
-
 export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: boolean) {
   server.middlewares.use((req, res, next) => {
     const originalWrite = res.write
@@ -22,7 +19,7 @@ export function checkTransformPageChunkHook(server: ViteDevServer, isSvelteKit: 
       const str = typeof chunk === 'string' ? chunk : (chunk instanceof Buffer) ? chunk.toString() : ((Array.isArray(chunk) || 'at' in chunk) ? Buffer.from(chunk).toString() : (`${chunk}`))
 
       if (str.includes('<head>') && !str.includes(DEV_GLOBAL_STYLES_DATA_TITLE))
-        server.config.logger.error(isSvelteKit ? SVELTE_KIT_ERROR : SVELTE_ERROR, { timestamp: true })
+        server.config.logger.error(`[unocss] You have not setup the svelte-scoped global styles correctly. You must place '${PLACEHOLDER_USER_SETS_IN_INDEX_HTML}' in your \`${isSvelteKit ? 'app.html' : 'index.html'}\` file.`, { timestamp: true })
 
       // @ts-expect-error - TS doesn't like this
       return originalWrite.call(this, chunk, ...rest)
