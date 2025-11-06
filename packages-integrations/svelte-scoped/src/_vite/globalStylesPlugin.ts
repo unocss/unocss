@@ -36,7 +36,7 @@ export function GlobalStylesPlugin(ctx: SvelteScopedContext, injectReset?: Unocs
       if (isSvelteKit) {
         // Check for outdated setup.
         if (id.includes('hooks') && id.includes('server') && code.includes('unocss_svelte_scoped_global_styles')) {
-          this.warn(`[unocss] You are probably using an outdated setup for your sveltekit app. The server hook to handle an unocss styles palceholder is no longer needed.`)
+          this.warn(`[unocss] You are probably using an outdated setup for your sveltekit app. The server hook to handle an unocss styles placeholder is no longer needed.`)
         }
 
         if (viteConfig.command === 'serve' && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
