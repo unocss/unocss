@@ -1,4 +1,3 @@
-import type { RuleContext } from '@unocss/core'
 import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
@@ -151,8 +150,8 @@ export function fraction(str: string) {
   }
 }
 
-function processThemeVariable(name: string, key: keyof Theme, paths: string[], ctx: Readonly<RuleContext<Theme>>) {
-  const valOrObj = getThemeByKey(ctx.theme, key, paths)
+function processThemeVariable(name: string, key: keyof Theme, paths: string[], theme: Theme) {
+  const valOrObj = getThemeByKey(theme, key, paths)
   const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
 
   if (hasDefault)
@@ -167,7 +166,7 @@ function processThemeVariable(name: string, key: keyof Theme, paths: string[], c
   return { val, varKey }
 }
 
-function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<RuleContext<Theme>>) {
+function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
     let hintedType: string | undefined
@@ -196,11 +195,11 @@ function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<Rule
 
     if (base.startsWith('--')) {
       const calcMatch = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
-      if (calcMatch != null && ctx?.theme) {
+      if (calcMatch != null && theme) {
         // Handle theme function with calculation: --theme.key(factor)
         const [, name, factor] = calcMatch
         const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
-        const { val, varKey } = processThemeVariable(name, key, paths, ctx)
+        const { val, varKey } = processThemeVariable(name, key, paths, theme)
 
         if (val != null)
           base = `calc(var(--${escapeSelector(varKey.replaceAll('.', '-'))}) * ${factor})`
@@ -211,9 +210,9 @@ function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<Rule
         const suffix = defaultValue ? `, ${defaultValue}` : ''
         const escapedName = escapeSelector(name)
 
-        if (ctx?.theme) {
+        if (theme) {
           const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
-          const { val, varKey } = processThemeVariable(name, key, paths, ctx)
+          const { val, varKey } = processThemeVariable(name, key, paths, theme)
           base = val != null
             ? `var(--${escapeSelector(varKey.replaceAll('.', '-'))}${suffix})`
             : `var(--${escapedName}${suffix})`
@@ -267,28 +266,28 @@ function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<Rule
   }
 }
 
-export function bracket(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, undefined, ctx)
+export function bracket(str: string, theme?: Theme) {
+  return bracketWithType(str, undefined, theme)
 }
 
-export function bracketOfColor(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, 'color', ctx)
+export function bracketOfColor(str: string, theme?: Theme) {
+  return bracketWithType(str, 'color', theme)
 }
 
-export function bracketOfLength(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, 'length', ctx) || bracketWithType(str, 'size', ctx)
+export function bracketOfLength(str: string, theme?: Theme) {
+  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme)
 }
 
-export function bracketOfPosition(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, 'position', ctx)
+export function bracketOfPosition(str: string, theme?: Theme) {
+  return bracketWithType(str, 'position', theme)
 }
 
-export function bracketOfFamily(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, 'family', ctx)
+export function bracketOfFamily(str: string, theme?: Theme) {
+  return bracketWithType(str, 'family', theme)
 }
 
-export function bracketOfNumber(str: string, ctx?: Readonly<RuleContext<Theme>>) {
-  return bracketWithType(str, 'number', ctx)
+export function bracketOfNumber(str: string, theme?: Theme) {
+  return bracketWithType(str, 'number', theme)
 }
 
 export function cssvar(str: string) {

@@ -22,7 +22,7 @@ const utils: PseudoVariantUtilities = {
       return undefined
     return [str.slice(startIndex + 1, endIndex), str.slice(endIndex + 1)]
   },
-  h,
+  h: h as unknown as PseudoVariantUtilities['h'],
   variantGetBracket,
 }
 

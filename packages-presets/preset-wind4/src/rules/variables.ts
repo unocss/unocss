@@ -39,7 +39,7 @@ export const cssVariables: Rule<Theme>[] = [
 ]
 
 export const cssProperty: Rule<Theme>[] = [
-  [/^\[(.*)\]$/, ([_, body], ctx) => {
+  [/^\[(.*)\]$/, ([_, body], { theme }) => {
     if (!body.includes(':'))
       return
 
@@ -47,7 +47,7 @@ export const cssProperty: Rule<Theme>[] = [
     const value = rest.join(':')
 
     if (!isURI(body) && /^[\w-]+$/.test(prop) && isValidCSSBody(value)) {
-      const parsed = h.bracket(`[${value}]`, ctx)
+      const parsed = h.bracket(`[${value}]`, theme)
 
       if (parsed)
         return { [prop]: parsed }

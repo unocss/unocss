@@ -36,8 +36,7 @@ export function directionSize(
   map: Record<string, string[]> = directionMap,
   formatter: (p: string, d: string) => string = (p, d) => `${p}${d}`,
 ): DynamicMatcher<Theme> {
-  return (([_, direction, size = '4']: (string | undefined)[], ctx): CSSEntries | undefined => {
-    const { theme } = ctx
+  return (([_, direction, size = '4']: (string | undefined)[], { theme }): CSSEntries | undefined => {
     if (size != null && direction != null) {
       let v: string | number | undefined
 
@@ -56,7 +55,7 @@ export function directionSize(
         return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--${escapeSelector(`spacing-${size}`)}) * -1)` : `var(--${escapeSelector(`spacing-${size}`)})`])
       }
 
-      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size, ctx)
+      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size, theme)
 
       if (v != null) {
         return map[direction].map(i => [formatter(property, i), v])
@@ -148,7 +147,7 @@ export function parseColor(body: string, theme: Theme) {
   let { no, keys, color } = parsed ?? {}
 
   if (!color) {
-    const bracket = h.bracketOfColor(main, { theme } as RuleContext<Theme>)
+    const bracket = h.bracketOfColor(main, theme)
     const bracketOrMain = bracket || main
 
     if (h.numberWithUnit(bracketOrMain))

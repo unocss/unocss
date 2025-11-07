@@ -1,9 +1,7 @@
-import type { RuleContext } from '@unocss/core'
-
-export type ValueHandlerCallback<T extends object> = (str: string, ctx?: Readonly<RuleContext<T>>) => string | number | undefined
+export type ValueHandlerCallback<T extends object> = (str: string, theme?: T) => string | number | undefined
 
 export type ValueHandler<K extends string, T extends object> = { [S in K]: ValueHandler<K, T> } & {
-  (str: string, ctx?: Readonly<RuleContext<T>>): string | undefined
+  (str: string, theme?: T): string | undefined
   __options: {
     sequence: K[]
   }
@@ -13,12 +11,12 @@ export function createValueHandler<K extends string, T extends object>(handlers:
   const handler = function (
     this: ValueHandler<K, T>,
     str: string,
-    ctx?: Readonly<RuleContext<T>>,
+    theme?: T,
   ): string | number | undefined {
     const s = this.__options?.sequence || []
     this.__options.sequence = []
     for (const n of s) {
-      const res = handlers[n](str, ctx)
+      const res = handlers[n](str, theme)
       if (res != null)
         return res
     }
