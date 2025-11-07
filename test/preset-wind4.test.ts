@@ -68,7 +68,6 @@ describe('preset-wind4', () => {
         "m-inline-none",
         "pxy",
         "p-xy",
-        "p-is",
         "mxy",
         "m-xy",
         "-m-md",

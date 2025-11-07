@@ -36,7 +36,7 @@ export function directionSize(
   map: Record<string, string[]> = directionMap,
   formatter: (p: string, d: string) => string = (p, d) => `${p}${d}`,
 ): DynamicMatcher<Theme> {
-  return (([_, direction, size]: (string | undefined)[], ctx): CSSEntries | undefined => {
+  return (([_, direction, size = '4']: (string | undefined)[], ctx): CSSEntries | undefined => {
     const { theme } = ctx
     if (size != null && direction != null) {
       let v: string | number | undefined
