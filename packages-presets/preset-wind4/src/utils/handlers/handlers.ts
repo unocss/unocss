@@ -151,6 +151,22 @@ export function fraction(str: string) {
   }
 }
 
+function processThemeVariable(name: string, key: keyof Theme, paths: string[], ctx: Readonly<RuleContext<Theme>>) {
+  const valOrObj = getThemeByKey(ctx.theme, key, paths)
+  const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
+
+  if (hasDefault)
+    paths.push('DEFAULT')
+
+  const val = hasDefault ? valOrObj.DEFAULT : valOrObj
+  const varKey = hasDefault && key !== 'spacing' ? `${name}.DEFAULT` : name
+
+  if (val != null)
+    themeTracking(key, paths.length ? paths : undefined)
+
+  return { val, varKey }
+}
+
 function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<RuleContext<Theme>>) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -179,27 +195,32 @@ function bracketWithType(str: string, requiredType?: string, ctx?: Readonly<Rule
       return
 
     if (base.startsWith('--')) {
-      const match = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
-      if (match != null && ctx?.theme) {
-        const [, name, factor] = match
+      const calcMatch = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
+      if (calcMatch != null && ctx?.theme) {
+        // Handle theme function with calculation: --theme.key(factor)
+        const [, name, factor] = calcMatch
         const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
-        const valOrObj = getThemeByKey(ctx.theme, key, paths)
-        const isDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
-        const val = typeof valOrObj === 'object' ? valOrObj.DEFAULT : valOrObj
+        const { val, varKey } = processThemeVariable(name, key, paths, ctx)
 
-        if (val != null) {
-          const varKey = isDefault
-            ? key === 'spacing'
-              ? name
-              : `${name}.DEFAULT`
-            : name
-          themeTracking(key, paths.length ? paths : undefined)
-          base = `calc(${`var(--${escapeSelector(varKey.replaceAll('.', '-'))})`} * ${factor})`
-        }
+        if (val != null)
+          base = `calc(var(--${escapeSelector(varKey.replaceAll('.', '-'))}) * ${factor})`
       }
       else {
+        // Handle regular CSS variable: --name or --theme.key with optional default
         const [name, defaultValue] = base.slice(2).split(',')
-        base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+        const suffix = defaultValue ? `, ${defaultValue}` : ''
+        const escapedName = escapeSelector(name)
+
+        if (ctx?.theme) {
+          const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
+          const { val, varKey } = processThemeVariable(name, key, paths, ctx)
+          base = val != null
+            ? `var(--${escapeSelector(varKey.replaceAll('.', '-'))}${suffix})`
+            : `var(--${escapedName}${suffix})`
+        }
+        else {
+          base = `var(--${escapedName}${suffix})`
+        }
       }
     }
 

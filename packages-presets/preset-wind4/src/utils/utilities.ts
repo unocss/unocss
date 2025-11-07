@@ -148,7 +148,7 @@ export function parseColor(body: string, theme: Theme) {
   let { no, keys, color } = parsed ?? {}
 
   if (!color) {
-    const bracket = h.bracketOfColor(main)
+    const bracket = h.bracketOfColor(main, { theme } as RuleContext<Theme>)
     const bracketOrMain = bracket || main
 
     if (h.numberWithUnit(bracketOrMain))
