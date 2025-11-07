@@ -690,14 +690,18 @@ describe('important', () => {
       presets: [
         presetWind4({ preflights: { reset: false } }),
       ],
+      theme: {
+        bar: '10px',
+      } as any,
     })
 
     const cases = [
       'm-[--spacing]',
       'm-[--spacing(2)]',
-      'm-[--spacing.sm(2.5)]',
+      'px-[--spacing.sm(2.5)]',
       'text-[--colors.blue,#000]',
       'text-[--colors.red.200,#fff]',
+      '[--foo:--bar(8)]',
     ]
 
     const { css } = await uno.generate(cases)
@@ -711,9 +715,10 @@ describe('important', () => {
       /* layer: default */
       .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
       .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
-      .m-\\[--spacing\\.sm\\(2\\.5\\)\\]{margin:calc(var(--spacing-sm) * 2.5);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
-      .m-\\[--spacing\\]{margin:var(--spacing);}"
+      .m-\\[--spacing\\]{margin:var(--spacing);}
+      .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
   })
 })

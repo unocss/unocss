@@ -214,10 +214,10 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
   const obj = theme[themeKey]
   function deepGet(current: any, path: string[]): any {
-    if (!current || typeof current !== 'object')
-      return undefined
     if (path.length === 0)
       return current
+    if (!current || typeof current !== 'object')
+      return undefined
     // First, check if the path is a flat key (e.g., foo-bar)
     for (let i = path.length; i > 0; i--) {
       const flatKey = path.slice(0, i).join('-')
