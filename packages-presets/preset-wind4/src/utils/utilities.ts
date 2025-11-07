@@ -55,7 +55,7 @@ export function directionSize(
         return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--${escapeSelector(`spacing-${size}`)}) * -1)` : `var(--${escapeSelector(`spacing-${size}`)})`])
       }
 
-      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
+      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size, theme)
 
       if (v != null) {
         return map[direction].map(i => [formatter(property, i), v])
@@ -147,7 +147,7 @@ export function parseColor(body: string, theme: Theme) {
   let { no, keys, color } = parsed ?? {}
 
   if (!color) {
-    const bracket = h.bracketOfColor(main)
+    const bracket = h.bracketOfColor(main, theme)
     const bracketOrMain = bracket || main
 
     if (h.numberWithUnit(bracketOrMain))
@@ -213,10 +213,10 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
   const obj = theme[themeKey]
   function deepGet(current: any, path: string[]): any {
-    if (!current || typeof current !== 'object')
-      return undefined
     if (path.length === 0)
       return current
+    if (!current || typeof current !== 'object')
+      return undefined
     // First, check if the path is a flat key (e.g., foo-bar)
     for (let i = path.length; i > 0; i--) {
       const flatKey = path.slice(0, i).join('-')

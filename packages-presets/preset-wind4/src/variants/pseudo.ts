@@ -11,17 +11,17 @@ import {
 import { getBracket, h, variantGetBracket } from '../utils'
 
 export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
-  const utils: PseudoVariantUtilities = { getBracket, h, variantGetBracket }
+  const utils: PseudoVariantUtilities<Theme> = { getBracket, h: h as unknown as PseudoVariantUtilities<Theme>['h'], variantGetBracket }
   return createPseudoClassesAndElements<Theme>(utils)
 }
 
 export function variantPseudoClassFunctions(): VariantObject<Theme> {
-  const utils: PseudoVariantUtilities = { getBracket, h, variantGetBracket }
+  const utils: PseudoVariantUtilities<Theme> = { getBracket, h: h as unknown as PseudoVariantUtilities<Theme>['h'], variantGetBracket }
   return createPseudoClassFunctions<Theme>(utils)
 }
 
 export function variantTaggedPseudoClasses(options: PresetWind4Options = {}): VariantObject<Theme>[] {
-  const utils: PseudoVariantUtilities = { getBracket, h, variantGetBracket }
+  const utils: PseudoVariantUtilities<Theme> = { getBracket, h: h as unknown as PseudoVariantUtilities<Theme>['h'], variantGetBracket }
   return createTaggedPseudoClasses<Theme>(options, utils)
 }
 

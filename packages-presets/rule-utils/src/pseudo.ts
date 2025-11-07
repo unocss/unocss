@@ -144,10 +144,10 @@ export interface PseudoVariantOptions {
   prefix?: string | string[]
 }
 
-export interface PseudoVariantUtilities {
+export interface PseudoVariantUtilities<Theme extends object = object> {
   getBracket: typeof getBracket
   h: {
-    bracket: (s: string) => string | undefined
+    bracket: (s: string, theme?: Theme) => string | undefined
   }
   variantGetBracket: typeof variantGetBracket
 }

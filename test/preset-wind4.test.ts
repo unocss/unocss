@@ -683,4 +683,41 @@ describe('important', () => {
       }"
     `)
   })
+
+  it('h.bracket new syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const cases = [
+      'm-[--spacing]',
+      'm-[--spacing(2)]',
+      'px-[--spacing.sm(2.5)]',
+      'text-[--colors.blue,#000]',
+      'text-[--colors.red.200,#fff]',
+      '[--foo:--bar(8)]',
+    ]
+
+    const { css } = await uno.generate(cases)
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --spacing: 0.25rem; --spacing-sm: 0.875rem; --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-200: oklch(88.5% 0.062 18.334); }
+      /* layer: default */
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
+      .m-\\[--spacing\\]{margin:var(--spacing);}
+      .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
+    `)
+  })
 })
