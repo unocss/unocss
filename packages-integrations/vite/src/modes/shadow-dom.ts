@@ -103,7 +103,7 @@ export function ShadowDomModuleModePlugin(ctx: UnocssPluginContext): Plugin {
 
     // We don't need to escape backslashes here, because, unlike the other
     // shadow-dom targets, style block in Vue SFC is not a string literal.
-    if (id.includes('?vue&type=style') || (id.endsWith('.vue') && vueSFCStyleRE.test(code)))
+    if ((id.includes('?vue&type=style')||id.includes('?uvue&type=style')||id.includes('?nvue&type=style')) || ((id.endsWith('.vue')||id.endsWith('.uvue')||id.endsWith('.nvue')) && vueSFCStyleRE.test(code)))
       return code.replace(new RegExp(`(\\/\\*\\s*)?${CSS_PLACEHOLDER}(\\s*\\*\\/)?`), css || '')
 
     return code.replace(CSS_PLACEHOLDER, css?.replace(/\\/g, '\\\\')?.replace(/`/g, '\\`') ?? '')

@@ -232,5 +232,5 @@ export function shouldProvideAutocomplete(code: string, id: string, offset: numb
 const pugTemplateRe = /<template.*?lang=['"]pug['"][^>]*>/i
 
 export function isVueWithPug(code: string, id: string): boolean {
-  return id.endsWith('.vue') && pugTemplateRe.test(code)
+  return (id.endsWith('.vue')||id.endsWith('.nvue')||id.endsWith('.uvue')) && pugTemplateRe.test(code)
 }

@@ -4,7 +4,7 @@ import { defaultPipelineExclude } from '#integration/defaults'
 import { createFilter } from 'unplugin-utils'
 
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
-  let filter = createFilter([/\.vue$/], defaultPipelineExclude)
+  let filter = createFilter([/\.(u|n)?vue$/], defaultPipelineExclude)
 
   async function transformSFC(code: string) {
     await ctx.ready
@@ -27,7 +27,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
           )
     },
     async transform(code, id) {
-      if (!filter(id) || !id.endsWith('.vue'))
+      if (!filter(id) || !(id.endsWith('.vue')||id.endsWith('.nvue')||id.endsWith('.uvue')))
         return
       const css = await transformSFC(code)
 
