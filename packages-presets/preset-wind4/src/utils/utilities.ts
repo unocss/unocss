@@ -276,7 +276,6 @@ export function colorCSSGenerator(
           result.push({
             [symbols.parent]: '@supports (color: color-mix(in lab, red, red))',
             [symbols.noMerge]: true,
-            [symbols.shortcutsNoMerge]: true,
             [property]: `color-mix(in oklab, ${colorValue}, transparent)${rawColorComment}`,
           })
         }
