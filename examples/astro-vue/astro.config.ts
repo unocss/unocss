@@ -5,6 +5,6 @@ import UnoCSS from 'unocss/astro'
 export default defineConfig({
   integrations: [
     vue(),
-    UnoCSS({ injectReset: true }),
+    UnoCSS({ injectReset: true, virtualModulePrefix: '__custom' }),
   ],
 })
