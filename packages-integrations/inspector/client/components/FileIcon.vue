@@ -28,6 +28,8 @@ const icon = computed((): string => {
     case 'md':
     case 'markdown':
       return 'i-vscode-icons-file-type-markdown'
+    case 'marko':
+      return 'i-vscode-icons-file-type-marko'
     default:
       return 'i-carbon-document-blank'
   }

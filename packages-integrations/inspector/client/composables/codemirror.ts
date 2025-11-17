@@ -46,6 +46,7 @@ const langExtensions: Record<string, () => object> = {
   html: () => htmlLanguage.extension,
   vue: () => htmlLanguage.extension,
   svelte: () => htmlLanguage.extension,
+  marko: () => htmlLanguage.extension,
   js: javascript,
   mjs: javascript,
   cjs: javascript,
