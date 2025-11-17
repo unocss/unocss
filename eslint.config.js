@@ -14,6 +14,7 @@ export default antfu(
   {
     ignores: [
       '**/.svelte-kit',
+      '**/.marko-run',
       '**/*.global.js',
       '**/fixtures/**',
       'bench/source/gen*.js',
