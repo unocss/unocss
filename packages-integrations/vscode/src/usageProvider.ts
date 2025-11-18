@@ -46,7 +46,7 @@ export class UsageReferenceProvider implements ReferenceProvider {
 
     // TODO: Use Uno's context to find files
     const files = await workspace.findFiles(
-      `**/*.{vue,html,js,ts,jsx,tsx,svelte,astro,elm,php,phtml,mdx,md}`,
+      `**/*.{vue,html,js,ts,jsx,tsx,svelte,astro,elm,php,phtml,mdx,md,marko}`,
       '**/{node_modules,.git,dist,.output,.cache,cache}/**',
       1000,
     )

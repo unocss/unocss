@@ -204,5 +204,11 @@ export const examples: Example[] = [
     ],
     stackblitz: true,
   },
+  {
+    name: 'marko-run',
+    path: 'examples/marko-run',
+    icon: 'i-logos-marko',
+    stackblitz: true,
+  },
 ]
   .sort((a, b) => a.name.localeCompare(b.name))
