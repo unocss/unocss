@@ -1,19 +1,19 @@
 {
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
     "lib": ["dom", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "noEmit": true,
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
+    "strict": true,
     "noImplicitOverride": true,
     "noUnusedLocals": true,
+    "noEmit": true,
     "outDir": "dist",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ESNext",
+    "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": true,
-    "types": ["vite/client"]
-  }
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }
