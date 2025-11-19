@@ -5,7 +5,7 @@ import { colorToString, getStringComponent, getStringComponents, isInterpolatedM
 import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
-import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords } from './mappings'
+import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
 import { detectThemeValue, generateThemeVariable, propertyTracking, themeTracking } from './track'
 
 // #region Number Resolver
@@ -329,7 +329,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string, a
       if (color)
         colorVarValue = colorToString(color)
     }
-    else if (lastComp && cssVarFnRE.test(lastComp)) {
+    else if (lastComp && lastComp.startsWith('var(')) {
       const color = components.pop()
       if (color)
         colorVarValue = color

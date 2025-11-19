@@ -5,7 +5,7 @@ import { toArray } from '@unocss/core'
 import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
-import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -252,7 +252,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
       if (color)
         colorVarValue = `, ${colorToString(color)}`
     }
-    else if (lastComp && cssVarFnRE.test(lastComp)) {
+    else if (lastComp && lastComp.startsWith('var(')) {
       const color = components.pop()!
       colorVarValue = `, ${color}`
     }
