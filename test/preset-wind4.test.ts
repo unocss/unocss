@@ -154,33 +154,31 @@ describe('preset-wind4', () => {
       ],
       theme: {
         colors: {
-          foo: 'var(--colors-bar)',
-          bar: 'var(--colors-baz-bcd, #000)',
-          baz: {
-            bcd: 'var(--colors-test, #fff)',
-          },
-          test: '#fff',
+          // foo: 'var(--colors-bar)',
+          // bar: 'var(--colors-baz-bcd, #000)',
+          // baz: {
+          //   bcd: 'var(--colors-test, #fff)',
+          // },
+          // ^^^ don't do this
+
+          // issue #4994: Chaining CSS variables within a theme is strongly discouraged,
+          // as it can cause browsers to fail to resolve variables to the correct values promptly during evaluation (or recalculation).
+          // Furthermore, Uno does not perform in-depth analysis of the source of these references.
+          primary: `var(--custom-css-variable, #123456)`,
+          secondary: `calc(var(--another-css-variable, 10%) + 5%)`,
         },
       },
     })
 
-    const { css } = await uno.generate('c-foo')
+    const { css } = await uno.generate('c-primary c-primary/50 c-secondary')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      /* layer: theme */
-      :root, :host {
-      --colors-foo: var(--colors-bar);
-      --colors-bar: var(--colors-baz-bcd, #000);
-      --colors-baz-bcd: var(--colors-test, #fff);
-      --colors-test: #fff;
-      }
       /* layer: default */
-      .c-foo{color:color-mix(in srgb, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      @supports (color: color-mix(in lab, red, red)){
-      .c-foo{color:color-mix(in oklab, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      }"
+      .c-primary{color:color-mix(in srgb, var(--custom-css-variable, #123456) var(--un-text-opacity), transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-primary\\/50{color:color-mix(in srgb, var(--custom-css-variable, #123456) 50%, transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-secondary{color:color-mix(in srgb, calc(var(--another-css-variable, 10%) + 5%) var(--un-text-opacity), transparent) /* calc(var(--another-css-variable, 10%) + 5%) */;}"
     `)
   })
 
