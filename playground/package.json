@@ -1,7 +1,7 @@
 {
   "name": "playground",
   "type": "module",
-  "version": "66.5.6",
+  "version": "66.5.7",
   "private": true,
   "scripts": {
     "dev": "vite --open",
