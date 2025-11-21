@@ -2,7 +2,7 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
+import { LAYER_MARK_ALL, ResolvedIdRegexes } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
@@ -62,6 +62,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       apply: 'build',
       enforce: 'pre',
       async buildStart() {
+        await ready
+        ResolvedIdRegexes.set(ctx.uno.config.virtualModulePrefix)
         vfsLayers.clear()
         cssContentCache.clear()
         tasks.length = 0
@@ -172,6 +174,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       name: 'unocss:global:build:generate',
       apply: 'build',
       async renderChunk(code, chunk, options) {
+        const { RESOLVED_ID_RE } = ResolvedIdRegexes.get()
         const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
         if (!entryModules.length)
           return null
