@@ -97,6 +97,8 @@ export const presetWind4Targets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-current',
+  'bg-current/10',
 
   // bg gradient
   'from-current',

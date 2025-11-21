@@ -253,20 +253,24 @@ export function colorCSSGenerator(
   if (color) {
     const result: [CSSObject, ...CSSValueInput[]] = [css]
     const isCSSVar = color.includes('var(')
-    if (Object.values(SpecialColorKey).includes(color)) {
+    const isSpecial = Object.values(SpecialColorKey).includes(color)
+
+    if (isSpecial && !alpha) {
       css[property] = color
+      return result
     }
-    else {
-      const alphaKey = `--un-${varName}-opacity`
-      const value = (keys && !isCSSVar) ? generateThemeVariable('colors', keys) : color
-      let method = modifier ?? (keys ? 'in srgb' : 'in oklab')
-      if (!method.startsWith('in ') && !method.startsWith('var(')) {
-        method = `in ${method}`
-      }
 
-      css[property] = `color-mix(${method}, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
-      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+    const alphaKey = `--un-${varName}-opacity`
+    const value = (keys && !isCSSVar && !isSpecial) ? generateThemeVariable('colors', keys) : color
+    let method = modifier ?? (keys ? 'in srgb' : 'in oklab')
+    if (!method.startsWith('in ') && !method.startsWith('var(')) {
+      method = `in ${method}`
+    }
 
+    css[property] = `color-mix(${method}, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
+    result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+
+    if (!isSpecial) {
       if (keys && !isCSSVar) {
         themeTracking(`colors`, keys)
         if (!modifier) {
