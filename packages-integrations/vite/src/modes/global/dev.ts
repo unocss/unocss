@@ -17,7 +17,7 @@ const HASH_LENGTH = 6
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig, ready } = ctx
+  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
@@ -122,9 +122,6 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
-      async configResolved() {
-        await ready
-      },
       async configureServer(_server) {
         servers.push(_server)
 
