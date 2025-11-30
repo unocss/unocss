@@ -7,7 +7,9 @@ import UnoCSS from '../../packages-integrations/vite/src/index'
 export default defineConfig({
   plugins: [
     Vue(),
-    UnoCSS(),
+    UnoCSS({
+      virtualModulePrefix: 'custom_vue3',
+    }) as any,
     // legacy(),
   ],
 })
