@@ -33,7 +33,7 @@ catalogs:
     brotli-size: ^4.0.0
     bumpp: ^10.3.1
     gzip-size: ^6.0.0
-    rollup: ^4.52.5
+    rollup: ^4.53.2
     terser: ^5.44.1
     unbuild: ^3.6.1
     webpack: ^5.102.1
@@ -42,7 +42,7 @@ catalogs:
   css:
     '@codemirror/lang-css': ^6.3.1
     '@csstools/normalize.css': ^12.1.1
-    autoprefixer: ^10.4.21
+    autoprefixer: ^10.4.22
     css-tree: ^3.1.0
     postcss: ^8.5.6
     postcss-nested: ^7.0.2
@@ -99,7 +99,7 @@ catalogs:
 
   svelte:
     prettier-plugin-svelte: ^2.10.1
-    svelte: ^5.43.4
+    svelte: ^5.43.6
 
   testing:
     '@vitest/ui': ^3.2.4
@@ -124,7 +124,7 @@ catalogs:
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
 
   typescript:
-    '@typescript-eslint/utils': ^8.46.3
+    '@typescript-eslint/utils': ^8.46.4
     '@typescript/native-preview': latest
     tsup: ^8.5.0
     tsx: ^4.20.6
@@ -157,7 +157,7 @@ catalogs:
     p-limit: ^6.2.0
     pathe: ^2.0.3
     perfect-debounce: ^1.0.0
-    pnpm: ^10.20.0
+    pnpm: ^10.21.0
     premove: ^4.0.0
     prettier: ^2.8.8
     semver: ^7.7.3
@@ -169,7 +169,7 @@ catalogs:
     synckit: ^0.11.11
     taze: ^19.9.0
     tinyglobby: ^0.2.15
-    unconfig: ^7.3.3
+    unconfig: ^7.4.1
     unplugin: ^2.3.10
     unplugin-auto-import: ^19.3.0
     unplugin-utils: ^0.3.1
@@ -214,3 +214,5 @@ onlyBuiltDependencies:
 shamefullyHoist: true
 
 strictPeerDependencies: false
+
+trustPolicy: no-downgrade

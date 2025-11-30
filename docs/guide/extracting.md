@@ -22,7 +22,7 @@ This is supported in the [Vite](/integrations/vite) and [Webpack](/integrations/
 
 UnoCSS will read the content that goes through your build tools pipeline and extract the utilities usages from them. This is the most efficient and accurate way to extract as we only extract the usages that are actually used in your app smartly with no additional file I/O is made during the extraction.
 
-By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro` and then generate the appropriate CSS on demand. `.js` and `.ts` files are **NOT included by default**.
+By default, UnoCSS will extract the utilities usage from files in your build pipeline with extension `.jsx`, `.tsx`, `.vue`, `.md`, `.html`, `.svelte`, `.astro`, `.marko` and then generate the appropriate CSS on demand. `.js` and `.ts` files are **NOT included by default**.
 
 To configure them, you can update your `uno.config.ts`:
 
@@ -32,7 +32,7 @@ export default defineConfig({
     pipeline: {
       include: [
         // the default
-        /\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        /\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|marko|html)($|\?)/,
         // include js/ts files
         'src/**/*.{js,ts}',
       ],

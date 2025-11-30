@@ -198,10 +198,10 @@ export function convertToRGBA(rgbColor: string) {
   return rgbColor
 }
 
-const styleTagsRe = /<style[^>]*>[\s\S]*?<\/style>/g
+const styleTagsRe = /<style[^>]*>[\s\S]*?(?:<\/style>|<\/>)/g
 
 export function shouldProvideAutocomplete(code: string, id: string, offset: number) {
-  const isSfcLike = id.match(/\.(svelte|vue|astro)$/)
+  const isSfcLike = id.match(/\.(svelte|vue|astro|marko)$/)
 
   const isPugVue = isSfcLike && isVueWithPug(code, id)
   if (isPugVue) {

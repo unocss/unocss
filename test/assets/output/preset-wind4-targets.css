@@ -725,6 +725,8 @@
 .bg-\[url\(https\:\/\/test\.unocss\.png\)\]{--un-url:url(https://test.unocss.png);background-image:var(--un-url);}
 .bg-\#452233\/40,
 .bg-hex-452233\/40{background-color:color-mix(in oklab, #452233 40%, transparent) /* #452233 */;}
+.bg-current{background-color:currentColor;}
+.bg-current\/10{background-color:color-mix(in oklab, currentColor 10%, transparent) /* currentColor */;}
 .first-letter\:bg-green-400::first-letter{background-color:color-mix(in srgb, var(--colors-green-400) var(--un-bg-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .\[\&\[data-active\=\"true\"\]\]\:bg-red[data-active="true"]{background-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-bg-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .bg-red-100{background-color:color-mix(in srgb, var(--colors-red-100) var(--un-bg-opacity), transparent) /* oklch(93.6% 0.032 17.717) */;}

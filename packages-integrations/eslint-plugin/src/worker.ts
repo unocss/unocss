@@ -11,6 +11,20 @@ const promises = new Map<string, Promise<UnoGenerator<any>> | undefined>()
 // bypass icon rules in ESLint
 process.env.ESLINT ||= 'true'
 
+function getSearchCwd(id: string): string {
+  // Check if it's a virtual file path from ESLint processors
+  // Virtual paths have the pattern: /path/to/source.ext/virtual_file.ext
+  // This happens with markdown, MDX, and other files with embedded code blocks
+  const virtualMatch = id.match(/\.\w+\/[^/]+$/)
+
+  if (virtualMatch) {
+    const realPath = id.slice(0, id.lastIndexOf('/'))
+    return dirname(realPath)
+  }
+
+  return dirname(id)
+}
+
 async function _getGenerator(configPath?: string, id?: string) {
   // Determine the search directory:
   // 1. If configPath is provided, use process.cwd() (existing behavior for explicit config)
@@ -19,7 +33,7 @@ async function _getGenerator(configPath?: string, id?: string) {
   const searchFrom = configPath
     ? process.cwd()
     : id
-      ? dirname(id)
+      ? getSearchCwd(id)
       : process.cwd()
 
   const { config, sources } = await loadConfig(
@@ -39,7 +53,7 @@ function getCacheKey(configPath?: string, id?: string): string {
   if (configPath)
     return `config:${configPath}`
   if (id)
-    return `dir:${dirname(id)}`
+    return `dir:${getSearchCwd(id)}`
   return `cwd:${process.cwd()}`
 }
 

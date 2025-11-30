@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "version": "66.5.5",
+  "version": "66.5.9",
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*",

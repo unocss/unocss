@@ -396,6 +396,25 @@ export default defineConfig({
 
 <ContentExample :item="playgrounds['vite-elm']"  class="Link" integrations />
 
+### Marko
+
+You need to add `@marko/vite` or `@marko/run/vite` before UnoCSS's plugin.
+
+```ts [vite.config.ts]
+import marko from '@marko/run/vite'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [
+    marko(),
+    UnoCSS(),
+  ],
+})
+```
+
+<ContentExample :item="playgrounds['marko-run']"  class="Link" integrations />
+
 ## Legacy
 
 If `@vitejs/plugin-legacy` with `renderModernChunks: false`, your need add it to `unocss` option
