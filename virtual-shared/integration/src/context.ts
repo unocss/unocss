@@ -110,6 +110,28 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       tasks.splice(0, _tasks.length)
   }
 
+  /**
+   * Get regexes to match virtual module ids
+   */
+  const vmpCache = new Map<string, { prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>()
+  async function getVMPRegexes(): Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }> {
+    const config = await getConfig()
+    const prefix = config.virtualModulePrefix || '__uno'
+
+    if (vmpCache.has(prefix))
+      return vmpCache.get(prefix)!
+
+    const RESOLVED_ID_WITH_QUERY_RE = new RegExp(`[/\\\\]${prefix}(_.*?)?\\.css(\\?.*)?$`)
+    const RESOLVED_ID_RE = new RegExp(`[/\\\\]${prefix}(?:_(.*?))?\.css$`)
+    const regexes = {
+      prefix,
+      RESOLVED_ID_WITH_QUERY_RE,
+      RESOLVED_ID_RE,
+    }
+    vmpCache.set(prefix, regexes)
+    return regexes
+  }
+
   return {
     get ready() {
       return ready
@@ -140,5 +162,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     },
     updateRoot,
     getConfigFileList: () => configFileList,
+    getVMPRegexes,
   }
 }

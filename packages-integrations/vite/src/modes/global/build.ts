@@ -2,7 +2,7 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
+import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
@@ -87,10 +87,10 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           tasks.push(extract(code, filename))
         },
       },
-      resolveId(id, importer) {
-        const entry = resolveId(id, importer)
+      async resolveId(id, importer) {
+        const entry = await resolveId(ctx, id, importer)
         if (entry) {
-          const layer = resolveLayer(entry)
+          const layer = await resolveLayer(ctx, entry)
           if (layer) {
             if (importer)
               unocssImporters.add(importer)
@@ -104,8 +104,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return entry
         }
       },
-      load(id) {
-        const layer = resolveLayer(getPath(id))
+      async load(id) {
+        const layer = await resolveLayer(ctx, getPath(id))
         if (layer) {
           if (!vfsLayers.has(layer)) {
             this.error(`[unocss] layer ${JSON.stringify(id)} is imported but not being resolved before, it might be an internal bug of UnoCSS`)
@@ -171,7 +171,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     {
       name: 'unocss:global:build:generate',
       apply: 'build',
-      async renderChunk(code, chunk, options) {
+      async renderChunk(_, chunk, options) {
+        const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
         const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
         if (!entryModules.length)
           return null
