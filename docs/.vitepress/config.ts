@@ -46,6 +46,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'ESLint', link: '/integrations/eslint' },
   { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
+  { text: 'LSP Support', link: '/integrations/lsp' },
 ]
 
 const Presets: DefaultTheme.NavItemWithLink[] = [
