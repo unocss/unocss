@@ -749,6 +749,11 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
   getConfigFileList: () => string[]
+
+  /**
+   * Get regexes to match virtual module ids
+   */
+  getVMPRegexes: () => Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>
 }
 
 export interface SourceMap {

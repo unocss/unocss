@@ -1,7 +1,7 @@
 // import legacy from '@vitejs/plugin-legacy'
 import Vue from '@vitejs/plugin-vue'
-import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
+import UnoCSS from '../../packages-integrations/vite/src/index'
 
 // https://vitejs.dev/config/
 export default defineConfig({

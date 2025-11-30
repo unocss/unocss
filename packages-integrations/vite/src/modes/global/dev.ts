@@ -17,7 +17,7 @@ const HASH_LENGTH = 6
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
+  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig, ready } = ctx
   const servers: ViteDevServer[] = []
   const entries = new Set<string>()
 
@@ -40,8 +40,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     } while (true)
 
     const css = layer === LAYER_MARK_ALL
-      ? result.getLayers(undefined, Array.from(entries)
-          .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+      ? result.getLayers(undefined, await Promise.all(Array.from(entries)
+          .map(i => resolveLayer(ctx, i))).then(layers => layers.filter((i): i is string => !!i)))
       : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
     lastServedHash.set(layer, hash)
@@ -122,6 +122,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
+      async configResolved() {
+        await ready
+      },
       async configureServer(_server) {
         servers.push(_server)
 
@@ -157,8 +160,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           tasks.push(extract(code, filename))
         },
       },
-      resolveId(id) {
-        const entry = resolveId(id)
+      async resolveId(id) {
+        const entry = await resolveId(ctx, id)
         if (entry) {
           resolved = true
           clearWarnTimer()
@@ -167,7 +170,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         }
       },
       async load(id) {
-        const layer = resolveLayer(getPath(id))
+        const layer = await resolveLayer(ctx, getPath(id))
         if (!layer)
           return null
 
@@ -189,7 +192,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       },
       enforce: 'post',
       async transform(code, id) {
-        const layer = resolveLayer(getPath(id))
+        const layer = await resolveLayer(ctx, getPath(id))
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {

@@ -1,10 +1,9 @@
-import type { UserConfigDefaults } from '@unocss/core'
-import type { VitePluginConfig } from '@unocss/vite'
+import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
+import type { UnocssVitePluginAPI, VitePluginConfig } from '@unocss/vite'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { RESOLVED_ID_RE } from '#integration/constants'
 import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
 
@@ -17,14 +16,23 @@ interface AstroVitePluginOptions {
 function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   const { injects } = options
   let root: string
+  let ctx: UnocssPluginContext<VitePluginConfig>
 
   return {
     name: 'unocss:astro',
     enforce: 'pre',
     configResolved(config) {
       root = config.root
+
+      const api = config.plugins.find(i => i.name === 'unocss:api')?.api as UnocssVitePluginAPI | undefined
+      if (!api) {
+        throw new Error('[@unocss/astro] Unable to find UnoCSS Vite plugin API.')
+      }
+      ctx = api.getContext()
     },
     async resolveId(id, importer) {
+      const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
+
       if (RESOLVED_ID_RE.test(id)) {
         // https://github.com/withastro/astro/blob/087270c61fd5c91ddd37db5c8fd93a8a0ef41f94/packages/astro/src/core/util.ts#L91-L93
         // Align data-astro-dev-id with data-vite-dev-id to fix https://github.com/unocss/unocss/issues/2513
@@ -99,9 +107,12 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
 
         updateConfig({
           vite: {
-            plugins: [AstroVitePlugin({
-              injects,
-            }), ...VitePlugin(options, defaults)],
+            plugins: [
+              AstroVitePlugin({
+                injects,
+              }) as any,
+              ...VitePlugin(options, defaults),
+            ],
           },
         })
 
