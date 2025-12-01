@@ -376,7 +376,7 @@ export function createTaggedPseudoClasses<T extends object = object>(
 ): VariantObject<T>[] {
   const attributify = !!options?.attributifyPseudo
   let firstPrefix = options?.prefix ?? ''
-  firstPrefix = (Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? ''
+  firstPrefix = escapeSelector((Array.isArray(firstPrefix) ? firstPrefix : [firstPrefix]).filter(Boolean)[0] ?? '')
   const tagWithPrefix = (tag: string, combinator: string) => createTaggedPseudoClassMatcher<T>(tag, attributify ? `[${firstPrefix}${tag}=""]` : `.${firstPrefix}${tag}`, combinator, utils)
 
   return [

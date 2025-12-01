@@ -57,7 +57,7 @@ export async function loadConfig<U extends UserConfig>(
   })
 
   const result = await loader.load()
-  result.config = Object.assign(defaults, result.config || inlineConfig)
+  result.config = Object.assign(defaults, inlineConfig, result.config ?? {})
   if (result.config.configDeps) {
     result.sources = [
       ...result.sources,

@@ -688,12 +688,20 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+
   /**
    * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
    */
   legacy?: {
     renderModernChunks: boolean
   }
+
+  /**
+   * Custom prefix for virtual modules
+   *
+   * @default '__uno'
+   */
+  virtualModulePrefix?: string
 }
 
 /**
@@ -749,6 +757,11 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
   getConfigFileList: () => string[]
+
+  /**
+   * Get regexes to match virtual module ids
+   */
+  getVMPRegexes: () => Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>
 }
 
 export interface SourceMap {
