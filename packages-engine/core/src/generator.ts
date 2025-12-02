@@ -549,8 +549,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       (utilList, p) => utilList
         .flatMap((util): UtilObject[] => {
           const result = p(util)
-          if (result === false)
-            return []
           if (!result) // Backward compatibility
             return [util]
           return !Array.isArray(result) ? [result] : result.filter(notNull)

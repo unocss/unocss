@@ -43,25 +43,6 @@ it('postprocess', async () => {
   `)
 })
 
-it('postprocess can drop utilities', async () => {
-  const uno = await createGenerator({
-    rules: [
-      ['foo', { color: 'red' }],
-      ['bar', { color: 'blue' }],
-    ],
-    postprocess: [
-      (util) => {
-        if (util.selector.includes('.foo'))
-          return false
-      },
-    ],
-  })
-
-  const { css } = await uno.generate('foo bar', { preflights: false })
-  expect(css).toContain('.bar{color:blue;}')
-  expect(css).not.toContain('.foo{color:red;}')
-})
-
 it('postprocess can expand utilities', async () => {
   const uno = await createGenerator({
     rules: [
