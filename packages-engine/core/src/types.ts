@@ -390,7 +390,7 @@ export interface VariantObject<Theme extends object = object> {
 export type Variant<Theme extends object = object> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
-export type Postprocessor = (util: UtilObject) => void
+export type Postprocessor = (util: UtilObject) => void | UtilObject | (UtilObject | null | undefined)[]
 export type ThemeExtender<Theme extends object = object> = (theme: Theme, config: Readonly<ResolvedConfig<Theme>>) => Theme | void
 
 export interface ConfigBase<Theme extends object = object> {
