@@ -546,13 +546,19 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     return this.config.postprocess.reduce<UtilObject[]>(
-      (utilList, p) => utilList
-        .flatMap((util): UtilObject[] => {
-          const result = p(util)
-          if (!result) // Backward compatibility
-            return [util]
-          return !Array.isArray(result) ? [result] : result.filter(notNull)
-        }),
+      (utilities, p) => {
+        const result: UtilObject[] = []
+        for (const util of utilities) {
+          const processed = p(util)
+          if (Array.isArray(processed)) {
+            result.push(...processed.filter(notNull))
+          }
+          else {
+            result.push(processed || util)
+          }
+        }
+        return result
+      },
       [obj],
     )
   }
@@ -747,13 +753,13 @@ class UnoGeneratorInternal<Theme extends object = object> {
     context?: RuleContext<Theme>,
   ): StringifiedUtil<Theme>[] | undefined {
     if (!parsed)
-      return []
+      return
     if (isRawUtil(parsed))
       return [[parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]]
 
-    const utilList = this.applyVariants(parsed)
+    const utilities = this.applyVariants(parsed)
     const result: StringifiedUtil<Theme>[] = []
-    for (const util of utilList) {
+    for (const util of utilities) {
       const {
         selector,
         entries,
