@@ -214,5 +214,3 @@ onlyBuiltDependencies:
 shamefullyHoist: true
 
 strictPeerDependencies: false
-
-trustPolicy: no-downgrade
