@@ -3,7 +3,7 @@
   "type": "module",
   "version": "66.5.10",
   "private": true,
-  "packageManager": "pnpm@10.21.0",
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "prepare": "esno scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -96,7 +96,7 @@
     "codemirror-theme-vars": "catalog:docs",
     "eslint": "catalog:eslint",
     "eslint-plugin-antfu": "catalog:eslint",
-    "eslint-plugin-format": "^1.0.2",
+    "eslint-plugin-format": "^1.1.0",
     "eslint-vitest-rule-tester": "catalog:eslint",
     "esno": "catalog:utils",
     "execa": "catalog:utils",
