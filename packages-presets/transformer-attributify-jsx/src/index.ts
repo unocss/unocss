@@ -63,7 +63,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
   }
 
   const idFilter = createFilter(
-    options.include || [/\.[jt]sx$/, /\.mdx$/],
+    options.include || [/\.[jt]sx$/],
     options.exclude || [],
   )
 
@@ -81,10 +81,17 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
         // Ignore import error in browser environment
       }
       const tasks: Promise<void>[] = []
-      const ast = parse(code.toString(), {
-        sourceType: 'module',
-        plugins: ['jsx', 'typescript'],
-      })
+
+      let ast
+      try {
+        ast = parse(code.toString(), {
+          sourceType: 'module',
+          plugins: ['jsx', 'typescript'],
+        })
+      }
+      catch {
+        return
+      }
 
       traverse(ast, {
         JSXAttribute(path) {
