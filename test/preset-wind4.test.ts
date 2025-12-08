@@ -484,7 +484,7 @@ describe('important', () => {
       'dark:bg-blue',
     ].join(' '), { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
   })
 
   it(`should prefix selector with provided important string and wrap the original selector in ":is()"`, async () => {
@@ -505,7 +505,7 @@ describe('important', () => {
       'selection:bg-yellow',
     ].join(' '), { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
   })
 
   it('shadow with opacity', async () => {
