@@ -1,4 +1,5 @@
-import type { SourceCodeTransformer } from '@unocss/core'
+import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
+import type MagicString from 'magic-string'
 import { getEnvFlags } from '#integration/env'
 import { parse } from '@babel/parser'
 import _traverse from '@babel/traverse'
@@ -8,6 +9,13 @@ import { toArray } from '@unocss/core'
 const traverse = (_traverse.default || _traverse) as typeof _traverse
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
+
+// Regex patterns for fallback transformation (used for .md/.mdx files)
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const elementRE = /<([^/?<>0-9$_!][^\s>]*)\s+((?:"[^"]*"|'[^"]*'|(\{[^}]*\})|[^{>])+)>/g
+const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?])([a-z()#][[?\w\-:()#%\]]*)(?:\s*=\s*('[^']*'|"[^"]*"|\S+))?|\{[^}]*\}/gi
+// eslint-disable-next-line regexp/no-super-linear-backtracking
+const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
 
 function createFilter(
   include: FilterPattern,
@@ -62,8 +70,60 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     return false
   }
 
+  /**
+   * Fallback transformation using regex-based parsing
+   * Used for .md/.mdx files when Babel parsing fails
+   */
+  async function fallbackTransform(code: MagicString, uno: UnoGenerator) {
+    const tasks: Promise<void>[] = []
+    const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
+    const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
+
+    for (const item of Array.from(code.original.matchAll(elementRE))) {
+      // Get the length of the className part, and replace it with the equal length of empty string
+      let attributifyPart = item[2]
+      if (valuedAttributeRE.test(attributifyPart)) {
+        attributifyPart = attributifyPart.replace(valuedAttributeRE, (match, _, dynamicFlagStart) => {
+          if (!dynamicFlagStart)
+            return ' '.repeat(match.length)
+          let preLastModifierIndex = 0
+          let temp = match
+          // No more recursively processing the more complex situations of jsx in attributes.
+          for (const _item of match.matchAll(elementRE)) {
+            const attrAttributePart = _item[2]
+            if (valuedAttributeRE.test(attrAttributePart))
+              attrAttributePart.replace(valuedAttributeRE, (m: string) => ' '.repeat(m.length))
+
+            const pre = temp.slice(0, preLastModifierIndex) + ' '.repeat(_item.index! + _item[0].indexOf(_item[2]) - preLastModifierIndex) + attrAttributePart
+            temp = pre + ' '.repeat(_item.input!.length - pre.length)
+            preLastModifierIndex = pre.length
+          }
+          if (preLastModifierIndex !== 0)
+            return temp
+
+          return ' '.repeat(match.length)
+        })
+      }
+      for (const attr of attributifyPart.matchAll(attributeRE)) {
+        const matchedRule = attr[0].replace(/:/, '-')
+        if (matchedRule.includes('=') || isBlocked(matchedRule))
+          continue
+        const updatedMatchedRule = matchedRule.startsWith(attributifyPrefix) ? matchedRule.slice(attributifyPrefix.length) : matchedRule
+        tasks.push(uno.parseToken(updatedMatchedRule).then((matched) => {
+          if (matched) {
+            const startIdx = (item.index || 0) + (attr.index || 0) + item[0].indexOf(item[2])
+            const endIdx = startIdx + matchedRule.length
+            code.overwrite(startIdx, endIdx, `${matchedRule}=""`)
+          }
+        }))
+      }
+    }
+
+    await Promise.all(tasks)
+  }
+
   const idFilter = createFilter(
-    options.include || [/\.[jt]sx$/],
+    options.include || [/\.[jt]sx$/, /\.mdx$/],
     options.exclude || [],
   )
 
@@ -71,7 +131,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     name: '@unocss/transformer-attributify-jsx',
     enforce: 'pre',
     idFilter,
-    async transform(code, _, { uno }) {
+    async transform(code, id, { uno }) {
       // Skip if running in VSCode extension context
       try {
         if (getEnvFlags().isVSCode)
@@ -80,41 +140,46 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       catch {
         // Ignore import error in browser environment
       }
-      const tasks: Promise<void>[] = []
 
-      let ast
+      // Try Babel parsing first (for JSX/TSX files)
       try {
-        ast = parse(code.toString(), {
+        const tasks: Promise<void>[] = []
+
+        const ast = parse(code.toString(), {
           sourceType: 'module',
           plugins: ['jsx', 'typescript'],
         })
+
+        traverse(ast, {
+          JSXAttribute(path) {
+            if (path.node.value === null) {
+              const attr = path.node.name.type === 'JSXNamespacedName'
+                ? `${path.node.name.namespace.name}:${path.node.name.name.name}`
+                : path.node.name.name
+
+              if (isBlocked(attr))
+                return
+
+              tasks.push(
+                uno.parseToken(attr).then((matched) => {
+                  if (matched) {
+                    code.appendRight(path.node.end!, '=""')
+                  }
+                }),
+              )
+            }
+          },
+        })
+
+        await Promise.all(tasks)
       }
       catch {
-        return
+        // Fallback to regex-based transformation for .md/.mdx files
+        if (id && id.match(/\.mdx?$/)) {
+          await fallbackTransform(code, uno)
+        }
+        // For other files, silently skip transformation
       }
-
-      traverse(ast, {
-        JSXAttribute(path) {
-          if (path.node.value === null) {
-            const attr = path.node.name.type === 'JSXNamespacedName'
-              ? `${path.node.name.namespace.name}:${path.node.name.name.name}`
-              : path.node.name.name
-
-            if (isBlocked(attr))
-              return
-
-            tasks.push(
-              uno.parseToken(attr).then((matched) => {
-                if (matched) {
-                  code.appendRight(path.node.end!, '=""')
-                }
-              }),
-            )
-          }
-        },
-      })
-
-      await Promise.all(tasks)
     },
   }
 }
