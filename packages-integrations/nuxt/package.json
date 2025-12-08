@@ -38,9 +38,9 @@
     "runtime"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack"
+    "build": "tsdown --config-loader unrun",
+    "test:attw": "attw --pack",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:nuxt",

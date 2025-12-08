@@ -27,7 +27,6 @@ catalogs:
   babel:
     '@babel/parser': 7.27.7
     '@babel/traverse': 7.27.7
-
   build:
     '@jridgewell/remapping': ^2.3.5
     brotli-size: ^4.0.0
@@ -35,10 +34,9 @@ catalogs:
     gzip-size: ^6.0.0
     rollup: ^4.53.3
     terser: ^5.44.1
-    unbuild: ^3.6.1
+    tsdown: ^0.17.1
     webpack: ^5.103.0
     webpack-sources: ^3.3.3
-
   css:
     '@codemirror/lang-css': ^6.3.1
     '@csstools/normalize.css': ^12.1.1
@@ -48,7 +46,6 @@ catalogs:
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
-
   docs:
     '@codemirror/lang-html': ^6.4.11
     '@codemirror/lang-javascript': ^6.2.4
@@ -63,18 +60,15 @@ catalogs:
     theme-vitesse: ^1.0.0
     vitepress: ^1.6.4
     vitepress-plugin-group-icons: ^1.6.5
-
   eslint:
     '@antfu/eslint-config': ^6.4.1
     eslint: ^9.39.1
     eslint-plugin-antfu: ^3.1.1
     eslint-vitest-rule-tester: ^3.0.0
     svelte-eslint-parser: ^1.4.1
-
   frameworks:
     astro: ^0.0.0-telefunc-20221130131719
     react: ^18.3.1
-
   icons:
     '@iconify-json/carbon': ^1.2.15
     '@iconify-json/iconoir': ^1.2.10
@@ -90,23 +84,19 @@ catalogs:
     '@iconify-json/vscode-icons': ^1.2.37
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.1.0
-
   nuxt:
     '@nuxt/kit': ^4.2.1
     nuxt: ^4.2.1
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.3.0
-
   svelte:
     prettier-plugin-svelte: ^2.10.1
     svelte: ^5.45.5
-
   testing:
     '@vitest/ui': ^4.0.15
     jsdom: ^27.2.0
     msw: ^2.7.0
     vitest: ^4.0.15
-
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
@@ -122,14 +112,11 @@ catalogs:
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
-
   typescript:
     '@typescript-eslint/utils': ^8.48.1
     '@typescript/native-preview': latest
-    tsup: ^8.5.1
     tsx: ^4.21.0
     typescript: 5.8.3
-
   utils:
     '@antfu/ni': ^28.0.0
     '@antfu/utils': ^9.3.0
@@ -174,7 +161,6 @@ catalogs:
     unplugin-auto-import: ^20.3.0
     unplugin-utils: ^0.3.1
     zimmerframe: ^1.1.4
-
   vite:
     '@vitejs/plugin-legacy': ^7.2.1
     '@vitejs/plugin-vue': ^6.0.2
@@ -182,7 +168,6 @@ catalogs:
     vite-plugin-inspect: ^11.3.3
     vite-plugin-pages: ^0.33.2
     vite-plugin-windicss: ^1.9.4
-
   vue:
     '@vue/reactivity': ^3.5.25
     '@vueuse/core': ^14.1.0

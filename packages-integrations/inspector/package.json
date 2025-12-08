@@ -29,15 +29,14 @@
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown --config-loader unrun",
     "build-post": "vite build",
-    "stub": "unbuild --stub",
-    "dev": "nr stub && vite",
+    "dev": "tsdown --config-loader unrun --watch",
     "update-post": "vite build",
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },

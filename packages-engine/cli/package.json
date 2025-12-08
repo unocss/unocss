@@ -40,8 +40,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "dependencies": {
     "@jridgewell/remapping": "catalog:build",
