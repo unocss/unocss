@@ -59,9 +59,42 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
+/**
+ * Add comments showing resolved CSS variable values
+ */
+function addCssVarResolutionComments(css: string, varMap: Map<string, string>): string {
+  // Match CSS property values containing var() or calc()
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  const propertyRegex = /([\w-]+):\s*([^;]+);/g
+
+  return css.replace(propertyRegex, (match, property, value) => {
+    // Skip if no variables or calc
+    if (!value.includes('var(') && !value.includes('calc(')) {
+      return match
+    }
+
+    const resolved = resolveCssValue(value, varMap)
+    // Only add comment if we actually resolved something
+    if (resolved !== value && !resolved.includes('var(')) {
+      return `${property}: ${value} /* ${resolved} */;`
+    }
+
+    return match
+  })
+}
+
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
   const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
-  const css = addRemToPxComment(result.css, remToPxRatio)
+
+  // Build CSS variable map from theme
+  const varMap = await buildCssVarMap(uno)
+
+  // Add CSS variable resolution comments
+  let css = addCssVarResolutionComments(result.css, varMap)
+
+  // Add rem-to-px comments
+  css = addRemToPxComment(css, remToPxRatio)
+
   const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
@@ -87,6 +120,89 @@ function getCssVariables(code: string) {
   }
 
   return cssVariables
+}
+
+/**
+ * Build a map of CSS variables from UnoCSS theme and preflights
+ * This extracts variables like --spacing, --fontWeight-bold, etc.
+ */
+export async function buildCssVarMap(uno: UnoGenerator): Promise<Map<string, string>> {
+  const varMap = new Map<string, string>()
+
+  try {
+    // Extract from preflights (where presetWind4 defines variables)
+    const preflights = uno.config.preflights || []
+    for (const preflight of preflights) {
+      if (typeof preflight.getCSS === 'function') {
+        const css = await preflight.getCSS({ generator: uno, theme: uno.config.theme })
+        if (css) {
+          const vars = getCssVariables(css)
+          for (const [key, value] of vars) {
+            varMap.set(key, value.trim())
+          }
+        }
+      }
+    }
+  }
+  catch {
+    // Silently fail - return empty map if we can't extract variables
+  }
+
+  return varMap
+}
+
+/**
+ * Evaluate simple calc() expressions
+ * Handles: calc(0.25rem * 4) => 1rem
+ */
+function evaluateCalc(cssValue: string): string {
+  const calcRegex = /calc\(([^)]+)\)/g
+
+  return cssValue.replace(calcRegex, (match, expression) => {
+    try {
+      // Handle simple multiplication/division for spacing utilities
+      // Pattern: number * number or number / number
+
+      const mathMatch = expression.match(/([\d.]+)(rem|px|em|%)?\s*([*/])\s*([\d.]+)/)
+      if (mathMatch) {
+        const [, num1, unit, op, num2] = mathMatch
+        const result = op === '*'
+          ? Number.parseFloat(num1) * Number.parseFloat(num2)
+          : Number.parseFloat(num1) / Number.parseFloat(num2)
+        return `${result}${unit || ''}`
+      }
+
+      // If we can't evaluate, return original
+      return match
+    }
+    catch {
+      return match
+    }
+  })
+}
+
+/**
+ * Resolve CSS variables and calc() expressions
+ * @example resolveCssValue("calc(var(--spacing) * 4)", varMap) => "1rem"
+ */
+export function resolveCssValue(cssValue: string, varMap: Map<string, string>): string {
+  let resolved = cssValue
+
+  // Step 1: Replace all var() with their values (handle nested vars)
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
+  const varRegex = /var\((--[\w-]+)(?:,\s*([^)]+))?\)/g
+  let iterations = 0
+  while (varRegex.test(resolved) && iterations++ < 10) {
+    resolved = resolved.replace(varRegex, (match, varName, fallback) => {
+      return varMap.get(varName) || fallback || match
+    })
+    varRegex.lastIndex = 0
+  }
+
+  // Step 2: Evaluate calc() expressions
+  resolved = evaluateCalc(resolved)
+
+  return resolved
 }
 
 /**
