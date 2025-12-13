@@ -146,7 +146,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "dev": "esno ./scripts/dev.ts && tsup --watch src",
+    "dev": "esno ./scripts/dev.ts && tsdown --watch src",
     "publish": "esno ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",

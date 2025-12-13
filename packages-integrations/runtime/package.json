@@ -47,5 +47,8 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "catalog:build"
   }
 }
