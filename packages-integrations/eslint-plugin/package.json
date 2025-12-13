@@ -28,6 +28,7 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
@@ -35,7 +36,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src",
     "test:attw": "attw --pack"

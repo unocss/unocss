@@ -25,7 +25,7 @@
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
@@ -33,9 +33,9 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown",
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json",
+    "dev": "tsdown --watch"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
