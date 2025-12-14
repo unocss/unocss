@@ -119,8 +119,26 @@
       "@unocss/preset-icons": [
         "./packages-presets/preset-icons/src/"
       ],
+      "@unocss/preset-legacy-compat": [
+        "./packages-presets/preset-legacy-compat/src/"
+      ],
       "@unocss/preset-mini": [
         "./packages-presets/preset-mini/src/"
+      ],
+      "@unocss/preset-mini/colors": [
+        "./packages-presets/preset-mini/src/colors.ts"
+      ],
+      "@unocss/preset-mini/rules": [
+        "./packages-presets/preset-mini/src/rules.ts"
+      ],
+      "@unocss/preset-mini/theme": [
+        "./packages-presets/preset-mini/src/theme.ts"
+      ],
+      "@unocss/preset-mini/utils": [
+        "./packages-presets/preset-mini/src/utils.ts"
+      ],
+      "@unocss/preset-mini/variants": [
+        "./packages-presets/preset-mini/src/variants.ts"
       ],
       "@unocss/preset-rem-to-px": [
         "./packages-presets/preset-rem-to-px/src/"
