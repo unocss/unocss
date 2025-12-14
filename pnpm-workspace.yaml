@@ -34,7 +34,7 @@ catalogs:
     gzip-size: ^6.0.0
     rollup: ^4.53.3
     terser: ^5.44.1
-    tsdown: ^0.17.1
+    tsdown: ^0.17.3
     tsup: ^8.5.1
     webpack: ^5.103.0
     webpack-sources: ^3.3.3
@@ -51,19 +51,19 @@ catalogs:
     '@codemirror/lang-html': ^6.4.11
     '@codemirror/lang-javascript': ^6.2.4
     '@codemirror/lang-xml': ^6.1.0
-    '@shikijs/markdown-it': ^3.19.0
-    '@shikijs/vitepress-twoslash': ^3.19.0
+    '@shikijs/markdown-it': ^3.20.0
+    '@shikijs/vitepress-twoslash': ^3.20.0
     codemirror: ^6.0.1
     codemirror-theme-vars: ^0.1.2
     markdown-it-link-attributes: ^4.0.1
     pug: ^3.0.3
-    shiki: ^3.19.0
+    shiki: ^3.20.0
     theme-vitesse: ^1.0.0
     vitepress: ^1.6.4
     vitepress-plugin-group-icons: ^1.6.5
   eslint:
-    '@antfu/eslint-config': ^6.4.1
-    eslint: ^9.39.1
+    '@antfu/eslint-config': ^6.6.1
+    eslint: ^9.39.2
     eslint-plugin-antfu: ^3.1.1
     eslint-vitest-rule-tester: ^3.0.0
     svelte-eslint-parser: ^1.4.1
@@ -86,16 +86,16 @@ catalogs:
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.1.0
   nuxt:
-    '@nuxt/kit': ^4.2.1
-    nuxt: ^4.2.1
+    '@nuxt/kit': ^4.2.2
+    nuxt: ^4.2.2
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.3.0
   svelte:
     prettier-plugin-svelte: ^2.10.1
-    svelte: ^5.45.5
+    svelte: ^5.46.0
   testing:
     '@vitest/ui': ^4.0.15
-    jsdom: ^27.2.0
+    jsdom: ^27.3.0
     msw: ^2.7.0
     vitest: ^4.0.15
   types:
@@ -104,7 +104,7 @@ catalogs:
     '@types/fs-extra': ^11.0.4
     '@types/js-yaml': ^4.0.9
     '@types/markdown-it-link-attributes': ^3.0.5
-    '@types/node': ^24.10.1
+    '@types/node': ^24.10.3
     '@types/prettier': ^2.7.3
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.27
@@ -145,7 +145,7 @@ catalogs:
     p-limit: ^7.2.0
     pathe: ^2.0.3
     perfect-debounce: ^2.0.0
-    pnpm: ^10.24.0
+    pnpm: ^10.25.0
     premove: ^4.0.0
     prettier: ^2.8.8
     semver: ^7.7.3
@@ -157,15 +157,15 @@ catalogs:
     synckit: ^0.11.11
     taze: ^19.9.2
     tinyglobby: ^0.2.15
-    unconfig: ^7.4.1
+    unconfig: ^7.4.2
     unplugin: ^2.3.11
     unplugin-auto-import: ^20.3.0
     unplugin-utils: ^0.3.1
     zimmerframe: ^1.1.4
   vite:
     '@vitejs/plugin-legacy': ^7.2.1
-    '@vitejs/plugin-vue': ^6.0.2
-    vite: ^7.2.6
+    '@vitejs/plugin-vue': ^6.0.3
+    vite: ^7.2.7
     vite-plugin-inspect: ^11.3.3
     vite-plugin-pages: ^0.33.2
     vite-plugin-windicss: ^1.9.4
@@ -180,7 +180,7 @@ catalogs:
     vue: ^3.5.25
     vue-eslint-parser: ^10.2.0
     vue-flow-layout: ^0.2.0
-    vue-router: ^4.6.3
+    vue-router: ^4.6.4
     vue-virtual-scroller: ^2.0.0-beta.8
 
 cleanupUnusedCatalogs: true
