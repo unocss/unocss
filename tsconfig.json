@@ -120,7 +120,10 @@
         "./packages-presets/preset-icons/src/"
       ],
       "@unocss/preset-mini": [
-        "./packages-presets/preset-mini/src/"
+        "./packages-presets/preset-mini/src/index.ts"
+      ],
+      "@unocss/preset-mini/*": [
+        "./packages-presets/preset-mini/src/*.ts"
       ],
       "@unocss/preset-mini/rules": [
         "./packages-presets/preset-mini/src/rules.ts"
