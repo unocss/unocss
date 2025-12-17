@@ -40,9 +40,13 @@ function getThemeColorForKey(theme: Theme, colors: string[], key: ThemeColorKeys
   for (const c of colors) {
     index += 1
     if (obj && typeof obj !== 'string') {
-      const camel = colors.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+      const joined = colors.slice(index).join('-')
+      const camel = joined.replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
       if (obj[camel])
         return obj[camel]
+
+      if (obj[joined])
+        return obj[joined]
 
       if (obj[c]) {
         obj = obj[c]

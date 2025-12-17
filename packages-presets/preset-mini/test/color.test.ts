@@ -49,6 +49,9 @@ describe('preset-mini color utils', () => {
           colorMix: 'color-mix(in hsl, oklch(95% 0.10 var(--hue)), oklch(100% 0 360))',
           colorMixUnoAlpha: 'color-mix(in hsl, oklch(95% 0.10 var(--hue) / %alpha), oklch(100% 0 360))',
           colorMixDosAlpha: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / %alpha) 30%, oklch(100% 0 360 / %alpha))',
+          brand: {
+            'dark-blue': '#123456',
+          },
         },
       },
       symbols,
@@ -131,6 +134,16 @@ describe('preset-mini color utils', () => {
 
     expect(fn('colorMixDosAlpha/20')).eql({
       prop: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / 0.2) 30%, oklch(100% 0 360 / 0.2))',
+    })
+
+    // nested color with dash in key name
+    expect(fn('brand-dark-blue')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'rgb(18 52 86 / var(--un-v-opacity))',
+    })
+
+    expect(fn('brand-dark-blue/50')).eql({
+      prop: 'rgb(18 52 86 / 0.5)',
     })
 
     // invalid
