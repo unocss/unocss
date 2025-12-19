@@ -93,5 +93,13 @@ export default antfu(
       'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
     },
   },
-
+  {
+    files: [
+      'examples/**/package.json',
+      'bench/**/package.json',
+    ],
+    rules: {
+      'pnpm/json-enforce-catalog': 'off',
+    },
+  },
 )

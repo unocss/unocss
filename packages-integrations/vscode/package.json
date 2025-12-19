@@ -153,7 +153,7 @@
     "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
-    "@types/vscode": "^1.71.0",
+    "@types/vscode": "catalog:types",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
@@ -163,6 +163,6 @@
     "prettier": "catalog:utils",
     "tsdown": "catalog:build",
     "unconfig": "catalog:utils",
-    "vscode-ext-gen": "^1.4.0"
+    "vscode-ext-gen": "catalog:utils"
   }
 }

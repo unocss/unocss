@@ -1,3 +1,13 @@
+catalogMode: prefer
+cleanupUnusedCatalogs: true
+
+ignoreWorkspaceRootCheck: true
+
+shamefullyHoist: true
+
+shellEmulator: true
+trustPolicy: no-downgrade
+
 packages:
   - bench
   - bench/fixtures/*
@@ -65,6 +75,7 @@ catalogs:
     '@antfu/eslint-config': ^6.6.1
     eslint: ^9.39.2
     eslint-plugin-antfu: ^3.1.1
+    eslint-plugin-format: ^1.1.0
     eslint-vitest-rule-tester: ^3.0.0
     svelte-eslint-parser: ^1.4.1
   frameworks:
@@ -109,6 +120,7 @@ catalogs:
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.27
     '@types/splitpanes': ^2.2.6
+    '@types/vscode': ^1.84.0
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
@@ -161,6 +173,7 @@ catalogs:
     unplugin: ^2.3.11
     unplugin-auto-import: ^20.3.0
     unplugin-utils: ^0.3.1
+    vscode-ext-gen: ^1.4.0
     zimmerframe: ^1.1.4
   vite:
     '@vitejs/plugin-legacy': ^7.2.1
@@ -183,10 +196,6 @@ catalogs:
     vue-router: ^4.6.4
     vue-virtual-scroller: ^2.0.0-beta.8
 
-cleanupUnusedCatalogs: true
-
-ignoreWorkspaceRootCheck: true
-
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
@@ -196,7 +205,5 @@ onlyBuiltDependencies:
   - nuxt-tsconfig-stub
   - sharp
   - simple-git-hooks
-
-shamefullyHoist: true
 
 strictPeerDependencies: false

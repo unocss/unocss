@@ -120,25 +120,7 @@
         "./packages-presets/preset-icons/src/"
       ],
       "@unocss/preset-mini": [
-        "./packages-presets/preset-mini/src/index.ts"
-      ],
-      "@unocss/preset-mini/*": [
-        "./packages-presets/preset-mini/src/*.ts"
-      ],
-      "@unocss/preset-mini/rules": [
-        "./packages-presets/preset-mini/src/rules.ts"
-      ],
-      "@unocss/preset-mini/utils": [
-        "./packages-presets/preset-mini/src/utils.ts"
-      ],
-      "@unocss/preset-mini/theme": [
-        "./packages-presets/preset-mini/src/theme.ts"
-      ],
-      "@unocss/preset-mini/colors": [
-        "./packages-presets/preset-mini/src/colors.ts"
-      ],
-      "@unocss/preset-mini/variants": [
-        "./packages-presets/preset-mini/src/variants.ts"
+        "./packages-presets/preset-mini/src/"
       ],
       "@unocss/preset-rem-to-px": [
         "./packages-presets/preset-rem-to-px/src/"
@@ -154,24 +136,6 @@
       ],
       "@unocss/preset-wind3": [
         "./packages-presets/preset-wind3/src/"
-      ],
-      "@unocss/preset-wind3/theme": [
-        "./packages-presets/preset-wind3/src/theme.ts"
-      ],
-      "@unocss/preset-wind3/utils": [
-        "./packages-presets/preset-wind3/src/utils.ts"
-      ],
-      "@unocss/preset-wind3/colors": [
-        "./packages-presets/preset-wind3/src/colors.ts"
-      ],
-      "@unocss/preset-wind3/rules": [
-        "./packages-presets/preset-wind3/src/rules.ts"
-      ],
-      "@unocss/preset-wind3/variants": [
-        "./packages-presets/preset-wind3/src/variants.ts"
-      ],
-      "@unocss/preset-wind3/shortcuts": [
-        "./packages-presets/preset-wind3/src/shortcuts.ts"
       ],
       "@unocss/preset-wind4": [
         "./packages-presets/preset-wind4/src/"
