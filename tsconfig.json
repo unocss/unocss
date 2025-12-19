@@ -122,6 +122,9 @@
       "@unocss/preset-mini": [
         "./packages-presets/preset-mini/src/"
       ],
+      "@unocss/preset-mini/*": [
+        "./packages-presets/preset-mini/src/*"
+      ],
       "@unocss/preset-rem-to-px": [
         "./packages-presets/preset-rem-to-px/src/"
       ],
@@ -136,6 +139,9 @@
       ],
       "@unocss/preset-wind3": [
         "./packages-presets/preset-wind3/src/"
+      ],
+      "@unocss/preset-wind3/*": [
+        "./packages-presets/preset-wind3/src/*"
       ],
       "@unocss/preset-wind4": [
         "./packages-presets/preset-wind4/src/"
