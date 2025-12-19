@@ -24,7 +24,7 @@
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
-    "test:attw": "pnpm --filter=!cli --filter=!reset --filter=!shared-* --filter=!vscode test:attw",
+    "test:attw": "pnpm --filter='!cli' --filter='!reset' --filter='!shared-*' --filter='!vscode' test:attw",
     "update:iconify-collections": "esno scripts/update-iconify-collections.ts"
   },
   "devDependencies": {
