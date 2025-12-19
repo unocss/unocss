@@ -44,6 +44,7 @@
     "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
+    "@iconify/utils": "catalog:icons",
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*"

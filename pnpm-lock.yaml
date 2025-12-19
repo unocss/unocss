@@ -1177,6 +1177,9 @@ importers:
 
   packages-integrations/runtime:
     dependencies:
+      '@iconify/utils':
+        specifier: catalog:icons
+        version: 3.1.0
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
