@@ -1,7 +1,7 @@
 import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { variantMatcher } from '@unocss/rule-utils'
-import { h, variantGetBracket } from '../utils'
+import { variantGetBracket, variantMatcher } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 function scopeMatcher(name: string, combinator: string): VariantObject<Theme> {
   return {
