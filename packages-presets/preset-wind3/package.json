@@ -61,7 +61,6 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json",
     "dev": "tsdown --watch"
   },
   "dependencies": {

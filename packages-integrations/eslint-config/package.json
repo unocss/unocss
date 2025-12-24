@@ -22,12 +22,24 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./flat": {
-      "import": "./dist/flat.mjs",
-      "require": "./dist/flat.cjs"
+      "import": {
+        "types": "./dist/flat.d.mts",
+        "default": "./dist/flat.mjs"
+      },
+      "require": {
+        "types": "./dist/flat.d.cts",
+        "default": "./dist/flat.cjs"
+      }
     }
   },
   "main": "dist/index.cjs",
