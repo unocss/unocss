@@ -13,4 +13,7 @@ export default defineConfig({
     '@unocss/core',
   ],
   alias: aliasVirtual,
+  attw: {
+    profile: 'esm-only',
+  },
 })

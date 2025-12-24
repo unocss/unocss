@@ -12,4 +12,7 @@ export default defineConfig({
     'vite',
   ],
   alias: aliasVirtual,
+  attw: {
+    profile: 'esm-only',
+  },
 })

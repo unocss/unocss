@@ -13,4 +13,7 @@ export default defineConfig({
     '@typescript-eslint/utils',
     '@typescript-eslint/types',
   ],
+  attw: {
+    profile: 'esm-only',
+  },
 })

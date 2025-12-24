@@ -44,8 +44,7 @@
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src",
-    "test:attw": "attw --pack --ignore-rules missing-export-equals"
+    "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",

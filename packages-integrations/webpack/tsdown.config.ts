@@ -14,4 +14,7 @@ export default defineConfig({
     'webpack',
   ],
   alias: aliasVirtual,
+  attw: {
+    profile: 'esm-only',
+  },
 })

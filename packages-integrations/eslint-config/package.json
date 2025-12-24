@@ -49,7 +49,6 @@
   },
   "scripts": {
     "build": "tsdown",
-    "test:attw": "attw --pack",
     "dev": "tsdown --watch"
   },
   "dependencies": {

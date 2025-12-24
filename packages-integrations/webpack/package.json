@@ -59,7 +59,6 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "test:attw": "attw --pack",
     "dev": "tsdown --config-loader unrun --watch"
   },
   "peerDependencies": {

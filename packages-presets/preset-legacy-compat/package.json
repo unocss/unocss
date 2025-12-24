@@ -34,8 +34,7 @@
   ],
   "scripts": {
     "dev": "tsdown --watch",
-    "build": "tsdown",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown"
   },
   "dependencies": {
     "@unocss/core": "workspace:*"

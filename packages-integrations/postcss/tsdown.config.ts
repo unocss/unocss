@@ -21,5 +21,8 @@ export default defineConfig([
       /postcss\/esm/,
     ],
     alias: aliasVirtual,
+    attw: {
+      profile: 'esm-only',
+    },
   },
 ])

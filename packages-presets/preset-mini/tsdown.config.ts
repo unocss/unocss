@@ -13,4 +13,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   failOnWarn: !isWindows,
+  attw: {
+    profile: 'esm-only',
+  },
 })

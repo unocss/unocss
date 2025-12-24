@@ -18,4 +18,7 @@ export default defineConfig({
     '@unocss/core',
     'magic-string',
   ],
+  attw: {
+    profile: 'esm-only',
+  },
 })

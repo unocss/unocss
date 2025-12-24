@@ -38,7 +38,6 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json",
     "dev": "tsdown --config-loader unrun --watch"
   },
   "peerDependencies": {

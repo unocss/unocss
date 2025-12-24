@@ -9,6 +9,11 @@ export default defineConfig({
   dts: true,
   external: [
     'astro',
+    'vite',
+    '@unocss/vite',
   ],
   alias: aliasVirtual,
+  attw: {
+    profile: 'esm-only',
+  },
 })

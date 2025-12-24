@@ -24,5 +24,8 @@ export default defineConfig([
       '@typescript-eslint/types',
     ],
     alias: aliasVirtual,
+    attw: {
+      profile: 'esm-only',
+    },
   },
 ])

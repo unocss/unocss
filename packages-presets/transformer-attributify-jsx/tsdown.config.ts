@@ -13,4 +13,7 @@ export default defineConfig({
     '@babel/parser',
     '@babel/traverse',
   ],
+  attw: {
+    profile: 'esm-only',
+  },
 })
