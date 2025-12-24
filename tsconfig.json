@@ -195,6 +195,7 @@
     "**/fixtures/**",
     "**/interactive/**",
     "**/test/dts/**",
-    "packages-integrations/eslint-plugin/**"
+    "packages-integrations/eslint-plugin/**",
+    "packages-integrations/nuxt/index.d.cts"
   ]
 }

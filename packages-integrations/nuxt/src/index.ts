@@ -117,14 +117,14 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
         }
       }
 
-      await nuxt.callHook('unocss:config', unoConfig)
+      await nuxt.callHook('unocss:config', unoConfig as any)
 
       extendViteConfig(async (config) => {
         const { default: VitePlugin } = await import('@unocss/vite')
         config.plugins = config.plugins || []
         config.plugins.unshift(...VitePlugin({
           mode: options.mode,
-        }, unoConfig))
+        }, unoConfig) as any)
       })
 
       extendWebpackConfig(async (config) => {
