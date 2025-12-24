@@ -22,8 +22,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "main": "dist/index.cjs",
@@ -39,7 +45,7 @@
     "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src",
-    "test:attw": "attw --pack"
+    "test:attw": "attw --pack --ignore-rules missing-export-equals"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",

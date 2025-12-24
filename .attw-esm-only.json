@@ -1,5 +1,6 @@
 {
   "ignoreRules": [
     "cjs-resolves-to-esm"
-  ]
+  ],
+  "profile": "esm-only"
 }

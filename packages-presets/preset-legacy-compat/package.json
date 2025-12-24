@@ -1,5 +1,6 @@
 {
   "name": "@unocss/preset-legacy-compat",
+  "type": "module",
   "version": "66.5.10",
   "description": "Collections of legacy compatibility utilities.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -21,7 +22,8 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -31,9 +33,9 @@
     "dist"
   ],
   "scripts": {
+    "dev": "tsdown --watch",
     "build": "tsdown",
-    "test:attw": "attw --pack",
-    "dev": "tsdown --watch"
+    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
   },
   "dependencies": {
     "@unocss/core": "workspace:*"
