@@ -1,12 +1,14 @@
 catalogMode: prefer
 cleanupUnusedCatalogs: true
-
 ignoreWorkspaceRootCheck: true
-
 shamefullyHoist: true
-
 shellEmulator: true
+
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - semver@6.3.1
+
 packages:
   - bench
   - bench/fixtures/*
@@ -43,7 +45,7 @@ catalogs:
     gzip-size: ^6.0.0
     rollup: ^4.53.3
     terser: ^5.44.1
-    tsdown: ^0.17.3
+    tsdown: https://pkg.pr.new/tsdown@450b069
     tsup: ^8.5.1
     webpack: ^5.103.0
     webpack-sources: ^3.3.3

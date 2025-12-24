@@ -20,4 +20,7 @@ export default defineConfig({
     '@unocss/extractor-arbitrary-variants',
   ],
   alias: aliasVirtual,
+  attw: {
+    profile: 'esm-only',
+  },
 })
