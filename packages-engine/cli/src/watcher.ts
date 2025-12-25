@@ -1,7 +1,7 @@
 import type { FSWatcher } from 'chokidar'
 import type { CliOptions } from './types'
-import { resolve } from 'node:path'
 import process from 'node:process'
+import { resolve } from 'pathe'
 
 let watcher: FSWatcher
 
