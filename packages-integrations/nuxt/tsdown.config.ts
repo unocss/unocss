@@ -1,5 +1,4 @@
 import { defineConfig } from 'tsdown'
-import { aliasVirtual } from '../../alias'
 
 export default defineConfig({
   entry: [
@@ -7,6 +6,7 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  format: ['esm', 'cjs'],
   external: [
     '@nuxt/schema',
     '@nuxt/kit',
@@ -15,11 +15,10 @@ export default defineConfig({
     'vite',
     'webpack',
   ],
-  alias: aliasVirtual,
   attw: {
-    profile: 'esm-only',
     ignoreRules: [
-      'false-esm',
+      'false-export-default',
+      'untyped-resolution',
     ],
   },
 })

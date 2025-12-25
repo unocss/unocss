@@ -29,8 +29,8 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./index.d.cts",
-        "default": "./index.cjs"
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       }
     }
   },
@@ -39,7 +39,6 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "index.cjs",
     "runtime"
   ],
   "scripts": {
