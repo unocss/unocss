@@ -77,11 +77,11 @@
       "#integration/context": [
         "./virtual-shared/integration/src/context.ts"
       ],
-      "#integration/defaults": [
-        "./virtual-shared/integration/src/defaults.ts"
-      ],
       "#integration/defaults-ide": [
         "./virtual-shared/integration/src/defaults-ide.ts"
+      ],
+      "#integration/defaults": [
+        "./virtual-shared/integration/src/defaults.ts"
       ],
       "#integration/env": [
         "./virtual-shared/integration/src/env.ts"
