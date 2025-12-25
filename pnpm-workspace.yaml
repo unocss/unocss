@@ -1,3 +1,15 @@
+autoInstallPeers: true
+
+catalogMode: prefer
+
+cleanupUnusedCatalogs: true
+
+ignoreWorkspaceRootCheck: true
+
+shamefullyHoist: true
+
+shellEmulator: true
+
 packages:
   - bench
   - bench/fixtures/*
@@ -10,8 +22,6 @@ packages:
   - packages-deprecated/*
   - virtual-shared/*
   - test/fixtures/*
-
-autoInstallPeers: true
 
 overrides:
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
@@ -27,54 +37,50 @@ catalogs:
   babel:
     '@babel/parser': 7.27.7
     '@babel/traverse': 7.27.7
-
   build:
     '@jridgewell/remapping': ^2.3.5
     brotli-size: ^4.0.0
     bumpp: ^10.3.2
     gzip-size: ^6.0.0
-    rollup: ^4.53.3
+    rollup: ^4.54.0
     terser: ^5.44.1
-    unbuild: ^3.6.1
-    webpack: ^5.103.0
+    tsdown: ^0.18.3
+    tsup: ^8.5.1
+    webpack: ^5.104.1
     webpack-sources: ^3.3.3
-
   css:
     '@codemirror/lang-css': ^6.3.1
     '@csstools/normalize.css': ^12.1.1
-    autoprefixer: ^10.4.22
+    autoprefixer: ^10.4.23
     css-tree: ^3.1.0
     postcss: ^8.5.6
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
-
   docs:
     '@codemirror/lang-html': ^6.4.11
     '@codemirror/lang-javascript': ^6.2.4
     '@codemirror/lang-xml': ^6.1.0
-    '@shikijs/markdown-it': ^3.19.0
-    '@shikijs/vitepress-twoslash': ^3.19.0
+    '@shikijs/markdown-it': ^3.20.0
+    '@shikijs/vitepress-twoslash': ^3.20.0
     codemirror: ^6.0.1
     codemirror-theme-vars: ^0.1.2
     markdown-it-link-attributes: ^4.0.1
     pug: ^3.0.3
-    shiki: ^3.19.0
+    shiki: ^3.20.0
     theme-vitesse: ^1.0.0
     vitepress: ^1.6.4
     vitepress-plugin-group-icons: ^1.6.5
-
   eslint:
-    '@antfu/eslint-config': ^6.4.1
-    eslint: ^9.39.1
+    '@antfu/eslint-config': ^6.7.3
+    eslint: ^9.39.2
     eslint-plugin-antfu: ^3.1.1
-    eslint-vitest-rule-tester: ^3.0.0
+    eslint-plugin-format: ^1.1.0
+    eslint-vitest-rule-tester: ^3.0.1
     svelte-eslint-parser: ^1.4.1
-
   frameworks:
     astro: ^0.0.0-telefunc-20221130131719
     react: ^18.3.1
-
   icons:
     '@iconify-json/carbon': ^1.2.15
     '@iconify-json/iconoir': ^1.2.10
@@ -83,53 +89,47 @@ catalogs:
     '@iconify-json/mdi': ^1.2.3
     '@iconify-json/ph': ^1.2.2
     '@iconify-json/ri': ^1.2.6
-    '@iconify-json/tabler': ^1.2.23
+    '@iconify-json/tabler': ^1.2.25
     '@iconify-json/teenyicons': ^1.2.2
-    '@iconify-json/twemoji': ^1.2.4
+    '@iconify-json/twemoji': ^1.2.5
     '@iconify-json/uim': ^1.2.3
     '@iconify-json/vscode-icons': ^1.2.37
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.1.0
-
   nuxt:
-    '@nuxt/kit': ^4.2.1
-    nuxt: ^4.2.1
+    '@nuxt/kit': ^4.2.2
+    nuxt: ^4.2.2
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.3.0
-
   svelte:
     prettier-plugin-svelte: ^2.10.1
-    svelte: ^5.45.5
-
+    svelte: ^5.46.1
   testing:
-    '@vitest/ui': ^4.0.15
-    jsdom: ^27.2.0
+    '@vitest/ui': ^4.0.16
+    jsdom: ^27.3.0
     msw: ^2.7.0
-    vitest: ^4.0.15
-
+    vitest: ^4.0.16
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
     '@types/fs-extra': ^11.0.4
     '@types/js-yaml': ^4.0.9
     '@types/markdown-it-link-attributes': ^3.0.5
-    '@types/node': ^24.10.1
+    '@types/node': ^25.0.3
     '@types/prettier': ^2.7.3
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.27
     '@types/splitpanes': ^2.2.6
+    '@types/vscode': ^1.84.0
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
-
   typescript:
-    '@typescript-eslint/utils': ^8.48.1
+    '@typescript-eslint/utils': ^8.50.1
     '@typescript/native-preview': latest
-    tsup: ^8.5.1
     tsx: ^4.21.0
     typescript: 5.8.3
-
   utils:
     '@antfu/ni': ^28.0.0
     '@antfu/utils': ^9.3.0
@@ -142,7 +142,7 @@ catalogs:
     esno: ^4.8.0
     execa: ^9.6.1
     find-up: ^6.3.0
-    fs-extra: ^11.3.2
+    fs-extra: ^11.3.3
     fuse.js: ^7.1.0
     fzf: ^0.5.2
     jiti: ^2.6.1
@@ -157,7 +157,7 @@ catalogs:
     p-limit: ^7.2.0
     pathe: ^2.0.3
     perfect-debounce: ^2.0.0
-    pnpm: ^10.24.0
+    pnpm: ^10.26.2
     premove: ^4.0.0
     prettier: ^2.8.8
     semver: ^7.7.3
@@ -169,37 +169,32 @@ catalogs:
     synckit: ^0.11.11
     taze: ^19.9.2
     tinyglobby: ^0.2.15
-    unconfig: ^7.4.1
+    unconfig: ^7.4.2
     unplugin: ^2.3.11
     unplugin-auto-import: ^20.3.0
     unplugin-utils: ^0.3.1
+    vscode-ext-gen: ^1.5.1
     zimmerframe: ^1.1.4
-
   vite:
     '@vitejs/plugin-legacy': ^7.2.1
-    '@vitejs/plugin-vue': ^6.0.2
-    vite: ^7.2.6
+    '@vitejs/plugin-vue': ^6.0.3
+    vite: ^7.3.0
     vite-plugin-inspect: ^11.3.3
     vite-plugin-pages: ^0.33.2
     vite-plugin-windicss: ^1.9.4
-
   vue:
-    '@vue/reactivity': ^3.5.25
+    '@vue/reactivity': ^3.5.26
     '@vueuse/core': ^14.1.0
     '@vueuse/math': ^14.1.0
     '@vueuse/nuxt': ^14.1.0
     floating-vue: ^5.2.2
     unplugin-vue-components: ^30.0.0
     unplugin-vue-markdown: ^29.2.0
-    vue: ^3.5.25
+    vue: ^3.5.26
     vue-eslint-parser: ^10.2.0
     vue-flow-layout: ^0.2.0
-    vue-router: ^4.6.3
+    vue-router: ^4.6.4
     vue-virtual-scroller: ^2.0.0-beta.8
-
-cleanupUnusedCatalogs: true
-
-ignoreWorkspaceRootCheck: true
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
@@ -210,7 +205,5 @@ onlyBuiltDependencies:
   - nuxt-tsconfig-stub
   - sharp
   - simple-git-hooks
-
-shamefullyHoist: true
 
 strictPeerDependencies: false

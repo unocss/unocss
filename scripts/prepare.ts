@@ -80,12 +80,21 @@ async function updateTsconfig() {
   const root = fileURLToPath(new URL('..', import.meta.url))
   const alias = await import('../alias').then(r => r.alias)
   const tsconfig = await fs.readJSON('./tsconfig.json')
+  const recursivePackages = [
+    '@unocss/preset-mini',
+    '@unocss/preset-wind3',
+  ]
   tsconfig.compilerOptions.paths = Object.fromEntries(
-    Object.entries(alias).map(([k, v]) => {
+    Object.entries(alias).flatMap(([k, v]) => {
       let path = `./${relative(root, v)}`
       if (!path.match(/\.\w+$/) && !path.endsWith('/'))
         path = `${path}/`
-      return [k, [path]]
+
+      const entries = [[k, [path]]]
+      if (path.endsWith('/') && recursivePackages.includes(k))
+        entries.push([`${k}/*`, [`${path}*`]])
+
+      return entries
     }),
   )
   await fs.writeJSON('./tsconfig.json', tsconfig, { spaces: 2, EOL: '\n' })

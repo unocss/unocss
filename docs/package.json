@@ -17,6 +17,7 @@
     "@iconify-json/vscode-icons": "catalog:icons",
     "ofetch": "catalog:utils",
     "unocss": "workspace:*",
+    "unplugin-vue-components": "catalog:vue",
     "vitepress": "catalog:docs",
     "vitepress-plugin-group-icons": "catalog:docs"
   }

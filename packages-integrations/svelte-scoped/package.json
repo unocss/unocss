@@ -50,11 +50,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
+    "build": "tsdown --config-loader unrun",
     "bench": "vitest bench",
     "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@unocss/config": "workspace:*",

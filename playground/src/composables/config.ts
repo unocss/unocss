@@ -8,8 +8,8 @@ export const defaultConfig = ref<UserConfig | undefined>()
 const bundle = (selectedVersion.value === 'latest' || !selectedVersion.value)
   ? unocssBundle
   : new Map(
-    bundlePackages.map(p => [p, () => import(/* @vite-ignore */ `https://esm.sh/${p}@${selectedVersion.value}`)]),
-  )
+      bundlePackages.map(p => [p, () => import(/* @vite-ignore */ `https://esm.sh/${p}@${selectedVersion.value}`)]),
+    )
 
 export async function load() {
   try {

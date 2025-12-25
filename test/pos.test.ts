@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
 import { getMatchedPositions, getMatchedPositionsFromCode as match } from '#integration/match-positions'
 import { createGenerator } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'

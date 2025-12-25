@@ -1,6 +1,7 @@
 import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, variantGetParameter, variantParentMatcher } from '../utils'
+import { variantGetParameter, variantParentMatcher } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 export const variantNoscript: VariantObject = variantParentMatcher('noscript', '@media (scripting: none)')
 

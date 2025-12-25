@@ -16,3 +16,5 @@ export default function WebpackPlugin<Theme extends object>(
 ) {
   return unplugin(configOrPath, defaults).webpack()
 }
+
+export { WebpackPlugin }
