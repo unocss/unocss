@@ -153,13 +153,17 @@
     "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
+    "@csstools/css-calc": "catalog:css",
+    "@types/culori": "catalog:types",
     "@types/vscode": "catalog:types",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
+    "culori": "catalog:css",
     "esno": "catalog:utils",
     "find-up": "catalog:utils",
     "jiti": "catalog:utils",
+    "postcss": "catalog:css",
     "prettier": "catalog:utils",
     "tsdown": "catalog:build",
     "unconfig": "catalog:utils",

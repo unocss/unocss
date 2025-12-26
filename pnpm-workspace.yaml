@@ -50,9 +50,11 @@ catalogs:
     webpack-sources: ^3.3.3
   css:
     '@codemirror/lang-css': ^6.3.1
+    '@csstools/css-calc': ^2.1.4
     '@csstools/normalize.css': ^12.1.1
     autoprefixer: ^10.4.23
     css-tree: ^3.1.0
+    culori: ^4.0.2
     postcss: ^8.5.6
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
@@ -112,6 +114,7 @@ catalogs:
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
+    '@types/culori': ^4.0.1
     '@types/fs-extra': ^11.0.4
     '@types/js-yaml': ^4.0.9
     '@types/markdown-it-link-attributes': ^3.0.5
@@ -124,7 +127,6 @@ catalogs:
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
-    '@vitejs/devtools-kit': ^0.0.0-alpha.10
   typescript:
     '@typescript-eslint/utils': ^8.50.1
     '@typescript/native-preview': latest
@@ -176,6 +178,7 @@ catalogs:
     vscode-ext-gen: ^1.5.1
     zimmerframe: ^1.1.4
   vite:
+    '@vitejs/devtools-kit': ^0.0.0-alpha.10
     '@vitejs/plugin-legacy': ^7.2.1
     '@vitejs/plugin-vue': ^6.0.3
     vite: ^7.3.0
