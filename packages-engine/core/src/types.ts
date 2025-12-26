@@ -247,7 +247,7 @@ export type CSSValues = CSSValue | CSSValue[]
 export type DynamicMatcher<Theme extends object = object>
   = (
     match: RegExpMatchArray,
-    context: Readonly<RuleContext<Theme>>
+    context: Readonly<RuleContext<Theme>>,
   ) =>
     | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
     | Generator<CSSValueInput | string | undefined>
@@ -390,7 +390,7 @@ export interface VariantObject<Theme extends object = object> {
 export type Variant<Theme extends object = object> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
-export type Postprocessor = (util: UtilObject) => void
+export type Postprocessor = (util: UtilObject) => void | UtilObject | (UtilObject | null | undefined)[]
 export type ThemeExtender<Theme extends object = object> = (theme: Theme, config: Readonly<ResolvedConfig<Theme>>) => Theme | void
 
 export interface ConfigBase<Theme extends object = object> {
@@ -688,12 +688,20 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+
   /**
    * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
    */
   legacy?: {
     renderModernChunks: boolean
   }
+
+  /**
+   * Custom prefix for virtual modules
+   *
+   * @default '__uno'
+   */
+  virtualModulePrefix?: string
 }
 
 /**
@@ -749,6 +757,11 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
   getConfigFileList: () => string[]
+
+  /**
+   * Get regexes to match virtual module ids
+   */
+  getVMPRegexes: () => Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>
 }
 
 export interface SourceMap {
@@ -784,7 +797,7 @@ export interface SourceCodeTransformer {
   transform: (
     code: MagicString,
     id: string,
-    ctx: UnocssPluginContext
+    ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
@@ -818,7 +831,7 @@ export interface ContentOptions {
      * By default, `.ts` and `.js` files are NOT extracted.
      *
      * @see https://www.npmjs.com/package/picomatch
-     * @default [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/]
+     * @default [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|marko|html)($|\?)/]
      */
     include?: FilterPattern
 

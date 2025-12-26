@@ -1,6 +1,7 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
-import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '../utils'
+import { getBracket, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 export const variantSelector: Variant<Theme> = {
   name: 'selector',

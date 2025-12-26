@@ -35,13 +35,13 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
     {
       name: 'unocss:module-scope:pre',
       enforce: 'pre',
-      resolveId(id) {
-        const entry = resolveId(id)
+      async resolveId(id) {
+        const entry = await resolveId(ctx, id)
         if (entry)
           return entry
       },
       async load(id) {
-        const layer = resolveLayer(getPath(id))
+        const layer = await resolveLayer(ctx, getPath(id))
         if (!layer)
           return null
 

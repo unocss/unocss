@@ -14,6 +14,7 @@ export default antfu(
   {
     ignores: [
       '**/.svelte-kit',
+      '**/.marko-run',
       '**/*.global.js',
       '**/fixtures/**',
       'bench/source/gen*.js',
@@ -92,5 +93,24 @@ export default antfu(
       'antfu/indent-unindent': ['error', { tags: ['$', 'html'] }],
     },
   },
-
+  {
+    files: [
+      'examples/**/package.json',
+      'bench/**/package.json',
+    ],
+    rules: {
+      'pnpm/json-enforce-catalog': 'off',
+    },
+  },
+  {
+    files: [
+      'pnpm-workspace.yaml',
+    ],
+    rules: {
+      // Temporarily disabling the `trustPolicy: no-downgrade` setting affects dependency installation
+      // and makes the `trustPolicyExclude` field difficult to maintain.
+      // https://github.com/pnpm/pnpm/pull/10359
+      'pnpm/yaml-enforce-settings': 'off',
+    },
+  },
 )

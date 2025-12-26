@@ -1,7 +1,7 @@
 {
   "name": "@unocss/postcss",
   "type": "module",
-  "version": "66.5.0",
+  "version": "66.5.11",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -35,7 +35,7 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
@@ -51,9 +51,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "peerDependencies": {
     "postcss": "^8.4.21"

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-wind4",
   "type": "module",
-  "version": "66.5.0",
+  "version": "66.5.11",
   "description": "Tailwind 4 compact preset for UnoCSS",
   "authors": [
     {
@@ -67,16 +67,15 @@
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "*.css",
     "*.d.ts",
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

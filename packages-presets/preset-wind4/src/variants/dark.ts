@@ -1,7 +1,7 @@
 import type { Variant } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
-import { variantMatcher, variantParentMatcher } from '../utils'
+import { variantMatcher, variantParentMatcher } from '@unocss/rule-utils'
 
 export function variantColorsMediaOrClass(options: PresetWind4Options = {}): Variant<Theme>[] {
   if (options?.dark === 'class' || typeof options.dark === 'object') {

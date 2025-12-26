@@ -1,11 +1,10 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import { getStringComponent, getStringComponents } from '@unocss/rule-utils'
 import {
   colorableShadows,
   colorResolver,
   defineProperty,
-  getStringComponent,
-  getStringComponents,
   globalKeywords,
   h,
   hasParseableColor,

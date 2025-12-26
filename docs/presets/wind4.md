@@ -37,8 +37,7 @@ bun add -D @unocss/preset-wind4
 :::
 
 ```ts twoslash [uno.config.ts]
-import presetWind4 from '@unocss/preset-wind4'
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -130,8 +129,7 @@ import '@unocss/reset/tailwind-compat.css' // [!code --]
 You only need to control whether to enable reset styles through a switch:
 
 ```ts twoslash [uno.config.ts]
-import presetWind4 from '@unocss/preset-wind4'
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
@@ -210,6 +208,94 @@ export default defineConfig({
   ],
   postprocess: [createRemToPxProcessor()], // [!code ++]
 })
+```
+
+#### Property
+
+Control the generation of `@property` CSS rules in the `properties` layer.
+
+By default, PresetWind4 uses `@property` to define CSS custom properties for better browser optimization. These properties are automatically generated based on your utilities usage and wrapped in a `@supports` query for progressive enhancement.
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: true, // Enable (default) | `false` to disable [!code ++]
+      },
+    }),
+  ],
+})
+```
+
+##### Parent and Selector
+
+You can customize the parent wrapper and selector:
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: {
+          // Custom parent selector (e.g., use @layer instead of @supports)
+          parent: '@layer custom-properties',
+          // Custom selector for applying properties
+          selector: ':where(*, ::before, ::after)',
+        },
+      },
+    }),
+  ],
+})
+```
+
+If you don't want the `@supports` wrapper and want properties applied directly:
+
+```ts twoslash [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetWind4({
+      preflights: {
+        property: {
+          parent: false, // No parent wrapper
+        },
+      },
+    }),
+  ],
+})
+```
+
+**Default output:**
+
+```css
+@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or
+  ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+  *,
+  ::before,
+  ::after,
+  ::backdrop {
+    --un-text-opacity: 100%;
+    /* ... */
+  }
+}
+```
+
+**With `parent: false`:**
+
+```css
+*,
+::before,
+::after,
+::backdrop {
+  --un-text-opacity: 100%;
+  /* ... */
+}
 ```
 
 ## Generated CSS

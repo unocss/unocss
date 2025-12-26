@@ -1,7 +1,7 @@
 {
   "name": "@unocss/cli",
   "type": "module",
-  "version": "66.5.0",
+  "version": "66.5.11",
   "description": "CLI for UnoCSS",
   "author": {
     "name": "Johann Schopplich",
@@ -40,8 +40,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@jridgewell/remapping": "catalog:build",

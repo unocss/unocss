@@ -86,7 +86,7 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (meta?.noMerge) {
-        newSelector = _selector!
+        newSelector = selectorOrGroup!
       }
       else if (selectorOrGroup && selectorOrGroup !== '.\\-') {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
@@ -109,12 +109,17 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         })
         newSelector = generate(prelude)
       }
-      let css = `${newSelector.replace(/.\\-/g, className)}{${body}}`
+
+      let css = `${newSelector.includes('.\\-') ? className.split(',').map(e => newSelector.replace(/.\\-/g, e.trim())).join(',') : newSelector}{${body}}`
+
       if (parent) {
         if (parent.includes(' $$ ')) {
           // split '&&'
           const [first, ...parentSelectors] = parent.split(' $$ ').reverse()
           css = `${parentSelectors.reduce((p, c, i) => i === parentSelectors.length - 1 ? `${p}{${c}{${css}}}${'}'.repeat(i)}` : `${p}{${c}`, first)}`
+        }
+        else if (parent === '.\\-') {
+          css = `${className}{${css}}`
         }
         else {
           css = `${parent}{${css}}`

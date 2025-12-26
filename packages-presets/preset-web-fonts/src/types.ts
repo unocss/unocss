@@ -63,7 +63,7 @@ export interface WebFontProcessor {
     getCSSDefault: (
       fonts: ResolvedWebFontMeta[],
       providers: Provider[],
-    ) => Awaitable<string>
+    ) => Awaitable<string>,
   ) => Awaitable<string | undefined>
   transformCSS?: (css: string) => Promise<string | undefined>
 }

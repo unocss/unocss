@@ -3,7 +3,7 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import type { WebpackPluginOptions } from '.'
 import { isAbsolute, normalize } from 'node:path'
 import process from 'node:process'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
+import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { createContext } from '#integration/context'
 import { getHash } from '#integration/hash'
@@ -47,10 +47,11 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
     const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
-      transformInclude(id) {
-        return filter('', id) && !id.endsWith('.html') && !RESOLVED_ID_RE.test(id)
-      },
       async transform(code, id) {
+        const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
+        if (RESOLVED_ID_RE.test(id) || !filter('', id) || id.endsWith('.html'))
+          return
+
         const result = await applyTransformers(ctx, code, id, 'pre')
         if (isCssId(id))
           return result
@@ -60,8 +61,8 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
           tasks.push(extract(result.code, id))
         return result
       },
-      resolveId(id) {
-        const entry = resolveId(id)
+      async resolveId(id) {
+        const entry = await resolveId(ctx, id)
         if (entry === id)
           return
         if (entry) {
@@ -74,16 +75,14 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
           return entry + query
         }
       },
-      loadInclude(id) {
-        const layer = getLayer(id)
-        return !!layer
-      },
       // serve the placeholders in virtual module
-      load(id) {
-        const layer = getLayer(id)
+      async load(id) {
+        const layer = await getLayer(ctx, id)
+        if (!layer)
+          return
+
         const hash = hashes.get(id)
-        if (layer)
-          return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+        return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
       },
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
@@ -110,6 +109,9 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
 
             await flushTasks()
             const result = await ctx.uno.generate(tokens, { minify: true })
+            const resolvedLayers = (await Promise.all(Array.from(entries)
+              .map(i => resolveLayer(ctx, i))))
+              .filter((i): i is string => !!i)
 
             for (const file of files) {
               // https://github.com/unocss/unocss/pull/1428
@@ -123,8 +125,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
               code = code.replace(LAYER_PLACEHOLDER_RE, (_, layer, escapeView) => {
                 replaced = true
                 const css = layer.trim() === LAYER_MARK_ALL
-                  ? result.getLayers(undefined, Array.from(entries)
-                      .map(i => resolveLayer(i)).filter((i): i is string => !!i))
+                  ? result.getLayers(undefined, resolvedLayers)
                   : (result.getLayer(layer) || '')
 
                 escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView.trim())
@@ -161,36 +162,38 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         virtualModules = Array.from(plugin.__vfsModules)
       }
 
-      virtualModules
-        .forEach((id) => {
-          let path = decodeURIComponent(id.startsWith(plugin.__virtualModulePrefix) ? id.slice(plugin.__virtualModulePrefix.length) : id)
-          // unplugin changes the id in the `load` hook, follow it
-          // https://github.com/unjs/unplugin/pull/145/files#diff-2b106437404a793ee5b8f3823344656ce880f698d3d8cb6a7cf785e36fb4bf5cR27
-          path = normalizeAbsolutePath(path)
-          const layer = resolveLayer(path)
-          if (!layer)
-            return
-          const code = layer === LAYER_MARK_ALL
-            ? result.getLayers(undefined, Array.from(entries)
-                .map(i => resolveLayer(i)).filter((i): i is string => !!i))
-            : (result.getLayer(layer) || '')
+      const resolvedLayers = (await Promise.all(Array.from(entries)
+        .map(i => resolveLayer(ctx, i))))
+        .filter((i): i is string => !!i)
 
-          const hash = getHash(code)
-          hashes.set(path, hash)
-          plugin.__vfs.writeModule(id, code)
-        })
+      for (const id of virtualModules) {
+        let path = decodeURIComponent(id.startsWith(plugin.__virtualModulePrefix) ? id.slice(plugin.__virtualModulePrefix.length) : id)
+        // unplugin changes the id in the `load` hook, follow it
+        // https://github.com/unjs/unplugin/pull/145/files#diff-2b106437404a793ee5b8f3823344656ce880f698d3d8cb6a7cf785e36fb4bf5cR27
+        path = normalizeAbsolutePath(path)
+        const layer = await resolveLayer(ctx, path)
+        if (!layer)
+          continue
+        const code = layer === LAYER_MARK_ALL
+          ? result.getLayers(undefined, resolvedLayers)
+          : (result.getLayer(layer) || '')
+
+        const hash = getHash(code)
+        hashes.set(path, hash)
+        plugin.__vfs.writeModule(id, code)
+      }
     }
 
     return plugin
   })
 }
 
-function getLayer(id: string) {
-  let layer = resolveLayer(getPath(id))
+async function getLayer(ctx: any, id: string) {
+  let layer = await resolveLayer(ctx, getPath(id))
   if (!layer) {
-    const entry = resolveId(id)
+    const entry = await resolveId(ctx, id)
     if (entry)
-      layer = resolveLayer(entry)
+      layer = await resolveLayer(ctx, entry)
   }
   return layer
 }

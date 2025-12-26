@@ -129,15 +129,7 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
 
           return {
             [symbols.body]: css,
-            [symbols.selector]: (selector) => {
-              if (typeof options?.important === 'string') {
-                selector = `${options.important} ${selector}`
-              }
-              if (!options?.compatibility?.noColonIs) {
-                selector = `:is(${selector})`
-              }
-              return selector
-            },
+            [symbols.selector]: normalizeSelector,
           }
         },
         { layer: 'typography', autocomplete: `${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})` },

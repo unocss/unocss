@@ -1,5 +1,8 @@
+import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
 import { globalKeywords } from '../mappings'
+import { themeTracking } from '../track'
+import { getThemeByKey } from '../utilities'
 import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
@@ -147,7 +150,23 @@ export function fraction(str: string) {
   }
 }
 
-function bracketWithType(str: string, requiredType?: string) {
+function processThemeVariable(name: string, key: keyof Theme, paths: string[], theme: Theme) {
+  const valOrObj = getThemeByKey(theme, key, paths)
+  const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
+
+  if (hasDefault)
+    paths.push('DEFAULT')
+
+  const val = hasDefault ? valOrObj.DEFAULT : valOrObj
+  const varKey = hasDefault && key !== 'spacing' ? `${name}.DEFAULT` : name
+
+  if (val != null)
+    themeTracking(key, paths.length ? paths : undefined)
+
+  return { val, varKey }
+}
+
+function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
     let hintedType: string | undefined
@@ -175,8 +194,33 @@ function bracketWithType(str: string, requiredType?: string) {
       return
 
     if (base.startsWith('--')) {
-      const [name, defaultValue] = base.slice(2).split(',')
-      base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+      const calcMatch = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
+      if (calcMatch != null && theme) {
+        // Handle theme function with calculation: --theme.key(factor)
+        const [, name, factor] = calcMatch
+        const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
+        const { val, varKey } = processThemeVariable(name, key, paths, theme)
+
+        if (val != null)
+          base = `calc(var(--${escapeSelector(varKey.replaceAll('.', '-'))}) * ${factor})`
+      }
+      else {
+        // Handle regular CSS variable: --name or --theme.key with optional default
+        const [name, defaultValue] = base.slice(2).split(',')
+        const suffix = defaultValue ? `, ${defaultValue}` : ''
+        const escapedName = escapeSelector(name)
+
+        if (theme) {
+          const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
+          const { val, varKey } = processThemeVariable(name, key, paths, theme)
+          base = val != null
+            ? `var(--${escapeSelector(varKey.replaceAll('.', '-'))}${suffix})`
+            : `var(--${escapedName}${suffix})`
+        }
+        else {
+          base = `var(--${escapedName}${suffix})`
+        }
+      }
     }
 
     let curly = 0
@@ -222,28 +266,28 @@ function bracketWithType(str: string, requiredType?: string) {
   }
 }
 
-export function bracket(str: string) {
-  return bracketWithType(str)
+export function bracket(str: string, theme?: Theme) {
+  return bracketWithType(str, undefined, theme)
 }
 
-export function bracketOfColor(str: string) {
-  return bracketWithType(str, 'color')
+export function bracketOfColor(str: string, theme?: Theme) {
+  return bracketWithType(str, 'color', theme)
 }
 
-export function bracketOfLength(str: string) {
-  return bracketWithType(str, 'length') || bracketWithType(str, 'size')
+export function bracketOfLength(str: string, theme?: Theme) {
+  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme)
 }
 
-export function bracketOfPosition(str: string) {
-  return bracketWithType(str, 'position')
+export function bracketOfPosition(str: string, theme?: Theme) {
+  return bracketWithType(str, 'position', theme)
 }
 
-export function bracketOfFamily(str: string) {
-  return bracketWithType(str, 'family')
+export function bracketOfFamily(str: string, theme?: Theme) {
+  return bracketWithType(str, 'family', theme)
 }
 
-export function bracketOfNumber(str: string) {
-  return bracketWithType(str, 'number')
+export function bracketOfNumber(str: string, theme?: Theme) {
+  return bracketWithType(str, 'number', theme)
 }
 
 export function cssvar(str: string) {
@@ -278,7 +322,7 @@ export function degree(str: string) {
   const num = Number.parseFloat(n)
   if (!Number.isNaN(num)) {
     if (num === 0)
-      return '0'
+      return '0deg'
     return unit ? `${round(num)}${unit}` : `${round(num)}deg`
   }
 }

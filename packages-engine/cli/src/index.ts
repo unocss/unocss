@@ -79,6 +79,8 @@ export async function build(_options: CliOptions) {
 
     watcher.on('all', async (type, file) => {
       const absolutePath = resolve(cwd, file)
+      if (type === 'addDir' || type === 'unlinkDir')
+        return
 
       if (configSources.includes(absolutePath)) {
         await ctx.reloadConfig()

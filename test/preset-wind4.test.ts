@@ -68,7 +68,6 @@ describe('preset-wind4', () => {
         "m-inline-none",
         "pxy",
         "p-xy",
-        "p-is",
         "mxy",
         "m-xy",
         "-m-md",
@@ -155,33 +154,31 @@ describe('preset-wind4', () => {
       ],
       theme: {
         colors: {
-          foo: 'var(--colors-bar)',
-          bar: 'var(--colors-baz-bcd, #000)',
-          baz: {
-            bcd: 'var(--colors-test, #fff)',
-          },
-          test: '#fff',
+          // foo: 'var(--colors-bar)',
+          // bar: 'var(--colors-baz-bcd, #000)',
+          // baz: {
+          //   bcd: 'var(--colors-test, #fff)',
+          // },
+          // ^^^ don't do this
+
+          // issue #4994: Chaining CSS variables within a theme is strongly discouraged,
+          // as it can cause browsers to fail to resolve variables to the correct values promptly during evaluation (or recalculation).
+          // Furthermore, Uno does not perform in-depth analysis of the source of these references.
+          primary: `var(--custom-css-variable, #123456)`,
+          secondary: `calc(var(--another-css-variable, 10%) + 5%)`,
         },
       },
     })
 
-    const { css } = await uno.generate('c-foo')
+    const { css } = await uno.generate('c-primary c-primary/50 c-secondary')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      /* layer: theme */
-      :root, :host {
-      --colors-foo: var(--colors-bar);
-      --colors-bar: var(--colors-baz-bcd, #000);
-      --colors-baz-bcd: var(--colors-test, #fff);
-      --colors-test: #fff;
-      }
       /* layer: default */
-      .c-foo{color:color-mix(in srgb, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      @supports (color: color-mix(in lab, red, red)){
-      .c-foo{color:color-mix(in oklab, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      }"
+      .c-primary{color:color-mix(in srgb, var(--custom-css-variable, #123456) var(--un-text-opacity), transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-primary\\/50{color:color-mix(in srgb, var(--custom-css-variable, #123456) 50%, transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-secondary{color:color-mix(in srgb, calc(var(--another-css-variable, 10%) + 5%) var(--un-text-opacity), transparent) /* calc(var(--another-css-variable, 10%) + 5%) */;}"
     `)
   })
 
@@ -527,7 +524,7 @@ describe('important', () => {
       'shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-inset-ring-color{syntax:"*";inherits:false;}
       @property --un-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
@@ -570,7 +567,7 @@ describe('important', () => {
       'text-shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-text-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: default */
@@ -601,7 +598,7 @@ describe('important', () => {
       'drop-shadow-red-300/30',
     ].join(' '), { preflights: false })
 
-    await expect(css).toMatchInlineSnapshot(`
+    expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @property --un-blur{syntax:"*";inherits:false;}
       @property --un-brightness{syntax:"*";inherits:false;}
@@ -624,6 +621,101 @@ describe('important', () => {
       .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
       .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-drop-shadow-opacity), transparent);}
       }"
+    `)
+  })
+
+  it('custom properties', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: {
+            reset: false,
+            property: {
+              parent: false,
+              selector: ':host',
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('text-red')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      :host{--un-text-opacity:100%;}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); }
+      /* layer: default */
+      .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('with no-merge shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      shortcuts: [
+        ['btn', 'text-red dark:text-blue'],
+      ],
+    })
+
+    const { css } = await uno.generate('hover:btn')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      /* layer: shortcuts */
+      .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .dark .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('h.bracket new syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const cases = [
+      'm-[--spacing]',
+      'm-[--spacing(2)]',
+      'px-[--spacing.sm(2.5)]',
+      'text-[--colors.blue,#000]',
+      'text-[--colors.red.200,#fff]',
+      '[--foo:--bar(8)]',
+    ]
+
+    const { css } = await uno.generate(cases)
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --spacing: 0.25rem; --spacing-sm: 0.875rem; --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-200: oklch(88.5% 0.062 18.334); }
+      /* layer: default */
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
+      .m-\\[--spacing\\]{margin:var(--spacing);}
+      .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
   })
 })

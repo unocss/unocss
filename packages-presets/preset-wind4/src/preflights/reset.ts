@@ -399,7 +399,7 @@ input:where([type='button'], [type='reset'], [type='submit']),
   Make elements with the HTML hidden attribute stay hidden by default.
 */
 
-[hidden]:where(:not([hidden='until-found'])) {
+[hidden]:where(:not([hidden~='until-found'])) {
   display: none !important;
 }
 `

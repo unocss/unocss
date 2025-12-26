@@ -60,6 +60,7 @@ export default createRule({
         context.settings.unocss?.configPath,
         'sort',
         input,
+        context.filename,
       ).trim()
 
       if (addSpace === 'before')
@@ -109,6 +110,7 @@ export default createRule({
         context.settings.unocss?.configPath,
         'sort',
         input,
+        context.filename,
       ).trim()
       if (/^\s/.test(input))
         sorted = ` ${sorted}`
@@ -256,6 +258,14 @@ export default createRule({
 
           if (arg.type === 'ObjectExpression') {
             return handleObjectExpression(arg)
+          }
+
+          if (arg.type === 'ArrayExpression') {
+            return arg.elements.forEach((element) => {
+              if (element && isPossibleLiteral(element)) {
+                return checkPossibleLiteral(element)
+              }
+            })
           }
         })
       },

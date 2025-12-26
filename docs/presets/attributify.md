@@ -238,6 +238,18 @@ declare module 'preact' {
 }
 ```
 
+### Marko
+
+```ts
+import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
+declare global {
+  namespace Marko {
+    interface HTMLAttributes extends AttributifyAttributes {}
+  }
+}
+```
+
 ### Attributify with Prefix
 
 ```ts
