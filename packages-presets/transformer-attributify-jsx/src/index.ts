@@ -96,7 +96,11 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       try {
         await attributifyJsxBabelResolver(params)
       }
-      catch {
+      catch (error) {
+        console.warn(
+          `[@unocss/transformer-attributify-jsx]: Babel resolver failed for "${id}", falling back to regex resolver:`,
+          error,
+        )
         await attributifyJsxRegexResolver(params)
       }
     },

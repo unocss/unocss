@@ -14,7 +14,7 @@ export async function attributifyJsxBabelResolver(params: AttributifyResolverPar
   })
 
   if (ast.errors?.length) {
-    throw new Error('Babel parse error')
+    throw new Error(`Babel parse errors:\n${ast.errors.join('\n')}`)
   }
 
   traverse(ast, {
