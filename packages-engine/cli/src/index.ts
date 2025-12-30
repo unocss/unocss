@@ -7,7 +7,7 @@ import { createContext } from '#integration/context'
 import { applyTransformers } from '#integration/transformers'
 import { toArray } from '@unocss/core'
 import { cyan, dim, green } from 'colorette'
-import { consola } from 'consola'
+import { consola as consolaNormal, createConsola } from 'consola'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { glob } from 'tinyglobby'
@@ -28,11 +28,23 @@ export async function resolveOptions(options: CliOptions) {
   return options as ResolvedCliOptions
 }
 
+const consolastderr = createConsola({
+  reporters: [
+    {
+      log: (logObj) => {
+        // CLI logs to stderr
+        process.stderr.write(`${logObj.args[0]}\n`)
+      },
+    },
+  ],
+})
+
 export async function build(_options: CliOptions) {
   const fileCache = new Map<string, string>()
 
   const cwd = _options.cwd || process.cwd()
   const options = await resolveOptions(_options)
+  const consola = options.stdout && !options.outFile ? consolastderr : consolaNormal
 
   async function loadConfig() {
     const ctx = createContext<UserConfig>(options.config, defaultConfig)
