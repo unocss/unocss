@@ -12,7 +12,7 @@ export async function attributifyJsxRegexResolver(params: AttributifyResolverPar
   const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
   const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
   for (const item of Array.from(code.original.matchAll(elementRE))) {
-    // Get the length of the className part, and replace it with the equal length of empty string
+    // Extract the JSX attributes portion and mask complex valued attributes with whitespace for attributify processing
     let attributifyPart = item[2]
     if (valuedAttributeRE.test(attributifyPart)) {
       attributifyPart = attributifyPart.replace(valuedAttributeRE, (match, _, dynamicFlagStart) => {
