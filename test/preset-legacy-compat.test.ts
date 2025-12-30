@@ -8,7 +8,7 @@ function generateUno(options: LegacyCompatOptions = {}) {
   return createGenerator({
     presets: [
       presetWind3(),
-      presetLegacyCompat(options),
+      presetLegacyCompat(options) as any,
     ],
   })
 }

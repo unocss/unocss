@@ -247,7 +247,7 @@ export type CSSValues = CSSValue | CSSValue[]
 export type DynamicMatcher<Theme extends object = object>
   = (
     match: RegExpMatchArray,
-    context: Readonly<RuleContext<Theme>>
+    context: Readonly<RuleContext<Theme>>,
   ) =>
     | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
     | Generator<CSSValueInput | string | undefined>
@@ -390,7 +390,7 @@ export interface VariantObject<Theme extends object = object> {
 export type Variant<Theme extends object = object> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
-export type Postprocessor = (util: UtilObject) => void
+export type Postprocessor = (util: UtilObject) => void | UtilObject | (UtilObject | null | undefined)[]
 export type ThemeExtender<Theme extends object = object> = (theme: Theme, config: Readonly<ResolvedConfig<Theme>>) => Theme | void
 
 export interface ConfigBase<Theme extends object = object> {
@@ -797,7 +797,7 @@ export interface SourceCodeTransformer {
   transform: (
     code: MagicString,
     id: string,
-    ctx: UnocssPluginContext
+    ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 

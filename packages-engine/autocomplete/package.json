@@ -1,7 +1,7 @@
 {
   "name": "@unocss/autocomplete",
   "type": "module",
-  "version": "66.5.10-beta.1",
+  "version": "66.5.11",
   "description": "Autocomplete utils for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -28,14 +28,13 @@
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "fzf": "catalog:utils",

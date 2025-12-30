@@ -173,6 +173,7 @@
 --colors-red-300: oklch(80.8% 0.114 19.571);
 --font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
+--container-sm: 24rem;
 --colors-sky-300: oklch(82.8% 0.111 230.318);
 --colors-gray-DEFAULT: oklch(70.7% 0.022 261.325);
 --colors-gray-400: oklch(70.7% 0.022 261.325);
@@ -1593,10 +1594,11 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .columns-\[3_auto\]{columns:3 auto;}
 .columns-\[auto_13em\]{columns:auto 13em;}
 .columns-\[auto_auto\]{columns:auto auto;}
+.columns-\$variable{columns:var(--variable);}
 .columns-3{columns:3;}
 .columns-5em{columns:5em;}
+.columns-sm{columns:var(--container-sm);}
 .columns-auto{columns:auto;}
-.columns-unset{columns:unset;}
 .break-before-avoid-page{break-before:avoid-page;}
 .break-before-initial{break-before:initial;}
 .break-inside-avoid-column{break-inside:avoid-column;}

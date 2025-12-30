@@ -38,6 +38,7 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/constants': r('./virtual-shared/integration/src/constants.ts'),
   '#integration/content': r('./virtual-shared/integration/src/content.ts'),
   '#integration/context': r('./virtual-shared/integration/src/context.ts'),
+  '#integration/defaults-ide': r('./virtual-shared/integration/src/defaults-ide.ts'),
   '#integration/defaults': r('./virtual-shared/integration/src/defaults.ts'),
   '#integration/env': r('./virtual-shared/integration/src/env.ts'),
   '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),

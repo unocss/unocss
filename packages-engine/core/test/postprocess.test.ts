@@ -42,3 +42,22 @@ it('postprocess', async () => {
     .text-opacity-50{--hi-text-opacity:0.5;}"
   `)
 })
+
+it('postprocess can expand utilities', async () => {
+  const uno = await createGenerator({
+    rules: [
+      ['foo', { color: 'red' }],
+    ],
+    postprocess: [
+      (util) => {
+        if (util.selector === '.foo')
+          return [util, { ...util, selector: `${util.selector}::after` }]
+      },
+    ],
+  })
+
+  const { css } = await uno.generate('foo', { preflights: false })
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */\n.foo,\n.foo::after{color:red;}"
+  `)
+})

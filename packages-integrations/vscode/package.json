@@ -3,7 +3,7 @@
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "type": "module",
-  "version": "66.5.10-beta.1",
+  "version": "66.5.11",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -145,15 +145,15 @@
     }
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "esno ./scripts/dev.ts && tsup --watch src",
+    "build": "tsdown",
+    "dev": "esno ./scripts/dev.ts && tsdown --watch src",
     "publish": "esno ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
     "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
-    "@types/vscode": "^1.71.0",
+    "@types/vscode": "catalog:types",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
@@ -161,8 +161,8 @@
     "find-up": "catalog:utils",
     "jiti": "catalog:utils",
     "prettier": "catalog:utils",
-    "tsup": "catalog:typescript",
+    "tsdown": "catalog:build",
     "unconfig": "catalog:utils",
-    "vscode-ext-gen": "^1.4.0"
+    "vscode-ext-gen": "catalog:utils"
   }
 }

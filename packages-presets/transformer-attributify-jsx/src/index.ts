@@ -1,11 +1,9 @@
-import type { SourceCodeTransformer } from '@unocss/core'
+import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
+import type MagicString from 'magic-string'
 import { getEnvFlags } from '#integration/env'
-import { parse } from '@babel/parser'
-import _traverse from '@babel/traverse'
 import { toArray } from '@unocss/core'
-
-// @ts-expect-error ignore
-const traverse = (_traverse.default || _traverse) as typeof _traverse
+import { attributifyJsxBabelResolver } from './resolver/babel'
+import { attributifyJsxRegexResolver } from './resolver/regex'
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
 
@@ -43,6 +41,13 @@ export interface TransformerAttributifyJsxOptions {
   exclude?: FilterPattern
 }
 
+export interface AttributifyResolverParams {
+  code: MagicString
+  id: string
+  uno: UnoGenerator<object>
+  isBlocked: (matchedRule: string) => boolean
+}
+
 export default function transformerAttributifyJsx(options: TransformerAttributifyJsxOptions = {}): SourceCodeTransformer {
   const {
     blocklist = [],
@@ -71,7 +76,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     name: '@unocss/transformer-attributify-jsx',
     enforce: 'pre',
     idFilter,
-    async transform(code, _, { uno }) {
+    async transform(code, id, { uno }) {
       // Skip if running in VSCode extension context
       try {
         if (getEnvFlags().isVSCode)
@@ -80,34 +85,24 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       catch {
         // Ignore import error in browser environment
       }
-      const tasks: Promise<void>[] = []
-      const ast = parse(code.toString(), {
-        sourceType: 'module',
-        plugins: ['jsx', 'typescript'],
-      })
 
-      traverse(ast, {
-        JSXAttribute(path) {
-          if (path.node.value === null) {
-            const attr = path.node.name.type === 'JSXNamespacedName'
-              ? `${path.node.name.namespace.name}:${path.node.name.name.name}`
-              : path.node.name.name
+      const params: AttributifyResolverParams = {
+        code,
+        id,
+        uno,
+        isBlocked,
+      }
 
-            if (isBlocked(attr))
-              return
-
-            tasks.push(
-              uno.parseToken(attr).then((matched) => {
-                if (matched) {
-                  code.appendRight(path.node.end!, '=""')
-                }
-              }),
-            )
-          }
-        },
-      })
-
-      await Promise.all(tasks)
+      try {
+        await attributifyJsxBabelResolver(params)
+      }
+      catch (error) {
+        console.warn(
+          `[@unocss/transformer-attributify-jsx]: Babel resolver failed for "${id}", falling back to regex resolver:`,
+          error,
+        )
+        await attributifyJsxRegexResolver(params)
+      }
     },
   }
 }

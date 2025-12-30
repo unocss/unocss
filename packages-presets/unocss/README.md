@@ -66,7 +66,7 @@ UnoCSS is made possible thanks to the inspirations from the following projects:
 
 > in alphabetical order
 
-- [ACSS](https://acss.io/)
+- [ACSS](https://acss-io.github.io/atomizer/)
 - [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
 - [Chakra UI Style Props](https://chakra-ui.com/docs/features/style-props)
 - [Semantic UI](https://semantic-ui.com/)

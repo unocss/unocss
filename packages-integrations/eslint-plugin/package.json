@@ -1,7 +1,7 @@
 {
   "name": "@unocss/eslint-plugin",
   "type": "module",
-  "version": "66.5.10-beta.1",
+  "version": "66.5.11",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -22,12 +22,19 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
@@ -35,10 +42,9 @@
     "node": ">=14"
   },
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src",
-    "test:attw": "attw --pack"
+    "lint": "nr build && cd ./fixtures && eslint ./src"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",

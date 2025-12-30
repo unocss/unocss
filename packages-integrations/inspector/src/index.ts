@@ -138,7 +138,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
     apply: 'serve',
     configureServer,
     devtools: {
-      setup(ctx) {
+      setup(ctx: any) {
         ctx.docks.register({
           id: 'unocss',
           title: 'UnoCSS',

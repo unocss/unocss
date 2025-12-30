@@ -1,9 +1,17 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, makeGlobalStaticRules } from '../utils'
+import { generateThemeVariable, h, makeGlobalStaticRules, themeTracking } from '../utils'
 
 export const columns: Rule<Theme>[] = [
-  [/^columns-(.+)$/, ([, v]) => ({ columns: h.bracket.global.number.auto.numberWithUnit(v) }), { autocomplete: 'columns-<num>' }],
+  [/^columns-(.+)$/, ([, v], { theme }) => {
+    if (theme.container && v in theme.container) {
+      themeTracking('container', v)
+      return { columns: generateThemeVariable('container', v) }
+    }
+
+    return { columns: h.bracket.numberWithUnit.number.cssvar(v) }
+  }, { autocomplete: ['columns-<num>', 'columns-$container'] }],
+  ['columns-auto', { columns: 'auto' }],
 
   // break before
   ['break-before-auto', { 'break-before': 'auto' }],
