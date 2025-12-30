@@ -12,6 +12,11 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  external: [
+    '@unocss/core',
+    '@unocss/rule-utils',
+    '@unocss/extractor-arbitrary-variants',
+  ],
   failOnWarn: !isWindows,
   attw: {
     profile: 'esm-only',
