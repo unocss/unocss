@@ -11,6 +11,7 @@ import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { resolveOptions as resolveNuxtOptions } from '../../nuxt/src/options'
 import { registerAnnotations } from './annotation'
 import { registerAutoComplete } from './autocomplete'
+import { clearIntelliSenseCache } from './css-vars-intellisense'
 import { registerDocumentCacheCleaner } from './getMatched'
 import { log } from './log'
 import { registerSelectionStyle } from './selectionStyle'
@@ -192,12 +193,16 @@ export class ContextLoader {
         return null
       }
 
-      context.onReload(() => {
+      context.onReload(async () => {
         for (const [path, ctx] of this.fileContextCache) {
           if (ctx === context || !ctx)
             this.fileContextCache.delete(path)
         }
         this.configExistsCache.clear()
+
+        await context.ready
+        clearIntelliSenseCache(context.uno)
+
         this.events.emit('contextReload', context)
       })
 

@@ -48,6 +48,6 @@
     "vue-flow-layout": "catalog:vue"
   },
   "devDependencies": {
-    "@vitejs/devtools-kit": "catalog:types"
+    "@vitejs/devtools-kit": "catalog:vite"
   }
 }
