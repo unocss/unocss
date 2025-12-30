@@ -20,7 +20,7 @@ export async function attributifyJsxRegexResolver(params: AttributifyResolverPar
           return ' '.repeat(match.length)
         let preLastModifierIndex = 0
         let temp = match
-        // No more recursively processing the more complex situations of jsx in attributes.
+        // No more recursive processing of the more complex situations of JSX in attributes.
         for (const _item of match.matchAll(elementRE)) {
           const attrAttributePart = _item[2]
           if (valuedAttributeRE.test(attrAttributePart))
