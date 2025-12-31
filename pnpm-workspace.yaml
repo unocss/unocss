@@ -120,7 +120,6 @@ catalogs:
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.27
     '@types/splitpanes': ^2.2.6
-    '@types/vscode': ^1.84.0
     '@types/webpack': ^5.28.5
     '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
