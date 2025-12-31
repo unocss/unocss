@@ -55,7 +55,6 @@
     "@types/prettier": "catalog:types",
     "@types/react": "catalog:types",
     "@types/splitpanes": "catalog:types",
-    "@types/vscode": "catalog:types",
     "@types/ws": "catalog:types",
     "@typescript/native-preview": "catalog:typescript",
     "@unocss/astro": "workspace:*",
