@@ -109,7 +109,7 @@ describe('wind3', () => {
       const result = await transform(
         '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
       )
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints.css')
     })
 
@@ -117,7 +117,7 @@ describe('wind3', () => {
       const result = await transform(
         '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
       )
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group.css')
     })
 
@@ -337,13 +337,13 @@ describe('wind3', () => {
       const css = await readFile('./test/assets/apply.css', 'utf8')
       const result = await transform(css)
 
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-apply.css')
     })
 
     it('custom breakpoints', async () => {
       const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints.css')
     })
 
@@ -364,7 +364,7 @@ describe('wind3', () => {
       }`,
       )
 
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class.css')
     })
 
@@ -386,7 +386,7 @@ describe('wind3', () => {
       }`,
       )
 
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-multiple-apply-in-one-class.css')
     })
 
@@ -446,7 +446,7 @@ describe('wind3', () => {
   }
 }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen.css')
     })
 
@@ -471,7 +471,7 @@ describe('wind3', () => {
   }
 }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt.css')
     })
 
@@ -496,7 +496,7 @@ describe('wind3', () => {
     }
   }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at.css')
     })
 
@@ -539,13 +539,13 @@ describe('wind3', () => {
       })
 
       it('non-exist', async () => {
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
         color: theme("color.none.500");
         }`,
         )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
           font-size: theme("size.lg");
           }`,
@@ -553,7 +553,7 @@ describe('wind3', () => {
       })
 
       it('args', async () => {
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
           color: theme();
         }`,
@@ -804,7 +804,7 @@ div {
       const result = await transform(
         '.grid { @apply grid grid-cols-2 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }',
       )
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-breakpoints-with-important.css')
     })
 
@@ -812,7 +812,7 @@ div {
       const result = await transform(
         '.btn { @apply grid-(cols-2 rows-4) hover:(border bg-white) }',
       )
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-variant-group-with-important.css')
     })
 
@@ -1010,13 +1010,13 @@ div {
       const css = await readFile('./test/assets/apply.css', 'utf8')
       const result = await transform(css)
 
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-apply-with-important.css')
     })
 
     it('custom breakpoints', async () => {
       const result = await transform('.grid { @apply grid grid-cols-2 xs:grid-cols-1 xxl:grid-cols-15 xl:grid-cols-10 sm:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 }')
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-custom-breakpoints-with-important.css')
     })
 
@@ -1037,7 +1037,7 @@ div {
       }`,
       )
 
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-var-style-class-with-important.css')
     })
 
@@ -1099,7 +1099,7 @@ div {
   }
 }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-at-screen-with-important.css')
     })
 
@@ -1124,7 +1124,7 @@ div {
   }
 }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-screen-lt-with-important.css')
     })
 
@@ -1149,7 +1149,7 @@ div {
     }
   }
 `)
-      expect(result)
+      await expect(result)
         .toMatchFileSnapshot('./assets/output/transformer-directives-screen-at-with-important.css')
     })
 
@@ -1178,13 +1178,13 @@ div {
       })
 
       it('non-exist', async () => {
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
         color: theme("color.none.500");
         }`,
         )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
 
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
           font-size: theme("size.lg");
           }`,
@@ -1192,7 +1192,7 @@ div {
       })
 
       it('args', async () => {
-        expect(async () => await transform(
+        await expect(async () => await transform(
           `.btn {
           color: theme();
         }`,
@@ -1539,9 +1539,9 @@ describe('wind4', () => {
           "
         `)
 
-      expect(transform(`.foo { color: theme('not.exists' ) }`)).rejects.toThrow()
-      expect(transform(`.foo { color: theme('not.exists', ) }`)).rejects.toThrow()
-      expect(transform(`.foo { color: theme('not.exists' #fff) }`)).rejects.toThrow('comma')
+      await expect(transform(`.foo { color: theme('not.exists' ) }`)).rejects.toThrow()
+      await expect(transform(`.foo { color: theme('not.exists', ) }`)).rejects.toThrow()
+      await expect(transform(`.foo { color: theme('not.exists' #fff) }`)).rejects.toThrow('comma')
     })
 
     it('border opacity', async () => {

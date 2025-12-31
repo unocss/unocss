@@ -7,8 +7,10 @@ import {
   createPseudoClassesAndElements,
   createPseudoClassFunctions,
   createTaggedPseudoClasses,
+  getBracket,
+  variantGetBracket,
 } from '@unocss/rule-utils'
-import { getBracket, h, variantGetBracket } from '../utils'
+import { h } from '../utils'
 
 export function variantPseudoClassesAndElements(): VariantObject<Theme>[] {
   const utils: PseudoVariantUtilities<Theme> = { getBracket, h: h as unknown as PseudoVariantUtilities<Theme>['h'], variantGetBracket }

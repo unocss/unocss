@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.5.12",
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev",
@@ -17,6 +17,7 @@
     "@iconify-json/vscode-icons": "catalog:icons",
     "ofetch": "catalog:utils",
     "unocss": "workspace:*",
+    "unplugin-vue-components": "catalog:vue",
     "vitepress": "catalog:docs",
     "vitepress-plugin-group-icons": "catalog:docs"
   }

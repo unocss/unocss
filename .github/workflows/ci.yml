@@ -61,7 +61,3 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
-
-      - name: Check types
-        if: runner.os == 'Linux' && matrix.node_version == 'lts/*'
-        run: pnpm test:attw

@@ -142,10 +142,11 @@ exports[`postcss > @unocss 1`] = `
 .columns-\\[3_auto\\]{columns:3 auto;}
 .columns-\\[auto_13em\\]{columns:auto 13em;}
 .columns-\\[auto_auto\\]{columns:auto auto;}
+.columns-\\$variable{columns:var(--variable);}
 .columns-3{columns:3;}
 .columns-5em{columns:5em;}
+.columns-sm{columns:24rem;}
 .columns-auto{columns:auto;}
-.columns-unset{columns:unset;}
 .break-before-avoid-page{break-before:avoid-page;}
 .break-before-initial{break-before:initial;}
 .break-inside-avoid-column{break-inside:avoid-column;}

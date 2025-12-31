@@ -9,18 +9,18 @@
   },
   "dependencies": {
     "next": "15.3.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@iconify-json/lucide": "^1.2.73",
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@eslint/eslintrc": "^3.3.3",
+    "@iconify-json/lucide": "^1.2.82",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@unocss/postcss": "latest",
     "@unocss/reset": "latest",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-config-next": "15.2.0",
     "typescript": "5.2.2",
     "unocss": "latest"

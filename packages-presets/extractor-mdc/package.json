@@ -1,7 +1,7 @@
 {
   "name": "@unocss/extractor-mdc",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.5.12",
   "description": "UnoCSS extractor for MDC",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -28,14 +28,13 @@
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "devDependencies": {
     "@unocss/core": "workspace:*"

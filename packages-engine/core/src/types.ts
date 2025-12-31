@@ -247,7 +247,7 @@ export type CSSValues = CSSValue | CSSValue[]
 export type DynamicMatcher<Theme extends object = object>
   = (
     match: RegExpMatchArray,
-    context: Readonly<RuleContext<Theme>>
+    context: Readonly<RuleContext<Theme>>,
   ) =>
     | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
     | Generator<CSSValueInput | string | undefined>
@@ -797,7 +797,7 @@ export interface SourceCodeTransformer {
   transform: (
     code: MagicString,
     id: string,
-    ctx: UnocssPluginContext
+    ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 

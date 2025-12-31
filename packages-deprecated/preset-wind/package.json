@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-wind",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.5.12",
   "description": "Deprecated, renamed to `@unocss/preset-wind3`",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -55,9 +55,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

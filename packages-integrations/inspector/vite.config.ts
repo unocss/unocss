@@ -6,7 +6,7 @@ import Pages from 'vite-plugin-pages'
 import { alias } from '../../alias'
 import UnoCSS from '../../packages-presets/unocss/src/vite'
 
-export default defineConfig(({ command }) => ({
+export default (defineConfig)(({ command }) => ({
   resolve: {
     alias,
   },

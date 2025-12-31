@@ -1,7 +1,7 @@
 import type { UnoGenerator } from '@unocss/core'
 import type { TextDocument } from 'vscode'
 import type { ContextLoader } from './contextLoader'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
 import { workspace } from 'vscode'
 import { getConfig } from './configs'

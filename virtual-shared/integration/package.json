@@ -1,9 +1,10 @@
 {
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.5.12",
   "private": true,
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/scope": "workspace:*"
+    "@unocss/scope": "workspace:*",
+    "unplugin-utils": "catalog:utils"
   }
 }
