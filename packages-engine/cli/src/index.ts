@@ -143,17 +143,12 @@ export async function build(_options: CliOptions) {
 
     const tokens = new Set<string>()
 
-    for (const file of afterPostTrans) {
-      const { matched } = await ctx.uno.generate(
-        (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, ''),
-        {
-          preflights: false,
-          minify: true,
-          id: file.id,
-        },
-      )
-      matched.forEach(i => tokens.add(i))
-    }
+    await Promise.all(
+      afterPostTrans.map(async (file) => {
+        const codeToProcess = (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, '')
+        await ctx.uno.applyExtractors(codeToProcess, file.id, tokens)
+      }),
+    )
 
     const { css, matched } = await ctx.uno.generate(
       tokens,

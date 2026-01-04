@@ -61,20 +61,40 @@ class UnoGeneratorInternal<Theme extends object = object> {
   }
 
   applyExtractors(
-    code: string,
-    id?: string,
-    extracted?: Set<string>,
+    content: {
+      code: string
+      id?: string
+      extracted: Set<string>
+    },
+    options?: {
+      safelist?: boolean
+      blocklist?: boolean
+    }
   ): Promise<Set<string>>
   applyExtractors(
-    code: string,
-    id?: string,
-    extracted?: CountableSet<string>,
+    content: {
+      code: string
+      id?: string
+      extracted: CountableSet<string>
+    },
+    options?: {
+      safelist?: boolean
+      blocklist?: boolean
+    }
   ): Promise<CountableSet<string>>
   async applyExtractors(
-    code: string,
-    id?: string,
-    extracted: Set<string> | CountableSet<string> = new Set<string>(),
+    content: {
+      code: string
+      id?: string
+      extracted: Set<string> | CountableSet<string>
+    },
+    options: {
+      safelist?: boolean
+      blocklist?: boolean
+    } = {},
   ): Promise<Set<string> | CountableSet<string>> {
+    const { code, id, extracted } = content
+    const { safelist = true, blocklist = true } = options
     const context: ExtractorContext = {
       original: code,
       code,
@@ -89,17 +109,42 @@ class UnoGeneratorInternal<Theme extends object = object> {
       if (!result)
         continue
 
-      if (isCountableSet(result) && isCountableSet(extracted)) {
-        for (const token of result)
+      for (const token of result) {
+        if (blocklist && this.isBlocked(token)) {
+          this.blocked.add(token)
+          continue
+        }
+
+        if (isCountableSet(result) && isCountableSet(extracted)) {
           extracted.setCount(token, extracted.getCount(token) + result.getCount(token))
-      }
-      else {
-        for (const token of result)
+        }
+        else {
           extracted.add(token)
+        }
       }
     }
 
+    if (safelist) {
+      this.applySafelist(extracted)
+    }
+
     return extracted
+  }
+
+  private applySafelist(tokens: Set<string> | CountableSet<string>) {
+    const safelistContext: SafeListContext<Theme> = {
+      generator: this,
+      theme: this.config.theme,
+    }
+
+    this.config.safelist
+      .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
+      .forEach((s) => {
+        // We don't want to increment count if token is already in the set
+        const trimedS = s.trim()
+        if (trimedS && !tokens.has(trimedS))
+          tokens.add(trimedS)
+      })
   }
 
   makeContext(raw: string, applied: VariantMatchedResult<Theme>): RuleContext<Theme> {
@@ -203,22 +248,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       : Array.isArray(input)
         ? new Set<string>(input)
         : input
-
-    if (safelist) {
-      const safelistContext: SafeListContext<Theme> = {
-        generator: this,
-        theme: this.config.theme,
-      }
-
-      this.config.safelist
-        .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
-        .forEach((s) => {
-          // We don't want to increment count if token is already in the set
-          const trimedS = s.trim()
-          if (trimedS && !tokens.has(trimedS))
-            tokens.add(trimedS)
-        })
-    }
 
     const nl = minify ? '' : '\n'
 
