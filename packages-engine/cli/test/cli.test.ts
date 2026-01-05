@@ -1,7 +1,8 @@
 import fs from 'fs-extra'
+import { resolve } from 'pathe'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { getWatcher } from '../src/watcher'
-import { runCli, tempDir } from './utils'
+import { getTestDir, readFile, runAsyncChildProcess, runCli, sleep, tempDir } from './utils'
 
 beforeAll(async () => {
   await fs.remove(tempDir)
@@ -18,7 +19,7 @@ describe('cli', () => {
       'views/index.html': '<div class="p-4 max-w-screen-md"></div>',
     })
 
-    await expect(output).toMatchFileSnapshot('__snapshots__/cli-build-uno.css.snapshot.css')
+    expect(output).toMatchSnapshot()
   })
 
   it('builds scan and transform *.css', async () => {
@@ -34,156 +35,133 @@ describe('cli', () => {
 `.trim(),
     })
 
-    await expect(output).toMatchFileSnapshot('__snapshots__/cli-scan-and-transform-css.snapshot.css')
+    expect(output).toMatchSnapshot()
   })
 
-  //   it('supports unocss.config.js', async () => {
-  //     const { output } = await runCli({
-  //       'views/index.html': '<div class="box"></div>',
-  //       'unocss.config.js': `
-  // import { defineConfig } from 'unocss'
-  // export default defineConfig({
-  //   shortcuts: [{ box: 'max-w-7xl mx-auto bg-gray-100 rounded-md shadow-sm p-4' }]
-  // })
-  //     `.trim(),
-  //     })
+  it('supports unocss.config.js', async () => {
+    const { output } = await runCli({
+      'views/index.html': '<div class="box"></div>',
+      'unocss.config.js': `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    shortcuts: [{ box: 'max-w-7xl mx-auto bg-gray-100 rounded-md shadow-sm p-4' }]
+  })
+      `.trim(),
+    })
 
-  //     expect(output).toMatchSnapshot()
-  //   })
+    expect(output).toMatchSnapshot()
+  })
 
-  //   it('supports variantGroup transformer', async () => {
-  //     const { output, transform } = await runCli({
-  //       'views/index.html': '<div class="p-4 border-(solid red)"></div>',
-  //       'unocss.config.js': `
-  // import { defineConfig, transformerVariantGroup } from 'unocss'
-  // export default defineConfig({
-  //   transformers: [transformerVariantGroup()]
-  // })
-  //     `.trim(),
-  //     }, { transformFile: 'views/index.html' })
-  //     expect(output).toMatchSnapshot()
-  //     expect(transform).toMatchSnapshot()
-  //   })
+  it('supports variantGroup transformer', async () => {
+    const { output, transform } = await runCli({
+      'views/index.html': '<div class="p-4 border-(~ solid red)"></div>',
+      'unocss.config.js': `
+  import { defineConfig, presetWind3, transformerVariantGroup } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    transformers: [transformerVariantGroup()]
+  })
+      `.trim(),
+    }, {
+      args: ['--rewrite'],
+      transformFile: 'views/index.html',
+    })
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
 
-  //   it('supports directives transformer', async () => {
-  //     const { output, transform } = await runCli({
-  //       'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
-  //       'unocss.config.js': `
-  // import { defineConfig, transformerDirectives } from 'unocss'
-  // export default defineConfig({
-  //   transformers: [transformerDirectives()]
-  // })
-  //     `.trim(),
-  //     }, { transformFile: 'views/index.css' })
-  //     expect(output).toMatchSnapshot()
-  //     expect(transform).toMatchSnapshot()
-  //   })
+  it('supports directives transformer', async () => {
+    const { output, transform } = await runCli({
+      'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
+      'unocss.config.js': `
+  import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    transformers: [transformerDirectives()]
+  })
+      `.trim(),
+    }, { transformFile: 'views/index.css' })
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
 
-  //   it.each([
-  //     {
-  //       transformer: 'variant group transformer',
-  //       files: {
-  //         'views/index.html': '<div class="p-4 border-(solid red)"></div>',
-  //         'unocss.config.js': `
-  // import { defineConfig, transformerVariantGroup } from 'unocss'
-  // export default defineConfig({
-  //   transformers: [transformerVariantGroup()]
-  // })
-  //       `.trim(),
-  //       } as Record<string, string>,
-  //       transformFile: 'views/index.html',
-  //     },
-  //     {
-  //       transformer: 'directives transformer',
-  //       files: {
-  //         'views/index.css': '.btn-center{@apply text-center my-0 font-medium;}',
-  //         'unocss.config.js': `
-  // import { defineConfig, transformerDirectives } from 'unocss'
-  // export default defineConfig({
-  //   transformers: [transformerDirectives()]
-  // })
-  //       `.trim(),
-  //       },
-  //       transformFile: 'views/index.css',
-  //     },
-  //   ])('supports updating source files with transformed utilities ($transformer)', async ({ files, transformFile }) => {
-  //     const { output, transform } = await runCli(files, { transformFile, args: ['--write-transformed'] })
-  //     expect(output).toMatchSnapshot()
-  //     expect(transform).toMatchSnapshot()
-  //   })
-
-  //   it('uno.css exclude initialized class after changing file', async () => {
-  //     const fileName = 'views/index.html'
-  //     const initializedContent = '<div class="bg-blue"></div>'
-  //     const changedContent = '<div class="bg-red"></div>'
-  //     const testDir = getTestDir()
-  //     const absolutePathOfFile = resolve(testDir, fileName)
-  //     await fs.outputFile(absolutePathOfFile, initializedContent)
-  //     await runAsyncChildProcess(testDir, 'views/**/*', '-w')
-  //     const outputPath = resolve(testDir, 'uno.css')
-  //     for (let i = 50; i >= 0; i--) {
-  //       await sleep(50)
-  //       if (fs.existsSync(outputPath))
-  //         break
+  // it('uno.css exclude initialized class after changing file', async () => {
+  //   const fileName = 'views/index.html'
+  //   const initializedContent = '<div class="bg-blue"></div>'
+  //   const changedContent = '<div class="bg-red"></div>'
+  //   const testDir = getTestDir()
+  //   const absolutePathOfFile = resolve(testDir, fileName)
+  //   await fs.outputFile(absolutePathOfFile, initializedContent)
+  //   await runAsyncChildProcess(testDir, 'views/**/*', '-w')
+  //   const outputPath = resolve(testDir, 'uno.css')
+  //   for (let i = 50; i >= 0; i--) {
+  //     await sleep(50)
+  //     if (fs.existsSync(outputPath))
+  //       break
+  //   }
+  //   await fs.writeFile(absolutePathOfFile, changedContent)
+  //   // polling until update
+  //   for (let i = 100; i >= 0; i--) {
+  //     await sleep(100)
+  //     const output = await readFile(testDir)
+  //     if (i === 0 || output.includes('.bg-red')) {
+  //       expect(output).toContain('.bg-red')
+  //       break
   //     }
-  //     await fs.writeFile(absolutePathOfFile, changedContent)
-  //     // polling until update
-  //     for (let i = 100; i >= 0; i--) {
-  //       await sleep(100)
-  //       const output = await readFile(testDir)
-  //       if (i === 0 || output.includes('.bg-red')) {
-  //         expect(output).toContain('.bg-red')
-  //         break
-  //       }
-  //     }
-  //   })
-
-  //   it('supports unocss.config.js cli options', async () => {
-  //     const testDir = getTestDir()
-  //     const outFiles = ['./uno1.css', './test/uno2.css']
-  //     const files = [
-  //       {
-  //         path: 'views/index1.html',
-  //         content: '<div class="bg-blue"></div>',
-  //       },
-  //       {
-  //         path: 'views/index2.html',
-  //         content: '<div class="bg-red"></div>',
-  //       },
-  //       {
-  //         path: 'unocss.config.js',
-  //         content: `
-  // import { defineConfig } from 'unocss'
-  // export default defineConfig({
-  //     cli: {
-  //     entry: [
-  //       {
-  //         patterns: ['views/index1.html'],
-  //         outFile: '${outFiles[0]}',
-  //       },
-  //       {
-  //         patterns: ['views/index2.html'],
-  //         outFile: '${outFiles[1]}',
-  //       },
-  //     ],
   //   }
   // })
-  //           `.trim(),
-  //       },
-  //     ]
-  //     await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
-  //     await runAsyncChildProcess(testDir, '', '')
 
-  //     await sleep(500)
-  //     const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
-  //     expect(output1).toContain('.bg-blue')
-  //     expect(output2).toContain('.bg-red')
-  //   })
+  it('supports unocss.config.js cli options', async () => {
+    const testDir = getTestDir()
+    const outFiles = ['./uno1.css', './test/uno2.css']
+    const files = [
+      {
+        path: 'views/index1.html',
+        content: '<div class="bg-blue"></div>',
+      },
+      {
+        path: 'views/index2.html',
+        content: '<div class="bg-red"></div>',
+      },
+      {
+        path: 'unocss.config.js',
+        content: `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    cli: {
+      entry: [
+        {
+          patterns: ['views/index1.html'],
+          outFile: '${outFiles[0]}',
+        },
+        {
+          patterns: ['views/index2.html'],
+          outFile: '${outFiles[1]}',
+        },
+      ],
+    },
+    presets: [presetWind3()],
+  })
+            `.trim(),
+      },
+    ]
+    await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
+    await runAsyncChildProcess(testDir, '', '')
 
-  //   it('supports uno.config.ts changed rebuild', async () => {
-  //     const { output, testDir } = await runCli({
-  //       'views/index.html': '<div class="bg-foo"></div>',
-  //       'uno.config.ts': `
+    await sleep(500)
+    const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
+
+    console.log({ output1, output2 })
+
+    expect(output1).toContain('.bg-blue')
+    expect(output2).toContain('.bg-red')
+  })
+
+  // it('supports uno.config.ts changed rebuild', async () => {
+  //   const { output, testDir } = await runCli({
+  //     'views/index.html': '<div class="bg-foo"></div>',
+  //     'uno.config.ts': `
   // import { defineConfig } from 'unocss'
   // export default defineConfig({
   //   theme: {
@@ -192,14 +170,14 @@ describe('cli', () => {
   //     }
   //   }
   // })`.trim(),
-  //     }, { args: ['-w'] })
-  //     for (let i = 50; i >= 0; i--) {
-  //       await sleep(50)
-  //       if (output)
-  //         break
-  //     }
-  //     expect(output).toContain('.bg-foo{background-color:red /* red */;}')
-  //     await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
+  //   }, { args: ['-w'] })
+  //   for (let i = 50; i >= 0; i--) {
+  //     await sleep(50)
+  //     if (output)
+  //       break
+  //   }
+  //   expect(output).toContain('.bg-foo{background-color:red /* red */;}')
+  //   await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
   // import { defineConfig } from 'unocss'
   // export default defineConfig({
   //   theme: {
@@ -209,36 +187,37 @@ describe('cli', () => {
   //   }
   // })
   //     `)
-  //     for (let i = 100; i >= 0; i--) {
-  //       await sleep(500)
-  //       const outputChanged = await readFile(testDir as string)
-  //       if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue /* blue */;}')) {
-  //         expect(outputChanged).toContain('.bg-foo{background-color:blue /* blue */;}')
-  //         break
-  //       }
+  //   for (let i = 100; i >= 0; i--) {
+  //     await sleep(500)
+  //     const outputChanged = await readFile(testDir as string)
+  //     if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue /* blue */;}')) {
+  //       expect(outputChanged).toContain('.bg-foo{background-color:blue /* blue */;}')
+  //       break
   //     }
-  //   })
+  //   }
+  // })
 
-  //   it('should correctly deduplicate files of different types containing @media', async () => {
-  //     const { output, transform } = await runCli(
-  //       {
-  //         'views/index1.html': '<div class="lg:p-8"></div>',
-  //         'views/index2.html': '<div class="md:p-4"></div>',
-  //         'views/index3.html': '<div class="box"></div>',
-  //         'views/index.css': '.box { @apply pd-6 sm:p-2; }',
-  //         'unocss.config.js': `
-  //           import { defineConfig, transformerDirectives } from 'unocss'
+  // it('should correctly deduplicate files of different types containing @media', async () => {
+  //   const { output, transform } = await runCli(
+  //     {
+  //       'views/index1.html': '<div class="lg:p-8"></div>',
+  //       'views/index2.html': '<div class="md:p-4"></div>',
+  //       'views/index3.html': '<div class="box"></div>',
+  //       'views/index.css': '.box { @apply pd-6 sm:p-2; }',
+  //       'unocss.config.js': `
+  //           import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
   //           export default defineConfig({
+  //             presets: [presetWind3()],
   //             transformers: [transformerDirectives()]
   //           })
   //         `.trim(),
-  //       },
-  //       { transformFile: 'views/index.css', args: ['--write-transformed'] },
-  //     )
+  //     },
+  //     { transformFile: 'views/index.css', args: ['--rewrite'] },
+  //   )
 
-  //     expect(output).toMatchSnapshot()
-  //     expect(transform).toMatchSnapshot()
-  //   })
+  //   expect(output).toMatchSnapshot()
+  //   expect(transform).toMatchSnapshot()
+  // })
 
   //   it('@unocss-skip uno.css', async () => {
   //     const { output } = await runCli({

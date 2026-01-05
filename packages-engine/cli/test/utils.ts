@@ -1,5 +1,3 @@
-// ----- Utils -----
-
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { startCli } from '../src/cli-start'
@@ -15,7 +13,7 @@ export function sleep(time = 300) {
   })
 }
 
-function getTestDir() {
+export function getTestDir() {
   return resolve(tempDir, Math.round(Math.random() * 100000).toString())
 }
 
@@ -25,18 +23,18 @@ function initOutputFiles(testDir: string, files: Record<string, string>) {
   )
 }
 
-function runAsyncChildProcess(cwd: string, ...args: string[]) {
+export function runAsyncChildProcess(cwd: string, ...args: string[]) {
   return startCli(cwd, ['', '', ...args, '--preflights', 'false'])
 }
 
-function readFile(testDir: string, targetFile?: string) {
+export function readFile(testDir: string, targetFile?: string) {
   return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
 export async function runCli(files: Record<string, string>, options?: { transformFile?: string, args?: string[], outFile?: string }) {
   const testDir = getTestDir()
 
-  if (!Object.keys(files).some(f => f.includes('uno.config'))) {
+  if (!Object.keys(files).some(f => f.includes('uno.config') || f.includes('unocss.config'))) {
     files['uno.config.ts'] = `
 import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
 export default defineConfig({
