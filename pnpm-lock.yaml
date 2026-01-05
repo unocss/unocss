@@ -964,18 +964,12 @@ importers:
 
   packages-engine/cli:
     dependencies:
-      '@jridgewell/remapping':
-        specifier: catalog:build
-        version: 2.3.5
       '@unocss/config':
         specifier: workspace:*
         version: link:../config
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
-      '@unocss/preset-uno':
-        specifier: workspace:*
-        version: link:../../packages-deprecated/preset-uno
       cac:
         specifier: catalog:utils
         version: 6.7.14
@@ -1000,9 +994,6 @@ importers:
       tinyglobby:
         specifier: catalog:utils
         version: 0.2.15
-      unplugin-utils:
-        specifier: catalog:utils
-        version: 0.3.1
 
   packages-engine/config:
     dependencies:
