@@ -19,6 +19,7 @@
     "unocss": "workspace:*",
     "unplugin-vue-components": "catalog:vue",
     "vitepress": "catalog:docs",
-    "vitepress-plugin-group-icons": "catalog:docs"
+    "vitepress-plugin-group-icons": "catalog:docs",
+    "vitepress-plugin-llms": "catalog:docs"
   }
 }
