@@ -16,18 +16,6 @@ exports[`cli > builds uno.css 1`] = `
 .p-4{padding:1rem;}"
 `;
 
-exports[`cli > should correctly deduplicate files of different types containing @media 1`] = `
-"/* layer: default */
-@media (min-width: 768px){
-.md\\:p-4{padding:1rem;}
-}
-@media (min-width: 1024px){
-.lg\\:p-8{padding:2rem;}
-}"
-`;
-
-exports[`cli > should correctly deduplicate files of different types containing @media 2`] = `"@media (min-width: 640px){.box{padding:0.5rem;}}"`;
-
 exports[`cli > supports directives transformer 1`] = `".btn-center{margin-top:0;margin-bottom:0;text-align:center;font-weight:500;}"`;
 
 exports[`cli > supports directives transformer 2`] = `".btn-center{@apply text-center my-0 font-medium;}"`;
