@@ -230,7 +230,11 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
     css = afterPostTrans
       .map((f) => {
         const code = (f.transformedCode || f.code).replace(SKIP_COMMENT_RE, '')
-        return code ? `/* Source: ${f.id} */\n${code}\n` : undefined
+        if (!code)
+          return undefined
+        return (process.env.CI || process.env.VITEST)
+          ? code
+          : `/* Source: ${f.id} */\n${code}`
       })
       .filter(Boolean)
       .join('\n')

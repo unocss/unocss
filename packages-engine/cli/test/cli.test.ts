@@ -26,12 +26,12 @@ describe('cli', () => {
       'views/style.css': `body {
   color: white;
   @apply bg-red dark:bg-blue;
-}`,
+}`.trim(),
       'views/main.css': `
   .btn {
     @apply p-2 bg-red;
   }
-`,
+`.trim(),
     })
 
     await expect(output).toMatchFileSnapshot('__snapshots__/cli-scan-and-transform-css.snapshot.css')

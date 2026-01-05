@@ -1,11 +1,6 @@
-/* Source: /Users/chris/projects/unocss/_temp/42232/views/main.css */
-
-  .btn {
+.btn {
     --un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity)) /* #f87171 */;padding:0.5rem;
   }
-
-
-/* Source: /Users/chris/projects/unocss/_temp/42232/views/style.css */
 body {
   color: white;
   --un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity)) /* #f87171 */;
