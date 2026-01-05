@@ -71,6 +71,7 @@ catalogs:
     theme-vitesse: ^1.0.0
     vitepress: ^1.6.4
     vitepress-plugin-group-icons: ^1.6.5
+    vitepress-plugin-llms: ^1.10.0
   eslint:
     '@antfu/eslint-config': ^6.7.3
     eslint: ^9.39.2

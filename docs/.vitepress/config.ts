@@ -2,6 +2,7 @@ import type { DefaultTheme } from 'vitepress'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
+import llmstxt from 'vitepress-plugin-llms'
 import { version } from '../../package.json'
 
 const ogUrl = 'https://unocss.dev/'
@@ -305,6 +306,12 @@ export default defineConfig({
     config(md) {
       md.use(groupIconMdPlugin)
     },
+  },
+
+  vite: {
+    plugins: [
+      ...llmstxt(),
+    ],
   },
 
   themeConfig: {
