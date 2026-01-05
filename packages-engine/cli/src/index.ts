@@ -6,7 +6,7 @@ import { SKIP_COMMENT_RE } from '#integration/constants'
 import { createContext } from '#integration/context'
 import { applyTransformers } from '#integration/transformers'
 import { toArray } from '@unocss/core'
-import { cyan, dim, green } from 'colorette'
+import { cyan, dim, green, yellow } from 'colorette'
 import { consola } from 'consola'
 import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
@@ -37,6 +37,10 @@ async function resolveOptions(options: CliOptions, configResult: ReturnType<type
     throw new PrettyError(
       `No glob patterns provided. Try ${cyan('unocss <path/to/**/*>')} or configure entries in ${cyan('uno.config')} file. See ${cyan('https://unocss.dev/integrations/cli#configurations')}`,
     )
+  }
+
+  if (resolvedOptions.writeTransformed) {
+    consola.warn(`--write-transformed is deprecated, please use ${yellow('--rewrite')} instead.`)
   }
 
   return resolvedOptions
@@ -213,7 +217,7 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
   const afterPostTrans = await transformFiles(ctx, afterDefaultTrans, 'post')
 
   // update source file
-  if (options.rewrite) {
+  if (options.rewrite || options.writeTransformed) {
     await Promise.all(
       afterPostTrans
         .filter(({ transformedCode }) => !!transformedCode)

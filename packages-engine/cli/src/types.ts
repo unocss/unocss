@@ -45,6 +45,13 @@ export interface CliOptions extends CliGenericOptions {
    * Update source files with transformed utilities
    */
   rewrite?: boolean
+
+  /**
+   * Update source files with transformed utilities (deprecated, use --rewrite)
+   *
+   * @deprecated use `rewrite` instead
+   */
+  writeTransformed?: boolean
 }
 
 export interface ResolvedCliOptions extends Omit<MarkRequired<CliOptions, 'patterns' | 'cwd'>, 'config'> {
