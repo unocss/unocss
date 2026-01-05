@@ -310,7 +310,9 @@ export default defineConfig({
 
   vite: {
     plugins: [
-      ...llmstxt(),
+      ...llmstxt({
+        domain: 'https://unocss.dev',
+      }),
     ],
   },
 
