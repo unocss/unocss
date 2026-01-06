@@ -964,6 +964,9 @@ importers:
 
   packages-engine/cli:
     dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
       '@unocss/config':
         specifier: workspace:*
         version: link:../config
@@ -994,6 +997,9 @@ importers:
       tinyglobby:
         specifier: catalog:utils
         version: 0.2.15
+      unplugin-utils:
+        specifier: catalog:utils
+        version: 0.3.1
 
   packages-engine/config:
     dependencies:

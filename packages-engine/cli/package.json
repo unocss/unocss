@@ -44,6 +44,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "cac": "catalog:utils",
@@ -53,6 +54,7 @@
     "magic-string": "catalog:utils",
     "pathe": "catalog:utils",
     "perfect-debounce": "catalog:utils",
-    "tinyglobby": "catalog:utils"
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
   }
 }
