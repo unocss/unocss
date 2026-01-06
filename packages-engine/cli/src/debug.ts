@@ -8,11 +8,11 @@ import { relative } from 'pathe'
  *
  * Example:
  *
- * File Generation Details:                                                                                                        2:59:56 PM
- * ---------------------+----------------------                                                                         2:59:56 PM
- * | Output File        | Source Files (1)    |                                                                         2:59:56 PM
- * ---------------------+----------------------                                                                         2:59:56 PM
- * | src/styles/uno.css | src/styles/mock.css |                                                                         2:59:56 PM
+ * File Generation Details:
+ * ---------------------+----------------------
+ * | Output File        | Source Files (1)    |
+ * ---------------------+----------------------
+ * | src/styles/uno.css | src/styles/mock.css |
  * ---------------------+----------------------
  */
 export function debugDetailsTable(options: ResolvedCliOptions, outFile: string, files: Array<{ path: string }>) {
