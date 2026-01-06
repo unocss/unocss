@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '../src/utils'
+import { addRemToPxComment, addSpacingToPxComment, getColorString, parseSpacingValue, shouldProvideAutocomplete } from '../src/utils'
 
 it('getColorString', () => {
   const textAmber = `
@@ -85,6 +85,82 @@ it('addRemToPxComment', () => {
   /* layer: default */
   .\!m-9 {
     margin: 2.25rem !important; /* 36px */
+  }`)
+})
+
+it('parseSpacingValue', () => {
+  expect(parseSpacingValue('1px')).eql(1)
+  expect(parseSpacingValue('4px')).eql(4)
+  expect(parseSpacingValue('0.25rem')).eql(4)
+  expect(parseSpacingValue('0.25rem', 16)).eql(4)
+  expect(parseSpacingValue('0.25rem', 20)).eql(5)
+  expect(parseSpacingValue('1rem')).eql(16)
+  expect(parseSpacingValue('2')).eql(2)
+  expect(parseSpacingValue('-1px')).eql(-1)
+  expect(parseSpacingValue('invalid')).eql(undefined)
+})
+
+it('addSpacingToPxComment', () => {
+  const text = `
+  /* layer: default */
+  .w-16 {
+    width: calc(var(--spacing) * 16);
+  }`
+
+  expect(addSpacingToPxComment(text, '1px')).eql(`
+  /* layer: default */
+  .w-16 {
+    width: calc(var(--spacing) * 16) /* 1px * 16 = 16px */;
+  }`)
+
+  expect(addSpacingToPxComment(text, '4px')).eql(`
+  /* layer: default */
+  .w-16 {
+    width: calc(var(--spacing) * 16) /* 4px * 16 = 64px */;
+  }`)
+
+  expect(addSpacingToPxComment(text, '0.25rem')).eql(`
+  /* layer: default */
+  .w-16 {
+    width: calc(var(--spacing) * 16) /* 0.25rem * 16 = 64px */;
+  }`)
+
+  expect(addSpacingToPxComment(text, '0.25rem', 20)).eql(`
+  /* layer: default */
+  .w-16 {
+    width: calc(var(--spacing) * 16) /* 0.25rem * 16 = 80px */;
+  }`)
+
+  const negativeText = `
+  /* layer: default */
+  .-m-4 {
+    margin: calc(var(--spacing) * -4);
+  }`
+
+  expect(addSpacingToPxComment(negativeText, '1px')).eql(`
+  /* layer: default */
+  .-m-4 {
+    margin: calc(var(--spacing) * -4) /* 1px * -4 = -4px */;
+  }`)
+
+  expect(addSpacingToPxComment(text, undefined)).eql(text)
+  expect(addSpacingToPxComment(text, '')).eql(text)
+  expect(addSpacingToPxComment(undefined, '1px')).eql('')
+
+  const multipleText = `
+  .p-4 {
+    padding-top: calc(var(--spacing) * 4);
+    padding-right: calc(var(--spacing) * 4);
+    padding-bottom: calc(var(--spacing) * 4);
+    padding-left: calc(var(--spacing) * 4);
+  }`
+
+  expect(addSpacingToPxComment(multipleText, '1px')).eql(`
+  .p-4 {
+    padding-top: calc(var(--spacing) * 4) /* 1px * 4 = 4px */;
+    padding-right: calc(var(--spacing) * 4) /* 1px * 4 = 4px */;
+    padding-bottom: calc(var(--spacing) * 4) /* 1px * 4 = 4px */;
+    padding-left: calc(var(--spacing) * 4) /* 1px * 4 = 4px */;
   }`)
 })
 

@@ -5,6 +5,7 @@ import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
+const spacingCalcRE = /calc\(var\(--spacing\)\s*\*\s*(-?[\d.]+)\)/g
 const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g
 const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|rgba|hsl|hsla|oklch)\(.*\)/g
 const varFnRE = /var\((--[^,|)]+)(?:,([^)]+))?\)/
@@ -59,9 +60,51 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
-export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
+/**
+ * Parse spacing value and return the numeric value in px
+ * @param spacingValue - The spacing value (e.g., '1px', '0.25rem')
+ * @param remToPx - The rem to px ratio (default 16)
+ * @returns The numeric value in px, or undefined if not parseable
+ */
+export function parseSpacingValue(spacingValue: string, remToPx = 16): number | undefined {
+  const match = spacingValue.match(/^(-?[\d.]+)(px|rem)?$/)
+  if (!match)
+    return undefined
+
+  const value = Number.parseFloat(match[1])
+  const unit = match[2] || 'px'
+
+  if (unit === 'rem')
+    return value * remToPx
+
+  return value
+}
+
+/**
+ * Add px comment to calc(var(--spacing) * N) expressions
+ * @param str - The CSS string
+ * @param spacingValue - The spacing value (e.g., '1px', '0.25rem')
+ * @param remToPx - The rem to px ratio for converting rem spacing values
+ */
+export function addSpacingToPxComment(str?: string, spacingValue?: string, remToPx = 16) {
+  if (!str || !spacingValue)
+    return str || ''
+
+  const spacingPx = parseSpacingValue(spacingValue, remToPx)
+  if (spacingPx == null)
+    return str
+
+  return str.replace(spacingCalcRE, (match, multiplier) => {
+    const num = Number.parseFloat(multiplier)
+    const result = spacingPx * num
+    return `${match} /* ${spacingValue} * ${num} = ${result}px */`
+  })
+}
+
+export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number, spacingValue?: string) {
   const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
-  const css = addRemToPxComment(result.css, remToPxRatio)
+  let css = addRemToPxComment(result.css, remToPxRatio)
+  css = addSpacingToPxComment(css, spacingValue, remToPxRatio)
   const prettified = prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
@@ -73,8 +116,8 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[],
   }
 }
 
-export async function getPrettiedMarkdown(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
-  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio)).prettified}\n\`\`\``
+export async function getPrettiedMarkdown(uno: UnoGenerator, util: string | string[], remToPxRatio: number, spacingValue?: string) {
+  return `\`\`\`css\n${(await getPrettiedCSS(uno, util, remToPxRatio, spacingValue)).prettified}\n\`\`\``
 }
 
 function getCssVariables(code: string) {
