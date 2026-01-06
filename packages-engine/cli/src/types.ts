@@ -52,6 +52,11 @@ export interface CliOptions extends CliGenericOptions {
    * @deprecated use `rewrite` instead
    */
   writeTransformed?: boolean
+
+  /**
+   * Enable debug mode
+   */
+  debug?: boolean
 }
 
 export interface ResolvedCliOptions extends Omit<MarkRequired<CliOptions, 'patterns' | 'cwd'>, 'config'> {

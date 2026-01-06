@@ -12,6 +12,7 @@ import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { glob } from 'tinyglobby'
 import { version } from '../package.json'
+import { debugDetailsTable } from './debug'
 import { handleError, PrettyError } from './errors'
 import { getWatcher } from './watcher'
 
@@ -20,6 +21,7 @@ async function resolveOptions(options: CliOptions, configResult: ReturnType<type
     ...options,
     ...(await configResult),
     entries: [],
+    debug: options.debug || true,
   } as unknown as ResolvedCliOptions
 
   if (options.patterns?.length) {
@@ -76,13 +78,16 @@ export async function build(_options: CliOptions) {
     const isAllCSS = files.every(f => f.endsWith('.css'))
 
     for (const file of files) {
+      const outFile = entry.outFile
+      if (file === resolve(options.cwd, outFile))
+        continue
+
       const code = await fs.readFile(file, 'utf8')
       if (!isAllCSS && file.endsWith('.css')) {
         const fileWithUno = file.replace(/\.css$/, '-uno.css')
         fileCache.set(fileWithUno, [{ path: file, code }])
       }
       else {
-        const outFile = entry.outFile
         const existing = fileCache.get(outFile) || []
         existing.push({ path: file, code })
         fileCache.set(outFile, existing)
@@ -193,12 +198,14 @@ export async function build(_options: CliOptions) {
   }
 }
 
-function transformFiles(
+async function transformFiles(
   ctx: ReturnType<typeof createContext>,
   sources: { id: string, code: string, transformedCode?: string | undefined }[],
-  enforce: SourceCodeTransformerEnforce = 'default',
 ) {
-  return Promise.all(
+  const run = (
+    sources: { id: string, code: string, transformedCode?: string | undefined }[],
+    enforce: SourceCodeTransformerEnforce,
+  ) => Promise.all(
     sources.map(({ id, code, transformedCode }) => new Promise<{ id: string, code: string, transformedCode: string | undefined }>((resolve) => {
       applyTransformers(ctx, code, id, enforce)
         .then((transformsRes) => {
@@ -206,32 +213,26 @@ function transformFiles(
         })
     })),
   )
+
+  const preTrans = await run(sources, 'pre')
+  const defaultTrans = await run(preTrans, 'default')
+  const postTrans = await run(defaultTrans, 'post')
+
+  return postTrans
 }
 
 async function generateSingle(options: ResolvedCliOptions, outFile: string, files: { path: string, code: string }[]) {
-  const isCSSFile = files.every(f => f.path.endsWith('.css'))
+  const start = performance.now()
+  const isCSSFiles = files.every(f => f.path.endsWith('.css'))
   const { ctx } = options
   const sourceCache = files.map(f => ({ id: f.path, code: f.code }))
-  const afterPreTrans = await transformFiles(ctx, sourceCache, 'pre')
-  const afterDefaultTrans = await transformFiles(ctx, afterPreTrans)
-  const afterPostTrans = await transformFiles(ctx, afterDefaultTrans, 'post')
-
-  // update source file
-  if (options.rewrite || options.writeTransformed) {
-    await Promise.all(
-      afterPostTrans
-        .filter(({ transformedCode }) => !!transformedCode)
-        .map(async ({ transformedCode, id }) => {
-          if (existsSync(id))
-            await fs.writeFile(id, transformedCode as string, 'utf-8')
-        }),
-    )
-  }
+  const transformedFiles = await transformFiles(ctx, sourceCache)
+  // const realTransformedFiles = transformedFiles.filter(f => f.transformedCode) // actually transformed
 
   let css, matched
 
-  if (isCSSFile) {
-    css = afterPostTrans
+  if (isCSSFiles) {
+    css = transformedFiles
       .map((f) => {
         const code = (f.transformedCode || f.code).replace(SKIP_COMMENT_RE, '')
         if (!code)
@@ -246,7 +247,7 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
   else {
     const tokens = new Set<string>()
 
-    for (const file of afterPostTrans) {
+    for (const file of transformedFiles) {
       const input = (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, '')
       if (!input)
         continue
@@ -285,19 +286,36 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
     await fs.mkdir(dir, { recursive: true })
   await fs.writeFile(outFileResolved, css, 'utf-8')
 
+  // update source file
+  if (options.rewrite || options.writeTransformed) {
+    await Promise.all(
+      transformedFiles
+        .filter(({ transformedCode }) => !!transformedCode)
+        .map(async ({ transformedCode, id }) => {
+          if (existsSync(id))
+            await fs.writeFile(id, transformedCode as string, 'utf-8')
+        }),
+    )
+  }
+
   if (!options.watch) {
-    if (isCSSFile) {
+    if (options.debug) {
+      debugDetailsTable(options, outFile, files)
+    }
+
+    const duration = (performance.now() - start).toFixed(2)
+    if (isCSSFiles) {
       consola.success(
         `Transformed CSS generated to ${cyan(
           relative(process.cwd(), outFileResolved),
-        )}\n`,
+        )} in ${duration}ms\n`,
       )
     }
     else {
       consola.success(
         `${[...matched!].length} utilities generated to ${cyan(
           relative(process.cwd(), outFileResolved),
-        )}\n`,
+        )} in ${duration}ms\n`,
       )
     }
   }

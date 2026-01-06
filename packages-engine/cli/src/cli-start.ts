@@ -24,6 +24,7 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
     .option('--write-transformed', 'Update source files with transformed utilities (deprecated, use --rewrite)', { default: false })
     .option('--preflights', 'Enable preflights', { default: true })
     .option('-m, --minify', 'Minify generated CSS', { default: false })
+    .option('--debug', 'Enable debug mode', { default: false })
     .action(async (patterns: Array<string>, flags) => {
       Object.assign(options, {
         cwd,

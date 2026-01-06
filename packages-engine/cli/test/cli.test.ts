@@ -152,8 +152,6 @@ describe('cli', () => {
     await sleep(500)
     const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
 
-    console.log({ output1, output2 })
-
     expect(output1).toContain('.bg-blue')
     expect(output2).toContain('.bg-red')
   })
