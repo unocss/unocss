@@ -114,7 +114,6 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
         const fileHash = hash(file)
         const currentOutFile = file.replace(/(\.css)?$/, `-${fileHash}.css`)
         addToCache(file, code, files.length > 1 ? currentOutFile : outFile)
-        // addToCache(file, code, currentOutFile)
       }
       // false: discard CSS files
     }

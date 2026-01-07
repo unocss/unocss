@@ -970,7 +970,7 @@ export interface CliEntryItem {
    *
    * - false: Do not output CSS files
    * - true: Transform and output scanned CSS file contents to outFile
-   * - 'multi': Output each CSS file separately with filename format `${outFile}-[hash]`
+   * - 'multi': Output each CSS file separately with filename format `${originFile}-[hash]`
    * - 'single': Merge multiple CSS files into one output file named `outFile-merged.css`
    *
    * @default true
