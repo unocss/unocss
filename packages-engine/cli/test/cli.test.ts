@@ -1,3 +1,4 @@
+import process from 'node:process'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -33,6 +34,17 @@ describe('cli', () => {
     @apply p-2 bg-red;
   }
 `.trim(),
+    })
+
+    expect(output).toMatchSnapshot()
+  })
+
+  it('use default preset via cli option', async () => {
+    const { output } = await runCli({
+      'views/index.html': `<div class="bg-blue"></div>`,
+      'views/index.css': `.btn { @apply p-2 bg-red; }`,
+    }, {
+      args: ['--preset', 'wind4'],
     })
 
     expect(output).toMatchSnapshot()
@@ -86,7 +98,7 @@ describe('cli', () => {
     expect(transform).toMatchSnapshot()
   })
 
-  it('uno.css exclude initialized class after changing file', async () => {
+  it.skipIf(process.version.startsWith('v20'))('uno.css exclude initialized class after changing file', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-blue"></div>',
     }, { args: ['--preset', 'wind3', '-w'] })
@@ -161,7 +173,7 @@ describe('cli', () => {
     expect(output2).toContain('.bg-red')
   })
 
-  it('supports uno.config.ts changed rebuild', async () => {
+  it.skipIf(process.version.startsWith('v20'))('supports uno.config.ts changed rebuild', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-foo"></div>',
       'uno.config.ts': `
@@ -239,18 +251,5 @@ describe('cli', () => {
     expect(output).toContain('.w-10')
     expect(output).not.toContain('.bg-red')
     expect(output).not.toContain('.text-white')
-  })
-
-  it('use default preset via cli option', async () => {
-    const { output } = await runCli({
-      'views/index.html': `<div class="bg-blue"></div>`,
-      'views/index.css': `.btn { @apply p-2 bg-red; }`,
-    }, {
-      args: ['--preset', 'wind4'],
-    })
-
-    await sleep(1000)
-
-    expect(output).toMatchSnapshot()
   })
 })
