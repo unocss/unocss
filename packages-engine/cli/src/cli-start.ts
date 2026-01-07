@@ -1,6 +1,7 @@
 import type { CliOptions } from './types'
 import process from 'node:process'
 import { cac } from 'cac'
+import { green } from 'colorette'
 import { resolve } from 'pathe'
 import { version } from '../package.json'
 import { build } from './index'
@@ -25,12 +26,18 @@ export async function startCli(cwd = process.cwd(), argv = process.argv, options
     .option('--preflights', 'Enable preflights', { default: true })
     .option('-m, --minify', 'Minify generated CSS', { default: false })
     .option('--debug', 'Enable debug mode', { default: false })
-    .option('--split-css <mode>', 'Whether to output CSS files scanned from patterns to outFile. Options: true, false, "multi", "single"', { default: true })
+    .option('--split-css [mode]', `Whether to output CSS files scanned from patterns to outFile. Options: ${green('true')}, ${green('false')}, ${green('multi')}, ${green('single')}`, { default: true })
+    .option('--preset <default-preset>', `Switch ${green('wind3')} or ${green('wind4')} preset as default. If you have configured uno.config, this option will be ignored.`, { default: 'wind4' })
     .action(async (patterns: Array<string>, flags) => {
       Object.assign(options, {
         cwd,
         ...flags,
       })
+
+      if (String(options.splitCss) === 'true')
+        options.splitCss = true
+      if (String(options.splitCss) === 'false')
+        options.splitCss = false
 
       if (patterns)
         options.patterns = patterns

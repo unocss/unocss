@@ -69,6 +69,11 @@ export interface CliOptions extends CliGenericOptions {
    * @default false
    */
   splitCss?: boolean | 'multi' | 'single'
+
+  /**
+   * Switch wind3 or wind4 preset as default. If you have configured uno.config, this option will be ignored.
+   */
+  preset?: 'wind3' | 'wind4'
 }
 
 export interface ResolvedCliOptions extends Omit<MarkRequired<CliOptions, 'patterns' | 'cwd'>, 'config'> {

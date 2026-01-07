@@ -9,7 +9,7 @@ import { hash } from '#integration/utils'
 import { toArray } from '@unocss/core'
 import { cyan, dim, green, yellow } from 'colorette'
 import { consola } from 'consola'
-import { basename, dirname, normalize, relative, resolve } from 'pathe'
+import { basename, dirname, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { glob } from 'tinyglobby'
 import { version } from '../package.json'
@@ -54,12 +54,30 @@ async function resolveOptions(options: CliOptions, userConfig: ResolvedConfig): 
   return resolvedOptions
 }
 
-async function initializeConfig(cwd: string, configPath?: string) {
+async function initializeConfig(options: CliOptions) {
+  const { cwd = process.cwd(), config: configPath, preset } = options
   const ctx = createContext<UserConfig>(configPath)
-  const configSources = (await ctx.updateRoot(cwd)).sources.map(normalize)
-  const config = ctx.uno.config
+  await ctx.ready
 
-  return { ctx, configSources, config }
+  if (ctx.getConfigFileList().length > 0) {
+    await ctx.updateRoot(cwd)
+  }
+  else {
+    const defaultPresets: Record<string, Promise<any>> = {
+      wind3: import('@unocss/preset-wind3').then(m => m.default),
+      wind4: import('@unocss/preset-wind4').then(m => m.default),
+    }
+
+    if (preset && preset in defaultPresets) {
+      await ctx.uno.setConfig({
+        presets: [
+          await defaultPresets[preset],
+        ],
+      })
+    }
+  }
+
+  return { ctx, config: ctx.uno.config }
 }
 
 async function parseEntries(options: ResolvedCliOptions, cache: Map<string, FileEntryItem[]>) {
@@ -114,7 +132,7 @@ export async function build(_options: CliOptions) {
    * value: array of source files with their code
    */
   const fileCache = new Map<string, FileEntryItem[]>()
-  const configResult = await initializeConfig(_options.cwd, _options.config)
+  const configResult = await initializeConfig(_options)
   const options = await resolveOptions(_options, configResult.config)
   options.ctx = configResult.ctx
 

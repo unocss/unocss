@@ -973,6 +973,12 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       cac:
         specifier: catalog:utils
         version: 6.7.14

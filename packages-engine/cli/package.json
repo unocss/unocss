@@ -47,6 +47,8 @@
     "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
     "cac": "catalog:utils",
     "chokidar": "catalog:utils",
     "colorette": "catalog:utils",
