@@ -53,7 +53,7 @@ export default defineConfig({
   await runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
 
   if (options?.args?.includes('-w')) {
-    for (let i = 50; i >= 0; i--) {
+    for (let i = 100; i >= 0; i--) {
       await sleep(50)
       if (fs.existsSync(resolve(testDir, options?.outFile || 'uno.css')))
         break
