@@ -1,4 +1,4 @@
-import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
+import type { ResolvedConfig, SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
 import type { CliOptions, FileEntryItem, ResolvedCliOptions } from './types'
 import { existsSync, promises as fs } from 'node:fs'
 import process from 'node:process'
@@ -17,12 +17,11 @@ import { debugDetailsTable } from './debug'
 import { handleError, PrettyError } from './errors'
 import { getWatcher } from './watcher'
 
-async function resolveOptions(options: CliOptions, configResult: ReturnType<typeof initializeConfig>): Promise<ResolvedCliOptions> {
+async function resolveOptions(options: CliOptions, userConfig: ResolvedConfig): Promise<ResolvedCliOptions> {
   const resolvedOptions = {
     ...options,
-    ...(await configResult),
     entries: [],
-    debug: options.debug || true,
+    debug: options.debug || false,
   } as unknown as ResolvedCliOptions
 
   if (options.patterns?.length) {
@@ -35,7 +34,7 @@ async function resolveOptions(options: CliOptions, configResult: ReturnType<type
   }
 
   // Add entries from uno.config cli option
-  const configEntries = toArray(resolvedOptions.config.cli?.entry || []).map(entry => ({
+  const configEntries = toArray(userConfig.cli?.entry || []).map(entry => ({
     ...entry,
     rewrite: entry.rewrite !== undefined ? entry.rewrite : (options.rewrite || options.writeTransformed) ?? false,
     splitCss: entry.splitCss !== undefined ? entry.splitCss : options.splitCss ?? true,
@@ -58,7 +57,7 @@ async function resolveOptions(options: CliOptions, configResult: ReturnType<type
 async function initializeConfig(cwd: string, configPath?: string) {
   const ctx = createContext<UserConfig>(configPath)
   const configSources = (await ctx.updateRoot(cwd)).sources.map(normalize)
-  const config = await ctx.getConfig()
+  const config = ctx.uno.config
 
   return { ctx, configSources, config }
 }
@@ -111,10 +110,13 @@ export async function build(_options: CliOptions) {
    * Cache of files to process
    *
    * key: output file path
+   *
    * value: array of source files with their code
    */
   const fileCache = new Map<string, FileEntryItem[]>()
-  const options = await resolveOptions(_options, initializeConfig(_options.cwd, _options.config))
+  const configResult = await initializeConfig(_options.cwd, _options.config)
+  const options = await resolveOptions(_options, configResult.config)
+  options.ctx = configResult.ctx
 
   if (options.stdout && options.outFile) {
     consola.fatal(`Cannot use --stdout and --out-file at the same time`)
@@ -135,6 +137,10 @@ export async function build(_options: CliOptions) {
     return
   }
 
+  if (!options.watch) {
+    return await generate(options)
+  }
+
   const debouncedBuild = debounce(
     async () => {
       generate(options).catch(handleError)
@@ -142,75 +148,86 @@ export async function build(_options: CliOptions) {
     100,
   )
 
-  const startWatcher = async () => {
+  await startWatcher().catch(handleError)
+
+  async function generate(options: ResolvedCliOptions) {
+    return Promise.all(
+      Array.from(fileCache.entries()).map(([outFile, entries]) =>
+        generateSingle(options, outFile, entries),
+      ),
+    )
+  }
+
+  async function startWatcher() {
     if (!options.watch)
       return
-    const { patterns, configSources, ctx } = options
-
+    const { ctx } = options
     const watcher = await getWatcher(options)
+    const watchedFiles = [
+      ...(fileCache.values()).flatMap(files => files.map(f => f.id)),
+      ...ctx.getConfigFileList(),
+    ]
 
-    if (configSources.length)
-      watcher.add(configSources)
-
+    watcher.add(watchedFiles)
     watcher.on('all', async (type, file) => {
       const absolutePath = resolve(options.cwd, file)
       if (type === 'addDir' || type === 'unlinkDir')
         return
 
-      if (configSources.includes(absolutePath)) {
+      if (ctx.getConfigFileList().includes(absolutePath)) {
         await ctx.reloadConfig()
+        const newOtions = await resolveOptions(_options, ctx.uno.config)
+        Object.assign(options, newOtions)
+        await parseEntries(options, fileCache)
+
+        const configSources = ctx.getConfigFileList()
         if (configSources.length)
           watcher.add(configSources)
-        consola.info(`${cyan(basename(file))} changed, setting new config`)
+
+        if (type === 'change')
+          consola.info(`${cyan(basename(file))} changed, setting new config`)
+        consola.info(
+          `Watching for changes in ${
+            [
+              ...options.entries.flatMap(i => i.patterns),
+              ...configSources,
+            ]
+              .map(cyan)
+              .join(', ')}`,
+        )
       }
       else {
-        consola.log(`${green(type)} ${dim(file)}`)
+        if (type === 'change') {
+          consola.log(`${green(type)} ${dim(file)}`)
+          const content = await fs.readFile(absolutePath, 'utf8')
+          const matchedEntry = fileCache.keys().find(outfile => outfile === absolutePath)
+          if (matchedEntry)
+            return
 
-        // const content = type.startsWith('unlink') ? '' : await fs.readFile(absolutePath, 'utf8')
-
-        // for (const [outFile, files] of fileCache.entries()) {
-        //   if (type.startsWith('unlink')) {
-        //     const newFiles = files.filter(f => f.id !== absolutePath)
-        //     if (newFiles.length !== files.length)
-        //       fileCache.set(outFile, newFiles)
-        //     if (outFile === absolutePath)
-        //       fileCache.delete(outFile)
-        //   }
-        //   else {
-        //     const fileEntry = files.find(f => f.id === absolutePath)
-        //     if (fileEntry)
-        //       fileEntry.code = content
-        //     if (outFile === absolutePath)
-        //       fileCache.set(outFile, [{ id: absolutePath, code: content }])
-        //   }
-        // }
-
-        if (type === 'add' || type === 'unlink') {
-          fileCache.clear()
+          for (const [, files] of fileCache.entries()) {
+            const fileEntry = files.find(f => f.id === absolutePath)
+            if (fileEntry) {
+              fileEntry.code = content
+            }
+          }
+        }
+        else if (type === 'unlink') {
+          consola.log(`${green(type)} ${dim(file)}`)
+          for (const [, files] of fileCache.entries()) {
+            const index = files.findIndex(f => f.id === absolutePath)
+            if (index !== -1) {
+              files.splice(index, 1)
+            }
+          }
+        }
+        else if (type === 'add') {
+          consola.log(`${green(type)} ${dim(file)}`)
           await parseEntries(options, fileCache)
         }
       }
 
       debouncedBuild()
     })
-
-    consola.info(
-      `Watching for changes in ${toArray(patterns)
-        .map(i => cyan(i))
-        .join(', ')}`,
-    )
-  }
-
-  await generate(options)
-
-  await startWatcher().catch(handleError)
-
-  function generate(options: ResolvedCliOptions) {
-    return Promise.all(
-      Array.from(fileCache.entries()).map(([outFile, entries]) =>
-        generateSingle(options, outFile, entries),
-      ),
-    )
   }
 }
 
@@ -299,6 +316,10 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
     return
   }
 
+  if (options.debug) {
+    debugDetailsTable(options, outFile, files)
+  }
+
   const outFileResolved = resolve(options.cwd, outFile)
   const dir = dirname(outFileResolved)
   if (!existsSync(dir))
@@ -306,10 +327,6 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
   await fs.writeFile(outFileResolved, finalCss, 'utf-8')
 
   if (!options.watch) {
-    if (options.debug) {
-      debugDetailsTable(options, outFile, files)
-    }
-
     const duration = (performance.now() - start).toFixed(2)
 
     if (rewriter.length > 0) {

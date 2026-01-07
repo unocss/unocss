@@ -73,9 +73,7 @@ export interface CliOptions extends CliGenericOptions {
 
 export interface ResolvedCliOptions extends Omit<MarkRequired<CliOptions, 'patterns' | 'cwd'>, 'config'> {
   entries: Required<CliEntryItem>[]
-  configSources: string[]
   ctx: UnocssPluginContext<UserConfig<object>>
-  config: UserConfig<object>
 }
 
 export interface FileEntryItem {
