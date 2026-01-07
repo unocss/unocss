@@ -238,4 +238,14 @@ describe('cli', () => {
     expect(output).not.toContain('.bg-red')
     expect(output).not.toContain('.text-white')
   })
+
+  it('use default preset via cli option', async () => {
+    const { output } = await runCli({
+      'views/index.html': `<div class="bg-blue"></div>`,
+      'views/index.css': `.btn { @apply p-2 bg-red; }`,
+    }, {
+      args: ['--preset', 'wind4'],
+    })
+    expect(output).toMatchSnapshot()
+  })
 })

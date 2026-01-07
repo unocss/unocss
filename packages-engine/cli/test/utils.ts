@@ -34,7 +34,10 @@ export function readFile(testDir: string, targetFile?: string) {
 export async function runCli(files: Record<string, string>, options?: { transformFile?: string, args?: string[], outFile?: string }) {
   const testDir = getTestDir()
 
-  if (!Object.keys(files).some(f => f.includes('uno.config') || f.includes('unocss.config'))) {
+  if (
+    !Object.keys(files).some(f => f.includes('uno.config') || f.includes('unocss.config'))
+    || !options?.args?.includes('--preset')
+  ) {
     files['uno.config.ts'] = `
 import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
 export default defineConfig({
