@@ -244,6 +244,9 @@ describe('cli', () => {
     }, {
       args: ['--preset', 'wind4'],
     })
+
+    await sleep(1000)
+
     expect(output).toMatchSnapshot()
   })
 })

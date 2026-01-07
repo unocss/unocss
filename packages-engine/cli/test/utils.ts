@@ -50,7 +50,7 @@ export default defineConfig({
   }
 
   await initOutputFiles(testDir, files)
-  await runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
+  const process = runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
 
   if (options?.args?.includes('-w')) {
     while (true) {
@@ -59,6 +59,9 @@ export default defineConfig({
       if (fs.existsSync(outFilePath))
         break
     }
+  }
+  else {
+    await process
   }
 
   const output = await readFile(testDir, options?.outFile)
