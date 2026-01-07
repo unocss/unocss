@@ -70,6 +70,9 @@ async function initializeConfig(options: CliOptions) {
         presets: [
           await defaultPresets[preset],
         ],
+        transformers: [
+          (await import('@unocss/transformer-directives').then(m => m.default))(),
+        ],
       })
     }
   }

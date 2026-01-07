@@ -979,6 +979,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind4
+      '@unocss/transformer-directives':
+        specifier: workspace:*
+        version: link:../../packages-presets/transformer-directives
       cac:
         specifier: catalog:utils
         version: 6.7.14
