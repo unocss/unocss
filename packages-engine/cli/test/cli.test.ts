@@ -107,6 +107,8 @@ describe('cli', () => {
         break
       }
     }
+
+    (await getWatcher()).close()
   })
 
   it('supports unocss.config.js cli options', async () => {
@@ -196,6 +198,8 @@ describe('cli', () => {
         break
       }
     }
+
+    (await getWatcher()).close()
   })
 
   it('should correctly deduplicate files of different types containing @media', async () => {
