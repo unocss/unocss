@@ -87,30 +87,20 @@ describe('cli', () => {
   })
 
   it('uno.css exclude initialized class after changing file', async () => {
-    const fileName = 'views/index.html'
-    const initializedContent = '<div class="bg-blue"></div>'
-    const testDir = getTestDir()
-    const absolutePathOfFile = resolve(testDir, fileName)
-    await fs.outputFile(absolutePathOfFile, initializedContent)
-    await runAsyncChildProcess(testDir, 'views/**/*', '--preset', 'wind3', '-w')
-    const outputPath = resolve(testDir, 'uno.css')
+    const { output, testDir } = await runCli({
+      'views/index.html': '<div class="bg-blue"></div>',
+    }, { args: ['--preset', 'wind3', '-w'] })
 
-    for (let i = 50; i >= 0; i--) {
-      await sleep(50)
-      if (fs.existsSync(outputPath))
-        break
-    }
-
-    const output = await readFile(testDir)
     expect(output).toContain('.bg-blue')
 
     const changedContent = '<div class="bg-red"></div>'
+    const absolutePathOfFile = resolve(testDir!, 'views/index.html')
     await fs.writeFile(absolutePathOfFile, changedContent)
 
     // polling until update
     for (let i = 100; i >= 0; i--) {
       await sleep(100)
-      const output = await readFile(testDir)
+      const output = await readFile(testDir!)
       if (i === 0 || output.includes('.bg-red')) {
         expect(output).toContain('.bg-red')
         break
