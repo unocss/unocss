@@ -98,10 +98,11 @@ describe('cli', () => {
     await fs.writeFile(absolutePathOfFile, changedContent)
 
     // polling until update
-    for (let i = 100; i >= 0; i--) {
+
+    while (true) {
       await sleep(100)
       const output = await readFile(testDir!)
-      if (i === 0 || output.includes('.bg-red')) {
+      if (output.includes('.bg-red')) {
         expect(output).toContain('.bg-red')
         break
       }
@@ -145,7 +146,13 @@ describe('cli', () => {
     await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
     await runAsyncChildProcess(testDir, '', '')
 
-    await sleep(500)
+    while (true) {
+      await sleep(50)
+      const allExist = outFiles.every(file => fs.existsSync(resolve(testDir, file)))
+      if (allExist)
+        break
+    }
+
     const [output1, output2] = await Promise.all(outFiles.map(async file => readFile(testDir, resolve(testDir, file))))
 
     expect(output1).toContain('.bg-blue')
@@ -180,10 +187,11 @@ describe('cli', () => {
     }
   })
       `)
-    for (let i = 50; i >= 0; i--) {
-      await sleep(500)
+
+    while (true) {
+      await sleep(50)
       const outputChanged = await readFile(testDir as string)
-      if (i === 0 || outputChanged.includes('blue')) {
+      if (outputChanged.includes('blue')) {
         expect(outputChanged).toContain('blue')
         break
       }

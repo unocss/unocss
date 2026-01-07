@@ -53,9 +53,10 @@ export default defineConfig({
   await runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
 
   if (options?.args?.includes('-w')) {
-    for (let i = 100; i >= 0; i--) {
+    while (true) {
       await sleep(50)
-      if (fs.existsSync(resolve(testDir, options?.outFile || 'uno.css')))
+      const outFilePath = resolve(testDir, options?.outFile || 'uno.css')
+      if (fs.existsSync(outFilePath))
         break
     }
   }
