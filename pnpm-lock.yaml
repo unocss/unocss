@@ -979,9 +979,15 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
-      '@unocss/preset-uno':
+      '@unocss/preset-wind3':
         specifier: workspace:*
-        version: link:../../packages-deprecated/preset-uno
+        version: link:../../packages-presets/preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
+      '@unocss/transformer-directives':
+        specifier: workspace:*
+        version: link:../../packages-presets/transformer-directives
       cac:
         specifier: catalog:utils
         version: 6.7.14

@@ -955,6 +955,27 @@ export type PreparedRule = readonly [
 export interface CliEntryItem {
   patterns: string[]
   outFile: string
+  /**
+   * Whether to rewrite the transformed utilities.
+   *
+   * - For css: if rewrite is true, it will not generate a new file, but directly modify the original file content.
+   * - For other files: if rewrite is true, it replaces the original file with the transformed content.
+   *
+   * @default false
+   */
+  rewrite?: boolean
+
+  /**
+   * Whether to output CSS files scanned from patterns to outFile
+   *
+   * - false: Do not output CSS files
+   * - true: Transform and output scanned CSS file contents to outFile
+   * - 'multi': Output each CSS file separately with filename format `${originFile}-[hash]`
+   * - 'single': Merge multiple CSS files into one output file named `outFile-merged.css`
+   *
+   * @default true
+   */
+  splitCss?: boolean | 'multi' | 'single'
 }
 
 export interface UtilObject {
