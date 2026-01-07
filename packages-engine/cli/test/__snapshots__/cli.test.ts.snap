@@ -55,7 +55,12 @@ exports[`cli > supports variantGroup transformer 1`] = `
 exports[`cli > supports variantGroup transformer 2`] = `"<div class="p-4 border border-solid border-red"></div>"`;
 
 exports[`cli > use default preset via cli option 1`] = `
-".btn { --un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity)) /* #f87171 */;padding:0.5rem; }
+".btn { padding:calc(var(--spacing) * 2);background-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-bg-opacity), transparent); }@property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}@supports (color: color-mix(in lab, red, red)){.btn{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-bg-opacity), transparent);}}
+/* layer: properties */
+@property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 /* layer: default */
-.bg-blue{--un-bg-opacity:1;background-color:rgb(96 165 250 / var(--un-bg-opacity)) /* #60a5fa */;}"
+.bg-blue{background-color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent);}
+@supports (color: color-mix(in lab, red, red)){
+.bg-blue{background-color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-bg-opacity), transparent);}
+}"
 `;
