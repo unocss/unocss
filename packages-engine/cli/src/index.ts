@@ -9,7 +9,7 @@ import { hash } from '#integration/utils'
 import { toArray } from '@unocss/core'
 import { cyan, dim, green, yellow } from 'colorette'
 import { consola } from 'consola'
-import { basename, dirname, relative, resolve } from 'pathe'
+import { basename, dirname, normalize, relative, resolve } from 'pathe'
 import { debounce } from 'perfect-debounce'
 import { glob } from 'tinyglobby'
 import { version } from '../package.json'
@@ -57,12 +57,9 @@ async function resolveOptions(options: CliOptions, userConfig: ResolvedConfig): 
 async function initializeConfig(options: CliOptions) {
   const { cwd = process.cwd(), config: configPath, preset } = options
   const ctx = createContext<UserConfig>(configPath)
-  await ctx.ready
+  const configSources = (await ctx.updateRoot(cwd)).sources.map(normalize)
 
-  if (ctx.getConfigFileList().length > 0) {
-    await ctx.updateRoot(cwd)
-  }
-  else {
+  if (!configSources.length) {
     const defaultPresets: Record<string, Promise<any>> = {
       wind3: import('@unocss/preset-wind3').then(m => m.default),
       wind4: import('@unocss/preset-wind4').then(m => m.default),
@@ -191,13 +188,13 @@ export async function build(_options: CliOptions) {
       if (type === 'addDir' || type === 'unlinkDir')
         return
 
-      if (ctx.getConfigFileList().includes(absolutePath)) {
+      if (ctx.getConfigFileList().map(normalize).includes(absolutePath)) {
         await ctx.reloadConfig()
         const newOtions = await resolveOptions(_options, ctx.uno.config)
         Object.assign(options, newOtions)
         await parseEntries(options, fileCache)
 
-        const configSources = ctx.getConfigFileList()
+        const configSources = ctx.getConfigFileList().map(normalize)
         if (configSources.length)
           watcher.add(configSources)
 
