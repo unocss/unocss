@@ -57,11 +57,30 @@ export interface CliOptions extends CliGenericOptions {
    * Enable debug mode
    */
   debug?: boolean
+
+  /**
+   * Whether to output CSS files scanned from patterns to outFile
+   *
+   * - false: Do not output CSS files
+   * - true: Transform and output scanned CSS file contents to outFile
+   * - 'multi': Output each CSS file separately with filename format `${outFile}-[hash]`
+   * - 'single': Merge multiple CSS files into one output file named `outFile-merged.css`
+   *
+   * @default false
+   */
+  splitCss?: boolean | 'multi' | 'single'
 }
 
 export interface ResolvedCliOptions extends Omit<MarkRequired<CliOptions, 'patterns' | 'cwd'>, 'config'> {
-  entries: CliEntryItem[]
+  entries: Required<CliEntryItem>[]
   configSources: string[]
   ctx: UnocssPluginContext<UserConfig<object>>
   config: UserConfig<object>
+}
+
+export interface FileEntryItem {
+  id: string
+  code: string
+  rewrite: boolean
+  transformedCode?: string
 }

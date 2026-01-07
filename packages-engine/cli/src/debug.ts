@@ -1,4 +1,4 @@
-import type { ResolvedCliOptions } from './types'
+import type { FileEntryItem, ResolvedCliOptions } from './types'
 import { yellow } from 'colorette'
 import consola from 'consola'
 import { relative } from 'pathe'
@@ -15,10 +15,10 @@ import { relative } from 'pathe'
  * | src/styles/uno.css | src/styles/mock.css |
  * ---------------------+----------------------
  */
-export function debugDetailsTable(options: ResolvedCliOptions, outFile: string, files: Array<{ path: string }>) {
+export function debugDetailsTable(options: ResolvedCliOptions, outFile: string, files: FileEntryItem[]) {
   const table = [['Output File', `Source Files (${files.length})`]]
   files.forEach((f, i) => {
-    table.push([i === 0 ? relative(options.cwd!, outFile) : '', relative(options.cwd, f.path)])
+    table.push([i === 0 ? relative(options.cwd!, outFile) : '', relative(options.cwd, f.id)])
   })
 
   const colWidths = table[0].map((_, colIndex) =>

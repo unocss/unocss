@@ -1,10 +1,11 @@
 import type { SourceCodeTransformerEnforce, UserConfig } from '@unocss/core'
-import type { CliOptions, ResolvedCliOptions } from './types'
+import type { CliOptions, FileEntryItem, ResolvedCliOptions } from './types'
 import { existsSync, promises as fs } from 'node:fs'
 import process from 'node:process'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { createContext } from '#integration/context'
 import { applyTransformers } from '#integration/transformers'
+import { hash } from '#integration/utils'
 import { toArray } from '@unocss/core'
 import { cyan, dim, green, yellow } from 'colorette'
 import { consola } from 'consola'
@@ -28,11 +29,17 @@ async function resolveOptions(options: CliOptions, configResult: ReturnType<type
     resolvedOptions.entries.push({
       patterns: options.patterns,
       outFile: options.outFile ?? resolve(options.cwd!, 'uno.css'),
+      rewrite: (options.rewrite || options.writeTransformed) ?? false,
+      splitCss: options.splitCss ?? true,
     })
   }
 
-  // Add entries from config
-  const configEntries = toArray(resolvedOptions.config.cli?.entry || [])
+  // Add entries from uno.config cli option
+  const configEntries = toArray(resolvedOptions.config.cli?.entry || []).map(entry => ({
+    ...entry,
+    rewrite: entry.rewrite !== undefined ? entry.rewrite : (options.rewrite || options.writeTransformed) ?? false,
+    splitCss: entry.splitCss !== undefined ? entry.splitCss : options.splitCss ?? true,
+  }))
   resolvedOptions.entries.push(...configEntries)
 
   if (!resolvedOptions.entries.length) {
@@ -56,6 +63,47 @@ async function initializeConfig(cwd: string, configPath?: string) {
   return { ctx, configSources, config }
 }
 
+async function parseEntries(options: ResolvedCliOptions, cache: Map<string, FileEntryItem[]>) {
+  cache.clear()
+
+  for (const entry of options.entries) {
+    const { outFile, rewrite } = entry
+    const files = await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })
+    const cssFiles = files.filter(f => f.endsWith('.css')).filter(f => f !== resolve(options.cwd, outFile))
+    const otherFiles = files.filter(f => !f.endsWith('.css'))
+    const singleKey = outFile.replace(/(\.css)?$/, '-merged.css')
+
+    const addToCache = (file: string, code: string, key: string) => {
+      const existing = cache.get(key) || []
+      existing.push({ id: file, code, rewrite })
+      cache.set(key, existing)
+    }
+
+    for (const file of otherFiles) {
+      const code = await fs.readFile(file, 'utf-8')
+      addToCache(file, code, outFile)
+    }
+
+    for (const file of cssFiles) {
+      const code = await fs.readFile(file, 'utf-8')
+
+      if (entry.splitCss === true) {
+        addToCache(file, code, outFile)
+      }
+      else if (entry.splitCss === 'single') {
+        addToCache(file, code, singleKey)
+      }
+      else if (entry.splitCss === 'multi') {
+        const fileHash = hash(file)
+        const currentOutFile = file.replace(/(\.css)?$/, `-${fileHash}.css`)
+        addToCache(file, code, files.length > 1 ? currentOutFile : outFile)
+        // addToCache(file, code, currentOutFile)
+      }
+      // false: discard CSS files
+    }
+  }
+}
+
 export async function build(_options: CliOptions) {
   _options.cwd ??= process.cwd()
 
@@ -65,7 +113,7 @@ export async function build(_options: CliOptions) {
    * key: output file path
    * value: array of source files with their code
    */
-  const fileCache = new Map<string, { path: string, code: string }[]>()
+  const fileCache = new Map<string, FileEntryItem[]>()
   const options = await resolveOptions(_options, initializeConfig(_options.cwd, _options.config))
 
   if (options.stdout && options.outFile) {
@@ -73,34 +121,19 @@ export async function build(_options: CliOptions) {
     return
   }
 
-  for (const entry of options.entries) {
-    const files = await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })
-    const isAllCSS = files.every(f => f.endsWith('.css'))
-
-    for (const file of files) {
-      const outFile = entry.outFile
-      if (file === resolve(options.cwd, outFile))
-        continue
-
-      const code = await fs.readFile(file, 'utf8')
-      if (!isAllCSS && file.endsWith('.css')) {
-        const fileWithUno = file.replace(/\.css$/, '-uno.css')
-        fileCache.set(fileWithUno, [{ path: file, code }])
-      }
-      else {
-        const existing = fileCache.get(outFile) || []
-        existing.push({ path: file, code })
-        fileCache.set(outFile, existing)
-      }
-    }
-  }
-
-  consola.log(green(`unocss v${version}`))
+  consola.log(green(`UnoCSS v${version}`))
 
   if (options.watch)
-    consola.start(`unocss in watch mode...`)
+    consola.start(`UnoCSS in watch mode...`)
   else
-    consola.start(`unocss for production...`)
+    consola.start(`UnoCSS for production...`)
+
+  await parseEntries(options, fileCache)
+
+  if (fileCache.size === 0) {
+    consola.warn('No files matched the provided patterns.')
+    return
+  }
 
   const debouncedBuild = debounce(
     async () => {
@@ -133,45 +166,28 @@ export async function build(_options: CliOptions) {
       else {
         consola.log(`${green(type)} ${dim(file)}`)
 
-        const content = type.startsWith('unlink') ? '' : await fs.readFile(absolutePath, 'utf8')
+        // const content = type.startsWith('unlink') ? '' : await fs.readFile(absolutePath, 'utf8')
 
-        for (const [outFile, files] of fileCache.entries()) {
-          if (type.startsWith('unlink')) {
-            const newFiles = files.filter(f => f.path !== absolutePath)
-            if (newFiles.length !== files.length)
-              fileCache.set(outFile, newFiles)
-            if (outFile === absolutePath)
-              fileCache.delete(outFile)
-          }
-          else {
-            const fileEntry = files.find(f => f.path === absolutePath)
-            if (fileEntry)
-              fileEntry.code = content
-            if (outFile === absolutePath)
-              fileCache.set(outFile, [{ path: absolutePath, code: content }])
-          }
-        }
+        // for (const [outFile, files] of fileCache.entries()) {
+        //   if (type.startsWith('unlink')) {
+        //     const newFiles = files.filter(f => f.id !== absolutePath)
+        //     if (newFiles.length !== files.length)
+        //       fileCache.set(outFile, newFiles)
+        //     if (outFile === absolutePath)
+        //       fileCache.delete(outFile)
+        //   }
+        //   else {
+        //     const fileEntry = files.find(f => f.id === absolutePath)
+        //     if (fileEntry)
+        //       fileEntry.code = content
+        //     if (outFile === absolutePath)
+        //       fileCache.set(outFile, [{ id: absolutePath, code: content }])
+        //   }
+        // }
 
         if (type === 'add' || type === 'unlink') {
           fileCache.clear()
-          for (const entry of options.entries) {
-            const files = await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })
-            const isAllCSS = files.every(f => f.endsWith('.css'))
-
-            for (const file of files) {
-              const code = await fs.readFile(file, 'utf8')
-              if (!isAllCSS && file.endsWith('.css')) {
-                const fileWithUno = file.replace(/\.css$/, '-uno.css')
-                fileCache.set(fileWithUno, [{ path: file, code }])
-              }
-              else {
-                const outFile = entry.outFile
-                const existing = fileCache.get(outFile) || []
-                existing.push({ path: file, code })
-                fileCache.set(outFile, existing)
-              }
-            }
-          }
+          await parseEntries(options, fileCache)
         }
       }
 
@@ -191,8 +207,8 @@ export async function build(_options: CliOptions) {
 
   function generate(options: ResolvedCliOptions) {
     return Promise.all(
-      Array.from(fileCache.entries()).map(([outFile, files]) =>
-        generateSingle(options, outFile, files),
+      Array.from(fileCache.entries()).map(([outFile, entries]) =>
+        generateSingle(options, outFile, entries),
       ),
     )
   }
@@ -200,16 +216,19 @@ export async function build(_options: CliOptions) {
 
 async function transformFiles(
   ctx: ReturnType<typeof createContext>,
-  sources: { id: string, code: string, transformedCode?: string | undefined }[],
+  sources: FileEntryItem[],
 ) {
   const run = (
-    sources: { id: string, code: string, transformedCode?: string | undefined }[],
+    sources: FileEntryItem[],
     enforce: SourceCodeTransformerEnforce,
   ) => Promise.all(
-    sources.map(({ id, code, transformedCode }) => new Promise<{ id: string, code: string, transformedCode: string | undefined }>((resolve) => {
-      applyTransformers(ctx, code, id, enforce)
+    sources.map(source => new Promise<FileEntryItem>((resolve) => {
+      applyTransformers(ctx, source.transformedCode ?? source.code, source.id, enforce)
         .then((transformsRes) => {
-          resolve({ id, code, transformedCode: transformsRes?.code || transformedCode })
+          resolve({
+            ...source,
+            transformedCode: transformsRes?.code ?? source.transformedCode,
+          })
         })
     })),
   )
@@ -221,48 +240,46 @@ async function transformFiles(
   return postTrans
 }
 
-async function generateSingle(options: ResolvedCliOptions, outFile: string, files: { path: string, code: string }[]) {
+async function generateSingle(options: ResolvedCliOptions, outFile: string, files: FileEntryItem[]) {
   const start = performance.now()
-  const isCSSFiles = files.every(f => f.path.endsWith('.css'))
   const { ctx } = options
-  const sourceCache = files.map(f => ({ id: f.path, code: f.code }))
-  const transformedFiles = await transformFiles(ctx, sourceCache)
-  // const realTransformedFiles = transformedFiles.filter(f => f.transformedCode) // actually transformed
+  const transformedFiles = await transformFiles(ctx, files)
+  const tokens = new Set<string>()
+  const rewriter = []
+  const css = []
+  let matchedLen = 0
 
-  let css, matched
+  for (const file of transformedFiles) {
+    const input = (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, '')
+    if (!input)
+      continue
 
-  if (isCSSFiles) {
-    css = transformedFiles
-      .map((f) => {
-        const code = (f.transformedCode || f.code).replace(SKIP_COMMENT_RE, '')
-        if (!code)
-          return undefined
-        return (process.env.CI || process.env.VITEST)
-          ? code
-          : `/* Source: ${f.id} */\n${code}`
-      })
-      .filter(Boolean)
-      .join('\n')
-  }
-  else {
-    const tokens = new Set<string>()
-
-    for (const file of transformedFiles) {
-      const input = (file.transformedCode || file.code).replace(SKIP_COMMENT_RE, '')
-      if (!input)
-        continue
-
-      const { matched } = await ctx.uno.generate(
+    if (file.id.endsWith('.css')) {
+      css.push(
+        (process.env.CI || process.env.VITEST)
+          ? input
+          : `/* Source: ${file.id} */\n${input}`.trim(),
+      )
+    }
+    else {
+      (await ctx.uno.generate(
         input,
         {
           preflights: false,
           minify: true,
           id: file.id,
         },
-      )
-      matched.forEach(i => tokens.add(i))
+      )).matched.forEach(i => tokens.add(i))
     }
 
+    if (file.rewrite && file.transformedCode) {
+      rewriter.push(fs.writeFile(file.id, file.transformedCode!, 'utf-8'))
+    }
+  }
+
+  await Promise.all(rewriter)
+
+  if (tokens.size > 0) {
     const result = await ctx.uno.generate(
       tokens,
       {
@@ -271,12 +288,14 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
       },
     )
 
-    css = result.css
-    matched = result.matched
+    css.push(result.css)
+    matchedLen = result.matched.size
   }
 
+  const finalCss = css.join('\n')
+
   if (options.stdout) {
-    process.stdout.write(css)
+    process.stdout.write(finalCss)
     return
   }
 
@@ -284,19 +303,7 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
   const dir = dirname(outFileResolved)
   if (!existsSync(dir))
     await fs.mkdir(dir, { recursive: true })
-  await fs.writeFile(outFileResolved, css, 'utf-8')
-
-  // update source file
-  if (options.rewrite || options.writeTransformed) {
-    await Promise.all(
-      transformedFiles
-        .filter(({ transformedCode }) => !!transformedCode)
-        .map(async ({ transformedCode, id }) => {
-          if (existsSync(id))
-            await fs.writeFile(id, transformedCode as string, 'utf-8')
-        }),
-    )
-  }
+  await fs.writeFile(outFileResolved, finalCss, 'utf-8')
 
   if (!options.watch) {
     if (options.debug) {
@@ -304,18 +311,17 @@ async function generateSingle(options: ResolvedCliOptions, outFile: string, file
     }
 
     const duration = (performance.now() - start).toFixed(2)
-    if (isCSSFiles) {
+
+    if (rewriter.length > 0) {
       consola.success(
-        `Transformed CSS generated to ${cyan(
-          relative(process.cwd(), outFileResolved),
-        )} in ${duration}ms\n`,
+        `${rewriter.length} file${rewriter.length > 1 ? 's' : ''} rewritten in ${green(duration)}ms`,
       )
     }
-    else {
+    if (matchedLen > 0) {
       consola.success(
-        `${[...matched!].length} utilities generated to ${cyan(
+        `${matchedLen} utilities generated to ${cyan(
           relative(process.cwd(), outFileResolved),
-        )} in ${duration}ms\n`,
+        )} in ${green(duration)}ms\n`,
       )
     }
   }
