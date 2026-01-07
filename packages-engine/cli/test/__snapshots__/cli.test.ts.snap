@@ -1,5 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`cli > @unocss-skip uno.css 1`] = `
+"/* layer: default */
+.w-10{width:2.5rem;}
+.p-4{padding:1rem;}"
+`;
+
 exports[`cli > builds scan and transform *.css 1`] = `
 ".btn {
     --un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity)) /* #f87171 */;padding:0.5rem;
@@ -15,6 +21,19 @@ exports[`cli > builds uno.css 1`] = `
 .max-w-screen-md{max-width:768px;}
 .p-4{padding:1rem;}"
 `;
+
+exports[`cli > should correctly deduplicate files of different types containing @media 1`] = `
+"@media (min-width: 640px){.box{padding:0.5rem;}}
+/* layer: default */
+@media (min-width: 768px){
+.md\\:p-4{padding:1rem;}
+}
+@media (min-width: 1024px){
+.lg\\:p-8{padding:2rem;}
+}"
+`;
+
+exports[`cli > should correctly deduplicate files of different types containing @media 2`] = `"@media (min-width: 640px){.box{padding:0.5rem;}}"`;
 
 exports[`cli > supports directives transformer 1`] = `".btn-center{margin-top:0;margin-bottom:0;text-align:center;font-weight:500;}"`;
 

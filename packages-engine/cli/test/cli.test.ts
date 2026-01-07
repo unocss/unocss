@@ -86,31 +86,37 @@ describe('cli', () => {
     expect(transform).toMatchSnapshot()
   })
 
-  // it('uno.css exclude initialized class after changing file', async () => {
-  //   const fileName = 'views/index.html'
-  //   const initializedContent = '<div class="bg-blue"></div>'
-  //   const changedContent = '<div class="bg-red"></div>'
-  //   const testDir = getTestDir()
-  //   const absolutePathOfFile = resolve(testDir, fileName)
-  //   await fs.outputFile(absolutePathOfFile, initializedContent)
-  //   await runAsyncChildProcess(testDir, 'views/**/*', '-w')
-  //   const outputPath = resolve(testDir, 'uno.css')
-  //   for (let i = 50; i >= 0; i--) {
-  //     await sleep(50)
-  //     if (fs.existsSync(outputPath))
-  //       break
-  //   }
-  //   await fs.writeFile(absolutePathOfFile, changedContent)
-  //   // polling until update
-  //   for (let i = 100; i >= 0; i--) {
-  //     await sleep(100)
-  //     const output = await readFile(testDir)
-  //     if (i === 0 || output.includes('.bg-red')) {
-  //       expect(output).toContain('.bg-red')
-  //       break
-  //     }
-  //   }
-  // })
+  it('uno.css exclude initialized class after changing file', async () => {
+    const fileName = 'views/index.html'
+    const initializedContent = '<div class="bg-blue"></div>'
+    const testDir = getTestDir()
+    const absolutePathOfFile = resolve(testDir, fileName)
+    await fs.outputFile(absolutePathOfFile, initializedContent)
+    await runAsyncChildProcess(testDir, 'views/**/*', '--preset', 'wind3', '-w')
+    const outputPath = resolve(testDir, 'uno.css')
+
+    for (let i = 50; i >= 0; i--) {
+      await sleep(50)
+      if (fs.existsSync(outputPath))
+        break
+    }
+
+    const output = await readFile(testDir)
+    expect(output).toContain('.bg-blue')
+
+    const changedContent = '<div class="bg-red"></div>'
+    await fs.writeFile(absolutePathOfFile, changedContent)
+
+    // polling until update
+    for (let i = 100; i >= 0; i--) {
+      await sleep(100)
+      const output = await readFile(testDir)
+      if (i === 0 || output.includes('.bg-red')) {
+        expect(output).toContain('.bg-red')
+        break
+      }
+    }
+  })
 
   it('supports unocss.config.js cli options', async () => {
     const testDir = getTestDir()
@@ -156,119 +162,80 @@ describe('cli', () => {
     expect(output2).toContain('.bg-red')
   })
 
-  // it('supports uno.config.ts changed rebuild', async () => {
-  //   const { output, testDir } = await runCli({
-  //     'views/index.html': '<div class="bg-foo"></div>',
-  //     'uno.config.ts': `
-  // import { defineConfig } from 'unocss'
-  // export default defineConfig({
-  //   theme: {
-  //     colors: {
-  //       foo: "red",
-  //     }
-  //   }
-  // })`.trim(),
-  //   }, { args: ['-w'] })
-  //   for (let i = 50; i >= 0; i--) {
-  //     await sleep(50)
-  //     if (output)
-  //       break
-  //   }
-  //   expect(output).toContain('.bg-foo{background-color:red /* red */;}')
-  //   await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
-  // import { defineConfig } from 'unocss'
-  // export default defineConfig({
-  //   theme: {
-  //     colors: {
-  //       foo: "blue",
-  //     }
-  //   }
-  // })
-  //     `)
-  //   for (let i = 100; i >= 0; i--) {
-  //     await sleep(500)
-  //     const outputChanged = await readFile(testDir as string)
-  //     if (i === 0 || outputChanged.includes('.bg-foo{background-color:blue /* blue */;}')) {
-  //       expect(outputChanged).toContain('.bg-foo{background-color:blue /* blue */;}')
-  //       break
-  //     }
-  //   }
-  // })
+  it('supports uno.config.ts changed rebuild', async () => {
+    const { output, testDir } = await runCli({
+      'views/index.html': '<div class="bg-foo"></div>',
+      'uno.config.ts': `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    theme: {
+      colors: {
+        foo: "red",
+      }
+    }
+  })`.trim(),
+    }, { args: ['-w'] })
 
-  // it('should correctly deduplicate files of different types containing @media', async () => {
-  //   const { output, transform } = await runCli(
-  //     {
-  //       'views/index1.html': '<div class="lg:p-8"></div>',
-  //       'views/index2.html': '<div class="md:p-4"></div>',
-  //       'views/index3.html': '<div class="box"></div>',
-  //       'views/index.css': '.box { @apply pd-6 sm:p-2; }',
-  //       'unocss.config.js': `
-  //           import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
-  //           export default defineConfig({
-  //             presets: [presetWind3()],
-  //             transformers: [transformerDirectives()]
-  //           })
-  //         `.trim(),
-  //     },
-  //     { transformFile: 'views/index.css', args: ['--rewrite'] },
-  //   )
+    expect(output).toContain('red')
 
-  //   expect(output).toMatchSnapshot()
-  //   expect(transform).toMatchSnapshot()
-  // })
+    await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    theme: {
+      colors: {
+        foo: "blue",
+      }
+    }
+  })
+      `)
+    for (let i = 50; i >= 0; i--) {
+      await sleep(500)
+      const outputChanged = await readFile(testDir as string)
+      if (i === 0 || outputChanged.includes('blue')) {
+        expect(outputChanged).toContain('blue')
+        break
+      }
+    }
+  })
 
-  //   it('@unocss-skip uno.css', async () => {
-  //     const { output } = await runCli({
-  //       'views/index.html': `
-  // import clsx from "clsx"
-  // import React, { useCallback, useEffect, useRef, useState } from "react"
+  it('should correctly deduplicate files of different types containing @media', async () => {
+    const { output, transform } = await runCli(
+      {
+        'views/index1.html': '<div class="lg:p-8"></div>',
+        'views/index2.html': '<div class="md:p-4"></div>',
+        'views/index3.html': '<div class="box"></div>',
+        'views/index.css': '.box { @apply pd-6 sm:p-2; }',
+        'unocss.config.js': `
+            import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
+            export default defineConfig({
+              presets: [presetWind3()],
+              transformers: [transformerDirectives()]
+            })
+          `.trim(),
+      },
+      { transformFile: 'views/index.css', args: ['--rewrite'] },
+    )
 
-  // const Navbar: React.FC<any> = ({
-  //   className,
-  //   children,
-  //   show,
-  //   id,
-  //   navbar,
-  //   tag: Tag = "div",
-  //   collapseRef,
-  //   style,
-  //   ...props
-  // }): JSX.Element => {
+    expect(output).toMatchSnapshot()
+    expect(transform).toMatchSnapshot()
+  })
 
-  //   const [showCollapse, setShowCollapse] = useState<boolean | undefined>(false)
-  //   //  @unocss-skip-start
-  //   const [transition, setTransition] = useState(false)
+  it('@unocss-skip uno.css', async () => {
+    const { output } = await runCli({
+      'views/index.html': `
+      <div class="p-4"></div>
+    // @unocss-skip-start
+      <div class="bg-red text-white"></div>
+    // @unocss-skip-end
+      <div className="w-10"></div>
+  `,
+    })
 
-  //   const classes = clsx(
-  //     transition ? "collapsing" : "collapse", // transition is not used in the app
-  //     !transition && showCollapse && "show", // transition is not used in the app
-  //     navbar && "navbar-collapse",
-  //     className
-  //   )
-  //   const handleResize = useCallback(() => {
-
-  //   }, [])
-
-  //   useEffect(() => {
-  //     window.addEventListener("resize", handleResize) // resize is not used in the app
-
-  //     return () => {
-  //       window.removeEventListener("resize", handleResize) // resize is not used in the app
-  //     }
-  //   }, [handleResize])
-  //   //  @unocss-skip-end
-
-  //   return (
-  //     <div className="w-10">
-
-  //     </div>
-  //   )
-  // }
-
-  // export default Navbar
-  // `,
-  //     })
-
-//     expect(output).toMatchSnapshot()
-//   })
+    expect(output).toContain('.p-4')
+    expect(output).toContain('.w-10')
+    expect(output).not.toContain('.bg-red')
+    expect(output).not.toContain('.text-white')
+  })
 })
