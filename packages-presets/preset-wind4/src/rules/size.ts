@@ -32,6 +32,9 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
       case 'min':
         v = `${prop}-content`
         break
+      case 'stretch':
+        v = 'stretch'
+        break
       case 'screen':
         v = hw === 'w' ? '100vw' : '100vh'
         break

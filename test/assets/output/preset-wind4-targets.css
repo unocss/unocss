@@ -916,6 +916,7 @@
 .max-w-lg{max-width:var(--container-lg);}
 .max-w-none{max-width:none;}
 .max-w-revert{max-width:revert;}
+.max-w-stretch{max-width:stretch;}
 .min-h-\[1px\]{min-height:1px;}
 .min-h-unset{min-height:unset;}
 .min-w-\$var{min-width:var(--var);}
@@ -937,6 +938,7 @@
 .w-auto{width:auto;}
 .w-lg{width:var(--container-lg);}
 .w-none{width:none;}
+.w-stretch{width:stretch;}
 .w-unset{width:unset;}
 .block-\[calc\(1000px-4rem\)\]{block-size:calc(1000px - 4rem);}
 .block-\$var{block-size:var(--var);}
