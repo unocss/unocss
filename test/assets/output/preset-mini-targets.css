@@ -239,6 +239,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .max-w-lg{max-width:32rem;}
 .max-w-none{max-width:none;}
 .max-w-revert{max-width:revert;}
+.max-w-stretch{max-width:stretch;}
 .min-h-\[1px\]{min-height:1px;}
 .min-h-unset{min-height:unset;}
 .min-w-\$var{min-width:var(--var);}
@@ -259,6 +260,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .w-21{width:5.25rem;}
 .w-auto{width:auto;}
 .w-lg{width:32rem;}
+.w-stretch{width:stretch;}
 .w-unset{width:unset;}
 .block-\[calc\(1000px-4rem\)\]{block-size:calc(1000px - 4rem);}
 .block-\$var{block-size:var(--var);}
