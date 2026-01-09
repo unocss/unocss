@@ -98,7 +98,7 @@ describe('cli', () => {
     expect(transform).toMatchSnapshot()
   })
 
-  it.skipIf(process.version.startsWith('v20'))('uno.css exclude initialized class after changing file', async () => {
+  it('uno.css exclude initialized class after changing file', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-blue"></div>',
     }, { args: ['--preset', 'wind3', '-w'] })

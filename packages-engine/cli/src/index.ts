@@ -120,8 +120,9 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
   }
 
   cache.clear()
-  for (const [key, value] of newCache)
+  for (const [key, value] of newCache) {
     cache.set(key, value)
+  }
 }
 
 export async function build(_options: CliOptions) {
