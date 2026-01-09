@@ -550,6 +550,18 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Include or exclude files as Vue SFCs,
+   * styles will be injected to these files in `vue-scoped` mode.
+   *
+   * Defaults to inherit from Vite Vue plugin settings.
+   *
+   * Also, make sure that these files are also included in the extraction pipeline.
+   *
+   * @see ContentOptions.pipeline
+   */
+  sfc?: SFCOptions
 }
 
 export interface OutputCssLayersOptions {
@@ -1034,4 +1046,22 @@ export interface GenerateOptions<T extends boolean> {
    * If return extended "matched" with payload and count
    */
   extendedInfo?: T
+}
+
+export interface SFCOptions {
+  /**
+   * Treat these files as Vue SFCs
+   *
+   * Defaults to inherit from Vite Vue plugin settings,
+   * or `/\.vue$/` if Vue plugin is not found.
+   */
+  include?: FilterPattern
+
+  /**
+   * Do not treat these files as Vue SFCs
+   *
+   * Defaults to inherit from Vite Vue plugin settings,
+   * or `undefined` if Vue plugin is not found.
+   */
+  exclude?: FilterPattern
 }
