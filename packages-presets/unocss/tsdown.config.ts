@@ -53,6 +53,7 @@ export default defineConfig([
       '@unocss/transformer-compile-class',
       '@unocss/transformer-directives',
       '@unocss/transformer-variant-group',
+      '@unocss/vite',
     ],
     attw: {
       profile: 'esm-only',
