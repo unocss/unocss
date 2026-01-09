@@ -14,6 +14,7 @@ export default defineConfig([
       'webpack',
       '@unocss/webpack',
       '@unocss/postcss',
+      '@unocss/core',
     ],
     failOnWarn: false,
   },
@@ -41,6 +42,7 @@ export default defineConfig([
       'astro',
       '@unocss/vite',
       '@unocss/astro',
+      '@unocss/core',
     ],
     attw: {
       profile: 'esm-only',

@@ -10,6 +10,7 @@ export default defineConfig({
   dts: true,
   external: [
     'vite',
+    '@unocss/core',
   ],
   alias: aliasVirtual,
   attw: {
