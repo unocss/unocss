@@ -44,7 +44,7 @@ catalogs:
     gzip-size: ^6.0.0
     rollup: ^4.54.0
     terser: ^5.44.1
-    tsdown: ^0.18.3
+    tsdown: https://pkg.pr.new/tsdown@703
     tsup: ^8.5.1
     webpack: ^5.104.1
     webpack-sources: ^3.3.3

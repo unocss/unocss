@@ -161,7 +161,6 @@
     "find-up": "catalog:utils",
     "jiti": "catalog:utils",
     "prettier": "catalog:utils",
-    "tsdown": "catalog:build",
     "unconfig": "catalog:utils",
     "unplugin-utils": "catalog:utils",
     "vscode-ext-gen": "catalog:utils"
