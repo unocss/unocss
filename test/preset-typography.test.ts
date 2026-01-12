@@ -206,7 +206,7 @@ describe('typography elements modify', () => {
     `)
   })
 
-  it('destruct nest css ', async () => {
+  it('destruct nest css', async () => {
     const uno = await createGenerator({
       presets: [
         presetWind3({ preflight: false }),
