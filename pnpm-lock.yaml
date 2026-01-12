@@ -1485,18 +1485,12 @@ importers:
 
   packages-presets/unocss:
     dependencies:
-      '@unocss/astro':
-        specifier: workspace:*
-        version: link:../../packages-integrations/astro
       '@unocss/cli':
         specifier: workspace:*
         version: link:../../packages-engine/cli
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-      '@unocss/postcss':
-        specifier: workspace:*
-        version: link:../../packages-integrations/postcss
       '@unocss/preset-attributify':
         specifier: workspace:*
         version: link:../preset-attributify
@@ -1543,12 +1537,15 @@ importers:
         specifier: workspace:*
         version: link:../../packages-integrations/vite
     devDependencies:
+      '@unocss/astro':
+        specifier: workspace:*
+        version: link:../../packages-integrations/astro
+      '@unocss/postcss':
+        specifier: workspace:*
+        version: link:../../packages-integrations/postcss
       '@unocss/webpack':
         specifier: workspace:*
         version: link:../../packages-integrations/webpack
-      vite:
-        specifier: ^7.3.0
-        version: 7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
   playground:
     devDependencies:

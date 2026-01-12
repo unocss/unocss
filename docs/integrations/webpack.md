@@ -21,19 +21,19 @@ This plugin does not come with any default presets.
 ::: code-group
 
 ```bash [pnpm]
-pnpm add -D @unocss/webpack
+pnpm add -D unocss @unocss/webpack
 ```
 
 ```bash [yarn]
-yarn add -D @unocss/webpack
+yarn add -D unocss @unocss/webpack
 ```
 
 ```bash [npm]
-npm install -D @unocss/webpack
+npm install -D unocss @unocss/webpack
 ```
 
 ```bash [bun]
-bun add -D @unocss/webpack
+bun add -D unocss @unocss/webpack
 ```
 
 :::
