@@ -72,18 +72,24 @@ export async function destructCSS(selector: string, css: string): Promise<string
     return code
   }
 
-  const Buffer = (await import('node:buffer')).Buffer
-  const { transform } = await import('lightningcss')
-  const result = transform({
-    code: Buffer.from(code),
-    filename: `${selector}.css`,
-    minify: false,
-    sourceMap: false,
-    targets: {
-      safari: (16 << 16),
-    },
-  })
+  try {
+    const Buffer = (await import('node:buffer')).Buffer
+    const { transform } = await import('lightningcss')
+    const result = transform({
+      code: Buffer.from(code),
+      filename: `${selector}.css`,
+      minify: false,
+      sourceMap: false,
+      targets: {
+        safari: (16 << 16),
+      },
+    })
 
-  return result.code.toString()
+    return result.code.toString()
+  }
+  catch (error) {
+    console.warn('[preset-typography] Failed to destruct nest CSS. Returning original CSS code.', error)
+    return code
+  }
 }
 // #endregion
