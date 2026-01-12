@@ -205,6 +205,27 @@ describe('typography elements modify', () => {
       [prose-headings\\:text-red=""] h1,[prose-headings\\:text-red=""] h2,[prose-headings\\:text-red=""] h3,[prose-headings\\:text-red=""] h4,[prose-headings\\:text-red=""] h5,[prose-headings\\:text-red=""] h6,[prose-headings\\:text-red=""] th{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}"
     `)
   })
+
+  it('destruct nest css', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3({ preflight: false }),
+        presetTypography({
+          compatibility: {
+            noColonIs: true,
+            noColonWhere: true,
+            noColonNot: true,
+            nestable: false,
+          },
+          important: '#app',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('<div class="prose prose-red prose-stone prose-lg"></div>', { preflights: false })
+
+    expect(css).toMatchFileSnapshot('./__snapshots__/typography-destruct-nest-css.css')
+  })
 })
 
 describe('typography with custom theme colors', () => {

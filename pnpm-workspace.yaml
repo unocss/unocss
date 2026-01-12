@@ -53,6 +53,7 @@ catalogs:
     '@csstools/normalize.css': ^12.1.1
     autoprefixer: ^10.4.23
     css-tree: ^3.1.0
+    lightningcss: ^1.30.2
     postcss: ^8.5.6
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0

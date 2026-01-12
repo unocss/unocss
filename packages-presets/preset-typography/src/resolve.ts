@@ -1,4 +1,5 @@
 import type { TypographyColorScheme, TypographyCSSObject, TypographyOptions, TypographySizeScheme } from './types'
+import { getEnvFlags } from '#integration/env'
 import { clone, mergeDeep, toArray } from '@unocss/core'
 import { defaultColorScheme, modifiers, ProseDefaultSize } from './constants'
 
@@ -57,6 +58,38 @@ export function getElements(modifier: string) {
   for (const [name, ...selectors] of modifiers) {
     if (name === modifier)
       return selectors.length > 0 ? selectors : [name]
+  }
+}
+// #endregion
+
+// #region Compatibility nest css
+export async function destructCSS(selector: string, css: string): Promise<string> {
+  const code = `${selector} { ${css} }`
+  const { isNode } = getEnvFlags()
+
+  if (!isNode) {
+    console.warn('[preset-typography] destruct nest CSS is only supported in Node environment. Returning original CSS code.')
+    return code
+  }
+
+  try {
+    const Buffer = (await import('node:buffer')).Buffer
+    const { transform } = await import('lightningcss')
+    const result = transform({
+      code: Buffer.from(code),
+      filename: `${selector}.css`,
+      minify: false,
+      sourceMap: false,
+      targets: {
+        safari: (16 << 16),
+      },
+    })
+
+    return result.code.toString()
+  }
+  catch (error) {
+    console.warn('[preset-typography] Failed to destruct nest CSS. Returning original CSS code.', error)
+    return code
   }
 }
 // #endregion

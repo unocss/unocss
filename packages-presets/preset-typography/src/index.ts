@@ -3,7 +3,7 @@ import type { TypographyCSSObject, TypographyOptions, TypographyTheme } from './
 import { definePreset, mergeDeep, symbols } from '@unocss/core'
 import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
-import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
+import { destructCSS, getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
 export * from './types'
 
@@ -30,6 +30,7 @@ export * from './types'
 export const presetTypography = definePreset(<Theme extends TypographyTheme = TypographyTheme>(options?: TypographyOptions<Theme>): Preset<Theme> => {
   const selectorName = options?.selectorName ?? 'prose'
   const disableNotUtility = options?.compatibility?.noColonNot || options?.compatibility?.noColonWhere
+  const nestable = options?.compatibility?.nestable ?? true
   const cssVarPrefix = options?.cssVarPrefix ?? '--un-prose'
   const resolvedColorScheme = resolveColorScheme(options?.colorScheme)
   const resolvedSizeScheme = resolveSizeScheme(options?.sizeScheme)
@@ -45,6 +46,11 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
       s = `:is(${s})`
     }
     return s
+  }
+  const selectorWithImportant = (name = selectorName) => {
+    return typeof options?.important === 'string'
+      ? `${options.important} .${name}`
+      : `.${name}`
   }
 
   // Regex
@@ -66,13 +72,16 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
     rules: [
       [
         defaultRE,
-        (_, { symbols, theme }) => {
+        async (_, { symbols, theme }) => {
           const entries = extended(mergeDeep(ProseDefaultCSSObject, ProseDefaultSize.base), theme)
           const css = getCSS(entries, options ?? {})
-          return {
-            [symbols.body]: css,
-            [symbols.selector]: normalizeSelector,
-          }
+
+          return nestable
+            ? {
+                [symbols.body]: css,
+                [symbols.selector]: normalizeSelector,
+              }
+            : await destructCSS(selectorWithImportant(), css)
         },
         { layer: 'typography', autocomplete: 'prose', internal: true },
       ],
@@ -124,13 +133,15 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
       // Size
       [
         sizeRE,
-        ([, size], { symbols, theme }) => {
+        async ([, size], { symbols, theme }) => {
           const css = getCSS(extended(resolvedSizeScheme[size], theme), options ?? {})
 
-          return {
-            [symbols.body]: css,
-            [symbols.selector]: normalizeSelector,
-          }
+          return nestable
+            ? {
+                [symbols.body]: css,
+                [symbols.selector]: normalizeSelector,
+              }
+            : await destructCSS(selectorWithImportant(`${selectorName}-${size}`), css)
         },
         { layer: 'typography', autocomplete: `${selectorName}-(${Object.keys(resolvedSizeScheme).join('|')})` },
       ],

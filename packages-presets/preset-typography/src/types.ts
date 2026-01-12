@@ -4,6 +4,17 @@ export interface TypographyCompatibilityOptions {
   noColonWhere?: boolean
   noColonIs?: boolean
   noColonNot?: boolean
+
+  /**
+   * Compatibility Mode
+   *
+   * This flattens nested CSS rules to improve compatibility with certain CSS processors.
+   *
+   * @default true
+   *
+   * ⚠️ Only supported in Node environment !!!
+   */
+  nestable?: boolean
 }
 
 export interface TypographyTheme {
