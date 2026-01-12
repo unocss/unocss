@@ -81,7 +81,7 @@ async function initializeConfig(options: CliOptions) {
 }
 
 async function parseEntries(options: ResolvedCliOptions, cache: Map<string, FileEntryItem[]>) {
-  cache.clear()
+  const newCache = new Map<string, FileEntryItem[]>()
 
   for (const entry of options.entries) {
     const { outFile, rewrite } = entry
@@ -91,9 +91,9 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
     const singleKey = outFile.replace(/(\.css)?$/, '-merged.css')
 
     const addToCache = (file: string, code: string, key: string) => {
-      const existing = cache.get(key) || []
+      const existing = newCache.get(key) || []
       existing.push({ id: file, code, rewrite })
-      cache.set(key, existing)
+      newCache.set(key, existing)
     }
 
     for (const file of otherFiles) {
@@ -117,6 +117,11 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
       }
       // false: discard CSS files
     }
+  }
+
+  cache.clear()
+  for (const [key, value] of newCache) {
+    cache.set(key, value)
   }
 }
 

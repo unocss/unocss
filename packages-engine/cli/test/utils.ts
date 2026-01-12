@@ -1,6 +1,9 @@
+import process from 'node:process'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { startCli } from '../src/cli-start'
+
+const isCI = !!process.env.CI
 
 export const tempDir = resolve('_temp')
 export const cli = resolve(__dirname, '../src/cli.ts')
@@ -49,22 +52,28 @@ export default defineConfig({
       `.trim()
   }
 
+  const fileName = options?.outFile || 'uno.css'
+
   await initOutputFiles(testDir, files)
   const process = runAsyncChildProcess(testDir, 'views/**/*', ...options?.args ?? [])
 
   if (options?.args?.includes('-w')) {
     while (true) {
-      await sleep(50)
-      const outFilePath = resolve(testDir, options?.outFile || 'uno.css')
-      if (fs.existsSync(outFilePath))
-        break
+      await sleep(isCI ? 1000 : 100)
+      const outFilePath = resolve(testDir, fileName)
+
+      if (fs.existsSync(outFilePath)) {
+        const content = await readFile(testDir, fileName)
+        if (content.length > 0)
+          break
+      }
     }
   }
   else {
     await process
   }
 
-  const output = await readFile(testDir, options?.outFile)
+  const output = await readFile(testDir, fileName)
 
   if (options?.transformFile) {
     const transform = await readFile(testDir, options.transformFile)

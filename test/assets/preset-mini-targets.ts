@@ -787,6 +787,10 @@ export const presetMiniTargets: string[] = [
   'intrinsic-size-200px',
   'intrinsic-size-1/2',
   'intrinsic-size-unset',
+  'intrinsic-w-200px',
+  'intrinsic-h-size-1/2',
+  'intrinsic-block-unset',
+  'intrinsic-inline-size-[auto 300px]',
 
   // svg
   'fill-none',

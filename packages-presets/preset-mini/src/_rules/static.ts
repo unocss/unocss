@@ -74,7 +74,19 @@ export const whitespaces: Rule[] = [
 ]
 
 export const contentVisibility: Rule[] = [
-  [/^intrinsic-size-(.+)$/, ([, d]) => ({ 'contain-intrinsic-size': h.bracket.cssvar.global.fraction.rem(d) }), { autocomplete: 'intrinsic-size-<num>' }],
+  [/^intrinsic(?:-(block|inline|w|h))?(?:-size)?-(.+)$/, ([, d, s]) => {
+    const sizeMap = {
+      block: 'block-size',
+      inline: 'inline-size',
+      w: 'width',
+      h: 'height',
+    }
+    return { [`contain-intrinsic-${sizeMap[d as keyof typeof sizeMap] ?? 'size'}`]: h.bracket.cssvar.global.fraction.rem(s) }
+  }, { autocomplete: [
+    'intrinsic-size-<num>',
+    'intrinsic-<num>',
+    'intrinsic-(block|inline|w|h)-<num>',
+  ] }],
   ['content-visibility-visible', { 'content-visibility': 'visible' }],
   ['content-visibility-hidden', { 'content-visibility': 'hidden' }],
   ['content-visibility-auto', { 'content-visibility': 'auto' }],

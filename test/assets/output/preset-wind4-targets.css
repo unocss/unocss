@@ -1017,10 +1017,14 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .whitespace-unset{white-space:unset;}
 .ws-nowrap{white-space:nowrap;}
 .ws-revert{white-space:revert;}
+.intrinsic-block-unset{contain-intrinsic-block-size:unset;}
+.intrinsic-h-size-1\/2{contain-intrinsic-height:50%;}
+.intrinsic-inline-size-\[auto\ 300px\]{contain-intrinsic-inline-size:auto 300px;}
 .intrinsic-size-1\/2{contain-intrinsic-size:50%;}
 .intrinsic-size-200{contain-intrinsic-size:50rem;}
 .intrinsic-size-200px{contain-intrinsic-size:200px;}
 .intrinsic-size-unset{contain-intrinsic-size:unset;}
+.intrinsic-w-200px{contain-intrinsic-width:200px;}
 .content-visibility-visible{content-visibility:visible;}
 .content-visibility-hidden{content-visibility:hidden;}
 .content-visibility-auto{content-visibility:auto;}
