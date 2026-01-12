@@ -56,8 +56,8 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
-    "@unocss/core": "workspace:*",
     "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
     "@unocss/reset": "workspace:*",
