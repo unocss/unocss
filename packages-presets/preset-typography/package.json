@@ -32,11 +32,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch"
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "@unocss/rule-utils": "workspace:*"
+    "@unocss/rule-utils": "workspace:*",
+    "lightningcss": "catalog:css"
   }
 }
