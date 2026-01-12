@@ -29,7 +29,7 @@ catalogs:
       specifier: ^5.44.1
       version: 5.44.1
     tsdown:
-      specifier: https://pkg.pr.new/tsdown@703
+      specifier: ^0.19.0
       version: 0.19.0
     tsup:
       specifier: ^8.5.1
@@ -455,7 +455,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:eslint
-        version: 6.7.3(@unocss/eslint-plugin@packages-integrations+eslint-plugin)(@vue/compiler-sfc@3.5.26)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(svelte-eslint-parser@1.4.1(svelte@5.46.1))(typescript@5.8.3)(vitest@4.0.16)
+        version: 6.7.3(@unocss/eslint-plugin@66.5.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(svelte-eslint-parser@1.4.1(svelte@5.46.1))(typescript@5.8.3)(vitest@4.0.16)
       '@antfu/ni':
         specifier: catalog:utils
         version: 28.0.0
@@ -543,81 +543,6 @@ importers:
       '@typescript/native-preview':
         specifier: catalog:typescript
         version: 7.0.0-dev.20251212.1
-      '@unocss/astro':
-        specifier: workspace:*
-        version: link:packages-integrations/astro
-      '@unocss/autocomplete':
-        specifier: workspace:*
-        version: link:packages-engine/autocomplete
-      '@unocss/cli':
-        specifier: workspace:*
-        version: link:packages-engine/cli
-      '@unocss/config':
-        specifier: workspace:*
-        version: link:packages-engine/config
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:packages-engine/core
-      '@unocss/eslint-plugin':
-        specifier: workspace:*
-        version: link:packages-integrations/eslint-plugin
-      '@unocss/extractor-pug':
-        specifier: workspace:*
-        version: link:packages-presets/extractor-pug
-      '@unocss/postcss':
-        specifier: workspace:*
-        version: link:packages-integrations/postcss
-      '@unocss/preset-attributify':
-        specifier: workspace:*
-        version: link:packages-presets/preset-attributify
-      '@unocss/preset-icons':
-        specifier: workspace:*
-        version: link:packages-presets/preset-icons
-      '@unocss/preset-legacy-compat':
-        specifier: workspace:*
-        version: link:packages-presets/preset-legacy-compat
-      '@unocss/preset-mini':
-        specifier: workspace:*
-        version: link:packages-presets/preset-mini
-      '@unocss/preset-tagify':
-        specifier: workspace:*
-        version: link:packages-presets/preset-tagify
-      '@unocss/preset-typography':
-        specifier: workspace:*
-        version: link:packages-presets/preset-typography
-      '@unocss/preset-uno':
-        specifier: workspace:*
-        version: link:packages-deprecated/preset-uno
-      '@unocss/preset-web-fonts':
-        specifier: workspace:*
-        version: link:packages-presets/preset-web-fonts
-      '@unocss/preset-wind':
-        specifier: workspace:*
-        version: link:packages-deprecated/preset-wind
-      '@unocss/preset-wind3':
-        specifier: workspace:*
-        version: link:packages-presets/preset-wind3
-      '@unocss/preset-wind4':
-        specifier: workspace:*
-        version: link:packages-presets/preset-wind4
-      '@unocss/reset':
-        specifier: workspace:*
-        version: link:packages-presets/reset
-      '@unocss/runtime':
-        specifier: workspace:*
-        version: link:packages-integrations/runtime
-      '@unocss/transformer-directives':
-        specifier: workspace:*
-        version: link:packages-presets/transformer-directives
-      '@unocss/transformer-variant-group':
-        specifier: workspace:*
-        version: link:packages-presets/transformer-variant-group
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:packages-integrations/vite
-      '@unocss/webpack':
-        specifier: workspace:*
-        version: link:packages-integrations/webpack
       '@vitejs/plugin-legacy':
         specifier: catalog:vite
         version: 7.2.1(terser@5.44.1)(vite@7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
@@ -743,7 +668,7 @@ importers:
         version: 0.2.15
       tsdown:
         specifier: catalog:build
-        version: https://pkg.pr.new/tsdown@703(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20251212.1)(synckit@0.11.11)(typescript@5.8.3)
+        version: 0.19.0(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20251212.1)(synckit@0.11.11)(typescript@5.8.3)
       tsx:
         specifier: catalog:typescript
         version: 4.21.0
@@ -1210,9 +1135,15 @@ importers:
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
       '@unocss/preset-uno':
         specifier: workspace:*
         version: link:../../packages-deprecated/preset-uno
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../packages-presets/reset
@@ -1235,6 +1166,9 @@ importers:
       svelte:
         specifier: catalog:svelte
         version: 5.46.1
+      vite:
+        specifier: ^7.3.0
+        version: 7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
   packages-integrations/vite:
     dependencies:
@@ -4449,6 +4383,21 @@ packages:
     resolution: {integrity: sha512-7BYjHfOaoZ9+ARJkT10Q2TjnTUqDXmMpfakIAsD/hXiuff1oqWg1xeXT5+MomhNcC15HbiABpbbBmITLSHxdKg==}
     peerDependencies:
       vue: '>=3.5.18'
+
+  '@unocss/config@66.5.12':
+    resolution: {integrity: sha512-rgV7Jj1nBZsLgk/FIFMDzKVLzIZlbKT5T0SB+odo9xZUsN5xwZZMl7I8TfZj5VxQaYqFEgSpS/Y4QCWlZ+7scQ==}
+    engines: {node: '>=14'}
+
+  '@unocss/core@66.5.12':
+    resolution: {integrity: sha512-/m6su0OXcCYRwIMf8sobBjZTC25iBLUnQVcfyvHOJwLJzOMr8dtNmZbqTs7+Kouz40jlPF7pR+ufFrN+s5ZD7g==}
+
+  '@unocss/eslint-plugin@66.5.12':
+    resolution: {integrity: sha512-dTJIiAetwq4YcxJo7O1L2DuBclrO6LcqnyGwcAregPFQ/EDUUhIIRtbQeHPIUKhiEpjURSSIXYJ6pkaR5XTm7A==}
+    engines: {node: '>=14'}
+
+  '@unocss/rule-utils@66.5.12':
+    resolution: {integrity: sha512-2UQvdjS6nD3QHLEwcXlDhXFNiOUQDuOC+itX4tjqvnjP/hj5A99WEUHemb8WEHAlHAt7khe9591+BkHHo3BX/w==}
+    engines: {node: '>=14'}
 
   '@vercel/nft@0.30.4':
     resolution: {integrity: sha512-wE6eAGSXScra60N2l6jWvNtVK0m+sh873CpfZW4KI2v8EHuUQp+mSEi4T+IcdPCSEDgCdAS/7bizbhQlkjzrSA==}
@@ -8988,9 +8937,8 @@ packages:
       typescript:
         optional: true
 
-  tsdown@https://pkg.pr.new/tsdown@703:
-    resolution: {tarball: https://pkg.pr.new/tsdown@703}
-    version: 0.19.0
+  tsdown@0.19.0:
+    resolution: {integrity: sha512-uqg8yzlS7GemFWcM6aCp/sptF4bJiJbWUibuHTRLLCBEsGCgJxuqxPhuVTqyHXqoEkh9ohwAdlyDKli5MEWCyQ==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -9974,7 +9922,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
 
-  '@antfu/eslint-config@6.7.3(@unocss/eslint-plugin@packages-integrations+eslint-plugin)(@vue/compiler-sfc@3.5.26)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(svelte-eslint-parser@1.4.1(svelte@5.46.1))(typescript@5.8.3)(vitest@4.0.16)':
+  '@antfu/eslint-config@6.7.3(@unocss/eslint-plugin@66.5.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(svelte-eslint-parser@1.4.1(svelte@5.46.1))(typescript@5.8.3)(vitest@4.0.16)':
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@clack/prompts': 0.11.0
@@ -10014,7 +9962,7 @@ snapshots:
       vue-eslint-parser: 10.2.0(eslint@9.39.2(jiti@2.6.1))
       yaml-eslint-parser: 1.3.2
     optionalDependencies:
-      '@unocss/eslint-plugin': link:packages-integrations/eslint-plugin
+      '@unocss/eslint-plugin': 66.5.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
       eslint-plugin-format: 1.1.0(eslint@9.39.2(jiti@2.6.1))
       svelte-eslint-parser: 1.4.1(svelte@5.46.1)
     transitivePeerDependencies:
@@ -12860,6 +12808,35 @@ snapshots:
       hookable: 5.5.3
       unhead: 2.0.19
       vue: 3.5.26(typescript@5.8.3)
+
+  '@unocss/config@66.5.12':
+    dependencies:
+      '@unocss/core': 66.5.12
+      unconfig: 7.4.2
+    optional: true
+
+  '@unocss/core@66.5.12':
+    optional: true
+
+  '@unocss/eslint-plugin@66.5.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)':
+    dependencies:
+      '@typescript-eslint/utils': 8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.8.3)
+      '@unocss/config': 66.5.12
+      '@unocss/core': 66.5.12
+      '@unocss/rule-utils': 66.5.12
+      magic-string: 0.30.21
+      synckit: 0.11.11
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
+    optional: true
+
+  '@unocss/rule-utils@66.5.12':
+    dependencies:
+      '@unocss/core': 66.5.12
+      magic-string: 0.30.21
+    optional: true
 
   '@vercel/nft@0.30.4(rollup@4.54.0)':
     dependencies:
@@ -18498,7 +18475,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  tsdown@https://pkg.pr.new/tsdown@703(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20251212.1)(synckit@0.11.11)(typescript@5.8.3):
+  tsdown@0.19.0(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20251212.1)(synckit@0.11.11)(typescript@5.8.3):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14

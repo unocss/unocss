@@ -8,11 +8,6 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
-  external: [
-    'magic-string',
-    '@babel/parser',
-    '@babel/traverse',
-  ],
   attw: {
     profile: 'esm-only',
   },

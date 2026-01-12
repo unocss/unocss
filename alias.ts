@@ -79,9 +79,9 @@ export const aliasDeprecated: Record<string, string> = {
 }
 
 export const alias: Record<string, string> = {
-  ...aliasEngine,
-  ...aliasIntegrations,
+  // ...aliasEngine,
+  // ...aliasIntegrations,
   ...aliasVirtual,
-  ...aliasPresets,
-  ...aliasDeprecated,
+  // ...aliasPresets,
+  // ...aliasDeprecated,
 }

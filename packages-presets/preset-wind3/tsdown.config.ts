@@ -13,9 +13,4 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    '@unocss/core',
-    '@unocss/preset-mini',
-    '@unocss/rule-utils',
-  ],
 })

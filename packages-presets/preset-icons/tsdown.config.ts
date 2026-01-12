@@ -10,14 +10,6 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
-  external: [
-    'ms',
-    'jiti',
-    'unconfig',
-    '@unocss/config',
-    '@unocss/core',
-    'magic-string',
-  ],
   attw: {
     profile: 'esm-only',
   },

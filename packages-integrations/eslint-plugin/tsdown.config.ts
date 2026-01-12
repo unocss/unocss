@@ -19,8 +19,6 @@ export default defineConfig([
     dts: true,
     format: ['esm', 'cjs'],
     external: [
-      '@typescript-eslint/utils/ts-eslint',
-      '@typescript-eslint/utils',
       '@typescript-eslint/types',
     ],
     alias: aliasVirtual,

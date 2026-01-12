@@ -8,57 +8,6 @@
     "module": "esnext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@unocss/autocomplete": [
-        "./packages-engine/autocomplete/src/"
-      ],
-      "@unocss/cli": [
-        "./packages-engine/cli/src/"
-      ],
-      "@unocss/config": [
-        "./packages-engine/config/src/"
-      ],
-      "@unocss/core": [
-        "./packages-engine/core/src/"
-      ],
-      "@unocss/astro": [
-        "./packages-integrations/astro/src/"
-      ],
-      "@unocss/eslint-config": [
-        "./packages-integrations/eslint-config/src/"
-      ],
-      "@unocss/eslint-plugin": [
-        "./packages-integrations/eslint-plugin/src/"
-      ],
-      "@unocss/inspector": [
-        "./packages-integrations/inspector/src/"
-      ],
-      "@unocss/nuxt": [
-        "./packages-integrations/nuxt/src/"
-      ],
-      "@unocss/postcss": [
-        "./packages-integrations/postcss/src/"
-      ],
-      "@unocss/postcss/esm": [
-        "./packages-integrations/postcss/src/esm.ts"
-      ],
-      "@unocss/runtime": [
-        "./packages-integrations/runtime/src/"
-      ],
-      "@unocss/scope": [
-        "./packages-integrations/scope/src/"
-      ],
-      "@unocss/svelte-scoped": [
-        "./packages-integrations/svelte-scoped/src/"
-      ],
-      "@unocss/vite": [
-        "./packages-integrations/vite/src/"
-      ],
-      "@unocss/vscode": [
-        "./packages-integrations/vscode/src/"
-      ],
-      "@unocss/webpack": [
-        "./packages-integrations/webpack/src/"
-      ],
       "#docs": [
         "./virtual-shared/docs/src/"
       ],
@@ -103,78 +52,6 @@
       ],
       "#integration/utils": [
         "./virtual-shared/integration/src/utils.ts"
-      ],
-      "@unocss/extractor-arbitrary-variants": [
-        "./packages-presets/extractor-arbitrary-variants/src/"
-      ],
-      "@unocss/extractor-mdc": [
-        "./packages-presets/extractor-mdc/src/"
-      ],
-      "@unocss/extractor-pug": [
-        "./packages-presets/extractor-pug/src/"
-      ],
-      "@unocss/extractor-svelte": [
-        "./packages-presets/extractor-svelte/src/"
-      ],
-      "@unocss/preset-attributify": [
-        "./packages-presets/preset-attributify/src/"
-      ],
-      "@unocss/preset-icons": [
-        "./packages-presets/preset-icons/src/"
-      ],
-      "@unocss/preset-mini": [
-        "./packages-presets/preset-mini/src/"
-      ],
-      "@unocss/preset-mini/*": [
-        "./packages-presets/preset-mini/src/*"
-      ],
-      "@unocss/preset-rem-to-px": [
-        "./packages-presets/preset-rem-to-px/src/"
-      ],
-      "@unocss/preset-tagify": [
-        "./packages-presets/preset-tagify/src/"
-      ],
-      "@unocss/preset-typography": [
-        "./packages-presets/preset-typography/src/"
-      ],
-      "@unocss/preset-web-fonts": [
-        "./packages-presets/preset-web-fonts/src/"
-      ],
-      "@unocss/preset-wind3": [
-        "./packages-presets/preset-wind3/src/"
-      ],
-      "@unocss/preset-wind3/*": [
-        "./packages-presets/preset-wind3/src/*"
-      ],
-      "@unocss/preset-wind4": [
-        "./packages-presets/preset-wind4/src/"
-      ],
-      "@unocss/rule-utils": [
-        "./packages-presets/rule-utils/src/"
-      ],
-      "@unocss/transformer-attributify-jsx": [
-        "./packages-presets/transformer-attributify-jsx/src/"
-      ],
-      "@unocss/transformer-compile-class": [
-        "./packages-presets/transformer-compile-class/src/"
-      ],
-      "@unocss/transformer-directives": [
-        "./packages-presets/transformer-directives/src/"
-      ],
-      "@unocss/transformer-variant-group": [
-        "./packages-presets/transformer-variant-group/src/"
-      ],
-      "unocss": [
-        "./packages-presets/unocss/src/"
-      ],
-      "unocss/vite": [
-        "./packages-presets/unocss/src/vite.ts"
-      ],
-      "@unocss/preset-uno": [
-        "./packages-deprecated/preset-uno/src/"
-      ],
-      "@unocss/preset-wind": [
-        "./packages-deprecated/preset-wind/src/"
       ]
     },
     "resolveJsonModule": true,

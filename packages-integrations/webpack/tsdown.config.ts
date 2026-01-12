@@ -9,10 +9,10 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
-  external: [
-    'vite',
-    'webpack',
-  ],
+  // external: [
+  //   'vite',
+  //   'webpack',
+  // ],
   alias: aliasVirtual,
   attw: {
     profile: 'esm-only',

@@ -8,10 +8,6 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    'vite',
-    '@unocss/core',
-  ],
   alias: aliasVirtual,
   attw: {
     profile: 'esm-only',
