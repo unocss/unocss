@@ -191,7 +191,7 @@ describe('cli watch mode', () => {
   it('uno.css exclude initialized class after changing file', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-blue"></div>',
-    }, { args: ['--preset', 'wind3', '-w'] })
+    }, { args: ['-w'] })
 
     expect(output).toContain('.bg-blue')
 
