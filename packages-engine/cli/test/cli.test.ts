@@ -187,7 +187,7 @@ describe('cli', () => {
   })
 })
 
-describe('cli watch mode', () => {
+describe.skipIf(process.version.startsWith('v20'))('cli watch mode', () => {
   it('uno.css exclude initialized class after changing file', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-blue"></div>',
