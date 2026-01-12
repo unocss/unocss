@@ -10,6 +10,7 @@ export default defineConfig({
   ],
   external: [
     'vscode',
+    'lightningcss',
   ],
   format: [
     'cjs',
