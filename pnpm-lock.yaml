@@ -1445,6 +1445,7 @@ importers:
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../rule-utils
+    optionalDependencies:
       lightningcss:
         specifier: catalog:css
         version: 1.30.2
@@ -15714,6 +15715,7 @@ snapshots:
       lightningcss-linux-x64-musl: 1.30.2
       lightningcss-win32-arm64-msvc: 1.30.2
       lightningcss-win32-x64-msvc: 1.30.2
+    optional: true
 
   lilconfig@3.1.3: {}
 
