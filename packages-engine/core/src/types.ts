@@ -560,6 +560,13 @@ export interface OutputCssLayersOptions {
    * Return `null` to specify that the layer should not be output to any css layer.
    */
   cssLayerName?: (internalLayer: string) => string | undefined | null
+
+  /**
+   * Force output all css layers, even if they are not used.
+   *
+   * @example `@layer theme, preflights, [unused-layer], default;`
+   */
+  allLayers?: boolean
 }
 
 export type AutoCompleteTemplate = string
