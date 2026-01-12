@@ -292,10 +292,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       )
     })()
 
-    const layers = this.config.sortLayers(Array
-      .from(layerSet)
-      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
-
+    const sortLayers = (layers: string[]) => this.config.sortLayers(layers.sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
+    const layers = sortLayers(Array.from(layerSet))
     const layerCache: Record<string, string> = {}
     const outputCssLayers = this.config.outputToCssLayers
     const getLayerAlias = (layer: string) => {
@@ -395,10 +393,17 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const getLayers = (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      return [
-        outputCssLayers && layers.length > 0 ? `@layer ${layers.map(getLayerAlias).filter(notNull).join(', ')};` : undefined,
-        ...layers.map(i => getLayer(i) || ''),
-      ].filter(Boolean).join(nl)
+      const css = layers.map(getLayer)
+
+      if (outputCssLayers) {
+        let layerNames = layers
+        if (typeof outputCssLayers === 'object' && outputCssLayers.allLayers) {
+          layerNames = sortLayers(Object.keys(this.config.layers))
+        }
+        if (layerNames.length > 0)
+          css.unshift(`@layer ${layerNames.map(getLayerAlias).filter(notNull).join(', ')};`)
+      }
+      return css.join(nl)
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
