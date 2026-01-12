@@ -393,7 +393,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const getLayers = (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      const css = layers.map(getLayer)
+      const css = layers.map(getLayer).filter(Boolean)
 
       if (outputCssLayers) {
         let layerNames = layers
