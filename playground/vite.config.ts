@@ -1,6 +1,6 @@
-import UnoCSS from '@unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import SimpleGit from 'simple-git'
+import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
