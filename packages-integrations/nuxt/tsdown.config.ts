@@ -7,14 +7,6 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
-  external: [
-    '@nuxt/schema',
-    '@nuxt/kit',
-    '@unocss/vite',
-    '@unocss/webpack',
-    'vite',
-    'webpack',
-  ],
   attw: {
     ignoreRules: [
       'false-export-default',

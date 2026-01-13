@@ -14,11 +14,6 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    '@unocss/core',
-    '@unocss/rule-utils',
-    '@unocss/extractor-arbitrary-variants',
-  ],
   alias: aliasVirtual,
   attw: {
     profile: 'esm-only',

@@ -8,9 +8,6 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    'vite',
-  ],
   alias: aliasVirtual,
   attw: {
     profile: 'esm-only',

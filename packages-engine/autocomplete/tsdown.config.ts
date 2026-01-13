@@ -9,8 +9,5 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
-  external: [
-    'pug',
-    '@unocss/core',
-  ],
+  external: ['@unocss/core'],
 })

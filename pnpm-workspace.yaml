@@ -44,7 +44,7 @@ catalogs:
     gzip-size: ^6.0.0
     rollup: ^4.54.0
     terser: ^5.44.1
-    tsdown: ^0.18.3
+    tsdown: ^0.19.0
     tsup: ^8.5.1
     webpack: ^5.104.1
     webpack-sources: ^3.3.3
@@ -80,7 +80,7 @@ catalogs:
     eslint-vitest-rule-tester: ^3.0.1
     svelte-eslint-parser: ^1.4.1
   frameworks:
-    astro: ^0.0.0-telefunc-20221130131719
+    astro: ^5.16.9
     react: ^18.3.1
   icons:
     '@iconify-json/carbon': ^1.2.15
@@ -111,6 +111,7 @@ catalogs:
     msw: ^2.7.0
     vitest: ^4.0.16
   types:
+    '@types/babel__traverse': ^7.28.0
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
     '@types/fs-extra': ^11.0.4

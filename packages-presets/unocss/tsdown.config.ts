@@ -10,11 +10,6 @@ export default defineConfig([
     clean: true,
     dts: true,
     format: ['esm', 'cjs'],
-    external: [
-      'webpack',
-      '@unocss/webpack',
-      '@unocss/postcss',
-    ],
     failOnWarn: false,
   },
   {
@@ -36,12 +31,7 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
-    external: [
-      'vite',
-      'astro',
-      '@unocss/vite',
-      '@unocss/astro',
-    ],
+    external: ['astro'],
     attw: {
       profile: 'esm-only',
     },
