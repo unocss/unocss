@@ -42,6 +42,7 @@
     "@unocss/core": "workspace:*"
   },
   "devDependencies": {
+    "@types/babel__traverse": "catalog:types",
     "magic-string": "catalog:utils"
   }
 }

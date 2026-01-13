@@ -111,6 +111,7 @@ catalogs:
     msw: ^2.7.0
     vitest: ^4.0.16
   types:
+    '@types/babel__traverse': ^7.28.0
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
     '@types/fs-extra': ^11.0.4
