@@ -1,0 +1,148 @@
+name: Build Artifacts Analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      # Package source changes
+      - 'packages-engine/*/src/**'
+      - 'packages-integrations/*/src/**'
+      - 'packages-presets/*/src/**'
+      - 'packages-engine/*/package.json'
+      - 'packages-integrations/*/package.json'
+      - 'packages-presets/*/package.json'
+      # Dependency changes
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      # Build configuration
+      - tsconfig.json
+      - scripts/postbuild.ts
+      - scripts/copy-files.ts
+
+concurrency:
+  group: artifacts-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build PR branch
+        run: pnpm build
+
+      - name: Analyze PR artifacts
+        run: node scripts/analyze-artifacts.ts analyze pr-artifacts.json
+        env:
+          GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
+
+      # Try to restore cached base artifacts report
+      - name: Restore base artifacts from cache
+        id: cache-base
+        uses: actions/cache/restore@v4
+        with:
+          path: base-artifacts.json
+          key: base-artifacts-${{ github.event.pull_request.base.sha }}
+
+      # Only build base branch if cache miss
+      - name: Checkout base branch
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: |
+          git clean -fdx
+          git checkout ${{ github.event.pull_request.base.sha }}
+
+      - name: Install dependencies (base)
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: pnpm install
+
+      - name: Build base branch
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: pnpm build
+
+      - name: Analyze base artifacts
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: node scripts/analyze-artifacts.ts analyze base-artifacts.json
+        env:
+          GITHUB_SHA: ${{ github.event.pull_request.base.sha }}
+
+      # Save base artifacts to cache for future runs
+      - name: Save base artifacts to cache
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: base-artifacts.json
+          key: base-artifacts-${{ github.event.pull_request.base.sha }}
+
+      # Checkout PR branch again only if we built base
+      - name: Checkout PR branch again for comparison
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: |
+          git clean -fdx
+          git checkout ${{ github.event.pull_request.head.sha }}
+
+      - name: Install dependencies for comparison
+        if: steps.cache-base.outputs.cache-hit != 'true'
+        run: pnpm install
+
+      - name: Generate comparison report
+        run: node scripts/analyze-artifacts.ts compare base-artifacts.json pr-artifacts.json comparison-report.md
+
+      - name: Read comparison report
+        id: report
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: comparison-report.md
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '## 📦 Build Artifacts Analysis'
+
+      - name: Create or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.report.outputs.content }}
+          edit-mode: replace
+
+      - name: Upload comparison report
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-comparison
+          path: |
+            base-artifacts.json
+            pr-artifacts.json
+            comparison-report.md
+          retention-days: 7
