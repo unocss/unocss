@@ -31,6 +31,7 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
+    external: ['astro'],
     attw: {
       profile: 'esm-only',
     },

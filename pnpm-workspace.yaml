@@ -80,7 +80,7 @@ catalogs:
     eslint-vitest-rule-tester: ^3.0.1
     svelte-eslint-parser: ^1.4.1
   frameworks:
-    astro: ^0.0.0-telefunc-20221130131719
+    astro: ^5.16.9
     react: ^18.3.1
   icons:
     '@iconify-json/carbon': ^1.2.15
