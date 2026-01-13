@@ -1,2 +1,2 @@
 export { UnocssSveltePreprocess as default } from './_preprocess/index'
-export * from './_preprocess/types.d.js'
+export type { SvelteScopedContext, TransformApplyOptions, TransformClassesOptions, TransformDirectivesOptions, UnocssSveltePreprocessOptions } from './_preprocess/types.d.js'
