@@ -294,7 +294,7 @@ Prefix for generated CSS custom properties (CSS variables). This allows you to c
 - **Default:** `undefined`
 
 See [Compatibility options](#compatibility-options).
-:::warning
+::: warning
 Notice that it will affect some features.
 :::
 
@@ -303,7 +303,42 @@ interface TypographyCompatibilityOptions {
   noColonWhere?: boolean
   noColonIs?: boolean
   noColonNot?: boolean
+  /**
+   * @default true
+   */
+  nestable?: boolean
 }
+```
+
+### Nesting & Compatibility
+
+By default, this preset uses native CSS nesting. If you need to support older browsers or environments that generally lack CSS nesting support, you can force the preset to "un-nest" styles by setting `compatibility.nestable` to `false`.
+
+```ts
+presetTypography({
+  compatibility: {
+    nestable: false,
+  },
+})
+```
+
+When `nestable` is set to `false`, the preset utilizes `lightningcss` to flatten the CSS structure.
+
+#### Configuring `lightningcss`
+
+`lightningcss` is an **optional dependency**. If you enable `nestable: false`, please ensure:
+
+1. **Environment**: This feature is supported in Node.js environments.
+2. **Bundler Configuration**: Since `lightningcss` relies on native binaries, most bundlers (Vite, Rollup, etc.) cannot bundle it directly. You must exclude it from the bundle.
+
+```ts [vite.config.ts]
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      external: ['lightningcss'],
+    },
+  },
+})
 ```
 
 ## Example

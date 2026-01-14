@@ -14,6 +14,7 @@ export default defineConfig({
     '@unocss/webpack',
     'vite',
     'webpack',
+    'lightningcss',
   ],
   attw: {
     ignoreRules: [

@@ -5,6 +5,9 @@ export default defineConfig({
   entry: [
     'src/index.ts',
   ],
+  external: [
+    'lightningcss',
+  ],
   clean: true,
   dts: true,
 })
