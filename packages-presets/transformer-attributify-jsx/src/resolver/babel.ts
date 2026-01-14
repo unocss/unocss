@@ -1,28 +1,27 @@
 import type { AttributifyResolverParams } from '..'
-import { parse } from '@babel/parser'
-import _traverse from '@babel/traverse'
+import { parseSync } from 'oxc-parser'
+import { walk } from 'oxc-walker'
 
-// @ts-expect-error ignore
-const traverse = (_traverse.default || _traverse) as typeof _traverse
-
-export async function attributifyJsxBabelResolver(params: AttributifyResolverParams) {
-  const { code, uno, isBlocked } = params
+export async function attributifyJsxOxcResolver(params: AttributifyResolverParams) {
+  const { code, id, uno, isBlocked } = params
   const tasks: Promise<void>[] = []
-  const ast = parse(code.toString(), {
+  const ast = parseSync(id, code.toString(), {
     sourceType: 'module',
-    plugins: ['jsx', 'typescript'],
   })
 
   if (ast.errors?.length) {
-    throw new Error(`Babel parse errors:\n${ast.errors.join('\n')}`)
+    throw new Error(`Oxc parse errors:\n${ast.errors.join('\n')}`)
   }
 
-  traverse(ast, {
-    JSXAttribute(path) {
-      if (path.node.value === null) {
-        const attr = path.node.name.type === 'JSXNamespacedName'
-          ? `${path.node.name.namespace.name}:${path.node.name.name.name}`
-          : path.node.name.name
+  walk(ast.program, {
+    enter(node) {
+      if (node.type !== 'JSXAttribute')
+        return
+
+      if (node.value === null) {
+        const attr = node.name.type === 'JSXNamespacedName'
+          ? `${node.name.namespace.name}:${node.name.name.name}`
+          : node.name.name
 
         if (isBlocked(attr))
           return
@@ -30,7 +29,7 @@ export async function attributifyJsxBabelResolver(params: AttributifyResolverPar
         tasks.push(
           uno.parseToken(attr).then((matched) => {
             if (matched) {
-              code.appendRight(path.node.end!, '=""')
+              code.appendRight(node.end, '=""')
             }
           }),
         )
