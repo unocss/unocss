@@ -12,6 +12,10 @@ import process from 'node:process'
 import { sync as gzip } from 'gzip-size'
 import { glob } from 'tinyglobby'
 
+// ============================================================================
+// Type Definitions
+// ============================================================================
+
 interface FileInfo {
   path: string
   size: number
@@ -58,10 +62,34 @@ interface ComparisonResult {
   anomalyReasons: string[]
 }
 
-// Anomaly thresholds
-const SIZE_INCREASE_THRESHOLD = 0.1 // 10% size increase is anomalous
-const FILE_COUNT_INCREASE_THRESHOLD = 5 // More than 5 new files is anomalous
-const ABSOLUTE_SIZE_INCREASE_THRESHOLD = 50 * 1024 // 50KB absolute increase is anomalous
+// ============================================================================
+// Constants
+// ============================================================================
+
+const ANOMALY_THRESHOLDS = {
+  SIZE_INCREASE_PERCENT: 0.1, // 10%
+  FILE_COUNT_INCREASE: 5,
+  ABSOLUTE_SIZE_INCREASE: 50 * 1024, // 50KB
+} as const
+
+const PACKAGE_PATTERNS = [
+  'packages-engine/*',
+  'packages-integrations/*',
+  'packages-presets/*',
+] as const
+
+const FILE_PATTERNS = ['**/*.{js,mjs,cjs,d.ts,d.mts,d.cts,css,json}'] as const
+
+const SIZE_UNITS = {
+  KB: 1024,
+  MB: 1024 * 1024,
+} as const
+
+const GITHUB_REPO = 'unocss/unocss' as const
+
+// ============================================================================
+// File Analysis
+// ============================================================================
 
 async function getFileInfo(filePath: string): Promise<FileInfo> {
   const content = await fs.readFile(filePath)
@@ -71,6 +99,17 @@ async function getFileInfo(filePath: string): Promise<FileInfo> {
     path: filePath,
     size: stats.size,
     gzipSize: gzip(content),
+  }
+}
+
+async function getPackageName(packagePath: string): Promise<string> {
+  const packageJsonPath = path.join(packagePath, 'package.json')
+  try {
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
+    return packageJson.name || path.basename(packagePath)
+  }
+  catch {
+    return path.basename(packagePath)
   }
 }
 
@@ -84,18 +123,8 @@ async function analyzePackage(packagePath: string): Promise<PackageArtifacts | n
     return null
   }
 
-  const packageJsonPath = path.join(packagePath, 'package.json')
-  let packageName = path.basename(packagePath)
-
-  try {
-    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
-    packageName = packageJson.name || packageName
-  }
-  catch {
-    // Use folder name as fallback
-  }
-
-  const files = await glob(['**/*.{js,mjs,cjs,d.ts,d.mts,d.cts,css,json}'], {
+  const packageName = await getPackageName(packagePath)
+  const files = await glob(FILE_PATTERNS, {
     cwd: distPath,
     absolute: true,
     expandDirectories: false,
@@ -130,11 +159,7 @@ async function analyzePackage(packagePath: string): Promise<PackageArtifacts | n
 }
 
 async function analyzeAllPackages(): Promise<ArtifactsReport> {
-  const packageDirs = await glob([
-    'packages-engine/*',
-    'packages-integrations/*',
-    'packages-presets/*',
-  ], {
+  const packageDirs = await glob(PACKAGE_PATTERNS, {
     cwd: process.cwd(),
     onlyDirectories: true,
     expandDirectories: false,
@@ -210,27 +235,13 @@ function compareReports(before: ArtifactsReport, after: ArtifactsReport): Compar
     fileChanges.sort((a, b) => Math.abs(b.sizeDiff) - Math.abs(a.sizeDiff))
 
     // Check for anomalies
-    const anomalyReasons: string[] = []
-
-    if (sizeDiffPercent > SIZE_INCREASE_THRESHOLD * 100 && sizeDiff > 1024) {
-      anomalyReasons.push(`Size increased by ${sizeDiffPercent.toFixed(1)}%`)
-    }
-
-    if (sizeDiff > ABSOLUTE_SIZE_INCREASE_THRESHOLD) {
-      anomalyReasons.push(`Size increased by ${formatBytes(sizeDiff)}`)
-    }
-
-    if (fileCountDiff > FILE_COUNT_INCREASE_THRESHOLD) {
-      anomalyReasons.push(`${fileCountDiff} new files added`)
-    }
-
-    if (!beforePkg && afterPkg) {
-      anomalyReasons.push('New package detected')
-    }
-
-    if (beforePkg && !afterPkg) {
-      anomalyReasons.push('Package removed')
-    }
+    const anomalyReasons = detectAnomalies({
+      sizeDiff,
+      sizeDiffPercent,
+      fileCountDiff,
+      beforePkg,
+      afterPkg,
+    })
 
     results.push({
       packageName: name,
@@ -260,17 +271,51 @@ function compareReports(before: ArtifactsReport, after: ArtifactsReport): Compar
   return results
 }
 
+// ============================================================================
+// Anomaly Detection
+// ============================================================================
+
+interface AnomalyDetectionInput {
+  sizeDiff: number
+  sizeDiffPercent: number
+  fileCountDiff: number
+  beforePkg: PackageArtifacts | null
+  afterPkg: PackageArtifacts | null
+}
+
+function detectAnomalies(input: AnomalyDetectionInput): string[] {
+  const { sizeDiff, sizeDiffPercent, fileCountDiff, beforePkg, afterPkg } = input
+  const reasons: string[] = []
+
+  if (sizeDiffPercent > ANOMALY_THRESHOLDS.SIZE_INCREASE_PERCENT * 100 && sizeDiff > SIZE_UNITS.KB)
+    reasons.push(`Size increased by ${sizeDiffPercent.toFixed(1)}%`)
+
+  if (sizeDiff > ANOMALY_THRESHOLDS.ABSOLUTE_SIZE_INCREASE)
+    reasons.push(`Size increased by ${formatBytes(sizeDiff)}`)
+
+  if (fileCountDiff > ANOMALY_THRESHOLDS.FILE_COUNT_INCREASE)
+    reasons.push(`${fileCountDiff} new files added`)
+
+  if (!beforePkg && afterPkg)
+    reasons.push('New package detected')
+
+  if (beforePkg && !afterPkg)
+    reasons.push('Package removed')
+
+  return reasons
+}
+
+// ============================================================================
+// Formatting Utilities
+// ============================================================================
+
 function formatBytes(bytes: number): string {
   const absBytes = Math.abs(bytes)
-  if (absBytes < 1024) {
+  if (absBytes < SIZE_UNITS.KB)
     return `${bytes} B`
-  }
-  else if (absBytes < 1024 * 1024) {
-    return `${(bytes / 1024).toFixed(2)} KB`
-  }
-  else {
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
-  }
+  if (absBytes < SIZE_UNITS.MB)
+    return `${(bytes / SIZE_UNITS.KB).toFixed(2)} KB`
+  return `${(bytes / SIZE_UNITS.MB).toFixed(2)} MB`
 }
 
 function formatDiff(diff: number, percent: number): string {
@@ -278,30 +323,84 @@ function formatDiff(diff: number, percent: number): string {
     return '—'
 
   const sign = diff > 0 ? '+' : ''
-  const emoji = diff > 0 ? '📈' : '📉'
+  const emoji = diff > 0 ? '⬆️' : '⬇️'
   return `${sign}${formatBytes(diff)} (${sign}${percent.toFixed(1)}%) ${emoji}`
 }
+
+function formatPercent(percent: number): string {
+  if (percent === 0)
+    return '—'
+
+  const sign = percent > 0 ? '+' : ''
+  return `${sign}${percent.toFixed(1)}%`
+}
+
+function getFileChangeEmoji(file: FileChange): string {
+  if (file.isNew)
+    return '🆕 '
+  if (file.isRemoved)
+    return '🗑️ '
+  if (file.sizeDiff > 0)
+    return '⬆️ '
+  if (file.sizeDiff < 0)
+    return '⬇️ '
+  return ''
+}
+
+function getPackageStatusEmoji(comparison: ComparisonResult): string {
+  if (comparison.hasAnomaly)
+    return '🚨'
+  if (comparison.sizeDiff > 0)
+    return '📈'
+  if (comparison.sizeDiff < 0)
+    return '📉'
+  return '✅'
+}
+
+function formatSizeTransition(before: number, after: number, diff: number, percent: number): string {
+  if (diff === 0)
+    return formatBytes(after)
+  return `${formatBytes(before)} → ${formatBytes(after)} (${formatPercent(percent)})`
+}
+
+// ============================================================================
+// Markdown Report Generation
+// ============================================================================
 
 function generateMarkdownReport(comparisons: ComparisonResult[], beforeCommit: string, afterCommit: string): string {
   const lines: string[] = []
 
   lines.push('## 📦 Build Artifacts Analysis')
   lines.push('')
-  lines.push(`Comparing \`${beforeCommit.substring(0, 7)}\` → \`${afterCommit.substring(0, 7)}\``)
+
+  const beforeHash = beforeCommit.substring(0, 7)
+  const afterHash = afterCommit.substring(0, 7)
+  const beforeLink = `[\`${beforeHash}\`](https://github.com/${GITHUB_REPO}/commit/${beforeCommit})`
+  const afterLink = `[\`${afterHash}\`](https://github.com/${GITHUB_REPO}/commit/${afterCommit})`
+  lines.push(`Comparing ${beforeLink} → ${afterLink}`)
   lines.push('')
 
   // Summary section
   const anomalies = comparisons.filter(c => c.hasAnomaly)
   const totalSizeDiff = comparisons.reduce((sum, c) => sum + c.sizeDiff, 0)
   const totalGzipDiff = comparisons.reduce((sum, c) => sum + c.gzipDiff, 0)
+  const totalSizeBefore = comparisons.reduce((sum, c) => sum + (c.before?.totalSize || 0), 0)
+  const totalGzipBefore = comparisons.reduce((sum, c) => sum + (c.before?.totalGzipSize || 0), 0)
+  const totalSizeAfter = comparisons.reduce((sum, c) => sum + (c.after?.totalSize || 0), 0)
+  const totalGzipAfter = comparisons.reduce((sum, c) => sum + (c.after?.totalGzipSize || 0), 0)
+  const totalSizePercent = totalSizeBefore > 0 ? (totalSizeDiff / totalSizeBefore) * 100 : 0
+  const totalGzipPercent = totalGzipBefore > 0 ? (totalGzipDiff / totalGzipBefore) * 100 : 0
+
+  const totalSizeStr = formatSizeTransition(totalSizeBefore, totalSizeAfter, totalSizeDiff, totalSizePercent)
+  const totalGzipStr = formatSizeTransition(totalGzipBefore, totalGzipAfter, totalGzipDiff, totalGzipPercent)
 
   lines.push('### 📊 Summary')
   lines.push('')
   lines.push(`| Metric | Value |`)
   lines.push(`|--------|-------|`)
   lines.push(`| Packages analyzed | ${comparisons.length} |`)
-  lines.push(`| Total size change | ${formatDiff(totalSizeDiff, 0)} |`)
-  lines.push(`| Total gzip change | ${formatDiff(totalGzipDiff, 0)} |`)
+  lines.push(`| Total size | ${totalSizeStr} |`)
+  lines.push(`| Total gzip size | ${totalGzipStr} |`)
   lines.push(`| ⚠️ Anomalies | ${anomalies.length} |`)
   lines.push('')
 
@@ -344,15 +443,20 @@ function generateMarkdownReport(comparisons: ComparisonResult[], beforeCommit: s
   }
 
   // Detailed package reports
-  lines.push('### 📦 Package Details')
+  lines.push('<details>')
+  lines.push('<summary><strong>📦 Package Details</strong></summary>')
   lines.push('')
 
   for (const comparison of comparisons) {
-    const statusEmoji = comparison.hasAnomaly ? '🚨' : (comparison.sizeDiff > 0 ? '📈' : (comparison.sizeDiff < 0 ? '📉' : '✅'))
+    const statusEmoji = getPackageStatusEmoji(comparison)
     const openState = comparison.hasAnomaly ? ' open' : ''
 
+    // Format: Package Name — Current Size (Percent Change)
+    const currentSize = formatBytes(comparison.after?.totalSize || 0)
+    const percentInfo = comparison.sizeDiffPercent !== 0 ? ` (${formatPercent(comparison.sizeDiffPercent)})` : ''
+
     lines.push(`<details${openState}>`)
-    lines.push(`<summary>${statusEmoji} <strong>${comparison.packageName}</strong> — ${formatBytes(comparison.after?.totalSize || 0)} (gzip: ${formatBytes(comparison.after?.totalGzipSize || 0)})</summary>`)
+    lines.push(`<summary>${statusEmoji} <strong>${comparison.packageName}</strong> — ${currentSize}${percentInfo}</summary>`)
     lines.push('')
 
     if (!comparison.before) {
@@ -380,16 +484,7 @@ function generateMarkdownReport(comparisons: ComparisonResult[], beforeCommit: s
       lines.push('|------|--------|-------|------|')
 
       for (const file of comparison.fileChanges.slice(0, 20)) {
-        let prefix = ''
-        if (file.isNew)
-          prefix = '🆕 '
-        else if (file.isRemoved)
-          prefix = '🗑️ '
-        else if (file.sizeDiff > 0)
-          prefix = '📈 '
-        else if (file.sizeDiff < 0)
-          prefix = '📉 '
-
+        const prefix = getFileChangeEmoji(file)
         const diffStr = file.sizeDiff === 0 ? '—' : `${file.sizeDiff > 0 ? '+' : ''}${formatBytes(file.sizeDiff)}`
         lines.push(`| ${prefix}\`${file.path}\` | ${formatBytes(file.beforeSize)} | ${formatBytes(file.afterSize)} | ${diffStr} |`)
       }
@@ -407,55 +502,65 @@ function generateMarkdownReport(comparisons: ComparisonResult[], beforeCommit: s
     lines.push('')
   }
 
+  lines.push('</details>')
+
   return lines.join('\n')
 }
 
+// ============================================================================
+// CLI Commands
+// ============================================================================
+
+async function handleAnalyzeCommand(outputPath: string = 'artifacts-report.json'): Promise<void> {
+  const report = await analyzeAllPackages()
+  await fs.writeFile(outputPath, JSON.stringify(report, null, 2))
+  console.log(`Artifacts report saved to ${outputPath}`)
+  console.log(`Analyzed ${report.packages.length} packages`)
+}
+
+async function handleCompareCommand(beforePath: string, afterPath: string, outputPath: string = 'comparison-report.md'): Promise<void> {
+  const beforeReport: ArtifactsReport = JSON.parse(await fs.readFile(beforePath, 'utf8'))
+  const afterReport: ArtifactsReport = JSON.parse(await fs.readFile(afterPath, 'utf8'))
+
+  const comparisons = compareReports(beforeReport, afterReport)
+  const markdown = generateMarkdownReport(comparisons, beforeReport.commit, afterReport.commit)
+
+  await fs.writeFile(outputPath, markdown)
+  console.log(`Comparison report saved to ${outputPath}`)
+
+  // Output summary for GitHub Actions
+  const anomalies = comparisons.filter(c => c.hasAnomaly)
+  if (anomalies.length > 0) {
+    console.log(`::warning::Found ${anomalies.length} anomalies in build artifacts`)
+    for (const anomaly of anomalies)
+      console.log(`::warning::${anomaly.packageName}: ${anomaly.anomalyReasons.join(', ')}`)
+  }
+}
+
+function printUsage(): void {
+  console.log('Build Artifacts Analysis Tool')
+  console.log('')
+  console.log('Usage:')
+  console.log('  analyze-artifacts.ts analyze [output.json]    - Analyze current build')
+  console.log('  analyze-artifacts.ts compare <before.json> <after.json> [output.md] - Compare reports')
+}
+
 async function main() {
-  const command = process.argv[2]
+  const [command, ...args] = process.argv.slice(2)
 
   if (command === 'analyze') {
-    // Analyze current build and output JSON
-    const report = await analyzeAllPackages()
-    const outputPath = process.argv[3] || 'artifacts-report.json'
-    await fs.writeFile(outputPath, JSON.stringify(report, null, 2))
-    console.log(`Artifacts report saved to ${outputPath}`)
-    console.log(`Analyzed ${report.packages.length} packages`)
+    await handleAnalyzeCommand(args[0])
   }
   else if (command === 'compare') {
-    // Compare two reports and generate markdown
-    const beforePath = process.argv[3]
-    const afterPath = process.argv[4]
-    const outputPath = process.argv[5] || 'comparison-report.md'
-
+    const [beforePath, afterPath, outputPath] = args
     if (!beforePath || !afterPath) {
       console.error('Usage: analyze-artifacts.ts compare <before.json> <after.json> [output.md]')
       process.exit(1)
     }
-
-    const beforeReport: ArtifactsReport = JSON.parse(await fs.readFile(beforePath, 'utf8'))
-    const afterReport: ArtifactsReport = JSON.parse(await fs.readFile(afterPath, 'utf8'))
-
-    const comparisons = compareReports(beforeReport, afterReport)
-    const markdown = generateMarkdownReport(comparisons, beforeReport.commit, afterReport.commit)
-
-    await fs.writeFile(outputPath, markdown)
-    console.log(`Comparison report saved to ${outputPath}`)
-
-    // Output summary for GitHub Actions
-    const anomalies = comparisons.filter(c => c.hasAnomaly)
-    if (anomalies.length > 0) {
-      console.log(`::warning::Found ${anomalies.length} anomalies in build artifacts`)
-      for (const anomaly of anomalies) {
-        console.log(`::warning::${anomaly.packageName}: ${anomaly.anomalyReasons.join(', ')}`)
-      }
-    }
+    await handleCompareCommand(beforePath, afterPath, outputPath)
   }
   else {
-    console.log('Build Artifacts Analysis Tool')
-    console.log('')
-    console.log('Usage:')
-    console.log('  analyze-artifacts.ts analyze [output.json]    - Analyze current build')
-    console.log('  analyze-artifacts.ts compare <before.json> <after.json> [output.md] - Compare reports')
+    printUsage()
   }
 }
 
