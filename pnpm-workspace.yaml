@@ -34,9 +34,6 @@ overrides:
   which-typed-array: npm:@nolyfill/which-typed-array@^1.0.44
 
 catalogs:
-  babel:
-    '@babel/parser': 7.27.7
-    '@babel/traverse': 7.27.7
   build:
     '@jridgewell/remapping': ^2.3.5
     brotli-size: ^4.0.0
@@ -102,6 +99,9 @@ catalogs:
     nuxt: ^4.2.2
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.3.0
+  oxc:
+    oxc-parser: ^0.108.0
+    oxc-walker: ^0.6.0
   svelte:
     prettier-plugin-svelte: ^2.10.1
     svelte: ^5.46.3
@@ -111,7 +111,6 @@ catalogs:
     msw: ^2.7.0
     vitest: ^4.0.17
   types:
-    '@types/babel__traverse': ^7.28.0
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
     '@types/fs-extra': ^11.0.4
