@@ -2,7 +2,7 @@ import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type MagicString from 'magic-string'
 import { getEnvFlags } from '#integration/env'
 import { toArray } from '@unocss/core'
-import { attributifyJsxOxcResolver } from './resolver/babel'
+import { attributifyJsxOxcResolver } from './resolver/oxc'
 import { attributifyJsxRegexResolver } from './resolver/regex'
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
