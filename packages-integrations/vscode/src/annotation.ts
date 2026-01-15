@@ -109,14 +109,15 @@ export async function registerAnnotations(
       const remToPxRatio = docConfig.remToPxPreview
         ? docConfig.remToPxRatio
         : -1
-
       const positions = await getMatchedPositionsFromDoc(ctx.uno, doc)
+      // todo: types?
+      const spacingValue = (ctx.uno.config.theme as any)?.spacing?.DEFAULT as string | undefined
       const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
 
       const ranges: DecorationOptions[] = (
         await Promise.all(positions.map(async (i): Promise<DecorationOptions> => {
           try {
-            const md = await getPrettiedMarkdown(ctx!.uno, isAttributify ? [i[2], `[${i[2]}=""]`] : i[2], remToPxRatio)
+            const md = await getPrettiedMarkdown(ctx!.uno, isAttributify ? [i[2], `[${i[2]}=""]`] : i[2], remToPxRatio, spacingValue)
 
             if (docConfig.colorPreview) {
               const color = getColorString(md)
