@@ -11,18 +11,30 @@ export default defineConfig([
     format: ['esm', 'cjs'],
     failOnWarn: false,
     alias: aliasVirtual,
+    outExtensions(ctx) {
+      if (ctx.format === 'cjs') {
+        return {
+          js: '.js',
+          dts: '.d.ts',
+        }
+      }
+    },
   },
   {
     entry: [
       'src/index.ts',
     ],
     dts: true,
+    format: ['esm', 'cjs'],
     external: [
       /postcss\/esm/,
     ],
     alias: aliasVirtual,
     attw: {
-      profile: 'esm-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
+    },
+    outputOptions: {
+      exports: 'named',
     },
   },
 ])

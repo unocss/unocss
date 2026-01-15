@@ -2,27 +2,30 @@
   "name": "unocss-next",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint"
   },
   "dependencies": {
-    "next": "15.3.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "next": "16.1.2",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@iconify-json/lucide": "^1.2.85",
-    "@types/node": "^25.0.8",
-    "@types/react": "^19.2.8",
-    "@types/react-dom": "^19.2.3",
-    "@unocss/postcss": "latest",
-    "@unocss/reset": "latest",
-    "eslint": "^9.39.2",
-    "eslint-config-next": "15.2.0",
-    "typescript": "5.2.2",
+    "@unocss/postcss": "file:../../packages-integrations/postcss/unocss-postcss-66.6.0.tgz",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.2",
+    "typescript": "^5",
     "unocss": "latest"
+  },
+  "pnpm": {
+    "overrides": {
+      "@unocss/postcss": "file:../../packages-integrations/postcss/unocss-postcss-66.6.0.tgz"
+    }
   }
 }
