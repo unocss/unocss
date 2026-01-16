@@ -24,7 +24,6 @@ packages:
   - test/fixtures/*
 
 overrides:
-  '@unocss/postcss': file:../../packages-integrations/postcss/unocss-postcss-66.6.0.tgz
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
   is-core-module: npm:@nolyfill/is-core-module@^1.0.39
   is-generator-function: npm:@nolyfill/is-generator-function@^1.0.44
