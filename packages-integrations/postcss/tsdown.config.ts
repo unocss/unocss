@@ -8,15 +8,23 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
-    format: ['esm', 'cjs'],
     failOnWarn: false,
     alias: aliasVirtual,
-    outExtensions(ctx) {
-      if (ctx.format === 'cjs') {
-        return {
-          js: '.js',
-          dts: '.d.ts',
-        }
+  },
+  {
+    name: 'CJS Dts only',
+    entry: [
+      'src/esm.ts',
+    ],
+    clean: false,
+    dts: {
+      emitDtsOnly: true,
+    },
+    failOnWarn: false,
+    alias: aliasVirtual,
+    outExtensions() {
+      return {
+        dts: '.d.ts',
       }
     },
   },
