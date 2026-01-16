@@ -13,19 +13,14 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.85",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@iconify-json/lucide": "^1.2.85",
     "@unocss/postcss": "file:../../packages-integrations/postcss/unocss-postcss-66.6.0.tgz",
     "eslint": "^9",
     "eslint-config-next": "16.1.2",
     "typescript": "^5",
     "unocss": "latest"
-  },
-  "pnpm": {
-    "overrides": {
-      "@unocss/postcss": "file:../../packages-integrations/postcss/unocss-postcss-66.6.0.tgz"
-    }
   }
 }
