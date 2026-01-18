@@ -10,7 +10,9 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
+  failOnWarn: true,
+  publint: true,
   attw: {
-    profile: 'esm-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

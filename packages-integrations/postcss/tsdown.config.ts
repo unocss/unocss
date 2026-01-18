@@ -8,8 +8,6 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
-    format: ['esm', 'cjs'],
-    failOnWarn: false,
     alias: aliasVirtual,
   },
   {
@@ -17,12 +15,18 @@ export default defineConfig([
       'src/index.ts',
     ],
     dts: true,
+    format: ['esm', 'cjs'],
     external: [
       /postcss\/esm/,
     ],
     alias: aliasVirtual,
+    outputOptions: {
+      exports: 'named',
+    },
+    failOnWarn: true,
+    publint: true,
     attw: {
-      profile: 'esm-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
 ])

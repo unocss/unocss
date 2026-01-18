@@ -88,6 +88,7 @@
     "premove": "catalog:utils",
     "prettier": "catalog:utils",
     "prettier-plugin-svelte": "catalog:svelte",
+    "publint": "catalog:utils",
     "react": "catalog:frameworks",
     "rollup": "catalog:build",
     "semver": "catalog:utils",

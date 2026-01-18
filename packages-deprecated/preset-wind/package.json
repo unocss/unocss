@@ -41,10 +41,11 @@
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
+        "./dist/*.d.mts",
         "./dist/*",
         "./*"
       ]

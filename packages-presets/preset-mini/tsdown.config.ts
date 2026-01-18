@@ -1,4 +1,3 @@
-import { isWindows } from 'std-env'
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
@@ -12,8 +11,9 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  failOnWarn: !isWindows,
+  failOnWarn: true,
+  publint: true,
   attw: {
-    profile: 'esm-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

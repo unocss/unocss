@@ -33,13 +33,15 @@
       "default": "./dist/esm.mjs"
     }
   },
-  "main": "dist/index.cjs",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "dist/*",
+        "./dist/*.d.mts",
+        "./dist/*.d.cts",
+        "./dist/*",
         "./*"
       ]
     }

@@ -1,10 +1,14 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  attw: { profile: 'esm-only' },
   entry: [
     'src/index.ts',
   ],
   clean: true,
   dts: true,
+  failOnWarn: true,
+  publint: true,
+  attw: {
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })
