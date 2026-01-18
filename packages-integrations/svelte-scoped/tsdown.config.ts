@@ -15,7 +15,9 @@ export default defineConfig({
     'vite',
   ],
   alias: aliasVirtual,
+  failOnWarn: true,
+  publint: true,
   attw: {
-    profile: 'esm-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

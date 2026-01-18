@@ -103,10 +103,12 @@
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
+        "./dist/*.d.mts",
+        "./dist/*.d.cts",
         "./dist/*",
         "./*"
       ]
@@ -123,22 +125,24 @@
     "dev": "tsdown --watch"
   },
   "peerDependencies": {
-    "@unocss/webpack": "workspace:*",
-    "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0"
+    "@unocss/astro": "workspace:*",
+    "@unocss/postcss": "workspace:*",
+    "@unocss/webpack": "workspace:*"
   },
   "peerDependenciesMeta": {
-    "@unocss/webpack": {
+    "@unocss/astro": {
       "optional": true
     },
-    "vite": {
+    "@unocss/postcss": {
+      "optional": true
+    },
+    "@unocss/webpack": {
       "optional": true
     }
   },
   "dependencies": {
-    "@unocss/astro": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/postcss": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
@@ -156,7 +160,8 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "@unocss/webpack": "workspace:*",
-    "vite": "catalog:vite"
+    "@unocss/astro": "workspace:*",
+    "@unocss/postcss": "workspace:*",
+    "@unocss/webpack": "workspace:*"
   }
 }

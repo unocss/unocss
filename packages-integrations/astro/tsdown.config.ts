@@ -9,7 +9,9 @@ export default defineConfig({
   dts: true,
   external: ['astro'],
   alias: aliasVirtual,
+  failOnWarn: true,
+  publint: true,
   attw: {
-    profile: 'esm-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

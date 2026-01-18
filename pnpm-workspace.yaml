@@ -122,8 +122,6 @@ catalogs:
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.27
     '@types/splitpanes': ^2.2.6
-    '@types/webpack': ^5.28.5
-    '@types/webpack-sources': ^3.2.3
     '@types/ws': ^8.18.1
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
   typescript:
@@ -161,6 +159,7 @@ catalogs:
     pnpm: ^10.28.0
     premove: ^4.0.0
     prettier: ^2.8.8
+    publint: ^0.3.16
     semver: ^7.7.3
     simple-git: ^3.30.0
     simple-git-hooks: ^2.13.1

@@ -36,14 +36,14 @@
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "dist",
     "runtime"
   ],
   "scripts": {
-    "build": "tsdown --config-loader unrun",
-    "dev": "tsdown --config-loader unrun --watch"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:nuxt",

@@ -9,4 +9,9 @@ export default defineConfig({
   clean: true,
   dts: true,
   alias,
+  failOnWarn: true,
+  publint: true,
+  attw: {
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })

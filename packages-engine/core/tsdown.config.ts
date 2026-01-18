@@ -1,7 +1,6 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  attw: { profile: 'esm-only' },
   entry: [
     'src/index.ts',
   ],
@@ -11,4 +10,9 @@ export default defineConfig({
     'unconfig',
     'magic-string',
   ],
+  failOnWarn: true,
+  publint: true,
+  attw: {
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })

@@ -39,6 +39,7 @@
   "typesVersions": {
     "*": {
       "*": [
+        "./dist/*.d.mts",
         "./dist/*",
         "./*"
       ]
