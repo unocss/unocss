@@ -8,21 +8,41 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
-    format: ['esm', 'cjs'],
     failOnWarn: false,
     alias: aliasVirtual,
+  },
+  {
+    name: 'CJS Dts only',
+    entry: [
+      'src/esm.ts',
+    ],
+    clean: false,
+    dts: {
+      emitDtsOnly: true,
+    },
+    failOnWarn: false,
+    alias: aliasVirtual,
+    outExtensions() {
+      return {
+        dts: '.d.ts',
+      }
+    },
   },
   {
     entry: [
       'src/index.ts',
     ],
     dts: true,
+    format: ['esm', 'cjs'],
     external: [
       /postcss\/esm/,
     ],
     alias: aliasVirtual,
     attw: {
-      profile: 'esm-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
+    },
+    outputOptions: {
+      exports: 'named',
     },
   },
 ])
