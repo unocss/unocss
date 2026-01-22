@@ -40,8 +40,6 @@
     }
   },
   "files": [
-    "*.css",
-    "*.d.ts",
     "dist"
   ],
   "scripts": {

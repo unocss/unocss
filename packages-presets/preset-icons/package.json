@@ -39,7 +39,6 @@
     }
   },
   "files": [
-    "*.css",
     "dist"
   ],
   "scripts": {
