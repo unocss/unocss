@@ -13,6 +13,7 @@ export default defineConfig({
   failOnWarn: true,
   publint: 'ci-only',
   attw: {
+    enabled: 'ci-only',
     ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

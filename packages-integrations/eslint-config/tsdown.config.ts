@@ -11,5 +11,5 @@ export default defineConfig({
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',
-  attw: true,
+  attw: 'ci-only',
 })
