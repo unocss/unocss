@@ -13,6 +13,7 @@ export default defineConfig({
   outputOptions: {
     exports: 'named',
   },
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: true,

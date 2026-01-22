@@ -9,6 +9,7 @@ export default defineConfig({
   dts: true,
   external: ['astro'],
   alias: aliasVirtual,
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {

@@ -32,6 +32,7 @@ export default defineConfig([
     clean: false,
     dts: true,
     external: ['astro', 'vite'],
+    exports: true,
     failOnWarn: true,
     publint: true,
     attw: {

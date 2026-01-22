@@ -10,6 +10,7 @@ export default defineConfig({
     'unconfig',
     'magic-string',
   ],
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {

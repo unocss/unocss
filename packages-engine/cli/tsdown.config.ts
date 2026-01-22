@@ -9,6 +9,9 @@ export default defineConfig({
   clean: true,
   dts: true,
   alias,
+  exports: {
+    exclude: ['cli'],
+  },
   failOnWarn: true,
   publint: true,
   attw: {

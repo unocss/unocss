@@ -15,6 +15,7 @@ export default defineConfig({
     'vite',
   ],
   alias: aliasVirtual,
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {

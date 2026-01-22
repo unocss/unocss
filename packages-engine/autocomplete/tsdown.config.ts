@@ -9,6 +9,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   external: ['@unocss/core'],
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {

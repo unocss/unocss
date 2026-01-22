@@ -10,6 +10,7 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {

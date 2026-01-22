@@ -11,6 +11,7 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  exports: true,
   failOnWarn: true,
   publint: true,
   attw: {
