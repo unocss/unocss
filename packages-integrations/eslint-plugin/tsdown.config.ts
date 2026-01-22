@@ -8,6 +8,7 @@ export default defineConfig([
     ],
     clean: true,
     alias: aliasVirtual,
+    exports: true,
   },
   {
     entry: [
@@ -26,6 +27,8 @@ export default defineConfig([
     exports: true,
     failOnWarn: true,
     publint: true,
-    attw: true,
+    attw: {
+      ignoreRules: ['cjs-resolves-to-esm'],
+    },
   },
 ])

@@ -22,6 +22,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./esm": "./dist/esm.mjs",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",

@@ -30,6 +30,10 @@
   "exports": {
     ".": "./dist/index.mjs",
     "./astro": "./dist/astro.mjs",
+    "./postcss": {
+      "import": "./dist/postcss.mjs",
+      "require": "./dist/postcss.cjs"
+    },
     "./preset-attributify": "./dist/preset-attributify.mjs",
     "./preset-icons": "./dist/preset-icons.mjs",
     "./preset-mini": "./dist/preset-mini.mjs",
@@ -41,9 +45,15 @@
     "./preset-wind3": "./dist/preset-wind3.mjs",
     "./preset-wind4": "./dist/preset-wind4.mjs",
     "./vite": "./dist/vite.mjs",
+    "./webpack": {
+      "import": "./dist/webpack.mjs",
+      "require": "./dist/webpack.cjs"
+    },
     "./package.json": "./package.json"
   },
-  "types": "dist/index.d.mts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [

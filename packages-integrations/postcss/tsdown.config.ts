@@ -9,6 +9,7 @@ export default defineConfig([
     clean: true,
     dts: true,
     alias: aliasVirtual,
+    exports: true,
   },
   {
     entry: [

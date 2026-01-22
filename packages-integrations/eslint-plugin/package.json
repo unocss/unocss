@@ -25,11 +25,20 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./worker": "./dist/worker.mjs",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],

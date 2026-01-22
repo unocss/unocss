@@ -11,6 +11,7 @@ export default defineConfig([
     dts: true,
     external: ['webpack'],
     format: ['esm', 'cjs'],
+    exports: true,
   },
   {
     name: 'ESM only',
