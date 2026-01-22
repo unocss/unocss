@@ -14,7 +14,7 @@ export default defineConfig({
   dts: true,
   exports: true,
   failOnWarn: true,
-  publint: true,
+  publint: 'ci-only',
   attw: {
     ignoreRules: ['cjs-resolves-to-esm'],
   },

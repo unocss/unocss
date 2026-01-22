@@ -10,6 +10,6 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   exports: true,
   failOnWarn: true,
-  publint: true,
+  publint: 'ci-only',
   attw: true,
 })
