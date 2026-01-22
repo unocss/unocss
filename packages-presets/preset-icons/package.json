@@ -24,7 +24,10 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": {
+      "browser": "./dist/browser.mjs",
+      "default": "./dist/index.mjs"
+    },
     "./browser": "./dist/browser.mjs",
     "./core": "./dist/core.mjs",
     "./package.json": "./package.json"
