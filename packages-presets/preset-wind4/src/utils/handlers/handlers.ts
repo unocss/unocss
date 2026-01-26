@@ -16,6 +16,7 @@ const cssProps = [
   'flex-grow',
   'flex',
   'flex-shrink',
+  'grid',
   'caret-color',
   'font',
   'gap',
