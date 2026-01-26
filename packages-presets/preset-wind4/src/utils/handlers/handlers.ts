@@ -17,6 +17,8 @@ const cssProps = [
   'flex',
   'flex-shrink',
   'grid',
+  'grid-template-columns',
+  'grid-template-rows',
   'caret-color',
   'font',
   'gap',
