@@ -550,6 +550,11 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * CSS loaders to process generated CSS
+   */
+  loaders?: CSSLoader[]
 }
 
 export interface OutputCssLayersOptions {
@@ -808,6 +813,12 @@ export interface SourceCodeTransformer {
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
+export interface CSSLoader {
+  name: string
+  order?: number
+  load: (css: string, layer: string) => Awaitable<string>
+}
+
 export interface ContentOptions {
   /**
    * Glob patterns to extract from the file system, in addition to other content sources.
@@ -916,8 +927,8 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
 export interface GenerateResult<T = Set<string>> {
   css: string
   layers: string[]
-  getLayer: (name?: string) => string | undefined
-  getLayers: (includes?: string[], excludes?: string[]) => string
+  getLayer: (name?: string) => Promise<string | undefined>
+  getLayers: (includes?: string[], excludes?: string[]) => Promise<string>
   setLayer: (layer: string, callback: (content: string) => Promise<string>) => Promise<string>
   matched: T
 }

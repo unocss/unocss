@@ -304,8 +304,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
-    const getLayer = (layer: string = LAYER_DEFAULT) => {
-      if (layerCache[layer])
+    const getLayer = async (layer: string = LAYER_DEFAULT) => {
+      if (layerCache[layer] != null)
         return layerCache[layer]
 
       let css = Array.from(sheet)
@@ -379,8 +379,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
           .join(nl)
       }
 
+      if (!css)
+        return layerCache[layer] = ''
+
       let alias
-      if (outputCssLayers && css) {
+      if (outputCssLayers) {
         alias = getLayerAlias(layer)
         if (alias !== null) {
           css = `@layer ${alias}{${nl}${css}${nl}}`
@@ -388,12 +391,25 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
-      return layerCache[layer] = css ? layerMark + css : ''
+      css = layerMark + css
+
+      if (this.config.loaders?.length) {
+        const sortedLoaders = this.config.loaders.slice().sort((a, b) => (a.order || 0) - (b.order || 0))
+        const applyLoaders = async (input: string) => {
+          let loadedcss = input
+          for (const loader of sortedLoaders) {
+            loadedcss = await loader.load(loadedcss, layer)
+          }
+          return loadedcss
+        }
+        return layerCache[layer] = await applyLoaders(css)
+      }
+      return layerCache[layer] = css
     }
 
-    const getLayers = (includes = layers, excludes?: string[]) => {
+    const getLayers = async (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      const css = layers.map(getLayer).filter(Boolean)
+      const css = (await Promise.all(layers.map(layer => getLayer(layer)))).filter(Boolean)
 
       if (outputCssLayers) {
         let layerNames = layers
@@ -407,13 +423,13 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
-      const content = await callback(getLayer(layer))
+      const content = await callback(await getLayer(layer))
       layerCache[layer] = content
       return content
     }
 
     return {
-      get css() { return getLayers() },
+      css: await getLayers(),
       layers,
       matched,
       getLayers,

@@ -206,7 +206,7 @@ describe('preset-wind4', () => {
     })
 
     const { getLayer } = await uno.generate('c-red mr-4')
-    const css = getLayer('theme')
+    const css = await getLayer('theme')
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
@@ -393,7 +393,7 @@ describe('preset-wind4', () => {
     })
 
     const { getLayer } = await uno.generate('')
-    const css = getLayer('theme')
+    const css = await getLayer('theme')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {

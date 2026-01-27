@@ -24,6 +24,7 @@ export const allPackages = [
   "@unocss/extractor-mdc",
   "@unocss/extractor-pug",
   "@unocss/extractor-svelte",
+  "@unocss/loader-lightningcss",
   "@unocss/preset-attributify",
   "@unocss/preset-icons",
   "@unocss/preset-legacy-compat",
@@ -46,6 +47,7 @@ export const allPackages = [
 export const bundlePackages = [
   "@unocss/autocomplete",
   "@unocss/core",
+  "@unocss/loader-lightningcss",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
   "@unocss/transformer-compile-class",
