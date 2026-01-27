@@ -17,7 +17,7 @@ import {
   resolveLayer,
 } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
-import { getPath, isCssId } from '#integration/utils'
+import { getPath, isCssId, replaceAsync } from '#integration/utils'
 import { createUnplugin } from 'unplugin'
 import WebpackSources from 'webpack-sources'
 
@@ -122,11 +122,11 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
               let escapeCss: ReturnType<typeof getCssEscaperForJsContent>
               let replaced = false
               code = code.replace(HASH_PLACEHOLDER_RE, '')
-              code = code.replace(LAYER_PLACEHOLDER_RE, (_, layer, escapeView) => {
+              code = await replaceAsync(code, LAYER_PLACEHOLDER_RE, async (_, layer, escapeView) => {
                 replaced = true
                 const css = layer.trim() === LAYER_MARK_ALL
-                  ? result.getLayers(undefined, resolvedLayers)
-                  : (result.getLayer(layer) || '')
+                  ? await result.getLayers(undefined, resolvedLayers)
+                  : (await result.getLayer(layer) || '')
 
                 escapeCss = escapeCss ?? getCssEscaperForJsContent(escapeView.trim())
 
@@ -175,8 +175,8 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         if (!layer)
           continue
         const code = layer === LAYER_MARK_ALL
-          ? result.getLayers(undefined, resolvedLayers)
-          : (result.getLayer(layer) || '')
+          ? await result.getLayers(undefined, resolvedLayers)
+          : (await result.getLayer(layer) || '')
 
         const hash = getHash(code)
         hashes.set(path, hash)

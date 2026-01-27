@@ -105,7 +105,7 @@ export const examples: Example[] = [
       'i-logos-vitejs',
       'i-ph-lightning text-yellow',
     ],
-    // lightingcss is not supported by stackblitz yet
+    // lightningcss is not supported by stackblitz yet
     // stackblitz: true,
   },
   {

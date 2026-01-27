@@ -41,7 +41,7 @@ export function restoreSkipCode(code: string, map: Map<string, string>) {
 }
 
 // https://github.com/dsblv/string-replace-async/blob/main/index.js
-export function replaceAsync(string: string, searchValue: RegExp, replacer: (...args: string[]) => Promise<string>) {
+export async function replaceAsync(string: string, searchValue: RegExp, replacer: (...args: string[]) => Promise<string>) {
   try {
     if (typeof replacer === 'function') {
       const values: Promise<string>[] = []

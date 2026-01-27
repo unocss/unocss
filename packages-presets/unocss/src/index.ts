@@ -2,6 +2,7 @@ import type { UserConfig } from '@unocss/core'
 import type { Theme } from '@unocss/preset-uno'
 
 export * from '@unocss/core'
+export { default as loaderLightningCSS } from '@unocss/loader-lightningcss'
 export { default as presetAttributify } from '@unocss/preset-attributify'
 export { default as presetIcons } from '@unocss/preset-icons'
 export { default as presetMini, type Theme as PresetMiniTheme } from '@unocss/preset-mini'
