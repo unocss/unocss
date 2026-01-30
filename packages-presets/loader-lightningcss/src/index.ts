@@ -2,6 +2,10 @@ import type { CSSLoader } from '@unocss/core'
 import type { CustomAtRules, TransformOptions } from 'lightningcss'
 import { getEnvFlags } from '#integration/env'
 
+let wasmInitPromise: Promise<void> | undefined
+const textEncoder = new TextEncoder()
+const textDecoder = new TextDecoder()
+
 export interface LoaderLightningCSSOptions extends Omit<TransformOptions<CustomAtRules>, 'code' | 'filename'> {
 
 }
@@ -30,15 +34,17 @@ export default function loaderLightningCSS(
         else {
           const { default: init, transform } = await import('lightningcss-wasm')
 
-          await init()
+          if (!wasmInitPromise)
+            wasmInitPromise = init()
+          await wasmInitPromise
 
           const result = transform({
-            code: new TextEncoder().encode(css),
+            code: textEncoder.encode(css),
             filename,
             ...options,
           })
 
-          return new TextDecoder().decode(result.code)
+          return textDecoder.decode(result.code)
         }
       }
       catch {

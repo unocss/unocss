@@ -1,39 +1,44 @@
-# @unocss/transformer-variant-group
+# @unocss/loader-lightningcss
 
 <!-- @unocss-ignore -->
 
-Enables the [variant group feature of Windi CSS](https://windicss.org/features/variant-groups.html) for UnoCSS.
+LightningCSS loader for UnoCSS. In Node environments it uses `lightningcss`, and in non-Node environments it falls back to `lightningcss-wasm`.
 
 ## Install
 
 ```bash
-npm i -D @unocss/transformer-variant-group
-```
-
-```ts
-import transformerVariantGroup from '@unocss/transformer-variant-group'
-// uno.config.ts
-import { defineConfig } from 'unocss'
-
-export default defineConfig({
-  // ...
-  transformers: [
-    transformerVariantGroup(),
-  ],
-})
+npm i -D @unocss/loader-lightningcss
 ```
 
 ## Usage
 
-```html
-<div class="hover:(bg-gray-400 font-medium) font-(light mono)" />
+```ts
+import loaderLightningCSS from '@unocss/loader-lightningcss'
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  // ...
+  loaders: [
+    loaderLightningCSS({
+      minify: true,
+      targets: {
+        // Example: modern browsers
+        chrome: 111,
+        safari: 15,
+      },
+    }),
+  ],
+})
 ```
 
-Will be transformed to:
+## Options
 
-```html
-<div class="hover:bg-gray-400 hover:font-medium font-light font-mono" />
-```
+The loader accepts all LightningCSS `TransformOptions` except `code` and `filename`.
+
+## Notes
+
+- In non-Node environments, the loader initializes `lightningcss-wasm` once and reuses it.
+- Ensure your bundler supports loading WASM when targeting browsers.
 
 ## License
 

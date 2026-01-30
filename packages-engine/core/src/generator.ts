@@ -402,7 +402,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
           return loadedcss
         }
-        return layerCache[layer] = await applyLoaders(css)
+        css = await applyLoaders(css)
       }
       return layerCache[layer] = css
     }
