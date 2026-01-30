@@ -22,25 +22,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./rspack": {
-      "import": {
-        "types": "./dist/rspack.d.mts",
-        "default": "./dist/rspack.mjs"
-      },
-      "require": {
-        "types": "./dist/rspack.d.cts",
-        "default": "./dist/rspack.cjs"
-      }
-    }
+      "import": "./dist/rspack.mjs",
+      "require": "./dist/rspack.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -49,7 +38,6 @@
     "*": {
       "*": [
         "./dist/*.d.cts",
-        "./dist/*",
         "./*"
       ]
     }
@@ -77,8 +65,6 @@
     "webpack-sources": "catalog:build"
   },
   "devDependencies": {
-    "@types/webpack": "catalog:types",
-    "@types/webpack-sources": "catalog:types",
     "webpack": "catalog:build"
   }
 }

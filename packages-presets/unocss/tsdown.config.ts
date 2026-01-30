@@ -9,8 +9,9 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
+    external: ['webpack'],
     format: ['esm', 'cjs'],
-    failOnWarn: false,
+    exports: true,
   },
   {
     name: 'ESM only',
@@ -31,9 +32,13 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
-    external: ['astro'],
+    external: ['astro', 'vite'],
+    exports: true,
+    failOnWarn: true,
+    publint: 'ci-only',
     attw: {
-      profile: 'esm-only',
+      enabled: 'ci-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
 ])

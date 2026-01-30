@@ -24,28 +24,20 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    },
-    "./local": {
-      "types": "./dist/local.d.mts",
-      "default": "./dist/local.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./local": "./dist/local.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.mts",
         "./*"
       ]
     }
   },
   "files": [
-    "*.css",
     "dist"
   ],
   "scripts": {

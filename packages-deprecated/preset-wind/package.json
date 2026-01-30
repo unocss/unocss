@@ -21,37 +21,22 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    },
-    "./theme": {
-      "types": "./dist/theme.d.mts",
-      "default": "./dist/theme.mjs"
-    },
-    "./colors": {
-      "types": "./dist/colors.d.mts",
-      "default": "./dist/colors.mjs"
-    },
-    "./utils": {
-      "types": "./dist/utils.d.mts",
-      "default": "./dist/utils.mjs"
-    },
-    "./*": "./*"
+    ".": "./dist/index.mjs",
+    "./colors": "./dist/colors.mjs",
+    "./theme": "./dist/theme.mjs",
+    "./utils": "./dist/utils.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.mts",
         "./*"
       ]
     }
   },
   "files": [
-    "*.css",
     "dist"
   ],
   "scripts": {

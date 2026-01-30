@@ -24,25 +24,18 @@
   ],
   "sideEffects": false,
   "exports": {
-    "./preprocess": {
-      "types": "./dist/preprocess.d.mts",
-      "default": "./dist/preprocess.mjs"
-    },
-    "./vite": {
-      "types": "./dist/vite.d.mts",
-      "default": "./dist/vite.mjs"
-    }
+    "./preprocess": "./dist/preprocess.mjs",
+    "./vite": "./dist/vite.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "./dist/vite.mjs",
-  "module": "./dist/vite.mjs",
-  "types": "./dist/vite.d.ts",
+  "types": "./dist/vite.d.mts",
   "typesVersions": {
     ">4.0": {
       "preprocess": [
-        "./dist/preprocess.d.ts"
+        "./dist/preprocess.d.mts"
       ],
       "vite": [
-        "./dist/vite.d.ts"
+        "./dist/vite.d.mts"
       ]
     }
   },
