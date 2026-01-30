@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@antfu/utils": "catalog:utils",
+    "@oxc-parser/binding-wasm32-wasi": "catalog:docs",
     "@shikijs/markdown-it": "catalog:docs",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",

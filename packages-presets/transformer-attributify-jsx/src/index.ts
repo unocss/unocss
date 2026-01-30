@@ -2,7 +2,7 @@ import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type MagicString from 'magic-string'
 import { getEnvFlags } from '#integration/env'
 import { toArray } from '@unocss/core'
-import { attributifyJsxBabelResolver } from './resolver/babel'
+import { attributifyJsxOxcResolver } from './resolver/oxc'
 import { attributifyJsxRegexResolver } from './resolver/regex'
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
@@ -94,11 +94,11 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       }
 
       try {
-        await attributifyJsxBabelResolver(params)
+        await attributifyJsxOxcResolver(params)
       }
       catch (error) {
         console.warn(
-          `[@unocss/transformer-attributify-jsx]: Babel resolver failed for "${id}", falling back to regex resolver:`,
+          `[@unocss/transformer-attributify-jsx]: Oxc resolver failed for "${id}", falling back to regex resolver:`,
           error,
         )
         await attributifyJsxRegexResolver(params)

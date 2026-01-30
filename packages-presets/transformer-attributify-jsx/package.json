@@ -37,12 +37,11 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
-    "@babel/parser": "catalog:babel",
-    "@babel/traverse": "catalog:babel",
-    "@unocss/core": "workspace:*"
+    "@unocss/core": "workspace:*",
+    "oxc-parser": "catalog:oxc",
+    "oxc-walker": "catalog:oxc"
   },
   "devDependencies": {
-    "@types/babel__traverse": "catalog:types",
     "magic-string": "catalog:utils"
   }
 }
