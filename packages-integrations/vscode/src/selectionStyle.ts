@@ -7,7 +7,7 @@ import prettier from 'prettier/standalone'
 import { MarkdownString, Position, Range, window } from 'vscode'
 import { getConfig } from './configs'
 import { log } from './log'
-import { addRemToPxComment, throttle } from './utils'
+import { addRemToPxComment, addSpacingToPxComment, throttle } from './utils'
 
 export async function registerSelectionStyle(loader: ContextLoader) {
   const config = getConfig()
@@ -42,6 +42,9 @@ export async function registerSelectionStyle(loader: ContextLoader) {
         ? config.remToPxRatio
         : -1
 
+      // todo: types?
+      const spacingValue = (ctx.uno.config.theme as any)?.spacing?.DEFAULT as string | undefined
+
       const result = await getMatchedPositionsFromCode(ctx.uno, code)
       if (result.length <= 1)
         return reset()
@@ -60,6 +63,7 @@ export async function registerSelectionStyle(loader: ContextLoader) {
           tokens.forEach(([, className, cssText, media]) => {
             if (className && cssText) {
               cssText = addRemToPxComment(cssText, remToPxRatio)
+              cssText = addSpacingToPxComment(cssText, spacingValue, remToPxRatio)
               const selector = className
                 .replace(`.${classNamePlaceholder}`, '&')
                 .replace(regexScopePlaceholder, ' ')
