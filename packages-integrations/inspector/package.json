@@ -40,10 +40,10 @@
     "@unocss/rule-utils": "workspace:*",
     "colorette": "catalog:utils",
     "gzip-size": "catalog:build",
-    "sirv": "catalog:utils",
-    "vue-flow-layout": "catalog:vue"
+    "sirv": "catalog:utils"
   },
   "devDependencies": {
-    "@vitejs/devtools-kit": "catalog:types"
+    "@vitejs/devtools-kit": "catalog:types",
+    "vue-flow-layout": "catalog:vue"
   }
 }

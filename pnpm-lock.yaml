@@ -1038,13 +1038,13 @@ importers:
       sirv:
         specifier: catalog:utils
         version: 3.0.2
-      vue-flow-layout:
-        specifier: catalog:vue
-        version: 0.2.0
     devDependencies:
       '@vitejs/devtools-kit':
         specifier: catalog:types
         version: 0.0.0-alpha.25(vite@7.3.1(@types/node@25.0.8)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      vue-flow-layout:
+        specifier: catalog:vue
+        version: 0.2.0
 
   packages-integrations/nuxt:
     dependencies:
