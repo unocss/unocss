@@ -24,6 +24,8 @@
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
+    "check:attw": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec attw --pack . --ignore-rules cjs-resolves-to-esm",
+    "check:publint": "pnpm -r --filter='./packages-*/*' exec publint --strict",
     "update:iconify-collections": "esno scripts/update-iconify-collections.ts"
   },
   "devDependencies": {
@@ -88,6 +90,7 @@
     "premove": "catalog:utils",
     "prettier": "catalog:utils",
     "prettier-plugin-svelte": "catalog:svelte",
+    "publint": "catalog:utils",
     "react": "catalog:frameworks",
     "rollup": "catalog:build",
     "semver": "catalog:utils",

@@ -25,32 +25,23 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
       "browser": "./dist/browser.mjs",
       "default": "./dist/index.mjs"
     },
-    "./browser": {
-      "types": "./dist/browser.d.mts",
-      "default": "./dist/browser.mjs"
-    },
-    "./core": {
-      "types": "./dist/core.d.mts",
-      "default": "./dist/core.mjs"
-    }
+    "./browser": "./dist/browser.mjs",
+    "./core": "./dist/core.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.mts",
         "./*"
       ]
     }
   },
   "files": [
-    "*.css",
     "dist"
   ],
   "scripts": {

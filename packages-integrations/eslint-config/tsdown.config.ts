@@ -8,4 +8,8 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: 'ci-only',
 })

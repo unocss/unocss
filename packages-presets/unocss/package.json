@@ -28,86 +28,37 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    },
-    "./preset-attributify": {
-      "types": "./dist/preset-attributify.d.mts",
-      "default": "./dist/preset-attributify.mjs"
-    },
-    "./preset-tagify": {
-      "types": "./dist/preset-tagify.d.mts",
-      "default": "./dist/preset-tagify.mjs"
-    },
-    "./preset-icons": {
-      "types": "./dist/preset-icons.d.mts",
-      "default": "./dist/preset-icons.mjs"
-    },
-    "./preset-mini": {
-      "types": "./dist/preset-mini.d.mts",
-      "default": "./dist/preset-mini.mjs"
-    },
-    "./preset-typography": {
-      "types": "./dist/preset-typography.d.mts",
-      "default": "./dist/preset-typography.mjs"
-    },
-    "./preset-uno": {
-      "types": "./dist/preset-uno.d.mts",
-      "default": "./dist/preset-uno.mjs"
-    },
-    "./preset-web-fonts": {
-      "types": "./dist/preset-web-fonts.d.mts",
-      "default": "./dist/preset-web-fonts.mjs"
-    },
-    "./preset-wind": {
-      "types": "./dist/preset-wind.d.mts",
-      "default": "./dist/preset-wind.mjs"
-    },
-    "./preset-wind3": {
-      "types": "./dist/preset-wind3.d.mts",
-      "default": "./dist/preset-wind3.mjs"
-    },
-    "./preset-wind4": {
-      "types": "./dist/preset-wind4.d.mts",
-      "default": "./dist/preset-wind4.mjs"
-    },
-    "./vite": {
-      "types": "./dist/vite.d.mts",
-      "default": "./dist/vite.mjs"
-    },
-    "./astro": {
-      "types": "./dist/astro.d.mts",
-      "default": "./dist/astro.mjs"
-    },
-    "./webpack": {
-      "import": {
-        "types": "./dist/webpack.d.mts",
-        "default": "./dist/webpack.mjs"
-      },
-      "require": {
-        "types": "./dist/webpack.d.cts",
-        "default": "./dist/webpack.cjs"
-      }
-    },
+    ".": "./dist/index.mjs",
+    "./astro": "./dist/astro.mjs",
     "./postcss": {
-      "import": {
-        "types": "./dist/postcss.d.mts",
-        "default": "./dist/postcss.mjs"
-      },
-      "require": {
-        "types": "./dist/postcss.d.cts",
-        "default": "./dist/postcss.cjs"
-      }
-    }
+      "import": "./dist/postcss.mjs",
+      "require": "./dist/postcss.cjs"
+    },
+    "./preset-attributify": "./dist/preset-attributify.mjs",
+    "./preset-icons": "./dist/preset-icons.mjs",
+    "./preset-mini": "./dist/preset-mini.mjs",
+    "./preset-tagify": "./dist/preset-tagify.mjs",
+    "./preset-typography": "./dist/preset-typography.mjs",
+    "./preset-uno": "./dist/preset-uno.mjs",
+    "./preset-web-fonts": "./dist/preset-web-fonts.mjs",
+    "./preset-wind": "./dist/preset-wind.mjs",
+    "./preset-wind3": "./dist/preset-wind3.mjs",
+    "./preset-wind4": "./dist/preset-wind4.mjs",
+    "./vite": "./dist/vite.mjs",
+    "./webpack": {
+      "import": "./dist/webpack.mjs",
+      "require": "./dist/webpack.cjs"
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.mts",
+        "./dist/*.d.cts",
         "./*"
       ]
     }
@@ -123,22 +74,24 @@
     "dev": "tsdown --watch"
   },
   "peerDependencies": {
-    "@unocss/webpack": "workspace:*",
-    "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0"
+    "@unocss/astro": "workspace:*",
+    "@unocss/postcss": "workspace:*",
+    "@unocss/webpack": "workspace:*"
   },
   "peerDependenciesMeta": {
-    "@unocss/webpack": {
+    "@unocss/astro": {
       "optional": true
     },
-    "vite": {
+    "@unocss/postcss": {
+      "optional": true
+    },
+    "@unocss/webpack": {
       "optional": true
     }
   },
   "dependencies": {
-    "@unocss/astro": "workspace:*",
     "@unocss/cli": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/postcss": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
@@ -156,7 +109,8 @@
     "@unocss/vite": "workspace:*"
   },
   "devDependencies": {
-    "@unocss/webpack": "workspace:*",
-    "vite": "catalog:vite"
+    "@unocss/astro": "workspace:*",
+    "@unocss/postcss": "workspace:*",
+    "@unocss/webpack": "workspace:*"
   }
 }
