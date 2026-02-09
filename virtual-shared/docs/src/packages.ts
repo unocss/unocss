@@ -13,6 +13,7 @@ export const allPackages = [
   "@unocss/eslint-config",
   "@unocss/eslint-plugin",
   "@unocss/inspector",
+  "@unocss/language-server",
   "@unocss/nuxt",
   "@unocss/postcss",
   "@unocss/runtime",
@@ -46,6 +47,7 @@ export const allPackages = [
 export const bundlePackages = [
   "@unocss/autocomplete",
   "@unocss/core",
+  "@unocss/language-server",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
   "@unocss/transformer-compile-class",

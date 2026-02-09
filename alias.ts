@@ -19,6 +19,7 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/eslint-config': r('./packages-integrations/eslint-config/src/'),
   '@unocss/eslint-plugin': r('./packages-integrations/eslint-plugin/src/'),
   '@unocss/inspector': r('./packages-integrations/inspector/src/'),
+  '@unocss/language-server': r('./packages-integrations/language-server/src/'),
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
