@@ -13,11 +13,13 @@ import { getColorString, getCSS, getPrettiedCSS, getPrettiedMarkdown, isVueWithP
 class UnoCompletionItem extends CompletionItem {
   uno: UnoGenerator
   value: string
+  spacingValue?: string
 
-  constructor(label: string, kind: CompletionItemKind, value: string, uno: UnoGenerator) {
+  constructor(label: string, kind: CompletionItemKind, value: string, uno: UnoGenerator, spacingValue?: string) {
     super(label, kind)
     this.uno = uno
     this.value = value
+    this.spacingValue = spacingValue
   }
 }
 
@@ -57,8 +59,8 @@ export async function registerAutoComplete(
     return autocomplete
   }
 
-  async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number) {
-    return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio))
+  async function getMarkdown(uno: UnoGenerator, util: string, remToPxRatio: number, spacingValue?: string) {
+    return new MarkdownString(await getPrettiedMarkdown(uno, util, remToPxRatio, spacingValue))
   }
 
   async function getSuggestionResult({
@@ -156,12 +158,14 @@ export async function registerAutoComplete(
         const completionItems: UnoCompletionItem[] = []
 
         const suggestions = result.suggestions.slice(0, config.autocompleteMaxItems)
+        // todo: types?
+        const spacingValue = (ctx.uno.config.theme as any)?.spacing?.DEFAULT as string | undefined
         const isAttributify = ctx.uno.config.presets.some(p => p.name === '@unocss/preset-attributify')
         for (const [value, label] of suggestions) {
           const css = await getCSS(ctx!.uno, isAttributify ? [value, `[${value}=""]`] : value)
           const colorString = getColorString(css)
           const itemKind = colorString ? CompletionItemKind.Color : CompletionItemKind.EnumMember
-          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno)
+          const item = new UnoCompletionItem(label, itemKind, value, ctx!.uno, spacingValue)
           const resolved = result.resolveReplacement(value)
 
           item.insertText = resolved.replacement
@@ -189,9 +193,9 @@ export async function registerAutoComplete(
         : -1
 
       if (item.kind === CompletionItemKind.Color)
-        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio)).prettified
+        item.detail = await (await getPrettiedCSS(item.uno, item.value, remToPxRatio, item.spacingValue)).prettified
       else
-        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio)
+        item.documentation = await getMarkdown(item.uno, item.value, remToPxRatio, item.spacingValue)
       return item
     },
   }
