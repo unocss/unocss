@@ -56,7 +56,7 @@ function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Them
   if (v != null) {
     const results = directionMap[d === 'x' ? 'inline' : 'block'].map((item, index): [string, string] => {
       const key = `margin${item}`
-      const value = ` calc(${v} * ${index === 0 ? `var(--un-space-${d}-reverse)` : `calc(1 - var(--un-space-${d}-reverse))`})`
+      const value = `calc(${v} * ${index === 0 ? `var(--un-space-${d}-reverse)` : `calc(1 - var(--un-space-${d}-reverse))`})`
       return [key, value]
     })
 
