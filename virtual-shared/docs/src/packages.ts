@@ -13,6 +13,7 @@ export const allPackages = [
   "@unocss/eslint-config",
   "@unocss/eslint-plugin",
   "@unocss/inspector",
+  "@unocss/language-server",
   "@unocss/nuxt",
   "@unocss/postcss",
   "@unocss/runtime",
