@@ -198,8 +198,8 @@ blocklist: [
 
 ```ts [uno.config.ts]
 blocklist: [
-  /^p-[2-4]$/,       // blocks p-2, p-3, p-4
-  /^border$/,        // blocks "border" but not "border-2"
+  /^p-[2-4]$/, // blocks p-2, p-3, p-4
+  /^border$/, // blocks "border" but not "border-2"
 ]
 ```
 
@@ -207,8 +207,8 @@ blocklist: [
 
 ```ts [uno.config.ts]
 blocklist: [
-  (s) => s.endsWith('px'),              // block all px-suffixed classes
-  (s) => s.split('-').length > 4,       // block deeply nested utilities
+  s => s.endsWith('px'), // block all px-suffixed classes
+  s => s.split('-').length > 4, // block deeply nested utilities
 ]
 ```
 
@@ -224,7 +224,7 @@ blocklist: [
   // dynamic message — receives the blocked selector
   [/^border(?:-[btrlxy])?$/, {
     // e.g. "border-y" → 'use shorter "b-y"'
-    message: (v) => `use shorter "${v.replace(/^border/, 'b')}"`
+    message: v => `use shorter "${v.replace(/^border/, 'b')}"`
   }],
 ]
 ```
@@ -275,18 +275,18 @@ When UnoCSS supports multiple syntaxes for the same CSS output, you can block th
 blocklist: [
   // "border" → "b", "border-t" → "b-t"
   [/^border(?:-[btrlxy])?$/, {
-    message: (v) => `use shorter "${v.replace(/^border/, 'b')}"`
+    message: v => `use shorter "${v.replace(/^border/, 'b')}"`
   }],
 
   // "opacity-50" → "op-50"
   // "backdrop-opacity-50" → "backdrop-op-50"
   [/^(?:backdrop-)?opacity-(.+)$/, {
-    message: (v) => `use shorter "${v.replace(/opacity-/, 'op-')}"`
+    message: v => `use shorter "${v.replace(/opacity-/, 'op-')}"`
   }],
 
   // "whitespace-nowrap" → "ws-nowrap"
   [/^whitespace-.+$/, {
-    message: (v) => `use shorter "${v.replace(/^whitespace-/, 'ws-')}"`
+    message: v => `use shorter "${v.replace(/^whitespace-/, 'ws-')}"`
   }],
 
   // simple static aliases work well for one-to-one replacements
@@ -362,7 +362,7 @@ blocklist: [
 
   // "outline-[#ff0000]" → "outline-#ff0000"
   [/^[a-z-]+-\[#[0-9a-fA-F]{3,6}\]$/, {
-    message: (v) => `use shorter ${v.replace(/\[#/, '#').replace(/\]/, '')}`
+    message: v => `use shorter ${v.replace(/\[#/, '#').replace(/\]/, '')}`
   }],
 ]
 ```
@@ -376,7 +376,7 @@ blocklist: [
   // Prevent redundant breakpoint — if "sm" equals 0, it's always active
   // in mobile-first responsive design and should not be specified
   [/^sm:/, {
-    message: (v) => `sm: breakpoint is redundant, use "${v.replace(/^sm:/, '')}"`
+    message: v => `sm: breakpoint is redundant, use "${v.replace(/^sm:/, '')}"`
   }],
 
   // Force separate utility classes instead of slash opacity notation.
