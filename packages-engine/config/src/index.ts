@@ -35,7 +35,7 @@ export async function loadConfig<U extends UserConfig>(
     cwd = dirname(resolved)
   }
   else {
-    if (configOrPath && resolve(configOrPath) !== resolve(process.cwd())) {
+    if (configOrPath && resolve(configOrPath) !== resolve(cwd)) {
       throw new Error(`[UnoCSS] Custom config file not found: ${configOrPath}. Please check the path and try again.`)
     }
     else {
