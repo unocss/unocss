@@ -34,6 +34,12 @@ export async function loadConfig<U extends UserConfig>(
     isFile = true
     cwd = dirname(resolved)
   }
+  else {
+    const isExplicitFilePath = typeof configOrPath === 'string' && /\.(?:ts|js|config)$/.test(configOrPath)
+    if (isExplicitFilePath && resolve(configOrPath) !== resolve(cwd)) {
+      throw new Error(`[UnoCSS] Custom config file not found: ${configOrPath}. Please check the path and try again.`)
+    }
+  }
 
   const loader = createLoader<U>({
     sources: isFile
@@ -57,6 +63,11 @@ export async function loadConfig<U extends UserConfig>(
   })
 
   const result = await loader.load()
+
+  if (!isFile && !result.sources?.length) {
+    console.error(`[UnoCSS] Config file not found in ${configOrPath} - loading default config.`)
+  }
+
   result.config = Object.assign(defaults, inlineConfig, result.config ?? {})
   if (result.config.configDeps) {
     result.sources = [
