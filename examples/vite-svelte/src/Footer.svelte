@@ -1,7 +1,7 @@
 <script lang="ts">
-  const { foo = false, customclass = "", name = "Footer" } = $props()
+  const { foo = false, customclasses = "", name = "Footer" } = $props()
 </script>
 
 <footer>
-  <div class="bar {customclass}" class:foo>{name}</div>
+  <div class="bar {customclasses}" class:foo>{name}</div>
 </footer>

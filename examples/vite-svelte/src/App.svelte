@@ -27,6 +27,8 @@
 
   <h1 class="animate-bounce">Hello Typescript!</h1>
 
+  <h2 class="text-lg font-semibold text-orange-600">Use shift+ctrl for the inspector</h2>
+
   <br/>
 
   <div class:bg-red-400={red}>BG Color should change</div>
@@ -46,7 +48,7 @@
 
 <Footer />
 <Footer foo={true} name=Footer2 />
-<Footer customclass={"bg-blue-500"} name=Footer3 />
+<Footer customclasses={"bg-blue-500 text-xl"} name=Footer3 />
 
 
 <style>
