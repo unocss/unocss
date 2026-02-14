@@ -1,18 +1,21 @@
 <script lang="ts">
     import { fade, fly } from 'svelte/transition'
     import Footer from './Footer.svelte'
-    let logo = false
-    let red = false
-    let x = 'abc?cbd'
+
+    let logo = $state(false)
+    let red = $state(false)
+    let x = $state('abc?cbd')
+    $inspect(x)
+    const button = $derived(logo ? 'Hide logo' : 'Show logo')
+    const span = $derived(red ? 'Normal' : 'Red')
+
     function toggleLogo() {
         logo = !logo
     }
+    
     function toggleSpan() {
         red = !red
     }
-    $: button = logo ? 'Hide logo' : 'Show logo'
-    $: span = red ? 'Normal' : 'Red'
-    $: console.log(x)
 </script>
 
 <main>
@@ -30,16 +33,20 @@
 
   <br/>
 
-  <button class="bg-red-100" on:click={toggleLogo}>{button}</button>
-  <button on:click={toggleSpan}>Change BG Color: {span}</button>
+  <button class="bg-red-100" onclick={toggleLogo}>{button}</button>
+  <button onclick={toggleSpan}>Change BG Color: {span}</button>
 
   <br />
+
+  <input bind:value={x} type="text" name="" id="">
 
   <div class="absolute mt-20px bottom-0">absolute</div>
 
 </main>
 
 <Footer />
+<Footer foo={true} name=Footer2 />
+<Footer customclass={"bg-blue-500"} name=Footer3 />
 
 
 <style>
