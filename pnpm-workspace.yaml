@@ -45,7 +45,6 @@ catalogs:
     rollup: ^4.55.1
     terser: ^5.44.1
     tsdown: ^0.19.0
-    tsup: ^8.5.1
     webpack: ^5.104.1
     webpack-sources: ^3.3.3
   css:
