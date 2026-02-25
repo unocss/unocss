@@ -57,6 +57,8 @@ const testConfigs: {
         'a:visited': {
           color: '#14b8a6',
         },
+        'ol': null as any,
+        'ul': {},
       },
     },
   },
