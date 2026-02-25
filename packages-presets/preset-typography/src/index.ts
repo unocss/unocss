@@ -3,7 +3,7 @@ import type { TypographyCSSObject, TypographyOptions, TypographyTheme } from './
 import { definePreset, mergeDeep, symbols } from '@unocss/core'
 import { alphaPlaceholders, colorToString } from '@unocss/rule-utils'
 import { modifiers, ProseDefaultCSSObject, ProseDefaultSize } from './constants'
-import { getCSS, getElements, resolveColorScheme, resolveSizeScheme, smartMergeDeep } from './resolve'
+import { getCSS, getElements, resolveColorScheme, resolveSizeScheme } from './resolve'
 
 export * from './types'
 
@@ -35,7 +35,16 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
   const resolvedSizeScheme = resolveSizeScheme(options?.sizeScheme)
   const extended = (entries: TypographyCSSObject, theme: Theme) => {
     const extend = typeof options?.cssExtend === 'function' ? options?.cssExtend(theme) : options?.cssExtend
-    return smartMergeDeep(entries, extend ?? {})
+    const merged = mergeDeep(entries, extend ?? {})
+
+    for (const key in merged) {
+      const value = merged[key as keyof TypographyCSSObject]
+      if (value == null || (typeof value === 'object' && Object.keys(value).length === 0)) {
+        delete merged[key as keyof TypographyCSSObject]
+      }
+    }
+
+    return merged
   }
   const normalizeSelector = (s: string) => {
     if (typeof options?.important === 'string') {

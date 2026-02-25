@@ -1,4 +1,3 @@
-import type { DeepPartial } from '@unocss/core'
 import type { TypographyColorScheme, TypographyCSSObject, TypographyOptions, TypographySizeScheme } from './types'
 import { clone, mergeDeep, toArray } from '@unocss/core'
 import { defaultColorScheme, modifiers, ProseDefaultSize } from './constants'
@@ -61,43 +60,3 @@ export function getElements(modifier: string) {
   }
 }
 // #endregion
-
-export function smartMergeDeep<T>(original: T, patch: DeepPartial<T>): T {
-  const o = original as Record<string, any>
-  const p = patch as Record<string, any>
-
-  if (Array.isArray(p))
-    return clone(p) as T
-
-  if (!o || typeof o !== 'object' || Array.isArray(o) || !p || typeof p !== 'object' || Array.isArray(p))
-    return clone(p) as T
-
-  const output = clone(o)
-
-  for (const key of Object.keys(p)) {
-    const patchValue = p[key]
-
-    if (patchValue === null) {
-      delete output[key]
-      continue
-    }
-
-    if (patchValue && typeof patchValue === 'object' && !Array.isArray(patchValue)) {
-      if (Object.keys(patchValue).length === 0) {
-        output[key] = {}
-      }
-      else {
-        const originalValue = output[key]
-        if (originalValue && typeof originalValue === 'object' && !Array.isArray(originalValue))
-          output[key] = smartMergeDeep(originalValue, patchValue)
-        else
-          output[key] = smartMergeDeep({} as Record<string, any>, patchValue)
-      }
-      continue
-    }
-
-    output[key] = clone(patchValue)
-  }
-
-  return output as T
-}
