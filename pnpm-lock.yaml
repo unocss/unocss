@@ -949,6 +949,12 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      colorette:
+        specifier: catalog:utils
+        version: 2.0.20
+      consola:
+        specifier: catalog:utils
+        version: 3.4.2
       unconfig:
         specifier: catalog:utils
         version: 7.4.2
