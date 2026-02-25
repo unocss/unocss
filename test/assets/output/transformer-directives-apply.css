@@ -35,7 +35,8 @@ html.dark {
 }
 
 .hover-transform {
-  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: perspective(var(--un-perspective))
+    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
@@ -51,7 +52,8 @@ html.dark {
 }
 .hover-transform:hover {
   --un-translate-y: -1px;
-  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: perspective(var(--un-perspective))
+    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
