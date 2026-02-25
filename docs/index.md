@@ -20,7 +20,7 @@ hero:
     - theme: alt
       text: Playground
       link: https://unocss.dev/play/
-      target: _blank
+      target:_blank
     - theme: alt
       text: Tutorial
       link: https://tutorial.unocss.dev/

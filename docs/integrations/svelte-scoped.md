@@ -291,8 +291,10 @@ When using Svelte Scoped in a normal app, the Vite plugin will automatically det
 
 If you want this same behavior when using the preprocessor, you must manually set the the `combine` option based on environemnt. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
 
-```
-"dev": "cross-env NODE_ENV=development vite dev"
+```json
+{
+  "dev": "cross-env NODE_ENV=development vite dev"
+}
 ```
 
 Then adjust your svelte.config.js:

@@ -231,7 +231,7 @@ blocklist: [
 
 When used with `@unocss/eslint-plugin`, the message appears in lint output:
 
-```
+```shell
 "border" is in blocklist: use shorter "b"
 ```
 
