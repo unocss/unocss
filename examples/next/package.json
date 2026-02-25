@@ -13,14 +13,14 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.85",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@iconify-json/lucide": "^1.2.94",
+    "@types/node": "^20.19.33",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@unocss/postcss": "latest",
-    "eslint": "^9",
+    "eslint": "^9.39.3",
     "eslint-config-next": "16.1.2",
-    "typescript": "^5",
+    "typescript": "^5.9.3",
     "unocss": "latest"
   }
 }
