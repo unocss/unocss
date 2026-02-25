@@ -34,6 +34,8 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
+    "colorette": "catalog:utils",
+    "consola": "catalog:utils",
     "unconfig": "catalog:utils"
   }
 }
