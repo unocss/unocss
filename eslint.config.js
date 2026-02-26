@@ -113,4 +113,14 @@ export default antfu(
       'pnpm/yaml-enforce-settings': 'off',
     },
   },
+  {
+    files: [
+      'docs/index.md',
+    ],
+    rules: {
+      // This is because the enabled rules forced a formatting error in the yml file, causing the vitepress build to fail.
+      // This is a temporary solution; it will be removed later.
+      'markdown/no-space-in-emphasis': 'off',
+    },
+  },
 )
