@@ -39,8 +39,7 @@
 }
 #app :is(.hover-transform:hover) {
   --un-translate-y: -1px;
-  transform: perspective(var(--un-perspective))
-    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
@@ -48,8 +47,7 @@
     scaleZ(var(--un-scale-z));
 }
 #app :is(.hover-transform) {
-  transform: perspective(var(--un-perspective))
-    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
