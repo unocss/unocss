@@ -113,4 +113,14 @@ export default antfu(
       'pnpm/yaml-enforce-settings': 'off',
     },
   },
+  {
+    files: [
+      'docs/index.md',
+    ],
+    rules: {
+      // The markdown/no-space-in-emphasis rule incorrectly flags underscore-prefixed YAML values like '_blank'
+      // in the frontmatter as markdown emphasis syntax, causing the VitePress build to fail.
+      'markdown/no-space-in-emphasis': 'off',
+    },
+  },
 )
