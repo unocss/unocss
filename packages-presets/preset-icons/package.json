@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-icons",
   "type": "module",
-  "version": "66.6.0",
+  "version": "66.6.2",
   "description": "Pure CSS Icons for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -25,32 +25,23 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
       "browser": "./dist/browser.mjs",
       "default": "./dist/index.mjs"
     },
-    "./browser": {
-      "types": "./dist/browser.d.mts",
-      "default": "./dist/browser.mjs"
-    },
-    "./core": {
-      "types": "./dist/core.d.mts",
-      "default": "./dist/core.mjs"
-    }
+    "./browser": "./dist/browser.mjs",
+    "./core": "./dist/core.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.mts",
         "./*"
       ]
     }
   },
   "files": [
-    "*.css",
     "dist"
   ],
   "scripts": {

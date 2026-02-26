@@ -1,4 +1,5 @@
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { WebpackPluginInstance } from 'webpack'
 import { unplugin } from './unplugin'
 
 export interface WebpackPluginOptions<Theme extends object = object> extends UserConfig<Theme> {
@@ -13,7 +14,7 @@ export interface WebpackPluginOptions<Theme extends object = object> extends Use
 export default function WebpackPlugin<Theme extends object>(
   configOrPath?: WebpackPluginOptions<Theme> | string,
   defaults?: UserConfigDefaults,
-) {
+): WebpackPluginInstance {
   return unplugin(configOrPath, defaults).webpack()
 }
 

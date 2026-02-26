@@ -2,7 +2,6 @@ import { defineConfig } from 'tsdown'
 import { aliasVirtual } from '../../alias'
 
 export default defineConfig({
-  attw: { profile: 'esm-only' },
   entry: [
     'src/index.ts',
   ],
@@ -10,4 +9,11 @@ export default defineConfig({
   clean: true,
   dts: true,
   external: ['@unocss/core'],
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: {
+    enabled: 'ci-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })

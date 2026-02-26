@@ -7,10 +7,11 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
-  attw: {
-    ignoreRules: [
-      'false-export-default',
-      'untyped-resolution',
-    ],
+  outputOptions: {
+    exports: 'named',
   },
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: 'ci-only',
 })

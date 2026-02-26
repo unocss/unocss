@@ -48,6 +48,7 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
   { text: 'LSP Support', link: '/integrations/lsp' },
+  { text: 'Zed Extension', link: '/integrations/zed' },
 ]
 
 const Presets: DefaultTheme.NavItemWithLink[] = [

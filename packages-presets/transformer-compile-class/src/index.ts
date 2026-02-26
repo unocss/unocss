@@ -66,7 +66,7 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = /(["'`]):uno-?(?<name>\S+)?:\s(.*?)\1/g,
+    trigger = /(["'`])\s*:uno-?(?<name>\S+)?:\s([\s\S]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
@@ -78,22 +78,22 @@ export default function transformerCompileClass(options: CompileClassOptions = {
   // Provides backwards compatibility. We either accept a trigger string which
   // gets turned into a regexp (like previously) or a regex literal directly.
   const regexp = typeof trigger === 'string'
-    ? new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+    ? new RegExp(`(["'\`])\\s*${escapeRegExp(trigger)}\\s([\\s\\S]*?)\\1`, 'g')
     : trigger
 
   return {
     name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens, invalidate }) {
-      const matches = [...s.original.matchAll(regexp)]
+      const matches = Array.from(s.original.matchAll(regexp))
       if (!matches.length)
         return
 
       const size = compiledClass.size
       for (const match of matches) {
-        let body = (match.length === 4 && match.groups)
+        let body = ((match.length === 4 && match.groups)
           ? expandVariantGroup(match[3].trim())
-          : expandVariantGroup(match[2].trim())
+          : expandVariantGroup(match[2].trim())).replace(/\s+/g, ' ')
 
         const start = match.index!
         const replacements = []
