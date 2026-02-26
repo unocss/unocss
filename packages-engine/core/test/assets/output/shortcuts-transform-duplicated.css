@@ -1,8 +1,7 @@
 /* layer: shortcuts */
 .transform-duplicated {
   --un-translate-x: 0.25rem;
-  transform: perspective(var(--un-perspective))
-    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
@@ -15,8 +14,7 @@
 .transform-duplicated:hover {
   --un-scale-x: 0.02;
   --un-scale-y: 0.02;
-  transform: perspective(var(--un-perspective))
-    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
@@ -25,8 +23,7 @@
 }
 .transform-duplicated:active {
   --un-scale-x: 0.04;
-  transform: perspective(var(--un-perspective))
-    translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
+  transform: translateX(var(--un-translate-x)) translateY(var(--un-translate-y))
     translateZ(var(--un-translate-z)) rotate(var(--un-rotate))
     rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y))
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))

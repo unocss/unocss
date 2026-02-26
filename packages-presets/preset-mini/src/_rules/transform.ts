@@ -24,7 +24,6 @@ const transformCpu = [
 ].join(' ')
 
 const transform = [
-  'perspective(var(--un-perspective))',
   'translateX(var(--un-translate-x))',
   'translateY(var(--un-translate-y))',
   'translateZ(var(--un-translate-z))',
@@ -84,7 +83,7 @@ export const transforms: Rule[] = [
       if (t) {
         return {
           '--un-perspective': `perspective(${v})`,
-          'transform': transform,
+          'transform': `var(--un-perspective) ${transform}`,
         }
       }
 

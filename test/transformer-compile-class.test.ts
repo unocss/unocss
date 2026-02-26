@@ -55,7 +55,7 @@ describe('transformer-compile-class', () => {
     `)
     expect(result.css).toMatchInlineSnapshot(`
       "/* layer: shortcuts */
-      .uno-qe05lz{--un-scale-x:0.05;--un-scale-y:0.05;transform:perspective(var(--un-perspective)) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));border-width:1px;--un-border-opacity:1;border-color:rgb(229 231 235 / var(--un-border-opacity));--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;font-weight:700;}
+      .uno-qe05lz{--un-scale-x:0.05;--un-scale-y:0.05;transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));border-width:1px;--un-border-opacity:1;border-color:rgb(229 231 235 / var(--un-border-opacity));--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;font-weight:700;}
       .dark .uno-qe05lz:hover{--un-bg-opacity:1;background-color:rgb(34 197 94 / var(--un-bg-opacity));}
       .uno-qlmcrp{text-align:center;}
       .uno-0qw2gr{font-size:0.875rem;line-height:1.25rem;font-weight:700;}
