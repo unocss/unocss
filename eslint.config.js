@@ -118,8 +118,8 @@ export default antfu(
       'docs/index.md',
     ],
     rules: {
-      // This is because the enabled rules forced a formatting error in the yml file, causing the vitepress build to fail.
-      // This is a temporary solution; it will be removed later.
+      // The markdown/no-space-in-emphasis rule incorrectly flags underscore-prefixed YAML values like '_blank'
+      // in the frontmatter as markdown emphasis syntax, causing the VitePress build to fail.
       'markdown/no-space-in-emphasis': 'off',
     },
   },
