@@ -68,6 +68,9 @@ catalogs:
     '@codemirror/lang-xml':
       specifier: ^6.1.0
       version: 6.1.0
+    '@napi-rs/wasm-runtime':
+      specifier: ^1.1.1
+      version: 1.1.1
     '@oxc-parser/binding-wasm32-wasi':
       specifier: ^0.115.0
       version: 0.115.0
@@ -507,6 +510,12 @@ importers:
       '@iconify-json/uim':
         specifier: catalog:icons
         version: 1.2.3
+      '@napi-rs/wasm-runtime':
+        specifier: catalog:docs
+        version: 1.1.1
+      '@oxc-parser/binding-wasm32-wasi':
+        specifier: catalog:docs
+        version: 0.115.0
       '@shikijs/vitepress-twoslash':
         specifier: catalog:docs
         version: 3.23.0(@nuxt/kit@4.3.1(magicast@0.5.1))(typescript@5.8.3)
@@ -807,9 +816,6 @@ importers:
       '@antfu/utils':
         specifier: catalog:utils
         version: 9.3.0
-      '@oxc-parser/binding-wasm32-wasi':
-        specifier: catalog:docs
-        version: 0.115.0
       '@shikijs/markdown-it':
         specifier: catalog:docs
         version: 3.23.0(markdown-it-async@2.2.0)

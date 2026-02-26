@@ -58,6 +58,7 @@ catalogs:
     '@codemirror/lang-html': ^6.4.11
     '@codemirror/lang-javascript': ^6.2.4
     '@codemirror/lang-xml': ^6.1.0
+    '@napi-rs/wasm-runtime': ^1.1.1
     '@oxc-parser/binding-wasm32-wasi': ^0.115.0
     '@shikijs/markdown-it': ^3.21.0
     '@shikijs/vitepress-twoslash': ^3.21.0
