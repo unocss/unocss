@@ -7,7 +7,7 @@ const externals = [
   '@iconify/utils/lib/loader/install-pkg',
   '@iconify/utils/lib/loader/node-loader',
   '@iconify/utils/lib/loader/node-loaders',
-  'oxc-parser',
+  '@napi-rs/wasm-runtime',
 ]
 
 export default defineNuxtConfig({

@@ -58,6 +58,7 @@ export default defineConfig({
       '@iconify/utils/lib/loader/install-pkg',
       '@iconify/utils/lib/loader/node-loader',
       '@iconify/utils/lib/loader/node-loaders',
+      '@napi-rs/wasm-runtime',
     ],
   },
   build: {
@@ -69,6 +70,7 @@ export default defineConfig({
         '@iconify/utils/lib/loader/install-pkg',
         '@iconify/utils/lib/loader/node-loader',
         '@iconify/utils/lib/loader/node-loaders',
+        '@napi-rs/wasm-runtime',
       ],
       input: [
         './index.html',
