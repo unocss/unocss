@@ -78,10 +78,23 @@ export async function registerAutoComplete(
 
       const cursorPosition = doc.offsetAt(position)
       let result: SuggestResult | undefined
-
+      const isTransformVariantGroup = ctx.uno.userConfig?.transformers?.some(item => item.name === '@unocss/transformer-variant-group')
+      const isCursourInVariantGroup = () => {
+        const lineText = doc.lineAt(position.line).text
+        const char = position.character
+        for (const match of lineText.matchAll(/\w+:\(([^)]*)\)/g)) {
+          const start = match.index + match[0].indexOf('(') + 1
+          const end = match.index + match[0].lastIndexOf(')')
+          if (char > start && char <= end)
+            return true
+        }
+        return false
+      }
+      if (!isTransformVariantGroup && isCursourInVariantGroup())
+        return
       // Special treatment for Pug Vue templates
       if (isPug) {
-      // get content from cursorPosition
+        // get content from cursorPosition
         const textBeforeCursor = code.substring(0, cursorPosition)
         // check the dot
         const dotMatch = textBeforeCursor.match(/\.[-\w]*$/)
@@ -102,7 +115,7 @@ export async function registerAutoComplete(
           }
         }
         else {
-        // original logic
+          // original logic
           result = await autoComplete.suggestInFile(code, cursorPosition)
         }
       }
