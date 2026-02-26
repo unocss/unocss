@@ -3,6 +3,8 @@ import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
+import { cyan } from 'colorette'
+import { consola } from 'consola'
 import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
@@ -34,6 +36,11 @@ export async function loadConfig<U extends UserConfig>(
     isFile = true
     cwd = dirname(resolved)
   }
+  else {
+    if (/\.(?:ts|js|mjs|cjs|mts)$/.test(configOrPath) && resolve(configOrPath) !== resolve(cwd)) {
+      throw new Error(`[@unocss/config] Custom config file not found: ${cyan(configOrPath)}. Please check the path and try again.`)
+    }
+  }
 
   const loader = createLoader<U>({
     sources: isFile
@@ -57,6 +64,11 @@ export async function loadConfig<U extends UserConfig>(
   })
 
   const result = await loader.load()
+
+  if (!isFile && !result.sources?.length) {
+    consola.error(`[@unocss/config] Config file not found in ${cyan(configOrPath)} - loading default config.`)
+  }
+
   result.config = Object.assign(defaults, inlineConfig, result.config ?? {})
   if (result.config.configDeps) {
     result.sources = [
@@ -90,7 +102,7 @@ export function createRecoveryConfigLoader<U extends UserConfig>() {
     }
     catch (e) {
       if (lastResolved) {
-        console.error(e)
+        consola.error(`[@unocss/config] Error loading config:`, e)
         return lastResolved
       }
       throw e

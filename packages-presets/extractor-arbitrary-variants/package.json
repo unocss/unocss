@@ -1,7 +1,7 @@
 {
   "name": "@unocss/extractor-arbitrary-variants",
   "type": "module",
-  "version": "66.6.0",
+  "version": "66.6.2",
   "description": "Extractor arbitrary variants for utilities",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

@@ -1098,6 +1098,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .perspect-100{perspective:100px;}
 .perspect-23rem{perspective:23rem;}
 .perspect-800px{perspective:800px;}
+.transform-perspective-9cm{--un-perspective:perspective(9cm);transform:var(--un-perspective) var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
 .perspect-origin-\[150\%_150\%\]{perspective-origin:150% 150%;}
 .perspect-origin-\[150\%\]{perspective-origin:150%;}
 .perspect-origin-\$variable{perspective-origin:var(--variable);}

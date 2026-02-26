@@ -35,7 +35,16 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
   const resolvedSizeScheme = resolveSizeScheme(options?.sizeScheme)
   const extended = (entries: TypographyCSSObject, theme: Theme) => {
     const extend = typeof options?.cssExtend === 'function' ? options?.cssExtend(theme) : options?.cssExtend
-    return mergeDeep(entries, extend ?? {})
+    const merged = mergeDeep(entries, extend ?? {})
+
+    for (const key in merged) {
+      const value = merged[key as keyof TypographyCSSObject]
+      if (value == null || (typeof value === 'object' && Object.keys(value).length === 0)) {
+        delete merged[key as keyof TypographyCSSObject]
+      }
+    }
+
+    return merged
   }
   const normalizeSelector = (s: string) => {
     if (typeof options?.important === 'string') {

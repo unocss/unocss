@@ -333,6 +333,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .perspect-100{-webkit-perspective:100px;perspective:100px;}
 .perspect-23rem{-webkit-perspective:23rem;perspective:23rem;}
 .perspect-800px{-webkit-perspective:800px;perspective:800px;}
+.transform-perspective-9cm{--un-perspective:perspective(9cm);transform:var(--un-perspective) translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
 .perspect-origin-\[150\%_150\%\]{-webkit-perspective-origin:150% 150%;perspective-origin:150% 150%;}
 .perspect-origin-\[150\%\]{-webkit-perspective-origin:150%;perspective-origin:150%;}
 .perspect-origin-\$variable{-webkit-perspective-origin:var(--variable);perspective-origin:var(--variable);}

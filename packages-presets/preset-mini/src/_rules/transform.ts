@@ -77,9 +77,16 @@ export const transforms: Rule[] = [
   ],
 
   // perspectives
-  [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s]) => {
+  [/^(transform-)?perspect(?:ive)?-(.+)$/, ([, t, s]) => {
     const v = h.bracket.cssvar.px.numberWithUnit(s)
     if (v != null) {
+      if (t) {
+        return {
+          '--un-perspective': `perspective(${v})`,
+          'transform': `var(--un-perspective) ${transform}`,
+        }
+      }
+
       return {
         '-webkit-perspective': v,
         'perspective': v,
@@ -88,7 +95,7 @@ export const transforms: Rule[] = [
   }],
 
   // skip 1 & 2 letters shortcut
-  [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {
+  [/^perspect(?:ive)?-origin-(.+)$/, ([, s]) => {
     const v = h.bracket.cssvar(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
     if (v != null) {
       return {
