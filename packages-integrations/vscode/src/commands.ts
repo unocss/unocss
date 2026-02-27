@@ -19,9 +19,9 @@ export function registerCommands(
     vscodeCommands.registerCommand(
       commandNames.reload,
       async () => {
-        log.appendLine('♻️ Reloading...')
+        log.info('♻️ Reloading...')
         await client.sendRequest('unocss/reloadConfig')
-        log.appendLine('🔵 Reloaded.')
+        log.info('🔵 Reloaded.')
 
         if (decorations) {
           await decorations.updateDecorations()

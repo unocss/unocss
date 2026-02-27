@@ -9,23 +9,23 @@ import { registerDecorations } from './ui/decorations'
 import { createStatusBar } from './ui/statusBar'
 
 export async function activate(ext: ExtensionContext) {
-  log.appendLine(`⚪️ UnoCSS for VS Code v${version}`)
+  log.info(`⚪️ UnoCSS for VS Code v${version}`)
 
   const projectPath = workspace.workspaceFolders?.[0].uri.fsPath
   if (!projectPath) {
-    log.appendLine('➖ No active workspace found, UnoCSS is disabled')
+    log.info('➖ No active workspace found, UnoCSS is disabled')
     return
   }
 
   const config = getConfig()
   if (config.disable) {
-    log.appendLine('➖ Disabled by configuration')
+    log.info('➖ Disabled by configuration')
     return
   }
 
   try {
     const client = await createLanguageClient(ext)
-    log.appendLine('🔌 Connecting to Language Server...')
+    log.info('🔌 Connecting to Language Server...')
     await client.start()
 
     // Register VSCode-specific features
@@ -34,8 +34,8 @@ export async function activate(ext: ExtensionContext) {
     createStatusBar(ext, client)
   }
   catch (e: any) {
-    log.appendLine('❌ Failed to start Language Server')
-    log.appendLine(String(e.stack ?? e))
+    log.error('❌ Failed to start Language Server')
+    log.error(e instanceof Error ? e : String(e.stack ?? e))
   }
 }
 

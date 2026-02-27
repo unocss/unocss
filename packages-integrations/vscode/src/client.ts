@@ -1,6 +1,7 @@
 import type { ExtensionContext } from 'vscode'
 import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node'
 import path from 'node:path'
+import process from 'node:process'
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node'
 import { getLanguageIds } from './configs'
 import { log } from './log'
@@ -18,6 +19,13 @@ export async function createLanguageClient(
     run: {
       module: serverModule,
       transport: TransportKind.ipc,
+      options: {
+        env: {
+          ...process.env,
+          // https://github.com/unocss/unocss/pull/5107 introduces ANSI color outputs which not render well in VS Code's output channel. Setting `NO_COLOR` to disable it.
+          NO_COLOR: '1',
+        },
+      },
     },
     debug: {
       module: serverModule,
@@ -36,7 +44,7 @@ export async function createLanguageClient(
     synchronize: {
       configurationSection: 'unocss',
     },
-    outputChannel: log,
+    outputChannel: log.channel,
   }
 
   client = new LanguageClient(

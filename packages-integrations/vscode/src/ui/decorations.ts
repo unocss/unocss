@@ -2,6 +2,7 @@ import type { ExtensionContext, TextEditor } from 'vscode'
 import type { LanguageClient } from 'vscode-languageclient/node'
 import { DecorationRangeBehavior, Range, window, workspace } from 'vscode'
 import { getConfig } from '../configs'
+import { log } from '../log'
 
 function throttle<T extends ((...args: any) => any)>(func: T, timeFrame: number): T {
   let lastTime = 0
@@ -62,7 +63,7 @@ export function registerDecorations(
       }
     }
     catch (err) {
-      console.error('[Decorations] Error:', err)
+      log.error('[Decorations] Error fetching matched positions', err instanceof Error ? err : String(err))
       reset(editor)
     }
   }

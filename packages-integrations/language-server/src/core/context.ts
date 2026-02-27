@@ -49,6 +49,10 @@ export class ContextManager {
     this.connection.console.log(message)
   }
 
+  private warn(message: string) {
+    this.connection.console.warn(message)
+  }
+
   isTarget(id: string) {
     return Array.from(this.contextsMap.keys()).some(cwd => isSubdir(cwd, id))
   }
@@ -128,8 +132,8 @@ export class ContextManager {
     // Setup Yarn PnP if present
     this.setupYarnPnp(dir)
 
-    this.log(`\n-----------`)
-    this.log(`🛠 Resolving config for ${dir}`)
+    if (!this.discoveredConfigs.has(dir))
+      this.log(`🛠 Resolving config for ${dir}`)
 
     // @ts-expect-error support global utils
     globalThis.defineNuxtConfig = config => config
@@ -170,8 +174,8 @@ export class ContextManager {
       sources = (await context.updateRoot(dir)).sources
     }
     catch (e: any) {
-      this.log(`⚠️ Error on loading config. Config directory: ${dir}`)
-      this.log(String(e.stack ?? e))
+      this.warn(`⚠️ Error on loading config. Config directory: ${dir}`)
+      this.warn(String(e.stack ?? e))
       return this.finishLoading(dir, null)
     }
 
@@ -228,7 +232,10 @@ export class ContextManager {
   }
 
   private logConfigInfo(sources: string[], uno: any) {
-    this.log(`🛠 New configuration loaded from\n${sources.map(s => `  - ${s}`).join('\n')}`)
+    const sourcesStr = sources.length === 1
+      ? sources[0]
+      : `\n${sources.map(s => `  - ${s}`).join('\n')}`
+    this.log(`🛠 New configuration loaded from ${sourcesStr}`)
     this.log(`ℹ️ ${uno.config.presets.length} presets, ${uno.config.rulesSize} rules, ${uno.config.shortcuts.length} shortcuts, ${uno.config.variants.length} variants, ${uno.config.transformers?.length || 0} transformers loaded`)
 
     if (!sources.some(i => unoConfigRE.test(i))) {
