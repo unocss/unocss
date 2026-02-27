@@ -37,7 +37,7 @@ describe('variant-group', () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
 
-  it('square bracket case3', async () => {
+  it('asterisk with tilde', async () => {
     // `*` is the children variant shorthand (issue: #5099)
     expect(expandVariantGroup('*:(~ a-b)')).toEqual('*:~ *:a-b')
   })
