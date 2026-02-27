@@ -38,7 +38,7 @@ describe('variant-group', () => {
   })
 
   it('square bracket case3', async () => {
-    // * === children variant issue:#5099
+    // `*` is the children variant shorthand (issue: #5099)
     expect(expandVariantGroup('*:(~ a-b)')).toEqual('*:~ *:a-b')
   })
 
