@@ -1,0 +1,7 @@
+export { clearDocumentCache, getMatchedPositionsFromDoc } from './core/cache'
+export { ContextManager } from './core/context'
+export type { MatchedPosition, ServerSettings, UnoContext } from './types'
+export { defaultSettings } from './types'
+export { convertToRGBA, getColorString, parseColorToRGBA } from './utils/color'
+export { addRemToPxComment, getCSS, getPrettiedCSS, getPrettiedMarkdown } from './utils/css'
+export { getMatchedPositionsFromCode, isSubdir, isVueWithPug, shouldProvideAutocomplete } from './utils/position'
