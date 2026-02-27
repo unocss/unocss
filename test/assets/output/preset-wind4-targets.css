@@ -830,7 +830,7 @@
 .gap-col-1,
 .gap-x-1{column-gap:calc(var(--spacing) * 1);}
 .-gap-row-5,
-.-gap-y-5{row-gap:calc(calc(var(--spacing) * 5) * -1);}
+.-gap-y-5{row-gap:calc(var(--spacing) * -5);}
 .grid{display:grid;}
 .col-11{grid-column:11;}
 .-col-12{grid-column:-12;}
@@ -1740,6 +1740,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .view-transition-none{view-transition-name:none;}
 .field-sizing-fixed{field-sizing:fixed;}
 .field-sizing-content{field-sizing:content;}
+.-space-x-4{
+:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing) * -4) * var(--un-space-x-reverse));margin-inline-end:calc(calc(var(--spacing) * -4) * calc(1 - var(--un-space-x-reverse)));}
+}
 .divide-\$variable{
 :where(&>:not(:last-child)){border-color:color-mix(in oklab, var(--variable) var(--un-divide-opacity), transparent) /* var(--variable) */;}
 }
@@ -1840,19 +1843,19 @@ unocss .scope-\[unocss\]\:block{display:block;}
 :where(*[data-x=y] + &){--un-font-weight:17;font-weight:17;}
 }
 .space-x-\[var\(--space\)\]{
-:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start: calc(var(--space) * var(--un-space-x-reverse));margin-inline-end: calc(var(--space) * calc(1 - var(--un-space-x-reverse)));}
+:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start:calc(var(--space) * var(--un-space-x-reverse));margin-inline-end:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));}
 }
 .space-x-\$space{
-:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start: calc(var(--space) * var(--un-space-x-reverse));margin-inline-end: calc(var(--space) * calc(1 - var(--un-space-x-reverse)));}
+:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start:calc(var(--space) * var(--un-space-x-reverse));margin-inline-end:calc(var(--space) * calc(1 - var(--un-space-x-reverse)));}
 }
 .space-x-2{
-:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start: calc(calc(var(--spacing) * 2) * var(--un-space-x-reverse));margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--un-space-x-reverse)));}
+:where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing) * 2) * var(--un-space-x-reverse));margin-inline-end:calc(calc(var(--spacing) * 2) * calc(1 - var(--un-space-x-reverse)));}
 }
 .space-x-reverse{
 :where(&>:not(:last-child)){--un-space-x-reverse:1;}
 }
 .space-y-4{
-:where(&>:not(:last-child)){--un-space-y-reverse:0;margin-block-start: calc(calc(var(--spacing) * 4) * var(--un-space-y-reverse));margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--un-space-y-reverse)));}
+:where(&>:not(:last-child)){--un-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing) * 4) * var(--un-space-y-reverse));margin-block-end:calc(calc(var(--spacing) * 4) * calc(1 - var(--un-space-y-reverse)));}
 }
 @layer base{
 .layer-base\:translate-0{--un-translate-x:calc(var(--spacing) * 0);--un-translate-y:calc(var(--spacing) * 0);translate:var(--un-translate-x) var(--un-translate-y);}
