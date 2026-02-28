@@ -1,13 +1,18 @@
+import type { Disposable } from 'vscode-languageserver/node'
 import type { ServerSettings } from './types'
-import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import process from 'node:process'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { INCLUDE_COMMENT_IDE } from '#integration/constants'
 import { isCssId } from '#integration/utils'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import {
   createConnection,
+  DidChangeWatchedFilesNotification,
   ProposedFeatures,
   TextDocuments,
   TextDocumentSyncKind,
+  WatchKind,
 } from 'vscode-languageserver/node'
 import { registerColorProvider } from './capabilities/colorProvider'
 import { registerCompletion, resetAutoCompleteCache } from './capabilities/completion'
@@ -22,6 +27,46 @@ const documents = new TextDocuments(TextDocument)
 
 let settings: ServerSettings = { ...defaultSettings }
 let contextManager: ContextManager
+let hasWatchedFilesCapability = false
+let serverInitialized = false
+let watcherDisposable: Disposable | undefined
+
+async function updateConfigWatchers(): Promise<void> {
+  if (!hasWatchedFilesCapability || !serverInitialized || !contextManager)
+    return
+
+  watcherDisposable?.dispose()
+  watcherDisposable = undefined
+
+  const sourceFiles = contextManager.contexts.flatMap(ctx => ctx.getConfigFileList())
+
+  watcherDisposable = await connection.client.register(
+    DidChangeWatchedFilesNotification.type,
+    {
+      watchers: sourceFiles.length
+        ? sourceFiles.map(file => ({
+            globPattern: {
+              baseUri: pathToFileURL(path.dirname(file)).href,
+              pattern: path.basename(file),
+            },
+            kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
+          }))
+        : [{
+            globPattern: '**/{uno,unocss,vite,svelte,astro,nuxt,iles}.config.{js,mjs,cjs,ts,mts,cts}',
+            kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
+          }],
+    },
+  )
+}
+
+// Don't crash the server.
+process.on('unhandledRejection', (reason) => {
+  connection.console.error(`[unocss] Unhandled rejection: ${String(reason)}`)
+})
+// Same as above.
+process.on('uncaughtException', (err) => {
+  connection.console.error(`[unocss] Uncaught exception: ${err.message}`)
+})
 
 function getSettings() {
   return settings
@@ -32,6 +77,8 @@ function getContextManager() {
 }
 
 connection.onInitialize((params) => {
+  hasWatchedFilesCapability = !!params.capabilities.workspace?.didChangeWatchedFiles?.dynamicRegistration
+
   const workspaceFolders = params.workspaceFolders
   const rootUri = workspaceFolders?.[0]?.uri || params.rootUri
 
@@ -47,6 +94,9 @@ connection.onInitialize((params) => {
     })
     contextManager.events.on('unload', (ctx) => {
       resetAutoCompleteCache(ctx)
+    })
+    contextManager.events.on('contextLoaded', () => {
+      void updateConfigWatchers()
     })
   }
 
@@ -71,9 +121,26 @@ connection.onInitialize((params) => {
 })
 
 connection.onInitialized(async () => {
+  serverInitialized = true
   if (contextManager)
     await contextManager.ready
   connection.console.log('✅ UnoCSS Language Server initialized')
+  await updateConfigWatchers()
+})
+
+let configReloadTimer: ReturnType<typeof setTimeout> | undefined
+
+connection.onDidChangeWatchedFiles((_change) => {
+  clearTimeout(configReloadTimer)
+  configReloadTimer = setTimeout(async () => {
+    if (!contextManager)
+      return
+    connection.console.log('🔄 Config file changed, reloading UnoCSS...')
+    clearAllCache()
+    await contextManager.reload()
+    connection.console.log('🔵 Reloaded.')
+    await updateConfigWatchers()
+  }, 500)
 })
 
 connection.onDidChangeConfiguration((change) => {

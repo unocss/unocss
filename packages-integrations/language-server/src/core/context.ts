@@ -63,26 +63,42 @@ export class ContextManager {
 
   async reload() {
     const dirs = Array.from(this.contextsMap.keys())
-    await Promise.allSettled(dirs.map(dir => this.unloadContext(dir)))
+    await Promise.all(dirs.map(dir => this.unloadContext(dir)))
 
     this.fileContextCache.clear()
     this.configExistsCache.clear()
 
-    for (const dir of dirs)
-      await this.loadContextInDirectory(dir)
-
-    if (!dirs.length)
-      await this.loadContextInDirectory(this.cwd)
+    if (dirs.length) {
+      await Promise.all(dirs.map(async (dir) => {
+        try {
+          await this.loadContextInDirectory(dir)
+        }
+        catch (e: any) {
+          this.warn(`⚠️ Failed to reload context for ${dir}: ${String(e.stack ?? e)}`)
+        }
+      }))
+    }
+    else {
+      try {
+        await this.loadContextInDirectory(this.cwd)
+      }
+      catch (e: any) {
+        this.warn(`⚠️ Failed to reload context for ${this.cwd}: ${String(e.stack ?? e)}`)
+      }
+    }
 
     this.events.emit('reload')
   }
 
   async unloadContext(configDir: string) {
     const context = this.contextsMap.get(configDir)
-    if (!context)
+    if (context === undefined)
       return
 
     this.contextsMap.delete(configDir)
+    if (!context)
+      return
+
     this.clearFileContextCache(context)
     this.events.emit('contextUnload', context)
     this.events.emit('reload')
@@ -193,12 +209,12 @@ export class ContextManager {
     }
 
     this.setupContextReload(context)
-    this.events.emit('contextLoaded', context)
 
     const uno = await context.uno
     this.logConfigInfo(sources, uno)
-
-    return this.finishLoading(dir, context)
+    const result = this.finishLoading(dir, context)
+    this.events.emit('contextLoaded', context)
+    return result
   }
 
   private setupYarnPnp(dir: string) {
