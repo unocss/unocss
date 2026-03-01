@@ -72,10 +72,10 @@ catalogs:
       specifier: ^0.115.0
       version: 0.115.0
     '@shikijs/markdown-it':
-      specifier: ^3.21.0
+      specifier: ^3.23.0
       version: 3.23.0
     '@shikijs/vitepress-twoslash':
-      specifier: ^3.21.0
+      specifier: ^3.23.0
       version: 3.23.0
     codemirror:
       specifier: ^6.0.1
@@ -459,7 +459,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:eslint
-        version: 7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)
+        version: 7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)
       '@antfu/ni':
         specifier: catalog:utils
         version: 28.2.0
@@ -1088,7 +1088,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: catalog:build
-        version: 0.19.0(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20260114.1)(publint@0.3.17)(synckit@0.11.12)(typescript@5.8.3)
+        version: 0.19.0(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20260128.1)(publint@0.3.17)(synckit@0.11.12)(typescript@5.8.3)
 
   packages-integrations/nuxt:
     dependencies:
@@ -4918,19 +4918,19 @@ packages:
     peerDependencies:
       vue: '>=3.5.18'
 
-  '@unocss/config@66.6.1':
-    resolution: {integrity: sha512-0wexfgMjHJbouCxdnkAcgfDpBK9k4hrH1mphc/WkrkPgdqqvswCdvCgFpnywSQl9SOf+n5Yc4B5ee719rk28dA==}
+  '@unocss/config@66.6.2':
+    resolution: {integrity: sha512-qny2bRW1OA+MZbWShVZdBg6fJundm1LqQwCxJnIpeK3McpPHS3pnHBiwD1wfZHY2z5Pe+XgZOZkozNmG/eyyqg==}
     engines: {node: '>=14'}
 
-  '@unocss/core@66.6.1':
-    resolution: {integrity: sha512-2L1zXD3kGbu7dfI/LQ0ExON6I6Wi8LqQbBsEeY4me0v2xy736S2OBUZEbrvn0c6kHEft43xfGNTtrFDBPlF4nw==}
+  '@unocss/core@66.6.2':
+    resolution: {integrity: sha512-IOvN1BLRP0VTjjS5afSxmXhvKRDko2Shisp8spU+A9qiH1tXEFP3phyVevm/SuGwBHO1lC+SJ451/4oFkCAwJA==}
 
-  '@unocss/eslint-plugin@66.6.1':
-    resolution: {integrity: sha512-4La1Nt8E+KxRotlafcmFoUWiMFQPSXVmuqqTdbjSpI5i0ebVbSPqb74aV30LEcIfXN56KC+DrrGt3itC07igKA==}
+  '@unocss/eslint-plugin@66.6.2':
+    resolution: {integrity: sha512-oRity0IekMIZUM1s9qu9+4VBC3jmqp6IAEnH7GObrRZlW1s8oZrPlilLNNVldEB0Ez3XynZwJAdb6cHwNmwmPQ==}
     engines: {node: '>=14'}
 
-  '@unocss/rule-utils@66.6.1':
-    resolution: {integrity: sha512-Ca7mfpkIqNB9+C95JGsIT3gSuurqde8I1721RGC56jrOVLaDACxn8MHMMoctuTf3w5zCZoQKs/sG0mKn7aRNtQ==}
+  '@unocss/rule-utils@66.6.2':
+    resolution: {integrity: sha512-cygfCtkeMrqMM6si1cnyOF16sS7M2gCAqgmZybAhGV7tmH7V8Izn52JZiZIrxVRNMz9dWMVWerHEI9nLbFdbrg==}
     engines: {node: '>=14'}
 
   '@vercel/nft@1.2.0':
@@ -10139,7 +10139,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
 
-  '@antfu/eslint-config@7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)':
+  '@antfu/eslint-config@7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)':
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@clack/prompts': 1.0.1
@@ -10178,7 +10178,7 @@ snapshots:
       vue-eslint-parser: 10.4.0(eslint@9.39.3(jiti@2.6.1))
       yaml-eslint-parser: 2.0.0
     optionalDependencies:
-      '@unocss/eslint-plugin': 66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
+      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
       eslint-plugin-format: 1.5.0(eslint@9.39.3(jiti@2.6.1))
       svelte-eslint-parser: 1.5.1(svelte@5.53.3)
     transitivePeerDependencies:
@@ -13377,23 +13377,23 @@ snapshots:
       unhead: 2.1.6
       vue: 3.5.29(typescript@5.8.3)
 
-  '@unocss/config@66.6.1':
+  '@unocss/config@66.6.2':
     dependencies:
-      '@unocss/core': 66.6.1
+      '@unocss/core': 66.6.2
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
     optional: true
 
-  '@unocss/core@66.6.1':
+  '@unocss/core@66.6.2':
     optional: true
 
-  '@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)':
+  '@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
-      '@unocss/config': 66.6.1
-      '@unocss/core': 66.6.1
-      '@unocss/rule-utils': 66.6.1
+      '@unocss/config': 66.6.2
+      '@unocss/core': 66.6.2
+      '@unocss/rule-utils': 66.6.2
       magic-string: 0.30.21
       synckit: 0.11.12
     transitivePeerDependencies:
@@ -13402,9 +13402,9 @@ snapshots:
       - typescript
     optional: true
 
-  '@unocss/rule-utils@66.6.1':
+  '@unocss/rule-utils@66.6.2':
     dependencies:
-      '@unocss/core': 66.6.1
+      '@unocss/core': 66.6.2
       magic-string: 0.30.21
     optional: true
 

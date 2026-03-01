@@ -59,8 +59,8 @@ catalogs:
     '@codemirror/lang-javascript': ^6.2.4
     '@codemirror/lang-xml': ^6.1.0
     '@oxc-parser/binding-wasm32-wasi': ^0.115.0
-    '@shikijs/markdown-it': ^3.21.0
-    '@shikijs/vitepress-twoslash': ^3.21.0
+    '@shikijs/markdown-it': ^3.23.0
+    '@shikijs/vitepress-twoslash': ^3.23.0
     codemirror: ^6.0.1
     codemirror-theme-vars: ^0.1.2
     markdown-it-link-attributes: ^4.0.1
