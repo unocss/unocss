@@ -68,9 +68,6 @@ catalogs:
     '@codemirror/lang-xml':
       specifier: ^6.1.0
       version: 6.1.0
-    '@napi-rs/wasm-runtime':
-      specifier: ^1.1.1
-      version: 1.1.1
     '@oxc-parser/binding-wasm32-wasi':
       specifier: ^0.115.0
       version: 0.115.0
@@ -514,9 +511,6 @@ importers:
       '@iconify-json/uim':
         specifier: catalog:icons
         version: 1.2.3
-      '@napi-rs/wasm-runtime':
-        specifier: catalog:docs
-        version: 1.1.1
       '@oxc-parser/binding-wasm32-wasi':
         specifier: catalog:docs
         version: 0.115.0
