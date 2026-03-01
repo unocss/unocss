@@ -150,19 +150,13 @@
     "publish": "esno ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
-    "pack": "vsce package --no-dependencies"
+    "pack": "npx @vscode/vsce package --no-dependencies"
   },
   "devDependencies": {
     "@types/vscode": "^1.96.0",
-    "@unocss/autocomplete": "workspace:*",
-    "@unocss/core": "workspace:*",
-    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/language-server": "workspace:*",
     "esno": "catalog:utils",
-    "find-up": "catalog:utils",
-    "jiti": "catalog:utils",
-    "prettier": "catalog:utils",
-    "unconfig": "catalog:utils",
-    "unplugin-utils": "catalog:utils",
-    "vscode-ext-gen": "catalog:utils"
+    "vscode-ext-gen": "catalog:vscode",
+    "vscode-languageclient": "catalog:vscode"
   }
 }

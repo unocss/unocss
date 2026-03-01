@@ -291,9 +291,6 @@ catalogs:
     execa:
       specifier: ^9.6.1
       version: 9.6.1
-    find-up:
-      specifier: ^6.3.0
-      version: 6.3.0
     fs-extra:
       specifier: ^11.3.3
       version: 11.3.3
@@ -303,9 +300,6 @@ catalogs:
     fzf:
       specifier: ^0.5.2
       version: 0.5.2
-    jiti:
-      specifier: ^2.6.1
-      version: 2.6.1
     js-yaml:
       specifier: ^4.1.1
       version: 4.1.1
@@ -384,9 +378,6 @@ catalogs:
     unplugin-utils:
       specifier: ^0.3.1
       version: 0.3.1
-    vscode-ext-gen:
-      specifier: ^1.6.0
-      version: 1.6.0
     zimmerframe:
       specifier: ^1.1.4
       version: 1.1.4
@@ -406,6 +397,19 @@ catalogs:
     vite-plugin-windicss:
       specifier: ^1.9.4
       version: 1.9.4
+  vscode:
+    vscode-ext-gen:
+      specifier: ^1.6.0
+      version: 1.6.0
+    vscode-languageclient:
+      specifier: ^9.0.1
+      version: 9.0.1
+    vscode-languageserver:
+      specifier: ^9.0.1
+      version: 9.0.1
+    vscode-languageserver-textdocument:
+      specifier: ^1.0.12
+      version: 1.0.12
   vue:
     '@vue/reactivity':
       specifier: ^3.5.29
@@ -458,7 +462,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:eslint
-        version: 7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)
+        version: 7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)
       '@antfu/ni':
         specifier: catalog:utils
         version: 28.2.0
@@ -1061,6 +1065,37 @@ importers:
         specifier: catalog:vue
         version: 0.2.0
 
+  packages-integrations/language-server:
+    dependencies:
+      '@unocss/autocomplete':
+        specifier: workspace:*
+        version: link:../../packages-engine/autocomplete
+      '@unocss/config':
+        specifier: workspace:*
+        version: link:../../packages-engine/config
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
+      prettier:
+        specifier: ^2.8.8
+        version: 2.8.8
+      unconfig:
+        specifier: catalog:utils
+        version: 7.5.0
+      vscode-languageserver:
+        specifier: catalog:vscode
+        version: 9.0.1
+      vscode-languageserver-textdocument:
+        specifier: catalog:vscode
+        version: 1.0.12
+    devDependencies:
+      tsdown:
+        specifier: catalog:build
+        version: 0.19.0(@arethetypeswrong/core@0.18.2)(@typescript/native-preview@7.0.0-dev.20260114.1)(publint@0.3.17)(synckit@0.11.12)(typescript@5.8.3)
+
   packages-integrations/nuxt:
     dependencies:
       '@nuxt/kit':
@@ -1227,36 +1262,18 @@ importers:
       '@types/vscode':
         specifier: ^1.96.0
         version: 1.108.1
-      '@unocss/autocomplete':
+      '@unocss/language-server':
         specifier: workspace:*
-        version: link:../../packages-engine/autocomplete
-      '@unocss/core':
-        specifier: workspace:*
-        version: link:../../packages-engine/core
-      '@unocss/preset-wind3':
-        specifier: workspace:*
-        version: link:../../packages-presets/preset-wind3
+        version: link:../language-server
       esno:
         specifier: catalog:utils
         version: 4.8.0
-      find-up:
-        specifier: catalog:utils
-        version: 6.3.0
-      jiti:
-        specifier: catalog:utils
-        version: 2.6.1
-      prettier:
-        specifier: ^2.8.8
-        version: 2.8.8
-      unconfig:
-        specifier: catalog:utils
-        version: 7.5.0
-      unplugin-utils:
-        specifier: catalog:utils
-        version: 0.3.1
       vscode-ext-gen:
-        specifier: catalog:utils
+        specifier: catalog:vscode
         version: 1.6.0
+      vscode-languageclient:
+        specifier: catalog:vscode
+        version: 9.0.1
 
   packages-integrations/webpack:
     dependencies:
@@ -4907,19 +4924,19 @@ packages:
     peerDependencies:
       vue: '>=3.5.18'
 
-  '@unocss/config@66.6.2':
-    resolution: {integrity: sha512-qny2bRW1OA+MZbWShVZdBg6fJundm1LqQwCxJnIpeK3McpPHS3pnHBiwD1wfZHY2z5Pe+XgZOZkozNmG/eyyqg==}
+  '@unocss/config@66.6.1':
+    resolution: {integrity: sha512-0wexfgMjHJbouCxdnkAcgfDpBK9k4hrH1mphc/WkrkPgdqqvswCdvCgFpnywSQl9SOf+n5Yc4B5ee719rk28dA==}
     engines: {node: '>=14'}
 
-  '@unocss/core@66.6.2':
-    resolution: {integrity: sha512-IOvN1BLRP0VTjjS5afSxmXhvKRDko2Shisp8spU+A9qiH1tXEFP3phyVevm/SuGwBHO1lC+SJ451/4oFkCAwJA==}
+  '@unocss/core@66.6.1':
+    resolution: {integrity: sha512-2L1zXD3kGbu7dfI/LQ0ExON6I6Wi8LqQbBsEeY4me0v2xy736S2OBUZEbrvn0c6kHEft43xfGNTtrFDBPlF4nw==}
 
-  '@unocss/eslint-plugin@66.6.2':
-    resolution: {integrity: sha512-oRity0IekMIZUM1s9qu9+4VBC3jmqp6IAEnH7GObrRZlW1s8oZrPlilLNNVldEB0Ez3XynZwJAdb6cHwNmwmPQ==}
+  '@unocss/eslint-plugin@66.6.1':
+    resolution: {integrity: sha512-4La1Nt8E+KxRotlafcmFoUWiMFQPSXVmuqqTdbjSpI5i0ebVbSPqb74aV30LEcIfXN56KC+DrrGt3itC07igKA==}
     engines: {node: '>=14'}
 
-  '@unocss/rule-utils@66.6.2':
-    resolution: {integrity: sha512-cygfCtkeMrqMM6si1cnyOF16sS7M2gCAqgmZybAhGV7tmH7V8Izn52JZiZIrxVRNMz9dWMVWerHEI9nLbFdbrg==}
+  '@unocss/rule-utils@66.6.1':
+    resolution: {integrity: sha512-Ca7mfpkIqNB9+C95JGsIT3gSuurqde8I1721RGC56jrOVLaDACxn8MHMMoctuTf3w5zCZoQKs/sG0mKn7aRNtQ==}
     engines: {node: '>=14'}
 
   '@vercel/nft@1.2.0':
@@ -6567,10 +6584,6 @@ packages:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
 
-  find-up@6.3.0:
-    resolution: {integrity: sha512-v2ZsoEuVHYy8ZIlYqwPe/39Cy+cFDzp4dXPaxNvkEuouymu+2Jbz0PxpKarJHYJTmv2HWT3O382qY8l4jMWthw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   fix-dts-default-cjs-exports@1.0.1:
     resolution: {integrity: sha512-pVIECanWFC61Hzl2+oOCtoJ3F17kglZC/6N94eRWycFgBH35hHx0Li604ZIzhseh97mf2p0cv7vVrOZGoqhlEg==}
 
@@ -7293,10 +7306,6 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
-  locate-path@7.2.0:
-    resolution: {integrity: sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
@@ -7877,10 +7886,6 @@ packages:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
     engines: {node: '>=10'}
 
-  p-limit@4.0.0:
-    resolution: {integrity: sha512-5b0R4txpzjPWVw/cXXUResoD4hb6U/x9BH08L7nw+GN1sezDzPdxeRvpc9c433fZhBan/wusjbCsqwqm4EIBIQ==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   p-limit@6.2.0:
     resolution: {integrity: sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==}
     engines: {node: '>=18'}
@@ -7892,10 +7897,6 @@ packages:
   p-locate@5.0.0:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
-
-  p-locate@6.0.0:
-    resolution: {integrity: sha512-wPrq66Llhl7/4AGC6I+cqxT07LhXvWL08LNXz1fENOw0Ap4sRZZ/gZpTTJ5jpurzzzfS2W/Ge9BY3LgLjCShcw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   p-queue@8.1.1:
     resolution: {integrity: sha512-aNZ+VfjobsWryoiPnEApGGmf5WmNsCo9xu8dfaYamG5qaLP7ClhLN6NgsFe6SwJ2UbLEBK5dv9x8Mn5+RVhMWQ==}
@@ -7961,10 +7962,6 @@ packages:
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
     engines: {node: '>=8'}
-
-  path-exists@5.0.0:
-    resolution: {integrity: sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   path-key@3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
@@ -9732,6 +9729,27 @@ packages:
     resolution: {integrity: sha512-oYg4QCx56hs1+EOVInhQMeuO4jKOCHuBrG9uppivGac8Cu9crJ7YKZg8bviDO60iX9IHqX7o5oRIV/Y+f96XwA==}
     hasBin: true
 
+  vscode-jsonrpc@8.2.0:
+    resolution: {integrity: sha512-C+r0eKJUIfiDIfwJhria30+TYWPtuHJXHtI7J0YlOmKAo7ogxP20T0zxB7HZQIFhIyvoBPwWskjxrvAtfjyZfA==}
+    engines: {node: '>=14.0.0'}
+
+  vscode-languageclient@9.0.1:
+    resolution: {integrity: sha512-JZiimVdvimEuHh5olxhxkht09m3JzUGwggb5eRUkzzJhZ2KjCN0nh55VfiED9oez9DyF8/fz1g1iBV3h+0Z2EA==}
+    engines: {vscode: ^1.82.0}
+
+  vscode-languageserver-protocol@3.17.5:
+    resolution: {integrity: sha512-mb1bvRJN8SVznADSGWM9u/b07H7Ecg0I3OgXDuLdn307rl/J3A9YD6/eYOssqhecL27hK1IPZAsaqh00i/Jljg==}
+
+  vscode-languageserver-textdocument@1.0.12:
+    resolution: {integrity: sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA==}
+
+  vscode-languageserver-types@3.17.5:
+    resolution: {integrity: sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==}
+
+  vscode-languageserver@9.0.1:
+    resolution: {integrity: sha512-woByF3PDpkHFUreUa7Hos7+pUWdeWMXRd26+ZX2A8cFx6v/JPTtd4/uN0/jB6XQHYaOlHbio03NTHCqrgG5n7g==}
+    hasBin: true
+
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
@@ -10127,7 +10145,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
 
-  '@antfu/eslint-config@7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)':
+  '@antfu/eslint-config@7.6.0(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.8.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3))(@vue/compiler-sfc@3.5.29)(eslint-plugin-format@1.5.0(eslint@9.39.3(jiti@2.6.1)))(eslint@9.39.3(jiti@2.6.1))(svelte-eslint-parser@1.5.1(svelte@5.53.3))(typescript@5.8.3)(vitest@4.0.18)':
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@clack/prompts': 1.0.1
@@ -10166,7 +10184,7 @@ snapshots:
       vue-eslint-parser: 10.4.0(eslint@9.39.3(jiti@2.6.1))
       yaml-eslint-parser: 2.0.0
     optionalDependencies:
-      '@unocss/eslint-plugin': 66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
+      '@unocss/eslint-plugin': 66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
       eslint-plugin-format: 1.5.0(eslint@9.39.3(jiti@2.6.1))
       svelte-eslint-parser: 1.5.1(svelte@5.53.3)
     transitivePeerDependencies:
@@ -13365,23 +13383,23 @@ snapshots:
       unhead: 2.1.6
       vue: 3.5.29(typescript@5.8.3)
 
-  '@unocss/config@66.6.2':
+  '@unocss/config@66.6.1':
     dependencies:
-      '@unocss/core': 66.6.2
+      '@unocss/core': 66.6.1
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
     optional: true
 
-  '@unocss/core@66.6.2':
+  '@unocss/core@66.6.1':
     optional: true
 
-  '@unocss/eslint-plugin@66.6.2(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)':
+  '@unocss/eslint-plugin@66.6.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)
-      '@unocss/config': 66.6.2
-      '@unocss/core': 66.6.2
-      '@unocss/rule-utils': 66.6.2
+      '@unocss/config': 66.6.1
+      '@unocss/core': 66.6.1
+      '@unocss/rule-utils': 66.6.1
       magic-string: 0.30.21
       synckit: 0.11.12
     transitivePeerDependencies:
@@ -13390,9 +13408,9 @@ snapshots:
       - typescript
     optional: true
 
-  '@unocss/rule-utils@66.6.2':
+  '@unocss/rule-utils@66.6.1':
     dependencies:
-      '@unocss/core': 66.6.2
+      '@unocss/core': 66.6.1
       magic-string: 0.30.21
     optional: true
 
@@ -15375,11 +15393,6 @@ snapshots:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  find-up@6.3.0:
-    dependencies:
-      locate-path: 7.2.0
-      path-exists: 5.0.0
-
   fix-dts-default-cjs-exports@1.0.1:
     dependencies:
       magic-string: 0.30.21
@@ -15516,7 +15529,7 @@ snapshots:
 
   glob@13.0.0:
     dependencies:
-      minimatch: 10.1.1
+      minimatch: 10.2.3
       minipass: 7.1.2
       path-scurry: 2.0.1
 
@@ -16130,10 +16143,6 @@ snapshots:
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
-
-  locate-path@7.2.0:
-    dependencies:
-      p-locate: 6.0.0
 
   lodash.debounce@4.0.8: {}
 
@@ -17446,10 +17455,6 @@ snapshots:
     dependencies:
       yocto-queue: 0.1.0
 
-  p-limit@4.0.0:
-    dependencies:
-      yocto-queue: 1.2.2
-
   p-limit@6.2.0:
     dependencies:
       yocto-queue: 1.2.2
@@ -17461,10 +17466,6 @@ snapshots:
   p-locate@5.0.0:
     dependencies:
       p-limit: 3.1.0
-
-  p-locate@6.0.0:
-    dependencies:
-      p-limit: 4.0.0
 
   p-queue@8.1.1:
     dependencies:
@@ -17523,8 +17524,6 @@ snapshots:
   path-browserify@1.0.1: {}
 
   path-exists@4.0.0: {}
-
-  path-exists@5.0.0: {}
 
   path-key@3.1.1: {}
 
@@ -19546,6 +19545,27 @@ snapshots:
     dependencies:
       cac: 6.7.14
       tinyglobby: 0.2.15
+
+  vscode-jsonrpc@8.2.0: {}
+
+  vscode-languageclient@9.0.1:
+    dependencies:
+      minimatch: 5.1.6
+      semver: 7.7.4
+      vscode-languageserver-protocol: 3.17.5
+
+  vscode-languageserver-protocol@3.17.5:
+    dependencies:
+      vscode-jsonrpc: 8.2.0
+      vscode-languageserver-types: 3.17.5
+
+  vscode-languageserver-textdocument@1.0.12: {}
+
+  vscode-languageserver-types@3.17.5: {}
+
+  vscode-languageserver@9.0.1:
+    dependencies:
+      vscode-languageserver-protocol: 3.17.5
 
   vscode-uri@3.1.0: {}
 

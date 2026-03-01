@@ -6,6 +6,7 @@ import { CONTROL_NO_NEGATIVE, cssMathFnRE, cssVarFnRE } from '../utils'
 
 const anchoredNumberRE = /^-?[0-9.]+(?:[a-z]+|%)?$/
 const numberRE = /-?[0-9.]+(?:[a-z]+|%)?/
+const spacingMultiplyRE = /var\(--spacing(?:-[\w-]+)?\)\s*\*\s*(-?[0-9.]+(?:[a-z]+|%)?)/
 
 const ignoreProps = [
   /\b(opacity|color|flex|backdrop-filter|^filter|^scale|transform|mask-image)\b/,
@@ -15,8 +16,19 @@ function negateMathFunction(value: string) {
   const match = value.match(cssMathFnRE) || value.match(cssVarFnRE)
   if (match) {
     const [fnBody, rest] = getStringComponent(`(${match[2]})${match[3]}`, '(', ')', ' ') ?? []
-    if (fnBody)
+    if (fnBody) {
+      const spacingMultiplyMatch = fnBody.match(spacingMultiplyRE)
+      if (spacingMultiplyMatch) {
+        const num = spacingMultiplyMatch[1]
+        const nextNum = num.startsWith('-') ? num.slice(1) : `-${num}`
+        const nextFnBody = fnBody.replace(spacingMultiplyRE, (segment) => {
+          return segment.replace(num, nextNum)
+        })
+        return `${match[1]}${nextFnBody}${rest ? ` ${rest}` : ''}`
+      }
+
       return `calc(${match[1]}${fnBody} * -1)${rest ? ` ${rest}` : ''}`
+    }
   }
 }
 
@@ -45,32 +57,35 @@ export const variantNegative: Variant<Theme> = {
       body: (body) => {
         if (body.find(v => v[0] === CONTROL_NO_NEGATIVE))
           return
+
         let changed = false
-        body.forEach((v) => {
-          if (toArray(v[2]).includes(CONTROL_NO_NEGATIVE))
-            return
-          const value = v[1]?.toString()
-          if (!value || value === '0')
-            return
-          if (ignoreProps.some(i => i.test(v[0])))
-            return
-          const negatedFn = negateMathFunction(value)
-          if (negatedFn) {
-            v[1] = negatedFn
-            changed = true
-            return
-          }
-          const negatedBody = negateFunctionBody(value)
-          if (negatedBody) {
-            v[1] = negatedBody
-            changed = true
-            return
-          }
-          if (anchoredNumberRE.test(value)) {
-            v[1] = value.replace(numberRE, i => i.startsWith('-') ? i.slice(1) : `-${i}`)
-            changed = true
-          }
-        })
+        for (const v of body) {
+          const [prop, rawValue, meta] = v
+
+          // skip `symbols.variants` and other non-string values
+          if (typeof rawValue === 'object')
+            continue
+
+          if (meta && toArray(meta).includes(CONTROL_NO_NEGATIVE))
+            continue
+
+          const value = rawValue?.toString()
+          if (!value || value === '0' || ignoreProps.some(i => i.test(prop)))
+            continue
+
+          const nextValue = negateMathFunction(value)
+            ?? negateFunctionBody(value)
+            ?? (anchoredNumberRE.test(value)
+              ? value.replace(numberRE, i => i.startsWith('-') ? i.slice(1) : `-${i}`)
+              : undefined)
+
+          if (!nextValue || nextValue === value)
+            continue
+
+          v[1] = nextValue
+          changed = true
+        }
+
         if (changed)
           return body
         return []
