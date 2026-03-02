@@ -47,6 +47,7 @@
     "@iconify-json/teenyicons": "catalog:icons",
     "@iconify-json/twemoji": "catalog:icons",
     "@iconify-json/uim": "catalog:icons",
+    "@oxc-parser/binding-wasm32-wasi": "catalog:docs",
     "@shikijs/vitepress-twoslash": "catalog:docs",
     "@types/connect": "catalog:types",
     "@types/css-tree": "catalog:types",
