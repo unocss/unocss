@@ -1,4 +1,5 @@
 import type { UserConfigDefaults } from '@unocss/core'
+import type { Buffer } from 'node:buffer'
 import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import type { WebpackPluginOptions } from '.'
 import { isAbsolute, normalize } from 'node:path'
@@ -100,6 +101,43 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         })
         // replace the placeholders
         compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
+          // #419
+          if (compiler.options.cache) {
+            compilation.hooks.finishModules.tapPromise(PLUGIN_NAME, async (modules) => {
+              const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
+              const promises: Promise<any>[] = []
+
+              for (const module of modules) {
+                const resource = (module as any).resource
+                if (resource && isCssId(resource))
+                  continue
+                if (resource && !RESOLVED_ID_RE.test(resource) && filter('', resource)) {
+                  // For Webpack 5 persistent cache, we need to manually read the file content
+                  // if the module is restored from cache, as loaders might be skipped.
+                  promises.push(
+                    (async () => {
+                      if (!compiler.inputFileSystem)
+                        return
+
+                      const content = await new Promise<string | Buffer | undefined>((resolve, reject) => {
+                        compiler.inputFileSystem!.readFile(resource, (err, data) => {
+                          if (err)
+                            reject(err)
+                          else
+                            resolve(data)
+                        })
+                      }) // let it throw if error
+                      if (content != null)
+                        await ctx.extract(content.toString(), resource)
+                    })(),
+                  )
+                }
+              }
+
+              await Promise.all(promises)
+            })
+          }
+
           const optimizeAssetsHook = compilation.hooks.processAssets /* webpack 5 & 6 */
             || compilation.hooks.optimizeAssets /* webpack 4 */
 
@@ -108,6 +146,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
             const files = Object.keys(compilation.assets)
 
             await flushTasks()
+
             const result = await ctx.uno.generate(tokens, { minify: true })
             const resolvedLayers = (await Promise.all(Array.from(entries)
               .map(i => resolveLayer(ctx, i))))
