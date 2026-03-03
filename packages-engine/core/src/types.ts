@@ -98,7 +98,7 @@ export interface ControlSymbols {
    */
   noMerge: typeof SymbolNoMerge
   /**
-   * Prevent scope applying in rules
+   * Prevent applying the `scope` option to this rule/selector
    */
   noScope: typeof SymbolNoScope
   /**
