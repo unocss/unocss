@@ -80,6 +80,7 @@ export interface RuleContext<Theme extends object = object> {
 
 declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolNoMerge: unique symbol
+declare const SymbolNoScope: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
@@ -96,6 +97,10 @@ export interface ControlSymbols {
    * Prevent merging in rules
    */
   noMerge: typeof SymbolNoMerge
+  /**
+   * Prevent scope applying in rules
+   */
+  noScope: typeof SymbolNoScope
   /**
    * Additional variants applied to this rule
    */
@@ -125,6 +130,7 @@ export interface ControlSymbols {
 export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
   [SymbolNoMerge]: true
+  [SymbolNoScope]: true
   [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
@@ -198,6 +204,12 @@ export interface RuleMeta {
    * @default false
    */
   noMerge?: boolean
+
+  /**
+   * Option to not apply scope to this selector.
+   * @default false
+   */
+  noScope?: boolean
 
   /**
    * Fine tune sort
