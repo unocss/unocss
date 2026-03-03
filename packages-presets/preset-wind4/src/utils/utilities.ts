@@ -395,6 +395,7 @@ export function defineProperty(
   const value: CSSObjectInput = {
     [symbols.shortcutsNoMerge]: true,
     [symbols.noMerge]: true,
+    [symbols.noScope]: true,
     [symbols.variants]: () => [
       {
         parent: '',
