@@ -746,6 +746,7 @@
 .hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:color-mix(in srgb, var(--colors-red-DEFAULT) 10%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 .hover\:file\:bg-violet-100::file-selector-button:hover{background-color:color-mix(in srgb, var(--colors-violet-100) var(--un-bg-opacity), transparent) /* oklch(94.3% 0.029 294.588) */;}
 .file\:bg-violet-50::file-selector-button{background-color:color-mix(in srgb, var(--colors-violet-50) var(--un-bg-opacity), transparent) /* oklch(96.9% 0.016 293.756) */;}
+.details-content\:bg-green-100::details-content{background-color:color-mix(in srgb, var(--colors-green-100) var(--un-bg-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
 .bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
 .bg-opacity-45{--un-bg-opacity:45%;}
@@ -1992,6 +1993,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) 10%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 .hover\:file\:bg-violet-100::file-selector-button:hover{background-color:color-mix(in oklab, var(--colors-violet-100) var(--un-bg-opacity), transparent) /* oklch(94.3% 0.029 294.588) */;}
 .file\:bg-violet-50::file-selector-button{background-color:color-mix(in oklab, var(--colors-violet-50) var(--un-bg-opacity), transparent) /* oklch(96.9% 0.016 293.756) */;}
+.details-content\:bg-green-100::details-content{background-color:color-mix(in oklab, var(--colors-green-100) var(--un-bg-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
 .decoration-purple\/50{text-decoration-color:color-mix(in oklab, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;}
 .data-\[invalid\~\=grammar\]\:underline-green-600[data-invalid~=grammar]{text-decoration-color:color-mix(in oklab, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
 .underline-red-500{text-decoration-color:color-mix(in oklab, var(--colors-red-500) var(--un-line-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
