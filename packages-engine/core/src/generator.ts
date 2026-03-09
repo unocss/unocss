@@ -8,6 +8,7 @@ import { createNanoEvents } from './utils/events'
 export const symbols: ControlSymbols = {
   shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
   noMerge: '$$symbol-no-merge' as unknown as ControlSymbols['noMerge'],
+  noScope: '$$symbol-no-scope' as unknown as ControlSymbols['noScope'],
   variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
@@ -323,7 +324,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
                 || 0
             })
             .map(([, selector, body, , meta, , variantNoMerge]) => {
-              const scopedSelector = selector ? applyScope(selector, scope) : selector
+              const scopedSelector = (selector && !meta?.noScope) ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
                 body,
@@ -717,50 +718,49 @@ class UnoGeneratorInternal<Theme extends object = object> {
         // Extract variants from special symbols
         let variants = context.variantHandlers
         let entryMeta = meta
+        const setVariant = (variant: (typeof variants)[number]) => {
+          variants = [variant, ...variants]
+        }
+        const setMeta = (partial: Partial<RuleMeta>) => {
+          entryMeta = {
+            ...entryMeta,
+            ...partial,
+          }
+        }
         for (const entry of css) {
-          if (entry[0] === symbols.variants) {
-            if (typeof entry[1] === 'function') {
-              variants = entry[1](variants) || variants
-            }
-            else {
-              variants = [
-                ...toArray(entry[1]),
-                ...variants,
-              ]
-            }
-          }
-          else if (entry[0] === symbols.parent) {
-            variants = [
-              { parent: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.selector) {
-            variants = [
-              { selector: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.layer) {
-            variants = [
-              { layer: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.sort) {
-            entryMeta = {
-              ...entryMeta,
-              sort: entry[1],
-            }
-          }
-          else if (entry[0] === symbols.noMerge) {
-            entryMeta = {
-              ...entryMeta,
-              noMerge: entry[1],
-            }
-          }
-          else if (entry[0] === symbols.body) {
-            (entry as unknown as CSSEntry)[0] = VirtualKey
+          switch (entry[0]) {
+            case symbols.variants:
+              if (typeof entry[1] === 'function') {
+                variants = entry[1](variants) || variants
+              }
+              else {
+                variants = [
+                  ...toArray(entry[1]),
+                  ...variants,
+                ]
+              }
+              break
+            case symbols.parent:
+              setVariant({ parent: entry[1] })
+              break
+            case symbols.selector:
+              setVariant({ selector: entry[1] })
+              break
+            case symbols.layer:
+              setVariant({ layer: entry[1] })
+              break
+            case symbols.sort:
+              setMeta({ sort: entry[1] })
+              break
+            case symbols.noMerge:
+              setMeta({ noMerge: entry[1] })
+              break
+            case symbols.noScope:
+              setMeta({ noScope: entry[1] })
+              break
+            case symbols.body:
+              (entry as unknown as CSSEntry)[0] = VirtualKey
+              break
           }
         }
 

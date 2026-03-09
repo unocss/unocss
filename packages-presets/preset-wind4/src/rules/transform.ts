@@ -45,7 +45,7 @@ export const transforms: Rule<Theme>[] = [
   ],
 
   // perspectives
-  [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s], { theme }) => {
+  [/^(transform-)?perspect(?:ive)?-(.+)$/, ([, t, s], { theme }) => {
     let v
     if (theme.perspective?.[s]) {
       themeTracking(`perspective`, s)
@@ -56,11 +56,18 @@ export const transforms: Rule<Theme>[] = [
     }
 
     if (v != null) {
+      if (t) {
+        return {
+          '--un-perspective': `perspective(${v})`,
+          'transform': `var(--un-perspective) ${transform}`,
+        }
+      }
+
       return {
         perspective: v,
       }
     }
-  }, { autocomplete: [`transform-perspective-<num>`, `perspective-<num>`, `perspective-$perspective`] }],
+  }, { autocomplete: [`perspective-<num>`, `perspective-$perspective`] }],
 
   // skip 1 & 2 letters shortcut
   [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {

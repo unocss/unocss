@@ -873,6 +873,7 @@ export const presetMiniTargets: string[] = [
   'perspect-origin-top-right',
   'perspect-origin-[150%]',
   'perspect-origin-[150%_150%]',
+  'transform-perspective-9cm',
 
   // transition
   'transition-none',
@@ -1175,6 +1176,7 @@ export const presetMiniTargets: string[] = [
   'hover:file:bg-violet-100',
   'backdrop:shadow-green',
   'backdrop-element:shadow-green-100',
+  'details-content:bg-green-100',
 
   // variants - pseudo classes
   'rtl:text-right',

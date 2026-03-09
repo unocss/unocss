@@ -7,12 +7,11 @@ export default defineConfig([
       'src/worker.ts',
     ],
     clean: true,
-    failOnWarn: false,
     alias: aliasVirtual,
+    exports: true,
   },
   {
     entry: [
-      'src/dirs.ts',
       'src/index.ts',
     ],
     clean: false,
@@ -22,8 +21,15 @@ export default defineConfig([
       '@typescript-eslint/types',
     ],
     alias: aliasVirtual,
+    outputOptions: {
+      exports: 'named',
+    },
+    exports: true,
+    failOnWarn: true,
+    publint: 'ci-only',
     attw: {
-      profile: 'esm-only',
+      enabled: 'ci-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
 ])

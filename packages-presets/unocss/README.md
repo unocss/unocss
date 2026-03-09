@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/unocss/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
+<img src="https://raw.githubusercontent.com/unocss/unocss/main/playground/public/icon-gray.svg" style="width:100px;" alt="UnoCSS Logo" />
 </p>
 
 <h1 align="center">UnoCSS</h1>
@@ -79,7 +79,7 @@ UnoCSS is made possible thanks to the inspirations from the following projects:
 
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>
+    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg' alt="Sponsors"/>
   </a>
 </p>
 

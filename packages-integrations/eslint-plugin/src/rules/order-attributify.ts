@@ -41,9 +41,8 @@ export default createRule({
             node,
             messageId: 'invalid-order',
             fix(fixer) {
-              const codeFull = context.getSourceCode()
               const offset = node.range[0]
-              const code = codeFull.getText().slice(node.range[0], node.range[1])
+              const code = context.sourceCode.getText().slice(node.range[0], node.range[1])
 
               const s = new MagicString(code)
 

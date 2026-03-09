@@ -10,7 +10,11 @@ export default defineConfig({
   dts: true,
   format: ['esm', 'cjs'],
   alias: aliasVirtual,
-  attw: {
-    profile: 'esm-only',
+  outputOptions: {
+    exports: 'named',
   },
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: 'ci-only',
 })

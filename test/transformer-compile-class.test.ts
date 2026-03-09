@@ -152,4 +152,22 @@ describe('transformer-compile-class', () => {
 
     expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
+
+  it('trigger with new line', async () => {
+    const result = await transform(`
+<div class="
+:uno:
+w-1 h-1
+bg-red text-blue
+">
+ test
+</div>
+    `)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class="uno-4o94tx">
+       test
+      </div>"
+    `)
+  })
 })
