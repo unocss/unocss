@@ -15,6 +15,7 @@
     "@iconify-json/ph": "catalog:icons",
     "@iconify-json/twemoji": "catalog:icons",
     "@iconify-json/vscode-icons": "catalog:icons",
+    "@unocss/twoslash": "workspace:*",
     "ofetch": "catalog:utils",
     "unocss": "workspace:*",
     "unplugin-vue-components": "catalog:vue",

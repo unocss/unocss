@@ -109,6 +109,7 @@
     "typescript": "catalog:typescript",
     "unocss": "workspace:*",
     "unplugin-auto-import": "catalog:utils",
+    "unplugin-quansync": "catalog:utils",
     "unplugin-vue-components": "catalog:vue",
     "unrun": "catalog:utils",
     "vite": "catalog:vite",

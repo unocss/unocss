@@ -1,5 +1,6 @@
 import type { DefaultTheme } from 'vitepress'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
+import { createTwoslasher } from '@unocss/twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
@@ -302,6 +303,9 @@ export default defineConfig({
     codeTransformers: [
       transformerTwoslash({
         processHoverInfo: info => info.replace(/_unocss_core\./g, ''),
+      }),
+      transformerTwoslash({
+        twoslasher: createTwoslasher(),
       }),
     ],
     config(md) {

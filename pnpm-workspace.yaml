@@ -113,6 +113,8 @@ catalogs:
     jsdom: ^29.1.1
     msw: ^2.7.0
     vitest: ^4.1.6
+  twoslash:
+    twoslash-protocol: ^0.3.8
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11
@@ -173,6 +175,7 @@ catalogs:
     unconfig: ^7.5.0
     unplugin: ^3.0.0
     unplugin-auto-import: ^21.0.0
+    unplugin-quansync: ^0.5.2
     unplugin-utils: ^0.3.1
     unrun: ^0.3.0
     zimmerframe: ^1.1.4
