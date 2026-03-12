@@ -35,7 +35,7 @@ function resolveConfiguredRoot(value: string, basePaths: string[]): string[] {
   if (!value)
     return []
 
-  if (path.isAbsolute(value))
+  if (isAbsolutePath(value))
     return [path.normalize(value)]
 
   const normalizedValue = path.normalize(value)
@@ -57,4 +57,9 @@ function resolveConfiguredRoot(value: string, basePaths: string[]): string[] {
 
 function normalizePaths(paths: Array<string | undefined>): string[] {
   return Array.from(new Set(paths.filter(Boolean).map(value => path.normalize(value!))))
+}
+
+function isAbsolutePath(value: string): boolean {
+  return path.isAbsolute(value)
+    || path.win32.isAbsolute(value)
 }

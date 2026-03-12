@@ -36,6 +36,19 @@ describe('resolveWorkspaceRoots', () => {
     ])
   })
 
+  it('keeps windows absolute roots as-is on non-windows runtimes', () => {
+    const root = resolveWorkspaceRoots('C:/workspace/packages/app', {
+      workspaceRootPath: '/home/runner/workspace',
+      workspaceFolderPaths: [
+        '/home/runner/workspace/app',
+      ],
+    })
+
+    expect(root).toEqual([
+      path.normalize('C:/workspace/packages/app'),
+    ])
+  })
+
   it('matches configured folder names to known workspace folders', () => {
     const root = resolveWorkspaceRoots('docs', {
       workspaceRootPath: 'd:/mono/app',
