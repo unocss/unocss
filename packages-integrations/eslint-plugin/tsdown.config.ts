@@ -17,9 +17,11 @@ export default defineConfig([
     clean: false,
     dts: true,
     format: ['esm', 'cjs'],
-    external: [
-      '@typescript-eslint/types',
-    ],
+    deps: {
+      neverBundle: [
+        '@typescript-eslint/types',
+      ],
+    },
     alias: aliasVirtual,
     outputOptions: {
       exports: 'named',

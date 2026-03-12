@@ -7,7 +7,9 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: ['astro'],
+  deps: {
+    neverBundle: ['astro'],
+  },
   alias: aliasVirtual,
   exports: true,
   failOnWarn: true,

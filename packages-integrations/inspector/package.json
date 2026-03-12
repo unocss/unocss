@@ -33,6 +33,7 @@
     "build": "tsdown --config-loader unrun",
     "build-post": "vite build",
     "dev": "tsdown --config-loader unrun --watch",
+    "dev:client": "vite",
     "update-post": "vite build"
   },
   "dependencies": {

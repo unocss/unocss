@@ -15,12 +15,14 @@ export default defineConfig([
     clean: true,
     shims: true,
     alias: aliasVirtual,
-    noExternal: [
-      /^@unocss\//,
-      /^unconfig/,
-      /^prettier/,
-      /^vscode-languageserver/,
-    ],
+    deps: {
+      alwaysBundle: [
+        /^@unocss\//,
+        /^unconfig/,
+        /^prettier/,
+        /^vscode-languageserver/,
+      ],
+    },
     copy: [
       babelSource,
     ],

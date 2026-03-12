@@ -7,6 +7,12 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  deps: {
+    neverBundle: [
+      'vite',
+      '@unocss/core',
+    ],
+  },
   alias: aliasVirtual,
   exports: true,
   failOnWarn: true,
