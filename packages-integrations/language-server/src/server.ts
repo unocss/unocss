@@ -21,15 +21,99 @@ import { registerReferences } from './capabilities/references'
 import { clearAllCache, clearDocumentCache, getMatchedPositionsFromDoc } from './core/cache'
 import { ContextManager } from './core/context'
 import { defaultSettings } from './types'
+import { resolveWorkspaceRoots } from './utils/roots'
 
 const connection = createConnection(ProposedFeatures.all)
 const documents = new TextDocuments(TextDocument)
+
+interface UnocssSettingsInput extends Partial<Omit<ServerSettings, 'autocompleteMatchType' | 'autocompleteStrict' | 'autocompleteMaxItems'>> {
+  autocomplete?: {
+    matchType?: ServerSettings['autocompleteMatchType']
+    strict?: boolean
+    maxItems?: number
+  }
+}
+
+interface WorkspaceInitializationOptions {
+  workspaceFileDir?: string
+  workspaceFolderPaths?: string[]
+}
+
+interface WorkspaceContextState {
+  rootPath?: string
+  fileDir?: string
+  folderPaths: string[]
+}
 
 let settings: ServerSettings = { ...defaultSettings }
 let contextManager: ContextManager
 let hasWatchedFilesCapability = false
 let serverInitialized = false
 let watcherDisposable: Disposable | undefined
+const workspaceContext: WorkspaceContextState = {
+  folderPaths: [],
+}
+
+function mergeSettings(unocssSettings: UnocssSettingsInput = {}) {
+  settings = {
+    ...defaultSettings,
+    ...unocssSettings,
+    autocompleteMatchType: unocssSettings?.autocomplete?.matchType ?? defaultSettings.autocompleteMatchType,
+    autocompleteStrict: unocssSettings?.autocomplete?.strict ?? defaultSettings.autocompleteStrict,
+    autocompleteMaxItems: unocssSettings?.autocomplete?.maxItems ?? defaultSettings.autocompleteMaxItems,
+  }
+}
+
+function resolveConfiguredRoots(root: string | string[] | undefined): string[] {
+  return resolveWorkspaceRoots(root, {
+    workspaceRootPath: workspaceContext.rootPath,
+    workspaceFileDir: workspaceContext.fileDir,
+    workspaceFolderPaths: workspaceContext.folderPaths,
+  })
+}
+
+async function applyConfiguredRoots() {
+  if (!contextManager)
+    return
+
+  await contextManager.setRoots(resolveConfiguredRoots(settings.root))
+}
+
+function updateWorkspaceContext(
+  rootUri: string,
+  workspaceFolders: { uri: string }[] | null | undefined,
+  initializationOptions: WorkspaceInitializationOptions | undefined,
+) {
+  workspaceContext.rootPath = uriToFsPath(rootUri)
+  workspaceContext.fileDir = initializationOptions?.workspaceFileDir
+  workspaceContext.folderPaths = initializationOptions?.workspaceFolderPaths
+    || workspaceFolders?.map(folder => uriToFsPath(folder.uri))
+    || []
+}
+
+function createContextManager() {
+  if (!workspaceContext.rootPath)
+    return
+
+  contextManager = new ContextManager(
+    workspaceContext.rootPath,
+    connection,
+    workspaceContext.folderPaths.length ? workspaceContext.folderPaths : [workspaceContext.rootPath],
+  )
+
+  contextManager.events.on('contextReload', (ctx) => {
+    resetAutoCompleteCache(ctx)
+  })
+  contextManager.events.on('contextUnload', (ctx) => {
+    resetAutoCompleteCache(ctx)
+  })
+  contextManager.events.on('unload', (ctx) => {
+    resetAutoCompleteCache(ctx)
+  })
+  contextManager.events.on('contextLoaded', () => {
+    void updateConfigWatchers()
+  })
+}
 
 async function updateConfigWatchers(): Promise<void> {
   if (!hasWatchedFilesCapability || !serverInitialized || !contextManager)
@@ -78,26 +162,14 @@ function getContextManager() {
 
 connection.onInitialize((params) => {
   hasWatchedFilesCapability = !!params.capabilities.workspace?.didChangeWatchedFiles?.dynamicRegistration
+  const initializationOptions = params.initializationOptions as WorkspaceInitializationOptions | undefined
 
   const workspaceFolders = params.workspaceFolders
   const rootUri = workspaceFolders?.[0]?.uri || params.rootUri
 
   if (rootUri) {
-    const rootPath = uriToFsPath(rootUri)
-    contextManager = new ContextManager(rootPath, connection)
-
-    contextManager.events.on('contextReload', (ctx) => {
-      resetAutoCompleteCache(ctx)
-    })
-    contextManager.events.on('contextUnload', (ctx) => {
-      resetAutoCompleteCache(ctx)
-    })
-    contextManager.events.on('unload', (ctx) => {
-      resetAutoCompleteCache(ctx)
-    })
-    contextManager.events.on('contextLoaded', () => {
-      void updateConfigWatchers()
-    })
+    updateWorkspaceContext(rootUri, workspaceFolders, initializationOptions)
+    createContextManager()
   }
 
   // Register all LSP capabilities
@@ -121,6 +193,12 @@ connection.onInitialize((params) => {
 })
 
 connection.onInitialized(async () => {
+  try {
+    mergeSettings(await connection.workspace.getConfiguration('unocss'))
+  }
+  catch {}
+
+  await applyConfiguredRoots()
   serverInitialized = true
   if (contextManager)
     await contextManager.ready
@@ -143,16 +221,12 @@ connection.onDidChangeWatchedFiles((_change) => {
   }, 500)
 })
 
-connection.onDidChangeConfiguration((change) => {
+connection.onDidChangeConfiguration(async (change) => {
   const unocssSettings = change.settings?.unocss
   if (unocssSettings) {
-    settings = {
-      ...defaultSettings,
-      ...unocssSettings,
-      autocompleteMatchType: unocssSettings?.autocomplete?.matchType ?? defaultSettings.autocompleteMatchType,
-      autocompleteStrict: unocssSettings?.autocomplete?.strict ?? defaultSettings.autocompleteStrict,
-      autocompleteMaxItems: unocssSettings?.autocomplete?.maxItems ?? defaultSettings.autocompleteMaxItems,
-    }
+    mergeSettings(unocssSettings)
+    await applyConfiguredRoots()
+    await updateConfigWatchers()
     resetAutoCompleteCache()
   }
 })

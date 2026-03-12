@@ -30,6 +30,8 @@ export class ContextManager {
     presets: [presetWind3()],
   }
 
+  private readonly workspaceRoots: string[]
+
   public events = createNanoEvents<{
     reload: () => void
     unload: (context: UnocssPluginContext<UserConfig<any>>) => void
@@ -41,7 +43,9 @@ export class ContextManager {
   constructor(
     public cwd: string,
     private connection: Connection,
+    workspaceRoots: string[] = [cwd],
   ) {
+    this.workspaceRoots = Array.from(new Set(workspaceRoots.length ? workspaceRoots : [cwd]))
     this.ready = this.reload()
   }
 
@@ -61,31 +65,34 @@ export class ContextManager {
     return Array.from(new Set(this.contextsMap.values())).filter(notNull)
   }
 
+  async setRoots(roots: string[]) {
+    const nextRoots = Array.from(new Set(roots.length ? roots : this.workspaceRoots))
+    const currentRoots = Array.from(this.contextsMap.keys())
+
+    if (
+      currentRoots.length === nextRoots.length
+      && nextRoots.every(root => currentRoots.includes(root))
+    ) {
+      return
+    }
+
+    await Promise.all(currentRoots
+      .filter(root => !nextRoots.includes(root))
+      .map(root => this.unloadContext(root)))
+
+    this.resetCaches()
+    await this.loadRoots(nextRoots.filter(root => !currentRoots.includes(root)))
+
+    this.events.emit('reload')
+  }
+
   async reload() {
     const dirs = Array.from(this.contextsMap.keys())
+    const rootsToLoad = dirs.length ? dirs : this.workspaceRoots
     await Promise.all(dirs.map(dir => this.unloadContext(dir)))
 
-    this.fileContextCache.clear()
-    this.configExistsCache.clear()
-
-    if (dirs.length) {
-      await Promise.all(dirs.map(async (dir) => {
-        try {
-          await this.loadContextInDirectory(dir)
-        }
-        catch (e: any) {
-          this.warn(`⚠️ Failed to reload context for ${dir}: ${String(e.stack ?? e)}`)
-        }
-      }))
-    }
-    else {
-      try {
-        await this.loadContextInDirectory(this.cwd)
-      }
-      catch (e: any) {
-        this.warn(`⚠️ Failed to reload context for ${this.cwd}: ${String(e.stack ?? e)}`)
-      }
-    }
+    this.resetCaches()
+    await this.loadRoots(rootsToLoad)
 
     this.events.emit('reload')
   }
@@ -119,6 +126,22 @@ export class ContextManager {
       if (ctx === context)
         this.fileContextCache.delete(path)
     }
+  }
+
+  private resetCaches() {
+    this.fileContextCache.clear()
+    this.configExistsCache.clear()
+  }
+
+  private async loadRoots(roots: string[]) {
+    await Promise.all(roots.map(async (dir) => {
+      try {
+        await this.loadContextInDirectory(dir)
+      }
+      catch (e: any) {
+        this.warn(`⚠️ Failed to reload context for ${dir}: ${String(e.stack ?? e)}`)
+      }
+    }))
   }
 
   async loadContextInDirectory(dir: string): Promise<UnoContext> {
@@ -339,12 +362,16 @@ export class ContextManager {
     if (cached !== undefined)
       return cached || undefined
 
+    const searchBoundary = this.getWorkspaceBoundary(startDir)
+    if (!searchBoundary)
+      return undefined
+
     const root = path.parse(startDir).root
     const searchedDirs: string[] = []
     let dir = startDir
 
     // Search upwards until we find a config file or hit the boundary
-    while (dir !== root && (isSubdir(this.cwd, dir) || dir === this.cwd)) {
+    while (dir !== root && (isSubdir(searchBoundary, dir) || dir === searchBoundary)) {
       searchedDirs.push(dir)
 
       // Check if this directory is already cached
@@ -367,6 +394,12 @@ export class ContextManager {
     // No config found
     this.cacheSearchPath(searchedDirs, false)
     return undefined
+  }
+
+  private getWorkspaceBoundary(dir: string): string | undefined {
+    return this.workspaceRoots
+      .filter(root => root === dir || isSubdir(root, dir))
+      .sort((a, b) => b.length - a.length)[0]
   }
 
   private async hasConfigFiles(dir: string): Promise<boolean> {
