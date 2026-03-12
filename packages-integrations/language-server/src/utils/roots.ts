@@ -17,7 +17,7 @@ export function resolveWorkspaceRoots(
     ? workspaceFolderPaths
     : normalizePaths([options.workspaceRootPath])
 
-  const configuredRoots = toArray(root)
+  const configuredRoots = toArray(root).filter(Boolean)
 
   if (!configuredRoots.length)
     return fallbackRoots

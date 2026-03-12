@@ -53,6 +53,27 @@ it('loads configured roots outside the default workspace root', async () => {
   expect(manager.isTarget(sourceFile)).toBe(true)
 })
 
+it('discovers nested config within a configured root set after initialization', async () => {
+  const tempDir = await createTempWorkspace()
+
+  const workspaceRoot = path.join(tempDir, 'workspace-a')
+  const configuredRoot = path.join(tempDir, 'workspace-b')
+  // Config is nested inside configuredRoot, not at the root itself
+  const configDir = path.join(configuredRoot, 'packages', 'app')
+  const sourceFile = path.join(configDir, 'src', 'App.tsx')
+  const sourceCode = await writeSourceFile(sourceFile)
+
+  await mkdir(workspaceRoot, { recursive: true })
+  await writeFile(path.join(configDir, 'uno.config.mjs'), 'export default {}\n')
+
+  const manager = new ContextManager(workspaceRoot, connection)
+  await manager.ready
+
+  await manager.setRoots([configuredRoot])
+
+  await expect(manager.resolveClosestContext(sourceCode, sourceFile)).resolves.toBeTruthy()
+})
+
 it('discovers nested config inside a secondary workspace folder by default', async () => {
   const tempDir = await createTempWorkspace()
 

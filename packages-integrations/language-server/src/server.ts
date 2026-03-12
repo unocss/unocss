@@ -198,10 +198,11 @@ connection.onInitialized(async () => {
   }
   catch {}
 
-  await applyConfiguredRoots()
-  serverInitialized = true
-  if (contextManager)
+  if (contextManager) {
     await contextManager.ready
+    await applyConfiguredRoots()
+  }
+  serverInitialized = true
   connection.console.log('✅ UnoCSS Language Server initialized')
   await updateConfigWatchers()
 })

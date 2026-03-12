@@ -397,7 +397,7 @@ export class ContextManager {
   }
 
   private getWorkspaceBoundary(dir: string): string | undefined {
-    return this.workspaceRoots
+    return [...this.workspaceRoots, ...this.contextsMap.keys()]
       .filter(root => root === dir || isSubdir(root, dir))
       .sort((a, b) => b.length - a.length)[0]
   }
