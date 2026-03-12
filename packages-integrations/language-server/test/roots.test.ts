@@ -1,3 +1,4 @@
+import os from 'node:os'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { resolveWorkspaceRoots } from '../src/utils/roots'
@@ -139,16 +140,18 @@ describe('resolveWorkspaceRoots', () => {
   it('falls back to first resolved candidate when relative root does not exist on disk', () => {
     // Monorepo with a subpackage path that hasn't been created yet (or is just a typo)
     //
-    // /tmp/mono/             ← workspace root
+    // <tmpdir>/unocss-roots-test/    ← workspace root
     // └── packages/
     //     └── app/           ← unocss.root = "packages/app", no name match found,
     //                           path doesn't exist → resolved candidate returned as-is
 
+    const base = path.join(os.tmpdir(), 'unocss-roots-test')
+
     const root = resolveWorkspaceRoots('packages/app', {
-      workspaceRootPath: '/tmp/mono',
-      workspaceFolderPaths: ['/tmp/mono'],
+      workspaceRootPath: base,
+      workspaceFolderPaths: [base],
     })
 
-    expect(root).toEqual([path.normalize('/tmp/mono/packages/app')])
+    expect(root).toEqual([path.join(base, 'packages', 'app')])
   })
 })
