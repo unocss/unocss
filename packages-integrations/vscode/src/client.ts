@@ -2,6 +2,7 @@ import type { ExtensionContext, OutputChannel } from 'vscode'
 import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node'
 import path from 'node:path'
 import process from 'node:process'
+import { workspace } from 'vscode'
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node'
 import { getLanguageIds } from './configs'
 import { log } from './log'
@@ -53,12 +54,20 @@ export async function createLanguageClient(
   }
 
   const languageIds = await getLanguageIds()
+  const workspaceFileDir = workspace.workspaceFile
+    ? path.dirname(workspace.workspaceFile.fsPath)
+    : undefined
+  const workspaceFolderPaths = workspace.workspaceFolders?.map(folder => folder.uri.fsPath) ?? []
 
   const clientOptions: LanguageClientOptions = {
     documentSelector: languageIds.map(id => ({
       language: id,
       scheme: 'file',
     })),
+    initializationOptions: {
+      workspaceFileDir,
+      workspaceFolderPaths,
+    },
     synchronize: {
       configurationSection: 'unocss',
     },
