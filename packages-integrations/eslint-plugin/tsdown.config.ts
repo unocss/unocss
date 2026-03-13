@@ -20,6 +20,7 @@ export default defineConfig([
     deps: {
       neverBundle: [
         '@typescript-eslint/types',
+        'eslint',
       ],
     },
     alias: aliasVirtual,
