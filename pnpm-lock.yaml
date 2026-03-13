@@ -282,9 +282,6 @@ catalogs:
     consola:
       specifier: ^3.4.2
       version: 3.4.2
-    esno:
-      specifier: ^4.8.0
-      version: 4.8.0
     execa:
       specifier: ^9.6.1
       version: 9.6.1
@@ -589,9 +586,6 @@ importers:
       eslint-vitest-rule-tester:
         specifier: catalog:eslint
         version: 3.1.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.8.3)(vitest@4.0.18)
-      esno:
-        specifier: catalog:utils
-        version: 4.8.0
       execa:
         specifier: catalog:utils
         version: 9.6.1
@@ -826,9 +820,6 @@ importers:
       '@vueuse/nuxt':
         specifier: catalog:vue
         version: 14.2.1(magicast@0.5.1)(nuxt@4.3.1(@parcel/watcher@2.5.4)(@types/node@25.3.0)(@vue/compiler-sfc@3.5.29)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.3(jiti@2.6.1))(ioredis@5.9.1)(lightningcss@1.30.2)(magicast@0.5.1)(meow@13.2.0)(optionator@0.9.4)(rolldown@1.0.0-rc.9)(rollup@4.59.0)(terser@5.46.0)(tsx@4.21.0)(typescript@5.8.3)(vite@7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(yaml@2.8.2))(vue@3.5.29(typescript@5.8.3))
-      esno:
-        specifier: catalog:utils
-        version: 4.8.0
       fs-extra:
         specifier: catalog:utils
         version: 11.3.3
@@ -862,6 +853,9 @@ importers:
       theme-vitesse:
         specifier: catalog:docs
         version: 1.0.0
+      tsx:
+        specifier: catalog:typescript
+        version: 4.21.0
       unplugin-vue-markdown:
         specifier: catalog:vue
         version: 29.2.0(vite@7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1256,9 +1250,9 @@ importers:
       '@unocss/language-server':
         specifier: workspace:*
         version: link:../language-server
-      esno:
-        specifier: catalog:utils
-        version: 4.8.0
+      tsx:
+        specifier: catalog:typescript
+        version: 4.21.0
       vscode-ext-gen:
         specifier: catalog:vscode
         version: 1.6.0
@@ -6361,10 +6355,6 @@ packages:
 
   esm-env@1.2.2:
     resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
-
-  esno@4.8.0:
-    resolution: {integrity: sha512-acMtooReAQGzLU0zcuEDHa8S62meh5aIyi8jboYxyvAePdmuWx2Mpwmt0xjwO0bs9/SXf+dvXJ0QJoDWw814Iw==}
-    hasBin: true
 
   espree@10.4.0:
     resolution: {integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==}
@@ -15029,10 +15019,6 @@ snapshots:
       - supports-color
 
   esm-env@1.2.2: {}
-
-  esno@4.8.0:
-    dependencies:
-      tsx: 4.21.0
 
   espree@10.4.0:
     dependencies:

@@ -23,7 +23,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "esno scripts/copy.ts"
+    "build": "tsx scripts/copy.ts"
   },
   "devDependencies": {
     "@csstools/normalize.css": "catalog:css",

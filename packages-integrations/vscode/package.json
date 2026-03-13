@@ -146,8 +146,8 @@
   },
   "scripts": {
     "build": "tsdown",
-    "dev": "esno ./scripts/dev.ts && tsdown --watch src",
-    "publish": "esno ./scripts/publish.ts",
+    "dev": "tsx ./scripts/dev.ts && tsdown --watch src",
+    "publish": "tsx ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
     "pack": "npx @vscode/vsce package --no-dependencies"
@@ -155,7 +155,7 @@
   "devDependencies": {
     "@types/vscode": "^1.96.0",
     "@unocss/language-server": "workspace:*",
-    "esno": "catalog:utils",
+    "tsx": "catalog:typescript",
     "vscode-ext-gen": "catalog:vscode",
     "vscode-languageclient": "catalog:vscode"
   }

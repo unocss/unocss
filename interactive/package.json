@@ -7,8 +7,8 @@
     "build": "nuxi prepare && pnpm run prepare && nuxi generate",
     "dev": "nuxi prepare && pnpm run prepare && nuxi dev",
     "preview": "nuxi preview",
-    "fetch": "esno scripts/fetch.ts",
-    "prepare": "esno scripts/prepare.ts"
+    "fetch": "tsx scripts/fetch.ts",
+    "prepare": "tsx scripts/prepare.ts"
   },
   "devDependencies": {
     "@antfu/utils": "catalog:utils",
@@ -16,7 +16,6 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@vueuse/nuxt": "catalog:vue",
-    "esno": "catalog:utils",
     "fs-extra": "catalog:utils",
     "fuse.js": "catalog:utils",
     "js-yaml": "catalog:utils",
@@ -28,6 +27,7 @@
     "prettier": "catalog:utils",
     "shiki": "catalog:docs",
     "theme-vitesse": "catalog:docs",
+    "tsx": "catalog:typescript",
     "unplugin-vue-markdown": "catalog:vue",
     "vue": "catalog:vue",
     "vue-virtual-scroller": "catalog:vue"

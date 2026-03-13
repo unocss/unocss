@@ -138,7 +138,6 @@ catalogs:
     chokidar: ^5.0.0
     colorette: ^2.0.20
     consola: ^3.4.2
-    esno: ^4.8.0
     execa: ^9.6.1
     fs-extra: ^11.3.3
     fuse.js: ^7.1.0
