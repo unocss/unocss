@@ -6,7 +6,6 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { BetterMap, CountableSet } from '@unocss/core'
-import { bold, cyan, green } from 'colorette'
 import gzipSize from 'gzip-size'
 import sirv from 'sirv'
 import { analyzer } from './analyzer'
@@ -110,27 +109,6 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
 
       next()
     })
-
-    const _printUrls = server.printUrls
-    const colorUrl = (url: string) =>
-      cyan(url.replace(/:(\d+)\//, (_, port) => `:${bold(port)}/`))
-
-    server.printUrls = () => {
-      _printUrls()
-      for (const localUrl of server.resolvedUrls?.local ?? []) {
-        // server.config.base will be normalized with leading and trailing slashes,
-        // but localUrl might not have a trailing slash
-        const appUrl = localUrl.endsWith('/') ? localUrl : `${localUrl}/`
-        // remove the base path from appUrl if possible
-        const serverUrl = server.config.base && appUrl.endsWith(server.config.base)
-          ? appUrl.slice(0, -server.config.base.length)
-          : appUrl.slice(0, -1) // remove the trailing slash
-        // we removed the trailing slash from serverUrl when removing the base, add it back
-        const inspectorUrl = `${serverUrl}/${baseUrl}/`
-        // eslint-disable-next-line no-console
-        console.log(`  ${green('➜')}  ${bold('UnoCSS Inspector')}: ${colorUrl(`${inspectorUrl}`)}`)
-      }
-    }
   }
 
   return {
