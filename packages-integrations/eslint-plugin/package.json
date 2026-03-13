@@ -60,7 +60,6 @@
   },
   "devDependencies": {
     "@typescript/native-preview": "catalog:typescript",
-    "@unocss/eslint-plugin": "workspace:*",
     "svelte-eslint-parser": "catalog:eslint",
     "vue-eslint-parser": "catalog:vue"
   }

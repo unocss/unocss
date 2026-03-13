@@ -8,12 +8,14 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    '@jridgewell/remapping',
-    'prettier-plugin-svelte',
-    'svelte',
-    'vite',
-  ],
+  deps: {
+    neverBundle: [
+      '@jridgewell/remapping',
+      'prettier-plugin-svelte',
+      'svelte',
+      'vite',
+    ],
+  },
   alias: aliasVirtual,
   exports: true,
   failOnWarn: true,

@@ -17,9 +17,11 @@ export default defineConfig([
     ],
     dts: true,
     format: ['esm', 'cjs'],
-    external: [
-      /postcss\/esm/,
-    ],
+    deps: {
+      neverBundle: [
+        /postcss\/esm/,
+      ],
+    },
     alias: aliasVirtual,
     outputOptions: {
       exports: 'named',
