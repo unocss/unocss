@@ -291,6 +291,7 @@ describe('transformerAttributifyJsx', async () => {
     const transform = attributifyJsxOxcResolver({ code, id: 'app.tsx', uno: { uno, tokens: new Set() } as any, isBlocked: () => false })
     await expect(transform).rejects.toThrowErrorMatchingInlineSnapshot(`
       [Error: Oxc parse errors:
+
         x Expected corresponding JSX closing tag for 'd'.
          ,-[app.tsx:1:9]
        1 | <d iv></div>

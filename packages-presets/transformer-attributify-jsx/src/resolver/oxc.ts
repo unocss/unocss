@@ -10,7 +10,7 @@ export async function attributifyJsxOxcResolver(params: AttributifyResolverParam
   })
 
   if (ast.errors?.length) {
-    throw new Error(`Oxc parse errors:${ast.errors.map(err => err.codeframe ?? err.helpMessage ?? err.message).join(('\n'))}`)
+    throw new Error(`Oxc parse errors:\n${ast.errors.map(err => err.codeframe ?? err.helpMessage ?? err.message).join(('\n'))}`)
   }
 
   walk(ast.program, {
