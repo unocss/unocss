@@ -24,6 +24,13 @@ export interface TransformClassesOptions {
    * Used to generate hash for compiled class names
    */
   hashFn?: (str: string) => string
+  /**
+   * Hash safelist classes (including shortcuts in the safelist) instead of passing them through as-is.
+   * When false (default), safelist classes are left unhashed so they match the globally generated safelist CSS.
+   * Set to true to restore the legacy behavior where shortcut classes in the safelist were still hashed.
+   * @default false
+   */
+  hashSafelistClasses?: boolean
 }
 
 export interface TransformApplyOptions {

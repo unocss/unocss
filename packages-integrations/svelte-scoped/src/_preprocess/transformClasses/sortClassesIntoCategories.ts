@@ -11,7 +11,7 @@ export async function sortClassesIntoCategories(
   uno: UnoGenerator<object>,
   filename: string,
 ) {
-  const { combine = true } = options
+  const { combine = true, hashSafelistClasses = false } = options
 
   const rulesToGenerate: ProcessResult['rulesToGenerate'] = {}
   const ignore: string[] = []
@@ -20,6 +20,11 @@ export async function sortClassesIntoCategories(
   const knownClassesToCombine: string[] = []
 
   for (const token of classes) {
+    if (!hashSafelistClasses && uno.config.safelist.includes(token)) {
+      ignore.push(token)
+      continue
+    }
+
     const isShortcutOrUtility = isShortcut(token, uno.config.shortcuts) || await needsGenerated(token, uno)
 
     if (!isShortcutOrUtility) {
