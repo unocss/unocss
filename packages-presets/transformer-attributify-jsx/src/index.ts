@@ -98,7 +98,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
       }
       catch (error) {
         console.warn(
-          `[@unocss/transformer-attributify-jsx]: Oxc resolver failed for "${id}", falling back to regex resolver:`,
+          `[@unocss/transformer-attributify-jsx]: Oxc resolver failed for "${id}", falling back to regex resolver:\n`,
           error,
         )
         await attributifyJsxRegexResolver(params)
