@@ -13,7 +13,10 @@ const sharedConfig: UserConfig = {
   dts: false,
   minify: true,
   clean: false,
-  noExternal: [/^@unocss\//, /^@iconify\//],
+  deps: {
+    onlyBundle: false,
+    alwaysBundle: [/^@unocss\//, /^@iconify\//],
+  },
   outputOptions: {
     entryFileNames: '[name].global.js',
   },
@@ -27,8 +30,9 @@ export default defineConfig([
     dts: true,
     platform: 'browser',
     failOnWarn: true,
-    publint: true,
+    publint: 'ci-only',
     attw: {
+      enabled: 'ci-only',
       ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
