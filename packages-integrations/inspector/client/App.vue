@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 </script>
 

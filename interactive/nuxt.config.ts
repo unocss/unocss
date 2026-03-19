@@ -66,7 +66,10 @@ export default defineNuxtConfig({
       include: [/\.vue$/, /\.md$/],
     },
     optimizeDeps: {
-      exclude: externals,
+      exclude: [
+        ...externals,
+        'oxc-parser',
+      ],
     },
     define: {
       'process.env.VSCODE_TEXTMATE_DEBUG': 'false',

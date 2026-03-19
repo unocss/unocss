@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '../src/utils'
+import { addRemToPxComment, getColorString, shouldProvideAutocomplete } from '../src/index'
 
 it('getColorString', () => {
   const textAmber = `

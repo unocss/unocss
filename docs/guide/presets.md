@@ -8,7 +8,7 @@ outline: deep
 
 Presets are the heart of UnoCSS. They let you make your own custom framework in minutes.
 
-### Using presets
+## Using presets
 
 To set presets to your project:
 
@@ -41,6 +41,6 @@ export default defineConfig({
 
 You can check [official presets](/presets/) and [community presets](/presets/community) for more.
 
-### Creating presets
+## Creating presets
 
 To see how you can create your own custom preset, see [Config: presets](/config/presets).

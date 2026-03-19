@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import { CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 import { IGNORE_ATTRIBUTES } from './order-attributify'
@@ -16,8 +16,8 @@ export default createRule({
       'in-blocklist': '\"{{name}}\" is in blocklist{{reason}}',
     },
     schema: [],
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const checkLiteral = (node: TSESTree.Literal) => {
       if (typeof node.value !== 'string' || !node.value.trim())
@@ -104,4 +104,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as AnyRuleModule
+})

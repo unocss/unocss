@@ -1,14 +1,14 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.6.0",
+  "version": "66.6.7",
   "private": true,
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.30.2",
   "scripts": {
-    "prepare": "esno scripts/prepare.ts",
+    "prepare": "tsx scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
     "bench": "npm -C bench run bench",
-    "build": "esno scripts/copy-files.ts && pnpm -r --filter='./packages-*/*' run build && pnpm -r run build-post && esno scripts/postbuild.ts",
+    "build": "pnpm -r --filter='./packages-*/*' run build && pnpm -r run build-post && tsx scripts/postbuild.ts",
     "dev": "pnpm -r --parallel run dev",
     "deploy": "nr build && npm -C docs run docs:build && npm -C playground run build && npm -C interactive run build",
     "interactive": "npm -C interactive run dev",
@@ -18,7 +18,7 @@
     "lint": "eslint --cache .",
     "lint:fix": "nr lint --fix",
     "release": "bumpp -r --excute=\"pnpm i\"",
-    "size": "esno scripts/size.ts",
+    "size": "tsx scripts/size.ts",
     "typecheck": "tsgo --noEmit && pnpm -C packages-integrations/eslint-plugin run typecheck",
     "test": "vitest",
     "test:update": "vitest -u",
@@ -26,7 +26,7 @@
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
     "check:attw": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec attw --pack . --ignore-rules cjs-resolves-to-esm",
     "check:publint": "pnpm -r --filter='./packages-*/*' exec publint --strict",
-    "update:iconify-collections": "esno scripts/update-iconify-collections.ts"
+    "update:iconify-collections": "tsx scripts/update-iconify-collections.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:eslint",
@@ -47,6 +47,7 @@
     "@iconify-json/teenyicons": "catalog:icons",
     "@iconify-json/twemoji": "catalog:icons",
     "@iconify-json/uim": "catalog:icons",
+    "@oxc-parser/binding-wasm32-wasi": "catalog:docs",
     "@shikijs/vitepress-twoslash": "catalog:docs",
     "@types/connect": "catalog:types",
     "@types/css-tree": "catalog:types",
@@ -72,7 +73,6 @@
     "eslint-plugin-antfu": "catalog:eslint",
     "eslint-plugin-format": "catalog:eslint",
     "eslint-vitest-rule-tester": "catalog:eslint",
-    "esno": "catalog:utils",
     "execa": "catalog:utils",
     "floating-vue": "catalog:vue",
     "fs-extra": "catalog:utils",
@@ -123,7 +123,7 @@
     "vite": "catalog:vite"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx esno scripts/prepare.ts && npx lint-staged"
+    "pre-commit": "npx tsx scripts/prepare.ts && npx lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,tsx,vue,md}": [

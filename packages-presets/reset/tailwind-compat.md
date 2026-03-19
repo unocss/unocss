@@ -2,11 +2,11 @@
 
 Based on [tailwind.css](./tailwind.css), with some styles clean up to avoid conflicts with UI frameworks.
 
-### Changes
+## Changes
 
-#### [Changes inherit from `tailwind.css`](./tailwind.md)
+### [Changes inherit from `tailwind.css`](./tailwind.md)
 
-#### Remove background color override for buttons
+### Remove background color override for buttons
 
 Linked issue: [#2127](https://github.com/unocss/unocss/issues/2127)
 

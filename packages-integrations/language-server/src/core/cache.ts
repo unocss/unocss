@@ -1,34 +1,32 @@
+import type { GetMatchedPositionsOptions } from '#integration/match-positions'
 import type { UnoGenerator } from '@unocss/core'
-import type { TextDocument } from 'vscode'
-import type { ContextLoader } from './contextLoader'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
-import { workspace } from 'vscode'
-import { getConfig } from './configs'
 
 const cache = new Map<string, ReturnType<typeof getMatchedPositionsFromCode>>()
 
-export function registerDocumentCacheCleaner(loader: ContextLoader) {
-  loader.ext.subscriptions.push(
-    workspace.onDidChangeTextDocument((e) => {
-      cache.delete(e.document.uri.fsPath)
-    }),
-  )
+export function clearDocumentCache(uri: string) {
+  cache.delete(uri)
+}
+
+export function clearAllCache() {
+  cache.clear()
 }
 
 export function getMatchedPositionsFromDoc(
   uno: UnoGenerator,
-  doc: TextDocument,
+  code: string,
+  id: string,
+  strictAnnotationMatch = false,
   force = false,
 ) {
-  const id = doc.uri.fsPath
   if (force)
     cache.delete(id)
 
   if (cache.has(id))
     return cache.get(id)!
 
-  const options = getConfig().strictAnnotationMatch
+  const options: GetMatchedPositionsOptions | undefined = strictAnnotationMatch
     ? {
         includeRegex: defaultIdeMatchInclude,
         excludeRegex: defaultIdeMatchExclude,
@@ -37,7 +35,7 @@ export function getMatchedPositionsFromDoc(
 
   const result = getMatchedPositionsFromCode(
     uno,
-    doc.getText(),
+    code,
     id,
     options,
   )

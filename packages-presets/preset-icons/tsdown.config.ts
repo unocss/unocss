@@ -10,6 +10,9 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
+  deps: {
+    neverBundle: ['@iconify/types'],
+  },
   exports: {
     customExports(exports) {
       return {
