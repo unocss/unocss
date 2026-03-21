@@ -3,7 +3,7 @@ import { Pane, Splitpanes } from 'splitpanes'
 </script>
 
 <template>
-  <div h-full w-full of-hidden>
+  <div h-full w-full of-hidden bg-white dark:bg-black>
     <Splitpanes>
       <Pane size="20" :push-other-panes="false">
         <Sidebar />
