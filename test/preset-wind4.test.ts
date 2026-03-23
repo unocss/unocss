@@ -243,6 +243,34 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('should handle --spacing() inside calc()', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'w-[calc(var(--sidebar-width-icon)+--spacing(8))]',
+      'w-[calc(var(--sidebar-width-icon)+--spacing(8)+2px)]',
+      'start-[calc(--spacing(4)-1px)]',
+    ])
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host {
+      --spacing: 0.25rem;
+      }
+      /* layer: default */
+      .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
+      .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\+2px\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8) + 2px);}
+      .start-\\[calc\\(--spacing\\(4\\)-1px\\)\\]{inset-inline-start:calc(calc(var(--spacing) * 4) - 1px);}"
+    `)
+  })
+
   it('smarter theme parser', async () => {
     const uno = await createGenerator({
       envMode: 'dev',

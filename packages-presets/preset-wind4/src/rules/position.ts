@@ -142,19 +142,19 @@ export const flexGridJustifiesAlignments = [...justifies, ...alignments, ...plac
     [`grid-${k}`, v],
   ])
 
-function handleInsetValue(v: string): string | number | undefined {
+function handleInsetValue(v: string, theme: Theme): string | number | undefined {
   const _v = numberResolver(v)
   if (_v != null) {
     themeTracking(`spacing`)
     return `calc(var(--spacing) * ${_v})`
   }
   else {
-    return h.bracket.cssvar.global.auto.fraction.rem(v)
+    return h.bracket.cssvar.global.auto.fraction.rem(v, theme)
   }
 }
 
-function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
-  const r = handleInsetValue(v)
+function handleInsetValues([, d, v]: string[], { theme }: { theme: Theme }): CSSEntries | undefined {
+  const r = handleInsetValue(v, theme)
   if (r != null && d in insetMap) {
     return insetMap[d].map(i => [i.slice(1), r])
   }
@@ -163,7 +163,7 @@ function handleInsetValues([, d, v]: string[]): CSSEntries | undefined {
 export const insets: Rule<Theme>[] = [
   [
     /^(?:position-|pos-)?inset-(.+)$/,
-    ([, v]) => ({ inset: handleInsetValue(v) }),
+    ([, v], { theme }) => ({ inset: handleInsetValue(v, theme) }),
     {
       autocomplete: [
         '(position|pos)-inset-<directions>-$spacing',
@@ -178,7 +178,7 @@ export const insets: Rule<Theme>[] = [
   [/^(?:position-|pos-)?inset-([rltbse])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([bi][se])-(.+)$/, handleInsetValues],
-  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v]) => ({ [d]: handleInsetValue(v) })],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v], { theme }) => ({ [d]: handleInsetValue(v, theme) })],
 ]
 
 export const floats: Rule<Theme>[] = [

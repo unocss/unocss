@@ -46,7 +46,7 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
     v = `calc(var(--spacing) * ${h.number(prop)})`
   }
 
-  return v ?? h.bracket.cssvar.global.auto.none.fraction.rem(prop)
+  return v ?? h.bracket.cssvar.global.auto.none.fraction.rem(prop, theme)
 }
 
 export const sizes: Rule<Theme>[] = [
@@ -87,7 +87,7 @@ function handleBreakpoint(context: Readonly<RuleContext<Theme>>, point: string, 
     return bp.find(i => i.point === point)?.size
 }
 
-function getAspectRatio(prop: string) {
+function getAspectRatio(prop: string, theme: Theme) {
   if (/^\d+\/\d+$/.test(prop))
     return prop
 
@@ -96,9 +96,9 @@ function getAspectRatio(prop: string) {
     case 'video': return '16/9'
   }
 
-  return h.bracket.cssvar.global.auto.number(prop)
+  return h.bracket.cssvar.global.auto.number(prop, theme)
 }
 
 export const aspectRatio: Rule<Theme>[] = [
-  [/^(?:size-)?aspect-(?:ratio-)?(.+)$/, ([, d]: string[]) => ({ 'aspect-ratio': getAspectRatio(d) }), { autocomplete: ['aspect-(square|video|ratio)', 'aspect-ratio-(square|video)'] }],
+  [/^(?:size-)?aspect-(?:ratio-)?(.+)$/, ([, d]: string[], { theme }) => ({ 'aspect-ratio': getAspectRatio(d, theme) }), { autocomplete: ['aspect-(square|video|ratio)', 'aspect-ratio-(square|video)'] }],
 ]

@@ -169,6 +169,18 @@ function processThemeVariable(name: string, key: keyof Theme, paths: string[], t
   return { val, varKey }
 }
 
+function replaceThemeFunctions(str: string, theme: Theme) {
+  return str.replace(/--([\w.-]+)\(([^)]+)\)/g, (match, name, factor) => {
+    const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
+    const { val, varKey } = processThemeVariable(name, key, paths, theme)
+
+    if (val == null)
+      return match
+
+    return `calc(var(--${escapeSelector(varKey.replaceAll('.', '-'))}) * ${factor})`
+  })
+}
+
 function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -195,6 +207,9 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
     // test/preset-attributify.test.ts > fixture5
     if (base === '=""')
       return
+
+    if (theme)
+      base = replaceThemeFunctions(base, theme)
 
     if (base.startsWith('--')) {
       const calcMatch = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
