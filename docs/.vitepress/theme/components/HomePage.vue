@@ -71,10 +71,7 @@ const gapClasses: Record<string, string> = {
                 </a>
               </div>
             </div>
-            <div mt-8 text-center>
-              <h3 op50 text-sm font-normal mb-4>
-                Backers
-              </h3>
+            <div mt-4>
               <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.part2.svg" target="_blank" rel="noopener noreferrer">
                 <img
                   crossorigin="anonymous"
@@ -86,10 +83,7 @@ const gapClasses: Record<string, string> = {
                 >
               </a>
             </div>
-            <div mt-8 text-center>
-              <h3 op50 text-sm font-normal mb-4>
-                Past Sponsors
-              </h3>
+            <div mt-2>
               <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.past.svg" target="_blank" rel="noopener noreferrer">
                 <img
                   crossorigin="anonymous"
