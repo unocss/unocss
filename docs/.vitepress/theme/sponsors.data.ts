@@ -21,7 +21,9 @@ export interface SponsorTier {
 
 const SPONSORS_URL = 'https://cdn.jsdelivr.net/gh/antfu/static/sponsors.json'
 
-function classifyTier(amount: number): { title: string, size: SponsorTier['size'] } | null {
+function classifyTier(amount: number, login: string): { title: string, size: SponsorTier['size'] } | null {
+  if (login === 'vercel')
+    return { title: 'Special Sponsor', size: 'big' }
   if (amount >= 500)
     return { title: 'Platinum Sponsors', size: 'big' }
   if (amount >= 100)
@@ -33,7 +35,21 @@ function classifyTier(amount: number): { title: string, size: SponsorTier['size'
   return null
 }
 
-const TIER_ORDER = ['Platinum Sponsors', 'Gold Sponsors', 'Silver Sponsors', 'Sponsors']
+async function resolveWebsiteUrl(login: string, fallbackLink: string): Promise<string> {
+  try {
+    const response = await fetch(`https://api.github.com/users/${login}`)
+    if (!response.ok)
+      return fallbackLink
+    const data = await response.json()
+    if (data.blog) {
+      return data.blog.startsWith('http') ? data.blog : `https://${data.blog}`
+    }
+  }
+  catch {}
+  return fallbackLink
+}
+
+const TIER_ORDER = ['Special Sponsor', 'Platinum Sponsors', 'Gold Sponsors', 'Silver Sponsors', 'Sponsors']
 
 export default {
   async load(): Promise<SponsorTier[]> {
@@ -45,13 +61,24 @@ export default {
       return []
     }
 
+    const eligible = raw.filter(s => s.link && s.amount >= 10)
+
+    // Resolve website URLs from GitHub profiles for sponsors
+    // that only link to github.com or opencollective.com
+    const resolved = await Promise.all(
+      eligible.map(async (sponsor) => {
+        let url = sponsor.link!
+        if (url.includes('github.com/') || url.includes('opencollective.com/')) {
+          url = await resolveWebsiteUrl(sponsor.login, url)
+        }
+        return { ...sponsor, resolvedUrl: url }
+      }),
+    )
+
     const tierMap = new Map<string, SponsorTier>()
 
-    for (const sponsor of raw) {
-      if (!sponsor.link || sponsor.amount < 10)
-        continue
-
-      const tier = classifyTier(sponsor.amount)
+    for (const sponsor of resolved) {
+      const tier = classifyTier(sponsor.amount, sponsor.login)
       if (!tier)
         continue
 
@@ -62,7 +89,7 @@ export default {
       tierMap.get(tier.title)!.items.push({
         name: sponsor.name || sponsor.login,
         img: sponsor.avatar,
-        url: sponsor.link,
+        url: sponsor.resolvedUrl,
       })
     }
 
