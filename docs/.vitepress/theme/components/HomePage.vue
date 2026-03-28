@@ -27,8 +27,8 @@ const gapClasses: Record<string, string> = {
             Sponsored by
           </h2>
           <div w-full max-w-screen-md mx-auto mt-10>
-            <div v-for="tier in sponsors" :key="tier.tier" mb-6>
-              <h3 op50 text-sm font-normal text-center mb-3>
+            <div v-for="tier in sponsors" :key="tier.tier" mb-10>
+              <h3 op50 text-sm font-normal text-center mb-5>
                 {{ tier.tier }}
               </h3>
               <div v-if="tier.tier === 'Special Sponsor'" flex justify-center>
