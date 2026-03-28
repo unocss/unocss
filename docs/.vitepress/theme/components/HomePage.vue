@@ -31,7 +31,26 @@ const gapClasses: Record<string, string> = {
               <h3 op50 text-sm font-normal text-center mb-3>
                 {{ tier.tier }}
               </h3>
-              <div flex flex-wrap justify-center items-center :class="gapClasses[tier.size]">
+              <div v-if="tier.tier === 'Special Sponsor'" flex justify-center>
+                <a
+                  v-for="item in tier.items"
+                  :key="item.url"
+                  :href="item.url"
+                  target="_blank"
+                  rel="noopener"
+                  :title="item.name"
+                >
+                  <img
+                    src="/vercel.svg"
+                    :alt="item.name"
+                    h-20
+                    op90
+                    hover:op100
+                    transition-opacity
+                  >
+                </a>
+              </div>
+              <div v-else flex flex-wrap justify-center items-center :class="gapClasses[tier.size]">
                 <a
                   v-for="item in tier.items"
                   :key="item.url"
