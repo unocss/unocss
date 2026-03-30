@@ -26,12 +26,12 @@ const gapClasses: Record<string, string> = {
           <h2 id="sponsored-by" op70 font-normal pt-5 pb-2>
             Sponsored by
           </h2>
-          <div w-full max-w-screen-md mx-auto mt-10>
-            <div v-for="tier in sponsors" :key="tier.tier" mb-10>
-              <h3 op50 text-sm font-normal text-center mt-6 mb-5>
+          <div w-full max-w-screen-md mx-auto space-y-10>
+            <div v-for="tier in sponsors" :key="tier.tier">
+              <h3 op50 text-sm font-normal text-center mb-5>
                 {{ tier.tier }}
               </h3>
-              <div v-if="tier.tier === 'Special Sponsor'" flex justify-center>
+              <div v-if="tier.tier === 'Special Sponsor'" mt-4 flex flex-wrap justify-center items-center>
                 <a
                   v-for="item in tier.items"
                   :key="item.url"
@@ -41,7 +41,7 @@ const gapClasses: Record<string, string> = {
                   :title="item.name"
                 >
                   <img
-                    src="/vercel.svg"
+                    :src="item.name === 'Vercel' ? '/vercel.svg' : item.img"
                     :alt="item.name"
                     h-20
                     op90
@@ -50,7 +50,7 @@ const gapClasses: Record<string, string> = {
                   >
                 </a>
               </div>
-              <div v-else flex flex-wrap justify-center items-center :class="gapClasses[tier.size]">
+              <div v-else mt-4 flex flex-wrap justify-center items-center :class="gapClasses[tier.size]">
                 <a
                   v-for="item in tier.items"
                   :key="item.url"
