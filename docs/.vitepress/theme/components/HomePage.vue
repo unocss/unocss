@@ -1,4 +1,21 @@
 <script setup lang="ts">
+import { data as sponsors } from '../sponsors.data'
+
+const sizeClasses: Record<string, string> = {
+  big: 'w-20 h-20',
+  medium: 'w-16 h-16',
+  small: 'w-12 h-12',
+  mini: 'w-10 h-10',
+  xmini: 'w-8 h-8',
+}
+
+const gapClasses: Record<string, string> = {
+  big: 'gap-4',
+  medium: 'gap-3',
+  small: 'gap-2.5',
+  mini: 'gap-2',
+  xmini: 'gap-2',
+}
 </script>
 
 <template>
@@ -9,17 +26,72 @@
           <h2 id="sponsored-by" op70 font-normal pt-5 pb-2>
             Sponsored by
           </h2>
-          <div grid="~ cols-1" w-full text-center mt-10>
-            <div class="flex flex-col">
-              <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg" target="_blank" rel="noopener noreferrer">
+          <div w-full max-w-screen-md mx-auto space-y-10>
+            <div v-for="tier in sponsors" :key="tier.tier">
+              <h3 op50 text-sm font-normal text-center mb-5>
+                {{ tier.tier }}
+              </h3>
+              <div v-if="tier.tier === 'Special Sponsor'" mt-4 flex flex-wrap justify-center items-center>
+                <a
+                  v-for="item in tier.items"
+                  :key="item.url"
+                  :href="item.url"
+                  target="_blank"
+                  rel="noopener"
+                  :title="item.name"
+                >
+                  <img
+                    :src="item.name === 'Vercel' ? '/vercel.svg' : item.img"
+                    :alt="item.name"
+                    h-20
+                    op90
+                    hover:op100
+                    transition-opacity
+                  >
+                </a>
+              </div>
+              <div v-else mt-4 flex flex-wrap justify-center items-center :class="gapClasses[tier.size]">
+                <a
+                  v-for="item in tier.items"
+                  :key="item.url"
+                  :href="item.url"
+                  target="_blank"
+                  rel="noopener"
+                  :title="item.name"
+                >
+                  <img
+                    :src="item.img"
+                    :alt="item.name"
+                    :class="sizeClasses[tier.size]"
+                    rounded-full
+                    op80
+                    hover:op100
+                    transition-opacity
+                  >
+                </a>
+              </div>
+            </div>
+            <div mt-4>
+              <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.part2.svg" target="_blank" rel="noopener noreferrer">
                 <img
                   crossorigin="anonymous"
                   inline-block
-                  width="768" height="1464"
                   class="resizable-img"
                   loading="lazy"
-                  src="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg"
-                  alt="Anthony Fu's sponsors"
+                  src="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.part2.svg"
+                  alt="Anthony Fu's backers"
+                >
+              </a>
+            </div>
+            <div mt-2>
+              <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.past.svg" target="_blank" rel="noopener noreferrer">
+                <img
+                  crossorigin="anonymous"
+                  inline-block
+                  class="resizable-img"
+                  loading="lazy"
+                  src="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.past.svg"
+                  alt="Anthony Fu's past sponsors"
                 >
               </a>
             </div>
