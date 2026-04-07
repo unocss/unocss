@@ -50,21 +50,15 @@ export function GlobalStylesPlugin(ctx: SvelteScopedContext, injectReset?: Unocs
       }
     },
 
-    // build
-    async buildStart() {
-      if (viteConfig.command === 'build') {
-        unoCssFileReferenceId = this.emitFile({
-          type: 'asset',
-          name: GLOBAL_STYLES_CSS_FILE_NAME,
-        })
-      }
-    },
-
-    // build - runs after all module transforms complete, so on-demand theme tokens are fully tracked
+    // build end - runs after all module transforms complete, so on-demand theme tokens are fully tracked
     async buildEnd() {
       if (viteConfig.command === 'build') {
         const css = await generateGlobalCss(ctx.uno, injectReset)
-        this.setAssetSource(unoCssFileReferenceId, css)
+        unoCssFileReferenceId = this.emitFile({
+          type: 'asset',
+          name: GLOBAL_STYLES_CSS_FILE_NAME,
+          source: css,
+        })
       }
     },
 
