@@ -79,6 +79,9 @@ describe('preset-wind4', () => {
         "preserve-flat",
         "indent-1/2",
         "indent-lg",
+        "[color:theme(colors.blue.300/40%)]",
+        "[--css-variable-color:theme(colors.red.500/50%)]",
+        "c-[theme(colors.red.500/50%)]",
         "-mt-safe",
         "-!mb-safe",
         "!-ms-safe",
@@ -741,6 +744,37 @@ describe('important', () => {
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
       .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
+    `)
+  })
+
+  it('asd', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+    const cases = [
+      // 'font-[--color]',
+      // 'font-$color',
+      // 'text-[--variable]',
+      'bg-[--css-spacing,theme(spacing.sm)]',
+      'text-[theme(spacing.sm)]',
+      // 'bg-opacity-[--opacity-variable]',
+
+      '[color:theme(colors.blue.300/40%)]',
+      '[--css-variable-color:theme(colors.red.500/50%)]',
+      'c-[theme(colors.red.500/50%)]',
+    ]
+
+    const { getLayer } = await uno.generate(cases)
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .text-\\[theme\\(spacing\\.sm\\)\\]{font-size:0.875rem;}
+      .bg-\\[--css-spacing\\,theme\\(spacing\\.sm\\)\\]{background-color:color-mix(in oklab, var(--css-spacing,0.875rem) var(--un-bg-opacity), transparent);}"
     `)
   })
 })
