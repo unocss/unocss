@@ -2,6 +2,7 @@ import { definePreset } from '@unocss/core'
 import { createWebFontPreset, normalizedFontMeta } from './preset'
 
 export { createGoogleCompatibleProvider as createGoogleProvider } from './providers/google'
+export { ZeoSevenFontsProvider } from './providers/zeoseven'
 export { normalizedFontMeta }
 export * from './types'
 
