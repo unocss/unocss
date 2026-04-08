@@ -1,5 +1,6 @@
 import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
+import { transformThemeFn } from '@unocss/rule-utils'
 import { globalKeywords } from '../mappings'
 import { themeTracking } from '../track'
 import { getThemeByKey } from '../utilities'
@@ -179,29 +180,6 @@ function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: str
   return { val, varKey }
 }
 
-/**
- * Replace theme(colors.blue.500) to true value
- */
-function processThemeFunction(theme: Theme, base: string) {
-  const themeMatches = Array.from(base.matchAll(/theme\(([^)]+)\)/g))
-  if (themeMatches.length) {
-    for (const themeMatch of themeMatches) {
-      const [full, varPaths] = themeMatch
-      const [key, ...paths] = varPaths.split('.')
-      const { val } = processThemeVariable(theme, key, paths, varPaths)
-
-      if (val != null) {
-        base = base.replace(full, val)
-      }
-      else {
-        return undefined
-      }
-    }
-  }
-
-  return base
-}
-
 function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
@@ -230,9 +208,7 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
       return
 
     if (theme) {
-      base = processThemeFunction(theme, base)
-      if (!base)
-        return
+      base = transformThemeFn(base, theme)
     }
 
     const matches = Array.from(base.matchAll(/(?<!var\()--([\w.-]+)(\([^)]+\)|,[#.\s\w]+)?/g))
