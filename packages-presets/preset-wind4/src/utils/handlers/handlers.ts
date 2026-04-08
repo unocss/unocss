@@ -1,9 +1,10 @@
 import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
+import { transformThemeFn } from '@unocss/rule-utils'
 import { globalKeywords } from '../mappings'
 import { themeTracking } from '../track'
 import { getThemeByKey } from '../utilities'
-import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
+import { bracketTypeRe, cssVarsRE, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -153,18 +154,28 @@ export function fraction(str: string) {
   }
 }
 
-function processThemeVariable(name: string, key: keyof Theme, paths: string[], theme: Theme) {
-  const valOrObj = getThemeByKey(theme, key, paths)
+/**
+ * Process a theme variable reference and retrieve its value and corresponding CSS variable key.
+ *
+ * @example theme => Theme object
+ * @example themeKey => 'colors
+ * @example themeKeyPaths => ['blue', '500']
+ * @example varPaths => 'colors.blue.500'
+ *
+ * @returns An object containing the resolved value from the theme and the corresponding CSS variable key.
+ */
+function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: string[], varPaths: string) {
+  const valOrObj = getThemeByKey(theme, themeKey as keyof Theme, themeKeyPaths)
   const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
 
   if (hasDefault)
-    paths.push('DEFAULT')
+    themeKeyPaths.push('DEFAULT')
 
   const val = hasDefault ? valOrObj.DEFAULT : valOrObj
-  const varKey = hasDefault && key !== 'spacing' ? `${name}.DEFAULT` : name
+  const varKey = hasDefault && themeKey !== 'spacing' ? `${varPaths}.DEFAULT` : varPaths
 
   if (val != null)
-    themeTracking(key, paths.length ? paths : undefined)
+    themeTracking(themeKey, themeKeyPaths.length ? themeKeyPaths : undefined)
 
   return { val, varKey }
 }
@@ -196,34 +207,34 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
     if (base === '=""')
       return
 
-    if (base.startsWith('--')) {
-      const calcMatch = base.match(/^--([\w.-]+)\(([^)]+)\)$/)
-      if (calcMatch != null && theme) {
-        // Handle theme function with calculation: --theme.key(factor)
-        const [, name, factor] = calcMatch
-        const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
-        const { val, varKey } = processThemeVariable(name, key, paths, theme)
+    if (theme) {
+      base = transformThemeFn(base, theme)
+    }
 
-        if (val != null)
-          base = `calc(var(--${escapeSelector(varKey.replaceAll('.', '-'))}) * ${factor})`
-      }
-      else {
-        // Handle regular CSS variable: --name or --theme.key with optional default
-        const [name, defaultValue] = base.slice(2).split(',')
-        const suffix = defaultValue ? `, ${defaultValue}` : ''
-        const escapedName = escapeSelector(name)
+    const matches = Array.from(base.matchAll(cssVarsRE))
+    for (const match of matches) {
+      const [full, varPaths, _value] = match
 
-        if (theme) {
-          const [key, ...paths] = name.split('.') as [keyof Theme, ...string[]]
-          const { val, varKey } = processThemeVariable(name, key, paths, theme)
-          base = val != null
-            ? `var(--${escapeSelector(varKey.replaceAll('.', '-'))}${suffix})`
-            : `var(--${escapedName}${suffix})`
-        }
-        else {
-          base = `var(--${escapedName}${suffix})`
+      if (theme) {
+        const [key, ...paths] = varPaths.split('.')
+        const { val, varKey } = processThemeVariable(theme, key, paths, varPaths)
+
+        if (val != null) {
+          const cssVar = `--${varKey.replaceAll('.', '-')}`
+          // use theme value with multiplier
+          if (_value && !_value.startsWith(',')) {
+            base = base.replace(full, `calc(var(${cssVar}) * ${_value.slice(1, -1)})`)
+          }
+          // default value
+          else {
+            const fallback = _value?.slice(1)
+            base = base.replace(full, `var(${cssVar}${fallback ? `, ${fallback}` : ''})`)
+          }
+          continue
         }
       }
+
+      base = base.replace(full, `var(${full})`)
     }
 
     let curly = 0
