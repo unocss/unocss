@@ -55,7 +55,7 @@ export const variantNegative: Variant<Theme> = {
     return {
       matcher: matcher.slice(1),
       body: (body) => {
-        if (body.find(v => v[0] === CONTROL_NO_NEGATIVE))
+        if (body.some(v => v[0] === CONTROL_NO_NEGATIVE))
           return
 
         let changed = false
