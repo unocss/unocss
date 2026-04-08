@@ -4,7 +4,7 @@ import { transformThemeFn } from '@unocss/rule-utils'
 import { globalKeywords } from '../mappings'
 import { themeTracking } from '../track'
 import { getThemeByKey } from '../utilities'
-import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
+import { bracketTypeRe, cssVarsRE, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -211,45 +211,30 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
       base = transformThemeFn(base, theme)
     }
 
-    const matches = Array.from(base.matchAll(/(?<!var\()--([\w.-]+)(\([^)]+\)|,[#.\s\w]+)?/g))
-    if (matches.length) {
-      for (const match of matches) {
-        const [full, varPaths, _value] = match
+    const matches = Array.from(base.matchAll(cssVarsRE))
+    for (const match of matches) {
+      const [full, varPaths, _value] = match
 
-        if (theme) {
-          const [key, ...paths] = varPaths.split('.')
-          const { val, varKey } = processThemeVariable(theme, key, paths, varPaths)
+      if (theme) {
+        const [key, ...paths] = varPaths.split('.')
+        const { val, varKey } = processThemeVariable(theme, key, paths, varPaths)
 
-          if (val != null) {
-            let value
-            let isCalc = false
-
-            if (_value) {
-              if (_value.startsWith(',')) {
-                value = _value.slice(1)
-              }
-              else {
-                value = _value.slice(1, -1)
-                isCalc = true
-              }
-            }
-
-            if (isCalc) {
-              base = base.replace(full, `calc(var(--${varKey.replaceAll('.', '-')}) * ${value})`)
-            }
-            else {
-              base = base.replace(full, `var(--${varKey.replaceAll('.', '-')}${value ? `, ${value}` : ''})`)
-            }
+        if (val != null) {
+          const cssVar = `--${varKey.replaceAll('.', '-')}`
+          // use theme value with multiplier
+          if (_value && !_value.startsWith(',')) {
+            base = base.replace(full, `calc(var(${cssVar}) * ${_value.slice(1, -1)})`)
           }
+          // default value
           else {
-            base = base.replace(full, `var(${full})`)
+            const fallback = _value?.slice(1)
+            base = base.replace(full, `var(${cssVar}${fallback ? `, ${fallback}` : ''})`)
           }
-        }
-
-        else {
-          base = base.replace(full, `var(${full})`)
+          continue
         }
       }
+
+      base = base.replace(full, `var(${full})`)
     }
 
     let curly = 0

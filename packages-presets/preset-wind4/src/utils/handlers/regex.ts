@@ -15,3 +15,5 @@ export const unitOnlyMap: Record<string, number> = {
 export const bracketTypeRe = /^\[(color|image|length|size|position|quoted|string|number|family):/i
 export const splitComma = /,(?![^()]*\))/g
 export const remRE = /(-?[.\d]+)rem/g
+export const cssVarsRE = /(?<!var\()--([\w.-]+)(\([^)]+\)|,[#.\s\w]+)?/g
+//                                                          ^ There may not have been any other special cases matched; this needs further improvement.
