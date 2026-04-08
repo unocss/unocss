@@ -84,7 +84,7 @@ async function updateTsconfig() {
   tsconfig.compilerOptions.paths = Object.fromEntries(
     Object.entries(alias).flatMap(([k, v]) => {
       let path = `./${relative(root, v)}`
-      if (!path.match(/\.\w+$/) && !path.endsWith('/'))
+      if (!/\.\w+$/.test(path) && !path.endsWith('/'))
         path = `${path}/`
 
       return [[k, [path]]]

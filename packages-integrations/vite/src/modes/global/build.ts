@@ -38,7 +38,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     if (typeof result === 'string')
       css = result
     else if (result.code)
-      css = result.code
+      css = result.code.toString()
     css = css.replace(/[\n\r]/g, '')
     return css
   }
