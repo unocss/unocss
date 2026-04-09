@@ -424,9 +424,19 @@ describe('safelist shortcut handling', async () => {
     safelist: ['btn', 'mr-7'],
   })
 
-  async function transform(content: string, { combine = true, hashSafelistClasses }: { combine?: boolean, hashSafelistClasses?: boolean } = {}) {
-    const result = await transformClasses({ content, filename: 'Foo.svelte', uno, options: { combine, hashSafelistClasses } })
-    return result?.code
+  async function transform(content: string, { combine = true, hashSafelistClasses }: { combine?: boolean, format?: boolean, hashSafelistClasses?: boolean } = {}) {
+    const { markup } = UnocssSveltePreprocess({
+      combine,
+      classPrefix: 'uno-',
+      hashSafelistClasses,
+    }, { ready: Promise.resolve(null as never), uno })
+
+    let { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
+
+    if (!code || code === content)
+      return
+
+    return code
   }
 
   it('does not hash shortcut classes in safelist by default', async () => {
