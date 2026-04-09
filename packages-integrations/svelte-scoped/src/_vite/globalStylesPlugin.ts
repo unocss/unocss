@@ -1,8 +1,8 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_CSS_FILE_NAME, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import { checkTransformPageChunkHook, generateGlobalCss } from './global'
-import { UnocssPluginContext } from '@unocss/core';
 
 export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
   let isSvelteKit: boolean

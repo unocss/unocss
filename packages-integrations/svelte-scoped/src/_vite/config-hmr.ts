@@ -1,5 +1,5 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import { UnocssPluginContext } from '@unocss/core';
 
 export function ConfigHMRPlugin({ ready }: UnocssPluginContext): Plugin {
   return {

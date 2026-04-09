@@ -12,7 +12,7 @@ import { themeRE } from '../_common/transformTheme'
 import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import { wrapSelectorsWithGlobal } from './wrapGlobal'
 
-export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: UnocssPluginContext, isViteBuild?: () => boolean): PreprocessorGroup {
+export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: Pick<UnocssPluginContext, 'ready' | 'uno'>, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
     options.classPrefix = 'usp-'
 

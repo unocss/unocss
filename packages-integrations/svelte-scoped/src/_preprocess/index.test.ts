@@ -32,20 +32,21 @@ describe('transform', async () => {
     const { markup } = UnocssSveltePreprocess({
       combine,
       classPrefix: 'uno-',
+      hashSafelistClasses,
     }, { ready: Promise.resolve(null as never), uno })
-    
+
     let { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
-    
+
     if (!code || code === content)
       return
-    
+
     if (format) {
       code = prettier(code, {
         parser: 'svelte',
         plugins: [prettierSvelte],
       })
     }
-    
+
     return code
   }
 

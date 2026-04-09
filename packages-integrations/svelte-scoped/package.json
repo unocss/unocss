@@ -57,7 +57,7 @@
     "acorn": "catalog:utils",
     "css-tree": "catalog:css",
     "magic-string": "catalog:utils",
-    "pathe": "catalog:",
+    "pathe": "catalog:utils",
     "zimmerframe": "catalog:utils"
   },
   "devDependencies": {

@@ -1195,7 +1195,7 @@ importers:
         specifier: ^0.30.21
         version: 0.30.21
       pathe:
-        specifier: 'catalog:'
+        specifier: catalog:utils
         version: 2.0.3
       zimmerframe:
         specifier: catalog:utils

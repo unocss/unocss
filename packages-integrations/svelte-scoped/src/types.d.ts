@@ -1,6 +1,3 @@
-import type { LoadConfigResult } from '@unocss/config'
-import type { UnoGenerator, UserConfig } from '@unocss/core'
-
 export interface TransformClassesOptions {
   /**
    * Prefix for compiled class names. Distinct between `@unocss/svelte-scoped/vite` and `@unocss/svelte-scoped/preprocessor` to avoid bugs when using a component library built with `@unocss/svelte-scoped/preprocessor` in a project using `@unocss/svelte-scoped/vite`.

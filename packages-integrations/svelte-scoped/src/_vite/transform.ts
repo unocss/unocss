@@ -115,8 +115,9 @@ export function transformPlugin(context: UnocssPluginContext, options: UnocssSve
     load: {
       async handler(id) {
         const { RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE } = await context.getVMPRegexes()
-        if (!RESOLVED_ID_RE.test(id) && !RESOLVED_ID_WITH_QUERY_RE.test(id)) return
-        
+        if (!RESOLVED_ID_RE.test(id) && !RESOLVED_ID_WITH_QUERY_RE.test(id))
+          return
+
         const layer = await resolveLayer(context, getPath(id))
 
         if (layer) {
