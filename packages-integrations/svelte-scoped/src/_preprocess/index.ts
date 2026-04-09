@@ -1,6 +1,5 @@
-import type { UnoGenerator, UserConfigDefaults } from '@unocss/core'
+import type { UnocssPluginContext, UnoGenerator, UserConfigDefaults } from '@unocss/core'
 import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
-import type { SvelteScopedContext } from '../types'
 import type { UnocssSveltePreprocessOptions } from './types'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
@@ -13,7 +12,7 @@ import { themeRE } from '../_common/transformTheme'
 import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
 import { wrapSelectorsWithGlobal } from './wrapGlobal'
 
-export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: SvelteScopedContext, isViteBuild?: () => boolean): PreprocessorGroup {
+export function UnocssSveltePreprocess(options: UnocssSveltePreprocessOptions = {}, unoContextFromVite?: UnocssPluginContext, isViteBuild?: () => boolean): PreprocessorGroup {
   if (!options.classPrefix)
     options.classPrefix = 'usp-'
 

@@ -1,9 +1,8 @@
-import type { UnoGenerator } from '@unocss/core'
+import type { UnocssPluginContext, UnoGenerator } from '@unocss/core'
 import type { Plugin, ViteDevServer } from 'vite'
-import type { SvelteScopedContext } from '../types'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { basename } from 'node:path'
-import { RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE, VIRTUAL_ENTRY_ALIAS } from '#integration/constants'
+import { VIRTUAL_ENTRY_ALIAS } from '#integration/constants'
 import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
@@ -21,7 +20,7 @@ const regexScriptTags
   // eslint-disable-next-line regexp/no-dupe-disjunctions
   = /<script((?:\s+[^=>'"/\s]+=(?:"[^"]*"|'[^']*'|[^>\s]+)|\s+[^=>'"/\s]+)*\s*)(?:\/>|>([\s\S]*?)<\/script>)/g
 
-export function transformPlugin(context: SvelteScopedContext, options: UnocssSvelteScopedViteOptions): Plugin {
+export function transformPlugin(context: UnocssPluginContext, options: UnocssSvelteScopedViteOptions): Plugin {
   const servers: ViteDevServer[] = []
   const vfsLayers = new Map<string, string>()
   const idToEntryMapping = new Map<string, string>()
@@ -99,8 +98,8 @@ export function transformPlugin(context: SvelteScopedContext, options: UnocssSve
         },
       },
 
-      handler(source, importer) {
-        const entry = resolveId(source, importer)
+      async handler(source, importer) {
+        const entry = await resolveId(context, source, importer)
 
         if (entry) {
           idToEntryMapping.set(source, entry)
@@ -114,14 +113,11 @@ export function transformPlugin(context: SvelteScopedContext, options: UnocssSve
     },
 
     load: {
-      filter: {
-        id: {
-          include: [RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE],
-        },
-      },
-
-      handler(id) {
-        const layer = resolveLayer(getPath(id))
+      async handler(id) {
+        const { RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE } = await context.getVMPRegexes()
+        if (!RESOLVED_ID_RE.test(id) && !RESOLVED_ID_WITH_QUERY_RE.test(id)) return
+        
+        const layer = await resolveLayer(context, getPath(id))
 
         if (layer) {
           const css = vfsLayers.get(layer)

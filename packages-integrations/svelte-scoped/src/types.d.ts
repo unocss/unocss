@@ -49,8 +49,3 @@ export interface TransformDirectivesOptions {
    */
   transformThemeDirective?: boolean
 }
-
-export interface SvelteScopedContext {
-  uno: UnoGenerator
-  ready: Promise<LoadConfigResult<UserConfig>>
-}
