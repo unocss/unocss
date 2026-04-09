@@ -431,7 +431,7 @@ describe('safelist shortcut handling', async () => {
       hashSafelistClasses,
     }, { ready: Promise.resolve(null as never), uno })
 
-    let { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
+    const { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
 
     if (!code || code === content)
       return
