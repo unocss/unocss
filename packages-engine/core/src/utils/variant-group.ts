@@ -2,7 +2,6 @@ import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
 
-/* eslint-disable e18e/prefer-static-regex */
 const regexCache: Record<string, RegExp> = {}
 const REGEX_NON_WHITESPACE = /\S+/g
 
