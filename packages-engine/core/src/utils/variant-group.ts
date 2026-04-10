@@ -2,12 +2,19 @@ import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
 
+/* eslint-disable e18e/prefer-static-regex */
 const regexCache: Record<string, RegExp> = {}
+const REGEX_NON_WHITESPACE = /\S+/g
+
+function buildRegexClassGroup(separators: string): RegExp {
+  REGEX_NON_WHITESPACE.lastIndex = 0
+  return new RegExp(`((?:[!@*<~\\w+:_-]|\\[[^\\]]*\\])+?)(${separators})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+}
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const key = separators.join('|')
   if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    regexCache[key] = buildRegexClassGroup(key)
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }

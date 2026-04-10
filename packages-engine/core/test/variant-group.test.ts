@@ -37,6 +37,10 @@ describe('variant-group', () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
 
+  it('data-attribute in prefix', async () => {
+    expect(expandVariantGroup('data-[color=red]:(text-red font-bold)')).toEqual('data-[color=red]:text-red data-[color=red]:font-bold')
+  })
+
   it('asterisk with tilde', async () => {
     // `*` is the children variant shorthand (issue: #5099)
     expect(expandVariantGroup('*:(~ a-b)')).toEqual('*:~ *:a-b')
