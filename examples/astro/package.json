@@ -12,7 +12,7 @@
     "@iconify-json/logos": "^1.2.4",
     "@unocss/astro": "link:../../packages-integrations/astro",
     "@unocss/reset": "link:../../packages-presets/reset",
-    "astro": "^4.16.18",
+    "astro": "^6.1.5",
     "canvas-confetti": "^1.9.3",
     "unocss": "link:../../packages-presets/unocss"
   },
