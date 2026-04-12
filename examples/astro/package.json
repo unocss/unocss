@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
+    "@unocss/astro": "link:../../packages-integrations/astro",
     "@unocss/reset": "link:../../packages-presets/reset",
     "astro": "^4.16.18",
     "canvas-confetti": "^1.9.3",
