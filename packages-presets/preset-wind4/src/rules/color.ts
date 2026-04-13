@@ -6,7 +6,7 @@ import { colorResolver, h, isSize } from '../utils'
  * @example op10 op-30 opacity-100
  */
 export const opacity: Rule<Theme>[] = [
-  [/^op(?:acity)?-?(.+)$/, ([, d]) => ({ opacity: h.bracket.percent.cssvar(d) })],
+  [/^op(?:acity)?-?(.+)$/, ([, d], { theme }) => ({ opacity: h.bracket.percent.cssvar(d, theme) })],
 ]
 
 const bgUrlRE = /^\[url\(.+\)\]$/
@@ -16,24 +16,27 @@ const bgGradientRE = /^\[(?:linear|conic|radial)-gradient\(.+\)\]$/
 const bgImageRE = /^\[image:.+\]$/
 
 export const bgColors: Rule<Theme>[] = [
-  [/^bg-(.+)$/, (...args) => {
-    const d = args[0][1]
+  [/^bg-(.+)$/, (match, ctx) => {
+    const d = match[1]
+    const { theme } = ctx
     if (bgUrlRE.test(d))
-      return { '--un-url': h.bracket(d), 'background-image': 'var(--un-url)' }
-    if (bgLengthRE.test(d) && h.bracketOfLength(d) != null)
-      return { 'background-size': h.bracketOfLength(d)!.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
-    if ((isSize(d) || bgPositionRE.test(d)) && h.bracketOfPosition(d) != null)
-      return { 'background-position': h.bracketOfPosition(d)!.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
+      return { '--un-url': h.bracket(d, theme), 'background-image': 'var(--un-url)' }
+    const bracketLength = h.bracketOfLength(d, theme)
+    if (bgLengthRE.test(d) && bracketLength != null)
+      return { 'background-size': bracketLength.split(' ').map(e => h.fraction.auto.px.cssvar(e) ?? e).join(' ') }
+    const bracketPosition = h.bracketOfPosition(d, theme)
+    if ((isSize(d) || bgPositionRE.test(d)) && bracketPosition != null)
+      return { 'background-position': bracketPosition.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
     if (bgGradientRE.test(d) || bgImageRE.test(d)) {
-      const s = h.bracket(d)
+      const s = h.bracket(d, theme)
       if (s) {
         const url = s.startsWith('http') ? `url(${s})` : h.cssvar(s)
         return { 'background-image': url ?? s }
       }
     }
-    return colorResolver('background-color', 'bg')(...args)
+    return colorResolver('background-color', 'bg')(match, ctx)
   }, { autocomplete: 'bg-$colors' }],
-  [/^bg-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
+  [/^bg-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-bg-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'bg-(op|opacity)-<percent>' }],
 ]
 
 export const colorScheme: Rule<Theme>[] = [
