@@ -31,7 +31,7 @@ export const fonts: Rule<Theme>[] = [
   [/^(?:text|color|c)-(.+)$/, ([, v]) => globalKeywords.includes(v) ? { color: v } : undefined, { autocomplete: `(text|color|c)-(${globalKeywords.join('|')})` }],
 
   // opacity
-  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: '(text|color|c)-(op|opacity)-<percent>' }],
+  [/^(?:text|color|c)-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-text-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: '(text|color|c)-(op|opacity)-<percent>' }],
 
   // weights
   [
@@ -44,7 +44,7 @@ export const fonts: Rule<Theme>[] = [
         v = generateThemeVariable('fontWeight', s)
       }
       else {
-        v = h.bracket.cssvar.global.number(s)
+        v = h.bracket.cssvar.global.number(s, theme)
       }
 
       return {
@@ -75,7 +75,7 @@ export const fonts: Rule<Theme>[] = [
         v = `calc(var(--spacing) * ${numberResolver(s)})`
       }
       else {
-        v = h.bracket.cssvar.global.rem(s)
+        v = h.bracket.cssvar.global.rem(s, theme)
       }
 
       if (v != null) {
@@ -96,7 +96,7 @@ export const fonts: Rule<Theme>[] = [
   ['font-synthesis-style', { 'font-synthesis': 'style' }],
   ['font-synthesis-small-caps', { 'font-synthesis': 'small-caps' }],
   ['font-synthesis-none', { 'font-synthesis': 'none' }],
-  [/^font-synthesis-(.+)$/, ([, s]) => ({ 'font-synthesis': h.bracket.cssvar.global(s) })],
+  [/^font-synthesis-(.+)$/, ([, s], { theme }) => ({ 'font-synthesis': h.bracket.cssvar.global(s, theme) })],
 
   // tracking
   [
@@ -109,7 +109,7 @@ export const fonts: Rule<Theme>[] = [
         v = generateThemeVariable('tracking', s)
       }
       else {
-        v = h.bracket.cssvar.global.rem(s)
+        v = h.bracket.cssvar.global.rem(s, theme)
       }
 
       return {
@@ -125,7 +125,7 @@ export const fonts: Rule<Theme>[] = [
     /^(?:font-)?word-spacing-(.+)$/,
     ([, s], { theme }) => {
       // Use the same variable as tracking
-      const v = theme.tracking?.[s] ? generateThemeVariable('tracking', s) : h.bracket.cssvar.global.rem(s)
+      const v = theme.tracking?.[s] ? generateThemeVariable('tracking', s) : h.bracket.cssvar.global.rem(s, theme)
       return {
         '--un-word-spacing': v,
         'word-spacing': v,
@@ -146,7 +146,7 @@ export const fonts: Rule<Theme>[] = [
   ['font-stretch-ultra-expanded', { 'font-stretch': 'ultra-expanded' }],
   [
     /^font-stretch-(.+)$/,
-    ([, s]) => ({ 'font-stretch': h.bracket.cssvar.fraction.global(s) }),
+    ([, s], { theme }) => ({ 'font-stretch': h.bracket.cssvar.fraction.global(s, theme) }),
     { autocomplete: 'font-stretch-<percentage>' },
   ],
 
@@ -177,27 +177,27 @@ export const fonts: Rule<Theme>[] = [
       }
 
       // Bracketed font family (e.g. font-[family:Inter])
-      v = h.bracketOfFamily(d)
+      v = h.bracketOfFamily(d, theme)
       if (v != null && h.number(v) == null) {
         v = h.cssvar(v) ?? v
         return { 'font-family': v }
       }
 
       // Bracketed numeric font weight (e.g. font-[number:700])
-      v = h.bracketOfNumber(d)
+      v = h.bracketOfNumber(d, theme)
       if (v != null) {
         v = h.cssvar.number(v)
         return { '--un-font-weight': v, 'font-weight': v }
       }
 
       // Bracketed value that is a unknown (e.g. font-[sth])
-      v = h.bracket(d)
+      v = h.bracket(d, theme)
       if (v != null && h.number(v) != null) {
         const num = h.number(v)
         return { '--un-font-weight': num, 'font-weight': num }
       }
 
-      v = h.bracket.cssvar.global(d)
+      v = h.bracket.cssvar.global(d, theme)
       if (v != null) {
         return { 'font-family': v }
       }
@@ -207,8 +207,8 @@ export const fonts: Rule<Theme>[] = [
 ]
 
 export const tabSizes: Rule<Theme>[] = [
-  [/^tab(?:-(.+))?$/, ([, s]) => {
-    const v = h.bracket.cssvar.global.number(s || '4')
+  [/^tab(?:-(.+))?$/, ([, s], { theme }) => {
+    const v = h.bracket.cssvar.global.number(s || '4', theme)
     if (v != null) {
       return {
         '-moz-tab-size': v,
@@ -220,7 +220,7 @@ export const tabSizes: Rule<Theme>[] = [
 ]
 
 export const textIndents: Rule<Theme>[] = [
-  [/^indent-(.+)$/, ([, s]) => {
+  [/^indent-(.+)$/, ([, s], { theme }) => {
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
@@ -228,7 +228,7 @@ export const textIndents: Rule<Theme>[] = [
       return { 'text-indent': `calc(var(--spacing) * ${v})` }
     }
 
-    v = h.bracket.cssvar.auto.global.rem(s)
+    v = h.bracket.cssvar.auto.global.rem(s, theme)
 
     if (v != null) {
       return { 'text-indent': v }
@@ -245,13 +245,13 @@ export const textStrokes: Rule<Theme>[] = [
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
         ? generateThemeVariable('textStrokeWidth', s)
-        : h.bracket.cssvar.px(s),
+        : h.bracket.cssvar.px(s, theme),
     }
   }, { autocomplete: 'text-stroke-$textStrokeWidth' }],
 
   // colors
   [/^text-stroke-(.+)$/, colorResolver('-webkit-text-stroke-color', 'text-stroke'), { autocomplete: 'text-stroke-$colors' }],
-  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-stroke-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
+  [/^text-stroke-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-text-stroke-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'text-stroke-(op|opacity)-<percent>' }],
 ]
 
 function handleTextShadow(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
@@ -262,10 +262,10 @@ function handleTextShadow(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSS
     res = getStringComponents(s, '/', 2) ?? []
   }
   const v = theme.textShadow?.[res[0]]
-  const c = s ? h.bracket.cssvar(s) : undefined
+  const c = s ? h.bracket.cssvar(s, theme) : undefined
 
   if ((v != null || c != null) && !hasParseableColor(c, theme)) {
-    const alpha = res[1] ? h.bracket.percent.cssvar(res[1]) : undefined
+    const alpha = res[1] ? h.bracket.percent.cssvar(res[1], theme) : undefined
     return {
       '--un-text-shadow-opacity': alpha,
       '--un-text-shadow': colorableShadows((v || c)!, '--un-text-shadow-color', alpha).join(','),
@@ -273,7 +273,7 @@ function handleTextShadow(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSS
     }
   }
 
-  return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s) }
+  return colorResolver('--un-text-shadow-color', 'text-shadow')(match, ctx) ?? { 'text-shadow': h.bracket.cssvar.global(s, theme) }
 }
 
 export const textShadows: Rule<Theme>[] = [
@@ -287,7 +287,7 @@ export const textShadows: Rule<Theme>[] = [
 
   // colors
   [/^text-shadow-color-(.+)$/, colorResolver('--un-text-shadow-color', 'text-shadow'), { autocomplete: 'text-shadow-color-$colors' }],
-  [/^text-shadow(?:-color)?-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'text-shadow(-color)?-(op|opacity)-<percent>' }],
+  [/^text-shadow(?:-color)?-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-text-shadow-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'text-shadow(-color)?-(op|opacity)-<percent>' }],
 ]
 
 const fontVariantNumericProperties = [
@@ -329,7 +329,7 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
       lineHeight = generateThemeVariable('leading', leading)
     }
     else {
-      lineHeight = h.bracket.cssvar.global.rem(leading)
+      lineHeight = h.bracket.cssvar.global.rem(leading, theme)
     }
   }
 
@@ -347,7 +347,7 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
     }
   }
 
-  const fontSize = h.bracketOfLength.rem(size)
+  const fontSize = h.bracketOfLength.rem(size, theme)
   if (lineHeight && fontSize) {
     return {
       'font-size': fontSize,
@@ -355,7 +355,7 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
     }
   }
 
-  return { 'font-size': h.bracketOfLength.rem(s) }
+  return { 'font-size': h.bracketOfLength.rem(s, theme) }
 }
 
 function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
@@ -368,14 +368,14 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
     }
   }
   else {
-    const d = h.bracket.cssvar.global.rem(s)
+    const d = h.bracket.cssvar.global.rem(s, theme)
     if (d)
       return { 'font-size': d }
   }
 }
 
 function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
-  if (isCSSMathFn(h.bracket(match[1])))
+  if (isCSSMathFn(h.bracket(match[1], ctx.theme)))
     return handleSize(match, ctx)
   return colorResolver('color', 'text')(match, ctx)
 }

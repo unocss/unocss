@@ -23,7 +23,7 @@ function scopeMatcher(name: string, combinator: string): VariantObject<Theme> {
           return
       }
 
-      let bracketValue = h.bracket(body[0]) ?? ''
+      let bracketValue = h.bracket(body[0], ctx.theme) ?? ''
       if (bracketValue === '')
         bracketValue = '*'
 

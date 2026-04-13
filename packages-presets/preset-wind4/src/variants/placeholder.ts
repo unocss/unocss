@@ -6,7 +6,7 @@ export const placeholderModifier: VariantFunction<Theme> = (input: string, { the
   const m = input.match(/^(.*)\b(placeholder-)(.+)$/)
   if (m) {
     const [, pre = '', p, body] = m
-    if (hasParseableColor(body, theme) || hasOpacityValue(body)) {
+    if (hasParseableColor(body, theme) || hasOpacityValue(body, theme)) {
       return {
         // Append `placeholder-$ ` (with space!) to the rule to be matched.
         // The `placeholder-` is added for placeholder variant processing, and
@@ -18,9 +18,9 @@ export const placeholderModifier: VariantFunction<Theme> = (input: string, { the
   }
 }
 
-function hasOpacityValue(body: string) {
+function hasOpacityValue(body: string, theme?: Theme) {
   const match = body.match(/^op(?:acity)?-?(.+)$/)
   if (match && match[1] != null)
-    return h.bracket.percent(match[1]) != null
+    return h.bracket.percent(match[1], theme) != null
   return false
 }
