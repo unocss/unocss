@@ -197,14 +197,16 @@ catalogs:
     vue-router: ^5.0.4
     vue-virtual-scroller: ^2.0.1
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@tailwindcss/oxide'
-  - core-js
-  - esbuild
-  - msw
-  - nuxt-tsconfig-stub
-  - sharp
-  - simple-git-hooks
+allowBuilds:
+  '@parcel/watcher': true
+  '@tailwindcss/oxide': true
+  core-js: true
+  esbuild: true
+  msw: true
+  nuxt-tsconfig-stub: true
+  sharp: true
+  simple-git-hooks: true
+
+dedupePeers: true
 
 strictPeerDependencies: false
