@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   presets: [
     presetWind4({
-      preflights: { reset: false }
+      preflights: { reset: false },
     }),
     presetIcons({
       extraProperties: {
