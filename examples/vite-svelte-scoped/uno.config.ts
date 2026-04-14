@@ -1,6 +1,6 @@
 import extractorSvelte from '@unocss/extractor-svelte'
 import presetIcons from '@unocss/preset-icons'
-import presetWind4 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -13,7 +13,9 @@ export default defineConfig({
     { bar: 'bg-green-400' },
   ],
   presets: [
-    presetWind4(),
+    presetWind4({
+      preflights: { reset: false }
+    }),
     presetIcons({
       extraProperties: {
         'display': 'inline-block',
