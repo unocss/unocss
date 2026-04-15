@@ -34,8 +34,8 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
-export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
-  const { css } = await uno.generate(new Set(toArray(utilName)), { preflights: false, safelist: false })
+export async function getCSS(uno: UnoGenerator, utilName: string | string[], preflights = false) {
+  const { css } = await uno.generate(new Set(toArray(utilName)), { preflights, safelist: false })
   return css
 }
 
