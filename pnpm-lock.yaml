@@ -268,6 +268,9 @@ catalogs:
     '@arethetypeswrong/cli':
       specifier: ^0.18.2
       version: 0.18.2
+    '@colordx/core':
+      specifier: ^5.0.3
+      version: 5.0.3
     acorn:
       specifier: ^8.16.0
       version: 8.16.0
@@ -1053,6 +1056,9 @@ importers:
 
   packages-integrations/language-server:
     dependencies:
+      '@colordx/core':
+        specifier: catalog:utils
+        version: 5.0.3
       '@unocss/autocomplete':
         specifier: workspace:*
         version: link:../../packages-engine/autocomplete

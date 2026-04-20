@@ -133,6 +133,7 @@ catalogs:
     '@antfu/ni': ^30.0.0
     '@antfu/utils': ^9.3.0
     '@arethetypeswrong/cli': ^0.18.2
+    '@colordx/core': ^5.0.3
     acorn: ^8.16.0
     cac: ^7.0.0
     chokidar: ^5.0.0
