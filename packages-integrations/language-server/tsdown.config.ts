@@ -17,6 +17,7 @@ export default defineConfig([
     alias: aliasVirtual,
     deps: {
       alwaysBundle: [
+        '@colordx/core',
         /^@unocss\//,
         /^unconfig/,
         /^prettier/,

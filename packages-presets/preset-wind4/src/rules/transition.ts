@@ -65,15 +65,15 @@ export const transitions: Rule<Theme>[] = [
   // timings
   [
     /^(?:transition-)?duration-(.+)$/,
-    ([, d]) => ({
-      '--un-duration': h.bracket.cssvar.time(d),
-      'transition-duration': h.bracket.cssvar.time(d),
+    ([, d], { theme }) => ({
+      '--un-duration': h.bracket.cssvar.time(d, theme),
+      'transition-duration': h.bracket.cssvar.time(d, theme),
     }),
   ],
 
   [
     /^(?:transition-)?delay-(.+)$/,
-    ([, d]) => ({ 'transition-delay': h.bracket.cssvar.time(d) }),
+    ([, d], { theme }) => ({ 'transition-delay': h.bracket.cssvar.time(d, theme) }),
   ],
 
   [
@@ -85,7 +85,7 @@ export const transitions: Rule<Theme>[] = [
         v = generateThemeVariable('ease', d)
       }
       else {
-        v = h.bracket.cssvar(d)
+        v = h.bracket.cssvar(d, theme)
       }
 
       return [

@@ -39,6 +39,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@colordx/core": "catalog:utils",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
@@ -53,6 +54,7 @@
   },
   "inlinedDependencies": {
     "@antfu/install-pkg": "1.1.0",
+    "@colordx/core": "5.0.3",
     "@iconify/utils": "3.1.0",
     "@jridgewell/sourcemap-codec": "1.5.5",
     "@quansync/fs": "1.0.0",

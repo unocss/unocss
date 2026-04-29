@@ -63,7 +63,7 @@ function resolveValue(s: string, theme: Theme) {
       v = `calc(var(--spacing) * ${num})`
     }
     else {
-      v = h.bracket.cssvar.global.auto.fraction.rem(s)
+      v = h.bracket.cssvar.global.auto.fraction.rem(s, theme)
     }
   }
 

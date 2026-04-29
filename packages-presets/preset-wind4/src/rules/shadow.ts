@@ -28,11 +28,11 @@ export const shadowProperties = {
 export const boxShadows: Rule<Theme>[] = [
   // shadow
   [/^shadow(?:-?(.+))?$/, handleShadow('shadow'), { autocomplete: ['shadow-$colors', 'shadow-$shadow'] }],
-  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
+  [/^shadow-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-shadow-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 
   // inset shadow
   [/^inset-shadow(?:-(.+))?$/, handleShadow('insetShadow'), { autocomplete: ['inset-shadow-$colors', 'inset-shadow-$insetShadow'] }],
-  [/^inset-shadow-op(?:acity)?-?(.+)$/, ([, opacity]) => ({ '--un-inset-shadow-opacity': h.bracket.percent.cssvar(opacity) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
+  [/^inset-shadow-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-inset-shadow-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'shadow-(op|opacity)-<percent>' }],
 ]
 
 function handleShadow(themeKey: 'shadow' | 'insetShadow') {
@@ -46,11 +46,11 @@ function handleShadow(themeKey: 'shadow' | 'insetShadow') {
         res = ['', d.slice(1)]
     }
     const v = theme[themeKey]?.[res[0] || 'DEFAULT']
-    const c = d ? h.bracket.cssvar(d) : undefined
+    const c = d ? h.bracket.cssvar(d, theme) : undefined
     const shadowVar = hyphenate(themeKey)
 
     if ((v != null || c != null) && !hasParseableColor(c, theme)) {
-      const alpha = res[1] ? h.bracket.percent.cssvar(res[1]) : undefined
+      const alpha = res[1] ? h.bracket.percent.cssvar(res[1], theme) : undefined
       return [
         {
           [`--un-${shadowVar}-opacity`]: alpha,

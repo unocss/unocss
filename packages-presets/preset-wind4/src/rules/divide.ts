@@ -16,10 +16,10 @@ export const divides: Rule<Theme>[] = [
       yield result[1]
     }
   }, { autocomplete: 'divide-$colors' }],
-  [/^divide-op(?:acity)?-?(.+)$/, function* ([match, opacity], { symbols }) {
+  [/^divide-op(?:acity)?-?(.+)$/, function* ([match, opacity], { symbols, theme }) {
     yield {
       [symbols.variants]: [notLastChildSelectorVariant(match)],
-      '--un-divide-opacity': h.bracket.percent(opacity),
+      '--un-divide-opacity': h.bracket.percent(opacity, theme),
     }
   }, { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
 
@@ -43,8 +43,8 @@ export const divides: Rule<Theme>[] = [
   }, { autocomplete: borderStyles.map(i => `divide-${i}`) }],
 ]
 
-function* handlerDivide([m, d, s]: string[], { symbols }: RuleContext<Theme>) {
-  let v = h.bracket.cssvar.px(s || '1')
+function* handlerDivide([m, d, s]: string[], { symbols, theme }: RuleContext<Theme>) {
+  let v = h.bracket.cssvar.px(s || '1', theme)
   if (v != null) {
     if (v === '0')
       v = '0px'

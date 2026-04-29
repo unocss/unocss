@@ -133,6 +133,7 @@ catalogs:
     '@antfu/ni': ^30.0.0
     '@antfu/utils': ^9.3.0
     '@arethetypeswrong/cli': ^0.18.2
+    '@colordx/core': ^5.0.3
     acorn: ^8.16.0
     cac: ^7.0.0
     chokidar: ^5.0.0
@@ -197,14 +198,16 @@ catalogs:
     vue-router: ^5.0.4
     vue-virtual-scroller: ^2.0.1
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@tailwindcss/oxide'
-  - core-js
-  - esbuild
-  - msw
-  - nuxt-tsconfig-stub
-  - sharp
-  - simple-git-hooks
+allowBuilds:
+  '@parcel/watcher': true
+  '@tailwindcss/oxide': true
+  core-js: true
+  esbuild: true
+  msw: true
+  nuxt-tsconfig-stub: true
+  sharp: true
+  simple-git-hooks: true
+
+dedupePeers: true
 
 strictPeerDependencies: false

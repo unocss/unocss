@@ -1,6 +1,18 @@
+import type { Color } from 'vscode-languageserver-types'
+import { colordx } from '@colordx/core'
+
 const matchCssVarNameRE = /var\((?<cssVarName>--[^,|)]+)(?:,(?<fallback>[^)]+))?\)/g
-const cssColorRE = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|rgba|hsl|hsla|oklch)\(.*\)/g
+const cssColorSource = String.raw`(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{4}|[a-f0-9]{6}|[a-f0-9]{8})\b|(?:rgb|rgba|hsl|hsla|oklch)\([^)]*\)`
+const cssColorRE = new RegExp(cssColorSource, 'g')
 const varFnRE = /var\((--[^,|)]+)(?:,([^)]+))?\)/
+// Matches any CSS property ended with `-color`, includes `color`, `fill`, `stroke`.
+// Covers all wind4 CSS custom properties like `--un-shadow-color`, `--un-ring-color`, etc.
+const cssColorPropertyRE = /(?:^|[;{]\s*)(?:[\w-]+-color|color|fill|stroke)\s*:\s*(?<value>[^;}{]+)/gm
+const colorMixWithWeightRE = new RegExp(
+  // eslint-disable-next-line regexp/no-useless-assertions
+  String.raw`color-mix\([^,]+,\s*(?<color>${cssColorSource})\s+(?<weight>\d+(?:\.\d+)?%)\s*,\s*transparent\s*\)`,
+  'i',
+)
 
 function getCssVariables(code: string) {
   const regex = /(?<key>--[^\s:]+):(?<value>.+?)[!;]/g
@@ -12,6 +24,76 @@ function getCssVariables(code: string) {
   }
 
   return cssVariables
+}
+
+function resolveVarToken(value: string, cssVars: Map<string, string>) {
+  let nextValue = value.trim()
+
+  while (nextValue.startsWith('var(')) {
+    const varMatch = nextValue.match(varFnRE)
+    if (!varMatch)
+      break
+
+    const varName = varMatch[1]
+    const fallback = varMatch[2]?.trim()
+    const cssVarValue = cssVars.get(varName)?.trim()
+    if (cssVarValue) {
+      nextValue = cssVarValue
+      continue
+    }
+
+    if (fallback)
+      return fallback
+
+    return '1'
+  }
+
+  return nextValue
+}
+
+function resolveCssVars(value: string, cssVars: Map<string, string>) {
+  let output = value
+  for (const match of value.matchAll(matchCssVarNameRE)) {
+    const matchedString = match[0]
+    const cssVarName = match.groups?.cssVarName
+    const fallback = match.groups?.fallback
+    if (!cssVarName)
+      continue
+
+    const cssVarValue = cssVars.get(cssVarName)
+    if (cssVarValue)
+      output = output.replaceAll(matchedString, resolveVarToken(cssVarValue, cssVars))
+    else if (fallback)
+      output = output.replaceAll(matchedString, fallback)
+  }
+
+  return output.replaceAll(/,?\s+var\(--.*?\)/g, '')
+}
+
+function getColorStringFromValue(value: string, cssVars: Map<string, string>) {
+  const resolvedValue = resolveCssVars(value, cssVars)
+
+  // wind4 often emits `color-mix(..., <color> <weight>, transparent)`.
+  // Keep the resolved color and carry through an explicit percentage weight as alpha.
+  const colorMixMatch = resolvedValue.match(colorMixWithWeightRE)
+  if (colorMixMatch?.groups?.color) {
+    const colorFromMix = colorMixMatch.groups.color
+    const weight = colorMixMatch.groups.weight
+    if (colorFromMix) {
+      return /\//.test(colorFromMix)
+        ? colorFromMix
+        : colorFromMix.replace(/\)$/, ` / ${weight})`)
+    }
+  }
+
+  let colorString = resolvedValue.match(cssColorRE)?.[0]
+  if (!colorString)
+    return
+
+  if (/\/\)/.test(colorString))
+    colorString = colorString.replace(/ \/\)/g, '/ 1)')
+
+  return colorString
 }
 
 /**
@@ -46,93 +128,32 @@ function getCssVariables(code: string) {
  * @returns The **first** CSS color string (hex, rgb[a], hsl[a]) or `undefined`
  */
 export function getColorString(str: string) {
-  let colorString = str.match(cssColorRE)?.[0] // e.g rgb(248 113 113 / var(--maybe-css-var))
-
-  if (!colorString)
-    return
-
   const cssVars = getCssVariables(str)
 
-  // replace `var(...)` with its value
-  for (const match of colorString.matchAll(matchCssVarNameRE)) {
-    const matchedString = match[0]
-    const cssVarName = match.groups?.cssVarName
-    const fallback = match.groups?.fallback
+  for (const match of str.matchAll(cssColorPropertyRE)) {
+    const value = match.groups?.value
+    if (!value)
+      continue
 
-    if (cssVarName && cssVars.get(cssVarName)) {
-      // rgb(248 113 113 / var(--un-text-opacity)) => rgb(248 113 113 / 1)
-      colorString = colorString.replaceAll(matchedString, () => {
-        let v = cssVars.get(cssVarName) ?? matchedString
-        // resolve nested css var
-        while (v && v.startsWith('var(')) {
-          const varName = v.match(varFnRE)?.[1]
-          if (!varName) {
-            v = ''
-            break
-          }
-
-          v = cssVars.get(varName) || ''
-        }
-        return v || '1'
-      })
-    }
-    else if (fallback) {
-      // rgb(248 113 113 / var(--no-value, 0.5)) => rgb(248 113 113 / 0.5)
-      colorString = colorString.replaceAll(matchedString, fallback)
-    }
-
-    // rgb(248 113 113 / var(--no-value)) => rgba(248 113 113)
-    colorString = colorString.replaceAll(/,?\s+var\(--.*?\)/g, '')
+    const color = getColorStringFromValue(value, cssVars)
+    if (color)
+      return color
   }
 
-  if (/\/\)/.test(colorString))
-    colorString = colorString.replace(/ \/\)/g, '/ 1)')
-
-  return convertToRGBA(colorString)
+  return getColorStringFromValue(str, cssVars)
 }
 
-const reRgbFn = /rgb\((\d+)\s+(\d+)\s+(\d+)\s*\/\s*([\d.]+)\)/
+export function parseColorToRGBA(colorString: string): Color | undefined {
+  const color = colordx(colorString)
+  if (!color.isValid())
+    return undefined
 
-export function convertToRGBA(rgbColor: string) {
-  const match = rgbColor.match(reRgbFn)
+  const rgb = color.toRgb()
 
-  if (match) {
-    const r = Number.parseInt(match[1].trim())
-    const g = Number.parseInt(match[2].trim())
-    const b = Number.parseInt(match[3].trim())
-    const alpha = Number.parseFloat(match[4].trim())
-
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  return {
+    red: rgb.r / 255,
+    green: rgb.g / 255,
+    blue: rgb.b / 255,
+    alpha: rgb.alpha,
   }
-
-  return rgbColor
-}
-
-export function parseColorToRGBA(colorString: string): { red: number, green: number, blue: number, alpha: number } | undefined {
-  // Handle rgba(r, g, b, a)
-  const rgbaMatch = colorString.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
-  if (rgbaMatch) {
-    return {
-      red: Number.parseInt(rgbaMatch[1]) / 255,
-      green: Number.parseInt(rgbaMatch[2]) / 255,
-      blue: Number.parseInt(rgbaMatch[3]) / 255,
-      alpha: rgbaMatch[4] ? Number.parseFloat(rgbaMatch[4]) : 1,
-    }
-  }
-
-  // Handle hex colors
-  const hexMatch = colorString.match(/^#([a-f0-9]{3,6})$/i)
-  if (hexMatch) {
-    let hex = hexMatch[1]
-    if (hex.length === 3)
-      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
-    return {
-      red: Number.parseInt(hex.slice(0, 2), 16) / 255,
-      green: Number.parseInt(hex.slice(2, 4), 16) / 255,
-      blue: Number.parseInt(hex.slice(4, 6), 16) / 255,
-      alpha: 1,
-    }
-  }
-
-  return undefined
 }
