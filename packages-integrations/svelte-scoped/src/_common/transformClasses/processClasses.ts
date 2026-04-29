@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import type { TransformClassesOptions } from '../types'
+import type { TransformClassesOptions } from '../../types'
 import type { FoundClass } from './findClasses'
 import { processClassBody } from './processClassBody'
 import { processClsx } from './processClsx.js'

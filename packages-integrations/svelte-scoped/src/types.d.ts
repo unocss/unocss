@@ -1,0 +1,48 @@
+export interface TransformClassesOptions {
+  /**
+   * Prefix for compiled class names. Distinct between `@unocss/svelte-scoped/vite` and `@unocss/svelte-scoped/preprocessor` to avoid bugs when using a component library built with `@unocss/svelte-scoped/preprocessor` in a project using `@unocss/svelte-scoped/vite`.
+   * @default 'uno-' // `@unocss/svelte-scoped/vite`
+   * @default 'usp-' // `@unocss/svelte-scoped/preprocessor`
+   */
+  classPrefix?: string
+  /**
+   * Add hash and combine recognized tokens (optimal for production); set false in dev mode for easy dev tools toggling to allow for design adjustments in the browser
+   * @default true
+   */
+  combine?: boolean
+  /**
+   * Used to generate hash for compiled class names
+   */
+  hashFn?: (str: string) => string
+  /**
+   * Hash safelist classes (including shortcuts in the safelist) instead of passing them through as-is.
+   * When false (default), safelist classes are left unhashed so they match the globally generated safelist CSS.
+   * Set to true to restore the legacy behavior where shortcut classes in the safelist were still hashed.
+   * @default false
+   */
+  hashSafelistClasses?: boolean
+}
+
+export interface TransformApplyOptions {
+  /**
+   * Transform CSS custom properties (recommended for CSS syntax compatibility) or @apply directives.
+   *
+   * Pass `false` to disable.
+   *
+   * @default ['--at-apply', '@apply']
+   */
+  applyVariables?: string | string[] | false
+}
+
+export interface TransformDirectivesOptions {
+  /**
+   * Transform the `theme()` directive (recommended for CSS syntax compatibility).
+   *
+   * Disable for TailwindCss compatibility.
+   *
+   * Pass `false` to disable.
+   *
+   * @default true
+   */
+  transformThemeDirective?: boolean
+}
