@@ -11,6 +11,11 @@ import { fetch } from 'ofetch'
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 // eslint-disable-next-line regexp/no-unused-capturing-group
 const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/
+const googleFontsNameRegex = /\/s\/([^/]+)\//
+const whitespaceRegex = /\s+/
+const leadingSlashesRegex = /^\/{2,}/
+// Shared state between processor and Vite plugin for tracking downloaded font files
+const downloadedFontsRegistry = new Map<string, Set<string>>()
 
 export interface LocalFontProcessorOptions {
   /**
@@ -53,6 +58,8 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
   const cacheDir = resolve(cwd, options?.cacheDir || 'node_modules/.cache/unocss/fonts')
   const fontAssetsDir = resolve(cwd, options?.fontAssetsDir || 'public/assets/fonts')
   const fontServeBaseUrl = options?.fontServeBaseUrl || '/assets/fonts'
+  const downloadedFiles = new Set<string>()
+  downloadedFontsRegistry.set(fontAssetsDir, downloadedFiles)
 
   async function _downloadFont(url: string, assetPath: string) {
     const fetcher = options?.fetch ?? fetch
@@ -60,6 +67,7 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
       .then(r => r.arrayBuffer())
     await fsp.mkdir(fontAssetsDir, { recursive: true })
     await fsp.writeFile(assetPath, Buffer.from(response))
+    downloadedFiles.add(assetPath)
   }
 
   const cache = new Map<string, Promise<void>>()
@@ -91,9 +99,9 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
         const ext = url.split('.').pop()
 
         let name = ''
-        const match1 = url.match(/\/s\/([^/]+)\//) // Google Fonts
+        const match1 = url.match(googleFontsNameRegex) // Google Fonts
         if (match1)
-          name = match1[1].replace(/\W/g, ' ').trim().replace(/\s+/, '-').toLowerCase()
+          name = match1[1].replace(/\W/g, ' ').trim().replace(whitespaceRegex, '-').toLowerCase()
 
         const filename = `${[name, hash].filter(Boolean).join('-')}.${ext}`
         const assetPath = join(fontAssetsDir, filename)
@@ -102,9 +110,61 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
           const _url = hasProtocol(url) ? url : withProtocol(url)
           await downloadFont(_url, assetPath)
         }
+        else {
+          downloadedFiles.add(assetPath)
+        }
 
         return `${fontServeBaseUrl}/${filename}`
       })
+    },
+  }
+}
+/**
+ * Vite plugin to ensure locally downloaded font files are copied to the build output directory
+ *
+ * Fixes the issue where font files are missing from `dist/` on the initial build
+ *
+ * @example
+ * ```ts
+ * import { localFontsPlugin } from '@unocss/preset-web-fonts/local'
+ *
+ * export default defineConfig({
+ *   plugins: [UnoCSS(), localFontsPlugin()],
+ * })
+ * ```
+ */
+export function localFontsPlugin(options?: LocalFontProcessorOptions) {
+  const cwd = options?.cwd || process.cwd()
+  const fontAssetsDir = resolve(cwd, options?.fontAssetsDir || 'public/assets/fonts')
+  const fontServeBaseUrl = options?.fontServeBaseUrl || '/assets/fonts'
+
+  let outDir = ''
+
+  return {
+    name: 'unocss:local-fonts',
+    apply: 'build' as const,
+    configResolved(config: any) {
+      outDir = resolve(config.root || cwd, config.build?.outDir || 'dist')
+    },
+    async writeBundle() {
+      const downloadedFiles = downloadedFontsRegistry.get(fontAssetsDir)
+      if (!downloadedFiles || downloadedFiles.size === 0)
+        return
+
+      const outputFontsDir = join(outDir, fontServeBaseUrl)
+      await fsp.mkdir(outputFontsDir, { recursive: true })
+
+      for (const filePath of downloadedFiles) {
+        if (!fs.existsSync(filePath))
+          continue
+        const filename = filePath.split('/').pop() || filePath.split('\\').pop()
+        if (!filename)
+          continue
+        const destPath = join(outputFontsDir, filename)
+        if (!fs.existsSync(destPath)) {
+          await fsp.copyFile(filePath, destPath)
+        }
+      }
     },
   }
 }
@@ -121,7 +181,7 @@ function hasProtocol(input: string) {
 }
 
 function withProtocol(input: string, protocol = 'https://') {
-  const match = input.match(/^\/{2,}/)
+  const match = input.match(leadingSlashesRegex)
   if (!match)
     return protocol + input
 
