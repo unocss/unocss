@@ -30,7 +30,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
     result.push([order, i])
   }
 
-  let sorted = result
+  const sortedRecognized = result
     .filter(notNull)
     .sort((a, b) => {
       let result = a[0] - b[0]
@@ -38,11 +38,19 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
         result = a[1].localeCompare(b[1])
       return result
     })
-    .map(i => i[1])
+
+  let sortedIdx = 0
+  let unknownIdx = 0
+  let sorted = result
+    .map((item) => {
+      if (item == null)
+        return unknown[unknownIdx++]
+      return sortedRecognized[sortedIdx++][1]
+    })
     .join(' ')
 
   if (expandedResult?.prefixes.length)
     sorted = collapseVariantGroup(sorted, expandedResult.prefixes)
 
-  return [...unknown, sorted].join(' ').trim()
+  return sorted.trim()
 }
