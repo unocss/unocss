@@ -1,13 +1,70 @@
 import type { UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { LoadConfigResult, LoadConfigSource } from 'unconfig'
-import fs from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import fs, { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { cyan } from 'colorette'
 import { consola } from 'consola'
 import { createConfigLoader as createLoader } from 'unconfig'
 
 export type { LoadConfigResult, LoadConfigSource }
+
+const HTTP_IMPORT_RE = /from\s+['"]https?:\/\/[^'"]+['"]/g
+const HTTP_IMPORT_URL_RE = /['"](?<url>https?:\/\/[^'"]+)['"]/
+
+/**
+ * Fetch a remote module and cache it locally.
+ * Returns the local file path of the cached module.
+ */
+async function cacheRemoteModule(url: string): Promise<string> {
+  const cacheDir = join(tmpdir(), '.unocss-remote-modules')
+  if (!existsSync(cacheDir))
+    mkdirSync(cacheDir, { recursive: true })
+  const hash = createHash('sha256').update(url).digest('hex').slice(0, 16)
+  const ext = url.includes('.ts') ? '.mts' : '.mjs'
+  const cachedPath = join(cacheDir, `${hash}${ext}`)
+
+  if (!existsSync(cachedPath)) {
+    const response = await fetch(url)
+    if (!response.ok)
+      throw new Error(`Failed to fetch remote module: ${url} (${response.status})`)
+    const content = await response.text()
+    writeFileSync(cachedPath, content, 'utf-8')
+  }
+  return cachedPath
+}
+/**
+ * Pre-process a config file: rewrite HTTP imports to locally cached modules.
+ * Returns a temp file path if rewriting was needed, or undefined if no changes.
+ */
+async function preprocessHttpImports(
+  configPath: string,
+): Promise<string | undefined> {
+  const { readFileSync } = await import('node:fs')
+  const content = readFileSync(configPath, 'utf-8')
+  const matches = content.match(HTTP_IMPORT_RE)
+  if (!matches)
+    return undefined
+
+  let processed = content
+  for (const match of matches) {
+    const urlMatch = match.match(HTTP_IMPORT_URL_RE)
+    if (urlMatch?.groups?.url) {
+      const url = urlMatch.groups.url
+      const localPath = await cacheRemoteModule(url)
+      processed = processed.replace(url, localPath)
+    }
+  }
+
+  const cacheDir = join(tmpdir(), '.unocss-remote-modules')
+  const hash = createHash('sha256').update(configPath).digest('hex').slice(0, 16)
+  const ext = configPath.endsWith('.ts') ? '.ts' : '.mjs'
+  const tempConfigPath = join(cacheDir, `config-${hash}${ext}`)
+  writeFileSync(tempConfigPath, processed, 'utf-8')
+  return tempConfigPath
+}
 
 export async function loadConfig<U extends UserConfig>(
   cwd = process.cwd(),
@@ -39,9 +96,15 @@ export async function loadConfig<U extends UserConfig>(
     isFile = true
     cwd = dirname(resolved)
   }
-  else {
-    if (/\.(?:ts|js|mjs|cjs|mts)$/.test(configOrPath) && resolve(configOrPath) !== resolve(cwd)) {
-      throw new Error(`[@unocss/config] Custom config file not found: ${cyan(configOrPath)}. Please check the path and try again.`)
+  let effectivePath = resolved
+  if (isFile) {
+    try {
+      const preprocessed = await preprocessHttpImports(resolved)
+      if (preprocessed)
+        effectivePath = preprocessed
+    }
+    catch (e) {
+      consola.warn(`[@unocss/config] Failed to pre-process HTTP imports:`, e)
     }
   }
 
@@ -49,7 +112,7 @@ export async function loadConfig<U extends UserConfig>(
     sources: isFile
       ? [
           {
-            files: resolved,
+            files: effectivePath,
             extensions: [],
           },
         ]
@@ -80,6 +143,10 @@ export async function loadConfig<U extends UserConfig>(
     ]
   }
 
+  // Restore original config path in sources if we used a preprocessed temp file
+  if (effectivePath !== resolved) {
+    result.sources = result.sources.map(s => s === effectivePath ? resolved : s)
+  }
   return result
 }
 
