@@ -2,11 +2,11 @@ import type { IconifyJSON } from '@iconify/types'
 import type { IconifyLoaderOptions, UniversalIconLoader } from '@iconify/utils'
 import type { CSSObject } from '@unocss/core'
 import type { IconsOptions } from './types'
-import { getEnvFlags } from '#integration/env'
 import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { definePreset, warnOnce } from '@unocss/core'
+import { getEnvFlags } from '#integration/env'
 import icons from './collections'
 
 const COLLECTION_NAME_PARTS_MAX = 3

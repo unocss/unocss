@@ -1,7 +1,7 @@
 import type { SourceCodeTransformer, UnoGenerator } from '@unocss/core'
 import type MagicString from 'magic-string'
-import { getEnvFlags } from '#integration/env'
 import { toArray } from '@unocss/core'
+import { getEnvFlags } from '#integration/env'
 import { attributifyJsxOxcResolver } from './resolver/oxc'
 import { attributifyJsxRegexResolver } from './resolver/regex'
 

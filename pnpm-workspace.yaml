@@ -10,6 +10,8 @@ shamefullyHoist: true
 
 shellEmulator: true
 
+trustPolicy: no-downgrade
+
 packages:
   - bench
   - bench/fixtures/*

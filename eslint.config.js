@@ -108,17 +108,6 @@ export default antfu(
   },
   {
     files: [
-      'pnpm-workspace.yaml',
-    ],
-    rules: {
-      // Temporarily disabling the `trustPolicy: no-downgrade` setting affects dependency installation
-      // and makes the `trustPolicyExclude` field difficult to maintain.
-      // https://github.com/pnpm/pnpm/pull/10359
-      'pnpm/yaml-enforce-settings': 'off',
-    },
-  },
-  {
-    files: [
       'docs/index.md',
     ],
     rules: {
