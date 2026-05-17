@@ -50,7 +50,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "peerDependencies": {
-    "webpack": "^4 || ^5"
+    "webpack": "^5"
   },
   "dependencies": {
     "@jridgewell/remapping": "catalog:build",

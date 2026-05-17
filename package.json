@@ -4,6 +4,9 @@
   "version": "66.6.8",
   "private": true,
   "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "prepare": "tsx scripts/prepare.ts",
     "taze": "taze minor -wIr && pnpm -r --parallel run update-post",
@@ -55,7 +58,6 @@
     "@types/js-yaml": "catalog:types",
     "@types/markdown-it-link-attributes": "catalog:types",
     "@types/node": "catalog:types",
-    "@types/prettier": "catalog:types",
     "@types/react": "catalog:types",
     "@types/splitpanes": "catalog:types",
     "@types/ws": "catalog:types",

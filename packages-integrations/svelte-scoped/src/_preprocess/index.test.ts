@@ -41,7 +41,7 @@ describe('transform', async () => {
       return
 
     if (format) {
-      code = prettier(code, {
+      code = await prettier(code, {
         parser: 'svelte',
         plugins: [prettierSvelte],
       })
