@@ -5,12 +5,28 @@ import fs from 'node:fs'
 import fsp from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
-import { replaceAsync } from '#integration/utils'
 import { fetch } from 'ofetch'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
-// eslint-disable-next-line regexp/no-unused-capturing-group
-const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/
+const urlProtocolRegex = /^[\s\w\0+.-]{2,}:[/\\]{1,2}/
+
+/**
+ * Helper to run async replacements on string regex matches.
+ * Avoids importing from #integration/utils which may not be resolved correctly.
+ */
+async function replaceAsync(
+  str: string,
+  regex: RegExp,
+  asyncFn: (match: string, ...args: any[]) => Promise<string>,
+) {
+  const promises: Promise<string>[] = []
+  str.replace(regex, (match, ...args) => {
+    promises.push(asyncFn(match, ...args))
+    return match
+  })
+  const data = await Promise.all(promises)
+  return str.replace(regex, () => data.shift()!)
+}
 
 export interface LocalFontProcessorOptions {
   /**
@@ -45,6 +61,13 @@ export interface LocalFontProcessorOptions {
    * Custom fetch function to provide the font data.
    */
   fetch?: typeof fetch
+
+  /**
+   * Callback invoked when a font file is downloaded during build.
+   * Receives the filename and file buffer, useful for emitting fonts
+   * directly to the build output instead of relying on public dir copy.
+   */
+  onDownload?: (filename: string, buf: Buffer) => void | Promise<void>
 }
 
 export function createLocalFontProcessor(options?: LocalFontProcessorOptions): WebFontProcessor {
@@ -58,8 +81,11 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
     const fetcher = options?.fetch ?? fetch
     const response = await fetcher(url)
       .then(r => r.arrayBuffer())
+    const buf = Buffer.from(response)
+    const filename = assetPath.split(/[\\/]/).pop()!
+    await options?.onDownload?.(filename, buf)
     await fsp.mkdir(fontAssetsDir, { recursive: true })
-    await fsp.writeFile(assetPath, Buffer.from(response))
+    await fsp.writeFile(assetPath, buf)
   }
 
   const cache = new Map<string, Promise<void>>()
