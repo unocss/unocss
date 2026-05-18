@@ -12,7 +12,7 @@ const urlProtocolRegex = /^[\s\w\0+.-]{2,}:[/\\]{1,2}/
 
 /**
  * Helper to run async replacements on string regex matches.
- * Avoids importing from #integration/utils which may not be resolved correctly.
+ * Inlined to avoid dependency on internal #integration/utils aliases.
  */
 async function replaceAsync(
   str: string,
