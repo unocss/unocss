@@ -468,6 +468,7 @@ catalogs:
       version: 2.0.1
 
 overrides:
+  fflate: 0.8.2
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
   is-core-module: npm:@nolyfill/is-core-module@^1.0.39
   is-generator-function: npm:@nolyfill/is-generator-function@^1.0.44
@@ -6745,8 +6746,8 @@ packages:
       picomatch:
         optional: true
 
-  fflate@0.8.3:
-    resolution: {integrity: sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==}
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   figures@6.1.0:
     resolution: {integrity: sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg==}
@@ -10328,7 +10329,7 @@ snapshots:
       '@andrewbranch/untar.js': 1.0.3
       '@loaderkit/resolve': 1.0.5
       cjs-module-lexer: 1.4.3
-      fflate: 0.8.3
+      fflate: 0.8.2
       lru-cache: 11.3.6
       semver: 7.8.0
       typescript: 5.6.1-rc
@@ -13616,7 +13617,7 @@ snapshots:
   '@vitest/ui@4.1.6(vitest@4.1.6)':
     dependencies:
       '@vitest/utils': 4.1.6
-      fflate: 0.8.3
+      fflate: 0.8.2
       flatted: 3.4.2
       pathe: 2.0.3
       sirv: 3.0.2
@@ -15336,7 +15337,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
-  fflate@0.8.3: {}
+  fflate@0.8.2: {}
 
   figures@6.1.0:
     dependencies:

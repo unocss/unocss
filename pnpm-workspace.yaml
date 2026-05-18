@@ -24,6 +24,7 @@ packages:
   - test/fixtures/*
 
 overrides:
+  fflate: 0.8.2
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
   is-core-module: npm:@nolyfill/is-core-module@^1.0.39
   is-generator-function: npm:@nolyfill/is-generator-function@^1.0.44
