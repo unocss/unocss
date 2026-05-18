@@ -3,7 +3,6 @@ import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 
 import { format as prettier } from 'prettier'
-// @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 import { describe, expect, it } from 'vitest'
 import { UnocssSveltePreprocess } from '.'
