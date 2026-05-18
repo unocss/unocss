@@ -61,6 +61,7 @@
     "@types/react": "catalog:types",
     "@types/splitpanes": "catalog:types",
     "@types/ws": "catalog:types",
+    "@typescript-eslint/rule-tester": "catalog:typescript",
     "@typescript/native-preview": "catalog:typescript",
     "@vitejs/plugin-legacy": "catalog:vite",
     "@vitejs/plugin-vue": "catalog:vite",

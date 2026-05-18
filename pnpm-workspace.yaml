@@ -33,6 +33,8 @@ overrides:
   is-typed-array: npm:@nolyfill/is-typed-array@^1.0.44
   object.assign: npm:@nolyfill/object.assign@^1.0.44
   side-channel: npm:@nolyfill/side-channel@^1.0.44
+  twoslash: ^0.3.8
+  twoslash-vue: ^0.3.8
   which-typed-array: npm:@nolyfill/which-typed-array@^1.0.44
 
 catalogs:
@@ -127,10 +129,11 @@ catalogs:
     '@types/ws': ^8.18.1
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
   typescript:
+    '@typescript-eslint/rule-tester': ^8.59.3
     '@typescript-eslint/utils': ^8.59.3
-    '@typescript/native-preview': latest
+    '@typescript/native-preview': 7.0.0-dev.20260514.1
     tsx: ^4.22.0
-    typescript: 5.8.3
+    typescript: 6.0.3
   utils:
     '@antfu/ni': ^30.1.0
     '@antfu/utils': ^9.3.0
