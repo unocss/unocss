@@ -8,8 +8,6 @@ const externals = [
   '@iconify/utils/lib/loader/install-pkg',
   '@iconify/utils/lib/loader/node-loader',
   '@iconify/utils/lib/loader/node-loaders',
-  'oxc-walker',
-  'oxc-parser',
 ]
 
 export default defineNuxtConfig({
@@ -83,6 +81,7 @@ export default defineNuxtConfig({
     optimizeDeps: {
       exclude: [
         ...externals,
+        'oxc-parser',
       ],
     },
     define: {

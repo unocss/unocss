@@ -195,8 +195,8 @@ catalogs:
       specifier: ^0.131.0
       version: 0.131.0
     oxc-walker:
-      specifier: ^1.0.0
-      version: 1.0.0
+      specifier: ^0.7.0
+      version: 0.7.0
   svelte:
     prettier-plugin-svelte:
       specifier: ^3.5.2
@@ -1488,7 +1488,7 @@ importers:
         version: 0.131.0
       oxc-walker:
         specifier: catalog:oxc
-        version: 1.0.0(oxc-parser@0.131.0)(rolldown@1.0.1)
+        version: 0.7.0(oxc-parser@0.131.0)
     devDependencies:
       magic-string:
         specifier: catalog:utils
@@ -7487,9 +7487,6 @@ packages:
   magic-regexp@0.10.0:
     resolution: {integrity: sha512-Uly1Bu4lO1hwHUW0CQeSWuRtzCMNO00CmXtS8N6fyvB3B979GOEEeAkiTUDsmbYLAbvpUS/Kt5c4ibosAzVyVg==}
 
-  magic-regexp@0.11.0:
-    resolution: {integrity: sha512-LG77Z/gVnwz7oaDpD4heX6ryl+lcr4l1B2gnP4MMvt2pGhGC1Dfj7dl1pXpP4ih+VQFLuAadeKVa+lARAzfW+Q==}
-
   magic-string-ast@1.0.3:
     resolution: {integrity: sha512-CvkkH1i81zl7mmb94DsRiFeG9V2fR2JeuK8yDgS8oiZSFa++wWLEgZ5ufEOyLHbvSbD1gTRKv9NdX69Rnvr9JA==}
     engines: {node: '>=20.19.0'}
@@ -7974,17 +7971,6 @@ packages:
     resolution: {integrity: sha512-54B4KUhrzbzc4sKvKwVYm7E2PgeROpGba0/2nlNZMqfDyca+yOor5IMb4WLGBatGDT0nkzYdYuzylg7n3YfB7A==}
     peerDependencies:
       oxc-parser: '>=0.98.0'
-
-  oxc-walker@1.0.0:
-    resolution: {integrity: sha512-eMsHflAGfOskpWxtp9xP/f5b96XLEU8ifTd2gOOCkdux9HMxKGy5S1ru0Gh1B3aPu+YbfmWUUVkcb7MrZz3XyQ==}
-    peerDependencies:
-      oxc-parser: '>=0.98.0'
-      rolldown: '>=1.0.0'
-    peerDependenciesMeta:
-      oxc-parser:
-        optional: true
-      rolldown:
-        optional: true
 
   oxfmt@0.35.0:
     resolution: {integrity: sha512-QYeXWkP+aLt7utt5SLivNIk09glWx9QE235ODjgcEZ3sd1VMaUBSpLymh6ZRCA76gD2rMP4bXanUz/fx+nLM9Q==}
@@ -16088,13 +16074,6 @@ snapshots:
       ufo: 1.6.4
       unplugin: 2.3.11
 
-  magic-regexp@0.11.0:
-    dependencies:
-      magic-string: 0.30.21
-      regexp-tree: 0.1.27
-      type-level-regexp: 0.1.17
-      unplugin: 3.0.0
-
   magic-string-ast@1.0.3:
     dependencies:
       magic-string: 0.30.21
@@ -17103,12 +17082,10 @@ snapshots:
       magic-regexp: 0.10.0
       oxc-parser: 0.128.0
 
-  oxc-walker@1.0.0(oxc-parser@0.131.0)(rolldown@1.0.1):
+  oxc-walker@0.7.0(oxc-parser@0.131.0):
     dependencies:
-      magic-regexp: 0.11.0
-    optionalDependencies:
+      magic-regexp: 0.10.0
       oxc-parser: 0.131.0
-      rolldown: 1.0.1
 
   oxfmt@0.35.0:
     dependencies:

@@ -105,7 +105,7 @@ catalogs:
     pkg-types: ^2.3.1
   oxc:
     oxc-parser: ^0.131.0
-    oxc-walker: ^1.0.0
+    oxc-walker: ^0.7.0
   svelte:
     prettier-plugin-svelte: ^3.5.2
     svelte: ^5.55.7
