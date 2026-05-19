@@ -1,6 +1,4 @@
 import type { UnoGenerator } from '@unocss/core'
-import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
-import { getMatchedPositions, getMatchedPositionsFromCode as match } from '#integration/match-positions'
 import { createGenerator } from '@unocss/core'
 import extractorPug from '@unocss/extractor-pug'
 import presetAttributify from '@unocss/preset-attributify'
@@ -8,6 +6,8 @@ import presetWind3 from '@unocss/preset-wind3'
 import cssDirectives from '@unocss/transformer-directives'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { describe, expect, it } from 'vitest'
+import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
+import { getMatchedPositions, getMatchedPositionsFromCode as match } from '#integration/match-positions'
 
 describe('matched-positions', async () => {
   it('attributify', async () => {

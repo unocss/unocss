@@ -4,6 +4,8 @@ import type { ResolvedUnpluginOptions, UnpluginOptions } from 'unplugin'
 import type { WebpackPluginOptions } from '.'
 import { isAbsolute, normalize } from 'node:path'
 import process from 'node:process'
+import { createUnplugin } from 'unplugin'
+import WebpackSources from 'webpack-sources'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { createContext } from '#integration/context'
@@ -19,8 +21,6 @@ import {
 } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
 import { getPath, isCssId } from '#integration/utils'
-import { createUnplugin } from 'unplugin'
-import WebpackSources from 'webpack-sources'
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10

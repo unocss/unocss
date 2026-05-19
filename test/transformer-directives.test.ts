@@ -71,15 +71,16 @@ describe('wind3', () => {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          ".btn {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('basic #4606', async () => {
@@ -624,15 +625,16 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          ".btn {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('@apply animate- scoped', async () => {
@@ -787,17 +789,18 @@ div {
 
       expect(result)
         .toMatchInlineSnapshot(`
-        "#app :is(.btn) {
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        #app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-        }
-        "
-      `)
+          "#app :is(.btn) {
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          #app :is(.btn) {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+          }
+          "
+        `)
     })
 
     it('breakpoints', async () => {
@@ -1284,15 +1287,16 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        "#app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          "#app :is(.btn) {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('@apply animate- scoped', async () => {

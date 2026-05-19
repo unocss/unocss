@@ -50,11 +50,8 @@
     margin-right: calc(0.25rem * var(--un-space-x-reverse));
   }
   :global(
-      [dir="rtl"]
-        ._rtl\:space-x-reverse_7dkb0w
-        > :not([hidden])
-        ~ :not([hidden])
-    ) {
+    [dir="rtl"] ._rtl\:space-x-reverse_7dkb0w > :not([hidden]) ~ :not([hidden])
+  ) {
     --un-space-x-reverse: 1;
   }
   :global(._bg-red-500_7dkb0w) {

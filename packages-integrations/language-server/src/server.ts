@@ -3,8 +3,6 @@ import type { ServerSettings } from './types'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { INCLUDE_COMMENT_IDE } from '#integration/constants'
-import { isCssId } from '#integration/utils'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import {
   createConnection,
@@ -14,6 +12,8 @@ import {
   TextDocumentSyncKind,
   WatchKind,
 } from 'vscode-languageserver/node'
+import { INCLUDE_COMMENT_IDE } from '#integration/constants'
+import { isCssId } from '#integration/utils'
 import { registerColorProvider } from './capabilities/colorProvider'
 import { registerCompletion, resetAutoCompleteCache } from './capabilities/completion'
 import { registerHover } from './capabilities/hover'
