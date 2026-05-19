@@ -42,9 +42,6 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=18"
-  },
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",

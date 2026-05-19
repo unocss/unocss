@@ -32,9 +32,6 @@
     "bin",
     "dist"
   ],
-  "engines": {
-    "node": ">=18"
-  },
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "dev": "tsdown --config-loader unrun --watch"
