@@ -3,7 +3,8 @@
     "target": "ESNext",
     "jsx": "preserve",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "paths": {
       "@unocss/preset-attributify": ["../../packages-presets/preset-attributify/src/index.ts"]
     }

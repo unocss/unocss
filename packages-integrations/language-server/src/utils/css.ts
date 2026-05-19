@@ -42,7 +42,7 @@ export async function getCSS(uno: UnoGenerator, utilName: string | string[], pre
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
   const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, remToPxRatio)
-  const prettified = prettier.format(css, {
+  const prettified = await prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
   })

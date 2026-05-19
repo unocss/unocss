@@ -25,15 +25,12 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch"
   },
   "dependencies": {
-    "@unocss/core": "workspace:^",
+    "@unocss/core": "workspace:*",
     "magic-string": "catalog:utils"
   }
 }

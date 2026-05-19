@@ -1,7 +1,7 @@
 import type { PluginOptions, UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import { applyTransformers } from '#integration/transformers'
 import { cssIdRE } from '@unocss/core'
+import { applyTransformers } from '#integration/transformers'
 
 const svelteIdRE = /[&?]svelte/
 

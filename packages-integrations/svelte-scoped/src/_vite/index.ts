@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import type { UnocssSvelteScopedViteOptions } from './types'
-import { createContext } from '#integration/context'
 import presetUno from '@unocss/preset-uno'
+import { createContext } from '#integration/context'
 import { ConfigHMRPlugin } from './config-hmr'
 import { createCssTransformerPlugins } from './createCssTransformerPlugins'
 import { GlobalStylesPlugin } from './globalStylesPlugin'
