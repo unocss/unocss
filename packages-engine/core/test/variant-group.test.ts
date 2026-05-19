@@ -37,6 +37,11 @@ describe('variant-group', () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
 
+  it('asterisk with tilde', async () => {
+    // `*` is the children variant shorthand (issue: #5099)
+    expect(expandVariantGroup('*:(~ a-b)')).toEqual('*:~ *:a-b')
+  })
+
   it('expand with space', async () => {
     const shortcut = '  a:(b:(c-d d-c)) '
     expect(expandVariantGroup(shortcut)).toEqual('  a:b:c-d a:b:d-c ')

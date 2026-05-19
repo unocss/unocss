@@ -1,10 +1,10 @@
 import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import { dirname } from 'node:path'
 import process from 'node:process'
-import { sortRules } from '#integration/sort-rules'
 import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
 import { runAsWorker } from 'synckit'
+import { sortRules } from '#integration/sort-rules'
 
 const promises = new Map<string, Promise<UnoGenerator<any>> | undefined>()
 

@@ -51,7 +51,7 @@ export function variantAttributify(options: AttributifyOptions = {}): VariantObj
       // For special case like `<div border="red:10">` and `<div border="hover:10">`
       // It's ambiguous to resolve to `border-red:10`/`border-hover:10` or `red:border-10`/`hover:border-10`
       // So we branch out for both possibilities to be processed
-      if (variants && body.match(/^[\d.]+$/)) {
+      if (variants && /^[\d.]+$/.test(body)) {
         const variantParts = variants.split(/([^:]*:)/g).filter(Boolean)
         const _body = variantParts.pop() + body
         const _variants = variantParts.join('')

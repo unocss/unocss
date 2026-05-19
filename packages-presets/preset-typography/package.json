@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-typography",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.6.8",
   "description": "Typography preset for UnoCSS",
   "author": "Jeff Yang",
   "license": "MIT",
@@ -20,21 +20,16 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.mjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "dependencies": {
     "@unocss/core": "workspace:*",

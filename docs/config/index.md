@@ -88,6 +88,18 @@ Specifies the name of the CSS layer the internal layer should be output to (can 
 If `undefined` is return, the internal layer name wil be used as the CSS layer name.
 If `null` is return, the internal layer will not be output to a CSS layer.
 
+#### allLayers
+
+- **Type:** `boolean`
+
+Force output all css layers, even if they are not used.
+
+For example:
+
+```css
+@layer theme, preflights, [unused-layer], default;
+```
+
 ### sortLayers
 
 - **Type:** `(layers: string[]) => string[]`

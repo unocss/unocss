@@ -9,7 +9,7 @@ export function normalizeCSSEntries(obj: string | CSSEntriesInput | CSSObjectInp
 
 export function normalizeCSSValues(obj: CSSValueInput | string | (CSSValueInput | string)[]): (string | CSSEntries)[] {
   if (Array.isArray(obj)) {
-    if (obj.find(i => !Array.isArray(i) || Array.isArray(i[0])))
+    if (obj.some(i => !Array.isArray(i) || Array.isArray(i[0])))
       return (obj as (string | CSSValue)[]).map(i => normalizeCSSEntries(i))
     else
       return [obj as CSSEntries]

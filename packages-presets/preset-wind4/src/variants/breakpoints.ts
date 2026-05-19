@@ -1,6 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { calcMaxWidthBySize, resolveBreakpoints } from '../utils'
+import { calcMaxWidthBySize } from '@unocss/rule-utils'
+import { resolveBreakpoints } from '../utils'
 
 const sizePseudo = /(max|min)-\[([^\]]*)\]:/
 

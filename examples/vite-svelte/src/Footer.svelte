@@ -1,12 +1,7 @@
 <script lang="ts">
-  let foo = true
+  const { foo = false, customclasses = "", name = "Footer" } = $props()
 </script>
+
 <footer>
-  <div
-      class="bar"
-      class:foo
-  >Footer</div>
-  <div class="bar" class:foo>Footer2</div>
+  <div class="bar {customclasses}" class:foo>{name}</div>
 </footer>
-
-

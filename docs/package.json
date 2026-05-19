@@ -1,12 +1,12 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.6.8",
   "private": true,
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:icons",
@@ -17,7 +17,9 @@
     "@iconify-json/vscode-icons": "catalog:icons",
     "ofetch": "catalog:utils",
     "unocss": "workspace:*",
+    "unplugin-vue-components": "catalog:vue",
     "vitepress": "catalog:docs",
-    "vitepress-plugin-group-icons": "catalog:docs"
+    "vitepress-plugin-group-icons": "catalog:docs",
+    "vitepress-plugin-llms": "catalog:docs"
   }
 }

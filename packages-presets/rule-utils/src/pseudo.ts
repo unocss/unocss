@@ -76,6 +76,7 @@ export const PseudoClasses: Record<string, string> = Object.fromEntries([
   ['before', '::before'],
   ['after', '::after'],
   ['file', '::file-selector-button'],
+  ['details-content', '::details-content'],
 ].map(key => Array.isArray(key) ? key : [key, `:${key}`]))
 
 export const PseudoClassesKeys = Object.keys(PseudoClasses)

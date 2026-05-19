@@ -531,7 +531,7 @@ describe('preset-mini', () => {
     const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
     expect(unmatched).toEqual([])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       printWidth: 120,
       parser: 'css',
       plugins: [parserCSS],
@@ -612,7 +612,7 @@ describe('preset-mini', () => {
     const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
     expect(unmatched).toEqual([])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       printWidth: 120,
       parser: 'css',
       plugins: [parserCSS],

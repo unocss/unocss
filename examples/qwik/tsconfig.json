@@ -6,7 +6,7 @@
     "jsxImportSource": "@builder.io/qwik",
     "lib": ["es2020", "DOM"],
     "module": "ES2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,

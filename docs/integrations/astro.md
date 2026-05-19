@@ -12,19 +12,19 @@ The UnoCSS integration for [Astro](https://astro.build/): `@unocss/astro`. Check
 ::: code-group
 
 ```bash [pnpm]
-pnpm add -D unocss
+pnpm add -D unocss @unocss/astro
 ```
 
 ```bash [yarn]
-yarn add -D unocss
+yarn add -D unocss @unocss/astro
 ```
 
 ```bash [npm]
-npm install -D unocss
+npm install -D unocss @unocss/astro
 ```
 
 ```bash [bun]
-bun add -D unocss
+bun add -D unocss @unocss/astro
 ```
 
 :::

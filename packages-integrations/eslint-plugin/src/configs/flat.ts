@@ -1,6 +1,7 @@
+import type { UnoCSSEslintFlatConfig } from '../types'
 import { plugin } from '../plugin'
 
-export default {
+const flatConfig: UnoCSSEslintFlatConfig = {
   plugins: {
     unocss: plugin,
   },
@@ -9,3 +10,5 @@ export default {
     'unocss/order-attributify': 'warn',
   } as const,
 }
+
+export default flatConfig

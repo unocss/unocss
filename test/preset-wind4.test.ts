@@ -110,7 +110,6 @@ describe('preset-wind4', () => {
         "border-spacing-none",
         "divide-inline-$variable",
         "uno-layer-_pre:contrast-less:bg-gray-3",
-        "-space-x-4",
         "data-dropdown:ring-green",
         "mask-tb",
       ]
@@ -423,7 +422,7 @@ describe('preset-wind4', () => {
       'md:has-aria-[hidden=false]:peer-data-[dialog=open]:group-data-[vv=w]/accordion:b-4',
     ])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       parser: 'css',
       plugins: [parserCSS],
     })
@@ -465,6 +464,32 @@ describe('preset-wind4', () => {
       "
     `)
   })
+
+  it('basic variable prefix', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          variablePrefix: 'foo-',
+          preflights: {
+            reset: false,
+            theme: false,
+            property: true,
+          },
+        }),
+      ],
+    })
+    const { css } = await uno.generate('bg-white')
+    expect(css).toMatchInlineSnapshot(`
+    "/* layer: properties */
+    @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--foo-bg-opacity:100%;}}
+    @property --foo-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+    /* layer: default */
+    .bg-white{background-color:color-mix(in srgb, var(--colors-white) var(--foo-bg-opacity), transparent);}
+    @supports (color: color-mix(in lab, red, red)){
+    .bg-white{background-color:color-mix(in oklab, var(--colors-white) var(--foo-bg-opacity), transparent);}
+    }"
+  `)
+  })
 })
 
 describe('important', () => {
@@ -484,7 +509,7 @@ describe('important', () => {
       'dark:bg-blue',
     ].join(' '), { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-true.css')
   })
 
   it(`should prefix selector with provided important string and wrap the original selector in ":is()"`, async () => {
@@ -505,7 +530,7 @@ describe('important', () => {
       'selection:bg-yellow',
     ].join(' '), { preflights: false })
 
-    expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
+    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
   })
 
   it('shadow with opacity', async () => {
@@ -699,22 +724,21 @@ describe('important', () => {
       'text-[--colors.blue,#000]',
       'text-[--colors.red.200,#fff]',
       '[--foo:--bar(8)]',
+      `w-[calc(var(--sidebar-width-icon)+--spacing(8))]`,
+      `w-[--sidebar-width-icon+--spacing(8)+2px)+var(--foo)+theme(spacing.sm)]`,
     ]
 
-    const { css } = await uno.generate(cases)
+    const { getLayer } = await uno.generate(cases)
 
-    expect(css).toMatchInlineSnapshot(`
-      "/* layer: properties */
-      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
-      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      /* layer: theme */
-      :root, :host { --spacing: 0.25rem; --spacing-sm: 0.875rem; --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-200: oklch(88.5% 0.062 18.334); }
-      /* layer: default */
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
       .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
       .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .w-\\[--sidebar-width-icon\\+--spacing\\(8\\)\\+2px\\)\\+var\\(--foo\\)\\+theme\\(spacing\\.sm\\)\\]{width:var(--sidebar-width-icon)+calc(var(--spacing) * 8) + 2px) + var(--foo) + 0.875rem;}
+      .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
       .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
   })
