@@ -6,7 +6,6 @@ import fsp from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
 import { fetch } from 'ofetch'
-import { replaceAsync } from '#integration/utils'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 const urlProtocolRegex = /^[\s\w\0+.-]{2,}:[/\\]{1,2}/
