@@ -70,6 +70,10 @@ function borderColorResolver(direction: string) {
 }
 
 function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefined {
+  // Explicitly typed color arbitrary values (e.g., [color:red]) should be handled by the color handler
+  if (b.startsWith('[color:') || b.startsWith('[c:'))
+    return
+
   const v = h.bracket.cssvar.global.px(b)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
