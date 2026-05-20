@@ -1,30 +1,34 @@
 {
-  "name": "quasar",
+  "name": "quasar-app-vite-v2",
   "version": "0.0.1",
-  "private": true,
   "description": "A Quasar Project",
-  "productName": "Quasar App",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "productName": "Quasar UnoCSS example",
+  "author": "acrobid <116527022+acrobid@users.noreply.github.com>",
+  "type": "module",
+  "private": false,
   "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "lint": "eslint --ext .js,.ts,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "postinstall": "quasar prepare"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.17",
-    "quasar": "^2.6.0",
+    "@quasar/extras": "^1.16.4",
+    "quasar": "^2.18.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.11.0",
-    "autoprefixer": "^10.4.21",
+    "@iconify-json/simple-icons": "^1.2.29",
+    "@quasar/app-vite": "^2.2.0",
+    "@types/node": "^20.5.9",
+    "@unocss/preset-icons": "^66.1.0-beta.7",
+    "autoprefixer": "^10.4.2",
     "typescript": "^5.8.2",
     "unocss": "link:../../packages-presets/unocss"
   },
   "stackblitz": {
     "installDependencies": false,
     "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
-  }
+  },
 }
