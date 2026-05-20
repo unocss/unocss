@@ -50,4 +50,8 @@ export async function applyTransformers(
       }) as any,
     }
   }
+  // #4405 if no changes, return the original code to fix sourcemap in vite
+  return {
+    code: original,
+  }
 }
