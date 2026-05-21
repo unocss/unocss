@@ -1,7 +1,7 @@
 {
   "name": "@unocss/eslint-config",
   "type": "module",
-  "version": "66.5.10",
+  "version": "66.6.8",
   "description": "ESLint config for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -28,15 +28,16 @@
     "./flat": {
       "import": "./dist/flat.mjs",
       "require": "./dist/flat.cjs"
-    }
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*",
+        "./dist/*.d.cts",
         "./*"
       ]
     }
@@ -44,13 +45,9 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "test:attw": "attw --pack"
+    "build": "tsdown",
+    "dev": "tsdown --watch"
   },
   "dependencies": {
     "@unocss/eslint-plugin": "workspace:*"

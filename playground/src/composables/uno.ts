@@ -2,11 +2,11 @@ import type { CompletionContext, CompletionResult } from '@codemirror/autocomple
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import type { GenerateResult, UserConfig } from 'unocss'
-import { evaluateUserConfig } from '#docs'
-import { unocssBundle } from '#docs/unocss-bundle'
 import reset from '@unocss/reset/tailwind.css?raw'
 import MagicString from 'magic-string'
-import { createGenerator } from 'unocss'
+import { createGenerator, noop } from 'unocss'
+import { evaluateUserConfig } from '#docs'
+import { unocssBundle } from '#docs/unocss-bundle'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
@@ -122,7 +122,7 @@ function useTransformer() {
       return []
 
     const annotations = []
-    const fakePluginContext = { uno } as UnocssPluginContext
+    const fakePluginContext = { uno, invalidate: noop } as UnocssPluginContext
     for (const { idFilter, transform } of transformers) {
       if (idFilter && !idFilter(id))
         continue

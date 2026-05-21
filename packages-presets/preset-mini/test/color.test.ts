@@ -49,6 +49,14 @@ describe('preset-mini color utils', () => {
           colorMix: 'color-mix(in hsl, oklch(95% 0.10 var(--hue)), oklch(100% 0 360))',
           colorMixUnoAlpha: 'color-mix(in hsl, oklch(95% 0.10 var(--hue) / %alpha), oklch(100% 0 360))',
           colorMixDosAlpha: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / %alpha) 30%, oklch(100% 0 360 / %alpha))',
+          brand: {
+            'dark-blue': {
+              'DEFAULT': '#123456',
+              'foo-bar': {
+                baz: '#fedcba',
+              },
+            },
+          },
         },
       },
       symbols,
@@ -131,6 +139,26 @@ describe('preset-mini color utils', () => {
 
     expect(fn('colorMixDosAlpha/20')).eql({
       prop: 'color-mix(in srgb, oklch(95% 0.10 var(--hue) / 0.2) 30%, oklch(100% 0 360 / 0.2))',
+    })
+
+    // nested color with dash in key name (with DEFAULT)
+    expect(fn('brand-dark-blue')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'rgb(18 52 86 / var(--un-v-opacity))',
+    })
+
+    expect(fn('brand-dark-blue/50')).eql({
+      prop: 'rgb(18 52 86 / 0.5)',
+    })
+
+    // deeply nested color with multiple dashed keys
+    expect(fn('brand-dark-blue-foo-bar-baz')).eql({
+      '--un-v-opacity': 1,
+      'prop': 'rgb(254 220 186 / var(--un-v-opacity))',
+    })
+
+    expect(fn('brand-dark-blue-foo-bar-baz/25')).eql({
+      prop: 'rgb(254 220 186 / 0.25)',
     })
 
     // invalid

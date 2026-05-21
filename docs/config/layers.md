@@ -101,6 +101,26 @@ outputToCssLayers: {
 }
 ```
 
+## Output All CSS Layers
+
+UnoCSS outputs all used CSS layers by default. If you want to force output all defined CSS layers, you can set the `allLayers` option:
+
+<!-- eslint-skip -->
+
+```ts
+outputToCssLayers: {
+  allLayers: true,
+}
+```
+
+It will output all defined CSS layers, even if they are not used.
+
+```css
+@layer theme, preflights, unused-layer, default;
+
+/* generated CSS */
+```
+
 ## Layers using variants
 
 Layers can be created using variants.

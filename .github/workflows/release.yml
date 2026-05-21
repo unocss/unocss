@@ -12,7 +12,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -20,7 +20,7 @@ jobs:
         uses: pnpm/action-setup@v4
 
       - name: Set node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: pnpm

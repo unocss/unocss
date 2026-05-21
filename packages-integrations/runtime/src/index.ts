@@ -164,7 +164,14 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = await createGenerator(userConfig, userConfigDefaults)
-  const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  const inject = (styleElement: HTMLStyleElement) => {
+    const rootElement = inlineConfig.rootElement?.()
+    if (rootElement) {
+      rootElement.appendChild(styleElement)
+      return
+    }
+    runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  }
   const rootElement = () => runtimeOptions.rootElement ? runtimeOptions.rootElement() : defaultDocument.body
   const styleElements = new Map<string, HTMLStyleElement>()
 

@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 import { expect, it } from 'vitest'
 
 export const fixture = new Set([
@@ -19,11 +20,29 @@ export const fixture = new Set([
 
 const uno = await createGenerator({
   presets: [
-    presetUno(),
+    presetWind3(),
   ],
 })
 
 it('scope', async () => {
   const { css } = await uno.generate(fixture, { scope: '.foo-scope', preflights: false })
   expect(css).toMatchSnapshot()
+})
+
+it('scope with property layer', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetWind4(),
+    ],
+  })
+  const { css } = await uno.generate('text-red', { scope: '.foo-scope', preflights: false })
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: properties */
+    @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+    /* layer: default */
+    .foo-scope .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+    @supports (color: color-mix(in lab, red, red)){
+    .foo-scope .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+    }"
+  `)
 })

@@ -5,7 +5,7 @@
     "experimentalDecorators": true,
     "rootDir": "./src",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,

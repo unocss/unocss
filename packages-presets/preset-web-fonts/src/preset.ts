@@ -7,6 +7,7 @@ import { FontshareProvider } from './providers/fontshare'
 import { FontSourceProvider } from './providers/fontsource'
 import { GoogleFontsProvider } from './providers/google'
 import { NoneProvider } from './providers/none'
+import { ZeoSevenFontsProvider } from './providers/zeoseven'
 
 const builtinProviders = {
   google: GoogleFontsProvider,
@@ -15,6 +16,7 @@ const builtinProviders = {
   fontsource: FontSourceProvider,
   coollabs: CoolLabsFontsProvider,
   none: NoneProvider,
+  zeoseven: ZeoSevenFontsProvider,
 }
 
 function resolveProvider(provider: WebFontsProviders): Provider {

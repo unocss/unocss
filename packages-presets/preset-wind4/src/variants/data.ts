@@ -1,6 +1,7 @@
 import type { Variant, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, variantGetParameter } from '../utils'
+import { variantGetParameter } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 export const variantDataAttribute: VariantObject<Theme> = {
   name: 'data',
@@ -8,7 +9,7 @@ export const variantDataAttribute: VariantObject<Theme> = {
     const variant = variantGetParameter('data-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+      const dataAttribute = h.bracket(match, ctx.theme) ?? ctx.theme.data?.[match] ?? ''
       if (dataAttribute) {
         return {
           matcher: rest,
@@ -27,7 +28,7 @@ function taggedData(tagName: string): Variant<Theme> {
       const variant = variantGetParameter(`${tagName}-data-`, matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest, label] = variant
-        const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+        const dataAttribute = h.bracket(match, ctx.theme) ?? ctx.theme.data?.[match] ?? ''
         if (dataAttribute) {
           const tagSelectorMap: Record<string, string> = {
             group: `&:is(:where(.group${label ? `\\/${label}` : ''})[data-${dataAttribute}] *)`,

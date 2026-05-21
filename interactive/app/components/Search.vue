@@ -103,7 +103,7 @@ useEventListener('keydown', (e) => {
   }
 
   // allow typing from everywhere to search
-  if (e.key.match(/^[\w:-]$/) && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey)
+  if (/^[\w:-]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey)
     inputEl.value?.focus()
 })
 
