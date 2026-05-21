@@ -591,6 +591,8 @@
 .scroll-auto{scroll-behavior:auto;}
 .scroll-unset{scroll-behavior:unset;}
 .b-2,
+.border-\[length\:2px\],
+.border-\[width\:2px\],
 .border-size-2{border-width:2px;}
 .border{border-width:1px;}
 .border-4{border-width:4px;}
@@ -617,6 +619,9 @@
 .border-\[\#124\]{border-color:color-mix(in oklab, #124 var(--un-border-opacity), transparent) /* #124 */;}
 .border-\[calc\(10px\+1px\)\]{border-width:calc(10px + 1px);}
 .border-\[calc\(var\(--border-width\)\*1px\)\]{border-width:calc(var(--border-width) * 1px);}
+.border-\[color\:\#000\]{border-color:color-mix(in oklab, #000 var(--un-border-opacity), transparent) /* #000 */;}
+.border-\[color\:red\]{border-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-border-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
+.border-\[color\:var\(--color\)\],
 .border-\[var\(--color\)\],
 .border-\$color{border-color:color-mix(in oklab, var(--color) var(--un-border-opacity), transparent) /* var(--color) */;}
 .border-black{border-color:color-mix(in srgb, var(--colors-black) var(--un-border-opacity), transparent) /* #000 */;}
@@ -1959,6 +1964,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .outline-gray-400{outline-color:color-mix(in oklab, var(--colors-gray-400) var(--un-outline-opacity), transparent) /* oklch(70.7% 0.022 261.325) */;}
 .accent-red{accent-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-accent-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .caret-red{caret-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-caret-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
+.border-\[color\:red\]{border-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-border-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .border-black{border-color:color-mix(in oklab, var(--colors-black) var(--un-border-opacity), transparent) /* #000 */;}
 .border-black\/10{border-color:color-mix(in oklab, var(--colors-black) 10%, transparent) /* #000 */;}
 .border-blue{border-color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-border-opacity), transparent) /* oklch(70.7% 0.165 254.624) */;}

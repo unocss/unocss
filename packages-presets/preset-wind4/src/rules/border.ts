@@ -70,7 +70,7 @@ function borderColorResolver(direction: string) {
 }
 
 function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = h.bracket.cssvar.global.px(b, theme)
+  const v = h.bracket.bracketOfLength.cssvar.global.px(b, theme)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
@@ -80,8 +80,12 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
     if (isCSSMathFn(h.bracket(b, ctx.theme)))
       return handlerBorderSize(['', a, b], ctx)
 
-    if (hasParseableColor(b, ctx.theme)) {
-      const directions = directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
+    const bracketColor = h.bracketOfColor(b, ctx.theme)
+    b = bracketColor ?? b
+    if (bracketColor != null || hasParseableColor(b, ctx.theme)) {
+      const directions = directionMap[a].map(i =>
+        borderColorResolver(i)(['', b], ctx)
+        ?? colorCSSGenerator({ color: b, name: '_' } as unknown as ReturnType<typeof parseColor>, `border${i}-color`, `border${i}`, ctx))
         .filter(notNull)
 
       return [

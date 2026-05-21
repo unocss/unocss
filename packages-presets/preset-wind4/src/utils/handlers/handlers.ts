@@ -289,7 +289,7 @@ export function bracketOfColor(str: string, theme?: Theme) {
 }
 
 export function bracketOfLength(str: string, theme?: Theme) {
-  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme)
+  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme) || bracketWithType(str, 'width', theme)
 }
 
 export function bracketOfPosition(str: string, theme?: Theme) {
