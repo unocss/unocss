@@ -12,6 +12,9 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   const cache = new LRUCache<string, string[]>({ max: 5000 })
   const errorCache = new Map<string, AutocompleteParseError[]>()
 
+  // Pre-compile the collator for better performance on sorting
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })
+
   let staticUtils: string[] = []
 
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
@@ -220,20 +223,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.endsWith('-') && !uno.isBlocked(i)))
-      .sort((a, b) => {
-        if (/\d/.test(a) && /\D/.test(b))
-          return 1
-
-        if (/\D/.test(a) && /\d/.test(b))
-          return -1
-
-        const numA = +(a.match(/\d+$/)?.[0] || Number.NaN)
-        const numB = +(b.match(/\d+$/)?.[0] || Number.NaN)
-        if (!Number.isNaN(numA) && !Number.isNaN(numB))
-          return numA - numB
-
-        return a.localeCompare(b)
-      })
+      .sort((a, b) => collator.compare(a, b))
       .map(i => prefix + i + suffix)
   }
 }
