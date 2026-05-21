@@ -17,6 +17,12 @@ import { debugDetailsTable } from './debug'
 import { handleError, PrettyError } from './errors'
 import { getWatcher } from './watcher'
 
+function createCliLogger(options: Pick<CliOptions, 'stdout'>) {
+  return options.stdout
+    ? consola.create({ stdout: process.stderr })
+    : consola
+}
+
 async function resolveOptions(options: CliOptions, userConfig: ResolvedConfig): Promise<ResolvedCliOptions> {
   const resolvedOptions = {
     ...options,
@@ -48,7 +54,9 @@ async function resolveOptions(options: CliOptions, userConfig: ResolvedConfig): 
   }
 
   if (resolvedOptions.writeTransformed) {
-    consola.warn(`--write-transformed is deprecated, please use ${yellow('--rewrite')} instead.`)
+    createCliLogger(options).warn(
+      `--write-transformed is deprecated, please use ${yellow('--rewrite')} instead.`,
+    )
   }
 
   return resolvedOptions
@@ -138,24 +146,25 @@ export async function build(_options: CliOptions) {
   const fileCache = new Map<string, FileEntryItem[]>()
   const configResult = await initializeConfig(_options)
   const options = await resolveOptions(_options, configResult.config)
+  const logger = createCliLogger(options)
   options.ctx = configResult.ctx
 
   if (options.stdout && options.outFile) {
-    consola.fatal(`Cannot use --stdout and --out-file at the same time`)
+    logger.fatal(`Cannot use --stdout and --out-file at the same time`)
     return
   }
 
-  consola.log(green(`UnoCSS v${version}`))
+  logger.log(green(`UnoCSS v${version}`))
 
   if (options.watch)
-    consola.start(`UnoCSS in watch mode...`)
+    logger.start(`UnoCSS in watch mode...`)
   else
-    consola.start(`UnoCSS for production...`)
+    logger.start(`UnoCSS for production...`)
 
   await parseEntries(options, fileCache)
 
   if (fileCache.size === 0) {
-    consola.warn('No files matched the provided patterns.')
+    logger.warn('No files matched the provided patterns.')
     return
   }
 
@@ -207,8 +216,8 @@ export async function build(_options: CliOptions) {
           watcher.add(configSources)
 
         if (type === 'change')
-          consola.info(`${cyan(basename(file))} changed, setting new config`)
-        consola.info(
+          logger.info(`${cyan(basename(file))} changed, setting new config`)
+        logger.info(
           `Watching for changes in ${
             [
               ...options.entries.flatMap(i => i.patterns),
@@ -220,7 +229,7 @@ export async function build(_options: CliOptions) {
       }
       else {
         if (type === 'change') {
-          consola.log(`${green(type)} ${dim(file)}`)
+          logger.log(`${green(type)} ${dim(file)}`)
           const content = await fs.readFile(absolutePath, 'utf8')
           const matchedEntry = fileCache.keys().find(outfile => outfile === absolutePath)
           if (matchedEntry)
@@ -234,7 +243,7 @@ export async function build(_options: CliOptions) {
           }
         }
         else if (type === 'unlink') {
-          consola.log(`${green(type)} ${dim(file)}`)
+          logger.log(`${green(type)} ${dim(file)}`)
           for (const [, files] of fileCache.entries()) {
             const index = files.findIndex(f => f.id === absolutePath)
             if (index !== -1) {
@@ -243,7 +252,7 @@ export async function build(_options: CliOptions) {
           }
         }
         else if (type === 'add') {
-          consola.log(`${green(type)} ${dim(file)}`)
+          logger.log(`${green(type)} ${dim(file)}`)
           await parseEntries(options, fileCache)
         }
       }

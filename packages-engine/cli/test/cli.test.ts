@@ -1,8 +1,9 @@
+import { execa } from 'execa'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { getWatcher } from '../src/watcher'
-import { getTestDir, readFile, runAsyncChildProcess, runCli, sleep, tempDir } from './utils'
+import { cli, getTestDir, readFile, runAsyncChildProcess, runCli, sleep, tempDir } from './utils'
 
 beforeAll(async () => {
   await fs.remove(tempDir)
@@ -184,6 +185,39 @@ describe('cli', () => {
     expect(output).toContain('.w-10')
     expect(output).not.toContain('.bg-red')
     expect(output).not.toContain('.text-white')
+  })
+
+  it('keeps cli logs off stdout when writing generated css to stdout', async () => {
+    const testDir = getTestDir()
+    await fs.outputFile(resolve(testDir, 'views/index.html'), '<div class="bg-black"></div>', 'utf8')
+
+    const { stdout, stderr } = await execa(
+      'pnpm',
+      [
+        'exec',
+        'tsx',
+        cli,
+        resolve(testDir, 'views/index.html'),
+        '--stdout',
+        '--preset',
+        'wind4',
+        '--preflights',
+        'false',
+      ],
+      {
+        env: {
+          NODE_ENV: 'development',
+          TEST: 'false',
+          VITEST: 'false',
+        },
+      },
+    )
+
+    expect(stdout).toContain('.bg-black')
+    expect(stdout).not.toContain('UnoCSS v')
+    expect(stdout).not.toContain('UnoCSS for production')
+    expect(stderr).toContain('UnoCSS v')
+    expect(stderr).toContain('UnoCSS for production')
   })
 })
 
