@@ -11,7 +11,9 @@ export default defineConfig({
   plugins: [
     UnoCSS({
       // no Uno config specified here or with a uno.config.ts to test using default preset
-      cssFileTransformers: [transformerDirectives()],
+      cssFileTransformers: [
+        transformerDirectives()
+      ],
     }),
     sveltekit(),
   ],

@@ -575,6 +575,7 @@ export const presetMiniTargets: string[] = [
   'w-none',
   'w-auto',
   'w-unset',
+  'w-stretch',
   'w-1',
   'w-21',
   'w-1/4',
@@ -588,6 +589,7 @@ export const presetMiniTargets: string[] = [
   'max-w-20',
   'max-w-lg',
   'max-w-full',
+  'max-w-stretch',
   'max-w-$var',
   'max-w-screen-lg',
   'max-w-revert',
@@ -785,6 +787,10 @@ export const presetMiniTargets: string[] = [
   'intrinsic-size-200px',
   'intrinsic-size-1/2',
   'intrinsic-size-unset',
+  'intrinsic-w-200px',
+  'intrinsic-h-size-1/2',
+  'intrinsic-block-unset',
+  'intrinsic-inline-size-[auto 300px]',
 
   // svg
   'fill-none',
@@ -867,6 +873,7 @@ export const presetMiniTargets: string[] = [
   'perspect-origin-top-right',
   'perspect-origin-[150%]',
   'perspect-origin-[150%_150%]',
+  'transform-perspective-9cm',
 
   // transition
   'transition-none',
@@ -1169,6 +1176,7 @@ export const presetMiniTargets: string[] = [
   'hover:file:bg-violet-100',
   'backdrop:shadow-green',
   'backdrop-element:shadow-green-100',
+  'details-content:bg-green-100',
 
   // variants - pseudo classes
   'rtl:text-right',

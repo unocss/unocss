@@ -114,5 +114,5 @@ async function report() {
     runs: result,
   }, { spaces: 2 })
 
-  await fs.writeFile(`${dir}/results/${date}.md`, `\`\`\`\n${logs.join('\n')}\n\`\`\``)
+  await fs.writeFile(`${dir}/results/${date}.md`, `\`\`\`text\n${logs.join('\n')}\n\`\`\``)
 }

@@ -43,5 +43,7 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+
+  "npm.exclude": "**/{examples,test}/**"
 }

@@ -1,6 +1,6 @@
 import type { Arrayable, Awaitable } from '@unocss/core'
 
-export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'none' | Provider
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none' | Provider
 
 export interface WebFontMeta {
   /**
@@ -63,7 +63,7 @@ export interface WebFontProcessor {
     getCSSDefault: (
       fonts: ResolvedWebFontMeta[],
       providers: Provider[],
-    ) => Awaitable<string>
+    ) => Awaitable<string>,
   ) => Awaitable<string | undefined>
   transformCSS?: (css: string) => Promise<string | undefined>
 }

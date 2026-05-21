@@ -44,7 +44,7 @@
     <div flex-auto />
     <div text-opacity-50 text-gray text-sm>
       <div row gap1 justify-center>
-        Built with <a href="https://v3.nuxtjs.org/" target="_blank" text-gray text-opacity-100>Nuxt 3</a> ·
+        Built with <a href="https://nuxt.com/" target="_blank" text-gray text-opacity-100>Nuxt 4</a> ·
         Deploys on <a href="https://www.netlify.com/" target="_blank" text-gray text-opacity-100>Netlify</a>
       </div>
       <div>

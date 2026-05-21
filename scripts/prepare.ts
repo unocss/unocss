@@ -43,6 +43,7 @@ async function preparePackagesBundle() {
     'babel',
     '/config',
     'extractor',
+    'language-server',
   ]
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
@@ -81,11 +82,12 @@ async function updateTsconfig() {
   const alias = await import('../alias').then(r => r.alias)
   const tsconfig = await fs.readJSON('./tsconfig.json')
   tsconfig.compilerOptions.paths = Object.fromEntries(
-    Object.entries(alias).map(([k, v]) => {
+    Object.entries(alias).flatMap(([k, v]) => {
       let path = `./${relative(root, v)}`
-      if (!path.match(/\.\w+$/) && !path.endsWith('/'))
+      if (!/\.\w+$/.test(path) && !path.endsWith('/'))
         path = `${path}/`
-      return [k, [path]]
+
+      return [[k, [path]]]
     }),
   )
   await fs.writeJSON('./tsconfig.json', tsconfig, { spaces: 2, EOL: '\n' })

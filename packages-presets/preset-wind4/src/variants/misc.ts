@@ -1,6 +1,7 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
-import { getBracket, h, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '../utils'
+import { getBracket, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 export const variantSelector: Variant<Theme> = {
   name: 'selector',
@@ -8,7 +9,7 @@ export const variantSelector: Variant<Theme> = {
     const variant = variantGetBracket('selector-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const selector = h.bracket(match)
+      const selector = h.bracket(match, ctx.theme)
       if (selector) {
         return {
           matcher: rest,
@@ -25,7 +26,7 @@ export const variantCssLayer: Variant<Theme> = {
     const variant = variantGetParameter('layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const layer = h.bracket(match) ?? match
+      const layer = h.bracket(match, ctx.theme) ?? match
       if (layer) {
         return {
           matcher: rest,
@@ -45,7 +46,7 @@ export const variantInternalLayer: Variant<Theme> = {
     const variant = variantGetParameter('uno-layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const layer = h.bracket(match) ?? match
+      const layer = h.bracket(match, ctx.theme) ?? match
       if (layer) {
         return {
           matcher: rest,
@@ -62,7 +63,7 @@ export const variantScope: Variant<Theme> = {
     const variant = variantGetBracket('scope-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const scope = h.bracket(match)
+      const scope = h.bracket(match, ctx.theme)
       if (scope) {
         return {
           matcher: rest,
@@ -94,7 +95,7 @@ export const variantVariables: Variant<Theme> = {
     if (newMatcher == null)
       return
 
-    const variant = h.bracket(match) ?? ''
+    const variant = h.bracket(match, ctx.theme) ?? ''
     const useParent = variant.startsWith('@')
     if (!(useParent || variant.includes('&')))
       return
@@ -145,13 +146,13 @@ export const variantStickyHover: Variant<Theme>[] = [
   })),
 ]
 
-export const variantImplicitGroup: Variant = {
+export const variantImplicitGroup: Variant<Theme> = {
   name: 'implicit-group',
   match(matcher, ctx) {
     const variant = variantGetParameter('in-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const group = h.bracket(match) ?? match
+      const group = h.bracket(match, ctx.theme) ?? match
       if (group) {
         return {
           matcher: rest,

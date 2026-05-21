@@ -36,7 +36,7 @@ watch([size.width, size.height, width, height], () => {
   const scaleSize = Math.min(size.width.value / width.value, size.height.value / height.value)
   scale.value = scaleSize > 1 ? 1 : scaleSize
 
-  setTimeout(() => update(), 0)
+  setTimeout(update, 0)
 })
 const isResponsive = computed(() => options.value.responsive)
 onMounted(() => {
