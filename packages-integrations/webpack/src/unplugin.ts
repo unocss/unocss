@@ -45,22 +45,33 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
     const entries = new Set<string>()
     const hashes = new Map<string, string>()
 
+    let RESOLVED_ID_RE: RegExp
+
     const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
-      async transform(code, id) {
-        const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
-        if (RESOLVED_ID_RE.test(id) || !filter('', id) || id.endsWith('.html'))
-          return
+      async buildStart() {
+        ({ RESOLVED_ID_RE } = await ctx.getVMPRegexes())
+      },
+      transform: {
+        filter: {
+          id: {
+            exclude: /\.html$/,
+          },
+        },
+        async handler(code, id) {
+          if (!filter('', id))
+            return
 
-        const result = await applyTransformers(ctx, code, id, 'pre')
-        if (isCssId(id))
+          const result = await applyTransformers(ctx, code, id, 'pre')
+          if (isCssId(id))
+            return result
+          if (result == null)
+            tasks.push(extract(code, id))
+          else
+            tasks.push(extract(result.code, id))
           return result
-        if (result == null)
-          tasks.push(extract(code, id))
-        else
-          tasks.push(extract(result.code, id))
-        return result
+        },
       },
       async resolveId(id) {
         const entry = await resolveId(ctx, id)
@@ -104,7 +115,6 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
           // #419
           if (compiler.options.cache) {
             compilation.hooks.finishModules.tapPromise(PLUGIN_NAME, async (modules) => {
-              const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
               const promises: Promise<any>[] = []
 
               for (const module of modules) {
