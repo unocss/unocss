@@ -223,7 +223,13 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.endsWith('-') && !uno.isBlocked(i)))
-      .sort((a, b) => collator.compare(a, b))
+      .sort((a, b) => {
+        const aHasDigit = /\d/.test(a)
+        const bHasDigit = /\d/.test(b)
+        if (aHasDigit !== bHasDigit)
+          return aHasDigit ? 1 : -1
+        return collator.compare(a, b)
+      })
       .map(i => prefix + i + suffix)
   }
 }
