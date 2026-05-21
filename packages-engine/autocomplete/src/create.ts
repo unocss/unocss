@@ -12,6 +12,9 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   const cache = new LRUCache<string, string[]>({ max: 5000 })
   const errorCache = new Map<string, AutocompleteParseError[]>()
 
+  // Pre-compile the collator for better performance on sorting
+  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })
+
   let staticUtils: string[] = []
 
   const templates: (AutoCompleteTemplate | AutoCompleteFunction)[] = []
@@ -220,7 +223,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   function processSuggestions(suggestions: (string[] | undefined)[], prefix = '', suffix = '') {
     return uniq(suggestions.flat())
       .filter((i): i is string => !!(i && !i.endsWith('-') && !uno.isBlocked(i)))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+      .sort((a, b) => collator.compare(a, b))
       .map(i => prefix + i + suffix)
   }
 }
