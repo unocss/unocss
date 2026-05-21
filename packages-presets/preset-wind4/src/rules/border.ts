@@ -2,6 +2,7 @@ import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@u
 import type { Theme } from '../theme'
 import { notNull } from '@unocss/core'
 import { colorCSSGenerator, cornerMap, directionMap, generateThemeVariable, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, SpecialColorKey, themeTracking } from '../utils'
+import { bracketTypeRe } from '../utils/handlers/regex'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -70,6 +71,30 @@ function borderColorResolver(direction: string) {
 }
 
 function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  // Handle typed arbitrary values - respect the type hint
+  const typeMatch = b.match(bracketTypeRe)
+  if (typeMatch) {
+    const type = typeMatch[1].toLowerCase()
+    // color/image should be handled by handlerBorderColorOrSize
+    if (type === 'color' || type === 'image')
+      return
+    // length/size are valid border-width values
+    if (type === 'length' || type === 'size') {
+      const inner = b.slice(typeMatch[0].length, -1)
+      const v = h.bracket.cssvar.global.px(inner, theme)
+      if (a in directionMap && v != null)
+        return directionMap[a].map(i => [`border${i}-width`, v])
+      return
+    }
+  }
+  // Handle [width:*] prefix (not in bracketTypeRe but valid Tailwind v4 syntax)
+  if (b.startsWith('[width:') && b.endsWith(']')) {
+    const inner = b.slice(7, -1)
+    const v = h.bracket.cssvar.global.px(inner, theme)
+    if (a in directionMap && v != null)
+      return directionMap[a].map(i => [`border${i}-width`, v])
+    return
+  }
   const v = h.bracket.cssvar.global.px(b, theme)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
