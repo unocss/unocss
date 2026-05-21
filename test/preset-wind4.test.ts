@@ -490,6 +490,23 @@ describe('preset-wind4', () => {
     }"
   `)
   })
+
+  it('keeps media parents outside divide and space child selectors', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          dark: 'media',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('dark:divide-gray-700 dark:space-y-4', { preflights: false })
+
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:divide-gray-700{\n:where(&>:not(:last-child)){border-color:')
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:space-y-4{\n:where(&>:not(:last-child)){--un-space-y-reverse:0;')
+    expect(css).not.toContain('.dark\\:divide-gray-700{@media')
+    expect(css).not.toContain('.dark\\:space-y-4{@media')
+  })
 })
 
 describe('important', () => {
