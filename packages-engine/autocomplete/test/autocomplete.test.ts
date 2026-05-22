@@ -137,12 +137,12 @@ describe('autocomplete', async () => {
     expect(await ac.suggest('lt-'))
       .toMatchInlineSnapshot(`
         [
-          "lt-2xl",
           "lt-lg",
           "lt-md",
           "lt-sm",
           "lt-xl",
           "ltr:",
+          "lt-2xl",
         ]
       `)
   })
@@ -162,7 +162,7 @@ describe('autocomplete', async () => {
     expect(replacement).toMatchInlineSnapshot(`
       {
         "end": 40,
-        "replacement": "b-0",
+        "replacement": "b-amber",
         "start": 38,
       }
     `)
@@ -171,7 +171,7 @@ describe('autocomplete', async () => {
       .toMatchInlineSnapshot(`
         "
         <div bg="blue-500">
-          <div border="~ b-0
+          <div border="~ b-amber
         </div>
         "
       `)
@@ -361,12 +361,12 @@ describe('autocomplete with attributify prefix', async () => {
     expect(await ac.suggest('u-lt-'))
       .toMatchInlineSnapshot(`
         [
-          "u-lt-2xl",
           "u-lt-lg",
           "u-lt-md",
           "u-lt-sm",
           "u-lt-xl",
           "u-ltr:",
+          "u-lt-2xl",
         ]
       `)
   })
