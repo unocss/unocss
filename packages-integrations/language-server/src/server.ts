@@ -18,6 +18,7 @@ import { registerColorProvider } from './capabilities/colorProvider'
 import { registerCompletion, resetAutoCompleteCache } from './capabilities/completion'
 import { registerHover } from './capabilities/hover'
 import { registerReferences } from './capabilities/references'
+import { registerThemeCompletion } from './capabilities/themeCompletion'
 import { clearAllCache, clearDocumentCache, getMatchedPositionsFromDoc } from './core/cache'
 import { ContextManager } from './core/context'
 import { defaultSettings } from './types'
@@ -177,6 +178,7 @@ connection.onInitialize((params) => {
   registerHover(connection, documents, getContextManager, getSettings)
   registerColorProvider(connection, documents, getContextManager, getSettings)
   registerReferences(connection, documents, getContextManager, getSettings)
+  registerThemeCompletion(connection, documents, getContextManager)
 
   return {
     capabilities: {
