@@ -25,17 +25,33 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VStartTag(node: any) {
-        const valueless = node.attributes.filter((i: any) => typeof i.key?.name === 'string' && !IGNORE_ATTRIBUTES.includes(i.key?.name?.toLowerCase()) && i.value == null)
+        // Identify valueless attributes that should be sorted
+        const valueless = node.attributes.filter((i: any) => {
+          const name = i.key?.name
+          if (typeof name !== 'string')
+            return false
+          if (IGNORE_ATTRIBUTES.includes(name.toLowerCase()))
+            return false
+
+          const val = i.value
+          // Vue parser may provide empty values for boolean attributes
+          return val == null || val === true || (typeof val === 'object' && !('expression' in val) && val.value === '')
+        })
+
         if (!valueless.length)
           return
 
         const input = valueless.map((i: any) => i.key.name).join(' ').trim()
+
+        // Get sorted classes and normalize whitespace
         const sorted = syncAction(
           context.settings.unocss?.configPath,
           'sort',
           input,
           context.filename,
-        )
+        ).trim()
+
+        // Compare sorted string with input string
         if (sorted !== input) {
           context.report({
             node,
@@ -53,7 +69,7 @@ export default createRule({
               for (const [start, end] of sortedNodes.slice(1))
                 s.remove(start, end)
 
-              s.overwrite(sortedNodes[0][0], sortedNodes[0][1], ` ${sorted.trim()} `)
+              s.overwrite(sortedNodes[0][0], sortedNodes[0][1], ` ${sorted} `)
 
               return fixer.replaceText(node, s.toString())
             },
