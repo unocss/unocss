@@ -1167,6 +1167,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .transform-gpu{transform:translateZ(0) var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}
 .transform-none{transform:none;}
 .transform-unset{transform:unset;}
+.zoom-\[1\.1\]{zoom:1.1;}
+.zoom-\[var\(--zoom\)\]{zoom:var(--zoom);}
+.zoom-50{zoom:50%;}
 .transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,--un-gradient-from,--un-gradient-via,--un-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter;transition-timing-function:var(--un-ease, var(--default-transition-timingFunction));transition-duration:var(--un-duration, var(--default-transition-duration));}
 .transition-\[width\,height\,colors\]{transition-property:width,height,color,background-color,border-color,text-decoration-color,fill,stroke,--un-gradient-from,--un-gradient-via,--un-gradient-to;transition-timing-function:var(--un-ease, var(--default-transition-timingFunction));transition-duration:var(--un-duration, var(--default-transition-duration));}
 .transition-\[width\,height\,colors\]-200{--un-duration:200ms;transition-property:width,height,color,background-color,border-color,text-decoration-color,fill,stroke,--un-gradient-from,--un-gradient-via,--un-gradient-to;transition-timing-function:var(--un-ease, var(--default-transition-timingFunction));transition-duration:var(--un-duration, var(--default-transition-duration));}

@@ -291,6 +291,7 @@ export const dynamicUtilities: Record<string, string> = {
   row: 'grid',
   origin: 'transform',
   scale: 'transform',
+  zoom: 'transform',
   rotate: 'transform',
   translate: 'transform',
   skew: 'transform',
