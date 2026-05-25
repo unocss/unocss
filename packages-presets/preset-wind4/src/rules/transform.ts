@@ -102,6 +102,9 @@ export const transforms: Rule<Theme>[] = [
   ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
   ...makeGlobalStaticRules('transform'),
+
+  // zoom
+  [/^zoom-(.+)$/, ([, v], { theme }) => ({ zoom: h.bracket.percent.cssvar(v, theme) }), { autocomplete: 'zoom-<percent>' }],
 ]
 
 function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined {
