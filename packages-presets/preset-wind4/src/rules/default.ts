@@ -34,6 +34,7 @@ import { transitions } from './transition'
 import { fonts, fontVariantNumeric, tabSizes, textIndents, textShadows, textStrokes } from './typography'
 import { cssProperty, cssVariables } from './variables'
 import { viewTransition } from './view-transition'
+import { zooms } from './zoom'
 
 export const rules: Rule<Theme>[] = [
   fonts,
@@ -88,6 +89,7 @@ export const rules: Rule<Theme>[] = [
   rings,
   boxShadows,
   transforms,
+  zooms,
   transitions,
   cssVariables,
   cssProperty,
