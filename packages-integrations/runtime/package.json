@@ -35,11 +35,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm run build:node && pnpm run build:cdn && pnpm run build:presets",
-    "build:cdn": "tsup src/cdn/*.ts --format iife --minify --out-dir .",
-    "build:node": "tsup --config tsup.node-config.ts",
-    "build:presets": "tsup src/presets/*.ts --format iife --minify --out-dir .",
-    "watch": "tsup src/cdn/*.ts --format iife --watch src --out-dir .",
+    "build": "tsdown",
+    "watch": "tsdown --watch",
     "dev": "nr watch & live-server --open=/play"
   },
   "dependencies": {
@@ -47,8 +44,5 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-uno": "workspace:*"
-  },
-  "devDependencies": {
-    "tsup": "catalog:build"
   }
 }
