@@ -1,7 +1,7 @@
 {
   "name": "@unocss/postcss",
   "type": "module",
-  "version": "66.6.7",
+  "version": "66.7.0",
   "description": "PostCSS plugin for UnoCSS",
   "author": "sibbng <sibbngheid@gmail.com>",
   "license": "MIT",
@@ -40,9 +40,6 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "dev": "tsdown --config-loader unrun --watch"

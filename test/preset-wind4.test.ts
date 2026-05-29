@@ -422,7 +422,7 @@ describe('preset-wind4', () => {
       'md:has-aria-[hidden=false]:peer-data-[dialog=open]:group-data-[vv=w]/accordion:b-4',
     ])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       parser: 'css',
       plugins: [parserCSS],
     })
@@ -489,6 +489,23 @@ describe('preset-wind4', () => {
     .bg-white{background-color:color-mix(in oklab, var(--colors-white) var(--foo-bg-opacity), transparent);}
     }"
   `)
+  })
+
+  it('keeps media parents outside divide and space child selectors', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          dark: 'media',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('dark:divide-gray-700 dark:space-y-4', { preflights: false })
+
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:divide-gray-700{\n:where(&>:not(:last-child)){border-color:')
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:space-y-4{\n:where(&>:not(:last-child)){--un-space-y-reverse:0;')
+    expect(css).not.toContain('.dark\\:divide-gray-700{@media')
+    expect(css).not.toContain('.dark\\:space-y-4{@media')
   })
 })
 
@@ -724,22 +741,21 @@ describe('important', () => {
       'text-[--colors.blue,#000]',
       'text-[--colors.red.200,#fff]',
       '[--foo:--bar(8)]',
+      `w-[calc(var(--sidebar-width-icon)+--spacing(8))]`,
+      `w-[--sidebar-width-icon+--spacing(8)+2px)+var(--foo)+theme(spacing.sm)]`,
     ]
 
-    const { css } = await uno.generate(cases)
+    const { getLayer } = await uno.generate(cases)
 
-    expect(css).toMatchInlineSnapshot(`
-      "/* layer: properties */
-      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
-      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      /* layer: theme */
-      :root, :host { --spacing: 0.25rem; --spacing-sm: 0.875rem; --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-200: oklch(88.5% 0.062 18.334); }
-      /* layer: default */
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
       .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
       .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .w-\\[--sidebar-width-icon\\+--spacing\\(8\\)\\+2px\\)\\+var\\(--foo\\)\\+theme\\(spacing\\.sm\\)\\]{width:var(--sidebar-width-icon)+calc(var(--spacing) * 8) + 2px) + var(--foo) + 0.875rem;}
+      .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
       .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
   })

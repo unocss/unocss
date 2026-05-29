@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import type { TransformClassesOptions } from '../types'
+import type { TransformClassesOptions } from '../../types'
 import type { ProcessResult } from './processClasses'
 import { sortClassesIntoCategories } from './sortClassesIntoCategories'
 

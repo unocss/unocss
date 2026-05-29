@@ -1,4 +1,4 @@
-import type { TransformClassesOptions } from '../types'
+import type { TransformClassesOptions } from '../../types'
 import { hash } from './hash'
 
 export function generateClassName(body: string, options: TransformClassesOptions, filename: string): string {

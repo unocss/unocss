@@ -28,14 +28,14 @@ export const animations: Rule<Theme>[] = [
         },
       ]
     }
-    return { animation: h.bracket.cssvar(name) }
+    return { animation: h.bracket.cssvar(name, theme) }
   }, { autocomplete: 'animate-$animation.keyframes' }],
-  [/^animate-name-(.+)/, ([, d]) => ({ 'animation-name': h.bracket.cssvar(d) ?? d })],
+  [/^animate-name-(.+)/, ([, d], { theme }) => ({ 'animation-name': h.bracket.cssvar(d, theme) ?? d })],
 
   // timings
-  [/^animate-duration-(.+)$/, ([, d], { theme }) => ({ 'animation-duration': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) }), { autocomplete: ['animate-duration'] }],
-  [/^animate-delay-(.+)$/, ([, d], { theme }) => ({ 'animation-delay': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d) }), { autocomplete: ['animate-delay'] }],
-  [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.ease?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) }), { autocomplete: ['animate-ease', 'animate-ease-$ease'] }],
+  [/^animate-duration-(.+)$/, ([, d], { theme }) => ({ 'animation-duration': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d, theme) }), { autocomplete: ['animate-duration'] }],
+  [/^animate-delay-(.+)$/, ([, d], { theme }) => ({ 'animation-delay': theme.duration?.[d || 'DEFAULT'] ?? h.bracket.cssvar.time(d, theme) }), { autocomplete: ['animate-delay'] }],
+  [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.ease?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d, theme) }), { autocomplete: ['animate-ease', 'animate-ease-$ease'] }],
 
   // fill mode
   [/^animate-(fill-mode-|fill-|mode-)?(.+)$/, ([, t, d]) => ['none', 'forwards', 'backwards', 'both', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-fill-mode': d } : undefined, {
@@ -56,7 +56,7 @@ export const animations: Rule<Theme>[] = [
   }],
 
   // others
-  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
+  [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d], { theme }) => ({ 'animation-iteration-count': h.bracket.cssvar(d, theme) ?? d.replace(/-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
   [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ['paused', 'running', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-play-state': d } : undefined, {
     autocomplete: [
       'animate-(play|state|play-state)',

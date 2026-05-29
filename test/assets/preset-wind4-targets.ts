@@ -645,6 +645,18 @@ export const presetWind4Targets: string[] = [
 
   // inert
   'inert:opacity-25',
+
+  // #5188
+  'border-[color:red]',
+  'border-[color:#000]',
+  'border-[color:var(--color)]',
+  'border-[length:2px]',
+  'border-[width:2px]',
+
+  // zoom
+  'zoom-50',
+  'zoom-[1.1]',
+  'zoom-[var(--zoom)]',
 ]
 
 export const presetWindNonTargets: string[] = [

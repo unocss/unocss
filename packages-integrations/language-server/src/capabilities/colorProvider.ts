@@ -56,11 +56,12 @@ export function registerColorProvider(
     )
 
     const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
+    const isWind4 = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-wind4')
     const colors: ColorInformation[] = []
 
     for (const [start, end, className] of positions) {
       try {
-        const css = await getCSS(ctx.uno, isAttributify ? [className, `[${className}=""]`] : className)
+        const css = await getCSS(ctx.uno, isAttributify ? [className, `[${className}=""]`] : className, isWind4)
         const colorString = getColorString(css)
         if (!colorString)
           continue

@@ -30,10 +30,14 @@ export default antfu(
       // Nested CSS
       'interactive/markdown.css',
       'playground/src/main.css',
+
+      // Examples with their own ESLint config (dependencies not installed in workspace)
+      'examples/next/**',
     ],
   },
   {
     rules: {
+      'e18e/prefer-static-regex': 'off',
       'style/jsx-child-element-spacing': 'off',
       'ts/no-invalid-void-type': 'off',
       'no-restricted-imports': [

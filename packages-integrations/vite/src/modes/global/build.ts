@@ -2,12 +2,12 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
+import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
 import { getPath } from '#integration/utils'
-import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
@@ -38,7 +38,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     if (typeof result === 'string')
       css = result
     else if (result.code)
-      css = result.code
+      css = result.code.toString()
     css = css.replace(/[\n\r]/g, '')
     return css
   }

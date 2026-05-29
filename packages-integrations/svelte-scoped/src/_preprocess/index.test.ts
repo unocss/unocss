@@ -3,10 +3,9 @@ import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 
 import { format as prettier } from 'prettier'
-// @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 import { describe, expect, it } from 'vitest'
-import { transformClasses } from '.'
+import { UnocssSveltePreprocess } from '.'
 
 describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'
@@ -28,15 +27,26 @@ describe('transform', async () => {
     safelist: [safelistClassToSkip],
   })
 
-  async function transform(content: string, { combine = true, format = true } = {}) {
-    const transformed = (await transformClasses({ content, filename: 'Foo.svelte', uno, options: { combine } }))?.code
-    if (transformed && format) {
-      return prettier(transformed, {
+  async function transform(content: string, { combine = true, format = true, hashSafelistClasses }: { combine?: boolean, format?: boolean, hashSafelistClasses?: boolean } = {}) {
+    const { markup } = UnocssSveltePreprocess({
+      combine,
+      classPrefix: 'uno-',
+      hashSafelistClasses,
+    }, { ready: Promise.resolve(null as never), uno })
+
+    let { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
+
+    if (!code || code === content)
+      return
+
+    if (format) {
+      code = await prettier(code, {
         parser: 'svelte',
         plugins: [prettierSvelte],
       })
     }
-    return transformed
+
+    return code
   }
 
   it('simple', async () => {
@@ -401,5 +411,68 @@ describe('transform', async () => {
       </style>
       "
     `)
+  })
+})
+
+describe('safelist shortcut handling', async () => {
+  const uno = await createGenerator({
+    presets: [presetWind3()],
+    shortcuts: [
+      { btn: 'px-4 py-2 font-bold' },
+    ],
+    safelist: ['btn', 'mr-7'],
+  })
+
+  async function transform(content: string, { combine = true, hashSafelistClasses }: { combine?: boolean, format?: boolean, hashSafelistClasses?: boolean } = {}) {
+    const { markup } = UnocssSveltePreprocess({
+      combine,
+      classPrefix: 'uno-',
+      hashSafelistClasses,
+    }, { ready: Promise.resolve(null as never), uno })
+
+    const { code = '' } = await markup!({ content, filename: 'Foo.svelte' }) ?? {}
+
+    if (!code || code === content)
+      return
+
+    return code
+  }
+
+  it('does not hash shortcut classes in safelist by default', async () => {
+    const code = '<div class="btn mb-1" />'
+    const output = await transform(code)
+    // btn is passed through as-is, only mb-1 gets hashed
+    expect(output).toContain('btn')
+    expect(output).toMatch(/class="[^ ]+ btn"/)
+  })
+
+  it('does not hash utility classes in safelist by default', async () => {
+    const code = '<div class="bg-red-500 mr-7" />'
+    const output = await transform(code)
+    expect(output).toContain('mr-7')
+  })
+
+  it('does not hash shortcut classes in safelist in dev mode (combine: false)', async () => {
+    const code = '<div class="btn mb-1" />'
+    const output = await transform(code, { combine: false })
+    // btn is passed through as-is, mb-1 gets its own hashed class
+    expect(output).toContain('btn')
+    expect(output).toMatch(/_mb-1_\w+/)
+    expect(output).not.toMatch(/_btn_\w+/)
+  })
+
+  it('hashes shortcut classes in safelist when hashSafelistClasses is true', async () => {
+    const code = '<div class="btn mb-1" />'
+    const output = await transform(code, { hashSafelistClasses: true })
+    // btn should be hashed along with mb-1
+    expect(output).not.toMatch(/\bbtn\b/)
+  })
+
+  it('hashes shortcut classes in safelist in dev mode when hashSafelistClasses is true', async () => {
+    const code = '<div class="btn mb-1" />'
+    const output = await transform(code, { combine: false, hashSafelistClasses: true })
+    // btn should get its own hashed class
+    expect(output).toMatch(/_btn_\w+/)
+    expect(output).not.toMatch(/\bbtn\b/)
   })
 })

@@ -116,7 +116,7 @@ export function parseColor(body: string, theme: Theme) {
   let opacity: string | undefined
   let [main, opacityOrModifier, modifier] = split as [string, string | undefined, string | undefined]
 
-  if (isInterpolatedMethod(opacityOrModifier) || isInterpolatedMethod(h.bracket(opacityOrModifier ?? ''))) {
+  if (isInterpolatedMethod(opacityOrModifier) || isInterpolatedMethod(h.bracket(opacityOrModifier ?? '', theme))) {
     modifier = opacityOrModifier
   }
   else {
@@ -165,11 +165,11 @@ export function parseColor(body: string, theme: Theme) {
 
   return {
     opacity,
-    modifier: (modifier && h.bracket.cssvar(modifier)) || modifier,
+    modifier: (modifier && h.bracket.cssvar(modifier, theme)) || modifier,
     name,
     no,
     color: color ?? SpecialColorKey[name as keyof typeof SpecialColorKey],
-    alpha: h.bracket.cssvar.percent(opacity ?? ''),
+    alpha: h.bracket.cssvar.percent(opacity ?? '', theme),
     /**
      * Keys means the color is from theme object.
      */

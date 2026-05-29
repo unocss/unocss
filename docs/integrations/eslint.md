@@ -52,21 +52,42 @@ In legacy `.eslintrc` style:
 
 ## Rules
 
-- `@unocss/order` - Enforce a specific order for class selectors.
-- `@unocss/order-attributify` - Enforce a specific order for attributify selectors.
-- `@unocss/blocklist` - Disallow specific class selectors [Optional].
-- `@unocss/enforce-class-compile` - Enforce class compile [Optional].
+The rule prefix depends on the ESLint configuration style:
+
+- Flat config: `unocss/<rule-name>`
+- Legacy `.eslintrc`: `@unocss/<rule-name>`
+
+Available rules:
+
+- `order` - Enforce a specific order for class selectors.
+- `order-attributify` - Enforce a specific order for attributify selectors.
+- `blocklist` - Disallow specific class selectors [Optional].
+- `enforce-class-compile` - Enforce class compile [Optional].
 
 ### Rule options
 
-#### `@unocss/order`
+#### `order`
 
 - `unoFunctions` (string[]) - mark function calls of matched names to enforce this rule. These are plain names, not patterns, case insensitive. Default: `['clsx', 'classnames']`.
 - `unoVariables` (string[]) - mark variable declarations of matched names to enforce this rule. These are regex patterns with flags `i`. Default: `['^cls', 'classNames?$']`. for example will match variable names `clsButton` and `buttonClassNames`.
 
 ### Optional rules
 
-These rules are not enabled by default. To enable it, add the following to your `.eslintrc`:
+These rules are not enabled by default. To enable them, add the following to your flat config or `.eslintrc`:
+
+```js [eslint.config.js]
+import unocss from '@unocss/eslint-config/flat'
+
+export default [
+  unocss,
+  {
+    rules: {
+      'unocss/<rule-name>': 'warn', // or "error",
+      'unocss/<another-rule-name>': ['warn' /* or "error" */, { /* options */ }],
+    },
+  },
+]
+```
 
 ```json [.eslintrc]
 {

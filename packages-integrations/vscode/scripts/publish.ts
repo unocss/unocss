@@ -11,7 +11,7 @@ async function publish() {
   const pkgPath = join(root, 'package.json')
   const rawJSON = await fs.readFile(pkgPath, 'utf-8')
   const pkg = JSON.parse(rawJSON)
-  if (!pkg.version.match(/^[\d.]+$/)) {
+  if (!/^[\d.]+$/.test(pkg.version)) {
     console.warn(`VS Code release skipped because the version ${pkg.version} is not a stable release.`)
     return
   }

@@ -17,10 +17,10 @@ describe('transformApply', async () => {
     const s = new MagicString(content)
 
     const transformed = (await transformApply({ s, uno, applyVariables: ['--at-apply'] })).toString()
-    return prettier(transformed || '', {
+    return (await prettier(transformed || '', {
       parser: 'css',
       plugins: [parserCSS],
-    }).trim()
+    })).trim()
   }
 
   it('handles @apply', async () => {

@@ -9,7 +9,7 @@ export const variantAria: VariantObject<Theme> = {
     const variant = variantGetParameter('aria-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const aria = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
+      const aria = h.bracket(match, ctx.theme) ?? ctx.theme.aria?.[match] ?? ''
       if (aria) {
         return {
           matcher: rest,
@@ -29,7 +29,7 @@ function taggedAria(tagName: string): Variant<Theme> {
       const variant = variantGetParameter(`${tagName}-aria-`, matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest, label] = variant
-        const ariaAttribute = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
+        const ariaAttribute = h.bracket(match, ctx.theme) ?? ctx.theme.aria?.[match] ?? ''
         if (ariaAttribute) {
           const tagSelectorMap: Record<string, string> = {
             group: `&:is(:where(.group${label ? `\\/${label}` : ''})[aria-${ariaAttribute}] *)`,
