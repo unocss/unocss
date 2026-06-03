@@ -30,12 +30,22 @@ runAsWorker(async (code: string, filename?: string, configPath?: string) => {
   const uno = await getGenerator(configPath, filename)
   const positions = await getMatchedPositionsFromCode(uno, code, filename ?? '')
 
+  const tokens = [...new Set(positions.map(p => p[2]))]
+  const cssCache = new Map(
+    await Promise.all(
+      tokens.map(async token => [
+        token,
+        (await uno.generate(new Set([token]), { preflights: false, safelist: false })).css.trim(),
+      ] as const),
+    ),
+  )
+
   const pc = createPositionConverter(code)
 
   const nodes = resolveNodePositions(
     positions.map(([start, end, text]) => ({
       type: 'hover',
-      text,
+      text: cssCache.get(text)!,
       start,
       target: text,
       length: end - start,
