@@ -1,10 +1,14 @@
 import { defineConfig } from 'tsdown'
-import Quansync from 'unplugin-quansync/rolldown'
+import { aliasVirtual } from '../../alias'
 
 export default defineConfig({
+  entry: [
+    'src/index.ts',
+    'src/worker.ts',
+  ],
+  clean: false,
   dts: true,
   exports: true,
-  plugins: [
-    Quansync(),
-  ],
-})
+  alias: aliasVirtual,
+},
+)

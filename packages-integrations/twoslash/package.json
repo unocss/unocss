@@ -23,6 +23,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
+    "./worker": "./dist/worker.mjs",
     "./package.json": "./package.json"
   },
   "files": [
@@ -35,11 +36,12 @@
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "synckit": "catalog:utils",
     "twoslash-protocol": "catalog:twoslash"
   },
   "inlinedDependencies": {
     "@jridgewell/sourcemap-codec": "1.5.5",
-    "magic-string": "0.30.21",
-    "quansync": "0.2.11"
+    "magic-string": "0.30.21"
   }
 }

@@ -4,7 +4,6 @@ import type { TwoslashGenericResult } from 'twoslash-protocol'
 import { extname } from 'node:path'
 import process from 'node:process'
 import { expect, it } from 'vitest'
-import presetWind3 from '../../../packages-presets/preset-wind3/src'
 import { createTwoslasher } from '../src/index'
 
 // To add a test, create a file in the fixtures folder and it will will run through
@@ -20,18 +19,14 @@ const filters: RegExp[] = [
 if (process.env.CI && filters.length)
   throw new Error('Should not filters fixture tests in CI, did you forget to remove them?')
 
-const twoslasher = createTwoslasher({
-  config: {
-    presets: [presetWind3],
-  },
-})
+const twoslasher = createTwoslasher()
 
 Object.entries(fixtures).forEach(([path, fixture]) => {
   path = path.replace(/\\/g, '/')
   const expectThrows = path.includes('/throws/')
   const inExt = extname(path).slice(1)
   const outExt = expectThrows ? '.txt' : '.json'
-  const outPath = path.replace('/fixtures/', '/results/').replace(/\.[^/.]+$/, outExt)
+  const outPath = path.replace('/fixtures/', '/results/') + outExt
 
   it.skipIf(filters.length && !filters.some(f => path.match(f)))(
     path,

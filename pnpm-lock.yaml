@@ -389,9 +389,6 @@ catalogs:
     unplugin-auto-import:
       specifier: ^21.0.0
       version: 21.0.0
-    unplugin-quansync:
-      specifier: ^0.5.2
-      version: 0.5.2
     unplugin-utils:
       specifier: ^0.3.1
       version: 0.3.1
@@ -719,9 +716,6 @@ importers:
       unplugin-auto-import:
         specifier: catalog:utils
         version: 21.0.0(@nuxt/kit@4.4.5)(@vueuse/core@14.3.0)
-      unplugin-quansync:
-        specifier: catalog:utils
-        version: 0.5.2(quansync@1.0.0)(rolldown@1.0.1)
       unplugin-vue-components:
         specifier: catalog:vue
         version: 32.0.0(@nuxt/kit@4.4.5)(vue@3.5.34)
@@ -1261,6 +1255,12 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
+      synckit:
+        specifier: catalog:utils
+        version: 0.11.12
       twoslash-protocol:
         specifier: catalog:twoslash
         version: 0.3.8
@@ -8667,15 +8667,6 @@ packages:
       vue-tsc:
         optional: true
 
-  rolldown-string@0.3.0:
-    resolution: {integrity: sha512-qGhBPNSv/27uzFBQdO+Cs4YAXC/1PKznD7Jz5Fl7NIAIlteuTPBTBWBhCpJ2AFTqLsoKvvUr7wSjqSUip0Fkpg==}
-    engines: {node: '>=20.19.0'}
-    peerDependencies:
-      rolldown: '*'
-    peerDependenciesMeta:
-      rolldown:
-        optional: true
-
   rolldown@1.0.1:
     resolution: {integrity: sha512-X0KQHljNnEkWNqqiz9zJrGunh1B0HgOxLXvnFpCOcadzcy5qohZ3tqMEUg00vncoRovXuK3ZqCT9KnnKzoInFQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -9445,12 +9436,6 @@ packages:
         optional: true
       '@vueuse/core':
         optional: true
-
-  unplugin-quansync@0.5.2:
-    resolution: {integrity: sha512-euKz2mwr4vwwmBdr4uSLIKM//RkR8jno+ecJbtH5o8a96E7novZp3sxiWL+nyPl9h77gPAAA2YEOIrp8CTWEUA==}
-    engines: {node: '>=20.19.0'}
-    peerDependencies:
-      quansync: ^1.0.0
 
   unplugin-utils@0.3.1:
     resolution: {integrity: sha512-5lWVjgi6vuHhJ526bI4nlCOmkCIF3nnfXkCMDeMJrtdvxTs6ZFCM8oNufGTsDbKv/tJ/xj8RpvXjRuPBZJuJog==}
@@ -17803,12 +17788,6 @@ snapshots:
     transitivePeerDependencies:
       - oxc-resolver
 
-  rolldown-string@0.3.0(rolldown@1.0.1):
-    dependencies:
-      magic-string: 0.30.21
-    optionalDependencies:
-      rolldown: 1.0.1
-
   rolldown@1.0.1:
     dependencies:
       '@oxc-project/types': 0.130.0
@@ -18693,15 +18672,6 @@ snapshots:
     optionalDependencies:
       '@nuxt/kit': 4.4.5(magicast@0.5.3)
       '@vueuse/core': 14.3.0(vue@3.5.34)
-
-  unplugin-quansync@0.5.2(quansync@1.0.0)(rolldown@1.0.1):
-    dependencies:
-      ast-kit: 2.2.0
-      quansync: 1.0.0
-      rolldown-string: 0.3.0(rolldown@1.0.1)
-      unplugin: 3.0.0
-    transitivePeerDependencies:
-      - rolldown
 
   unplugin-utils@0.3.1:
     dependencies:
