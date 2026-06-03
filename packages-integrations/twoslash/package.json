@@ -36,7 +36,6 @@
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/preset-wind3": "workspace:*",
     "synckit": "catalog:utils",
     "twoslash-protocol": "catalog:twoslash"
   },

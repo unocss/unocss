@@ -1255,9 +1255,6 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-      '@unocss/preset-wind3':
-        specifier: workspace:*
-        version: link:../../packages-presets/preset-wind3
       synckit:
         specifier: catalog:utils
         version: 0.11.12

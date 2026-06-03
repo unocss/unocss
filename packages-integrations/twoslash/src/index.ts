@@ -5,6 +5,10 @@ import { distDir } from './dirs'
 
 export interface CreateTwoslashUnoCSSOptions {
   /**
+   * Path to UnoCSS config file
+   */
+  configPath?: string
+  /**
    * Custom code transform before sending to UnoCSS for generate
    *
    * This does not affect the code rendering
@@ -21,8 +25,8 @@ function getSyncFn() {
 }
 
 export function createTwoslasher(options: CreateTwoslashUnoCSSOptions = {}): TwoslashGenericFunction {
-  const { preprocess = code => code } = options
+  const { preprocess = code => code, configPath } = options
   const fn = getSyncFn()
 
-  return (code, filename) => fn(preprocess(code), filename)
+  return (code, filename) => fn(preprocess(code), filename, configPath)
 }

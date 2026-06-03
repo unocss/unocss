@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 
 import type { TwoslashGenericResult } from 'twoslash-protocol'
-import { extname } from 'node:path'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import { expect, it } from 'vitest'
 import { createTwoslasher } from '../src/index'
 
@@ -24,7 +24,6 @@ const twoslasher = createTwoslasher()
 Object.entries(fixtures).forEach(([path, fixture]) => {
   path = path.replace(/\\/g, '/')
   const expectThrows = path.includes('/throws/')
-  const inExt = extname(path).slice(1)
   const outExt = expectThrows ? '.txt' : '.json'
   const outPath = path.replace('/fixtures/', '/results/') + outExt
 
@@ -35,7 +34,7 @@ Object.entries(fixtures).forEach(([path, fixture]) => {
       try {
         result = twoslasher(
           await fixture(),
-          inExt,
+          fileURLToPath(new URL(path, import.meta.url)),
         )
       }
       catch (err: any) {

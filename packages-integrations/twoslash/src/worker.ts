@@ -1,15 +1,33 @@
+import type { UnoGenerator } from '@unocss/core'
+import { dirname } from 'node:path'
+import process from 'node:process'
+import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
-import { presetWind3 } from '@unocss/preset-wind3'
 import { runAsWorker } from 'synckit'
 import { createPositionConverter, resolveNodePositions } from 'twoslash-protocol'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
 
-let uno: Awaited<ReturnType<typeof createGenerator>> | null = null
+const generators = new Map<string, Promise<UnoGenerator>>()
 
-runAsWorker(async (code: string, filename: string | undefined) => {
-  if (!uno)
-    uno = await createGenerator({ presets: [presetWind3()] })
+async function getGenerator(configPath?: string, id?: string) {
+  const searchFrom = configPath
+    ? process.cwd()
+    : id
+      ? dirname(id)
+      : process.cwd()
 
+  const cacheKey = configPath || searchFrom
+  let promise = generators.get(cacheKey)
+  if (!promise) {
+    promise = loadConfig(searchFrom, configPath)
+      .then(({ config }) => createGenerator({ ...config, warn: false }))
+    generators.set(cacheKey, promise)
+  }
+  return await promise
+}
+
+runAsWorker(async (code: string, filename?: string, configPath?: string) => {
+  const uno = await getGenerator(configPath, filename)
   const positions = await getMatchedPositionsFromCode(uno, code, filename ?? '')
 
   const pc = createPositionConverter(code)
