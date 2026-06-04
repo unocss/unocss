@@ -86,13 +86,13 @@ For utilities like `flex`, `grid`, `border`, that have the utilities same as the
 
 For example:
 
-```html
+```html twoslash
 <button class="border border-red">Button</button>
 ```
 
 Can be written as:
 
-```html
+```html twoslash
 <button border="~ red">Button</button>
 ```
 
@@ -102,13 +102,13 @@ In addition to Windi CSS's attributify mode, this preset also supports valueless
 
 For example,
 
-```html
+```html twoslash
 <div class="m-2 rounded text-teal-400" />
 ```
 
 now can be
 
-```html
+```html twoslash
 <div m-2 rounded text-teal-400 />
 ```
 
