@@ -48,7 +48,6 @@ export const allPackages = [
 export const bundlePackages = [
   "@unocss/autocomplete",
   "@unocss/core",
-  "@unocss/twoslash",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
   "@unocss/transformer-compile-class",

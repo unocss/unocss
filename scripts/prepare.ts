@@ -44,6 +44,7 @@ async function preparePackagesBundle() {
     '/config',
     'extractor',
     'language-server',
+    'twoslash',
   ]
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))

@@ -5,7 +5,6 @@
 export const unocssBundle = new Map([
   ["@unocss/autocomplete", () => import('@unocss/autocomplete')] as any,
   ["@unocss/core", () => import('@unocss/core')] as any,
-  ["@unocss/twoslash", () => import('@unocss/twoslash')] as any,
   ["@unocss/rule-utils", () => import('@unocss/rule-utils')] as any,
   ["@unocss/transformer-attributify-jsx", () => import('@unocss/transformer-attributify-jsx')] as any,
   ["@unocss/transformer-compile-class", () => import('@unocss/transformer-compile-class')] as any,

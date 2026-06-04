@@ -23,6 +23,10 @@ async function getGenerator(configPath?: string, id?: string) {
   if (!promise) {
     promise = loadConfig(searchFrom, configPath)
       .then(({ config }) => createGenerator({ ...config, warn: false }))
+      .catch((err) => {
+        generators.delete(cacheKey)
+        throw err
+      })
     generators.set(cacheKey, promise)
   }
   return await promise
