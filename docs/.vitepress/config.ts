@@ -46,9 +46,10 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'CLI', link: '/integrations/cli' },
   { text: 'PostCSS', link: '/integrations/postcss' },
   { text: 'ESLint', link: '/integrations/eslint' },
+  { text: 'Twoslash', link: '/integrations/twoslash' },
+  { text: 'LSP Support', link: '/integrations/lsp' },
   { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
-  { text: 'LSP Support', link: '/integrations/lsp' },
   { text: 'Zed Extension', link: '/integrations/zed' },
 ]
 
