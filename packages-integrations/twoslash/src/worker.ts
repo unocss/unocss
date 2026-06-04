@@ -3,6 +3,8 @@ import { dirname } from 'node:path'
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
+import parserCSS from 'prettier/parser-postcss'
+import prettier from 'prettier/standalone'
 import { runAsWorker } from 'synckit'
 import { createPositionConverter, resolveNodePositions } from 'twoslash-protocol'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
@@ -26,16 +28,24 @@ async function getGenerator(configPath?: string, id?: string) {
   return await promise
 }
 
+async function getPrettiedCSS(uno: UnoGenerator, token: string) {
+  const { css } = await uno.generate(new Set([token]), { preflights: false, safelist: false })
+  return (await prettier.format(css, {
+    parser: 'css',
+    plugins: [parserCSS],
+  })).trimEnd()
+}
+
 runAsWorker(async (code: string, filename?: string, configPath?: string) => {
   const uno = await getGenerator(configPath, filename)
+
   const positions = await getMatchedPositionsFromCode(uno, code, filename ?? '')
 
-  const tokens = [...new Set(positions.map(p => p[2]))]
   const cssCache = new Map(
     await Promise.all(
-      tokens.map(async token => [
+      [...new Set(positions.map(p => p[2]))].map(async token => [
         token,
-        (await uno.generate(new Set([token]), { preflights: false, safelist: false })).css.trim(),
+        await getPrettiedCSS(uno, token),
       ] as const),
     ),
   )

@@ -1255,6 +1255,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      prettier:
+        specifier: catalog:utils
+        version: 3.8.3
       synckit:
         specifier: catalog:utils
         version: 0.11.12

@@ -36,6 +36,7 @@
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "prettier": "catalog:utils",
     "synckit": "catalog:utils",
     "twoslash-protocol": "catalog:twoslash"
   },
