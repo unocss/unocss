@@ -305,7 +305,7 @@ export default defineConfig({
         processHoverInfo: info => info.replace(/_unocss_core\./g, ''),
       }),
       transformerTwoslash({
-        langs: ['ts', 'tsx', 'js', 'jsx', 'vue', 'html'],
+        langs: ['vue', 'html'],
         twoslasher: createTwoslasher(),
       }),
     ],
