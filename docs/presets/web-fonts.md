@@ -100,6 +100,39 @@ export default defineConfig({
 
 ## Options
 
+## Multiple Providers
+
+You can pass an array of options to use different providers for different fonts:
+
+```ts[uno.config.ts]
+import presetWebFonts from '@unocss/preset-web-fonts'
+import presetWind3 from '@unocss/preset-wind3'
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  presets:[
+    presetWind3(),
+    presetWebFonts([
+      {
+        provider: 'google',
+        fonts:{
+          sans: 'Roboto',
+          mono: 'Fira Code',
+        },
+      },
+      {
+        provider: 'bunny',
+        fonts:{
+          serif: 'Merriweather',
+        },
+      },
+    ]),
+  ],
+})
+```
+
+When using the array form, each entry specifies its own `provider` as the default for its fonts. Shared options like `inlineImports`, `processors`, etc. are taken from the first entry.
+
 ### provider
 
 - **Type:** `WebFontsProviders`

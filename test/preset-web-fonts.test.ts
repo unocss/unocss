@@ -317,3 +317,29 @@ it('with presetWind4', async () => {
 
   expect(css).toMatchSnapshot()
 })
+
+it('web-fonts with array options (multiple providers)', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetMini({ preflight: false }),
+      presetWebFonts([
+        {
+          provider: 'google',
+          fonts: {
+            sans: 'Roboto',
+          },
+        },
+        {
+          provider: 'bunny',
+          fonts: {
+            serif: 'Merriweather',
+          },
+        },
+      ]),
+    ],
+  })
+
+  const { css } = await uno.generate(new Set(['font-sans', 'font-serif']))
+  expect(css).toContain('fonts.googleapis.com')
+  expect(css).toContain('fonts.bunny.net')
+})
