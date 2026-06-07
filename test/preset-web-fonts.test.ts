@@ -340,6 +340,6 @@ it('web-fonts with array options (multiple providers)', async () => {
   })
 
   const { css } = await uno.generate(new Set(['font-sans', 'font-serif']))
-  expect(css).toContain('fonts.googleapis.com')
+  expect(css).toContain('fonts.gstatic.com')
   expect(css).toContain('fonts.bunny.net')
 })
