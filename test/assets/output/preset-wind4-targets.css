@@ -1929,6 +1929,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .starting\:opacity-0{opacity:0%;}
 .starting\:popover-open\:opacity-0:popover-open{opacity:0%;}
 }
+@supports (backdrop-filter: var(--un)){
+.supports-\[backdrop-filter\]\:backdrop-blur{--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);}
+}
 @supports (color: color-mix(in lab, red, red)){
 .text-black\/10{color:color-mix(in oklab, var(--colors-black) 10%, transparent) /* #000 */;}
 .aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"]{color:color-mix(in oklab, var(--colors-green-600) var(--un-text-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
@@ -2057,12 +2060,24 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) 33%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 *+.\[\@supports\(display\:grid\)\]\:\[\*\+\&\]\:bg-red\/34{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) 34%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 }}
+@supports (container-type:inline-size) and ( not (display:grid)){
+.supports-\[\(container-type\:inline-size\)and\(not\(display\:grid\)\)\]\:block{display:block;}
+}
 @supports (display: grid){
 .supports-\[\(display\:_grid\)\]\:block,
 .supports-grid\:block{display:block;}
 }
 @supports (display:grid){
 .supports-\[display\:grid\]\:grid{display:grid;}
+}
+@supports (display:grid) and (display:flex){
+.supports-\[\(display\:grid\)_and_\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports (display:grid) or (display:flex){
+.supports-\[\(display\:grid\)or\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports not (display:grid){
+.supports-\[not\(display\:grid\)\]\:block{display:block;}
 }
 @supports(display:grid){
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:color-mix(in srgb, var(--colors-red-DEFAULT) 33%, transparent) /* oklch(70.4% 0.191 22.216) */;}
@@ -2122,6 +2137,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .md\:m-1{margin:calc(var(--spacing) * 1);}
 .md\:\!hidden{display:none !important;}
 }
+@media (min-width: 48rem){@supports not (container-type:inline-size){
+.supports-\[not\(container-type\:inline-size\)\]\:md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+}}
 @media (min-width: 64rem) and (max-width: calc(80rem - 0.1px)){
 .at-lg\:m2{margin:calc(var(--spacing) * 2);}
 }
