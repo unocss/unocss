@@ -1163,11 +1163,23 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .starting\:opacity-0{opacity:0;}
 .starting\:popover-open\:opacity-0:popover-open{opacity:0;}
 }
+@supports (container-type:inline-size) and ( not (display:grid)){
+.supports-\[\(container-type\:inline-size\)and\(not\(display\:grid\)\)\]\:block{display:block;}
+}
 @supports (display: grid){
 .supports-\[\(display\:_grid\)\]\:block{display:block;}
 }
 @supports (display:grid){
 .supports-\[display\:grid\]\:grid{display:grid;}
+}
+@supports (display:grid) and (display:flex){
+.supports-\[\(display\:grid\)_and_\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports (display:grid) or (display:flex){
+.supports-\[\(display\:grid\)or\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports not (display:grid){
+.supports-\[not\(display\:grid\)\]\:block{display:block;}
 }
 @supports(display:grid){
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:rgb(248 113 113 / 0.33);}
@@ -1212,6 +1224,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .md\:m-1{margin:0.25rem;}
 .md\:\!hidden{display:none !important;}
 }
+@media (min-width: 768px){@supports not (container-type:inline-size){
+.supports-\[not\(container-type\:inline-size\)\]\:md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+}}
 @media (min-width: 1024px) and (max-width: 1279.9px){
 .at-lg\:m2{margin:0.5rem;}
 }
