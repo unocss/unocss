@@ -22,7 +22,16 @@ export const shiki = computedAsync<HighlighterCore>(async () => {
 
 export function highlight(code: string, lang: 'css' | 'javascript') {
   if (!shiki.value)
-    return code
+    return code.replace(/[&<>"']/g, (m) => {
+      switch (m) {
+        case '&': return '&amp;'
+        case '<': return '&lt;'
+        case '>': return '&gt;'
+        case '"': return '&quot;'
+        case "'": return '&#39;'
+        default: return m
+      }
+    })
   return shiki.value.codeToHtml(code, {
     lang,
     defaultColor: false,
