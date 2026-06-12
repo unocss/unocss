@@ -122,6 +122,52 @@ describe('getColorString', () => {
 
     expect(getColorString(shadowHex4)).toEqual('#f903')
   })
+
+  it('non-color utilities should NOT return a color', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-bold')
+    expect(getColorString(css)).toBeUndefined()
+  })
+
+  it('non-color utilities should NOT return a color even after a color utility was generated. (issue#5213)', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css: colorCss } = await uno.generate('text-red-400')
+    expect(getColorString(colorCss)).toEqual('oklch(70.4% 0.191 22.216 / 100%)')
+
+    const { css } = await uno.generate('font-bold')
+    expect(getColorString(css)).toBeUndefined()
+  })
+
+  it('with outputToCssLayers, non-color utilities should NOT return a color', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+      outputToCssLayers: true,
+    })
+
+    const { css: colorCss } = await uno.generate('bg-blue-500')
+    expect(getColorString(colorCss)).toEqual('oklch(62.3% 0.214 259.815 / 100%)')
+
+    const { css } = await uno.generate('font-bold')
+    expect(getColorString(css)).toBeUndefined()
+  })
 })
 
 it('parseColorToRGBA with oklch colors', () => {
