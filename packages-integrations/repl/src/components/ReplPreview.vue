@@ -1,13 +1,25 @@
 <script setup lang="ts">
-defineProps<{ resizing: boolean }>()
+import { useElementBounding, useElementSize } from '@vueuse/core'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useResize } from '../composables/useResize'
+import { useStoreContext } from '../store'
+
+withDefaults(defineProps<{
+  resizing: boolean
+  previewSrc?: string
+}>(), {
+  previewSrc: '/__play.html',
+})
+
+const store = useStoreContext()
 
 const iframe = ref<HTMLIFrameElement>()
 
 const iframeData = reactive({
   source: 'unocss-playground',
-  css: computed(() => output.value?.css || ''),
-  html: transformedHTML,
-  dark: isDark,
+  css: computed(() => store.output.value?.css || ''),
+  html: computed(() => store.transformedHTML.value),
+  dark: false, // will be set by the host via theme
 })
 
 async function send() {
@@ -26,7 +38,7 @@ const { width, height, style, onResizeEnd, isResizing } = useResize(frameRef, {
   minWidth: 270,
   minHeight: 300,
   mode: 'manual',
-  edgeWidth: computed(() => options.value.responsive ? [0, 16] : [0, 0]),
+  edgeWidth: computed(() => store.options.value.responsive ? [0, 16] : [0, 0]),
 })
 
 const size = useElementSize(canvasRef)
@@ -38,12 +50,12 @@ watch([size.width, size.height, width, height], () => {
 
   setTimeout(update, 0)
 })
-const isResponsive = computed(() => options.value.responsive)
+const isResponsive = computed(() => store.options.value.responsive)
 onMounted(() => {
   setTimeout(() => {
-    if (isResponsive.value && options.value.width && options.value.height) {
-      width.value = options.value.width
-      height.value = options.value.height
+    if (isResponsive.value && store.options.value.width && store.options.value.height) {
+      width.value = store.options.value.width
+      height.value = store.options.value.height
     }
     update()
   }, 0)
@@ -52,22 +64,22 @@ let resized = false
 onResizeEnd(() => {
   if (isResponsive.value) {
     resized = true
-    options.value.width = width.value
-    options.value.height = height.value
+    store.options.value.width = width.value
+    store.options.value.height = height.value
   }
 })
 watch(isResponsive, (responsive) => {
   if (!responsive) {
-    delete options.value.width
-    delete options.value.height
+    delete store.options.value.width
+    delete store.options.value.height
   }
   else {
     if (!resized) {
       width.value = 375
       height.value = 706
     }
-    options.value.width = width.value
-    options.value.height = height.value
+    store.options.value.width = width.value
+    store.options.value.height = height.value
   }
 })
 </script>
@@ -76,10 +88,10 @@ watch(isResponsive, (responsive) => {
   <div
     ref="canvasRef"
     class="h-full overflow-hidden flex justify-center w-full bg-light-900 dark:bg-dark-900 relative"
-    :class="{ 'p-4': options.responsive, 'pointer-events-none': resizing }"
+    :class="{ 'p-4': store.options.value.responsive, 'pointer-events-none': resizing }"
   >
     <div
-      v-if="options.responsive"
+      v-if="store.options.value.responsive"
       class="absolute flex items-start"
       :style="`width:${frameWidth}px;height:${frameHeight}px`"
     >
@@ -113,19 +125,19 @@ watch(isResponsive, (responsive) => {
     <div
       ref="frameRef"
       class="relative w-full h-full bg-white"
-      :style="options.responsive ? `${style}transform:scale(${scale});transform-origin: top center;` : ''"
+      :style="store.options.value.responsive ? `${style}transform:scale(${scale});transform-origin: top center;` : ''"
     >
       <div
-        :style="options.responsive ? style : ''"
+        :style="store.options.value.responsive ? style : ''"
         class="overflow-auto"
         min-w-0 min-h-0 w-full h-full
       >
         <iframe
-          v-show="init"
+          v-show="store.init.value"
           ref="iframe"
           border-0 flex-grow min-w-0 w-full h-full min-h-0
-          :class="{ 'dark': isDark, 'pointer-events-none': resizing || isResizing }"
-          src="/play/__play.html"
+          :class="{ 'pointer-events-none': resizing || isResizing }"
+          :src="previewSrc"
           @load="send"
         />
       </div>

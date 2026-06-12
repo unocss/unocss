@@ -11,6 +11,7 @@ declare global {
   const annotations: typeof import('./composables/uno').annotations
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
+  const autocomplete: typeof import('./composables/uno').autocomplete
   const bundleVersion: typeof import('./composables/constants').bundleVersion
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -55,14 +56,21 @@ declare global {
   const formatConfig: typeof import('./composables/prettier').formatConfig
   const formatHTML: typeof import('./composables/prettier').formatHTML
   const generate: typeof import('./composables/uno').generate
+  const getAutocomplete: typeof import('./composables/uno').getAutocomplete
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const getHint: typeof import('./composables/uno').getHint
   const getInitialPanelSizes: typeof import('./composables/panel').getInitialPanelSizes
+  const getUno: typeof import('./composables/uno').getUno
   const h: typeof import('vue').h
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const init: typeof import('./composables/uno').init
+  const initMonacoTheme: typeof import('./composables/monaco').initMonacoTheme
+  const initialCSS: typeof import('./composables/url').initialCSS
+  const initialConfigRaw: typeof import('./composables/url').initialConfigRaw
+  const initialHTML: typeof import('./composables/url').initialHTML
+  const initialOptions: typeof import('./composables/url').initialOptions
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
   const inputHTML: typeof import('./composables/url').inputHTML
@@ -123,11 +131,14 @@ declare global {
   const refManualReset: typeof import('@vueuse/core').refManualReset
   const refThrottled: typeof import('@vueuse/core').refThrottled
   const refWithControl: typeof import('@vueuse/core').refWithControl
+  const registerMonacoProviders: typeof import('./composables/monaco').registerMonacoProviders
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const selectedLayers: typeof import('./composables/prettier').selectedLayers
   const selectedVersion: typeof import('./composables/url').selectedVersion
+  const setupMonaco: typeof import('./composables/monaco').setupMonaco
+  const setupUrlSync: typeof import('./composables/url').setupUrlSync
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
@@ -250,6 +261,7 @@ declare global {
   const useMemory: typeof import('@vueuse/core').useMemory
   const useMin: typeof import('@vueuse/math').useMin
   const useModel: typeof import('vue').useModel
+  const useMonaco: typeof import('./composables/monaco').useMonaco
   const useMounted: typeof import('@vueuse/core').useMounted
   const useMouse: typeof import('@vueuse/core').useMouse
   const useMouseInElement: typeof import('@vueuse/core').useMouseInElement
@@ -358,9 +370,6 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
-  // @ts-ignore
-  export type { UseResizeOptions } from './composables/resize'
-  import('./composables/resize')
 }
 
 // for vue template auto import
@@ -370,7 +379,6 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly STORAGE_KEY: UnwrapRef<typeof import('./composables/constants')['STORAGE_KEY']>
-    readonly annotations: UnwrapRef<typeof import('./composables/uno')['annotations']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly bundleVersion: UnwrapRef<typeof import('./composables/constants')['bundleVersion']>
@@ -394,17 +402,13 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
-    readonly cssFormatted: UnwrapRef<typeof import('./composables/prettier')['cssFormatted']>
     readonly customCSS: UnwrapRef<typeof import('./composables/url')['customCSS']>
     readonly customCSSLayerName: UnwrapRef<typeof import('./composables/constants')['customCSSLayerName']>
-    readonly customCSSWarn: UnwrapRef<typeof import('./composables/uno')['customCSSWarn']>
-    readonly customConfigError: UnwrapRef<typeof import('./composables/uno')['customConfigError']>
     readonly customConfigRaw: UnwrapRef<typeof import('./composables/url')['customConfigRaw']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defaultCSS: UnwrapRef<typeof import('./composables/constants')['defaultCSS']>
-    readonly defaultConfig: UnwrapRef<typeof import('./composables/config')['defaultConfig']>
     readonly defaultConfigRaw: UnwrapRef<typeof import('./composables/constants')['defaultConfigRaw']>
     readonly defaultHTML: UnwrapRef<typeof import('./composables/constants')['defaultHTML']>
     readonly defaultOptions: UnwrapRef<typeof import('./composables/constants')['defaultOptions']>
@@ -413,23 +417,18 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
-    readonly formatCSS: UnwrapRef<typeof import('./composables/prettier')['formatCSS']>
-    readonly formatConfig: UnwrapRef<typeof import('./composables/prettier')['formatConfig']>
-    readonly formatHTML: UnwrapRef<typeof import('./composables/prettier')['formatHTML']>
-    readonly generate: UnwrapRef<typeof import('./composables/uno')['generate']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
-    readonly getHint: UnwrapRef<typeof import('./composables/uno')['getHint']>
-    readonly getInitialPanelSizes: UnwrapRef<typeof import('./composables/panel')['getInitialPanelSizes']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
-    readonly init: UnwrapRef<typeof import('./composables/uno')['init']>
+    readonly initialCSS: UnwrapRef<typeof import('./composables/url')['initialCSS']>
+    readonly initialConfigRaw: UnwrapRef<typeof import('./composables/url')['initialConfigRaw']>
+    readonly initialHTML: UnwrapRef<typeof import('./composables/url')['initialHTML']>
+    readonly initialOptions: UnwrapRef<typeof import('./composables/url')['initialOptions']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly inputHTML: UnwrapRef<typeof import('./composables/url')['inputHTML']>
-    readonly isCSSPrettify: UnwrapRef<typeof import('./composables/prettier')['isCSSPrettify']>
-    readonly isCollapsed: UnwrapRef<typeof import('./composables/panel')['isCollapsed']>
     readonly isDark: UnwrapRef<typeof import('./composables/dark')['isDark']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -437,14 +436,12 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isShallow: UnwrapRef<typeof import('vue')['isShallow']>
-    readonly load: UnwrapRef<typeof import('./composables/config')['load']>
     readonly logicAnd: UnwrapRef<typeof import('@vueuse/math')['logicAnd']>
     readonly logicNot: UnwrapRef<typeof import('@vueuse/math')['logicNot']>
     readonly logicOr: UnwrapRef<typeof import('@vueuse/math')['logicOr']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
-    readonly normalizePanels: UnwrapRef<typeof import('./composables/panel')['normalizePanels']>
     readonly onActivated: UnwrapRef<typeof import('vue')['onActivated']>
     readonly onBeforeMount: UnwrapRef<typeof import('vue')['onBeforeMount']>
     readonly onBeforeUnmount: UnwrapRef<typeof import('vue')['onBeforeUnmount']>
@@ -465,9 +462,6 @@ declare module 'vue' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly options: UnwrapRef<typeof import('./composables/url')['options']>
-    readonly output: UnwrapRef<typeof import('./composables/uno')['output']>
-    readonly panelEl: UnwrapRef<typeof import('./composables/panel')['panelEl']>
-    readonly panelSizes: UnwrapRef<typeof import('./composables/panel')['panelSizes']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
@@ -486,8 +480,9 @@ declare module 'vue' {
     readonly refThrottled: UnwrapRef<typeof import('@vueuse/core')['refThrottled']>
     readonly refWithControl: UnwrapRef<typeof import('@vueuse/core')['refWithControl']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
-    readonly selectedLayers: UnwrapRef<typeof import('./composables/prettier')['selectedLayers']>
     readonly selectedVersion: UnwrapRef<typeof import('./composables/url')['selectedVersion']>
+    readonly setupMonaco: UnwrapRef<typeof import('./composables/monaco')['setupMonaco']>
+    readonly setupUrlSync: UnwrapRef<typeof import('./composables/url')['setupUrlSync']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
@@ -496,16 +491,12 @@ declare module 'vue' {
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
-    readonly titleHeightPercent: UnwrapRef<typeof import('./composables/panel')['titleHeightPercent']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly toggleDark: UnwrapRef<typeof import('./composables/dark')['toggleDark']>
-    readonly togglePanel: UnwrapRef<typeof import('./composables/panel')['togglePanel']>
-    readonly transformedCSS: UnwrapRef<typeof import('./composables/uno')['transformedCSS']>
-    readonly transformedHTML: UnwrapRef<typeof import('./composables/uno')['transformedHTML']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly tryOnBeforeMount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeMount']>
     readonly tryOnBeforeUnmount: UnwrapRef<typeof import('@vueuse/core')['tryOnBeforeUnmount']>
@@ -640,7 +631,6 @@ declare module 'vue' {
     readonly useProjection: UnwrapRef<typeof import('@vueuse/math')['useProjection']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
-    readonly useResize: UnwrapRef<typeof import('./composables/resize')['useResize']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
     readonly useRound: UnwrapRef<typeof import('@vueuse/math')['useRound']>
     readonly useSSRWidth: UnwrapRef<typeof import('@vueuse/core')['useSSRWidth']>

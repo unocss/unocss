@@ -16,6 +16,7 @@ export const allPackages = [
   "@unocss/language-server",
   "@unocss/nuxt",
   "@unocss/postcss",
+  "@unocss/repl",
   "@unocss/runtime",
   "@unocss/scope",
   "@unocss/svelte-scoped",
@@ -47,6 +48,7 @@ export const allPackages = [
 export const bundlePackages = [
   "@unocss/autocomplete",
   "@unocss/core",
+  "@unocss/repl",
   "@unocss/rule-utils",
   "@unocss/transformer-attributify-jsx",
   "@unocss/transformer-compile-class",

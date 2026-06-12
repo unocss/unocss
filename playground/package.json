@@ -10,6 +10,8 @@
     "serve": "vite preview"
   },
   "devDependencies": {
+    "@unocss/repl": "workspace:*",
+    "monaco-editor": "catalog:docs",
     "simple-git": "catalog:utils"
   }
 }

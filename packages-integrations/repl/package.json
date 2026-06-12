@@ -1,0 +1,101 @@
+{
+  "name": "@unocss/repl",
+  "type": "module",
+  "version": "66.7.0",
+  "description": "UnoCSS REPL editor components with CodeMirror and Monaco support",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unocss/unocss",
+    "directory": "packages-integrations/repl"
+  },
+  "bugs": "https://github.com/unocss/unocss/issues",
+  "keywords": [
+    "unocss",
+    "repl",
+    "editor",
+    "codemirror",
+    "monaco"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./codemirror": {
+      "types": "./dist/codemirror/index.d.ts",
+      "import": "./dist/codemirror/index.js"
+    },
+    "./monaco": {
+      "types": "./dist/monaco/index.d.ts",
+      "import": "./dist/monaco/index.js"
+    },
+    "./style.css": "./dist/repl.css",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts",
+        "./*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build && vue-tsc -p tsconfig.build.json",
+    "dev": "vite build --watch"
+  },
+  "peerDependencies": {
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/lang-html": "^6.4.11",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@codemirror/view": "^6.36.8",
+    "@vueuse/core": ">=10.0.0",
+    "codemirror": "^6.0.1",
+    "monaco-editor": "^0.52.0",
+    "prettier": ">=3.0.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@unocss/autocomplete": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "@unocss/extractor-arbitrary-variants": "workspace:*",
+    "@unocss/language-server": "workspace:*",
+    "magic-string": "catalog:utils",
+    "splitpanes": "catalog:utils"
+  },
+  "devDependencies": {
+    "@codemirror/autocomplete": "catalog:docs",
+    "@codemirror/lang-html": "catalog:docs",
+    "@codemirror/state": "catalog:docs",
+    "@codemirror/theme-one-dark": "catalog:docs",
+    "@codemirror/view": "catalog:docs",
+    "@types/splitpanes": "catalog:types",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "@vueuse/core": "catalog:vue",
+    "codemirror": "catalog:docs",
+    "magic-string": "catalog:utils",
+    "monaco-editor": "catalog:docs",
+    "prettier": "catalog:utils",
+    "splitpanes": "catalog:utils",
+    "vite": "catalog:vite",
+    "vue": "catalog:vue",
+    "vue-tsc": "catalog:"
+  }
+}

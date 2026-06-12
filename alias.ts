@@ -23,6 +23,7 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
+  '@unocss/repl': r('./packages-integrations/repl/src/'),
   '@unocss/runtime': r('./packages-integrations/runtime/src/'),
   '@unocss/scope': r('./packages-integrations/scope/src/'),
   '@unocss/svelte-scoped': r('./packages-integrations/svelte-scoped/src/'),

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import '@unocss/reset/tailwind.css'
 import 'splitpanes/dist/splitpanes.css'
+import '@unocss/repl/style.css'
 import 'uno:icons.css'
 import 'floating-vue/dist/style.css'
 

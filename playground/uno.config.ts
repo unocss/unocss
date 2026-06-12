@@ -11,6 +11,11 @@ import {
 } from 'unocss'
 
 export default defineConfig({
+  content: {
+    filesystem: [
+      '../packages-integrations/repl/src/**/*.{vue,ts}',
+    ],
+  },
   shortcuts: {
     'c-primary': 'c-[#1c6b48] dark:c-[#5cad8a]',
     'border-main': 'border-gray/20',
