@@ -17,6 +17,9 @@ export function getThemeValue(rawArguments: string, theme: Theme): string {
   let current = theme
 
   for (const key of keys) {
+    if (key === '__proto__' || key === 'constructor')
+      throw new Error(`"${rawArguments}" contains invalid key "${key}"`)
+
     if (current[key] === undefined)
       throw new Error(`"${rawArguments}" is not found in your theme`)
 
