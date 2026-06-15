@@ -1,11 +1,13 @@
 import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
+import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
-  const key = separators.join('|')
+  const escaped = separators.map(s => escapeRegExp(s))
+  const key = escaped.join('|')
   if (!regexCache[key])
     regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0

@@ -387,8 +387,15 @@ export const targets = [
   // variants combinators
   'svg:fill-red',
 
-  // variants supports: grid
+  // variants supports
   'supports-grid:block',
+  'supports-[display:grid]:grid',
+  'supports-[backdrop-filter]:backdrop-blur',
+  'supports-[not(display:grid)]:block',
+  'supports-[not(container-type:inline-size)]:md:grid-cols-2',
+  'supports-[(display:grid)_and_(display:flex)]:grid',
+  'supports-[(display:grid)or(display:flex)]:grid',
+  'supports-[(container-type:inline-size)and(not(display:grid))]:block',
 
   // variants media: contrasts, motions, orientations
   'contrast-more:bg-black',

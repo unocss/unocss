@@ -139,8 +139,6 @@ export function getColorString(str: string) {
     if (color)
       return color
   }
-
-  return getColorStringFromValue(str, cssVars)
 }
 
 export function parseColorToRGBA(colorString: string): Color | undefined {
