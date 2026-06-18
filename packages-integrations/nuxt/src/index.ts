@@ -31,6 +31,11 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     icons: false,
     wind3: true,
     wind4: false,
+    /**
+     * Additional attribute names for IDE autocomplete
+     */
+    classAttributes: [] as string[],
+
   },
   async setup(options, nuxt) {
     // preset shortcuts
@@ -118,6 +123,9 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
       }
 
       await nuxt.callHook('unocss:config', unoConfig)
+      // Inject classAttributes into autocomplete config for IDE support
+      if (options.classAttributes?.length)
+        unoConfig.autocomplete = { ...unoConfig.autocomplete, classAttributes: options.classAttributes }
 
       extendViteConfig(async (config) => {
         const { default: VitePlugin } = await import('@unocss/vite')

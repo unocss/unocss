@@ -10,6 +10,11 @@ import type { VitePluginConfig } from '@unocss/vite'
 
 export interface UnocssNuxtOptions extends UserConfig {
   /**
+   * Additional attribute names that should trigger autocomplete
+   * in the IDE (e.g. ['class:list', 'data-class'])
+   */
+  classAttributes?: string[]
+  /**
    * CSS Generation mode. Only work with Vite.
    *
    * @see https://unocss.dev/integrations/vite#modes

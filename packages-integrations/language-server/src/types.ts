@@ -15,6 +15,7 @@ export interface ServerSettings {
   autocompleteMatchType: 'prefix' | 'fuzzy'
   autocompleteStrict: boolean
   autocompleteMaxItems: number
+  classAttributes: string[]
 }
 
 export const defaultSettings: ServerSettings = {
@@ -32,6 +33,7 @@ export const defaultSettings: ServerSettings = {
   autocompleteMatchType: 'prefix',
   autocompleteStrict: false,
   autocompleteMaxItems: 1000,
+  classAttributes: [],
 }
 
 export type UnoContext = UnocssPluginContext<UserConfig<any>>

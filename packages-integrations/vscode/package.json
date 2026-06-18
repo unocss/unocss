@@ -140,6 +140,14 @@
           "type": "number",
           "default": 1000,
           "description": "The maximum number of items to show in autocomplete"
+        },
+        "unocss.classAttributes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional attribute names that should trigger autocomplete (e.g. [\"class:list\", \"data-class\"])"
         }
       }
     }

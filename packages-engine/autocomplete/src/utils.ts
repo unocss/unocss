@@ -2,6 +2,7 @@ export function searchUsageBoundary(
   line: string,
   index: number,
   attributify = true,
+  classAttributes: string[] = [],
 ) {
   let start = index
   let end = index
@@ -19,11 +20,10 @@ export function searchUsageBoundary(
   }
 
   let temp = start - 1
-  // match class="" or className="" or @apply
-  const matchClassText = 'class'
-  const matchClassNameText = 'className'
+  // match class="" or className="" or custom classAttributes or @apply
+  const matchClassTexts = ['class', 'className', ...classAttributes]
   const applyText = '@apply'
-  while (temp > matchClassText.length && !/[="'{}><@;]/.test(line[temp--])) {
+  while (temp > 0 && !/[="'{}><@;]/.test(line[temp--])) {
     // Continue to match attrName forward
   }
   if (line[temp + 1] === '@') {
@@ -38,23 +38,15 @@ export function searchUsageBoundary(
   }
   if (line[temp] !== '=')
     return
-  if (temp > matchClassNameText.length) {
-    const data = line.slice(temp - matchClassNameText.length, temp)
-    if (data === matchClassNameText) {
-      return {
-        content: line.slice(start, end),
-        start,
-        end,
-      }
-    }
-  }
-  if (temp > matchClassText.length) {
-    const data = line.slice(temp - matchClassText.length, temp)
-    if (data === matchClassText) {
-      return {
-        content: line.slice(start, end),
-        start,
-        end,
+  for (const matchText of matchClassTexts) {
+    if (temp >= matchText.length) {
+      const data = line.slice(temp - matchText.length, temp)
+      if (data === matchText) {
+        return {
+          content: line.slice(start, end),
+          start,
+          end,
+        }
       }
     }
   }

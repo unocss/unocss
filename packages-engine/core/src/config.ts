@@ -180,6 +180,7 @@ export async function resolveConfig<Theme extends object = object>(
     extractors: sources.flatMap(p => toArray(p.autocomplete?.extractors))
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
     shorthands: mergeAutocompleteShorthands(sources.map(p => p.autocomplete?.shorthands || {})),
+    classAttributes: uniq(sources.flatMap(p => p.autocomplete?.classAttributes || [])),
   }
 
   let separators = getMerged('separators')

@@ -22,6 +22,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   const {
     matchType = 'prefix',
     throwErrors = true,
+    classAttributes = [],
   } = options
 
   reset()
@@ -132,6 +133,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
       content,
       cursor,
       (uno.config.presets || []).some(i => i.name === '@unocss/preset-attributify'),
+      [...classAttributes, ...(uno.config.autocomplete.classAttributes || [])],
     )
     if (!regular)
       return
