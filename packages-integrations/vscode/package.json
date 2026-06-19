@@ -145,7 +145,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "nr update && tsdown",
     "dev": "tsx ./scripts/dev.ts && tsdown --watch src",
     "publish": "tsx ./scripts/publish.ts",
     "prepare": "nr update",
