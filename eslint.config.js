@@ -27,6 +27,10 @@ export default antfu(
       'packages-integrations/eslint-plugin/fixtures',
       'packages-integrations/vscode/src/generated',
 
+      // Rust toolchain files for the Zed extension (managed by Cargo, not ESLint)
+      'packages-integrations/zed/Cargo.toml',
+      'packages-integrations/zed/target',
+
       // Nested CSS
       'interactive/markdown.css',
       'playground/src/main.css',

@@ -3,36 +3,36 @@ name = "UnoCSS"
 description = "UnoCSS language server support for Zed (completion, hover, colors, utility underline)"
 version = "0.1.0"
 schema_version = 1
-authors = ["oddcelot <hey@oddcelot.dev>"]
+authors = [ "oddcelot <hey@oddcelot.dev>" ]
 repository = "https://github.com/unocss/unocss"
 
 [language_servers.unocss]
 name = "UnoCSS Language Server"
 # Includes plain TypeScript and CSS so Lit components and stylesheets are covered.
 languages = [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "TypeScript",
-    "TSX",
-    "Vue.js",
-    "Svelte",
-    "Astro",
-    "Markdown",
-    "PHP",
-    "ERB",
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "TypeScript",
+  "TSX",
+  "Vue.js",
+  "Svelte",
+  "Astro",
+  "Markdown",
+  "PHP",
+  "ERB",
 ]
 
 # Map Zed language names to the server's expected LSP languageId strings.
 [language_servers.unocss.language_ids]
-"HTML" = "html"
-"CSS" = "css"
-"JavaScript" = "javascript"
-"TypeScript" = "typescript"
-"TSX" = "typescriptreact"
+HTML = "html"
+CSS = "css"
+JavaScript = "javascript"
+TypeScript = "typescript"
+TSX = "typescriptreact"
 "Vue.js" = "vue"
-"Svelte" = "svelte"
-"Astro" = "astro"
-"Markdown" = "markdown"
-"PHP" = "php"
-"ERB" = "erb"
+Svelte = "svelte"
+Astro = "astro"
+Markdown = "markdown"
+PHP = "php"
+ERB = "erb"

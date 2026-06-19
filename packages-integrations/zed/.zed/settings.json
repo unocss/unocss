@@ -6,15 +6,15 @@
   "languages": {
     "TypeScript": { "semantic_tokens": "combined" },
     "HTML": { "semantic_tokens": "combined" },
-    "CSS": { "semantic_tokens": "combined" },
+    "CSS": { "semantic_tokens": "combined" }
   },
 
   "lsp": {
     "unocss": {
       "settings": {
         // Server only emits `unocss` tokens when on (off by default).
-        "semanticTokens": true,
-      },
+        "semanticTokens": true
+      }
       // Optional: point at a locally-built server. Omit to use the auto-installed npm version.
       // "binary": {
       //   "path": "node",
@@ -23,6 +23,6 @@
       //     "--stdio",
       //   ],
       // },
-    },
-  },
+    }
+  }
 }
