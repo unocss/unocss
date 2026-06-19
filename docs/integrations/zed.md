@@ -53,7 +53,7 @@ Unlike the VSCode extension (which draws its own underline), the underline in Ze
    }
    ```
 
-2. Add the styling rule. This **must** go in your **user** settings (`~/.config/zed/settings.json`) — Zed reads `semantic_token_rules` globally and ignores worktree-local `.zed/settings.json`:
+2. Add the styling rule. The per-language `semantic_tokens` settings in step 1 work in a project `.zed/settings.json`, but the rule below uses `global_lsp_settings`, which Zed reads only from your **user** settings (`~/.config/zed/settings.json`) — that key is not available in a worktree-local `.zed/settings.json`:
 
    ```json
    { "global_lsp_settings": { "semantic_token_rules": [{ "token_type": "unocss", "underline": "#888888" }] } }

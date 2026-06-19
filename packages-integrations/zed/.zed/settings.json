@@ -1,7 +1,9 @@
 {
-  // Enable semantic tokens for languages where UnoCSS utilities appear.
-  // The underline STYLING rule must go in USER settings (~/.config/zed/settings.json),
-  // not here — Zed reads semantic_token_rules globally:
+  // Enable semantic tokens for languages where UnoCSS utilities appear. These
+  // per-language `semantic_tokens` settings work fine in this project file.
+  // The underline STYLING rule is separate: it uses `global_lsp_settings`, which
+  // Zed reads only from USER settings (~/.config/zed/settings.json) — that key is
+  // not available in a worktree-local .zed/settings.json. Add it there:
   //   { "global_lsp_settings": { "semantic_token_rules": [{ "token_type": "unocss", "underline": "#888888" }] } }
   "languages": {
     "TypeScript": { "semantic_tokens": "combined" },

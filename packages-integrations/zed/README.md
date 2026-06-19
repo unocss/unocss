@@ -87,8 +87,9 @@ its own underline), so to use it in Zed:
    }
    ```
 2. Add the styling rule. **This MUST go in your USER settings**
-   (`~/.config/zed/settings.json`) — Zed reads `semantic_token_rules` via
-   `get_global`, which ignores worktree-local `.zed/settings.json`:
+   (`~/.config/zed/settings.json`) — `global_lsp_settings` is read via
+   `get_global`, so unlike the per-language `semantic_tokens` above it is not
+   picked up from a worktree-local `.zed/settings.json`:
    ```json
    { "global_lsp_settings": { "semantic_token_rules": [{ "token_type": "unocss", "underline": "#888888" }] } }
    ```
