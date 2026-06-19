@@ -83,13 +83,16 @@ export function registerSemanticTokens(
 
       const builder = new SemanticTokensBuilder()
       let prevLine = -1
-      let prevChar = -1
+      let prevEnd = -1
       for (const { start, end } of tokens) {
-        if (start.line === prevLine && start.character <= prevChar)
+        // Drop any token that starts inside the previously-emitted one (compare
+        // against its END, not its start) so overlapping variant matches don't
+        // produce an invalid, overlapping encoding.
+        if (start.line === prevLine && start.character < prevEnd)
           continue
         builder.push(start.line, start.character, end.character - start.character, 0, 0)
         prevLine = start.line
-        prevChar = start.character
+        prevEnd = end.character
       }
       return builder.build()
     }
