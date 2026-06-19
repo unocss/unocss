@@ -1,0 +1,13 @@
+[package]
+name = "zed_unocss"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+zed_extension_api = "0.6.0"
+serde_json = "1.0"

@@ -1,0 +1,42 @@
+id = "unocss"
+name = "UnoCSS"
+description = "UnoCSS language server support for Zed (completion, hover, colors)"
+version = "0.1.0"
+schema_version = 1
+authors = ["oddcelot <hey@oddcelot.dev>"]
+repository = "https://github.com/unocss/unocss"
+
+[language_servers.unocss]
+name = "UnoCSS Language Server"
+# The official @unocss/language-server attaches to every language where UnoCSS
+# classes can appear. Plain `TypeScript` and `CSS` are included so Lit
+# components (class="..." inside html`...` in .ts files) and stylesheets are
+# covered — these are exactly what the older extension was missing.
+languages = [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "TSX",
+    "Vue.js",
+    "Svelte",
+    "Astro",
+    "Markdown",
+    "PHP",
+    "ERB",
+]
+
+# Map Zed's language names to the LSP `languageId` strings the UnoCSS server
+# expects (see defaultLanguageIds in the server source).
+[language_servers.unocss.language_ids]
+"HTML" = "html"
+"CSS" = "css"
+"JavaScript" = "javascript"
+"TypeScript" = "typescript"
+"TSX" = "typescriptreact"
+"Vue.js" = "vue"
+"Svelte" = "svelte"
+"Astro" = "astro"
+"Markdown" = "markdown"
+"PHP" = "php"
+"ERB" = "erb"
