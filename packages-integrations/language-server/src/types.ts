@@ -6,6 +6,7 @@ export interface ServerSettings {
   include: string | string[] | undefined
   exclude: string | string[] | undefined
   underline: boolean
+  semanticTokens: boolean
   colorPreview: boolean
   colorPreviewRadius: string
   remToPxPreview: boolean
@@ -23,6 +24,11 @@ export const defaultSettings: ServerSettings = {
   include: undefined,
   exclude: undefined,
   underline: true,
+  // Off by default: the same server backs the VSCode extension (which renders
+  // its own underline via editor decorations), so emitting semantic tokens
+  // there would be redundant work. LSP clients that want them — e.g. the Zed
+  // extension — opt in via `unocss.semanticTokens: true`.
+  semanticTokens: false,
   colorPreview: true,
   colorPreviewRadius: '50%',
   remToPxPreview: true,
