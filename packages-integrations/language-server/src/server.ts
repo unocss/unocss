@@ -165,11 +165,11 @@ function getContextManager() {
 // this, toggling `semanticTokens` on or reloading the config leaves already-open
 // docs unstyled until the next edit. Guarded because not every client supports
 // the refresh request.
-async function refreshSemanticTokens() {
+function refreshSemanticTokens() {
   if (!settings.semanticTokens)
     return
   try {
-    await connection.languages.semanticTokens.refresh()
+    connection.languages.semanticTokens.refresh()
   }
   catch {}
 }
@@ -239,7 +239,7 @@ connection.onDidChangeWatchedFiles((_change) => {
     await contextManager.reload()
     connection.console.log('🔵 Reloaded.')
     await updateConfigWatchers()
-    await refreshSemanticTokens()
+    refreshSemanticTokens()
   }, 500)
 })
 
@@ -250,7 +250,7 @@ connection.onDidChangeConfiguration(async (change) => {
     await applyConfiguredRoots()
     await updateConfigWatchers()
     resetAutoCompleteCache()
-    await refreshSemanticTokens()
+    refreshSemanticTokens()
   }
 })
 

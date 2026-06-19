@@ -1,6 +1,6 @@
 id = "unocss"
 name = "UnoCSS"
-description = "UnoCSS language server support for Zed (completion, hover, colors)"
+description = "UnoCSS language server support for Zed (completion, hover, colors, utility underline)"
 version = "0.1.0"
 schema_version = 1
 authors = ["oddcelot <hey@oddcelot.dev>"]

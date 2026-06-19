@@ -2,7 +2,7 @@
 
 A [Zed](https://zed.dev) extension that runs the official
 [`@unocss/language-server`](https://www.npmjs.com/package/@unocss/language-server)
-for completion, hover and color previews.
+for completion, hover, color previews and matched-utility underlining.
 
 Unlike the older `bajrangCoder/zed-unocss` extension, this one:
 
