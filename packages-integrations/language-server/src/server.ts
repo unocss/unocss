@@ -161,6 +161,19 @@ function getContextManager() {
   return contextManager
 }
 
+// Ask the client to re-request semantic tokens for open documents. Without
+// this, toggling `semanticTokens` on or reloading the config leaves already-open
+// docs unstyled until the next edit. Guarded because not every client supports
+// the refresh request.
+async function refreshSemanticTokens() {
+  if (!settings.semanticTokens)
+    return
+  try {
+    await connection.languages.semanticTokens.refresh()
+  }
+  catch {}
+}
+
 connection.onInitialize((params) => {
   hasWatchedFilesCapability = !!params.capabilities.workspace?.didChangeWatchedFiles?.dynamicRegistration
   const initializationOptions = params.initializationOptions as WorkspaceInitializationOptions | undefined
@@ -226,6 +239,7 @@ connection.onDidChangeWatchedFiles((_change) => {
     await contextManager.reload()
     connection.console.log('🔵 Reloaded.')
     await updateConfigWatchers()
+    await refreshSemanticTokens()
   }, 500)
 })
 
@@ -236,6 +250,7 @@ connection.onDidChangeConfiguration(async (change) => {
     await applyConfiguredRoots()
     await updateConfigWatchers()
     resetAutoCompleteCache()
+    await refreshSemanticTokens()
   }
 })
 
