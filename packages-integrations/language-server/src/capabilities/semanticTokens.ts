@@ -96,7 +96,8 @@ export function registerSemanticTokens(
       }
       return builder.build()
     }
-    catch {
+    catch (err) {
+      connection.console.error(`[unocss] semantic tokens failed: ${err instanceof Error ? err.message : String(err)}`)
       return empty
     }
   })
