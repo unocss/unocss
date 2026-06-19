@@ -9,5 +9,5 @@ license = "MIT"
 crate-type = ["cdylib"]
 
 [dependencies]
-zed_extension_api = "0.6.0"
+zed_extension_api = "0.7.0"
 serde_json = "1.0"
