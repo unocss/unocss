@@ -61,6 +61,25 @@ Unlike the VSCode extension (which draws its own underline), the underline in Ze
 
 `underline` accepts `true` (use the text color) or a hex string. Other supported fields include `foreground_color`, `background_color`, `font_weight`, `font_style` and `strikethrough`.
 
+### Using theme styles
+
+Instead of hardcoding a color, you can borrow a style from the current theme with the `style` field. It takes a list of theme style names and uses the first one found, so you can list fallbacks:
+
+```json
+{
+  "global_lsp_settings": {
+    "semantic_token_rules": [
+      {
+        "token_type": "unocss",
+        "style": ["comment.doc", "comment"]
+      }
+    ]
+  }
+}
+```
+
+Because `unocss` is a custom token type, themes have no dedicated entry for it — reference an existing theme style (e.g. `comment`) to reuse its color. The first match in the active theme wins, so the styling adapts as you switch themes.
+
 ## Bug Reports / Feature Requests
 
 Report issues at the [UnoCSS issue tracker](https://github.com/unocss/unocss/issues).
