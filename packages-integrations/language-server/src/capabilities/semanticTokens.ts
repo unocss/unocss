@@ -16,6 +16,33 @@ export const semanticTokensLegend = {
   tokenModifiers: [] as string[],
 }
 
+interface TokenRange {
+  start: { line: number, character: number }
+  end: { line: number, character: number }
+}
+
+// Encode matched ranges into LSP semantic-token data. Tokens must be single-line
+// and pushed in non-overlapping, increasing order, so drop multi-line/empty
+// ranges, sort, then skip any range that starts inside the previous one.
+export function buildSemanticTokensData(ranges: TokenRange[]): number[] {
+  const tokens = ranges
+    .filter(({ start, end }) => start.line === end.line && end.character > start.character)
+    .sort((a, b) => a.start.line - b.start.line || a.start.character - b.start.character)
+
+  const builder = new SemanticTokensBuilder()
+  let prevLine = -1
+  let prevEnd = -1
+  for (const { start, end } of tokens) {
+    // Skip tokens starting inside the previous one (overlapping variants).
+    if (start.line === prevLine && start.character < prevEnd)
+      continue
+    builder.push(start.line, start.character, end.character - start.character, 0, 0)
+    prevLine = start.line
+    prevEnd = end.character
+  }
+  return builder.build().data
+}
+
 export function registerSemanticTokens(
   connection: Connection,
   documents: TextDocuments<TextDocument>,
@@ -64,28 +91,11 @@ export function registerSemanticTokens(
         settings.strictAnnotationMatch,
       )
 
-      // Tokens must be single-line and pushed in non-overlapping order:
-      // drop multi-line/empty ranges, then sort.
-      const tokens = positions
-        .map(([start, end]) => ({
-          start: doc.positionAt(start),
-          end: doc.positionAt(end),
-        }))
-        .filter(({ start, end }) => start.line === end.line && end.character > start.character)
-        .sort((a, b) => a.start.line - b.start.line || a.start.character - b.start.character)
-
-      const builder = new SemanticTokensBuilder()
-      let prevLine = -1
-      let prevEnd = -1
-      for (const { start, end } of tokens) {
-        // Skip tokens starting inside the previous one (overlapping variants).
-        if (start.line === prevLine && start.character < prevEnd)
-          continue
-        builder.push(start.line, start.character, end.character - start.character, 0, 0)
-        prevLine = start.line
-        prevEnd = end.character
-      }
-      return builder.build()
+      const ranges = positions.map(([start, end]) => ({
+        start: doc.positionAt(start),
+        end: doc.positionAt(end),
+      }))
+      return { data: buildSemanticTokensData(ranges) }
     }
     catch (err) {
       connection.console.error(`[unocss] semantic tokens failed: ${err instanceof Error ? err.message : String(err)}`)
