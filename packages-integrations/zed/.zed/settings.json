@@ -1,13 +1,8 @@
 {
-  // Enable semantic tokens for the languages where UnoCSS utilities appear.
-  // The UnoCSS server emits each matched utility as a `unocss` semantic token.
-  //
-  // The STYLING rule that underlines them must live in USER settings
-  // (~/.config/zed/settings.json), NOT here — Zed reads
-  // `global_lsp_settings.semantic_token_rules` via get_global, which ignores
-  // worktree-local .zed/settings.json:
-  //   { "global_lsp_settings": { "semantic_token_rules": [
-  //       { "token_type": "unocss", "underline": "#888888" } ] } }
+  // Enable semantic tokens for languages where UnoCSS utilities appear.
+  // The underline STYLING rule must go in USER settings (~/.config/zed/settings.json),
+  // not here — Zed reads semantic_token_rules globally:
+  //   { "global_lsp_settings": { "semantic_token_rules": [{ "token_type": "unocss", "underline": "#888888" }] } }
   "languages": {
     "TypeScript": { "semantic_tokens": "combined" },
     "HTML": { "semantic_tokens": "combined" },
@@ -17,15 +12,10 @@
   "lsp": {
     "unocss": {
       "settings": {
-        // The server only emits `unocss` semantic tokens when this is on — it
-        // is off by default so it stays out of the way of editors (like
-        // VSCode) that render their own underline. Required here for the
-        // styling rule above to have anything to match.
+        // Server only emits `unocss` tokens when on (off by default).
         "semanticTokens": true,
       },
-      // Optional: point the server at a locally-built language server, e.g. to
-      // test a patched build. Omit to use the npm version the extension
-      // installs automatically.
+      // Optional: point at a locally-built server. Omit to use the auto-installed npm version.
       // "binary": {
       //   "path": "node",
       //   "arguments": [

@@ -161,10 +161,8 @@ function getContextManager() {
   return contextManager
 }
 
-// Ask the client to re-request semantic tokens for open documents. Without
-// this, toggling `semanticTokens` on or reloading the config leaves already-open
-// docs unstyled until the next edit. Guarded because not every client supports
-// the refresh request.
+// Re-request semantic tokens for open documents after settings/config change.
+// Guarded because not every client supports the refresh request.
 function refreshSemanticTokens() {
   if (!settings.semanticTokens)
     return

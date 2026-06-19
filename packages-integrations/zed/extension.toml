@@ -8,10 +8,7 @@ repository = "https://github.com/unocss/unocss"
 
 [language_servers.unocss]
 name = "UnoCSS Language Server"
-# The official @unocss/language-server attaches to every language where UnoCSS
-# classes can appear. Plain `TypeScript` and `CSS` are included so Lit
-# components (class="..." inside html`...` in .ts files) and stylesheets are
-# covered — these are exactly what the older extension was missing.
+# Includes plain TypeScript and CSS so Lit components and stylesheets are covered.
 languages = [
     "HTML",
     "CSS",
@@ -26,8 +23,7 @@ languages = [
     "ERB",
 ]
 
-# Map Zed's language names to the LSP `languageId` strings the UnoCSS server
-# expects (see defaultLanguageIds in the server source).
+# Map Zed language names to the server's expected LSP languageId strings.
 [language_servers.unocss.language_ids]
 "HTML" = "html"
 "CSS" = "css"

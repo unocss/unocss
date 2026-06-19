@@ -8,14 +8,9 @@ import { INCLUDE_COMMENT_IDE } from '#integration/constants'
 import { isCssId } from '#integration/utils'
 import { getMatchedPositionsFromDoc } from '../core/cache'
 
-// A single custom token type covers every matched utility. Clients style it
-// through their own semantic-token rules (e.g. Zed's
-// `global_lsp_settings.semantic_token_rules`), an editor-agnostic equivalent of
-// the VSCode-only underline decoration.
-//
-// NOTE: whether a client honors a *custom* legend type (vs. only the standard
-// LSP set) for user styling rules is client-specific. If a client turns out to
-// only style standard types, change this to a standard one (e.g. 'type').
+// Single custom token type for every matched utility; clients style it via
+// their own semantic-token rules (editor-agnostic vs. VSCode's underline).
+// NOTE: some clients only style standard legend types — if so, use 'type'.
 export const semanticTokensLegend = {
   tokenTypes: ['unocss'],
   tokenModifiers: [] as string[],
@@ -69,10 +64,8 @@ export function registerSemanticTokens(
         settings.strictAnnotationMatch,
       )
 
-      // Semantic tokens cannot span multiple lines and must be pushed in
-      // strictly increasing, non-overlapping order. Utility class names are
-      // always single-line, but variant matches can overlap, so sort and drop
-      // overlaps to keep the encoding valid.
+      // Tokens must be single-line and pushed in non-overlapping order:
+      // drop multi-line/empty ranges, then sort.
       const tokens = positions
         .map(([start, end]) => ({
           start: doc.positionAt(start),
@@ -85,9 +78,7 @@ export function registerSemanticTokens(
       let prevLine = -1
       let prevEnd = -1
       for (const { start, end } of tokens) {
-        // Drop any token that starts inside the previously-emitted one (compare
-        // against its END, not its start) so overlapping variant matches don't
-        // produce an invalid, overlapping encoding.
+        // Skip tokens starting inside the previous one (overlapping variants).
         if (start.line === prevLine && start.character < prevEnd)
           continue
         builder.push(start.line, start.character, end.character - start.character, 0, 0)

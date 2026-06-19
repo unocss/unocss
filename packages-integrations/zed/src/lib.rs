@@ -44,8 +44,7 @@ impl UnocssExtension {
                     }
                 }
                 Err(error) => {
-                    // Keep working with whatever is already on disk if the
-                    // update failed (e.g. offline) but a server exists.
+                    // Update failed (e.g. offline) — fall back to any existing server.
                     if !self.server_exists() {
                         return Err(error);
                     }
@@ -70,12 +69,7 @@ impl zed::Extension for UnocssExtension {
         id: &LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        // Honor an explicit binary override from settings, e.g. to test a
-        // locally-built/patched server:
-        //   "lsp": { "unocss": { "binary": {
-        //     "path": "node",
-        //     "arguments": ["/abs/path/to/bin/unocss-language-server.js", "--stdio"]
-        //   } } }
+        // Honor an explicit `binary` override from settings (e.g. a local build).
         if let Some(binary) = LspSettings::for_worktree(SERVER_NAME, worktree)
             .ok()
             .and_then(|lsp| lsp.binary)
@@ -90,10 +84,8 @@ impl zed::Extension for UnocssExtension {
         }
 
         let server_path = self.server_script_path(id)?;
-        // npm installs the package into the extension's working directory, but
-        // Zed launches the command with the worktree as cwd — so a relative
-        // path would resolve against the project, not the extension. Build an
-        // absolute path from the extension's own working directory.
+        // The path is relative to the extension dir, but Zed runs the command
+        // with the worktree as cwd — resolve it to an absolute path.
         let server_path = std::env::current_dir()
             .map_err(|e| format!("failed to read extension working directory: {e}"))?
             .join(&server_path)
@@ -116,10 +108,8 @@ impl zed::Extension for UnocssExtension {
             .and_then(|lsp| lsp.settings)
             .unwrap_or_else(|| serde_json::json!({}));
 
-        // The server reads its config under the `unocss` namespace. If the user
-        // already nested their settings there, forward them untouched;
-        // otherwise wrap them so `{ "remToPxRatio": 16 }` becomes
-        // `{ "unocss": { "remToPxRatio": 16 } }`.
+        // Wrap settings under the `unocss` namespace the server expects, unless
+        // the user already nested them there.
         let configuration = if settings.get("unocss").is_some() {
             settings
         } else {
