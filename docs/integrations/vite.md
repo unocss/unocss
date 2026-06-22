@@ -39,6 +39,10 @@ npm install -D unocss
 bun add -D unocss
 ```
 
+```bash [deno]
+deno add -D unocss
+```
+
 :::
 
 Install the plugin:
