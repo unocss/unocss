@@ -159,10 +159,6 @@ export function registerCompletion(
         }
 
         if (colorString) {
-          // Normalize to comma-separated `rgba()` so editors whose color
-          // extractors only accept hex/comma syntax (e.g. Zed) still render a
-          // swatch. UnoCSS may emit modern space/slash or `oklch()` forms that
-          // those extractors reject. VS Code parses this form too.
           const rgba = parseColorToRGBA(colorString)
           item.documentation = rgba
             ? `rgba(${Math.round(rgba.red * 255)}, ${Math.round(rgba.green * 255)}, ${Math.round(rgba.blue * 255)}, ${rgba.alpha})`
