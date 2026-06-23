@@ -24,9 +24,7 @@ export const defaultSettings: ServerSettings = {
   include: undefined,
   exclude: undefined,
   underline: true,
-  // Off by default: VSCode renders its own underline; other LSP clients
-  // (e.g. Zed) opt in via `unocss.semanticTokens: true`.
-  semanticTokens: false,
+  semanticTokens: true,
   colorPreview: true,
   colorPreviewRadius: '50%',
   remToPxPreview: true,

@@ -40,13 +40,12 @@ Configure the server under `lsp.unocss.settings` in your Zed `settings.json`. Ke
 
 ## Underlining matched utilities
 
-Unlike the VSCode extension (which draws its own underline), the underline in Zed is delivered via semantic tokens, so you opt in with three pieces of config.
+Unlike the VSCode extension (which draws its own underline), the underline in Zed is delivered via semantic tokens, so you opt in with two pieces of config.
 
-1. Turn the feature on in the server and enable semantic tokens for the languages you use (a per-project `.zed/settings.json` is fine):
+1. Enable semantic tokens in Zed for the languages you use (the server emits the `unocss` token by default — a per-project `.zed/settings.json` is fine):
 
    ```json
    {
-     "lsp": { "unocss": { "settings": { "semanticTokens": true } } },
      "languages": {
        "HTML": { "semantic_tokens": "combined" },
        "TypeScript": { "semantic_tokens": "combined" }
@@ -54,32 +53,37 @@ Unlike the VSCode extension (which draws its own underline), the underline in Ze
    }
    ```
 
+   You can turn the server tokens off with:
+
+   ```json
+   { "lsp": { "unocss": { "settings": { "semanticTokens": false } } } }
+   ```
+
 2. Add the styling rule. The per-language `semantic_tokens` settings in step 1 work in a project `.zed/settings.json`, but the rule below uses `global_lsp_settings`, which Zed reads only from your **user** settings (`~/.config/zed/settings.json`) — that key is not available in a worktree-local `.zed/settings.json`:
 
    ```json
-   { "global_lsp_settings": { "semantic_token_rules": [{ "token_type": "unocss", "underline": "#888888" }] } }
+   {
+     "global_lsp_settings": {
+       "semantic_token_rules": [{ "token_type": "unocss", "underline": true }]
+     }
+   }
    ```
 
-`underline` accepts `true` (use the text color) or a hex string. Other supported fields include `foreground_color`, `background_color`, `font_weight`, `font_style` and `strikethrough`.
+`underline: true` uses the current text color. For the other fields (`foreground_color`, `background_color`, `font_weight`, `font_style`, `strikethrough`, `style`) see Zed's [semantic token rules](https://zed.dev/docs/semantic-tokens) docs.
 
 ### Using theme styles
 
-Instead of hardcoding a color, you can borrow a style from the current theme with the `style` field. It takes a list of theme style names and uses the first one found, so you can list fallbacks:
+Instead of a fixed underline you can borrow a color from the active theme with the `style` field — a list of theme style names, first match wins (list fallbacks). `unocss` is a custom token type with no dedicated theme entry, so point it at an existing style; the look then adapts as you switch themes:
 
 ```json
 {
   "global_lsp_settings": {
     "semantic_token_rules": [
-      {
-        "token_type": "unocss",
-        "style": ["comment.doc", "comment"]
-      }
+      { "token_type": "unocss", "style": ["link_text", "function"] }
     ]
   }
 }
 ```
-
-Because `unocss` is a custom token type, themes have no dedicated entry for it — reference an existing theme style (e.g. `comment`) to reuse its color. The first match in the active theme wins, so the styling adapts as you switch themes.
 
 ## Bug Reports / Feature Requests
 
