@@ -18,6 +18,7 @@ import { registerColorProvider } from './capabilities/colorProvider'
 import { registerCompletion, resetAutoCompleteCache } from './capabilities/completion'
 import { registerHover } from './capabilities/hover'
 import { registerReferences } from './capabilities/references'
+import { registerSemanticTokens, semanticTokensLegend } from './capabilities/semanticTokens'
 import { clearAllCache, clearDocumentCache, getMatchedPositionsFromDoc } from './core/cache'
 import { ContextManager } from './core/context'
 import { defaultSettings } from './types'
@@ -160,6 +161,17 @@ function getContextManager() {
   return contextManager
 }
 
+// Re-request semantic tokens for open documents after settings/config change.
+// Guarded because not every client supports the refresh request.
+function refreshSemanticTokens() {
+  if (!settings.semanticTokens)
+    return
+  try {
+    connection.languages.semanticTokens.refresh()
+  }
+  catch {}
+}
+
 connection.onInitialize((params) => {
   hasWatchedFilesCapability = !!params.capabilities.workspace?.didChangeWatchedFiles?.dynamicRegistration
   const initializationOptions = params.initializationOptions as WorkspaceInitializationOptions | undefined
@@ -177,6 +189,7 @@ connection.onInitialize((params) => {
   registerHover(connection, documents, getContextManager, getSettings)
   registerColorProvider(connection, documents, getContextManager, getSettings)
   registerReferences(connection, documents, getContextManager, getSettings)
+  registerSemanticTokens(connection, documents, getContextManager, getSettings)
 
   return {
     capabilities: {
@@ -188,6 +201,11 @@ connection.onInitialize((params) => {
       hoverProvider: true,
       referencesProvider: true,
       colorProvider: true,
+      semanticTokensProvider: {
+        legend: semanticTokensLegend,
+        full: true,
+        range: false,
+      },
     },
   }
 })
@@ -219,6 +237,7 @@ connection.onDidChangeWatchedFiles((_change) => {
     await contextManager.reload()
     connection.console.log('🔵 Reloaded.')
     await updateConfigWatchers()
+    refreshSemanticTokens()
   }, 500)
 })
 
@@ -229,6 +248,7 @@ connection.onDidChangeConfiguration(async (change) => {
     await applyConfiguredRoots()
     await updateConfigWatchers()
     resetAutoCompleteCache()
+    refreshSemanticTokens()
   }
 })
 

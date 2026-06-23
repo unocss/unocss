@@ -6,6 +6,7 @@ export interface ServerSettings {
   include: string | string[] | undefined
   exclude: string | string[] | undefined
   underline: boolean
+  semanticTokens: boolean
   colorPreview: boolean
   colorPreviewRadius: string
   remToPxPreview: boolean
@@ -23,6 +24,9 @@ export const defaultSettings: ServerSettings = {
   include: undefined,
   exclude: undefined,
   underline: true,
+  // Off by default: VSCode renders its own underline; other LSP clients
+  // (e.g. Zed) opt in via `unocss.semanticTokens: true`.
+  semanticTokens: false,
   colorPreview: true,
   colorPreviewRadius: '50%',
   remToPxPreview: true,

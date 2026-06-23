@@ -215,7 +215,23 @@ export class ContextManager {
     catch (e: any) {
       this.warn(`⚠️ Error on loading config. Config directory: ${dir}`)
       this.warn(String(e.stack ?? e))
-      return this.finishLoading(dir, null)
+      // The config file exists but failed to load (e.g. an uninstalled plugin
+      // imported by vite.config.ts). Degrade to a default context so standard
+      // utilities still resolve, instead of dropping all UnoCSS support for the
+      // document. `configFile: false` keeps this context off the filesystem.
+      this.warn('↩️ Falling back to the default UnoCSS config.')
+      try {
+        const fallback = createContext<UserConfig<any>>({
+          ...this.defaultUnocssConfig,
+          configFile: false,
+        })
+        await fallback.ready
+        this.configSources = []
+        return this.finishLoading(dir, fallback)
+      }
+      catch {
+        return this.finishLoading(dir, null)
+      }
     }
 
     this.configSources = sources

@@ -74,6 +74,36 @@ it('discovers nested config within a configured root set after initialization', 
   await expect(manager.resolveClosestContext(sourceCode, sourceFile)).resolves.toBeTruthy()
 })
 
+it('falls back to a default context when the config file fails to load', async () => {
+  const tempDir = await createTempWorkspace()
+
+  const workspaceRoot = path.join(tempDir, 'workspace-a')
+  const configuredRoot = path.join(tempDir, 'workspace-b')
+  const sourceFile = path.join(configuredRoot, 'src', 'App.tsx')
+  const sourceCode = await writeSourceFile(sourceFile)
+
+  await mkdir(workspaceRoot, { recursive: true })
+  // A config that throws on load — it imports a package that isn't installed,
+  // mirroring an example whose UnoCSS config lives in a vite.config.ts with
+  // uninstalled plugin imports.
+  await writeFile(
+    path.join(configuredRoot, 'uno.config.ts'),
+    'import \'this-package-does-not-exist-xyz\'\nexport default {}\n',
+  )
+
+  const manager = new ContextManager(workspaceRoot, connection)
+  await manager.ready
+  await manager.setRoots([configuredRoot])
+
+  // Instead of dropping all support, we degrade to a working fallback context...
+  const context = await manager.resolveClosestContext(sourceCode, sourceFile)
+  expect(context).toBeTruthy()
+
+  // ...that still resolves standard utilities via the default preset.
+  const { css } = await context!.uno.generate('text-red-500', { preflights: false })
+  expect(css).toContain('text-red-500')
+})
+
 it('discovers nested config inside a secondary workspace folder by default', async () => {
   const tempDir = await createTempWorkspace()
 
