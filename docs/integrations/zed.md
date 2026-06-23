@@ -4,7 +4,7 @@ title: Zed Extension for UnoCSS
 
 # Zed Extension
 
-The official [UnoCSS extension for Zed](https://github.com/unocss/unocss/tree/main/packages-integrations/zed), maintained in the UnoCSS monorepo. It runs the official [`@unocss/language-server`](https://www.npmjs.com/package/@unocss/language-server) for completion, hover, color previews and matched-utility underlining.
+The official [UnoCSS extension for Zed](https://github.com/unocss/zed). It runs the official [`@unocss/language-server`](https://www.npmjs.com/package/@unocss/language-server) for completion, hover, color previews and matched-utility underlining.
 
 ## Installation
 
@@ -12,8 +12,9 @@ The official [UnoCSS extension for Zed](https://github.com/unocss/unocss/tree/ma
 The extension is not yet published to the Zed extension registry. The `unocss` entry currently in the registry is a separate [community extension](https://github.com/bajrangCoder/zed-unocss). Until publishing is finalized, install the official extension as a dev extension.
 :::
 
-1. Run `zed: install dev extension` from the command palette.
-2. Point it at the `packages-integrations/zed/` directory of a UnoCSS checkout.
+1. Clone [`unocss/zed`](https://github.com/unocss/zed).
+2. Run `zed: install dev extension` from the command palette.
+3. Point it at the cloned repository's directory.
 
 Zed compiles the extension to wasm; the language server itself is fetched from npm on first use.
 
@@ -82,4 +83,4 @@ Because `unocss` is a custom token type, themes have no dedicated entry for it â
 
 ## Bug Reports / Feature Requests
 
-Report issues at the [UnoCSS issue tracker](https://github.com/unocss/unocss/issues).
+Report issues at the [extension's issue tracker](https://github.com/unocss/zed/issues).
