@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { createAutocomplete } from '@unocss/autocomplete'
 import { CompletionItemKind } from 'vscode-languageserver'
 import { isCssId } from '#integration/utils'
-import { getColorString } from '../utils/color'
+import { getColorString, parseColorToRGBA } from '../utils/color'
 import { getCSS, getPrettiedCSS, getPrettiedMarkdown } from '../utils/css'
 import { isVueWithPug, shouldProvideAutocomplete } from '../utils/position'
 
@@ -159,7 +159,14 @@ export function registerCompletion(
         }
 
         if (colorString) {
-          item.documentation = colorString
+          // Normalize to comma-separated `rgba()` so editors whose color
+          // extractors only accept hex/comma syntax (e.g. Zed) still render a
+          // swatch. UnoCSS may emit modern space/slash or `oklch()` forms that
+          // those extractors reject. VS Code parses this form too.
+          const rgba = parseColorToRGBA(colorString)
+          item.documentation = rgba
+            ? `rgba(${Math.round(rgba.red * 255)}, ${Math.round(rgba.green * 255)}, ${Math.round(rgba.blue * 255)}, ${rgba.alpha})`
+            : colorString
         }
 
         items.push(item)
