@@ -55,6 +55,8 @@ export async function applyTransformers(
     else if (!ctx.filter(code, id)) {
       continue
     }
+    if (t.codeFilter && !t.codeFilter(code, id))
+      continue
 
     if (!s) {
       skipMap = new Map<string, string>()

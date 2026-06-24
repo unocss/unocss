@@ -47,6 +47,26 @@ describe('applyTransformers', () => {
     expect(transform).not.toHaveBeenCalled()
   })
 
+  it('does not invoke transformers rejected by their code filter', async () => {
+    const transform = vi.fn()
+    const codeFilter = vi.fn((code: string) => code.includes(':('))
+    const ctx = createContext({
+      transformers: [
+        {
+          name: 'filtered',
+          idFilter: () => true,
+          codeFilter,
+          transform,
+        },
+      ],
+    })
+    await ctx.ready
+
+    expect(await applyTransformers(ctx, 'const value = 1', 'fixture.ts')).toBeUndefined()
+    expect(codeFilter).toHaveBeenCalledWith('const value = 1', 'fixture.ts')
+    expect(transform).not.toHaveBeenCalled()
+  })
+
   it('uses the transformers from a reloaded config', async () => {
     const first = vi.fn()
     const second = vi.fn()
