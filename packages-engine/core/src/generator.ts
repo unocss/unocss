@@ -618,8 +618,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
         }
       }
 
+      const dynamicRuleFilter = this.config.rulesDynamicFilter
+      const dynamicRules = dynamicRuleFilter?.filters.length
+        && !dynamicRuleFilter.filters.some(filter => filter.test(processed))
+        ? dynamicRuleFilter.fallback
+        : this.config.rulesDynamic
+
       // match rules
-      for (const rule of this.config.rulesDynamic) {
+      for (const rule of dynamicRules) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
