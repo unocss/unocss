@@ -922,6 +922,14 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   rulesSize: number
   rules: readonly Rule<Theme>[]
   rulesDynamic: readonly DynamicRule<Theme>[]
+  /**
+   * Prefilter for dynamic rules.
+   * @internal
+   */
+  rulesDynamicFilter?: {
+    fallback: readonly DynamicRule<Theme>[]
+    filters: readonly RegExp[]
+  }
   rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
