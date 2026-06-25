@@ -17,6 +17,12 @@ export const symbols: ControlSymbols = {
   body: '$$symbol-body' as unknown as ControlSymbols['body'],
 }
 
+// Chosen from benchmarks on a 24k-token project: 4096 retained most of the
+// benefit of smaller batches, outperformed 8192, and keeps smaller generations
+// on the existing single-batch path. This limits event-loop pressure rather
+// than CPU parallelism, so it is intentionally not based on the CPU count.
+const TOKEN_PARSE_BATCH_SIZE = 4096
+
 class UnoGeneratorInternal<Theme extends object = object> {
   public readonly version = version
   public readonly events = createNanoEvents<{
@@ -231,36 +237,41 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
-    const tokenPromises = Array.from(tokens).map(async (raw) => {
-      if (matched.has(raw))
-        return
+    const tokenList = Array.from(tokens)
+    for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
+      const tokenPromises = tokenList
+        .slice(offset, offset + TOKEN_PARSE_BATCH_SIZE)
+        .map(async (raw) => {
+          if (matched.has(raw))
+            return
 
-      const payload = await this.parseToken(raw)
-      if (payload == null)
-        return
+          const payload = await this.parseToken(raw)
+          if (payload == null)
+            return
 
-      if (matched instanceof Map) {
-        matched.set(raw, {
-          data: payload,
-          count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
+          if (matched instanceof Map) {
+            matched.set(raw, {
+              data: payload,
+              count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
+            })
+          }
+          else {
+            matched.add(raw)
+          }
+
+          for (const item of payload) {
+            const parent = item[3] || ''
+            const layer = item[4]?.layer
+            if (!sheet.has(parent))
+              sheet.set(parent, [])
+            sheet.get(parent)!.push(item)
+            if (layer)
+              layerSet.add(layer)
+          }
         })
-      }
-      else {
-        matched.add(raw)
-      }
 
-      for (const item of payload) {
-        const parent = item[3] || ''
-        const layer = item[4]?.layer
-        if (!sheet.has(parent))
-          sheet.set(parent, [])
-        sheet.get(parent)!.push(item)
-        if (layer)
-          layerSet.add(layer)
-      }
-    })
-
-    await Promise.all(tokenPromises)
+      await Promise.all(tokenPromises)
+    }
     await (async () => {
       if (!preflights)
         return
