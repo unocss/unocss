@@ -532,6 +532,13 @@ export interface ConfigBase<Theme extends object = object> {
      * if values is an array, it will be joined with `|` and wrapped with `()`
      */
     shorthands?: Record<string, string | string[]>
+
+    /**
+     * Additional attribute names that should trigger autocomplete
+     * alongside the default `class` and `className`.
+     * @default []
+     */
+    classAttributes?: string[]
   }
 
   /**
@@ -921,6 +928,7 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
     extractors: AutoCompleteExtractor[]
     shorthands: Record<string, string>
+    classAttributes: string[]
   }
   separators: string[]
 }

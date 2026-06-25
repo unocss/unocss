@@ -31,23 +31,24 @@ Please refer to the [documentation](https://unocss.dev/integrations/vscode).
 
 <!-- configs -->
 
-| Key                             | Description                                              | Type           | Default    |
-| ------------------------------- | -------------------------------------------------------- | -------------- | ---------- |
-| `unocss.disable`                | Disable the UnoCSS extension                             | `boolean`      | `false`    |
-| `unocss.languageIds`            |                                                          | `array`        | ``         |
-| `unocss.root`                   | Project root that contains the UnoCSS configuration file | `array,string` | ``         |
-| `unocss.include`                | Directory of files to be detected                        | `array,string` | ``         |
-| `unocss.exclude`                | Directory of files not to be detected                    | `array,string` | ``         |
-| `unocss.underline`              | Enable/disable underline decoration for class names      | `boolean`      | `true`     |
-| `unocss.colorPreview`           | Enable/disable color preview decorations                 | `boolean`      | `true`     |
-| `unocss.colorPreviewRadius`     | Radius for color preview                                 | `string`       | `"50%"`    |
-| `unocss.remToPxPreview`         | Enable/disable rem to px preview in hover                | `boolean`      | `true`     |
-| `unocss.remToPxRatio`           | Ratio of rem to px                                       | `number`       | `16`       |
-| `unocss.selectionStyle`         | Enable/disable selection style decorations               | `boolean`      | `true`     |
-| `unocss.strictAnnotationMatch`  | Be strict about where to show annotations                | `boolean`      | `false`    |
-| `unocss.autocomplete.matchType` | The matching type for autocomplete                       | `string`       | `"prefix"` |
-| `unocss.autocomplete.strict`    | Be strict about where to show autocomplete               | `boolean`      | `false`    |
-| `unocss.autocomplete.maxItems`  | The maximum number of items to show in autocomplete      | `number`       | `1000`     |
+| Key                             | Description                                                                                     | Type           | Default    |
+| ------------------------------- | ----------------------------------------------------------------------------------------------- | -------------- | ---------- |
+| `unocss.disable`                | Disable the UnoCSS extension                                                                    | `boolean`      | `false`    |
+| `unocss.languageIds`            |                                                                                                 | `array`        | ``         |
+| `unocss.root`                   | Project root that contains the UnoCSS configuration file                                        | `array,string` | ``         |
+| `unocss.include`                | Directory of files to be detected                                                               | `array,string` | ``         |
+| `unocss.exclude`                | Directory of files not to be detected                                                           | `array,string` | ``         |
+| `unocss.underline`              | Enable/disable underline decoration for class names                                             | `boolean`      | `true`     |
+| `unocss.colorPreview`           | Enable/disable color preview decorations                                                        | `boolean`      | `true`     |
+| `unocss.colorPreviewRadius`     | Radius for color preview                                                                        | `string`       | `"50%"`    |
+| `unocss.remToPxPreview`         | Enable/disable rem to px preview in hover                                                       | `boolean`      | `true`     |
+| `unocss.remToPxRatio`           | Ratio of rem to px                                                                              | `number`       | `16`       |
+| `unocss.selectionStyle`         | Enable/disable selection style decorations                                                      | `boolean`      | `true`     |
+| `unocss.strictAnnotationMatch`  | Be strict about where to show annotations                                                       | `boolean`      | `false`    |
+| `unocss.autocomplete.matchType` | The matching type for autocomplete                                                              | `string`       | `"prefix"` |
+| `unocss.autocomplete.strict`    | Be strict about where to show autocomplete                                                      | `boolean`      | `false`    |
+| `unocss.autocomplete.maxItems`  | The maximum number of items to show in autocomplete                                             | `number`       | `1000`     |
+| `unocss.classAttributes`        | Additional attribute names that should trigger autocomplete (e.g. ["class:list", "data-class"]) | `array`        | `[]`       |
 
 <!-- configs -->
 

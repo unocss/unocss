@@ -7,6 +7,7 @@ export type AutoCompleteMatchType = 'prefix' | 'fuzzy'
 export interface AutocompleteOptions {
   matchType?: AutoCompleteMatchType
   throwErrors?: boolean
+  classAttributes?: string[]
 }
 
 export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup | AutocompleteTemplateTheme
