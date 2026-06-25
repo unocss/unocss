@@ -159,7 +159,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
         context.variants = [...matched[3]]
 
       // expand shortcuts
-      const expanded = await this.expandShortcut(context.currentSelector, context)
+      const expanded = await this.expandShortcut(context.currentSelector, context, 5, true)
       const utils = expanded
         ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
         // no shortcuts
@@ -804,6 +804,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     input: string,
     context: RuleContext<Theme>,
     depth = 5,
+    skipVariantMatch = false,
   ): Promise<[(string | ShortcutInlineValue)[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
@@ -855,7 +856,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     // expand nested shortcuts with variants
-    if (!result) {
+    if (!result && !skipVariantMatch) {
       const matched = isString(input) ? await this.matchVariants(input) : [input]
       for (const match of matched) {
         const [raw, inputWithoutVariant, handles] = match
