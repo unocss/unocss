@@ -59,6 +59,9 @@ export async function setupContentExtractor(
       })
     }
 
-    await Promise.all(files.map(extractFile))
+    const BATCH_SIZE = 50
+    for (let i = 0; i < files.length; i += BATCH_SIZE) {
+      await Promise.all(files.slice(i, i + BATCH_SIZE).map(extractFile))
+    }
   }
 }
