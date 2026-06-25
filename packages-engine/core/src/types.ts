@@ -811,6 +811,12 @@ export interface SourceCodeTransformer {
    */
   idFilter?: (id: string) => boolean
   /**
+   * Cheap source filter evaluated before creating a MagicString instance.
+   *
+   * It must return true for every source the transformer may modify.
+   */
+  codeFilter?: (code: string, id: string) => boolean
+  /**
    * The transform function
    */
   transform: (
