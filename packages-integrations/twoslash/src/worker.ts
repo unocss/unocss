@@ -59,7 +59,9 @@ runAsWorker(async (code: string, filename?: string, configPath?: string) => {
   const nodes = resolveNodePositions(
     positions.map(([start, end, text]) => ({
       type: 'hover',
-      text: cssCache.get(text)!,
+      text: 'CSS Output',
+      // text: cssCache.get(text)!,
+      docs: `\`\`\`css\n${cssCache.get(text)!}\n\`\`\``,
       start,
       target: text,
       length: end - start,
