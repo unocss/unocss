@@ -1,4 +1,4 @@
-import type { Arrayable, Preset } from '@unocss/core'
+import type { Preset } from '@unocss/core'
 import type { Provider, ResolvedWebFontMeta, WebFontMeta, WebFontsOptions, WebFontsProviders } from './types'
 import { LAYER_IMPORTS, toArray } from '@unocss/core'
 import { BunnyFontsProvider } from './providers/bunny'
@@ -45,27 +45,31 @@ export function normalizedFontMeta(meta: WebFontMeta | string, defaultProvider: 
 }
 
 export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
-  return (optionsInput: Arrayable<WebFontsOptions> = {}): Preset<any> => {
-    const optionsArray = toArray(optionsInput)
+  return (options: WebFontsOptions = {}): Preset<any> => {
     const {
+      provider: defaultProvider = 'google',
       extendTheme = true,
       inlineImports = true,
       customFetch = fetcher,
       timeouts = {},
-    } = optionsArray[0] ?? {}
+    } = options
     const fontLayer = 'fonts'
     const layerName = inlineImports ? fontLayer : LAYER_IMPORTS
-    const processors = toArray(optionsArray[0]?.processors || [])
-
-    const fontObject: Record<string, ResolvedWebFontMeta[]> = {}
-    for (const opts of optionsArray) {
-      const defaultProvider = opts.provider || 'google'
-      for (const [name, meta] of Object.entries(opts.fonts || {})) {
-        const resolved = toArray(meta).map(m => normalizedFontMeta(m, defaultProvider))
-        if (fontObject[name])
+    const processors = toArray(options.processors || [])
+    const fontObject = Object.fromEntries(
+      Object.entries(options.fonts || {})
+        .map(([name, meta]) => [name, toArray(meta).map(m => normalizedFontMeta(m, defaultProvider))]),
+    )
+    if (options.providers) {
+      for (const [providerName, group] of Object.entries(options.providers)) {
+        if (!group?.fonts)
+          continue
+        for (const [name, meta] of Object.entries(group.fonts)) {
+          const resolved = toArray(meta).map(m => normalizedFontMeta(m, providerName as WebFontsProviders))
+          if (!fontObject[name])
+            fontObject[name] = []
           fontObject[name].push(...resolved)
-        else
-          fontObject[name] = resolved
+        }
       }
     }
     const fonts = Object.values(fontObject).flatMap(i => i)
@@ -188,7 +192,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
     if (extendTheme) {
       preset.extendTheme = (theme, config) => {
         const hasWind4 = config.presets.some(p => p.name === '@unocss/preset-wind4')
-        const themeKey = optionsArray[0]?.themeKey ?? (hasWind4 ? 'font' : 'fontFamily')
+        const themeKey = options.themeKey ?? (hasWind4 ? 'font' : 'fontFamily')
 
         if (!theme[themeKey])
           theme[themeKey] = {}

@@ -29,14 +29,15 @@ export interface WebFontMeta {
   /**
    * Variable font settings
    * @example
-   * ```ts
+   * ```
    * variable: {
    *   wght: { default: '400', min: '100', max: '900', step: '100' },
    *   wdth: { default: '100', min: '50', max: '200', step: '10' },
    *   slnt: { default: '0', min: '-20', max: '20', step: '1' },
    * }
+   * ```
    */
-  variable?: Record<string, Partial<Axes>> // variable font
+  variable?: Record<string, Axes> // variable font
 
   /**
    * The font subsets to include
@@ -51,7 +52,7 @@ export interface WebFontMeta {
 
   /**
    * Override the provider
-   * @default <matches root config>
+   * @default
    */
   provider?: WebFontsProviders
 }
@@ -65,11 +66,18 @@ export interface WebFontProcessor {
       providers: Provider[],
     ) => Awaitable<string>,
   ) => Awaitable<string | undefined>
-  transformCSS?: (css: string) => Promise<string | undefined>
+  transformCSS?: (css: string) => Promise<string>
 }
 
 export interface ResolvedWebFontMeta extends Omit<WebFontMeta, 'provider'> {
   provider: Provider
+}
+
+export interface WebFontsProviderGroup {
+  /**
+   * Fonts for this provider
+   */
+  fonts?: Record<string, string | WebFontMeta>
 }
 
 export interface WebFontsOptions {
@@ -82,7 +90,19 @@ export interface WebFontsOptions {
   /**
    * The fonts
    */
-  fonts?: Record<string, WebFontMeta | string | (WebFontMeta | string)[]>
+  fonts?: Record<string, string | WebFontMeta>
+
+  /**
+   * Fonts grouped by provider. Each key is a provider name,
+   * and the value contains fonts for that provider.
+   *
+   * @example
+   * providers: {
+   *   google: { fonts: { sans: 'Inter' } },
+   *   bunny: { fonts: { mono: 'Fira Code' } },
+   * }
+   */
+  providers?: Partial<Record<'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none', WebFontsProviderGroup>>
 
   /**
    * Extend fonts to the theme object
@@ -113,7 +133,7 @@ export interface WebFontsOptions {
    *
    * @default undefined
    */
-  customFetch?: (url: string) => Promise<any>
+  customFetch?: (url: string) => Promise<string>
 
   /**
    * Custom processor for the font CSS
@@ -141,7 +161,7 @@ export interface WebFontsOptions {
 
 export interface Provider {
   name: WebFontsProviders
-  getPreflight?: (fonts: WebFontMeta[], fetcher: (url: string) => Promise<any>) => Awaitable<string | undefined>
+  getPreflight?: (fonts: WebFontMeta[], fetcher: (url: string) => Promise<string>) => Awaitable<string | undefined>
   getImportUrl?: (fonts: WebFontMeta[]) => string | undefined
   getFontName?: (font: WebFontMeta) => string
 }
