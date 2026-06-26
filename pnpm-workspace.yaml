@@ -6,23 +6,8 @@ cleanupUnusedCatalogs: true
 
 ignoreWorkspaceRootCheck: true
 
-minimumReleaseAgeExclude:
-  - '@unocss/*'
-  - '@antfu/ni@30.2.0'
-  - '@colordx/core@5.5.0'
-  - '@iconify-json/vscode-icons@1.2.61'
-  - '@shikijs/core@4.3.0'
-  - '@shikijs/engine-javascript@4.3.0'
-  - '@shikijs/engine-oniguruma@4.3.0'
-  - '@shikijs/langs@4.3.0'
-  - '@shikijs/markdown-it@4.3.0'
-  - '@shikijs/primitive@4.3.0'
-  - '@shikijs/themes@4.3.0'
-  - '@shikijs/twoslash@4.3.0'
-  - '@shikijs/types@4.3.0'
-  - '@shikijs/vitepress-twoslash@4.3.0'
-  - autoprefixer@10.5.2
-  - shiki@4.3.0
+minimumReleaseAge: false
+
 shamefullyHoist: true
 
 shellEmulator: true
@@ -176,7 +161,7 @@ catalogs:
     p-limit: ^7.3.0
     pathe: ^2.0.3
     perfect-debounce: ^2.1.0
-    pnpm: ^11.1.2
+    pnpm: ^11.9.0
     premove: ^4.0.0
     prettier: ^3.8.4
     publint: ^0.3.21
