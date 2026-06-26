@@ -128,6 +128,27 @@ describe('preset-wind4', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
   })
 
+  it('scrollbar gutter utilities', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('scrollbar-gutter-auto scrollbar-gutter-stable scrollbar-gutter-both md:scrollbar-gutter-stable', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .scrollbar-gutter-auto{scrollbar-gutter:auto;}
+      .scrollbar-gutter-stable{scrollbar-gutter:stable;}
+      .scrollbar-gutter-both{scrollbar-gutter:stable both-edges;}
+      @media (min-width: 48rem){
+      .md\\:scrollbar-gutter-stable{scrollbar-gutter:stable;}
+      }"
+    `)
+  })
+
   it('fully theme prefight', async () => {
     const uno = await createGenerator({
       envMode: 'dev',

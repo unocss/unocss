@@ -9,6 +9,17 @@ import { handleApply } from './apply'
 import { handleFunction } from './functions'
 import { handleScreen } from './screen'
 
+export function resolveApplyVariables(options: TransformerDirectivesOptions) {
+  let { applyVariable } = options
+  const varStyle = options.varStyle
+  if (applyVariable === undefined) {
+    if (varStyle !== undefined)
+      applyVariable = varStyle ? [`${varStyle}apply`] : []
+    applyVariable = ['--at-apply', '--uno-apply', '--uno']
+  }
+  return toArray(applyVariable || [])
+}
+
 export async function transformDirectives(
   code: MagicString,
   uno: UnoGenerator,
@@ -17,14 +28,7 @@ export async function transformDirectives(
   originalCode?: string,
   offset?: number,
 ) {
-  let { applyVariable } = options
-  const varStyle = options.varStyle
-  if (applyVariable === undefined) {
-    if (varStyle !== undefined)
-      applyVariable = varStyle ? [`${varStyle}apply`] : []
-    applyVariable = ['--at-apply', '--uno-apply', '--uno']
-  }
-  applyVariable = toArray(applyVariable || [])
+  const applyVariable = resolveApplyVariables(options)
 
   const isHasApply = (code: string) => code.includes('@apply') || applyVariable.some(s => code.includes(s))
 

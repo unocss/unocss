@@ -33,6 +33,7 @@
     "dist"
   ],
   "scripts": {
+    "bench": "pnpm --dir ../.. exec vitest bench packages-engine/core/test/generate.bench.ts --run --project unit",
     "build": "tsdown",
     "dev": "tsdown --watch"
   },

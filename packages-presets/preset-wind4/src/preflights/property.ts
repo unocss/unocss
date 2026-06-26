@@ -26,6 +26,7 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
         return
 
       const css = Array.from(trackedProperties.entries())
+        .sort(([a], [b]) => a.localeCompare(b))
         .map(([property, value]) => `${property.replace(/^--un-/, `--${prefix}`)}:${value};`)
         .join('')
 
