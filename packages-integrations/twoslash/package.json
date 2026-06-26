@@ -1,7 +1,7 @@
 {
   "name": "@unocss/twoslash",
   "type": "module",
-  "version": "66.7.0",
+  "version": "66.7.2",
   "description": "Twoslash integration for UnoCSS",
   "author": "Vida Xie <vida_2020@163.com>",
   "license": "MIT",
