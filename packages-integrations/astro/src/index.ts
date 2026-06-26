@@ -8,6 +8,25 @@ import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
 
 const UNO_INJECT_ID = 'uno-astro'
+const WIND3_RESET_CSS = '@unocss/reset/tailwind.css'
+
+/**
+ * When presetWind4 is detected in the resolved config, remove the Wind 3 reset
+ * injection (`@unocss/reset/tailwind.css`) from the injects array, since Wind 4
+ * handles its own reset via the preflight system.
+ */
+async function reconcileResetInjects(
+  ctx: UnocssPluginContext<VitePluginConfig>,
+  injects: string[],
+) {
+  const config = await ctx.getConfig()
+  const hasWind4 = config.presets?.some((p: any) => p.name === '@unocss/preset-wind4')
+  if (hasWind4) {
+    const resetIndex = injects.findIndex(s => s.includes(WIND3_RESET_CSS))
+    if (resetIndex !== -1)
+      injects.splice(resetIndex, 1)
+  }
+}
 
 interface AstroVitePluginOptions {
   injects: string[]
@@ -21,7 +40,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   return {
     name: 'unocss:astro',
     enforce: 'pre',
-    configResolved(config) {
+    async configResolved(config) {
       root = config.root
 
       const api = config.plugins.find(i => i.name === 'unocss:api')?.api as UnocssVitePluginAPI | undefined
@@ -29,6 +48,7 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
         throw new Error('[@unocss/astro] Unable to find UnoCSS Vite plugin API.')
       }
       ctx = api.getContext()
+      await reconcileResetInjects(ctx, injects)
     },
     async resolveId(id, importer) {
       const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
@@ -53,6 +73,11 @@ export interface AstroIntegrationConfig<Theme extends object = object> extends V
   /**
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
+   *
+   * Note: When using `presetWind4`, the reset is handled by the preset itself
+   * via `preflights.reset` (enabled by default). In this case, the old Wind 3
+   * reset (`@unocss/reset/tailwind.css`) will not be injected even if this
+   * option is `true`.
    * @default false
    */
   injectReset?: string | boolean
@@ -94,7 +119,7 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
         if (injectReset) {
           const resetPath = typeof injectReset === 'string'
             ? injectReset
-            : '@unocss/reset/tailwind.css'
+            : WIND3_RESET_CSS
           injects.push(`import ${JSON.stringify(resetPath)}`)
         }
         if (injectEntry) {
