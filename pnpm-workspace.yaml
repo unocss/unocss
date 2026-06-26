@@ -6,6 +6,22 @@ cleanupUnusedCatalogs: true
 
 ignoreWorkspaceRootCheck: true
 
+minimumReleaseAgeExclude:
+  - '@antfu/ni@30.2.0'
+  - '@colordx/core@5.5.0'
+  - '@iconify-json/vscode-icons@1.2.61'
+  - '@shikijs/core@4.3.0'
+  - '@shikijs/engine-javascript@4.3.0'
+  - '@shikijs/engine-oniguruma@4.3.0'
+  - '@shikijs/langs@4.3.0'
+  - '@shikijs/markdown-it@4.3.0'
+  - '@shikijs/primitive@4.3.0'
+  - '@shikijs/themes@4.3.0'
+  - '@shikijs/twoslash@4.3.0'
+  - '@shikijs/types@4.3.0'
+  - '@shikijs/vitepress-twoslash@4.3.0'
+  - autoprefixer@10.5.2
+  - shiki@4.3.0
 shamefullyHoist: true
 
 shellEmulator: true
@@ -215,20 +231,3 @@ allowBuilds:
 dedupePeers: true
 
 strictPeerDependencies: false
-
-minimumReleaseAgeExclude:
-  - '@antfu/ni@30.2.0'
-  - '@colordx/core@5.5.0'
-  - '@iconify-json/vscode-icons@1.2.61'
-  - '@shikijs/core@4.3.0'
-  - '@shikijs/engine-javascript@4.3.0'
-  - '@shikijs/engine-oniguruma@4.3.0'
-  - '@shikijs/langs@4.3.0'
-  - '@shikijs/markdown-it@4.3.0'
-  - '@shikijs/primitive@4.3.0'
-  - '@shikijs/themes@4.3.0'
-  - '@shikijs/twoslash@4.3.0'
-  - '@shikijs/types@4.3.0'
-  - '@shikijs/vitepress-twoslash@4.3.0'
-  - autoprefixer@10.5.2
-  - shiki@4.3.0
