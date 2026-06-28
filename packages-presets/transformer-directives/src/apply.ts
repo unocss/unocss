@@ -13,13 +13,13 @@ export async function handleApply(ctx: TransformerDirectivesContext, node: Rule)
   await Promise.all(
     node.block.children.map(async (childNode) => {
       if (childNode.type === 'Raw')
-        return transformDirectives(code, uno, options, filename, childNode.value, childNode.loc!.start.offset)
+        return transformDirectives(code, uno, options, filename, childNode.value, childNode.loc!.start.offset, ctx.tokens)
       await parseApply(ctx, node, childNode)
     }).toArray(),
   )
 }
 
-export async function parseApply({ code, uno, applyVariable }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
+export async function parseApply({ code, uno, applyVariable, tokens }: TransformerDirectivesContext, node: Rule, childNode: CssNode) {
   const original = code.original
 
   let body: string | undefined
@@ -53,7 +53,12 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
 
   const utils = (
     await Promise.all(
-      classNames.map(i => uno.parseToken(i, '-')),
+      classNames.map(async (i) => {
+        const parsed = await uno.parseToken(i, '-')
+        if (parsed)
+          tokens?.add(i)
+        return parsed
+      }),
     ))
     .filter(notNull)
     .flat()

@@ -19,7 +19,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
       || code.includes('icon(')
       || applyVariables.some(variable => code.includes(variable)),
     transform: (code, id, ctx) => {
-      return transformDirectives(code, ctx.uno, options, id)
+      return transformDirectives(code, ctx.uno, options, id, undefined, undefined, ctx.tokens)
     },
   }
 }

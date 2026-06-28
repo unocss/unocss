@@ -38,4 +38,5 @@ export interface TransformerDirectivesContext {
   applyVariable: string[]
   offset?: number
   filename?: string
+  tokens?: Set<string>
 }

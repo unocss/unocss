@@ -27,6 +27,7 @@ export async function transformDirectives(
   filename?: string,
   originalCode?: string,
   offset?: number,
+  tokens?: Set<string>,
 ) {
   const applyVariable = resolveApplyVariables(options)
 
@@ -60,6 +61,7 @@ export async function transformDirectives(
     code,
     filename,
     offset,
+    tokens,
   }
 
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {

@@ -157,6 +157,19 @@ describe('wind3', () => {
       `)
     })
 
+    it('registers apply utilities inside pseudo-class selectors', async () => {
+      const code = new MagicString('.btn:hover { @apply ring ring-red-500; }')
+      const tokens = new Set<string>()
+
+      await transformerDirectives().transform(code, 'fixture.css', {
+        uno,
+        tokens,
+      } as any)
+
+      expect(tokens).toEqual(new Set(['ring', 'ring-red-500']))
+      expect((await uno.generate(tokens)).css).toContain('--un-ring-color')
+    })
+
     it('multiple pseudo-classes', async () => {
       const result = await transform(
         '.btn { @apply sm:hover:bg-white }',
