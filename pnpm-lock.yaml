@@ -214,6 +214,10 @@ catalogs:
     vitest:
       specifier: ^4.1.9
       version: 4.1.9
+  twoslash:
+    twoslash-protocol:
+      specifier: ^0.3.9
+      version: 0.3.9
   types:
     '@types/connect':
       specifier: ^3.4.38
@@ -814,6 +818,9 @@ importers:
       '@iconify-json/vscode-icons':
         specifier: catalog:icons
         version: 1.2.61
+      '@unocss/twoslash':
+        specifier: workspace:*
+        version: link:../packages-integrations/twoslash
       ofetch:
         specifier: catalog:utils
         version: 1.5.1
@@ -1239,6 +1246,24 @@ importers:
       vite:
         specifier: catalog:vite
         version: 8.1.0(@types/node@25.9.4)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)
+
+  packages-integrations/twoslash:
+    dependencies:
+      '@unocss/config':
+        specifier: workspace:*
+        version: link:../../packages-engine/config
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      prettier:
+        specifier: catalog:utils
+        version: 3.8.4
+      synckit:
+        specifier: catalog:utils
+        version: 0.11.13
+      twoslash-protocol:
+        specifier: catalog:twoslash
+        version: 0.3.9
 
   packages-integrations/vite:
     dependencies:
@@ -16167,7 +16192,7 @@ snapshots:
       eslint-json-compat-utils: 0.2.3(eslint@10.5.0)(jsonc-eslint-parser@3.1.0)
       jsonc-eslint-parser: 3.1.0
       natural-compare: 1.4.0
-      synckit: 0.11.12
+      synckit: 0.11.13
     transitivePeerDependencies:
       - '@eslint/json'
 

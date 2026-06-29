@@ -115,6 +115,8 @@ catalogs:
     jsdom: ^29.1.1
     msw: ^2.7.0
     vitest: ^4.1.9
+  twoslash:
+    twoslash-protocol: ^0.3.9
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^2.3.11

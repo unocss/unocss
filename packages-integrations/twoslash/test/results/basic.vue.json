@@ -1,0 +1,25 @@
+{
+  "code": "<template>\n  <div class=\"m-1 w-1/2\"></div>\n</template>",
+  "nodes": [
+    {
+      "type": "hover",
+      "text": "CSS Output",
+      "docs": "```css\n/* layer: default */\n.m-1 {\n  margin: 0.25rem;\n}\n```",
+      "start": 25,
+      "target": "m-1",
+      "length": 3,
+      "line": 1,
+      "character": 14
+    },
+    {
+      "type": "hover",
+      "text": "CSS Output",
+      "docs": "```css\n/* layer: default */\n.w-1\\/2 {\n  width: 50%;\n}\n```",
+      "start": 29,
+      "target": "w-1/2",
+      "length": 5,
+      "line": 1,
+      "character": 18
+    }
+  ]
+}

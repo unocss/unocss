@@ -56,7 +56,7 @@ import { presetAttributify } from 'unocss'
 
 Imagine you have this button using Tailwind CSS's utilities. When the list gets longer, it becomes really hard to read and maintain.
 
-```html
+```html twoslash
 <button
   class="bg-blue-400 hover:bg-blue-500 text-sm text-white font-mono font-light py-2 px-4 rounded border-2 border-blue-200 dark:bg-blue-500 dark:hover:bg-blue-600"
 >
@@ -66,7 +66,7 @@ Imagine you have this button using Tailwind CSS's utilities. When the list gets 
 
 With attributify mode, you can separate utilities into attributes:
 
-```html
+```html twoslash
 <button
   bg="blue-400 hover:blue-500 dark:blue-500 dark:hover:blue-600"
   text="sm white"
@@ -86,13 +86,13 @@ For utilities like `flex`, `grid`, `border`, that have the utilities same as the
 
 For example:
 
-```html
+```html twoslash
 <button class="border border-red">Button</button>
 ```
 
 Can be written as:
 
-```html
+```html twoslash
 <button border="~ red">Button</button>
 ```
 
@@ -102,13 +102,13 @@ In addition to Windi CSS's attributify mode, this preset also supports valueless
 
 For example,
 
-```html
+```html twoslash
 <div class="m-2 rounded text-teal-400" />
 ```
 
 now can be
 
-```html
+```html twoslash
 <div m-2 rounded text-teal-400 />
 ```
 
