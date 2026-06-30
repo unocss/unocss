@@ -1511,15 +1511,15 @@ describe('wind4', () => {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-          ".btn:focus-visible,
-          .btn:hover {
-            outline-style: var(--un-outline-style);
-            outline-width: 1px;
-          }
-          @property --un-outline-style {
+          "@property --un-outline-style {
             syntax: "*";
             inherits: false;
             initial-value: solid;
+          }
+          .btn:focus-visible,
+          .btn:hover {
+            outline-style: var(--un-outline-style);
+            outline-width: 1px;
           }
           "
         `)
@@ -1572,7 +1572,17 @@ describe('wind4', () => {
 
       expect(result)
         .toMatchInlineSnapshot(`
-          ".btn {
+          "@property --un-border-opacity {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 100%;
+          }
+          @property --un-text-opacity {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 100%;
+          }
+          .btn {
             color: color-mix(
               in srgb,
               var(--colors-red-500) var(--un-text-opacity),
@@ -1583,11 +1593,6 @@ describe('wind4', () => {
               var(--colors-red-500) var(--un-border-opacity),
               transparent
             );
-          }
-          @property --un-text-opacity {
-            syntax: "<percentage>";
-            inherits: false;
-            initial-value: 100%;
           }
           @supports (color: color-mix(in lab, red, red)) {
             .btn {
@@ -1603,11 +1608,6 @@ describe('wind4', () => {
               );
             }
           }
-          @property --un-border-opacity {
-            syntax: "<percentage>";
-            inherits: false;
-            initial-value: 100%;
-          }
           "
         `)
     })
@@ -1616,16 +1616,21 @@ describe('wind4', () => {
       const result = await transform(`.foo { @apply space-y-reverse divide-dotted; }`)
 
       expect(result).toMatchInlineSnapshot(`
-        ".foo {
-          :where(& > :not(:last-child)) {
-            --un-space-y-reverse: 1;
-            border-style: dotted;
-          }
+        "@property --un-space-y-reverse {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0;
         }
         @property --un-space-y-reverse {
           syntax: "*";
           inherits: false;
           initial-value: 0;
+        }
+        .foo {
+          :where(& > :not(:last-child)) {
+            --un-space-y-reverse: 1;
+            border-style: dotted;
+          }
         }
         "
       `)
@@ -1635,21 +1640,18 @@ describe('wind4', () => {
       const result = await transform(`.foo,.bar { @apply text-red dark:text-blue }`)
 
       expect(result).toMatchInlineSnapshot(`
-        ".foo,
+        "@property --un-text-opacity {
+          syntax: "<percentage>";
+          inherits: false;
+          initial-value: 100%;
+        }
+        .foo,
         .bar {
           color: color-mix(
             in srgb,
             var(--colors-red-DEFAULT) var(--un-text-opacity),
             transparent
           );
-        }
-        @property --un-text-opacity {
-          syntax: "<percentage>";
-          inherits: false;
-          initial-value: 100%;
-          syntax: "<percentage>";
-          inherits: false;
-          initial-value: 100%;
         }
         @supports (color: color-mix(in lab, red, red)) {
           .foo,
@@ -1677,6 +1679,106 @@ describe('wind4', () => {
               var(--colors-blue-DEFAULT) var(--un-text-opacity),
               transparent
             );
+          }
+        }
+        "
+      `)
+    })
+
+    it('nested class with pseudo', async () => {
+      const result2 = await transform(`
+        a {
+          outline: none;
+
+          &:hover {
+            @apply ring ring-red-500;
+          }
+        }
+      `)
+
+      expect(result2).toMatchInlineSnapshot(`
+        "@property --un-inset-ring-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-inset-ring-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-inset-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-inset-shadow-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-inset {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-offset-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-offset-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-ring-offset-width {
+          syntax: "<length>";
+          inherits: false;
+          initial-value: 0px;
+        }
+        @property --un-ring-opacity {
+          syntax: "<percentage>";
+          inherits: false;
+          initial-value: 100%;
+        }
+        @property --un-ring-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-shadow-color {
+          syntax: "*";
+          inherits: false;
+        }
+        a {
+          outline: none;
+
+          &:hover {
+            --un-ring-shadow: var(--un-ring-inset,) 0 0 0
+              calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);
+            box-shadow:
+              var(--un-inset-shadow), var(--un-inset-ring-shadow),
+              var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
+            --un-ring-color: color-mix(
+              in srgb,
+              var(--colors-red-500) var(--un-ring-opacity),
+              transparent
+            );
+          }
+          @supports (color: color-mix(in lab, red, red)) {
+            &:hover {
+              --un-ring-color: color-mix(
+                in oklab,
+                var(--colors-red-500) var(--un-ring-opacity),
+                transparent
+              );
+            }
           }
         }
         "

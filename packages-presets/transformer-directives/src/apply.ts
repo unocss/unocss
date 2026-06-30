@@ -51,21 +51,27 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
     .split(/\s+/g)
     .map(className => className.trim().replace(/\\/, ''))
 
-  const utils = (
-    await Promise.all(
-      classNames.map(i => uno.parseToken(i, '-')),
-    ))
+  const properties = new Map()
+  const utils = (await Promise.all(classNames.map(i => uno.parseToken(i, '-'))))
     .filter(notNull)
     .flat()
     .sort((a, b) => a[0] - b[0])
     .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
     .reduce<Writeable<StringifiedUtil>[]>((acc, item) => {
+      if (item[4]?.layer === 'properties') {
+        properties.set(item[1], item[2])
+        return acc
+      }
+
       const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
-      if (target)
-        target[2] += item[2]
-      else
+      if (target) {
+        if (!target[2].includes(item[2]))
+          target[2] += item[2]
+      }
+      else {
         // use spread operator to prevent reassign to uno internal cache
         acc.push([...item])
+      }
       return acc
     }, [])
 
@@ -81,14 +87,15 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
   for (const i of utils) {
     const [, _selector, body, parent, meta] = i
     const selectorOrGroup = _selector?.replace(regexScopePlaceholder, ' ') || _selector
+    const shouldUseSelector = selectorOrGroup && selectorOrGroup !== '.\\-'
 
-    if (parent || (selectorOrGroup && selectorOrGroup !== '.\\-') || meta?.noMerge) {
+    if (parent || shouldUseSelector || meta?.noMerge) {
       let newSelector = generate(node.prelude)
       const className = code.slice(node.prelude.loc!.start.offset, node.prelude.loc!.end.offset)
       if (meta?.noMerge) {
         newSelector = selectorOrGroup!
       }
-      else if (selectorOrGroup && selectorOrGroup !== '.\\-') {
+      else if (shouldUseSelector) {
         // use rule context since it could be a selector(.foo) or a selector group(.foo, .bar)
         const ruleAST = parse(`${selectorOrGroup}{}`, {
           context: 'rule',
@@ -110,7 +117,8 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         newSelector = generate(prelude)
       }
 
-      let css = `${newSelector.includes('.\\-') ? className.split(',').map(e => newSelector.replace(/.\\-/g, e.trim())).join(',') : newSelector}{${body}}`
+      const selector = newSelector.includes('.\\-') ? className.split(',').map(e => newSelector.replace(/.\\-/g, e.trim())).join(',') : newSelector
+      let css = `${selector}{${body}}`
 
       if (parent) {
         if (parent.includes(' $$ ')) {
@@ -136,6 +144,14 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
         code.appendRight(childNode!.loc!.end.offset + semicolonOffset, body)
     }
   }
+
+  const propertyCss = Array.from(properties)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([property, value]) => `${property}{${value}}`)
+    .join('')
+
+  code.appendLeft(0, propertyCss)
+
   code.remove(
     childNode!.loc!.start.offset,
     childNode!.loc!.end.offset + semicolonOffset,
