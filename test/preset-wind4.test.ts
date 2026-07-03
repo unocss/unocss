@@ -149,6 +149,68 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('gap decoration utilities', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const tokens = [
+      'rule-red-500',
+      'rule-y-teal-500',
+      'rule-y-op-50',
+      'rule-dashed',
+      'rule-2',
+      'rule-opacity-50',
+      'rule-inset-4',
+      '-rule-inset-2',
+      'rule-inset-cap-start-[2px]',
+      'rule-break-intersection',
+      'rule-col-break-normal',
+      'rule-visibility-around',
+      'rule-overlap-column',
+      'rule-col-blue-500',
+      'rule-row-width-3',
+      'rule-row-style-dotted',
+      'rule-y-solid',
+      'rule-row-visibility-between',
+    ]
+
+    const { css } = await uno.generate(tokens, { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      @property --un-column-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .rule-2{rule-width:2px;}
+      .rule-row-width-3{row-rule-width:3px;}
+      .rule-col-blue-500{column-rule-color:color-mix(in srgb, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+      .rule-red-500{rule-color:color-mix(in srgb, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+      .rule-y-teal-500{column-rule-color:color-mix(in srgb, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
+      .rule-opacity-50{--un-rule-opacity:50%;}
+      .rule-y-op-50{--un-column-rule-opacity:50%;}
+      .rule-dashed{rule-style:dashed;}
+      .rule-row-style-dotted{row-rule-style:dotted;}
+      .rule-y-solid{column-rule-style:solid;}
+      .rule-break-intersection{rule-break:intersection;}
+      .rule-col-break-normal{column-rule-break:normal;}
+      .rule-row-visibility-between{row-rule-visibility-items:between;}
+      .rule-visibility-around{rule-visibility-items:around;}
+      .-rule-inset-2{rule-inset:-2px;}
+      .rule-inset-4{rule-inset:4px;}
+      .rule-inset-cap-start-\\[2px\\]{rule-inset-cap-start:2px;}
+      .rule-overlap-column{rule-overlap:column-over-row;}
+      @supports (color: color-mix(in lab, red, red)){
+      .rule-col-blue-500{column-rule-color:color-mix(in oklab, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+      .rule-red-500{rule-color:color-mix(in oklab, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+      .rule-y-teal-500{column-rule-color:color-mix(in oklab, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
+      }"
+    `)
+  })
+
   it('fully theme prefight', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
