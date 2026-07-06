@@ -1,6 +1,7 @@
 import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, directionSize, h, isCSSMathFn } from '../utils'
+import { colorResolver, directionSize, h, hasParseableColor, isSize, parseColor } from '../utils'
+import { splitComma } from '../utils/handlers/regex'
 import { borderStyles } from './border'
 
 const directions: Record<string, string[]> = {
@@ -51,7 +52,7 @@ export const gapRules: Rule<Theme>[] = [
   // rule color
   [
     /^rule(?:-(x|y|col|row))?(?:-color)?-(.+)$/,
-    handlerRuleColorOrSize,
+    handlerRuleColor,
     { autocomplete: ['rule-$colors', 'rule-(x|y|col|row)-$colors'] },
   ],
 
@@ -121,26 +122,58 @@ export const gapRules: Rule<Theme>[] = [
 ]
 
 function handlerRuleStyle([, a = '', s]: string[]): CSSValueInput | undefined {
-  if (borderStyles.includes(s) && a in ruleDirections) {
+  const property = ruleProperty(a, 'style')
+  if (property && borderStyles.includes(s)) {
     return {
-      [`${ruleDirections[a]}rule-style`]: s,
+      [property]: s,
     }
   }
 }
 
-function handlerRuleColorOrSize(match: string[], ctx: RuleContext<Theme>) {
-  const [, d = '', v] = match
-  if (isCSSMathFn(h.bracket(v, ctx.theme)))
-    return handlerRuleSize(['', d, v], ctx)
-
-  return colorResolver(`${ruleDirections[d]}rule-color`, `${ruleDirections[d]}rule`)(['', v], ctx)
+function ruleProperty(direction: string, suffix?: string) {
+  const prefix = ruleDirections[direction]
+  if (prefix == null)
+    return
+  return `${prefix}rule${suffix ? `-${suffix}` : ''}`
 }
 
-function handlerRuleSize([, a = '', b = '1']: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
-  const v = h.bracket.bracketOfLength.cssvar.global.px(b, theme)
-  if (a in ruleDirections && v != null) {
+function splitRuleValues(value: string) {
+  return value.split(splitComma).map(v => v.trim())
+}
+
+function handlerRuleColor([, d = '', v]: string[], ctx: RuleContext<Theme>) {
+  const property = ruleProperty(d, 'color')
+  const varName = ruleProperty(d)
+  if (!property || !varName)
+    return
+
+  const bracketColor = h.bracket(v)
+  if (bracketColor == null)
+    return colorResolver(property, varName)(['', v], ctx)
+
+  const values = splitRuleValues(bracketColor)
+  if (values.every(c => hasParseableColor(c, ctx.theme))) {
     return {
-      [`${ruleDirections[a]}rule-width`]: v,
+      [property]: values.map(c => parseColor(c, ctx.theme)!.color).join(','),
+    }
+  }
+}
+
+function handlerRuleSize([, d = '', s = '1']: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
+  const property = ruleProperty(d, 'width')
+  if (!property)
+    return
+
+  const v = h.bracket.cssvar.px(s, theme)
+
+  if (!v)
+    return
+
+  const values = splitRuleValues(v).map(s => h.cssvar.px(s) ?? s)
+
+  if (values.every(s => isSize(s) || s.startsWith('var('))) {
+    return {
+      [property]: values.join(','),
     }
   }
 }
