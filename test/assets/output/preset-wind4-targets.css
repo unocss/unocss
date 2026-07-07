@@ -1,5 +1,5 @@
 /* layer: properties */
-@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-accent-opacity:100%;--un-bg-opacity:100%;--un-border-block-opacity:100%;--un-border-bottom-opacity:100%;--un-border-inline-end-opacity:100%;--un-border-inline-opacity:100%;--un-border-inline-start-opacity:100%;--un-border-opacity:100%;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-border-style:solid;--un-border-top-opacity:100%;--un-caret-opacity:100%;--un-colors-opacity:100%;--un-contain-layout:initial;--un-contain-paint:initial;--un-contain-size:initial;--un-contain-style:initial;--un-content:"";--un-divide-opacity:100%;--un-divide-x-reverse:initial;--un-divide-y-reverse:initial;--un-drop-shadow-opacity:100%;--un-ease:initial;--un-fill-opacity:100%;--un-from-opacity:100%;--un-leading:initial;--un-line-opacity:100%;--un-mask-bottom:linear-gradient(#fff, #fff);--un-mask-bottom-from-color:black;--un-mask-bottom-from-position:0%;--un-mask-bottom-to-color:transparent;--un-mask-bottom-to-position:100%;--un-mask-conic:linear-gradient(#fff, #fff);--un-mask-conic-from-color:black;--un-mask-conic-from-position:0%;--un-mask-conic-position:0deg;--un-mask-conic-to-color:transparent;--un-mask-conic-to-position:100%;--un-mask-left:linear-gradient(#fff, #fff);--un-mask-left-from-color:black;--un-mask-left-from-position:0%;--un-mask-left-to-color:transparent;--un-mask-left-to-position:100%;--un-mask-linear:linear-gradient(#fff, #fff);--un-mask-linear-from-color:black;--un-mask-linear-from-position:0%;--un-mask-linear-position:0deg;--un-mask-linear-to-color:transparent;--un-mask-linear-to-position:100%;--un-mask-radial:linear-gradient(#fff, #fff);--un-mask-radial-from-color:black;--un-mask-radial-from-position:0%;--un-mask-radial-position:center;--un-mask-radial-shape:ellipse;--un-mask-radial-size:farthest-corner;--un-mask-radial-to-color:transparent;--un-mask-radial-to-position:100%;--un-mask-right:linear-gradient(#fff, #fff);--un-mask-right-from-color:black;--un-mask-right-from-position:0%;--un-mask-right-to-color:transparent;--un-mask-right-to-position:100%;--un-mask-top:linear-gradient(#fff, #fff);--un-mask-top-from-color:black;--un-mask-top-from-position:0%;--un-mask-top-to-color:transparent;--un-mask-top-to-position:100%;--un-outline-opacity:100%;--un-outline-style:solid;--un-placeholder-opacity:100%;--un-ring-offset-opacity:100%;--un-ring-opacity:100%;--un-rotate-x:rotateX(0);--un-rotate-y:rotateY(0);--un-rotate-z:rotateZ(0);--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-shadow-opacity:100%;--un-skew-x:skewX(0);--un-skew-y:skewY(0);--un-space-x-reverse:initial;--un-space-y-reverse:initial;--un-stops-opacity:100%;--un-stroke-opacity:100%;--un-text-opacity:100%;--un-text-shadow-opacity:100%;--un-text-stroke-opacity:100%;--un-to-opacity:100%;--un-translate-x:initial;--un-translate-y:initial;--un-translate-z:initial;--un-via-opacity:100%;}}
+@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-accent-opacity:100%;--un-bg-opacity:100%;--un-border-block-opacity:100%;--un-border-bottom-opacity:100%;--un-border-inline-end-opacity:100%;--un-border-inline-opacity:100%;--un-border-inline-start-opacity:100%;--un-border-opacity:100%;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-border-style:solid;--un-border-top-opacity:100%;--un-caret-opacity:100%;--un-colors-opacity:100%;--un-column-rule-opacity:100%;--un-contain-layout:initial;--un-contain-paint:initial;--un-contain-size:initial;--un-contain-style:initial;--un-content:"";--un-divide-opacity:100%;--un-divide-x-reverse:initial;--un-divide-y-reverse:initial;--un-drop-shadow-opacity:100%;--un-ease:initial;--un-fill-opacity:100%;--un-from-opacity:100%;--un-leading:initial;--un-line-opacity:100%;--un-mask-bottom:linear-gradient(#fff, #fff);--un-mask-bottom-from-color:black;--un-mask-bottom-from-position:0%;--un-mask-bottom-to-color:transparent;--un-mask-bottom-to-position:100%;--un-mask-conic:linear-gradient(#fff, #fff);--un-mask-conic-from-color:black;--un-mask-conic-from-position:0%;--un-mask-conic-position:0deg;--un-mask-conic-to-color:transparent;--un-mask-conic-to-position:100%;--un-mask-left:linear-gradient(#fff, #fff);--un-mask-left-from-color:black;--un-mask-left-from-position:0%;--un-mask-left-to-color:transparent;--un-mask-left-to-position:100%;--un-mask-linear:linear-gradient(#fff, #fff);--un-mask-linear-from-color:black;--un-mask-linear-from-position:0%;--un-mask-linear-position:0deg;--un-mask-linear-to-color:transparent;--un-mask-linear-to-position:100%;--un-mask-radial:linear-gradient(#fff, #fff);--un-mask-radial-from-color:black;--un-mask-radial-from-position:0%;--un-mask-radial-position:center;--un-mask-radial-shape:ellipse;--un-mask-radial-size:farthest-corner;--un-mask-radial-to-color:transparent;--un-mask-radial-to-position:100%;--un-mask-right:linear-gradient(#fff, #fff);--un-mask-right-from-color:black;--un-mask-right-from-position:0%;--un-mask-right-to-color:transparent;--un-mask-right-to-position:100%;--un-mask-top:linear-gradient(#fff, #fff);--un-mask-top-from-color:black;--un-mask-top-from-position:0%;--un-mask-top-to-color:transparent;--un-mask-top-to-position:100%;--un-outline-opacity:100%;--un-outline-style:solid;--un-placeholder-opacity:100%;--un-ring-offset-opacity:100%;--un-ring-opacity:100%;--un-rotate-x:rotateX(0);--un-rotate-y:rotateY(0);--un-rotate-z:rotateZ(0);--un-rule-opacity:100%;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-shadow-opacity:100%;--un-skew-x:skewX(0);--un-skew-y:skewY(0);--un-space-x-reverse:initial;--un-space-y-reverse:initial;--un-stops-opacity:100%;--un-stroke-opacity:100%;--un-text-opacity:100%;--un-text-shadow-opacity:100%;--un-text-stroke-opacity:100%;--un-to-opacity:100%;--un-translate-x:initial;--un-translate-y:initial;--un-translate-z:initial;--un-via-opacity:100%;}}
 @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 @property --un-leading{syntax:"*";inherits:false;}
 @property --un-text-stroke-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
@@ -142,6 +142,8 @@
 @property --un-border-style{syntax:"*";inherits:false;initial-value:solid;}
 @property --un-divide-y-reverse{syntax:"*";inherits:false;initial-value:0;}
 @property --un-divide-x-reverse{syntax:"*";inherits:false;initial-value:0;}
+@property --un-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+@property --un-column-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
 /* layer: theme */
 :root, :host {
 --radius-md: 0.375rem;
@@ -1749,6 +1751,35 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .view-transition-none{view-transition-name:none;}
 .field-sizing-fixed{field-sizing:fixed;}
 .field-sizing-content{field-sizing:content;}
+.rule-\[1px_solid_\#fff\]{rule:1px solid #fff;}
+.rule-\$variable{rule:var(--variable);}
+.rule-col-\[1px_solid_\#fff\]{column-rule:1px solid #fff;}
+.rule-row-\[1_solid_red-500\]{row-rule:1px solid oklch(63.7% 0.237 25.331);}
+.rule-2{rule-width:2px;}
+.rule-col-8px{column-rule-width:8px;}
+.rule-col-width-\[1px\,3em\,\$foo\,5\]{column-rule-width:1px,3em,var(--foo),5px;}
+.rule-row-width-3{row-rule-width:3px;}
+.rule-width-\$variable{rule-width:var(--variable);}
+.rule-x-4{row-rule-width:4px;}
+.rule-y-6rem{column-rule-width:6rem;}
+.rule-col-blue-500{column-rule-color:color-mix(in srgb, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+.rule-color-\$variable{rule-color:color-mix(in oklab, var(--variable) var(--un-rule-opacity), transparent) /* var(--variable) */;}
+.rule-red-500{rule-color:color-mix(in srgb, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+.rule-row-color-\[blue\,teal-300\,\#eee8\,\$bar\]{row-rule-color:oklch(70.7% 0.165 254.624),oklch(85.5% 0.138 181.071),#eee8,var(--bar);}
+.rule-y-teal-500{column-rule-color:color-mix(in srgb, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
+.rule-opacity-50{--un-rule-opacity:50%;}
+.rule-y-op-50{--un-column-rule-opacity:50%;}
+.rule-col-dotted{column-rule-style:dotted;}
+.rule-dashed{rule-style:dashed;}
+.rule-row-style-dotted{row-rule-style:dotted;}
+.rule-x-solid{row-rule-style:solid;}
+.rule-break-intersection{rule-break:intersection;}
+.rule-col-break-normal{column-rule-break:normal;}
+.rule-row-visibility-between{row-rule-visibility-items:between;}
+.rule-visibility-around{rule-visibility-items:around;}
+.rule-inset-4{rule-inset:4px;}
+.rule-inset-cap-start-\[2px\]{rule-inset-cap-start:2px;}
+.rule-overlap-column{rule-overlap:column-over-row;}
 .-space-x-4{
 :where(&>:not(:last-child)){--un-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing) * -4) * var(--un-space-x-reverse));margin-inline-end:calc(calc(var(--spacing) * -4) * calc(1 - var(--un-space-x-reverse)));}
 }
@@ -2026,6 +2057,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .drop-shadow-red-300\/30{--un-drop-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-drop-shadow-opacity), transparent) /* oklch(80.8% 0.114 19.571) */;}
 .drop-shadow-color-red-300{--un-drop-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent) /* oklch(80.8% 0.114 19.571) */;}
 .placeholder-red-400::placeholder{color:color-mix(in oklab, var(--colors-red-400) var(--un-placeholder-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
+.rule-col-blue-500{column-rule-color:color-mix(in oklab, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+.rule-red-500{rule-color:color-mix(in oklab, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+.rule-y-teal-500{column-rule-color:color-mix(in oklab, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
 }
 @supports (color: color-mix(in lab, red, red)){.in-\[div\]\:bg-red-400{
 :where(*:is(div)) &{background-color:color-mix(in oklab, var(--colors-red-400) var(--un-bg-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
