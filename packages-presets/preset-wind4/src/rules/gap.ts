@@ -1,5 +1,6 @@
 import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import { getStringComponents } from '@unocss/rule-utils'
 import { colorResolver, directionSize, h, hasParseableColor, isSize, parseColor } from '../utils'
 import { splitComma } from '../utils/handlers/regex'
 import { borderStyles } from './border'
@@ -35,23 +36,21 @@ const ruleDirections: Record<string, string> = {
 
 export const gapRules: Rule<Theme>[] = [
   [
-    /^rule(?:-(x|y|col|row))?-(.+)/,
-    ([, d = '', v]) => ({
-      [`${ruleDirections[d]}rule`]: h.bracket(v),
-    }),
+    /^rule(?:-(x|y|col|row))?-(.+)$/,
+    handlerRule,
     { autocomplete: ['rule-$spacing', 'rule-<num>', 'rule-(x|y|col|row)-$spacing', 'rule-(x|y|col|row)-<num>'] },
   ],
 
   // rule size
   [
-    /^rule(?:-(x|y|col|row))?(?:-width)?-(.+)/,
+    /^rule(?:-(x|y|col|row))?(-width)?-(.+)$/,
     handlerRuleSize,
     { autocomplete: ['rule-$spacing', 'rule-<num>', 'rule-(x|y|col|row)-$spacing', 'rule-(x|y|col|row)-<num>'] },
   ],
 
   // rule color
   [
-    /^rule(?:-(x|y|col|row))?(?:-color)?-(.+)$/,
+    /^rule(?:-(x|y|col|row))?(-color)?-(.+)$/,
     handlerRuleColor,
     { autocomplete: ['rule-$colors', 'rule-(x|y|col|row)-$colors'] },
   ],
@@ -130,28 +129,22 @@ function handlerRuleStyle([, a = '', s]: string[]): CSSValueInput | undefined {
   }
 }
 
-function ruleProperty(direction: string, suffix?: string) {
-  const prefix = ruleDirections[direction]
-  if (prefix == null)
-    return
-  return `${prefix}rule${suffix ? `-${suffix}` : ''}`
-}
-
-function splitRuleValues(value: string) {
-  return value.split(splitComma).map(v => v.trim())
-}
-
-function handlerRuleColor([, d = '', v]: string[], ctx: RuleContext<Theme>) {
+function handlerRuleColor([, d = '', colorLabel, v]: string[], ctx: RuleContext<Theme>) {
   const property = ruleProperty(d, 'color')
   const varName = ruleProperty(d)
   if (!property || !varName)
     return
 
   const bracketColor = h.bracket(v)
+
+  if (!colorLabel && hasRuleCSSVariable(bracketColor ?? v))
+    return
+
   if (bracketColor == null)
     return colorResolver(property, varName)(['', v], ctx)
 
   const values = splitRuleValues(bracketColor)
+
   if (values.every(c => hasParseableColor(c, ctx.theme))) {
     return {
       [property]: values.map(c => parseColor(c, ctx.theme)!.color).join(','),
@@ -159,7 +152,7 @@ function handlerRuleColor([, d = '', v]: string[], ctx: RuleContext<Theme>) {
   }
 }
 
-function handlerRuleSize([, d = '', s = '1']: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
+function handlerRuleSize([, d = '', widthLabel, s = '1']: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
   const property = ruleProperty(d, 'width')
   if (!property)
     return
@@ -171,9 +164,59 @@ function handlerRuleSize([, d = '', s = '1']: string[], { theme }: RuleContext<T
 
   const values = splitRuleValues(v).map(s => h.cssvar.px(s) ?? s)
 
+  if (!widthLabel && values.some(isRuleCSSVariable))
+    return
+
   if (values.every(s => isSize(s) || s.startsWith('var('))) {
     return {
       [property]: values.join(','),
     }
   }
+}
+
+function handlerRule([, d = '', v]: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
+  const property = ruleProperty(d)
+  const value = h.bracket.cssvar(v, theme)
+  const shorthand = value && resolveRuleShorthand(value, theme)
+
+  if (property && shorthand) {
+    return {
+      [property]: shorthand,
+    }
+  }
+}
+
+function ruleProperty(direction: string, suffix?: string) {
+  const prefix = ruleDirections[direction]
+  if (prefix == null)
+    return
+  return `${prefix}rule${suffix ? `-${suffix}` : ''}`
+}
+
+function splitRuleValues(value: string) {
+  return value.split(splitComma).map(v => v.trim())
+}
+
+function isRuleCSSVariable(value: string) {
+  return h.cssvar(value) != null
+}
+
+function hasRuleCSSVariable(value: string) {
+  return splitRuleValues(value).some(isRuleCSSVariable)
+}
+
+function resolveRuleShorthand(value: string, theme: Theme) {
+  const components = getStringComponents(value, ' ', 3)
+  if (!components)
+    return
+
+  if (!value.startsWith('var(') && !components.some(c => borderStyles.includes(c)))
+    return
+
+  return components.map((c) => {
+    if (hasParseableColor(c, theme)) {
+      return parseColor(c, theme)!.color
+    }
+    return h.cssvar.px(c) ?? c
+  }).join(' ')
 }

@@ -151,6 +151,7 @@ describe('preset-wind4', () => {
 
   it('gap decoration utilities', async () => {
     const uno = await createGenerator({
+      envMode: 'dev',
       presets: [
         presetWind4(),
       ],
@@ -175,29 +176,40 @@ describe('preset-wind4', () => {
       'rule-row-style-dotted',
       'rule-y-solid',
       'rule-row-visibility-between',
-      'rule-col-width-$variable',
-      'rule-col-[1px,3em,$foo,5]',
-      'rule-row-color-$variable',
-      'rule-row-[blue,teal-300,#eee8,$bar]',
+      'rule-width-$variable',
+      'rule-col-width-[1px,3em,$foo,5]',
+      'rule-color-$variable',
+      'rule-row-color-[blue,teal-300,#eee8,$bar]',
+      'rule-[1px_solid_#fff]',
+      'rule-row-[1_solid_red-500]',
+      'rule-col-[1px_solid_#fff]',
+      'rule-$variable',
     ]
 
-    const { css } = await uno.generate(tokens, { preflights: false })
+    const { css, matched } = await uno.generate(tokens, { preflights: false })
+
+    const unmatched = tokens.filter(i => !matched.has(i))
+
+    expect(unmatched).toMatchInlineSnapshot(`[]`)
 
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
-      @property --un-column-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      @property --un-row-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       @property --un-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      @property --un-column-rule-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: default */
+      .rule-\\[1px_solid_\\#fff\\]{rule:1px solid #fff;}
+      .rule-\\$variable{rule:var(--variable);}
+      .rule-col-\\[1px_solid_\\#fff\\]{column-rule:1px solid #fff;}
+      .rule-row-\\[1_solid_red-500\\]{row-rule:1px solid oklch(63.7% 0.237 25.331);}
       .rule-2{rule-width:2px;}
-      .rule-col-\\[1px\\,3em\\,\\$foo\\,5\\]{column-rule-width:1px,3em,var(--foo),5px;}
-      .rule-col-width-\\$variable{column-rule-width:var(--variable);}
+      .rule-col-width-\\[1px\\,3em\\,\\$foo\\,5\\]{column-rule-width:1px,3em,var(--foo),5px;}
       .rule-row-width-3{row-rule-width:3px;}
-      .rule-col-blue-500{column-rule-color:color-mix(in srgb, var(--colors-blue-500) var(--un-column-rule-opacity), transparent);}
-      .rule-red-500{rule-color:color-mix(in srgb, var(--colors-red-500) var(--un-rule-opacity), transparent);}
-      .rule-row-\\[blue\\,teal-300\\,\\#eee8\\,\\$bar\\]{row-rule-color:oklch(70.7% 0.165 254.624),oklch(85.5% 0.138 181.071),#eee8,var(--bar);}
-      .rule-row-color-\\$variable{row-rule-color:color-mix(in oklab, var(--variable) var(--un-row-rule-opacity), transparent);}
-      .rule-y-teal-500{column-rule-color:color-mix(in srgb, var(--colors-teal-500) var(--un-column-rule-opacity), transparent);}
+      .rule-width-\\$variable{rule-width:var(--variable);}
+      .rule-col-blue-500{column-rule-color:color-mix(in srgb, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+      .rule-color-\\$variable{rule-color:color-mix(in oklab, var(--variable) var(--un-rule-opacity), transparent) /* var(--variable) */;}
+      .rule-red-500{rule-color:color-mix(in srgb, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+      .rule-row-color-\\[blue\\,teal-300\\,\\#eee8\\,\\$bar\\]{row-rule-color:oklch(70.7% 0.165 254.624),oklch(85.5% 0.138 181.071),#eee8,var(--bar);}
+      .rule-y-teal-500{column-rule-color:color-mix(in srgb, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
       .rule-opacity-50{--un-rule-opacity:50%;}
       .rule-y-op-50{--un-column-rule-opacity:50%;}
       .rule-dashed{rule-style:dashed;}
@@ -212,9 +224,9 @@ describe('preset-wind4', () => {
       .rule-inset-cap-start-\\[2px\\]{rule-inset-cap-start:2px;}
       .rule-overlap-column{rule-overlap:column-over-row;}
       @supports (color: color-mix(in lab, red, red)){
-      .rule-col-blue-500{column-rule-color:color-mix(in oklab, var(--colors-blue-500) var(--un-column-rule-opacity), transparent);}
-      .rule-red-500{rule-color:color-mix(in oklab, var(--colors-red-500) var(--un-rule-opacity), transparent);}
-      .rule-y-teal-500{column-rule-color:color-mix(in oklab, var(--colors-teal-500) var(--un-column-rule-opacity), transparent);}
+      .rule-col-blue-500{column-rule-color:color-mix(in oklab, var(--colors-blue-500) var(--un-column-rule-opacity), transparent) /* oklch(62.3% 0.214 259.815) */;}
+      .rule-red-500{rule-color:color-mix(in oklab, var(--colors-red-500) var(--un-rule-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
+      .rule-y-teal-500{column-rule-color:color-mix(in oklab, var(--colors-teal-500) var(--un-column-rule-opacity), transparent) /* oklch(70.4% 0.14 182.503) */;}
       }"
     `)
   })
