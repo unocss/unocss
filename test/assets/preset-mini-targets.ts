@@ -1183,6 +1183,7 @@ export const presetMiniTargets: string[] = [
   'backdrop:shadow-green',
   'backdrop-element:shadow-green-100',
   'details-content:bg-green-100',
+  'open:details-content:h-auto',
 
   // variants - pseudo classes
   'rtl:text-right',
