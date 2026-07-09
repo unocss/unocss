@@ -262,6 +262,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .w-lg{width:32rem;}
 .w-stretch{width:stretch;}
 .w-unset{width:unset;}
+.open\:details-content\:h-auto:is([open],:popover-open,:open)::details-content{height:auto;}
 .block-\[calc\(1000px-4rem\)\]{block-size:calc(1000px - 4rem);}
 .block-\$var{block-size:var(--var);}
 .block-1{block-size:0.25rem;}
@@ -641,6 +642,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .hover\:not-first\:checked\:bg-red\/10:checked:not(:first-child):hover{background-color:rgb(248 113 113 / 0.1);}
 .hover\:not-first\:checked\:bg-true-gray\/10:checked:not(:first-child):hover{background-color:rgb(163 163 163 / 0.1);}
 .file\:bg-violet-50::file-selector-button{--un-bg-opacity:1;background-color:rgb(245 243 255 / var(--un-bg-opacity));}
+.details-content\:bg-green-100::details-content{--un-bg-opacity:1;background-color:rgb(220 252 231 / var(--un-bg-opacity));}
 .bg-opacity-\[--opacity-variable\],
 .bg-opacity-\$opacity-variable{--un-bg-opacity:var(--opacity-variable);}
 .bg-opacity-45{--un-bg-opacity:0.45;}
@@ -854,7 +856,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .color-bluegray\/10{color:rgb(148 163 184 / 0.1);}
 .selection\:color-\[var\(--select-color\)\] *::selection,
 .selection\:color-\[var\(--select-color\)\]::selection{color:var(--select-color);}
-.open\:color-pink-100[open]{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
+.open\:color-pink-100:is([open],:popover-open,:open){--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .placeholder-shown-color-transparent:placeholder-shown{color:transparent;}
 .in-range\:color-pink-100:in-range{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
 .out-of-range\:color-pink-100:out-of-range{--un-text-opacity:1;color:rgb(252 231 243 / var(--un-text-opacity));}
@@ -1162,11 +1164,23 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .starting\:opacity-0{opacity:0;}
 .starting\:popover-open\:opacity-0:popover-open{opacity:0;}
 }
+@supports (container-type:inline-size) and ( not (display:grid)){
+.supports-\[\(container-type\:inline-size\)and\(not\(display\:grid\)\)\]\:block{display:block;}
+}
 @supports (display: grid){
 .supports-\[\(display\:_grid\)\]\:block{display:block;}
 }
 @supports (display:grid){
 .supports-\[display\:grid\]\:grid{display:grid;}
+}
+@supports (display:grid) and (display:flex){
+.supports-\[\(display\:grid\)_and_\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports (display:grid) or (display:flex){
+.supports-\[\(display\:grid\)or\(display\:flex\)\]\:grid{display:grid;}
+}
+@supports not (display:grid){
+.supports-\[not\(display\:grid\)\]\:block{display:block;}
 }
 @supports(display:grid){
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:rgb(248 113 113 / 0.33);}
@@ -1211,6 +1225,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .md\:m-1{margin:0.25rem;}
 .md\:\!hidden{display:none !important;}
 }
+@media (min-width: 768px){@supports not (container-type:inline-size){
+.supports-\[not\(container-type\:inline-size\)\]\:md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+}}
 @media (min-width: 1024px) and (max-width: 1279.9px){
 .at-lg\:m2{margin:0.5rem;}
 }

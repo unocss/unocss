@@ -1,5 +1,5 @@
-import type { GetMatchedPositionsOptions } from '#integration/match-positions'
 import type { UnoGenerator } from '@unocss/core'
+import type { GetMatchedPositionsOptions } from '#integration/match-positions'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
 

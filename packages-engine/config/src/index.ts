@@ -16,7 +16,10 @@ export async function loadConfig<U extends UserConfig>(
   defaults: UserConfigDefaults = {},
 ): Promise<LoadConfigResult<U>> {
   let inlineConfig = {} as U
+  let hasUserCustomConfig = false
+
   if (typeof configOrPath !== 'string') {
+    hasUserCustomConfig = true
     inlineConfig = configOrPath
     if (inlineConfig.configFile === false) {
       return {
@@ -60,16 +63,16 @@ export async function loadConfig<U extends UserConfig>(
           ...extraConfigSources,
         ],
     cwd,
-    defaults: inlineConfig,
   })
 
   const result = await loader.load()
 
-  if (!isFile && !result.sources?.length) {
+  if (!hasUserCustomConfig && !isFile && !result.config) {
     consola.error(`[@unocss/config] Config file not found in ${cyan(configOrPath)} - loading default config.`)
   }
 
   result.config = Object.assign(defaults, inlineConfig, result.config ?? {})
+
   if (result.config.configDeps) {
     result.sources = [
       ...result.sources,

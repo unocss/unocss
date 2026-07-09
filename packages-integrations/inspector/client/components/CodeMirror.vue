@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { CompletionSource } from '@codemirror/autocomplete'
 import type { HighlightAnnotation } from '@unocss/core'
-import { getMatchedPositions } from '#integration/match-positions'
 import { Decoration } from '@codemirror/view'
 import { useEventListener, useThrottleFn, useVModel } from '@vueuse/core'
 import { onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { getMatchedPositions } from '#integration/match-positions'
 import { addMarks, filterMarks, useCodeMirror } from '../composables/codemirror'
 
 const props = defineProps<{

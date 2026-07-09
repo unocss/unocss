@@ -126,7 +126,6 @@ The `@screen` directive that allows you to create media queries that reference y
   }
 }
 /* ... */
-...;
 ```
 
 Will be transformed to:

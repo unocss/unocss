@@ -34,15 +34,15 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
-export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
-  const { css } = await uno.generate(new Set(toArray(utilName)), { preflights: false, safelist: false })
+export async function getCSS(uno: UnoGenerator, utilName: string | string[], preflights = false) {
+  const { css } = await uno.generate(new Set(toArray(utilName)), { preflights, safelist: false })
   return css
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
   const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, remToPxRatio)
-  const prettified = prettier.format(css, {
+  const prettified = await prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
   })

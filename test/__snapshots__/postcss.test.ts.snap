@@ -413,9 +413,30 @@ exports[`postcss > @unocss 1`] = `
 @media (prefers-reduced-transparency: reduce){
 .media-opacity_not_ok\\:opacity-0{opacity:0;}
 }
+@supports (backdrop-filter: var(--un)){
+.supports-\\[backdrop-filter\\]\\:backdrop-blur{--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
+}
+@supports (container-type:inline-size) and ( not (display:grid)){
+.supports-\\[\\(container-type\\:inline-size\\)and\\(not\\(display\\:grid\\)\\)\\]\\:block{display:block;}
+}
 @supports (display: grid){
 .supports-grid\\:block{display:block;}
-}"
+}
+@supports (display:grid){
+.supports-\\[display\\:grid\\]\\:grid{display:grid;}
+}
+@supports (display:grid) and (display:flex){
+.supports-\\[\\(display\\:grid\\)_and_\\(display\\:flex\\)\\]\\:grid{display:grid;}
+}
+@supports (display:grid) or (display:flex){
+.supports-\\[\\(display\\:grid\\)or\\(display\\:flex\\)\\]\\:grid{display:grid;}
+}
+@supports not (display:grid){
+.supports-\\[not\\(display\\:grid\\)\\]\\:block{display:block;}
+}
+@media (min-width: 768px){@supports not (container-type:inline-size){
+.supports-\\[not\\(container-type\\:inline-size\\)\\]\\:md\\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+}}"
 `;
 
 exports[`postcss > @unocss all layers 1`] = `

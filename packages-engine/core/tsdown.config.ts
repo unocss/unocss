@@ -6,10 +6,12 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    'unconfig',
-    'magic-string',
-  ],
+  deps: {
+    neverBundle: [
+      'unconfig',
+      'magic-string',
+    ],
+  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',

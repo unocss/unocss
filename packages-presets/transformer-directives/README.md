@@ -92,7 +92,6 @@ The `@screen` directive allows you to create media queries that reference your b
   }
 }
 /* ... */
-...;
 ```
 
 Will be transformed to:

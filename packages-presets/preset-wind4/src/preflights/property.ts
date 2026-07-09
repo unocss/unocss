@@ -18,13 +18,16 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
   const selector = propertyConfig?.selector
     ?? '*, ::before, ::after, ::backdrop'
 
+  const prefix = options.variablePrefix ?? 'un-'
+
   return {
     getCSS: () => {
       if (trackedProperties.size === 0)
         return
 
       const css = Array.from(trackedProperties.entries())
-        .map(([property, value]) => `${property}:${value};`)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([property, value]) => `${property.replace(/^--un-/, `--${prefix}`)}:${value};`)
         .join('')
 
       return parentSelector === false

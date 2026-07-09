@@ -69,19 +69,23 @@ function borderColorResolver(direction: string) {
   }
 }
 
-function handlerBorderSize([, a = '', b = '1']: string[]): CSSEntries | undefined {
-  const v = h.bracket.cssvar.global.px(b)
+function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const v = h.bracket.bracketOfLength.cssvar.global.px(b, theme)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
 
 function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | (CSSValueInput | string)[] | undefined {
   if (a in directionMap) {
-    if (isCSSMathFn(h.bracket(b)))
-      return handlerBorderSize(['', a, b])
+    if (isCSSMathFn(h.bracket(b, ctx.theme)))
+      return handlerBorderSize(['', a, b], ctx)
 
-    if (hasParseableColor(b, ctx.theme)) {
-      const directions = directionMap[a].map(i => borderColorResolver(i)(['', b], ctx))
+    const bracketColor = h.bracketOfColor(b, ctx.theme)
+    b = bracketColor ?? b
+    if (bracketColor != null || hasParseableColor(b, ctx.theme)) {
+      const directions = directionMap[a].map(i =>
+        borderColorResolver(i)(['', b], ctx)
+        ?? colorCSSGenerator({ color: b, name: '_' } as unknown as ReturnType<typeof parseColor>, `border${i}-color`, `border${i}`, ctx))
         .filter(notNull)
 
       return [
@@ -98,8 +102,8 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
   }
 }
 
-function handlerBorderOpacity([, a = '', opacity]: string[]): CSSEntries | undefined {
-  const v = h.bracket.percent.cssvar(opacity)
+function handlerBorderOpacity([, a = '', opacity]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  const v = h.bracket.percent.cssvar(opacity, theme)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }
@@ -109,7 +113,7 @@ function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleCont
     if (s === 'full')
       return cornerMap[a].map(i => [`border${i}-radius`, 'calc(infinity * 1px)'])
 
-    const _v = theme.radius?.[s] ?? h.bracket.cssvar.global.fraction.rem(s)
+    const _v = theme.radius?.[s] ?? h.bracket.cssvar.global.fraction.rem(s, theme)
     if (_v != null) {
       const isVar = theme.radius && s in theme.radius
       if (isVar) {

@@ -34,6 +34,7 @@ export const spaces: Rule<Theme>[] = [
 export function notLastChildSelectorVariant(s: string): VariantHandler {
   return {
     matcher: s,
+    order: 1,
     handle: (input, next) => next({
       ...input,
       parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
@@ -50,7 +51,7 @@ function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Them
     v = `calc(var(--spacing) * ${num})`
   }
   else {
-    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
+    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1', theme)
   }
 
   if (v != null) {

@@ -9,7 +9,7 @@ export const columns: Rule<Theme>[] = [
       return { columns: generateThemeVariable('container', v) }
     }
 
-    return { columns: h.bracket.numberWithUnit.number.cssvar(v) }
+    return { columns: h.bracket.numberWithUnit.number.cssvar(v, theme) }
   }, { autocomplete: ['columns-<num>', 'columns-$container'] }],
   ['columns-auto', { columns: 'auto' }],
 

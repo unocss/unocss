@@ -253,3 +253,57 @@ This will download the fonts assets to `public/assets/fonts` and serve them from
 This feature is Node.js specific and will not work in the browser.
 
 :::
+
+## Emit Fonts to Build Output
+
+In CI environments or during the first build, fonts downloaded to the `public` directory might not be copied to `dist` before the build finishes. To ensure fonts are always included in the production build, use the `onDownload` callback with a custom Vite plugin.
+
+**vite.config.ts**
+
+```ts
+import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import { defineConfig } from 'vite'
+
+const emittedFonts = new Map()
+
+// 1. Create the processor with onDownload hook
+export const fontProcessor = createLocalFontProcessor({
+  onDownload(filename, buf) {
+    emittedFonts.set(filename, buf)
+  }
+})
+
+export default defineConfig({
+  plugins: [
+    UnoCSS(),
+    // 2. Emit the collected fonts as assets during build
+    {
+      name: 'unocss:font-emit',
+      apply: 'build',
+      generateBundle() {
+        for (const [filename, source] of emittedFonts) {
+          this.emitFile({ type: 'asset', fileName: `assets/fonts/${filename}`, source })
+        }
+        emittedFonts.clear()
+      }
+    },
+  ],
+})
+```
+
+**uno.config.ts**
+
+```ts
+import presetWebFonts from '@unocss/preset-web-fonts'
+import { fontProcessor } from './vite.config'
+
+export default defineConfig({
+  presets: [
+    presetWebFonts({
+      provider: 'google',
+      fonts: { sans: 'Roboto' },
+      processors: [fontProcessor],
+    }),
+  ],
+})
+```

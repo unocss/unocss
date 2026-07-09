@@ -4,6 +4,8 @@ description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: deep
 ---
 
+<!-- @unocss-ignore -->
+
 <script setup lang="ts">
 import { examples } from '../.vitepress/content'
 
@@ -35,6 +37,10 @@ npm install -D unocss
 
 ```bash [bun]
 bun add -D unocss
+```
+
+```bash [deno]
+deno add -D unocss
 ```
 
 :::

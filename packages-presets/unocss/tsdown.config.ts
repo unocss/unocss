@@ -9,7 +9,11 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
-    external: ['webpack'],
+    deps: {
+      neverBundle: [
+        'webpack',
+      ],
+    },
     format: ['esm', 'cjs'],
     exports: true,
   },
@@ -32,7 +36,12 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
-    external: ['astro', 'vite'],
+    deps: {
+      neverBundle: [
+        'astro',
+        'vite',
+      ],
+    },
     exports: true,
     failOnWarn: true,
     publint: 'ci-only',

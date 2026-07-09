@@ -8,39 +8,39 @@
   const underline = Math.random() > 0.5;
 </script>
 
-<p class={["_c-red_wob8jk _font-bold_wob8jk"]} />
+<p class={["_c-red_wob8jk _font-bold_wob8jk"]}></p>
 
 <p
   class={[
     "_c-red_wob8jk _font-bold_wob8jk",
     true ? "_underline_wob8jk" : "_c-white!_wob8jk",
   ]}
-/>
+></p>
 
 <p
   class={{
     "_c-red_wob8jk _font-bold_wob8jk": true,
     _underline_wob8jk: underline,
   }}
-/>
+></p>
 
-<p class={clsx("_c-red_wob8jk", "_bg-blue_wob8jk")} />
+<p class={clsx("_c-red_wob8jk", "_bg-blue_wob8jk")}></p>
 
 <p
   class={clsx(
     "_c-red_wob8jk",
     true && "_bg-blue_wob8jk",
-    false ? "_border_wob8jk" : "_underline_wob8jk"
+    false ? "_border_wob8jk" : "_underline_wob8jk",
   )}
-/>
+></p>
 
 <p
   class={wrapped(
     "_c-red_wob8jk",
     true && "_bg-blue_wob8jk",
-    false ? "_border_wob8jk" : "_underline_wob8jk"
+    false ? "_border_wob8jk" : "_underline_wob8jk",
   )}
-/>
+></p>
 
 <style>
   :global(._border_wob8jk) {

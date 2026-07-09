@@ -8,6 +8,7 @@ import { createNanoEvents } from './utils/events'
 export const symbols: ControlSymbols = {
   shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
   noMerge: '$$symbol-no-merge' as unknown as ControlSymbols['noMerge'],
+  noScope: '$$symbol-no-scope' as unknown as ControlSymbols['noScope'],
   variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
@@ -15,6 +16,12 @@ export const symbols: ControlSymbols = {
   sort: '$$symbol-sort' as unknown as ControlSymbols['sort'],
   body: '$$symbol-body' as unknown as ControlSymbols['body'],
 }
+
+// Chosen from benchmarks on a 24k-token project: 4096 retained most of the
+// benefit of smaller batches, outperformed 8192, and keeps smaller generations
+// on the existing single-batch path. This limits event-loop pressure rather
+// than CPU parallelism, so it is intentionally not based on the CPU count.
+const TOKEN_PARSE_BATCH_SIZE = 4096
 
 class UnoGeneratorInternal<Theme extends object = object> {
   public readonly version = version
@@ -152,7 +159,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
         context.variants = [...matched[3]]
 
       // expand shortcuts
-      const expanded = await this.expandShortcut(context.currentSelector, context)
+      const expanded = await this.expandShortcut(context.currentSelector, context, 5, true)
       const utils = expanded
         ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
         // no shortcuts
@@ -230,36 +237,41 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
-    const tokenPromises = Array.from(tokens).map(async (raw) => {
-      if (matched.has(raw))
-        return
+    const tokenList = Array.from(tokens)
+    for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
+      const tokenPromises = tokenList
+        .slice(offset, offset + TOKEN_PARSE_BATCH_SIZE)
+        .map(async (raw) => {
+          if (matched.has(raw))
+            return
 
-      const payload = await this.parseToken(raw)
-      if (payload == null)
-        return
+          const payload = await this.parseToken(raw)
+          if (payload == null)
+            return
 
-      if (matched instanceof Map) {
-        matched.set(raw, {
-          data: payload,
-          count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
+          if (matched instanceof Map) {
+            matched.set(raw, {
+              data: payload,
+              count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
+            })
+          }
+          else {
+            matched.add(raw)
+          }
+
+          for (const item of payload) {
+            const parent = item[3] || ''
+            const layer = item[4]?.layer
+            if (!sheet.has(parent))
+              sheet.set(parent, [])
+            sheet.get(parent)!.push(item)
+            if (layer)
+              layerSet.add(layer)
+          }
         })
-      }
-      else {
-        matched.add(raw)
-      }
 
-      for (const item of payload) {
-        const parent = item[3] || ''
-        const layer = item[4]?.layer
-        if (!sheet.has(parent))
-          sheet.set(parent, [])
-        sheet.get(parent)!.push(item)
-        if (layer)
-          layerSet.add(layer)
-      }
-    })
-
-    await Promise.all(tokenPromises)
+      await Promise.all(tokenPromises)
+    }
     await (async () => {
       if (!preflights)
         return
@@ -323,7 +335,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
                 || 0
             })
             .map(([, selector, body, , meta, , variantNoMerge]) => {
-              const scopedSelector = selector ? applyScope(selector, scope) : selector
+              const scopedSelector = (selector && !meta?.noScope) ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
                 body,
@@ -617,8 +629,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
         }
       }
 
+      const dynamicRuleFilter = this.config.rulesDynamicFilter
+      const dynamicRules = dynamicRuleFilter?.filters.length
+        && !dynamicRuleFilter.filters.some(filter => filter.test(processed))
+        ? dynamicRuleFilter.fallback
+        : this.config.rulesDynamic
+
       // match rules
-      for (const rule of this.config.rulesDynamic) {
+      for (const rule of dynamicRules) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
@@ -701,50 +719,49 @@ class UnoGeneratorInternal<Theme extends object = object> {
         // Extract variants from special symbols
         let variants = context.variantHandlers
         let entryMeta = meta
+        const setVariant = (variant: (typeof variants)[number]) => {
+          variants = [variant, ...variants]
+        }
+        const setMeta = (partial: Partial<RuleMeta>) => {
+          entryMeta = {
+            ...entryMeta,
+            ...partial,
+          }
+        }
         for (const entry of css) {
-          if (entry[0] === symbols.variants) {
-            if (typeof entry[1] === 'function') {
-              variants = entry[1](variants) || variants
-            }
-            else {
-              variants = [
-                ...toArray(entry[1]),
-                ...variants,
-              ]
-            }
-          }
-          else if (entry[0] === symbols.parent) {
-            variants = [
-              { parent: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.selector) {
-            variants = [
-              { selector: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.layer) {
-            variants = [
-              { layer: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.sort) {
-            entryMeta = {
-              ...entryMeta,
-              sort: entry[1],
-            }
-          }
-          else if (entry[0] === symbols.noMerge) {
-            entryMeta = {
-              ...entryMeta,
-              noMerge: entry[1],
-            }
-          }
-          else if (entry[0] === symbols.body) {
-            (entry as unknown as CSSEntry)[0] = VirtualKey
+          switch (entry[0]) {
+            case symbols.variants:
+              if (typeof entry[1] === 'function') {
+                variants = entry[1](variants) || variants
+              }
+              else {
+                variants = [
+                  ...toArray(entry[1]),
+                  ...variants,
+                ]
+              }
+              break
+            case symbols.parent:
+              setVariant({ parent: entry[1] })
+              break
+            case symbols.selector:
+              setVariant({ selector: entry[1] })
+              break
+            case symbols.layer:
+              setVariant({ layer: entry[1] })
+              break
+            case symbols.sort:
+              setMeta({ sort: entry[1] })
+              break
+            case symbols.noMerge:
+              setMeta({ noMerge: entry[1] })
+              break
+            case symbols.noScope:
+              setMeta({ noScope: entry[1] })
+              break
+            case symbols.body:
+              (entry as unknown as CSSEntry)[0] = VirtualKey
+              break
           }
         }
 
@@ -793,6 +810,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     input: string,
     context: RuleContext<Theme>,
     depth = 5,
+    skipVariantMatch = false,
   ): Promise<[(string | ShortcutInlineValue)[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
@@ -844,7 +862,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     // expand nested shortcuts with variants
-    if (!result) {
+    if (!result && !skipVariantMatch) {
       const matched = isString(input) ? await this.matchVariants(input) : [input]
       for (const match of matched) {
         const [raw, inputWithoutVariant, handles] = match

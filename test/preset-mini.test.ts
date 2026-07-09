@@ -74,6 +74,7 @@ describe('preset-mini', () => {
         unmatched.push(i)
     }
     expect(unmatched).toEqual([
+      'supports-[backdrop-filter]:backdrop-blur',
       'group-aria-focus:p-4',
       'peer-aria-checked:bg-blue-500',
       'parent-aria-hover:text-center',
@@ -95,6 +96,12 @@ describe('preset-mini', () => {
     const { css, matched } = await uno.generate(code, { preflights: false })
 
     expect(Array.from(matched)).toEqual([
+      'supports-[display:grid]:grid',
+      'supports-[not(display:grid)]:block',
+      'supports-[not(container-type:inline-size)]:md:grid-cols-2',
+      'supports-[(display:grid)_and_(display:flex)]:grid',
+      'supports-[(display:grid)or(display:flex)]:grid',
+      'supports-[(container-type:inline-size)and(not(display:grid))]:block',
       'h-svh',
       'h-dvh',
       'h-lvh',
@@ -125,7 +132,25 @@ describe('preset-mini', () => {
       .data-\\[foo\\=x\\]\\:text-green-600[data-foo=x]{--un-text-opacity:1;color:rgb(22 163 74 / var(--un-text-opacity));}
       .hover\\:placeholder-op90:hover::placeholder{opacity:0.9;}
       .placeholder-op90::placeholder{opacity:0.9;}
-      .placeholder-opacity-10::placeholder{opacity:0.1;}"
+      .placeholder-opacity-10::placeholder{opacity:0.1;}
+      @supports (container-type:inline-size) and ( not (display:grid)){
+      .supports-\\[\\(container-type\\:inline-size\\)and\\(not\\(display\\:grid\\)\\)\\]\\:block{display:block;}
+      }
+      @supports (display:grid){
+      .supports-\\[display\\:grid\\]\\:grid{display:grid;}
+      }
+      @supports (display:grid) and (display:flex){
+      .supports-\\[\\(display\\:grid\\)_and_\\(display\\:flex\\)\\]\\:grid{display:grid;}
+      }
+      @supports (display:grid) or (display:flex){
+      .supports-\\[\\(display\\:grid\\)or\\(display\\:flex\\)\\]\\:grid{display:grid;}
+      }
+      @supports not (display:grid){
+      .supports-\\[not\\(display\\:grid\\)\\]\\:block{display:block;}
+      }
+      @media (min-width: 768px){@supports not (container-type:inline-size){
+      .supports-\\[not\\(container-type\\:inline-size\\)\\]\\:md\\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+      }}"
     `)
   })
 
@@ -531,7 +556,7 @@ describe('preset-mini', () => {
     const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
     expect(unmatched).toEqual([])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       printWidth: 120,
       parser: 'css',
       plugins: [parserCSS],
@@ -612,7 +637,7 @@ describe('preset-mini', () => {
     const unmatched = classes.filter(cls => !css.includes(escapeSelector(cls)))
     expect(unmatched).toEqual([])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       printWidth: 120,
       parser: 'css',
       plugins: [parserCSS],

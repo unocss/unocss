@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
@@ -32,13 +32,13 @@ export default createRule({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        unoFunctions: ['clsx', 'classnames'],
+        unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      unoFunctions: ['clsx', 'classnames'],
-      unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
-    },
-  ],
   create(context) {
     let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
 
@@ -326,4 +326,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as AnyRuleModule
+})

@@ -1,5 +1,4 @@
 import type { UnocssNuxtOptions } from './types'
-import { defaultPipelineExclude } from '#integration/defaults'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetTagify from '@unocss/preset-tagify'
@@ -7,6 +6,7 @@ import presetTypography from '@unocss/preset-typography'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
+import { defaultPipelineExclude } from '#integration/defaults'
 
 export function resolveOptions(options: UnocssNuxtOptions) {
   if (options.wind3 && options.wind4) {

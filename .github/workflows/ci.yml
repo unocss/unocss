@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [20, lts/*]
+        node_version: [22, lts/*]
         include:
           - os: macos-latest
             node_version: lts/*
@@ -32,13 +32,13 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Set node ${{ matrix.node_version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node_version }}
           cache: pnpm

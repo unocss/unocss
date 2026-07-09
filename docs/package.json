@@ -1,12 +1,12 @@
 {
   "name": "docs",
   "type": "module",
-  "version": "66.6.2",
+  "version": "66.7.5",
   "private": true,
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:icons",
@@ -15,6 +15,7 @@
     "@iconify-json/ph": "catalog:icons",
     "@iconify-json/twemoji": "catalog:icons",
     "@iconify-json/vscode-icons": "catalog:icons",
+    "@unocss/twoslash": "workspace:*",
     "ofetch": "catalog:utils",
     "unocss": "workspace:*",
     "unplugin-vue-components": "catalog:vue",
