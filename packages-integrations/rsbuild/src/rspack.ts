@@ -12,6 +12,8 @@ import {
   HASH_PLACEHOLDER_RE,
   LAYER_PLACEHOLDER_RE,
 } from '#integration/layers'
+import { restoreCachedModules } from './cache'
+import { ExternalContentWatcher } from './content-watcher'
 import { NativeContext } from './context'
 import { registerContext, unregisterContext } from './registry'
 
@@ -19,24 +21,18 @@ const pluginName = 'unocss:rspack-native'
 const loaderPath = fileURLToPath(new URL('./loader.mjs', import.meta.url))
 
 export class UnoCSSRspackPlugin<Theme extends object = object> implements RspackPluginInstance {
-  /**
-   * 创建原生 UnoCSS Rspack 插件。
-   *
-   * @param userOptions UnoCSS 与 Rspack integration 配置。
-   */
   constructor(private readonly userOptions: UnoCSSRspackPluginOptions<Theme> = {}) {}
 
-  /**
-   * 注册 loader、虚拟模块、CSS 生成和 watch invalidation hooks。
-   *
-   * @param compiler Rspack compiler 实例。
-   */
   apply(compiler: Compiler): void {
     const options = {
       ...this.userOptions,
       root: this.userOptions.root ?? compiler.context,
       watch: this.userOptions.watch ?? true,
       autoCssRule: this.userOptions.autoCssRule ?? true,
+      defaults: {
+        envMode: compiler.options.mode === 'development' ? 'dev' as const : 'build' as const,
+        ...this.userOptions.defaults,
+      },
     }
     const context = new NativeContext(options.root, options)
     const contextId = registerContext(context)
@@ -50,6 +46,7 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
     virtualLayers.set(virtualAllPath, LAYER_MARK_ALL)
     let virtualHash = ''
     let shouldInvalidate = false
+    const contentWatcher = new ExternalContentWatcher(compiler, context, options.watch)
 
     virtualModules.apply(compiler)
     this.injectLoader(compiler, context, contextId)
@@ -60,16 +57,20 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
     compiler.hooks.beforeCompile.tapPromise(pluginName, () => context.initialize())
 
     compiler.hooks.watchRun.tapPromise(pluginName, async (watchCompiler) => {
+      await context.initialize()
       const modified = watchCompiler.modifiedFiles ?? new Set<string>()
       const removed = watchCompiler.removedFiles ?? new Set<string>()
-      if (context.configFiles.some(file => modified.has(file))) {
+      if (context.configFiles.some(file => modified.has(file) || removed.has(file))) {
         await context.reloadConfig()
+        await contentWatcher.sync()
         return
       }
-      if ([...context.filesystemFiles].some(file => modified.has(file) || removed.has(file)))
+      if (options.watch && this.hasExternalContentChange(context, modified, removed)) {
         await context.extractExternalContent()
+      }
       for (const file of removed)
         context.removeModule(file)
+      await contentWatcher.ensure()
     })
 
     compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
@@ -81,10 +82,14 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
             currentModules.add(resource)
         }
         context.evictModulesNotIn(currentModules)
+        // Cached modules may skip loaders, so restore their tokens from source.
+        await restoreCachedModules(compiler, context, modules)
         for (const file of context.configFiles)
           compilation.fileDependencies.add(file)
-        for (const file of context.filesystemFiles)
-          compilation.fileDependencies.add(file)
+        if (options.watch) {
+          for (const file of context.filesystemFiles)
+            compilation.fileDependencies.add(file)
+        }
       })
 
       compilation.hooks.processAssets.tapPromise(
@@ -93,30 +98,37 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
           stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE,
         },
         async () => {
+          const assets = compilation.getAssets()
+            .map(asset => ({ asset, source: asset.source.source() }))
+            .filter(({ source }) => source.includes('#--unocss'))
+          if (!assets.length && !compiler.watchMode)
+            return
+
           const result = await context.generate(compiler.options.mode === 'production')
           const importedLayers = this.getImportedLayers(compilation.modules, virtualLayers)
 
-          for (const asset of compilation.getAssets()) {
-            const original = asset.source.source().toString()
+          for (const { asset, source } of assets) {
+            const original = source.toString()
+            const replacement = new sources.ReplaceSource(asset.source, asset.name)
             let replaced = false
             let escapeCss: ReturnType<typeof getCssEscaperForJsContent> | undefined
-            const code = original
-              .replace(HASH_PLACEHOLDER_RE, '')
-              .replace(LAYER_PLACEHOLDER_RE, (_match, layer, escapeView) => {
-                replaced = true
-                escapeCss ??= getCssEscaperForJsContent(escapeView.trim())
-                const css = layer.trim() === LAYER_MARK_ALL
-                  ? result.getLayers(undefined, importedLayers)
-                  : (result.getLayer(layer.trim()) ?? '')
-                return escapeCss(css)
-              })
 
-            if (replaced) {
-              compilation.updateAsset(
-                asset.name,
-                new sources.SourceMapSource(code, asset.name, asset.source.map() as never),
-              )
+            for (const match of original.matchAll(HASH_PLACEHOLDER_RE)) {
+              replaced = true
+              replacement.replace(match.index, match.index + match[0].length - 1, '')
             }
+            for (const match of original.matchAll(LAYER_PLACEHOLDER_RE)) {
+              replaced = true
+              const layer = match[1].trim()
+              escapeCss ??= getCssEscaperForJsContent(match[2]?.trim() ?? '')
+              const css = layer === LAYER_MARK_ALL
+                ? result.getLayers(undefined, importedLayers)
+                : (result.getLayer(layer) ?? '')
+              replacement.replace(match.index, match.index + match[0].length - 1, escapeCss(css))
+            }
+
+            if (replaced)
+              compilation.updateAsset(asset.name, replacement)
           }
 
           if (!compiler.watchMode)
@@ -140,13 +152,23 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
       if (!shouldInvalidate || !compiler.watching)
         return
       shouldInvalidate = false
-      setTimeout(() => compiler.watching?.invalidate(), 0)
+      setTimeout(() => {
+        compiler.watching?.invalidateWithChangesAndRemovals(
+          new Set([virtualAllPath, virtualLayerPath]),
+          new Set(),
+        )
+      }, 0)
     })
 
-    compiler.hooks.shutdown?.tap(pluginName, () => unregisterContext(contextId))
+    compiler.hooks.watchClose.tap(pluginName, () => {
+      void contentWatcher.close()
+    })
+    compiler.hooks.shutdown.tapPromise(pluginName, async () => {
+      await contentWatcher.close()
+      unregisterContext(contextId)
+    })
   }
 
-  /** 为普通源码和 Vue SFC 的实际 loader chain 注入 UnoCSS loader。 */
   private injectLoader(compiler: Compiler, context: NativeContext, contextId: string): void {
     const loader = {
       loader: loaderPath,
@@ -159,22 +181,8 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
       test: resource => typeof resource === 'string' && context.filter.shouldTransform(resource),
       use: [loader],
     })
-
-    for (const item of compiler.options.module.rules) {
-      if (!item || typeof item !== 'object')
-        continue
-      const rule = item as {
-        test?: RegExp
-        use?: Array<string | { loader?: string, options?: unknown }>
-      }
-      if (!(rule.test instanceof RegExp) || !new RegExp(rule.test.source, rule.test.flags.replace('g', '')).test('component.vue'))
-        continue
-      if (Array.isArray(rule.use))
-        rule.use.push(loader)
-    }
   }
 
-  /** 将公开 UnoCSS CSS 入口解析到预注册的 Rspack 虚拟模块。 */
   private resolveVirtualModules(
     compiler: Compiler,
     context: NativeContext,
@@ -190,26 +198,28 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
         const layer = await context.resolveLayer(resolvedId)
         if (!layer)
           return
+        const queryIndex = resolvedId.indexOf('?')
+        const query = queryIndex >= 0 ? resolvedId.slice(queryIndex) : ''
         if (layer === LAYER_MARK_ALL) {
-          data.request = virtualAllPath
+          const request = `${virtualAllPath}${query}`
+          virtualLayers.set(request, LAYER_MARK_ALL)
+          data.request = request
           return
         }
-        const request = `${virtualLayerPath}?uno-layer=${encodeURIComponent(layer)}`
+        const request = `${virtualLayerPath}${query}${query ? '&' : '?'}uno-layer=${encodeURIComponent(layer)}`
         virtualLayers.set(request, layer)
         data.request = request
       })
     })
   }
 
-  /** 为直接使用 Rspack 的场景注入虚拟 CSS module rule。 */
   private injectCssRule(compiler: Compiler): void {
     compiler.options.module.rules.push({
-      test: /[\\/|]\.unocss-rsbuild[\\/|].+\.css$/,
+      test: /[\\/]\.unocss-rsbuild[\\/].+\.css$/,
       type: 'css/auto',
     })
   }
 
-  /** 收集本轮 compilation 实际导入的命名 layer。 */
   private getImportedLayers(modules: Iterable<Module>, virtualLayers: Map<string, string>): string[] {
     const layers = new Set<string>()
     for (const module of modules) {
@@ -220,14 +230,20 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
     }
     return [...layers]
   }
+
+  private hasExternalContentChange(
+    context: NativeContext,
+    modified: ReadonlySet<string>,
+    removed: ReadonlySet<string>,
+  ): boolean {
+    for (const file of [...modified, ...removed]) {
+      if (context.filesystemFiles.has(file) || context.matchesFilesystemFile(file))
+        return true
+    }
+    return false
+  }
 }
 
-/**
- * 创建原生 UnoCSS Rspack 插件实例。
- *
- * @param options UnoCSS 与 Rspack integration 配置。
- * @returns 可加入 Rspack `plugins` 的插件实例。
- */
 export function unoCSSRspackPlugin<Theme extends object = object>(
   options: UnoCSSRspackPluginOptions<Theme> = {},
 ): UnoCSSRspackPlugin<Theme> {
