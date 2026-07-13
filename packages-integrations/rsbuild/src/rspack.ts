@@ -46,7 +46,15 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
     virtualLayers.set(virtualAllPath, LAYER_MARK_ALL)
     let virtualHash = ''
     let shouldInvalidate = false
+    let invalidateTimer: ReturnType<typeof setTimeout> | undefined
     const contentWatcher = new ExternalContentWatcher(compiler, context, options.watch)
+
+    const clearPendingInvalidation = () => {
+      if (invalidateTimer)
+        clearTimeout(invalidateTimer)
+      invalidateTimer = undefined
+      shouldInvalidate = false
+    }
 
     virtualModules.apply(compiler)
     this.injectLoader(compiler, context, contextId)
@@ -151,7 +159,8 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
       if (!shouldInvalidate || !compiler.watching)
         return
       shouldInvalidate = false
-      setTimeout(() => {
+      invalidateTimer = setTimeout(() => {
+        invalidateTimer = undefined
         compiler.watching?.invalidateWithChangesAndRemovals(
           new Set([virtualAllPath, virtualLayerPath]),
           new Set(),
@@ -160,9 +169,11 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
     })
 
     compiler.hooks.watchClose.tap(pluginName, () => {
+      clearPendingInvalidation()
       void contentWatcher.close()
     })
     compiler.hooks.shutdown.tapPromise(pluginName, async () => {
+      clearPendingInvalidation()
       await contentWatcher.close()
       unregisterContext(contextId)
     })

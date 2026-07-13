@@ -35,5 +35,7 @@ it('deduplicates physical files and bounds concurrent cache reads', async () => 
 
   expect(transformed).toHaveLength(20)
   expect(new Set(transformed).size).toBe(20)
+  expect(transformed).toContain('/src/module-0.ts')
+  expect(transformed).not.toContain('/src/module-0.ts?query')
   expect(maxActiveReads).toBeLessThanOrEqual(8)
 })
