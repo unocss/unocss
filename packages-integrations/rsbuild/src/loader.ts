@@ -1,4 +1,4 @@
-import type { LoaderContext } from '@rspack/core'
+import type { LoaderContext, RawSourceMap } from '@rspack/core'
 import { getHashPlaceholder, getLayerPlaceholder } from '#integration/layers'
 import { getContext } from './registry'
 
@@ -9,7 +9,7 @@ interface LoaderOptions {
 export default function unoCSSLoader(
   this: LoaderContext<LoaderOptions>,
   source: string,
-  inputMap?: object,
+  inputMap?: string | RawSourceMap,
 ): void {
   const callback = this.async()
   const { contextId } = this.getOptions()
@@ -42,7 +42,7 @@ export default function unoCSSLoader(
       }
 
       const result = await context.transformModule(source, id)
-      callback(null, result.code, result.map ?? inputMap)
+      callback(null, result.code, result.map ? JSON.stringify(result.map) : inputMap)
     })
     .catch(error => callback(error as Error))
 }

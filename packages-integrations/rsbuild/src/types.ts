@@ -2,7 +2,7 @@ import type { FilterPattern, UserConfig, UserConfigDefaults } from '@unocss/core
 
 export interface UnoCSSRspackPluginOptions<Theme extends object = object> {
   configOrPath?: string | UserConfig<Theme>
-  defaults?: UserConfigDefaults<Theme>
+  defaults?: UserConfigDefaults
   root?: string
   include?: FilterPattern
   exclude?: FilterPattern

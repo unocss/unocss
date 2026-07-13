@@ -1,4 +1,4 @@
-import type { Stats } from '@rspack/core'
+import type { Compiler, Stats, Watching } from '@rspack/core'
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -29,7 +29,7 @@ it('updates generated CSS during native Rspack watch', async () => {
   )
   await writeFile(join(sourceDirectory, 'view.jsx'), 'export const view = `<div class="text-red"></div>`;', 'utf8')
 
-  const compiler = rspack({
+  const compiler: Compiler = rspack({
     context: root,
     mode: 'development',
     entry: './src/index.js',
@@ -103,7 +103,7 @@ it('runs transformers once for modules matched by existing rules', async () => {
 
   let transformCalls = 0
   const registeredContexts = getRegisteredContextCount()
-  const compiler = rspack({
+  const compiler: Compiler = rspack({
     context: root,
     mode: 'production',
     entry: './src/App.vue',
@@ -149,7 +149,7 @@ it('watches newly added external content files', async () => {
   ])
   await writeFile(join(sourceDirectory, 'index.js'), 'import "uno.css";', 'utf8')
 
-  const compiler = rspack({
+  const compiler: Compiler = rspack({
     context: root,
     mode: 'development',
     entry: './src/index.js',
@@ -210,7 +210,7 @@ it('reloads config and invalidates transformed modules', async () => {
   await writeFile(join(sourceDirectory, 'view.jsx'), 'export const view = `<div class="TOKEN"></div>`;', 'utf8')
   await writeTransformerConfig(configFile, 'text-red')
 
-  const compiler = rspack({
+  const compiler: Compiler = rspack({
     context: root,
     mode: 'development',
     entry: './src/index.js',
@@ -269,7 +269,7 @@ function assertStats(stats: Stats | undefined): asserts stats is Stats {
     throw new Error(stats.toString({ all: false, errors: true }))
 }
 
-function runCompiler(compiler: ReturnType<typeof rspack>): Promise<void> {
+function runCompiler(compiler: Compiler): Promise<void> {
   return new Promise((resolve, reject) => {
     compiler.run((error, stats) => {
       if (error) {
@@ -295,16 +295,12 @@ async function readCss(outputDirectory: string): Promise<string> {
 }
 
 function closeCompiler(
-  compiler: ReturnType<typeof rspack>,
-  watching: ReturnType<ReturnType<typeof rspack>['watch']>,
+  compiler: Compiler,
+  watching: Watching,
   resolve: () => void,
   reject: (error: Error) => void,
 ): void {
-  watching.close((watchError) => {
-    if (watchError) {
-      reject(watchError)
-      return
-    }
+  watching.close(() => {
     compiler.close((closeError) => {
       if (closeError)
         reject(closeError)

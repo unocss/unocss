@@ -234,6 +234,9 @@ catalogs:
     '@types/fs-extra':
       specifier: ^11.0.4
       version: 11.0.4
+    '@types/glob-parent':
+      specifier: ^5.1.3
+      version: 5.1.3
     '@types/js-yaml':
       specifier: ^4.0.9
       version: 4.0.9
@@ -1232,6 +1235,9 @@ importers:
       '@rspack/core':
         specifier: catalog:build
         version: 2.1.3(@swc/helpers@0.5.23)
+      '@types/glob-parent':
+        specifier: catalog:types
+        version: 5.1.3
       '@unocss/preset-uno':
         specifier: workspace:*
         version: link:../../packages-deprecated/preset-uno
@@ -5525,6 +5531,9 @@ packages:
 
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
+
+  '@types/glob-parent@5.1.3':
+    resolution: {integrity: sha512-p+NciRH8TRvrgISOCQ55CP+lktMmDpOXsp4spULIIz0L4aJ6G9zFX+N0UZ2xulmJRgaQLRxXIp4xHdL6YOQjDg==}
 
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
@@ -14455,6 +14464,8 @@ snapshots:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 25.9.4
+
+  '@types/glob-parent@5.1.3': {}
 
   '@types/hast@3.0.4':
     dependencies:

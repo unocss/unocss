@@ -3,7 +3,7 @@
   "type": "module",
   "version": "66.7.5",
   "description": "The native Rsbuild and Rspack integration for UnoCSS",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "author": "eivmosn <eivmosn@163.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
   "homepage": "https://unocss.dev",
@@ -28,6 +28,14 @@
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
@@ -59,6 +67,7 @@
   "devDependencies": {
     "@rsbuild/core": "catalog:build",
     "@rspack/core": "catalog:build",
+    "@types/glob-parent": "catalog:types",
     "@unocss/preset-uno": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",

@@ -31,7 +31,7 @@ it('deduplicates physical files and bounds concurrent cache reads', async () => 
   const modules = Array.from({ length: 20 }, (_, index) => ({ resource: `/src/module-${index}.ts` }))
   modules.push({ resource: '/src/module-0.ts?query' })
 
-  await restoreCachedModules(compiler, context, modules as Module[])
+  await restoreCachedModules(compiler, context, modules as unknown as Module[])
 
   expect(transformed).toHaveLength(20)
   expect(new Set(transformed).size).toBe(20)

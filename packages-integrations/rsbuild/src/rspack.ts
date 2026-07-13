@@ -34,7 +34,10 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
         ...this.userOptions.defaults,
       },
     }
-    const context = new NativeContext(options.root, options)
+    const context = new NativeContext(
+      options.root,
+      options as unknown as UnoCSSRspackPluginOptions,
+    )
     const contextId = registerContext(context)
     const virtualAllPath = join(context.root, 'node_modules', '.unocss-rsbuild', 'uno.css')
     const virtualLayerPath = join(context.root, 'node_modules', '.unocss-rsbuild', 'uno-layer.css')

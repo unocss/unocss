@@ -1,4 +1,4 @@
-import type { GenerateResult, UnocssPluginContext, UserConfig } from '@unocss/core'
+import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { UnoCSSRspackPluginOptions } from './types'
 import fs from 'node:fs/promises'
 import { isAbsolute, resolve } from 'node:path'
@@ -114,7 +114,7 @@ export class NativeContext {
 
   async extractExternalContent(): Promise<void> {
     await this.base.ready
-    const config = this.base.uno.config as UserConfig
+    const config = await this.base.getConfig()
     const pendingTokens = new Map<string, Set<string>>()
     const pendingFiles = new Set<string>()
     const pendingWatchRoots = new Set<string>()
