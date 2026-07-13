@@ -65,9 +65,8 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
         await contentWatcher.sync()
         return
       }
-      if (options.watch && this.hasExternalContentChange(context, modified, removed)) {
-        await context.extractExternalContent()
-      }
+      if (options.watch)
+        await context.updateExternalContent(modified, removed)
       for (const file of removed)
         context.removeModule(file)
       await contentWatcher.ensure()
@@ -229,18 +228,6 @@ export class UnoCSSRspackPlugin<Theme extends object = object> implements Rspack
         layers.add(layer)
     }
     return [...layers]
-  }
-
-  private hasExternalContentChange(
-    context: NativeContext,
-    modified: ReadonlySet<string>,
-    removed: ReadonlySet<string>,
-  ): boolean {
-    for (const file of [...modified, ...removed]) {
-      if (context.filesystemFiles.has(file) || context.matchesFilesystemFile(file))
-        return true
-    }
-    return false
   }
 }
 
