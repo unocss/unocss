@@ -23,6 +23,7 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
+  '@unocss/rsbuild': r('./packages-integrations/rsbuild/src/'),
   '@unocss/runtime': r('./packages-integrations/runtime/src/'),
   '@unocss/scope': r('./packages-integrations/scope/src/'),
   '@unocss/svelte-scoped': r('./packages-integrations/svelte-scoped/src/'),
@@ -71,6 +72,7 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/transformer-directives': r('./packages-presets/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages-presets/transformer-variant-group/src/'),
   'unocss': r('./packages-presets/unocss/src/'),
+  'unocss/rsbuild': r('./packages-presets/unocss/src/rsbuild.ts'),
   'unocss/vite': r('./packages-presets/unocss/src/vite.ts'),
 }
 

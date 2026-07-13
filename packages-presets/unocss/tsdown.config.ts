@@ -21,6 +21,7 @@ export default defineConfig([
     name: 'ESM only',
     entry: [
       'src/index.ts',
+      'src/rsbuild.ts',
       'src/vite.ts',
       'src/astro.ts',
       'src/preset-uno.ts',
@@ -38,6 +39,9 @@ export default defineConfig([
     dts: true,
     deps: {
       neverBundle: [
+        '@rsbuild/core',
+        '@rspack/core',
+        '@unocss/rsbuild',
         'astro',
         'vite',
       ],

@@ -44,6 +44,7 @@
     "./preset-wind": "./dist/preset-wind.mjs",
     "./preset-wind3": "./dist/preset-wind3.mjs",
     "./preset-wind4": "./dist/preset-wind4.mjs",
+    "./rsbuild": "./dist/rsbuild.mjs",
     "./vite": "./dist/vite.mjs",
     "./webpack": {
       "import": "./dist/webpack.mjs",
@@ -73,6 +74,7 @@
   "peerDependencies": {
     "@unocss/astro": "workspace:*",
     "@unocss/postcss": "workspace:*",
+    "@unocss/rsbuild": "workspace:*",
     "@unocss/webpack": "workspace:*"
   },
   "peerDependenciesMeta": {
@@ -80,6 +82,9 @@
       "optional": true
     },
     "@unocss/postcss": {
+      "optional": true
+    },
+    "@unocss/rsbuild": {
       "optional": true
     },
     "@unocss/webpack": {
@@ -108,6 +113,7 @@
   "devDependencies": {
     "@unocss/astro": "workspace:*",
     "@unocss/postcss": "workspace:*",
+    "@unocss/rsbuild": "workspace:*",
     "@unocss/webpack": "workspace:*"
   }
 }
