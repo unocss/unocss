@@ -8,6 +8,7 @@ import { afterEach, expect, it } from 'vitest'
 // This integration test intentionally verifies the built package and loader path.
 // eslint-disable-next-line antfu/no-import-dist
 import { UnoCSSRspackPlugin } from '../dist/rspack.mjs'
+import { getRegisteredContextCount } from './registry'
 
 const temporaryDirectories: string[] = []
 
@@ -48,6 +49,7 @@ it('updates generated CSS during native Rspack watch', async () => {
 
   await new Promise<void>((resolve, reject) => {
     let builds = 0
+    let stabilityTimer: ReturnType<typeof setTimeout> | undefined
     const timeout = setTimeout(() => reject(new Error('Rspack watch did not emit updated UnoCSS within 15 seconds.')), 15_000)
     const watching = compiler.watch({ poll: 50 }, async (error, stats) => {
       try {
@@ -65,8 +67,21 @@ it('updates generated CSS during native Rspack watch', async () => {
         if (!css.includes('.text-blue'))
           return
         expect(css).not.toContain('.text-red')
-        clearTimeout(timeout)
-        closeCompiler(compiler, watching, resolve, reject)
+        if (stabilityTimer)
+          clearTimeout(stabilityTimer)
+        const stableBuilds = builds
+        stabilityTimer = setTimeout(() => {
+          try {
+            expect(builds).toBe(stableBuilds)
+            expect(builds).toBeLessThanOrEqual(4)
+            clearTimeout(timeout)
+            closeCompiler(compiler, watching, resolve, reject)
+          }
+          catch (stabilityError) {
+            clearTimeout(timeout)
+            closeCompiler(compiler, watching, () => reject(stabilityError), reject)
+          }
+        }, 250)
       }
       catch (watchError) {
         clearTimeout(timeout)
@@ -87,6 +102,7 @@ it('runs transformers once for modules matched by existing rules', async () => {
   await writeFile(join(sourceDirectory, 'App.vue'), 'export default `<div class="text-red"></div>`', 'utf8')
 
   let transformCalls = 0
+  const registeredContexts = getRegisteredContextCount()
   const compiler = rspack({
     context: root,
     mode: 'production',
@@ -113,10 +129,12 @@ it('runs transformers once for modules matched by existing rules', async () => {
       }),
     ],
   })
+  expect(getRegisteredContextCount()).toBe(registeredContexts + 1)
 
   await runCompiler(compiler)
 
   expect(transformCalls).toBe(1)
+  expect(getRegisteredContextCount()).toBe(registeredContexts)
 })
 
 it('watches newly added external content files', async () => {
