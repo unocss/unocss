@@ -6,14 +6,6 @@ import { applyTransformers } from '#integration/transformers'
 
 const enforceOrder: SourceCodeTransformerEnforce[] = ['pre', 'default', 'post']
 
-/**
- * 按 UnoCSS 官方 enforce 顺序运行全部源码 transformer。
- *
- * @param context 当前模块绑定的 UnoCSS 插件上下文。
- * @param source 原始模块源码。
- * @param id 模块标识。
- * @returns 转换后的源码和合并后的 sourcemap。
- */
 export async function transformSource(
   context: UnocssPluginContext,
   source: string,

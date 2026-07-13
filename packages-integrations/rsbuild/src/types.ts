@@ -1,11 +1,11 @@
-import type { UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { FilterPattern, UserConfig, UserConfigDefaults } from '@unocss/core'
 
 export interface UnoCSSRspackPluginOptions<Theme extends object = object> {
   configOrPath?: string | UserConfig<Theme>
   defaults?: UserConfigDefaults<Theme>
   root?: string
-  include?: Array<string | RegExp>
-  exclude?: Array<string | RegExp>
+  include?: FilterPattern
+  exclude?: FilterPattern
   watch?: boolean
   autoCssRule?: boolean
 }

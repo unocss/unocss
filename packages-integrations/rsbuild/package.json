@@ -40,10 +40,17 @@
     "@rsbuild/core": "^2.0.0",
     "@rspack/core": "^2.0.0"
   },
+  "peerDependenciesMeta": {
+    "@rsbuild/core": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "chokidar": "catalog:utils",
+    "glob-parent": "catalog:utils",
     "magic-string": "catalog:utils",
     "pathe": "catalog:utils",
     "tinyglobby": "catalog:utils",

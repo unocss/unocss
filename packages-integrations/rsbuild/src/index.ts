@@ -5,12 +5,6 @@ import { UnoCSSRspackPlugin } from './rspack'
 export { UnoCSSRspackPlugin, unoCSSRspackPlugin } from './rspack'
 export type { UnoCSSRsbuildPluginOptions, UnoCSSRspackPluginOptions } from './types'
 
-/**
- * 创建原生 UnoCSS Rsbuild 插件。
- *
- * @param options UnoCSS 与 Rspack integration 配置。
- * @returns 可加入 Rsbuild `plugins` 的插件实例。
- */
 export function pluginUnoCSS<Theme extends object = object>(
   options: UnoCSSRsbuildPluginOptions<Theme> = {},
 ): RsbuildPlugin {
