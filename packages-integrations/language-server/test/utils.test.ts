@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
 import { presetWind4 } from '../../../packages-presets/preset-wind4'
-import { addRemToPxComment, getColorString, parseColorToRGBA, shouldProvideAutocomplete } from '../src/index'
+import { addRemToPxComment, getColorString, getCssVariables, parseColorToRGBA, shouldProvideAutocomplete } from '../src/index'
 
 describe('getColorString', () => {
   it('getColorString success', () => {
@@ -145,11 +145,16 @@ describe('getColorString', () => {
       ],
     })
 
-    const { css: colorCss } = await uno.generate('text-red-400')
-    expect(getColorString(colorCss)).toEqual('oklch(70.4% 0.191 22.216 / 100%)')
+    await uno.generate('text-red-400')
 
-    const { css } = await uno.generate('font-bold')
-    expect(getColorString(css)).toBeUndefined()
+    const { css: preflightCss } = await uno.generate(new Set(), { preflights: true, safelist: false })
+    const themeCssVars = getCssVariables(preflightCss)
+
+    const { css: colorCss } = await uno.generate('text-red-400', { preflights: false, safelist: false })
+    expect(getColorString(colorCss, themeCssVars)).toEqual('oklch(70.4% 0.191 22.216 / 100%)')
+
+    const { css } = await uno.generate('font-bold', { preflights: false, safelist: false })
+    expect(getColorString(css, themeCssVars)).toBeUndefined()
   })
 
   it('with outputToCssLayers, non-color utilities should NOT return a color', async () => {
@@ -162,11 +167,43 @@ describe('getColorString', () => {
       outputToCssLayers: true,
     })
 
-    const { css: colorCss } = await uno.generate('bg-blue-500')
-    expect(getColorString(colorCss)).toEqual('oklch(62.3% 0.214 259.815 / 100%)')
+    await uno.generate('bg-blue-500')
 
-    const { css } = await uno.generate('font-bold')
-    expect(getColorString(css)).toBeUndefined()
+    const { css: preflightCss } = await uno.generate(new Set(), { preflights: true, safelist: false })
+    const themeCssVars = getCssVariables(preflightCss)
+
+    const { css: colorCss } = await uno.generate('bg-blue-500', { preflights: false, safelist: false })
+    expect(getColorString(colorCss, themeCssVars)).toEqual('oklch(62.3% 0.214 259.815 / 100%)')
+
+    const { css } = await uno.generate('font-bold', { preflights: false, safelist: false })
+    expect(getColorString(css, themeCssVars)).toBeUndefined()
+  })
+
+  it('custom preflight with color property should not affect non-color utilities', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+      preflights: [
+        {
+          layer: 'preflights',
+          getCSS: () => 'input{color:#f00;}',
+        },
+      ],
+    })
+
+    await uno.generate('text-red-400')
+
+    const { css: preflightCss } = await uno.generate(new Set(), { preflights: true, safelist: false })
+    const themeCssVars = getCssVariables(preflightCss)
+
+    const { css: colorCss } = await uno.generate('text-red-400', { preflights: false, safelist: false })
+    expect(getColorString(colorCss, themeCssVars)).toEqual('oklch(70.4% 0.191 22.216 / 100%)')
+
+    const { css } = await uno.generate('font-bold', { preflights: false, safelist: false })
+    expect(getColorString(css, themeCssVars)).toBeUndefined()
   })
 })
 
