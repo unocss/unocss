@@ -23,6 +23,17 @@ export const symbols: ControlSymbols = {
 // than CPU parallelism, so it is intentionally not based on the CPU count.
 const TOKEN_PARSE_BATCH_SIZE = 4096
 
+// Vendor-prefixed pseudo-elements such as `::-webkit-slider-thumb` or
+// `::-moz-range-track`. A selector list is dropped in its entirety by a browser
+// when it contains a pseudo-element that browser does not recognize, so merging
+// such selectors into a shared rule (e.g. a `::-webkit-*` next to a `::-moz-*`)
+// would break the otherwise-valid selectors too. Keep them in their own rule.
+const VENDOR_PSEUDO_RE = /::-(?:webkit|moz|ms|o)-/
+
+function hasVendorPseudo(selectors?: [string, number][] | null): boolean {
+  return !!selectors?.some(([selector]) => selector != null && VENDOR_PSEUDO_RE.test(selector))
+}
+
 class UnoGeneratorInternal<Theme extends object = object> {
   public readonly version = version
   public readonly events = createNanoEvents<{
@@ -347,11 +358,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
           const ruleLines = sorted
             .reverse()
             .map(([selectorSortPair, body, noMerge], idx) => {
-              if (!noMerge && this.config.mergeSelectors) {
+              if (!noMerge && this.config.mergeSelectors && !hasVendorPseudo(selectorSortPair)) {
                 // search for rules that has exact same body, and merge them
                 for (let i = idx + 1; i < size; i++) {
                   const current = sorted[i]
-                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
+                  if (current && !current[2] && !hasVendorPseudo(current[0]) && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
                     if (selectorSortPair && current[0])
                       current[0].push(...selectorSortPair)
                     return null
