@@ -50,7 +50,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     rawConfig = result.config
     configFileList = result.sources
     await uno.setConfig(rawConfig)
-    uno.config.envMode = 'dev'
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
       : createFilter(

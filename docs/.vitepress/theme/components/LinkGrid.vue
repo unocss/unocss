@@ -28,7 +28,9 @@ defineProps<{
   border: 1px solid var(--vp-c-bg-soft);
   border-radius: 12px;
   background-color: var(--vp-c-bg-soft);
-  transition: border-color 0.25s, background-color 0.25s;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s;
 }
 .Link:hover {
   color: var(--vp-c-brand) !important;

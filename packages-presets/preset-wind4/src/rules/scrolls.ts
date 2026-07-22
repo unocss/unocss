@@ -3,6 +3,10 @@ import type { Theme } from '../theme'
 import { defineProperty, directionSize } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
+  ['scrollbar-gutter-auto', { 'scrollbar-gutter': 'auto' }],
+  ['scrollbar-gutter-stable', { 'scrollbar-gutter': 'stable' }],
+  ['scrollbar-gutter-both', { 'scrollbar-gutter': 'stable both-edges' }],
+
   ...['x', 'y', 'both'].map<StaticRule>(d => [
     `snap-${d}`,
     [

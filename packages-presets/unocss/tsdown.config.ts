@@ -9,13 +9,13 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
+    deps: {
+      neverBundle: [
+        'webpack',
+      ],
+    },
     format: ['esm', 'cjs'],
-    external: [
-      'webpack',
-      '@unocss/webpack',
-      '@unocss/postcss',
-    ],
-    failOnWarn: false,
+    exports: true,
   },
   {
     name: 'ESM only',
@@ -36,14 +36,18 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
-    external: [
-      'vite',
-      'astro',
-      '@unocss/vite',
-      '@unocss/astro',
-    ],
+    deps: {
+      neverBundle: [
+        'astro',
+        'vite',
+      ],
+    },
+    exports: true,
+    failOnWarn: true,
+    publint: 'ci-only',
     attw: {
-      profile: 'esm-only',
+      enabled: 'ci-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
 ])

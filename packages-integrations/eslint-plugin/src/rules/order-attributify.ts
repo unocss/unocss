@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types'
-import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import MagicString from 'magic-string'
 import { createRule, syncAction } from './_'
 
@@ -17,8 +17,8 @@ export default createRule({
       'invalid-order': 'UnoCSS attributes are not ordered',
     },
     schema: [],
+    defaultOptions: [],
   },
-  defaultOptions: [],
   create(context) {
     const scriptVisitor: RuleListener = {
     }
@@ -41,9 +41,8 @@ export default createRule({
             node,
             messageId: 'invalid-order',
             fix(fixer) {
-              const codeFull = context.getSourceCode()
               const offset = node.range[0]
-              const code = codeFull.getText().slice(node.range[0], node.range[1])
+              const code = context.sourceCode.getText().slice(node.range[0], node.range[1])
 
               const s = new MagicString(code)
 
@@ -74,4 +73,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as AnyRuleModule
+})

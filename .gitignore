@@ -4,6 +4,7 @@
 .nuxt
 .output
 .temp
+.pnpm-store
 *.local
 *.log
 *.vsix
@@ -14,9 +15,7 @@ dist
 examples/**/pnpm-lock.yaml
 node_modules
 packages-integrations/runtime/*.global.js
-packages-integrations/vscode/LICENSE
 packages-integrations/vscode/src/generated
-packages-presets/unocss/README.md
 result.json
 interactive/app/guides/vendor/*.md
 interactive/app/data/guides.ts

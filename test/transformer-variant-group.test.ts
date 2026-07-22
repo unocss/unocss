@@ -14,6 +14,14 @@ describe('transformer-variant-group', () => {
     return { transformed: s.toString(), annotations: result!.highlightAnnotations }
   }
 
+  it('filters source without variant groups', () => {
+    expect(transformer.codeFilter?.('class="hover:text-red"', 'fixture.vue')).toBe(false)
+    expect(transformer.codeFilter?.('class="hover:(text-red)"', 'fixture.vue')).toBe(true)
+
+    const strictTransformer = transformerVariantGroup({ separators: [':'] })
+    expect(strictTransformer.codeFilter?.('class="hover-(text-red)"', 'fixture.vue')).toBe(false)
+  })
+
   it('basic', async () => {
     const cases = [
       'a1 a2:(b1 b2:(c1 c2-(d1 d2) c3) b3) a3',

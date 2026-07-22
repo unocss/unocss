@@ -80,6 +80,7 @@ export interface RuleContext<Theme extends object = object> {
 
 declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolNoMerge: unique symbol
+declare const SymbolNoScope: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
@@ -96,6 +97,10 @@ export interface ControlSymbols {
    * Prevent merging in rules
    */
   noMerge: typeof SymbolNoMerge
+  /**
+   * Prevent applying the `scope` option to this rule/selector
+   */
+  noScope: typeof SymbolNoScope
   /**
    * Additional variants applied to this rule
    */
@@ -125,6 +130,7 @@ export interface ControlSymbols {
 export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
   [SymbolNoMerge]: true
+  [SymbolNoScope]: true
   [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
@@ -198,6 +204,12 @@ export interface RuleMeta {
    * @default false
    */
   noMerge?: boolean
+
+  /**
+   * Option to not apply scope to this selector.
+   * @default false
+   */
+  noScope?: boolean
 
   /**
    * Fine tune sort
@@ -560,6 +572,13 @@ export interface OutputCssLayersOptions {
    * Return `null` to specify that the layer should not be output to any css layer.
    */
   cssLayerName?: (internalLayer: string) => string | undefined | null
+
+  /**
+   * Force output all css layers, even if they are not used.
+   *
+   * @example `@layer theme, preflights, [unused-layer], default;`
+   */
+  allLayers?: boolean
 }
 
 export type AutoCompleteTemplate = string
@@ -792,6 +811,12 @@ export interface SourceCodeTransformer {
    */
   idFilter?: (id: string) => boolean
   /**
+   * Cheap source filter evaluated before creating a MagicString instance.
+   *
+   * It must return true for every source the transformer may modify.
+   */
+  codeFilter?: (code: string, id: string) => boolean
+  /**
    * The transform function
    */
   transform: (
@@ -897,6 +922,14 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   rulesSize: number
   rules: readonly Rule<Theme>[]
   rulesDynamic: readonly DynamicRule<Theme>[]
+  /**
+   * Prefilter for dynamic rules.
+   * @internal
+   */
+  rulesDynamicFilter?: {
+    fallback: readonly DynamicRule<Theme>[]
+    filters: readonly RegExp[]
+  }
   rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
@@ -955,6 +988,27 @@ export type PreparedRule = readonly [
 export interface CliEntryItem {
   patterns: string[]
   outFile: string
+  /**
+   * Whether to rewrite the transformed utilities.
+   *
+   * - For css: if rewrite is true, it will not generate a new file, but directly modify the original file content.
+   * - For other files: if rewrite is true, it replaces the original file with the transformed content.
+   *
+   * @default false
+   */
+  rewrite?: boolean
+
+  /**
+   * Whether to output CSS files scanned from patterns to outFile
+   *
+   * - false: Do not output CSS files
+   * - true: Transform and output scanned CSS file contents to outFile
+   * - 'multi': Output each CSS file separately with filename format `${originFile}-[hash]`
+   * - 'single': Merge multiple CSS files into one output file named `outFile-merged.css`
+   *
+   * @default true
+   */
+  splitCss?: boolean | 'multi' | 'single'
 }
 
 export interface UtilObject {

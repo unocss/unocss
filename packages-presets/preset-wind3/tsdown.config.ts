@@ -1,7 +1,6 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  attw: { profile: 'esm-only' },
   entry: [
     'src/index.ts',
     'src/rules.ts',
@@ -13,9 +12,11 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    '@unocss/core',
-    '@unocss/preset-mini',
-    '@unocss/rule-utils',
-  ],
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: {
+    enabled: 'ci-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })

@@ -152,4 +152,38 @@ describe('transformer-compile-class', () => {
 
     expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
+
+  it('trigger with new line', async () => {
+    const result = await transform(`
+<div class="
+:uno:
+w-1 h-1
+bg-red text-blue
+">
+ test
+</div>
+    `)
+
+    expect(result.code.trim()).toMatchInlineSnapshot(`
+      "<div class="uno-4o94tx">
+       test
+      </div>"
+    `)
+  })
+
+  it('custom class name can be updated across transforms', async () => {
+    const invalidateFn = vi.fn()
+    const uno = await createUno()
+
+    const first = await transform('<div class=":uno-foo: font-bold text-lg"/>', uno, invalidateFn)
+    const second = await transform('<div class=":uno-foo: font-bold text-green text-lg"/>', uno, invalidateFn)
+
+    expect(first.code.trim()).toBe('<div class="uno-foo"/>')
+    expect(second.code.trim()).toBe('<div class="uno-foo"/>')
+    expect(second.css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-foo{font-size:1.125rem;line-height:1.75rem;--un-text-opacity:1;color:rgb(74 222 128 / var(--un-text-opacity));font-weight:700;}"
+    `)
+    expect(invalidateFn).toHaveBeenCalledTimes(2)
+  })
 })

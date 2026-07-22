@@ -14,13 +14,12 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    '@unocss/core',
-    '@unocss/rule-utils',
-    '@unocss/extractor-arbitrary-variants',
-  ],
   alias: aliasVirtual,
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
   attw: {
-    profile: 'esm-only',
+    enabled: 'ci-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

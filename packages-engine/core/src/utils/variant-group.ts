@@ -1,13 +1,15 @@
 import type MagicString from 'magic-string'
 import type { HighlightAnnotation } from '../types'
 import { notNull } from '../utils'
+import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
-  const key = separators.join('|')
+  const escaped = separators.map(s => escapeRegExp(s))
+  const key = escaped.join('|')
   if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }
@@ -55,7 +57,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
           }
           for (const item of innerItems) {
             item.className = item.className === '~'
-              ? pre
+              ? (sep === ':' ? `${pre}${sep}~` : pre)
               : item.className.replace(/^(!?)(.*)/, `$1${pre}${sep}$2`)
             group.items.push(item)
           }

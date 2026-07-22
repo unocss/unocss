@@ -1,7 +1,7 @@
 {
   "name": "@unocss/eslint-plugin",
   "type": "module",
-  "version": "66.5.11",
+  "version": "66.7.5",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -22,25 +22,26 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./worker": "./dist/worker.mjs",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./*"
+      ]
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.mts",
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "typecheck": "tsgo --noEmit",
@@ -56,7 +57,6 @@
   },
   "devDependencies": {
     "@typescript/native-preview": "catalog:typescript",
-    "@unocss/eslint-plugin": "workspace:*",
     "svelte-eslint-parser": "catalog:eslint",
     "vue-eslint-parser": "catalog:vue"
   }

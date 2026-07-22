@@ -7,13 +7,15 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  external: [
-    'astro',
-    'vite',
-    '@unocss/vite',
-  ],
+  deps: {
+    neverBundle: ['astro'],
+  },
   alias: aliasVirtual,
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
   attw: {
-    profile: 'esm-only',
+    enabled: 'ci-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
   },
 })

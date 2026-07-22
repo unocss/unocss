@@ -43,6 +43,8 @@ async function preparePackagesBundle() {
     'babel',
     '/config',
     'extractor',
+    'language-server',
+    'twoslash',
   ]
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
@@ -80,21 +82,13 @@ async function updateTsconfig() {
   const root = fileURLToPath(new URL('..', import.meta.url))
   const alias = await import('../alias').then(r => r.alias)
   const tsconfig = await fs.readJSON('./tsconfig.json')
-  const recursivePackages = [
-    '@unocss/preset-mini',
-    '@unocss/preset-wind3',
-  ]
   tsconfig.compilerOptions.paths = Object.fromEntries(
     Object.entries(alias).flatMap(([k, v]) => {
       let path = `./${relative(root, v)}`
-      if (!path.match(/\.\w+$/) && !path.endsWith('/'))
+      if (!/\.\w+$/.test(path) && !path.endsWith('/'))
         path = `${path}/`
 
-      const entries = [[k, [path]]]
-      if (path.endsWith('/') && recursivePackages.includes(k))
-        entries.push([`${k}/*`, [`${path}*`]])
-
-      return entries
+      return [[k, [path]]]
     }),
   )
   await fs.writeJSON('./tsconfig.json', tsconfig, { spaces: 2, EOL: '\n' })

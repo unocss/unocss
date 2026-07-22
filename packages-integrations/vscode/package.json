@@ -3,7 +3,7 @@
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "type": "module",
-  "version": "66.5.11",
+  "version": "66.7.5",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -20,7 +20,7 @@
   "preview": true,
   "icon": "res/logo.png",
   "engines": {
-    "vscode": "^1.71.0"
+    "vscode": "^1.96.0"
   },
   "activationEvents": [
     "onStartupFinished"
@@ -146,23 +146,17 @@
   },
   "scripts": {
     "build": "tsdown",
-    "dev": "esno ./scripts/dev.ts && tsdown --watch src",
-    "publish": "esno ./scripts/publish.ts",
+    "dev": "tsx ./scripts/dev.ts && tsdown --watch src",
+    "publish": "tsx ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
-    "pack": "vsce package --no-dependencies"
+    "pack": "npx @vscode/vsce package --no-dependencies"
   },
   "devDependencies": {
-    "@types/vscode": "catalog:types",
-    "@unocss/autocomplete": "workspace:*",
-    "@unocss/core": "workspace:*",
-    "@unocss/preset-wind3": "workspace:*",
-    "esno": "catalog:utils",
-    "find-up": "catalog:utils",
-    "jiti": "catalog:utils",
-    "prettier": "catalog:utils",
-    "tsdown": "catalog:build",
-    "unconfig": "catalog:utils",
-    "vscode-ext-gen": "catalog:utils"
+    "@types/vscode": "^1.96.0",
+    "@unocss/language-server": "workspace:*",
+    "tsx": "catalog:typescript",
+    "vscode-ext-gen": "catalog:vscode",
+    "vscode-languageclient": "catalog:vscode"
   }
 }

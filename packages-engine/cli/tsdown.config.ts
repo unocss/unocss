@@ -9,4 +9,13 @@ export default defineConfig({
   clean: true,
   dts: true,
   alias,
+  exports: {
+    exclude: ['cli'],
+  },
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: {
+    enabled: 'ci-only',
+    ignoreRules: ['cjs-resolves-to-esm'],
+  },
 })

@@ -1,12 +1,12 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "typescript.tsserver.enableRegionDiagnostics": true,
   "cSpell.words": [
     "tagify"
   ],
 
   // Enable the flat config support
-  "eslint.experimental.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
 
   // Disable the default formatter
   "prettier.enable": false,
@@ -43,5 +43,7 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+
+  "npm.exclude": "**/{examples,test}/**"
 }

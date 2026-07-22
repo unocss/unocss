@@ -6,19 +6,15 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  format: ['esm', 'cjs'],
-  external: [
-    '@nuxt/schema',
-    '@nuxt/kit',
-    '@unocss/vite',
-    '@unocss/webpack',
-    'vite',
-    'webpack',
-  ],
-  attw: {
-    ignoreRules: [
-      'false-export-default',
-      'untyped-resolution',
-    ],
+  deps: {
+    skipNodeModulesBundle: true,
   },
+  format: ['esm', 'cjs'],
+  outputOptions: {
+    exports: 'named',
+  },
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: 'ci-only',
 })

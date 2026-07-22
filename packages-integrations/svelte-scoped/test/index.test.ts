@@ -4,7 +4,6 @@ import presetTypography from '@unocss/preset-typography'
 import presetWind3 from '@unocss/preset-wind3'
 
 import { format as prettier } from 'prettier'
-// @ts-expect-error missing types
 import prettierSvelte from 'prettier-plugin-svelte'
 import { preprocess } from 'svelte/compiler'
 import { describe, expect, it } from 'vitest'
@@ -36,7 +35,7 @@ describe('svelte-preprocessor', () => {
   async function preprocessSFC(code: string, filename = 'Foo.svelte', options: UnocssSveltePreprocessOptions = {}): Promise<string> {
     options = { ...defaultOptions, ...options }
     const result = await preprocess(code, [UnocssSveltePreprocess(options)], { filename })
-    return prettier(result.code, {
+    return await prettier(result.code, {
       parser: 'svelte',
       plugins: [prettierSvelte],
     })

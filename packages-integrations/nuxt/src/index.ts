@@ -102,7 +102,7 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
 
       // Override cssnano config
       if (
-        isNuxtMajorVersion(3, nuxt)
+        (isNuxtMajorVersion(3, nuxt) || isNuxtMajorVersion(4, nuxt))
         && nuxt.options.builder === '@nuxt/vite-builder'
         && nuxt.options.postcss.plugins.cssnano
         && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')

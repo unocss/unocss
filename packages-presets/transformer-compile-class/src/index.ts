@@ -1,4 +1,4 @@
-import type { SourceCodeTransformer } from '@unocss/core'
+import type { Shortcut, SourceCodeTransformer } from '@unocss/core'
 import { escapeRegExp, expandVariantGroup } from '@unocss/core'
 
 export interface CompileClassOptions {
@@ -66,34 +66,35 @@ export interface CompileClassOptions {
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
   const {
-    trigger = /(["'`]):uno-?(?<name>\S+)?:\s(.*?)\1/g,
+    trigger = /(["'`])\s*:uno-?(?<name>\S+)?:\s([\s\S]*?)\1/g,
     classPrefix = 'uno-',
     hashFn = hash,
     keepUnknown = true,
     alwaysHash = false,
   } = options
   // #2866
-  const compiledClass = new Set()
+  const compiledClass = new Map<string, string>()
 
   // Provides backwards compatibility. We either accept a trigger string which
   // gets turned into a regexp (like previously) or a regex literal directly.
   const regexp = typeof trigger === 'string'
-    ? new RegExp(`(["'\`])${escapeRegExp(trigger)}\\s([^\\1]*?)\\1`, 'g')
+    ? new RegExp(`(["'\`])\\s*${escapeRegExp(trigger)}\\s([\\s\\S]*?)\\1`, 'g')
     : trigger
 
   return {
     name: '@unocss/transformer-compile-class',
     enforce: 'pre',
     async transform(s, _, { uno, tokens, invalidate }) {
-      const matches = [...s.original.matchAll(regexp)]
+      const matches = Array.from(s.original.matchAll(regexp))
       if (!matches.length)
         return
 
-      const size = compiledClass.size
+      let hasChanges = false
+      const currentClasses = new Map<string, string>()
       for (const match of matches) {
-        let body = (match.length === 4 && match.groups)
+        let body = ((match.length === 4 && match.groups)
           ? expandVariantGroup(match[3].trim())
-          : expandVariantGroup(match[2].trim())
+          : expandVariantGroup(match[2].trim())).replace(/\s+/g, ' ')
 
         const start = match.index!
         const replacements = []
@@ -121,18 +122,26 @@ export default function transformerCompileClass(options: CompileClassOptions = {
           }
           const className = `${classPrefix}${hash}`
 
-          if (tokens && tokens.has(className) && explicitName) {
-            const existing = uno.config.shortcuts.find(i => i[0] === className)
-            if (existing && existing[1] !== body)
-              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing[1]}". Please choose different class name or set 'alwaysHash' to 'true'.`)
+          if (explicitName) {
+            const existing = currentClasses.get(className)
+            if (existing && existing !== body)
+              throw new Error(`Duplicated compile class name "${className}". One is "${body}" and the other is "${existing}". Please choose different class name or set 'alwaysHash' to 'true'.`)
           }
+          currentClasses.set(className, body)
 
-          compiledClass.add(className)
+          if (compiledClass.get(className) !== body) {
+            compiledClass.set(className, body)
+            uno.cache.delete(className)
+            uno.blocked.delete(className)
+            hasChanges = true
+          }
           replacements.unshift(className)
-          if (options.layer)
-            uno.config.shortcuts.push([className, body, { layer: options.layer }])
+          const shortcut: Shortcut = [className, body, options.layer ? { layer: options.layer } : undefined]
+          const shortcutIndex = uno.config.shortcuts.findIndex(i => i[0] === className)
+          if (shortcutIndex >= 0)
+            uno.config.shortcuts.splice(shortcutIndex, 1, shortcut)
           else
-            uno.config.shortcuts.push([className, body])
+            uno.config.shortcuts.push(shortcut)
 
           if (tokens)
             tokens.add(className)
@@ -141,7 +150,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         s.overwrite(start + 1, start + match[0].length - 1, replacements.join(' '))
       }
 
-      if (compiledClass.size > size)
+      if (hasChanges)
         invalidate()
     },
   }

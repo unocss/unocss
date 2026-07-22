@@ -26,14 +26,19 @@ export default antfu(
       'packages-presets/preset-icons/src/collections.json',
       'packages-integrations/eslint-plugin/fixtures',
       'packages-integrations/vscode/src/generated',
+      'packages-integrations/twoslash/test/results',
 
       // Nested CSS
       'interactive/markdown.css',
       'playground/src/main.css',
+
+      // Examples with their own ESLint config (dependencies not installed in workspace)
+      'examples/next/**',
     ],
   },
   {
     rules: {
+      'e18e/prefer-static-regex': 'off',
       'style/jsx-child-element-spacing': 'off',
       'ts/no-invalid-void-type': 'off',
       'no-restricted-imports': [
@@ -111,6 +116,16 @@ export default antfu(
       // and makes the `trustPolicyExclude` field difficult to maintain.
       // https://github.com/pnpm/pnpm/pull/10359
       'pnpm/yaml-enforce-settings': 'off',
+    },
+  },
+  {
+    files: [
+      'docs/index.md',
+    ],
+    rules: {
+      // The markdown/no-space-in-emphasis rule incorrectly flags underscore-prefixed YAML values like '_blank'
+      // in the frontmatter as markdown emphasis syntax, causing the VitePress build to fail.
+      'markdown/no-space-in-emphasis': 'off',
     },
   },
 )

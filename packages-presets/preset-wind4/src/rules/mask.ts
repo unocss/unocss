@@ -28,12 +28,12 @@ const baseMaskImage = {
   'mask-composite': 'intersect',
 }
 
-function handlePosition([,v = '']: string[]) {
+function handlePosition([,v = '']: string[], ctx?: RuleContext<Theme>) {
   if (v in cornerMap) {
     const positions = v.split('').flatMap(c => linearMap[c]).join(' ')
     return { 'mask-position': positions }
   }
-  const _v = h.bracket.cssvar.global.position(v)
+  const _v = h.bracket.cssvar.global.position(v, ctx?.theme)
   if (_v !== null)
     return { 'mask-position': _v }
 }
@@ -52,10 +52,10 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
 
       if (numberResolver(val) != null) {
         themeTracking('spacing')
-        css[`--un-mask-${dir}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val)})`
+        css[`--un-mask-${dir}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
       }
       else {
-        css[`--un-mask-${dir}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val)
+        css[`--un-mask-${dir}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx.theme)
       }
 
       if (hasParseableColor(val, ctx.theme)) {
@@ -79,11 +79,11 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
     if (direction == null) {
       if (gradient === 'radial') {
         css['--un-mask-radial'] = 'radial-gradient(var(--un-mask-radial-stops, var(--un-mask-radial-size)))'
-        css['--un-mask-radial-size'] = h.bracket.cssvar.rem(val)
+        css['--un-mask-radial-size'] = h.bracket.cssvar.rem(val, ctx.theme)
       }
       else {
         css[`--un-mask-${gradient}`] = `${gradient}-gradient(var(--un-mask-${gradient}-stops, var(--un-mask-${gradient}-position)))`
-        css[`--un-mask-${gradient}-position`] = numberResolver(val) ? `calc(1deg * ${h.bracket.cssvar.number(val)})` : h.bracket.cssvar.fraction(val)
+        css[`--un-mask-${gradient}-position`] = numberResolver(val) ? `calc(1deg * ${h.bracket.cssvar.number(val, ctx.theme)})` : h.bracket.cssvar.fraction(val, ctx.theme)
       }
     }
     else {
@@ -106,10 +106,10 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       else {
         if (numberResolver(val) != null) {
           themeTracking('spacing')
-          css[`--un-mask-${gradient}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val)})`
+          css[`--un-mask-${gradient}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
         }
         else {
-          css[`--un-mask-${gradient}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val)
+          css[`--un-mask-${gradient}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx.theme)
         }
       }
     }
@@ -131,8 +131,8 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
   return [css, ...props]
 }
 
-function handleSize([, v = '']: string[]) {
-  const _v = h.bracket.cssvar.global.fraction.rem(v)
+function handleSize([, v = '']: string[], ctx?: RuleContext<Theme>) {
+  const _v = h.bracket.cssvar.global.fraction.rem(v, ctx?.theme)
   if (_v !== null)
     return { 'mask-size': _v }
 }
@@ -154,7 +154,7 @@ export const masks: Rule<Theme>[] = [
   ['mask-exclude', { 'mask-composite': 'exclude' }],
 
   // mask-image
-  [/^mask-(.+)$/, ([,v]) => ({ 'mask-image': h.bracket.cssvar(v) })],
+  [/^mask-(.+)$/, ([,v], { theme }) => ({ 'mask-image': h.bracket.cssvar(v, theme) })],
   [/^mask-(linear|radial|conic|[xytblr])-(from|to)()(?:-(.+))?$/, handleImage, {
     autocomplete: [
       'mask-(linear|radial|conic)-(from|to)-$colors',

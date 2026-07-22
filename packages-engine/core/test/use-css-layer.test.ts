@@ -41,4 +41,28 @@ describe('use-css-layer', () => {
     const { css } = await uno.generate('w-1 h-1 custom-shortcut', { preflights: false })
     expect(css).toMatchSnapshot()
   })
+
+  it('output all layers', async () => {
+    const uno = await createGenerator({
+      rules: [
+        ['a', { name: 'foo' }, { layer: 'a' }],
+        ['b', { name: 'bar' }, { layer: 'custom' }],
+        ['c', { name: 'baz' }],
+      ],
+      layers: {
+        a: -300,
+        custom: 100,
+      },
+      outputToCssLayers: {
+        allLayers: true,
+      },
+      preflights: [
+        {
+          getCSS: () => `body { background: red; }`,
+        },
+      ],
+    })
+    const { css } = await uno.generate('a b c')
+    expect(css).toMatchSnapshot()
+  })
 })

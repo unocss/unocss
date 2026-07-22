@@ -11,6 +11,39 @@ export function resolveShortcuts<Theme extends object = object>(shortcuts: UserS
   })
 }
 
+function createDynamicRuleFilters<Theme extends object>(rules: readonly DynamicRule<Theme>[]) {
+  const filterSources = new Map<string, string[]>()
+  const fallback: DynamicRule<Theme>[] = []
+
+  for (const rule of rules) {
+    const [matcher, , meta] = rule
+    // These patterns cannot be safely embedded into a larger alternation.
+    if (meta?.prefix || matcher.global || matcher.sticky || /\\(?:[1-9]|k<)|\(\?</.test(matcher.source)) {
+      fallback.push(rule)
+      continue
+    }
+    const sources = filterSources.get(matcher.flags) ?? []
+    sources.push(`(?:${matcher.source})`)
+    filterSources.set(matcher.flags, sources)
+  }
+
+  try {
+    return {
+      fallback,
+      filters: Array.from(
+        filterSources,
+        ([flags, sources]) => new RegExp(sources.join('|'), flags),
+      ),
+    }
+  }
+  catch {
+    return {
+      fallback: [...rules],
+      filters: [],
+    }
+  }
+}
+
 const __RESOLVED = '_uno_resolved'
 
 /**
@@ -226,6 +259,8 @@ export async function resolveConfig<Theme extends object = object>(
 
   for (const p of sources)
     p?.configResolved?.(resolved)
+
+  resolved.rulesDynamicFilter = createDynamicRuleFilters(resolved.rulesDynamic)
 
   return resolved
 }

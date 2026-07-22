@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { resolvePath } from '@nuxt/kit'
 import { alias } from '../alias'
 
 const externals = [
@@ -19,10 +20,22 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '../packages-integrations/nuxt/src/index.ts',
+    function spaServerEntryInput(_, nuxt) {
+      nuxt.hook('vite:extendConfig', async (config, { isClient }) => {
+        if (!nuxt.options.dev || nuxt.options.ssr || !isClient)
+          return
+
+        const input = config.build?.rollupOptions?.input
+        if (!input || typeof input === 'string' || Array.isArray(input) || input.server)
+          return
+
+        input.server = await resolvePath(resolve(nuxt.options.appDir, 'entry-spa'))
+      })
+    },
   ],
 
   ssr: false,
-  spaLoadingTemplate: './spa-loading-template.html',
+  spaLoadingTemplate: resolve(__dirname, 'spa-loading-template.html'),
 
   app: {
     baseURL: '/interactive/',
@@ -66,7 +79,10 @@ export default defineNuxtConfig({
       include: [/\.vue$/, /\.md$/],
     },
     optimizeDeps: {
-      exclude: externals,
+      exclude: [
+        ...externals,
+        'oxc-parser',
+      ],
     },
     define: {
       'process.env.VSCODE_TEXTMATE_DEBUG': 'false',

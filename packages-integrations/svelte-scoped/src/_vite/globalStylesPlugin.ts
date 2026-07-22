@@ -1,10 +1,10 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
 import type { UnocssSvelteScopedViteOptions } from './types'
 import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_CSS_FILE_NAME, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
 import { checkTransformPageChunkHook, generateGlobalCss } from './global'
 
-export function GlobalStylesPlugin(ctx: SvelteScopedContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
+export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
   let isSvelteKit: boolean
   let viteConfig: ResolvedConfig
   let unoCssFileReferenceId: string
@@ -50,8 +50,8 @@ export function GlobalStylesPlugin(ctx: SvelteScopedContext, injectReset?: Unocs
       }
     },
 
-    // build
-    async buildStart() {
+    // build end - runs after all module transforms complete, so on-demand theme tokens are fully tracked
+    async buildEnd() {
       if (viteConfig.command === 'build') {
         const css = await generateGlobalCss(ctx.uno, injectReset)
         unoCssFileReferenceId = this.emitFile({

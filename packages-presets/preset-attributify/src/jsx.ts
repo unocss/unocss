@@ -65,6 +65,7 @@ export type PseudoPrefix
     | 'focus'
     | 'hover'
     | 'link'
+    | 'print'
     | 'root'
     | 'sm'
     | 'md'

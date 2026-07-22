@@ -8,9 +8,8 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
-  external: [
-    '@typescript-eslint/utils/ts-eslint',
-    '@typescript-eslint/utils',
-    '@typescript-eslint/types',
-  ],
+  exports: true,
+  failOnWarn: true,
+  publint: 'ci-only',
+  attw: 'ci-only',
 })

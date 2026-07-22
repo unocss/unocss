@@ -575,6 +575,7 @@ export const presetMiniTargets: string[] = [
   'w-none',
   'w-auto',
   'w-unset',
+  'w-stretch',
   'w-1',
   'w-21',
   'w-1/4',
@@ -588,6 +589,7 @@ export const presetMiniTargets: string[] = [
   'max-w-20',
   'max-w-lg',
   'max-w-full',
+  'max-w-stretch',
   'max-w-$var',
   'max-w-screen-lg',
   'max-w-revert',
@@ -785,6 +787,10 @@ export const presetMiniTargets: string[] = [
   'intrinsic-size-200px',
   'intrinsic-size-1/2',
   'intrinsic-size-unset',
+  'intrinsic-w-200px',
+  'intrinsic-h-size-1/2',
+  'intrinsic-block-unset',
+  'intrinsic-inline-size-[auto 300px]',
 
   // svg
   'fill-none',
@@ -867,6 +873,7 @@ export const presetMiniTargets: string[] = [
   'perspect-origin-top-right',
   'perspect-origin-[150%]',
   'perspect-origin-[150%_150%]',
+  'transform-perspective-9cm',
 
   // transition
   'transition-none',
@@ -1146,6 +1153,12 @@ export const presetMiniTargets: string[] = [
   // variants supports
   'supports-[(display:_grid)]:block',
   'supports-[display:grid]:grid',
+  'supports-[backdrop-filter]:backdrop-blur',
+  'supports-[not(display:grid)]:block',
+  'supports-[not(container-type:inline-size)]:md:grid-cols-2',
+  'supports-[(display:grid)_and_(display:flex)]:grid',
+  'supports-[(display:grid)or(display:flex)]:grid',
+  'supports-[(container-type:inline-size)and(not(display:grid))]:block',
 
   // variants media
   'media-mouse:block',
@@ -1169,6 +1182,8 @@ export const presetMiniTargets: string[] = [
   'hover:file:bg-violet-100',
   'backdrop:shadow-green',
   'backdrop-element:shadow-green-100',
+  'details-content:bg-green-100',
+  'open:details-content:h-auto',
 
   // variants - pseudo classes
   'rtl:text-right',
