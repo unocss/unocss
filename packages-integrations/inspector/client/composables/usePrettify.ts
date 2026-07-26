@@ -38,11 +38,3 @@ export function usePrettify(content: MaybeRefOrGetter<string | undefined>, toggl
 export function useCSSPrettify(content: MaybeRefOrGetter<string | undefined>, toggle: MaybeRefOrGetter<boolean> = true) {
   return usePrettify(content, toggle, 'css')
 }
-
-export function useHTMLPrettify(content: MaybeRefOrGetter<string | undefined>, toggle: MaybeRefOrGetter<boolean> = true) {
-  return usePrettify(content, toggle, 'html')
-}
-
-export function useJSPrettify(content: MaybeRefOrGetter<string | undefined>, toggle: MaybeRefOrGetter<boolean> = true) {
-  return usePrettify(content, toggle, 'babel')
-}
