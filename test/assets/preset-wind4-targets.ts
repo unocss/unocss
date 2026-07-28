@@ -664,6 +664,47 @@ export const presetWind4Targets: string[] = [
   'zoom-50',
   'zoom-[1.1]',
   'zoom-[var(--zoom)]',
+
+  /* gap rules */
+
+  // rule style
+  'rule-dashed',
+  'rule-x-solid',
+  'rule-col-dotted',
+
+  // rule color
+  'rule-red-500',
+  'rule-y-teal-500',
+  'rule-y-op-50',
+  'rule-opacity-50',
+  'rule-col-blue-500',
+  'rule-row-style-dotted',
+  'rule-color-$variable',
+  'rule-row-color-[blue,teal-300,#eee8,$bar]',
+
+  // rule width
+  'rule-2',
+  'rule-x-4',
+  'rule-y-6rem',
+  'rule-col-8px',
+  'rule-row-width-3',
+  'rule-width-$variable',
+  'rule-col-width-[1px,3em,$foo,5]',
+
+  // rule style + color + width
+  'rule-[1px_solid_#fff]',
+  'rule-row-[1_solid_red-500]',
+  'rule-col-[1px_solid_#fff]',
+  'rule-$variable',
+
+  // rule others
+  'rule-inset-4',
+  'rule-inset-cap-start-[2px]',
+  'rule-break-intersection',
+  'rule-col-break-normal',
+  'rule-visibility-around',
+  'rule-overlap-column',
+  'rule-row-visibility-between',
 ]
 
 export const presetWindNonTargets: string[] = [

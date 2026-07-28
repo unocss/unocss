@@ -14,7 +14,7 @@ const colorMixWithWeightRE = new RegExp(
   'i',
 )
 
-function getCssVariables(code: string) {
+export function getCssVariables(code: string) {
   const regex = /(?<key>--[^\s:]+):(?<value>.+?)[!;]/g
   const cssVariables = new Map<string, string>()
   for (const match of code.matchAll(regex)) {
@@ -125,10 +125,18 @@ function getColorStringFromValue(value: string, cssVars: Map<string, string>) {
  * return `rgb(217 78% 51%)`
  *
  * @param str - CSS string
+ * @param externalCssVars - Optional external CSS variables (e.g. from preflight theme)
+ *   used for var() resolution but not for color property matching
  * @returns The **first** CSS color string (hex, rgb[a], hsl[a]) or `undefined`
  */
-export function getColorString(str: string) {
+export function getColorString(str: string, externalCssVars?: Map<string, string>) {
   const cssVars = getCssVariables(str)
+  if (externalCssVars) {
+    for (const [k, v] of externalCssVars) {
+      if (!cssVars.has(k))
+        cssVars.set(k, v)
+    }
+  }
 
   for (const match of str.matchAll(cssColorPropertyRE)) {
     const value = match.groups?.value

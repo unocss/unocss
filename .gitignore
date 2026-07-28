@@ -4,6 +4,7 @@
 .nuxt
 .output
 .temp
+.pnpm-store
 *.local
 *.log
 *.vsix

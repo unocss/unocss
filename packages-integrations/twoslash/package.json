@@ -1,0 +1,46 @@
+{
+  "name": "@unocss/twoslash",
+  "type": "module",
+  "version": "66.7.5",
+  "description": "Twoslash integration for UnoCSS",
+  "author": "Vida Xie <vida_2020@163.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://unocss.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unocss/unocss.git",
+    "directory": "packages-integrations/twoslash"
+  },
+  "bugs": {
+    "url": "https://github.com/unocss/unocss/issues"
+  },
+  "keywords": [
+    "unocss",
+    "twoslash"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./worker": "./dist/worker.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown --config-loader unrun",
+    "dev": "tsdown --config-loader unrun --watch"
+  },
+  "dependencies": {
+    "@unocss/config": "workspace:*",
+    "@unocss/core": "workspace:*",
+    "prettier": "catalog:utils",
+    "synckit": "catalog:utils",
+    "twoslash-protocol": "catalog:twoslash"
+  },
+  "inlinedDependencies": {
+    "@jridgewell/sourcemap-codec": "1.5.5",
+    "magic-string": "0.30.21"
+  }
+}

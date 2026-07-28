@@ -27,7 +27,7 @@ Follow the following conventions to use the icons
 
 For example:
 
-```html
+```html twoslash
 <!-- A basic anchor icon from Phosphor icons -->
 <div class="i-ph-anchor-simple-thin" />
 <!-- An orange alarm from Material Design Icons -->
@@ -145,7 +145,7 @@ By default, this preset will choose the rendering modes automatically for each i
 
 For example, `vscode-icons:file-type-light-pnpm`, an icon with colors (the `svg` doesn't contain `currentColor`) that will be rendered as a background image. Use `vscode-icons:file-type-light-pnpm?mask` to render it as a mask image and bypass it's colors.
 
-```html
+```html twoslash
 <div class="w-full flex items-center justify-center gap-x-4 text-4xl p-2 mt-4">
   <div class="i-vscode-icons:file-type-light-pnpm" />
   <div class="i-vscode-icons:file-type-light-pnpm?mask text-red-300" />

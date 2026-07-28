@@ -20,7 +20,7 @@ export const PseudoClasses: Record<string, string> = Object.fromEntries([
   'link',
   'visited',
   'target',
-  ['open', '[open]'],
+  ['open', ':is([open],:popover-open,:open)'],
 
   // forms
   'default',
