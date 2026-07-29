@@ -64,6 +64,8 @@ Available rules:
 - `blocklist` - Disallow specific class selectors [Optional].
 - `enforce-class-compile` - Enforce class compile [Optional].
 
+`order-attributify` orders attributify attributes themselves. It does not sort utilities inside attributify values such as `un-before="text-center font-sans color-gray"`.
+
 ### Rule options
 
 #### `order`
