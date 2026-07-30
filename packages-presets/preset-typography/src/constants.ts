@@ -393,20 +393,20 @@ export const ProseDefaultSize: TypographySizeScheme = {
     'ul > li': {
       'padding-inline-start': em(6, 14),
     },
-    '> ul > li p': {
+    '& > ul > li p': {
       'margin-top': em(8, 14),
       'margin-bottom': em(8, 14),
     },
-    '> ul > li > p:first-child': {
+    '& > ul > li > p:first-child': {
       'margin-top': em(16, 14),
     },
-    '> ul > li > p:last-child': {
+    '& > ul > li > p:last-child': {
       'margin-bottom': em(16, 14),
     },
-    '> ol > li > p:first-child': {
+    '& > ol > li > p:first-child': {
       'margin-top': em(16, 14),
     },
-    '> ol > li > p:last-child': {
+    '& > ol > li > p:last-child': {
       'margin-bottom': em(16, 14),
     },
     'ul ul, ul ol, ol ul, ol ol': {
@@ -480,10 +480,10 @@ export const ProseDefaultSize: TypographySizeScheme = {
       'line-height': round(16 / 12),
       'margin-top': em(8, 12),
     },
-    '> :first-child': {
+    '& > :first-child': {
       'margin-top': '0',
     },
-    '> :last-child': {
+    '& > :last-child': {
       'margin-bottom': '0',
     },
   },
@@ -592,20 +592,20 @@ export const ProseDefaultSize: TypographySizeScheme = {
     'ul > li': {
       'padding-inline-start': em(6, 16),
     },
-    '> ul > li p': {
+    '& > ul > li p': {
       'margin-top': em(12, 16),
       'margin-bottom': em(12, 16),
     },
-    '> ul > li > p:first-child': {
+    '& > ul > li > p:first-child': {
       'margin-top': em(20, 16),
     },
-    '> ul > li > p:last-child': {
+    '& > ul > li > p:last-child': {
       'margin-bottom': em(20, 16),
     },
-    '> ol > li > p:first-child': {
+    '& > ol > li > p:first-child': {
       'margin-top': em(20, 16),
     },
-    '> ol > li > p:last-child': {
+    '& > ol > li > p:last-child': {
       'margin-bottom': em(20, 16),
     },
     'ul ul, ul ol, ol ul, ol ol': {
@@ -679,10 +679,10 @@ export const ProseDefaultSize: TypographySizeScheme = {
       'line-height': round(20 / 14),
       'margin-top': em(12, 14),
     },
-    '> :first-child': {
+    '& > :first-child': {
       'margin-top': '0',
     },
-    '> :last-child': {
+    '& > :last-child': {
       'margin-bottom': '0',
     },
   },
@@ -791,20 +791,20 @@ export const ProseDefaultSize: TypographySizeScheme = {
     'ul > li': {
       'padding-inline-start': em(8, 18),
     },
-    '> ul > li p': {
+    '& > ul > li p': {
       'margin-top': em(16, 18),
       'margin-bottom': em(16, 18),
     },
-    '> ul > li > p:first-child': {
+    '& > ul > li > p:first-child': {
       'margin-top': em(24, 18),
     },
-    '> ul > li > p:last-child': {
+    '& > ul > li > p:last-child': {
       'margin-bottom': em(24, 18),
     },
-    '> ol > li > p:first-child': {
+    '& > ol > li > p:first-child': {
       'margin-top': em(24, 18),
     },
-    '> ol > li > p:last-child': {
+    '& > ol > li > p:last-child': {
       'margin-bottom': em(24, 18),
     },
     'ul ul, ul ol, ol ul, ol ol': {
@@ -878,10 +878,10 @@ export const ProseDefaultSize: TypographySizeScheme = {
       'line-height': round(24 / 16),
       'margin-top': em(16, 16),
     },
-    '> :first-child': {
+    '& > :first-child': {
       'margin-top': '0',
     },
-    '> :last-child': {
+    '& > :last-child': {
       'margin-bottom': '0',
     },
   },
@@ -990,20 +990,20 @@ export const ProseDefaultSize: TypographySizeScheme = {
     'ul > li': {
       'padding-inline-start': em(8, 20),
     },
-    '> ul > li p': {
+    '& > ul > li p': {
       'margin-top': em(16, 20),
       'margin-bottom': em(16, 20),
     },
-    '> ul > li > p:first-child': {
+    '& > ul > li > p:first-child': {
       'margin-top': em(24, 20),
     },
-    '> ul > li > p:last-child': {
+    '& > ul > li > p:last-child': {
       'margin-bottom': em(24, 20),
     },
-    '> ol > li > p:first-child': {
+    '& > ol > li > p:first-child': {
       'margin-top': em(24, 20),
     },
-    '> ol > li > p:last-child': {
+    '& > ol > li > p:last-child': {
       'margin-bottom': em(24, 20),
     },
     'ul ul, ul ol, ol ul, ol ol': {
@@ -1077,10 +1077,10 @@ export const ProseDefaultSize: TypographySizeScheme = {
       'line-height': round(28 / 18),
       'margin-top': em(18, 18),
     },
-    '> :first-child': {
+    '& > :first-child': {
       'margin-top': '0',
     },
-    '> :last-child': {
+    '& > :last-child': {
       'margin-bottom': '0',
     },
   },
@@ -1189,20 +1189,20 @@ export const ProseDefaultSize: TypographySizeScheme = {
     'ul > li': {
       'padding-inline-start': em(10, 24),
     },
-    '> ul > li p': {
+    '& > ul > li p': {
       'margin-top': em(20, 24),
       'margin-bottom': em(20, 24),
     },
-    '> ul > li > p:first-child': {
+    '& > ul > li > p:first-child': {
       'margin-top': em(32, 24),
     },
-    '> ul > li > p:last-child': {
+    '& > ul > li > p:last-child': {
       'margin-bottom': em(32, 24),
     },
-    '> ol > li > p:first-child': {
+    '& > ol > li > p:first-child': {
       'margin-top': em(32, 24),
     },
-    '> ol > li > p:last-child': {
+    '& > ol > li > p:last-child': {
       'margin-bottom': em(32, 24),
     },
     'ul ul, ul ol, ol ul, ol ol': {
@@ -1276,10 +1276,10 @@ export const ProseDefaultSize: TypographySizeScheme = {
       'line-height': round(32 / 20),
       'margin-top': em(20, 20),
     },
-    '> :first-child': {
+    '& > :first-child': {
       'margin-top': '0',
     },
-    '> :last-child': {
+    '& > :last-child': {
       'margin-bottom': '0',
     },
   },
