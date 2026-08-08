@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 import MagicString from 'magic-string'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
@@ -130,4 +131,68 @@ describe('transformApply', async () => {
   })
 
   // TODO: file issue: using two media queries like `sm:lt-lg:ml-1` produces $$ instead of the necessary "and" between media queries and so is broken - I think it is a bug elsewhere in UnoCSS. It may be connected to regexScopePlaceholder
+})
+
+describe('transformApply with presetWind4', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetWind4(),
+    ],
+  })
+
+  async function transform(content: string) {
+    const s = new MagicString(content)
+    const transformed = (await transformApply({ s, uno, applyVariables: ['--at-apply'] })).toString()
+    return (await prettier(transformed || '', {
+      parser: 'css',
+      plugins: [parserCSS],
+    })).trim()
+  }
+
+  it('handles @apply with utilities that emit @property at-rules (e.g. bg-blue)', async () => {
+    const style = `
+      .greeting {
+        --at-apply: 'bg-blue text-white p-4';
+      }
+    `
+    expect(await transform(style)).toMatchInlineSnapshot(`
+      ".greeting {
+        color: color-mix(
+          in srgb,
+          var(--colors-white) var(--un-text-opacity),
+          transparent
+        );
+        padding: calc(var(--spacing) * 4);
+        background-color: color-mix(
+          in srgb,
+          var(--colors-blue-DEFAULT) var(--un-bg-opacity),
+          transparent
+        );
+      }
+      @property --un-text-opacity {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 100%;
+      }
+      @supports (color: color-mix(in lab, red, red)) {
+        .greeting {
+          color: color-mix(
+            in oklab,
+            var(--colors-white) var(--un-text-opacity),
+            transparent
+          );
+          background-color: color-mix(
+            in oklab,
+            var(--colors-blue-DEFAULT) var(--un-bg-opacity),
+            transparent
+          );
+        }
+      }
+      @property --un-bg-opacity {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 100%;
+      }"
+    `)
+  })
 })
