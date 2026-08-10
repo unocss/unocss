@@ -13,6 +13,12 @@ export function writeUtilStyles([, selector, body, parent]: StringifiedUtil, s: 
   if (!parent && !selectorChanged)
     return s.appendRight(childNode!.loc!.end.offset, body)
 
+  // @property and other at-rules are not CSS selectors; emit them verbatim
+  if (selector.startsWith('@')) {
+    s.appendLeft(node.loc!.end.offset, `${selector}{${body}}`)
+    return
+  }
+
   const originalSelector = generate(node.prelude)
 
   if (parent && !selectorChanged) {
