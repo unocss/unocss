@@ -164,8 +164,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     if (defaults)
       this.defaults = defaults
     this.userConfig = userConfig
-    const config = await resolveConfig(userConfig, this.defaults)
-    this.config = config
+    this.config = await resolveConfig(userConfig, this.defaults)
     this.resetTokenProcessing()
     this.events.emit('config', this.config)
   }
