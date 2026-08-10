@@ -1,4 +1,4 @@
-import type { Preset, UserConfig } from '@unocss/core'
+import type { Preset, Rule, UserConfig } from '@unocss/core'
 import type { Theme } from '@unocss/preset-mini'
 import { createGenerator, mergeConfigs, noop } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
@@ -47,6 +47,85 @@ describe('config', () => {
     })
 
     expect((await uno.generate('foo', { preflights: false })).css).toContain('color:blue;')
+  })
+
+  it('invalidates a cached token', async () => {
+    let color = 'red'
+    const uno = await createGenerator({
+      rules: [
+        [/^foo$/, () => ({ color })],
+      ],
+    })
+
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:red;')
+
+    color = 'blue'
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:red;')
+
+    uno.invalidateToken('foo')
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:blue;')
+  })
+
+  it('blocks tokens until they are invalidated', async () => {
+    const uno = await createGenerator({
+      rules: [
+        ['foo', { color: 'red' }],
+      ],
+    })
+
+    uno.blockTokens(['foo'])
+    expect((await uno.generate('foo', { preflights: false })).css).not.toContain('color:red;')
+
+    uno.invalidateToken('foo')
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:red;')
+  })
+
+  it('exposes cached token aliases', async () => {
+    const uno = await createGenerator({
+      rules: [
+        ['foo', { color: 'red' }],
+      ],
+    })
+
+    await uno.parseToken('foo', '-')
+
+    expect(uno.getCachedTokens('foo')).toEqual(['foo -'])
+    expect(uno.getCachedAliases('foo -')).toEqual(['foo -'])
+  })
+
+  it('keeps parent order with token processing state', async () => {
+    const uno = await createGenerator({
+      rules: [
+        [/^foo$/, () => ({ color: 'red' })],
+      ],
+      variants: [
+        (matcher) => {
+          if (!matcher.startsWith('parent:'))
+            return
+          return {
+            matcher: matcher.slice('parent:'.length),
+            parent: ['@supports (display: grid)', 10],
+          }
+        },
+      ],
+    })
+
+    await uno.generate('parent:foo', { preflights: false })
+    expect(uno.getParentOrder('@supports (display: grid)')).toBe(10)
+
+    await uno.setConfig({ rules: [] })
+    expect(uno.getParentOrder('@supports (display: grid)')).toBeUndefined()
+  })
+
+  it('returns a copy of activated rules', async () => {
+    const rule: Rule = ['foo', { color: 'red' }]
+    const uno = await createGenerator({ rules: [rule] })
+
+    await uno.generate('foo', { preflights: false })
+
+    const activatedRules = uno.getActivatedRules()
+    expect(activatedRules).toEqual(new Set([rule]))
+    expect(uno.getActivatedRules()).not.toBe(activatedRules)
   })
 
   it('extendTheme with return extend', async () => {
