@@ -321,7 +321,27 @@ class UnoGeneratorInternal<Theme extends object = object> {
         return layerCache[layer]
 
       let css = Array.from(sheet)
-        .sort((a, b) => ((this.parentOrders.get(a[0]) ?? 0) - (this.parentOrders.get(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
+        .sort((a, b) => {
+          const orderA = this.parentOrders.get(a[0]) ?? 0
+          const orderB = this.parentOrders.get(b[0]) ?? 0
+          const orderDiff = orderA - orderB
+          if (orderDiff !== 0)
+            return orderDiff
+
+          const parentA = a[0] || ''
+          const parentB = b[0] || ''
+
+          // @supports (feature queries) should emit BEFORE @media queries
+          // so that @media (e.g. print) can override @supports fallbacks
+          const isSupportsA = parentA.startsWith('@supports')
+          const isSupportsB = parentB.startsWith('@supports')
+          if (isSupportsA && !isSupportsB)
+            return -1
+          if (!isSupportsA && isSupportsB)
+            return 1
+
+          return parentA.localeCompare(parentB) || 0
+        })
         .map(([parent, items]) => {
           const size = items.length
           const sorted: PreparedRule[] = items
