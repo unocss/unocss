@@ -10,7 +10,7 @@ export async function getUtils(body: string, uno: UnoGenerator): Promise<Stringi
 
   const utils = await parseUtils(classNames, uno)
   const sortedByRankIndex = utils.sort(([aIndex], [bIndex]) => aIndex - bIndex)
-  const sortedByParentOrders = sortedByRankIndex.sort(([, , , aParent], [, , , bParent]) => (aParent ? uno.parentOrders.get(aParent) ?? 0 : 0) - (bParent ? uno.parentOrders.get(bParent) ?? 0 : 0))
+  const sortedByParentOrders = sortedByRankIndex.sort(([, , , aParent], [, , , bParent]) => (aParent ? uno.getParentOrder(aParent) ?? 0 : 0) - (bParent ? uno.getParentOrder(bParent) ?? 0 : 0))
 
   return sortedByParentOrders
     .reduce((acc, item) => {

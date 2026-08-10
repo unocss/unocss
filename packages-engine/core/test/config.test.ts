@@ -31,6 +31,24 @@ describe('config', () => {
     `)
   })
 
+  it('replaces token processing state after a configuration change', async () => {
+    const uno = await createGenerator({
+      rules: [
+        ['foo', { color: 'red' }],
+      ],
+    })
+
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:red;')
+
+    await uno.setConfig({
+      rules: [
+        ['foo', { color: 'blue' }],
+      ],
+    })
+
+    expect((await uno.generate('foo', { preflights: false })).css).toContain('color:blue;')
+  })
+
   it('extendTheme with return extend', async () => {
     const uno = await createUno({
       extendTheme(mergedTheme) {

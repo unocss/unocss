@@ -131,8 +131,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
 
           if (compiledClass.get(className) !== body) {
             compiledClass.set(className, body)
-            uno.cache.delete(className)
-            uno.blocked.delete(className)
+            uno.invalidateToken(className)
             hasChanges = true
           }
           replacements.unshift(className)

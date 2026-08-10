@@ -319,7 +319,7 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
   function execute() {
     if (runtimeOptions.bypassDefined)
-      getDefinedCssSelectors(uno.blocked)
+      uno.blockTokens(getDefinedCssSelectors())
     extractAll()
     observe()
   }

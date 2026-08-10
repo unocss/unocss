@@ -24,7 +24,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         .filter(notNull)
         .flat()
         .sort((a, b) => a[0] - b[0])
-        .sort((a, b) => (a[3] ? uno.parentOrders.get(a[3]) ?? 0 : 0) - (b[3] ? uno.parentOrders.get(b[3]) ?? 0 : 0))
+        .sort((a, b) => (a[3] ? uno.getParentOrder(a[3]) ?? 0 : 0) - (b[3] ? uno.getParentOrder(b[3]) ?? 0 : 0))
         .reduce((acc, item) => {
           const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
           if (target)
