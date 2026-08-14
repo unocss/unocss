@@ -3,6 +3,7 @@ import {
   presetAttributify,
   presetIcons,
   presetWind4,
+  transformerVariantGroup,
 } from 'unocss'
 
 export default defineConfig({
@@ -17,5 +18,8 @@ export default defineConfig({
         'vertical-align': 'middle',
       },
     }),
+  ],
+  transformers: [
+    transformerVariantGroup(),
   ],
 })

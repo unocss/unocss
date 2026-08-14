@@ -29,6 +29,7 @@ async function preparePackagesBundle() {
     'vscode',
     'cli',
     'astro',
+    'next',
     'nuxt',
     'postcss',
     'webpack',

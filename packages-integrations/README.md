@@ -8,6 +8,7 @@ Packages that integrate UnoCSS with other tools, they should be aimed for agnost
 | [@unocss/astro](./astro)                 | The Astro integration        | ✅                   |
 | [@unocss/webpack](./webpack)             | The Webpack plugin           | No                   |
 | [@unocss/postcss](./postcss)             | The PostCSS plugin           | No                   |
+| [@unocss/next](./next)                   | The Next.js plugin           | No                   |
 | [@unocss/inspector](./postcss)           | Embedded Inspector UI        | ✅                   |
 | [@unocss/nuxt](./nuxt)                   | The Nuxt Module              | No                   |
 | [@unocss/runtime](./runtime)             | CSS-in-JS Runtime for UnoCSS | No                   |

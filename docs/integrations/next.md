@@ -7,92 +7,79 @@ description: Getting started with UnoCSS and Next.js.
 
 Getting Started with UnoCSS and Next.js. Check the [example](https://github.com/unocss/unocss/tree/main/examples/next).
 
-## Setup
+::: tip
+`@unocss/next` is for Next.js 16.2 or newer and Turbopack. For webpack builds, use
+[`@unocss/webpack`](/integrations/webpack).
+:::
 
-### Installation
+## Installation
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add -D unocss @unocss/postcss @unocss/reset
+pnpm add -D unocss @unocss/next @unocss/reset
 ```
 
 ```bash [yarn]
-yarn add -D unocss @unocss/postcss @unocss/reset
+yarn add -D unocss @unocss/next @unocss/reset
 ```
 
 ```bash [npm]
-npm install -D unocss @unocss/postcss @unocss/reset
+npm install -D unocss @unocss/next @unocss/reset
 ```
 
 ```bash [bun]
-bun add -D unocss @unocss/postcss @unocss/reset
+bun add -D unocss @unocss/next @unocss/reset
 ```
 
 :::
 
-### Configuration
+Add `withUnoCSS` to your Next.js config.
 
-Create `uno.config.ts` or `uno.config.js` at the root of your project.
+```ts [next.config.ts]
+import type { NextConfig } from 'next'
+import { withUnoCSS } from '@unocss/next'
 
-::: code-group
+const nextConfig: NextConfig = {
+  // your Next.js config
+}
+
+export default withUnoCSS(nextConfig)
+```
+
+Create a `uno.config.ts` file:
 
 ```ts [uno.config.ts]
-import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetWebFonts,
-  presetWind3
-} from 'unocss'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
-  presets: [
-    presetWind3(),
-    // ...
-  ],
+  // ...UnoCSS options
 })
 ```
 
-```js [uno.config.js]
-import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetWebFonts,
-  presetWind3
-} from 'unocss'
+## Import stylesheets
 
-export default defineConfig({
-  presets: [
-    presetWind3(),
-    // ...
-  ],
-})
-```
-
-:::
-
-Create `postcss.config.mjs` at the root of your project.
-
-```js [postcss.config.mjs]
-export default {
-  plugins: {
-    '@unocss/postcss': {
-      content: ['./app/**/*.{html,js,ts,jsx,tsx}'],
-    },
-  },
-}
-```
-
-### Import stylesheets
-
-Add `@unocss all;` in `globals.css`.
+Add `@unocss;` in `globals.css`. The generated CSS replaces the directive in place, so its
+position decides the cascade order:
 
 ```css [globals.css]
-@unocss all;
+@unocss;
 
 /* ... */
+```
+
+Any stylesheet holding an `@unocss` directive is picked up, and the directive accepts layer
+names the same way `@unocss/postcss` does:
+
+```css
+/* all layers */
+@unocss;
+/* one layer */
+@unocss preflights;
+/* several */
+@unocss default, shortcuts;
+/* everything except */
+@unocss !preflights;
 ```
 
 Then import `@unocss/reset/tailwind.css` in your layout file.
@@ -164,38 +151,6 @@ export default function RootLayout({ children }) {
         {children}
       </body>
     </html>
-  )
-}
-```
-
-:::
-
-## Usage
-
-Style your components with unocss!
-
-::: code-group
-
-```tsx [page.tsx]
-export default function Home() {
-  return (
-    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
-      <div className="i-carbon-car inline-block text-4xl" />
-      <button className="btn w-10rem">Button</button>
-    </main>
-  )
-}
-```
-
-```js [page.js]
-export default function Home() {
-  return (
-    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
-      <div className="i-carbon-car inline-block text-4xl" />
-      <button className="btn w-10rem">Button</button>
-    </main>
   )
 }
 ```
