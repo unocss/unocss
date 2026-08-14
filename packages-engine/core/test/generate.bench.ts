@@ -12,8 +12,7 @@ describe('generate large token sets', async () => {
   })
 
   bench('mostly unmatched tokens', async () => {
-    uno.cache.clear()
-    uno.blocked.clear()
+    uno.resetTokenProcessing()
     await uno.generate(tokens, { preflights: false })
   })
 })
