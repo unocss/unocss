@@ -1,0 +1,79 @@
+name: Core benchmark
+
+on:
+  push:
+    branches:
+      - main
+    paths: &core-paths
+      - packages-engine/core/**
+      - scripts/benchmark-summary.mjs
+      - vitest.config.ts
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - .github/workflows/benchmark.yml
+  pull_request:
+    branches:
+      - main
+    paths: *core-paths
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install
+
+      - name: Build core
+        run: pnpm --filter @unocss/core build
+
+      - name: Run core benchmarks
+        run: |
+          mkdir -p .bench/current
+          pnpm exec vitest bench packages-engine/core/test --run --project unit --outputJson .bench/current/core-bench.json
+
+      - name: Locate base benchmark
+        id: base
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          run_id="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${BASE_SHA}&status=success&per_page=100" --jq '.workflow_runs[] | select(.name == "Core benchmark") | .id' | head -n 1 || true)"
+          echo "run-id=${run_id}" >> "$GITHUB_OUTPUT"
+
+      - name: Download base benchmark
+        if: steps.base.outputs.run-id != ''
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.base.outputs.run-id }}
+          name: core-benchmark-${{ github.event.pull_request.base.sha }}
+          path: .bench/base
+
+      - name: Write benchmark summary
+        run: |
+          if [ -f .bench/base/core-bench.json ]; then
+            node scripts/benchmark-summary.mjs .bench/current/core-bench.json .bench/base/core-bench.json
+          else
+            node scripts/benchmark-summary.mjs .bench/current/core-bench.json
+          fi
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: core-benchmark-${{ github.sha }}
+          path: .bench/current/core-bench.json
