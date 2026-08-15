@@ -4,8 +4,8 @@ import { aliasVirtual } from '../../alias'
 export default defineConfig({
   entry: [
     'src/index.ts',
-    'src/loader-source.ts',
     'src/loader-css.ts',
+    'src/loader-source.ts',
   ],
   clean: true,
   dts: true,

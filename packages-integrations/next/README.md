@@ -2,9 +2,9 @@
 
 The Next.js plugin for UnoCSS, built on Turbopack loaders.
 
-Supports source-code transformers such as `transformerVariantGroup`,
-`transformerCompileClass` and `transformerAttributifyJsx`, which `@unocss/postcss` is unable
-to run because PostCSS only sees stylesheets.
+Runs source-code transformers such as `transformerVariantGroup`,
+`transformerCompileClass` and `transformerAttributifyJsx`, which `@unocss/postcss` skips
+because PostCSS only ever sees stylesheets.
 
 ## Documentation
 

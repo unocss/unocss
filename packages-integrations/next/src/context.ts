@@ -2,17 +2,12 @@ import type { UnocssPluginContext } from '@unocss/core'
 import type { NextPluginOptions } from './types'
 import process from 'node:process'
 import { createContext } from '#integration/context'
+import { applyTransformers } from '#integration/transformers'
 
-/**
- * Turbopack runs every loader in its own worker process, so a context is shared
- * within a worker and rebuilt per worker. Both loaders derive their results from
- * the same config, which is what keeps the markup and the CSS in agreement
- * without any cross-process state.
- */
+// share loaded uno.config.ts within a worker, otherwise loading takes too long
 let cached: { key: string, ctx: UnocssPluginContext } | undefined
 
-export function getContext(options: NextPluginOptions = {}): UnocssPluginContext {
-  const root = options.root ?? process.cwd()
+export function getContext(options: NextPluginOptions, root: string): UnocssPluginContext {
   const key = `${root}:${typeof options.config === 'string' ? options.config : ''}`
 
   if (cached?.key !== key) {
@@ -26,11 +21,6 @@ export function getContext(options: NextPluginOptions = {}): UnocssPluginContext
   return cached.ctx
 }
 
-/**
- * Turbopack re-runs a loader when a declared dependency changes, but the worker
- * process it runs in may be reused. Reload so an edited config takes effect
- * within a warm worker as well.
- */
 export async function reloadIfConfigChanged(ctx: UnocssPluginContext, mtimes: Map<string, number>) {
   const { statSync } = await import('node:fs')
   let changed = false
@@ -51,4 +41,11 @@ export async function reloadIfConfigChanged(ctx: UnocssPluginContext, mtimes: Ma
 
   if (changed)
     await ctx.reloadConfig()
+}
+
+export async function transformAll(ctx: UnocssPluginContext, code: string, id: string) {
+  const pre = await applyTransformers(ctx, code, id, 'pre')
+  const def = await applyTransformers(ctx, pre?.code ?? code, id, 'default')
+  const post = await applyTransformers(ctx, def?.code ?? pre?.code ?? code, id, 'post')
+  return post ?? def ?? pre
 }

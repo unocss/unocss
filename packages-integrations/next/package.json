@@ -55,22 +55,15 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "peerDependencies": {
-    "next": ">=16.2.0"
+    "next": ">=16.0.0"
   },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "magic-string": "catalog:utils",
     "pathe": "catalog:utils",
-    "tinyglobby": "catalog:utils"
-  },
-  "inlinedDependencies": {
-    "@jridgewell/gen-mapping": "0.3.13",
-    "@jridgewell/remapping": "2.3.5",
-    "@jridgewell/resolve-uri": "3.1.2",
-    "@jridgewell/sourcemap-codec": "1.5.5",
-    "@jridgewell/trace-mapping": "0.3.31",
-    "picomatch": "4.0.4",
-    "unplugin-utils": "0.3.1"
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
   }
 }

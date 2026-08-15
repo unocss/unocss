@@ -6,17 +6,13 @@ export interface NextPluginOptions {
    * Resolved from the project root by default.
    */
   config?: UserConfig | string
-  /**
-   * Project root used to resolve the config and content globs.
-   *
-   * @default process.cwd()
-   */
-  root?: string
 }
 
 /** The subset of the webpack loader context Turbopack implements. */
 export interface LoaderContext {
   resourcePath: string
+  /** Project root, which Turbopack sets to the Next.js project directory. */
+  rootContext: string
   async: () => (err: Error | null, code?: string, map?: any) => void
   getOptions?: () => NextPluginOptions | null
   addDependency?: (file: string) => void

@@ -1123,6 +1123,9 @@ importers:
 
   packages-integrations/next:
     dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -1133,7 +1136,7 @@ importers:
         specifier: catalog:utils
         version: 0.30.21
       next:
-        specifier: '>=16.2.0'
+        specifier: '>=16.0.0'
         version: 16.3.1(@babel/core@7.29.0)(@types/node@25.9.4)(react-dom@19.2.8)(react@18.3.1)
       pathe:
         specifier: catalog:utils
@@ -1141,6 +1144,9 @@ importers:
       tinyglobby:
         specifier: catalog:utils
         version: 0.2.17
+      unplugin-utils:
+        specifier: catalog:utils
+        version: 0.3.1
 
   packages-integrations/nuxt:
     dependencies:
