@@ -169,8 +169,7 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   }
 
   async function suggestUnoCache(input: string) {
-    const keys = Array.from(uno.cache.entries())
-    return keys.filter(i => i[1] && i[0].startsWith(input)).map(i => i[0])
+    return uno.getCachedTokens(input)
   }
 
   async function suggestFromTemplates(input: string) {

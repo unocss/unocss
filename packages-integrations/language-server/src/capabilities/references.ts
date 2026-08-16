@@ -34,35 +34,7 @@ export function registerReferences(
 
     const name = matched[2]
 
-    // @ts-expect-error backward compatibility
-    const cacheMap = (ctx.uno.cache || ctx.uno._cache || new Map()) as typeof ctx.uno.cache
-    const target = cacheMap.get(name)
-
-    if (!target) {
-      return positions
-        .filter(i => i[2] === name)
-        .map(i => ({
-          uri: params.textDocument.uri,
-          range: {
-            start: doc.positionAt(i[0]),
-            end: doc.positionAt(i[1]),
-          },
-        }))
-    }
-
-    // Find all names that match the record (alias)
-    const names = new Set([
-      name,
-      ...([...cacheMap.entries()])
-        .filter(([_, utils]) => {
-          if (!utils)
-            return false
-          if (utils.length !== target.length)
-            return false
-          return utils.every((item, index) => item[2] === target[index][2])
-        })
-        .map(i => i[0]),
-    ])
+    const names = new Set(ctx.uno.getCachedAliases(name) ?? [name])
 
     return positions
       .filter(i => names.has(i[2]))
