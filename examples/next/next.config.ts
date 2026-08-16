@@ -1,7 +1,6 @@
 import type { NextConfig } from 'next'
+import { withUnoCSS } from '@unocss/next'
 
-const nextConfig: NextConfig = {
-  /* config options here */
-}
+const nextConfig: NextConfig = {}
 
-export default nextConfig
+export default withUnoCSS(nextConfig)

@@ -1,4 +1,4 @@
-import type { UnocssPluginContext } from '@unocss/core'
+import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { resolve } from 'pathe'
 import { LAYER_MARK_ALL, VIRTUAL_ENTRY_ALIAS } from './constants'
 
@@ -31,6 +31,60 @@ export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
   if (match) {
     return match[1] || LAYER_MARK_ALL
   }
+}
+
+/**
+ * Resolve one `@unocss <params>` directive to CSS, for the integrations that splice
+ * layers into a stylesheet rather than serving them as a virtual module.
+ *
+ * `emitted` accumulates the layer names earlier directives in the same file consumed,
+ * so that a later bare directive picks up whatever is left. Pass `directive` when the
+ * name is configurable, as it is in `@unocss/postcss`.
+ */
+export function selectLayers(
+  result: GenerateResult,
+  params: string | undefined,
+  emitted: string[],
+  directive = 'unocss',
+): string {
+  if (!params)
+    return result.getLayers(undefined, emitted) || ''
+
+  const include: string[] = []
+  const exclude: string[] = []
+
+  for (const raw of params.split(',')) {
+    const name = raw.trim()
+    if (!name)
+      continue
+
+    if (name.startsWith('!')) {
+      if (name.length > 1)
+        exclude.push(name.slice(1))
+    }
+    else {
+      include.push(name)
+    }
+  }
+
+  if (include.length && exclude.length)
+    console.warn(`Warning: Mixing normal and negated layer names in "@${directive} ${params}" is not recommended.`)
+
+  if (include.length) {
+    emitted.push(...include)
+    return include
+      .map(name => (name === 'all' ? result.getLayers() : result.getLayer(name)) || '')
+      .filter(Boolean)
+      .join('\n')
+  }
+
+  if (exclude.length) {
+    emitted.push(...exclude)
+    return result.getLayers(undefined, exclude) || ''
+  }
+
+  // invalid syntax emits nothing
+  return ''
 }
 
 /**
