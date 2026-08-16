@@ -5,77 +5,26 @@ import { dirname, resolve } from 'pathe'
 import { glob } from 'tinyglobby'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from '#integration/constants'
 import { defaultFilesystemGlobs } from '#integration/defaults'
-import { getContext, reloadIfConfigChanged, transformAll } from './context'
-
-const mtimes = new Map<string, number>()
+import { selectLayers } from '#integration/layers'
+import { getContext, transformAll } from './context'
 
 // Can't anchor to top of file: `transformerDirectives` hoists `@property` rules
 const DIRECTIVE_RE = /@unocss(?:[ \t]([^;]*))?;/g
 
-// Mirrors @unocss/postcss layers logic
-// However, deduplication only works within a file, not work globally b/c no shared state
-function selectLayers(
-  result: { getLayer: (l: string) => string | undefined, getLayers: (i?: string[], e?: string[]) => string },
-  arg: string | undefined,
-  emitted: string[],
-) {
-  if (!arg)
-    return result.getLayers(undefined, emitted) || ''
+// cached generated tokens per file, invalid if edited (mtime) or config changes (revision)
+const extracted = new Map<string, { mtime: number, revision: number, tokens: Set<string> }>()
 
-  const include: string[] = []
-  const exclude: string[] = []
-  for (const raw of arg.split(',')) {
-    const name = raw.trim()
-    if (!name)
-      continue
-
-    if (name.startsWith('!')) {
-      if (name.length > 1)
-        exclude.push(name.slice(1))
-    }
-    else {
-      include.push(name)
-    }
-  }
-
-  if (include.length && exclude.length)
-    console.warn(`[unocss] Mixing normal and negated layer names in "@unocss ${arg}" is not recommended.`)
-
-  if (include.length) {
-    emitted.push(...include)
-    return include
-      .map(l => (l === 'all' ? result.getLayers() : result.getLayer(l)) || '')
-      .filter(Boolean)
-      .join('\n')
-  }
-  if (exclude.length) {
-    emitted.push(...exclude)
-    return result.getLayers(undefined, exclude) || ''
-  }
-  return result.getLayers(undefined, emitted) || ''
-}
-
-/**
- * Runs the transformers over a stylesheet, then splices the generated CSS in at
- * `@unocss`. Turbopack has no virtual modules, so the directive stands in for the
- * `import 'uno.css'` entry the other bundler integrations use.
- */
 export default function unocssCssLoader(this: LoaderContext, source: string): void {
   const callback = this.async()
   const id = this.resourcePath
   const root = this.rootContext
-  const options = this.getOptions?.() ?? {}
-  const addDependency = (f: string) => this.addDependency?.(f)
-  const addContextDependency = (d: string) => this.addContextDependency?.(d)
 
   ;(async () => {
-    const ctx = getContext(options, root)
-    await ctx.ready
-    await reloadIfConfigChanged(ctx, mtimes)
+    const { ctx, revision } = await getContext(root)
 
-    // A config edit invalidates every module transformed under the old config.
+    // rerun on config edit
     for (const file of ctx.getConfigFileList())
-      addDependency(file)
+      this.addDependency(file)
 
     const transformed = await transformAll(ctx, source, id)
     const code = transformed?.code ?? source
@@ -86,13 +35,12 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
     const config = await ctx.getConfig()
 
     // Extraction is based on content.filesystem, same as `@unocss/postcss`
-    // no shared memory so must generate all tokens here
     const globs = toArray(config.content?.filesystem ?? defaultFilesystemGlobs)
     const includesNodeModules = globs.some(i => i.includes('node_modules'))
 
-    // `addDependency` covers files that exist; watch the directories to catch new files
+    // context dependency tracks nested changes, so only need to watch roots
     for (const dir of watchRoots(root, globs))
-      addContextDependency(dir)
+      this.addContextDependency(dir)
 
     // dot directories like `.next` are excluded by default
     // If user changes `distDir` without leading dot, needs to be excluded by hand
@@ -104,26 +52,51 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
       expandDirectories: false,
     })
 
+    // remove old entries from cache
+    const present = new Set(files)
+    for (const file of extracted.keys()) {
+      if (!present.has(file))
+        extracted.delete(file)
+    }
+
     const tokens = new Set<string>()
 
     await Promise.all(files.map(async (file) => {
       if (file === id)
         return
-      addDependency(file)
+
+      let mtime: number
+      try {
+        mtime = (await fs.stat(file)).mtimeMs
+      }
+      catch {
+        return // removed between glob and stat
+      }
+
+      const cached = extracted.get(file)
+      if (cached?.mtime === mtime && cached.revision === revision) {
+        for (const token of cached.tokens)
+          tokens.add(token)
+        return
+      }
 
       let raw: string
       try {
         raw = await fs.readFile(file, 'utf-8')
       }
       catch {
-        return // removed between glob and read
+        return // removed between stat and read
       }
 
-      if (raw.includes(IGNORE_COMMENT))
-        return
+      const fileTokens = new Set<string>()
+      if (!raw.includes(IGNORE_COMMENT)) {
+        const result = await transformAll(ctx, raw, file)
+        await ctx.uno.applyExtractors((result?.code ?? raw).replace(SKIP_COMMENT_RE, ''), file, fileTokens)
+      }
 
-      const result = await transformAll(ctx, raw, file)
-      await ctx.uno.applyExtractors((result?.code ?? raw).replace(SKIP_COMMENT_RE, ''), file, tokens)
+      extracted.set(file, { mtime, revision, tokens: fileTokens })
+      for (const token of fileTokens)
+        tokens.add(token)
     }))
 
     await Promise.all((config.content?.inline ?? []).map(async (c, idx) => {
@@ -134,7 +107,8 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
       await ctx.uno.applyExtractors(c.code.replace(SKIP_COMMENT_RE, ''), c.id ?? `__plain_content_${idx}__`, tokens)
     }))
 
-    const result = await ctx.uno.generate(tokens, { minify: config.envMode === 'build' })
+    // files are scanned in parallel, so sort for theme vars emitted in first-seen order
+    const result = await ctx.uno.generate([...tokens].sort(), { minify: config.envMode === 'build' })
 
     const emitted: string[] = []
     callback(null, code.replace(DIRECTIVE_RE, (_: string, arg?: string) => selectLayers(result, arg?.trim(), emitted)))

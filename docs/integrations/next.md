@@ -63,30 +63,9 @@ export default defineConfig({
 })
 ```
 
-### Content sources
-
-The two halves of [`content`](/guide/extracting) split differently here than in Vite:
-
-|                                                                              |                                                                                |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [`content.pipeline`](/guide/extracting#extracting-from-build-tools-pipeline) | selects which files Turbopack hands to the transformers                        |
-| [`content.filesystem`](/guide/extracting#extracting-from-filesystem)         | selects which files are scanned for utilities, defaulting to the whole project |
-
-Turbopack runs each loader in an isolated worker, so the loader that generates your CSS cannot see the utilities other loader runs found. It rediscovers them from disk instead, the same way [`@unocss/postcss`](/integrations/postcss) does — which is why `content.filesystem` is the extraction source here rather than the escape hatch it is elsewhere. Narrow it to speed up large projects:
-
-```ts [uno.config.ts]
-export default defineConfig({
-  content: {
-    filesystem: ['app/**/*.{tsx,jsx,md,mdx}'],
-  },
-})
-```
-
-`withUnoCSS` reads `content.pipeline` when Next.js loads its config, so editing it applies on the next dev server start.
-
 ### Import stylesheets
 
-Add `@unocss;` to your global stylesheet. The generated CSS replaces the directive in place, so its position decides where it lands in the cascade.
+Add `@unocss` to your global stylesheet. It will be replaced by the generated CSS.
 
 ```css [globals.css]
 @unocss;
@@ -98,27 +77,25 @@ Add `@unocss;` to your global stylesheet. The generated CSS replaces the directi
 import './globals.css'
 ```
 
-The directive takes layer names, so the layer splitting shown in [Layer Ordering](/config/layers#ordering) works here. Within one stylesheet, a later bare `@unocss;` picks up whatever the earlier directives left:
-
-```css [globals.css]
-@unocss preflights;
-
-/* your base styles */
-
-@unocss; /* the remaining layers */
-```
-
-Across stylesheets there is one difference: a loader sees one file at a time, so a bare `@unocss;` cannot know which layers another file already emitted. Name them by hand:
-
-```css
-@unocss preflights; /* one file */
-@unocss !preflights; /* another */
-```
-
 :::tip
 If migrating from `@unocss/postcss`, add [`transformerDirectives`](/transformers/directives) to `uno.config.ts` to get
 `@apply`, `@screen` and `theme()` working in your own stylesheets.
 :::
+
+### Advanced configuration
+
+If you need to customize which files are scanned for classes, set `content.filesystem` in `uno.config.ts`. The default is very relaxed.
+
+```ts [uno.config.ts]
+export default defineConfig({
+  content: {
+    // Defaults to ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md,marko}']
+    filesystem: ['app/**/*.{html,js,ts,jsx,tsx,mdx,md}'],
+  },
+})
+```
+
+Unlike Vite based setups, `content.pipeline` is not used for extracting classes, but it can still control which files can be transformed by transformers.
 
 ## PostCSS
 
@@ -174,10 +151,10 @@ export default defineConfig({
 
 ### Import stylesheets
 
-Add `@unocss all;` in `globals.css`, then import it from your layout.
+Add `@unocss` in `globals.css`, then import it from your layout.
 
 ```css [globals.css]
-@unocss all;
+@unocss;
 
 /* ... */
 ```

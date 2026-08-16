@@ -1,26 +1,24 @@
 import type { FilterPattern } from '@unocss/core'
-import type { NextConfigLike, NextPluginOptions } from './types'
+import type { NextConfigLike } from './types'
 import { createRequire } from 'node:module'
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
-import { cssIdRE } from '@unocss/core'
+import { cssIdRE, resolveConfig } from '@unocss/core'
+import { isAbsolute, relative } from 'pathe'
 import { defaultPipelineExclude, defaultPipelineInclude } from '#integration/defaults'
-
-export type { NextPluginOptions } from './types'
 
 const require = /* @__PURE__ */ createRequire(import.meta.url)
 
-export function withUnoCSS<T extends object>(
-  nextConfig: T = {} as T,
-  options: NextPluginOptions = {},
-) {
+export function withUnoCSS<T extends object>(nextConfig: T = {} as T) {
   return async (): Promise<T> => {
     const config = nextConfig as NextConfigLike
     const root = process.cwd()
-    const { config: uno } = await loadConfig(root, options.config ?? root)
+    const { config: uno } = await loadConfig(root)
 
-    const cssLoader = { loader: require.resolve('@unocss/next/loader-css'), options }
-    const sourceLoader = { loader: require.resolve('@unocss/next/loader-source'), options }
+    const { transformers } = await resolveConfig(uno)
+
+    const cssLoader = require.resolve('@unocss/next/loader-css')
+    const sourceLoader = require.resolve('@unocss/next/loader-source')
 
     // loader for cscs type files for @unocss entry and directives transformer if exists
     const rules: unknown[] = [{
@@ -28,10 +26,11 @@ export function withUnoCSS<T extends object>(
       loaders: [cssLoader],
     }]
 
+    // add source code loader only if any transformers exist
     const pipeline = uno.content?.pipeline
-    if (pipeline !== false) {
-      const include = toConditions(pipeline?.include ?? defaultPipelineInclude)
-      const exclude = toConditions(pipeline?.exclude ?? defaultPipelineExclude)
+    if (pipeline !== false && transformers?.length) {
+      const include = toConditions(pipeline?.include ?? defaultPipelineInclude, root)
+      const exclude = toConditions(pipeline?.exclude ?? defaultPipelineExclude, root)
 
       // An empty include matches everything, as it does in `createFilter`.
       const all: unknown[] = [{ not: 'foreign' }]
@@ -61,7 +60,7 @@ export function withUnoCSS<T extends object>(
       webpack(config: any, context: any) {
         console.warn(
           '\n[unocss] This build is using webpack, where `turbopack.rules` are ignored,\n'
-          + '  so no UnoCSS will be generated. Use Turbopack, or switch to @unocss/webpack.\n',
+          + '  so no UnoCSS will be generated. Use Turbopack, or switch to @unocss/postcss.\n',
         )
         return typeof userWebpack === 'function' ? userWebpack(config, context) : config
       },
@@ -86,9 +85,18 @@ function mergeRules(ours: Record<string, unknown>, theirs: Record<string, unknow
   return merged
 }
 
-function toConditions(pattern: FilterPattern) {
+function toConditions(pattern: FilterPattern, root: string) {
   const list = Array.isArray(pattern) ? pattern : [pattern]
-  return list.filter(Boolean).map(path => ({ path }))
+  return list.filter(Boolean).map(path => ({
+    path: typeof path === 'string' ? toRelativeGlob(path, root) : path,
+  }))
+}
+
+// turbopack expects relative path in globs
+function toRelativeGlob(pattern: string, root: string) {
+  if (pattern.startsWith('./') || pattern.startsWith('**'))
+    return pattern
+  return `./${isAbsolute(pattern) ? relative(root, pattern) : pattern}`
 }
 
 export default withUnoCSS
