@@ -72,9 +72,16 @@ class TokenProcessor<Theme extends object> {
   }
 
   isBlocked(raw: string, blocklist: BlocklistRule[]) {
-    return !raw || blocklist
-      .map(e => Array.isArray(e) ? e[0] : e)
-      .some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    if (!raw)
+      return true
+
+    for (const rule of blocklist) {
+      const value = Array.isArray(rule) ? rule[0] : rule
+      if (typeof value === 'function' ? value(raw) : isString(value) ? value === raw : value.test(raw))
+        return true
+    }
+
+    return false
   }
 
   getBlocked(raw: string, blocklist: BlocklistRule[]) {
