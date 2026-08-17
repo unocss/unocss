@@ -54,7 +54,7 @@ it('waits for a token batch before parsing the next batch', async () => {
           await new Promise(resolve => setTimeout(resolve, 0))
           firstBatchFinished = true
         }
-        else if (index === '1024') {
+        else if (index === '4096') {
           expect(firstBatchFinished).toBe(true)
         }
         return { color: index }
@@ -62,7 +62,7 @@ it('waits for a token batch before parsing the next batch', async () => {
     ],
   })
 
-  const tokens = Array.from({ length: 1025 }, (_, index) => `token-${index}`)
+  const tokens = Array.from({ length: 4097 }, (_, index) => `token-${index}`)
   const result = await uno.generate(tokens, { preflights: false })
 
   expect(result.matched.size).toBe(tokens.length)

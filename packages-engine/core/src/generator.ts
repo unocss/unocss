@@ -17,9 +17,11 @@ export const symbols: ControlSymbols = {
   body: '$$symbol-body' as unknown as ControlSymbols['body'],
 }
 
-// This limits event-loop pressure rather than CPU parallelism, so it is
-// intentionally not based on the CPU count.
-const TOKEN_PARSE_BATCH_SIZE = 1024
+// Chosen from benchmarks on a 24k-token project: 4096 retained most of the
+// benefit of smaller batches, outperformed 8192, and keeps smaller generations
+// on the existing single-batch path. This limits event-loop pressure rather
+// than CPU parallelism, so it is intentionally not based on the CPU count.
+const TOKEN_PARSE_BATCH_SIZE = 4096
 
 class TokenProcessor<Theme extends object> {
   private cache = new Map<string, StringifiedUtil<Theme>[] | null>()
