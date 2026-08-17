@@ -1,5 +1,5 @@
 import { createGenerator } from '@unocss/core'
-import { expect, it } from 'vitest'
+import { expect, it, vi } from 'vitest'
 
 it('basic variants', async () => {
   const uno = await createGenerator({
@@ -27,6 +27,29 @@ it('basic variants', async () => {
     "/* layer: default */
     .v-text-red{color:red;}"
   `)
+})
+
+it('parses one variant result without Promise.all', async () => {
+  const uno = await createGenerator({
+    rules: [['text-red', { color: 'red' }]],
+    variants: [
+      {
+        name: 'foo',
+        match: matcher => matcher.startsWith('v-') ? { matcher: matcher.slice(2) } : undefined,
+      },
+    ],
+  })
+  const [variantMatch] = await uno.matchVariants('v-text-red')
+  const context = uno.makeContext('v-text-red', variantMatch)
+  const promiseAll = vi.spyOn(Promise, 'all')
+
+  try {
+    await expect(uno.parseUtil(variantMatch, context)).resolves.toHaveLength(1)
+    expect(promiseAll).not.toHaveBeenCalled()
+  }
+  finally {
+    promiseAll.mockRestore()
+  }
 })
 
 it('variants with multiple returns', async () => {

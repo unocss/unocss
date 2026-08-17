@@ -774,6 +774,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
     }
 
+    if (variantResults.length === 1)
+      return await parse(variantResults[0])
+
     const parsed = (await Promise.all(variantResults.map(i => parse(i)))).flat().filter(x => !!x)
     if (!parsed.length)
       return undefined
