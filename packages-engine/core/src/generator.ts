@@ -17,11 +17,9 @@ export const symbols: ControlSymbols = {
   body: '$$symbol-body' as unknown as ControlSymbols['body'],
 }
 
-// Chosen from benchmarks on a 24k-token project: 4096 retained most of the
-// benefit of smaller batches, outperformed 8192, and keeps smaller generations
-// on the existing single-batch path. This limits event-loop pressure rather
-// than CPU parallelism, so it is intentionally not based on the CPU count.
-const TOKEN_PARSE_BATCH_SIZE = 4096
+// This limits event-loop pressure rather than CPU parallelism, so it is
+// intentionally not based on the CPU count.
+const TOKEN_PARSE_BATCH_SIZE = 1024
 
 class TokenProcessor<Theme extends object> {
   private cache = new Map<string, StringifiedUtil<Theme>[] | null>()
@@ -322,9 +320,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const tokenList = Array.from(tokens)
     for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
-      await Promise.all(tokenList
-        .slice(offset, offset + TOKEN_PARSE_BATCH_SIZE)
-        .map(async (raw) => {
+      const batchSize = Math.min(TOKEN_PARSE_BATCH_SIZE, tokenList.length - offset)
+      const tokenPromises: Promise<void>[] = []
+      for (let index = 0; index < batchSize; index++) {
+        const raw = tokenList[offset + index]
+        tokenPromises[index] = (async () => {
           if (matched.has(raw))
             return
 
@@ -351,7 +351,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
             if (layer)
               layerSet.add(layer)
           }
-        }))
+        })()
+      }
+      await Promise.all(tokenPromises)
     }
     await (async () => {
       if (!preflights)
