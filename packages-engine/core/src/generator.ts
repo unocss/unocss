@@ -404,7 +404,6 @@ class UnoGeneratorInternal<Theme extends object = object> {
       let css = Array.from(sheet)
         .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
-          const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
@@ -425,20 +424,36 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
           if (!sorted.length)
             return undefined
-          const ruleLines = sorted
-            .reverse()
-            .map(([selectorSortPair, body, noMerge], idx) => {
-              if (!noMerge && this.config.mergeSelectors) {
-                // search for rules that has exact same body, and merge them
-                for (let i = idx + 1; i < size; i++) {
-                  const current = sorted[i]
-                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
-                    if (selectorSortPair && current[0])
-                      current[0].push(...selectorSortPair)
-                    return null
-                  }
-                }
+          sorted.reverse()
+
+          const mergedRules = new Set<PreparedRule>()
+          if (this.config.mergeSelectors) {
+            const mergeIndex = new Map<string, [PreparedRule | undefined, PreparedRule | undefined]>()
+            for (let i = sorted.length - 1; i >= 0; i--) {
+              const rule = sorted[i]
+              const [selectorSortPair, body, noMerge] = rule
+              if (noMerge)
+                continue
+
+              const selectorIndex = selectorSortPair ? 1 : 0
+              const candidates = mergeIndex.get(body) || [undefined, undefined]
+              const candidate = candidates[selectorIndex]
+              if (candidate) {
+                if (selectorSortPair && candidate[0])
+                  candidate[0].push(...selectorSortPair)
+                mergedRules.add(rule)
               }
+              else {
+                candidates[selectorIndex] = rule
+                mergeIndex.set(body, candidates)
+              }
+            }
+          }
+
+          const ruleLines = sorted
+            .map(([selectorSortPair, body], idx) => {
+              if (mergedRules.has(sorted[idx]))
+                return null
 
               const selectors = selectorSortPair
                 ? uniq(selectorSortPair
