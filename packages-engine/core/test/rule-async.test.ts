@@ -44,3 +44,26 @@ it('preflight at the end', async () => {
   await uno.generate('rule')
   expect(order).eql([1, 2])
 })
+
+it('waits for a token batch before parsing the next batch', async () => {
+  let firstBatchFinished = false
+  const uno = await createGenerator({
+    rules: [
+      [/^token-(\d+)$/, async ([, index]) => {
+        if (index === '0') {
+          await new Promise(resolve => setTimeout(resolve, 0))
+          firstBatchFinished = true
+        }
+        else if (index === '4096') {
+          expect(firstBatchFinished).toBe(true)
+        }
+        return { color: index }
+      }],
+    ],
+  })
+
+  const tokens = Array.from({ length: 4097 }, (_, index) => `token-${index}`)
+  const result = await uno.generate(tokens, { preflights: false })
+
+  expect(result.matched.size).toBe(tokens.length)
+})

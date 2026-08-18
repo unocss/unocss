@@ -329,9 +329,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const tokenList = Array.from(tokens)
     for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
-      await Promise.all(tokenList
-        .slice(offset, offset + TOKEN_PARSE_BATCH_SIZE)
-        .map(async (raw) => {
+      const batchSize = Math.min(TOKEN_PARSE_BATCH_SIZE, tokenList.length - offset)
+      const tokenPromises: Promise<void>[] = []
+      for (let index = 0; index < batchSize; index++) {
+        const raw = tokenList[offset + index]
+        tokenPromises[index] = (async () => {
           if (matched.has(raw))
             return
 
@@ -358,7 +360,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
             if (layer)
               layerSet.add(layer)
           }
-        }))
+        })()
+      }
+      await Promise.all(tokenPromises)
     }
     await (async () => {
       if (!preflights)
