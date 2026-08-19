@@ -41,6 +41,6 @@
   },
   "inlinedDependencies": {
     "@jridgewell/sourcemap-codec": "1.5.5",
-    "magic-string": "0.30.21"
+    "magic-string": "1.2.0"
   }
 }

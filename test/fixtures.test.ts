@@ -17,7 +17,7 @@ async function getGlobContent(cwd: string, pattern: string) {
 
 describe.concurrent('fixtures', () => {
   it('vite client', async () => {
-    const root = resolve(__dirname, 'fixtures/vite')
+    const root = resolve(import.meta.dirname, 'fixtures/vite')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,
@@ -55,7 +55,7 @@ describe.concurrent('fixtures', () => {
   })
 
   it.skipIf(isWindows || isRolldownVite)('vite legacy', async () => {
-    const root = resolve(__dirname, 'fixtures/vite-legacy')
+    const root = resolve(import.meta.dirname, 'fixtures/vite-legacy')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,
@@ -74,7 +74,7 @@ describe.concurrent('fixtures', () => {
   }, 15000)
 
   it.skipIf(isWindows || isRolldownVite)('vite legacy renderModernChunks false', async () => {
-    const root = resolve(__dirname, 'fixtures/vite-legacy-chunks')
+    const root = resolve(import.meta.dirname, 'fixtures/vite-legacy-chunks')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,
@@ -85,7 +85,7 @@ describe.concurrent('fixtures', () => {
   })
 
   it('vite lib', async () => {
-    const root = resolve(__dirname, 'fixtures/vite-lib')
+    const root = resolve(import.meta.dirname, 'fixtures/vite-lib')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,
@@ -125,7 +125,7 @@ describe.concurrent('fixtures', () => {
   }, 15000)
 
   it.skipIf(isWindows)('vite lib rollupOptions', async () => {
-    const root = resolve(__dirname, 'fixtures/vite-lib-rollupoptions')
+    const root = resolve(import.meta.dirname, 'fixtures/vite-lib-rollupoptions')
     await fs.emptyDir(join(root, 'dist'))
     await build({
       root,

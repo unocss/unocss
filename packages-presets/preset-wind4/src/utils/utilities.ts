@@ -420,7 +420,7 @@ export function isCSSMathFn(value: string | undefined) {
 }
 
 export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
+  if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }

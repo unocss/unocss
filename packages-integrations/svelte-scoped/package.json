@@ -67,6 +67,6 @@
   },
   "inlinedDependencies": {
     "picomatch": "4.0.4",
-    "unplugin-utils": "0.3.1"
+    "unplugin-utils": "0.3.2"
   }
 }
