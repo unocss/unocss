@@ -24,6 +24,7 @@ export const presetTagify = definePreset((options: TagifyOptions = {}) => {
 
   return {
     name: '@unocss/preset-tagify',
+    docs: 'https://unocss.dev/presets/tagify',
     variants,
     extractors,
     extractorDefault: defaultExtractor

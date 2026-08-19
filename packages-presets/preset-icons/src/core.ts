@@ -74,6 +74,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 
     return {
       name: '@unocss/preset-icons',
+      docs: 'https://unocss.dev/presets/icons',
       enforce: 'pre',
       options,
       layers: { icons: -30 },

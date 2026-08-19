@@ -662,6 +662,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Custom metadata for the preset
    */
   meta?: Record<string, any>
+
+  /**
+   * Documentation URL for the preset
+   */
+  docs?: string
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
@@ -802,6 +807,10 @@ export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 
 export interface SourceCodeTransformer {
   name: string
+  /**
+   * Documentation URL for the transformer
+   */
+  docs?: string
   /**
    * The order of transformer
    */
