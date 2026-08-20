@@ -34,7 +34,7 @@ export const spaces: Rule<Theme>[] = [
 export function notLastChildSelectorVariant(s: string): VariantHandler {
   return {
     matcher: s,
-    order: 1,
+    order: 1000,
     handle: (input, next) => next({
       ...input,
       parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
