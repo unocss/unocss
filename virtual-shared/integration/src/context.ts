@@ -120,8 +120,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     if (vmpCache.has(prefix))
       return vmpCache.get(prefix)!
 
-    const RESOLVED_ID_WITH_QUERY_RE = new RegExp(`[/\\\\]${prefix}(_.*?)?\\.css(\\?.*)?$`)
-    const RESOLVED_ID_RE = new RegExp(`[/\\\\]${prefix}(?:_(.*?))?\.css$`)
+    const RESOLVED_ID_WITH_QUERY_RE = new RegExp(`(?:^|[/\\\\]|\\0)${prefix}(_.*?)?\\.css(\\?.*)?$`)
+    const RESOLVED_ID_RE = new RegExp(`(?:^|[/\\\\]|\\0)${prefix}(?:_(.*?))?\.css$`)
     const regexes = {
       prefix,
       RESOLVED_ID_WITH_QUERY_RE,

@@ -6,6 +6,8 @@ export async function resolveId(ctx: UnocssPluginContext, id: string, importer?:
   const { RESOLVED_ID_WITH_QUERY_RE, prefix } = await ctx.getVMPRegexes()
 
   if (id.match(RESOLVED_ID_WITH_QUERY_RE)) {
+    if (id.startsWith(`/${prefix}`))
+      return `\0${id.slice(1)}`
     return id
   }
 
@@ -19,7 +21,7 @@ export async function resolveId(ctx: UnocssPluginContext, id: string, importer?:
       if (importer)
         virtual = resolve(importer, '..', virtual)
       else
-        virtual = `/${virtual}`
+        virtual = `\0${virtual}`
       return virtual
     }
   }
