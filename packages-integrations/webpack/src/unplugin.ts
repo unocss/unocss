@@ -24,6 +24,8 @@ import { getPath, isCssId } from '#integration/utils'
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
+// #5164 / unjs/unplugin#524: unplugin webpack loaders treat non-filtered modules as text
+const BINARY_ASSET_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|otf|avif)$/i
 
 export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptions<Theme> | string, defaults?: UserConfigDefaults) {
   return createUnplugin(() => {
@@ -56,7 +58,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       transform: {
         filter: {
           id: {
-            exclude: /\.html$/,
+            exclude: [/\.html$/, BINARY_ASSET_RE],
           },
         },
         async handler(code, id) {
@@ -88,13 +90,22 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         }
       },
       // serve the placeholders in virtual module
-      async load(id) {
-        const layer = await getLayer(ctx, id)
-        if (!layer)
-          return
+      // #5164: unfiltered load hook registers unplugin's global load loader on all modules,
+      // corrupting binary assets (unjs/unplugin#524). Only match virtual CSS module ids.
+      load: {
+        filter: {
+          id: {
+            include: [/[/\\]__uno(?:_.*?)?\.css(\?.*)?$/],
+          },
+        },
+        async handler(id) {
+          const layer = await getLayer(ctx, id)
+          if (!layer)
+            return
 
-        const hash = hashes.get(id)
-        return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+          const hash = hashes.get(id)
+          return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+        },
       },
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
