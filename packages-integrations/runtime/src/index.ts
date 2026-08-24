@@ -233,12 +233,10 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
     const currentToken = [...tokens]
     const result = await uno.generate(currentToken)
 
-    let previous: string | undefined
-    for (const current of result.layers) {
-      const css = result.getLayer(current)
-      getStyleElement(current, previous).innerHTML = css ?? ''
-      previous = current
-    }
+    result.layers.reduce((previous: string | undefined, current) => {
+      getStyleElement(current, previous).innerHTML = result.getLayer(current) ?? ''
+      return current
+    }, undefined)
 
     const clearTokens = currentToken.filter(i => !result.matched.has(i))
     clearTokens.forEach(t => tokens.delete(t))

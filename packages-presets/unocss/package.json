@@ -109,10 +109,5 @@
     "@unocss/astro": "workspace:*",
     "@unocss/postcss": "workspace:*",
     "@unocss/webpack": "workspace:*"
-  },
-  "inlinedDependencies": {
-    "detect-libc": "2.1.2",
-    "lightningcss": "1.33.0",
-    "napi-wasm": "1.1.3"
   }
 }

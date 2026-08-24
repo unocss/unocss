@@ -398,7 +398,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const sortLayers = (layers: string[]) => this.config.sortLayers(layers.sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
     const layers = sortLayers(Array.from(layerSet))
-    const layerCache: Record<string, string> = {}
+    const rawLayerCache: Record<string, string> = {}
+    const processedLayerCache: Record<string, string> = {}
     const outputCssLayers = this.config.outputToCssLayers
     const getLayerAlias = (layer: string) => {
       let alias: string | undefined | null = layer
@@ -408,9 +409,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
-    const getLayer = (layer: string = LAYER_DEFAULT) => {
-      if (layerCache[layer] != null)
-        return layerCache[layer]
+    const getRawLayer = (layer: string = LAYER_DEFAULT) => {
+      if (rawLayerCache[layer] != null)
+        return rawLayerCache[layer]
 
       let css = Array.from(sheet)
         .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
@@ -499,7 +500,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
 
       if (!css)
-        return layerCache[layer] = ''
+        return rawLayerCache[layer] = ''
 
       let alias
       if (outputCssLayers) {
@@ -512,7 +513,19 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
       css = layerMark + css
 
-      return layerCache[layer] = css
+      return rawLayerCache[layer] = css
+    }
+
+    const loaders = this.config.loaders?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)) ?? []
+    const processLayer = async (css: string, layer: string) => {
+      let processed = css
+      for (const loader of loaders)
+        processed = await loader.load(processed, layer)
+      return processed
+    }
+
+    const getLayer = (layer: string = LAYER_DEFAULT) => {
+      return processedLayerCache[layer] ?? getRawLayer(layer)
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
@@ -531,22 +544,17 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
-      const content = await callback(getLayer(layer))
-      layerCache[layer] = content
-      return content
+      const raw = await callback(getRawLayer(layer))
+      const processed = await processLayer(raw, layer)
+      rawLayerCache[layer] = raw
+      processedLayerCache[layer] = processed
+      return processed
     }
 
-    if (this.config.loaders?.length) {
-      const loaders = this.config.loaders.slice().sort((a, b) => (a.order || 0) - (b.order || 0))
-      await Promise.all(layers.map(async (layer) => {
-        let css = getLayer(layer)
-        if (!css)
-          return
-        for (const loader of loaders)
-          css = await loader.load(css, layer)
-        layerCache[layer] = css
-      }))
-    }
+    await Promise.all(layers.map(async (layer) => {
+      const raw = getRawLayer(layer)
+      processedLayerCache[layer] = raw ? await processLayer(raw, layer) : raw
+    }))
 
     return {
       get css() { return getLayers() },

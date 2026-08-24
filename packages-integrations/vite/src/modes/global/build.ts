@@ -202,7 +202,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
 
           const layerContent = layer === LAYER_MARK_ALL
             ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
-            : (result.getLayer(layer) || '')
+            : result.getLayer(layer) || ''
 
           const css = await applyCssTransform(
             layerContent,

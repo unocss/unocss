@@ -15,10 +15,6 @@ export async function formatCSS() {
 export const isCSSPrettify = ref(false)
 export const selectedLayers = ref<string[]>(['ALL'])
 export const cssFormatted = useCSSPrettify(
-  computedAsync(() => {
-    if (selectedLayers.value.includes('ALL'))
-      return output.value?.css ?? ''
-    return output.value ? output.value.getLayers(selectedLayers.value) : ''
-  }),
+  computed(() => selectedLayers.value.includes('ALL') ? output.value?.css : output.value?.getLayers(selectedLayers.value)),
   isCSSPrettify,
 )

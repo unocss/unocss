@@ -39,12 +39,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       tokensSize = tokens.size
     } while (true)
 
-    const resolvedLayers = (await Promise.all(Array.from(entries)
-      .map(i => resolveLayer(ctx, i))))
-      .filter((i): i is string => !!i)
-
     const css = layer === LAYER_MARK_ALL
-      ? result.getLayers(undefined, resolvedLayers)
+      ? result.getLayers(undefined, await Promise.all(Array.from(entries)
+          .map(i => resolveLayer(ctx, i))).then(layers => layers.filter((i): i is string => !!i)))
       : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
     lastServedHash.set(layer, hash)

@@ -30,6 +30,16 @@ describe('layers', () => {
     expect(result.getLayer('a')).toContain('.a{color:red;}\n/* first */\n/* second */')
     expect(result.getLayer('b')).toContain('.b{color:blue;}\n/* first */\n/* second */')
     expect(result.getLayers()).toBe(result.css)
+
+    await result.setLayer('a', async (css) => {
+      expect(css).not.toContain('/* first */')
+      expect(css).not.toContain('/* second */')
+      return css.replace('red', 'green')
+    })
+
+    expect(result.getLayer('a')).toContain('.a{color:green;}\n/* first */\n/* second */')
+    expect(result.getLayer('a')?.match(/\/\* first \*\//g)).toHaveLength(1)
+    expect(result.getLayers()).toBe(result.css)
   })
 
   it('static', async () => {

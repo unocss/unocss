@@ -23,8 +23,8 @@ export default defineConfig({
       minify: true,
       targets: {
         // Example: modern browsers
-        chrome: 111,
-        safari: 15,
+        chrome: 111 << 16,
+        safari: 15 << 16,
       },
     }),
   ],
