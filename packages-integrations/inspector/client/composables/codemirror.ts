@@ -118,7 +118,7 @@ export function useCodeMirror(
         skip = true
 
         const selections = cm.state.selection.ranges
-        const newContent = v
+        const newContent = v ?? ''
         const newLength = newContent.length
 
         const validSelections = selections.map((range) => {

@@ -1,29 +1,71 @@
-import type { Ref } from 'vue'
-import type { ModuleInfo, OverviewInfo, ProjectInfo, Result } from '../../types'
-import { useFetch } from '@vueuse/core'
-import { unref } from 'vue'
-import { onConfigChanged, onModuleUpdated } from './hmr'
+import type { Ref, ShallowRef } from 'vue'
+import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../../types'
+import { shallowRef, unref } from 'vue'
+import { onConfigChanged, onInvalidated, onModuleUpdated, onReconnected, rpcCall } from './rpc'
 
-const API_ROOT = '/__unocss_api'
+export interface RpcQuery<T> {
+  data: ShallowRef<T | null>
+  isFetching: Ref<boolean>
+  error: ShallowRef<unknown>
+  execute: () => Promise<void>
+}
 
-export const infoFetch = useFetch(API_ROOT).json<ProjectInfo>()
-export const overviewFetch = useFetch(`${API_ROOT}/overview`, { immediate: false }).json<OverviewInfo>()
+function createQuery<T>(fn: () => Promise<T>, options: { immediate?: boolean } = {}): RpcQuery<T> {
+  const data = shallowRef<T | null>(null)
+  const isFetching = ref(false)
+  const error = shallowRef<unknown>(null)
+  let version = 0
+
+  async function execute() {
+    const current = ++version
+    isFetching.value = true
+    try {
+      const result = await fn()
+      if (current === version) {
+        data.value = result
+        error.value = null
+      }
+    }
+    catch (e) {
+      if (current === version)
+        error.value = e
+    }
+    finally {
+      if (current === version)
+        isFetching.value = false
+    }
+  }
+
+  if (options.immediate !== false)
+    execute()
+
+  return { data, isFetching, error, execute }
+}
+
+export const infoFetch = createQuery<ProjectInfo>(() => rpcCall('get-project-info'))
+export const overviewFetch = createQuery<OverviewInfo>(() => rpcCall('get-overview'), { immediate: false })
 
 export const info = infoFetch.data
 export const overview = overviewFetch.data
 
-onConfigChanged(() => {
+function refreshProject() {
   infoFetch.execute()
   overviewFetch.execute()
-})
+}
+
+onConfigChanged(refreshProject)
+onInvalidated(refreshProject)
+onReconnected(refreshProject)
 
 export function fetchModule(id: string | Ref<string>) {
-  const result = useFetch(computed(() => `${API_ROOT}/module?id=${encodeURIComponent(unref(id))}`), { refetch: true })
-    .json<ModuleInfo>()
+  const result = createQuery<ModuleInfo | null>(() => rpcCall('get-module-info', unref(id)))
 
+  watch(() => unref(id), () => result.execute())
   onConfigChanged(() => result.execute())
+  onReconnected(() => result.execute())
   onModuleUpdated((update) => {
-    if (update.path === unref(id) || update.path === unref(id).slice(info.value?.root.length || 0)) {
+    const currentId = unref(id)
+    if (update.path === currentId || currentId.startsWith(`${update.path}?`)) {
       setTimeout(() => {
         result.execute()
       }, 50)
@@ -35,8 +77,13 @@ export function fetchModule(id: string | Ref<string>) {
 
 export function fetchRepl(input: Ref<string>, includeSafelist: Ref<boolean>) {
   const debounced = useDebounce(input, 500)
-  return useFetch(computed(() => `${API_ROOT}/repl?token=${encodeURIComponent(debounced.value)}&safelist=${includeSafelist.value}`), { refetch: true })
-    .json<Result>()
+  const result = createQuery<ReplResult>(() => rpcCall('generate-repl', debounced.value, includeSafelist.value))
+
+  watch([debounced, includeSafelist], () => result.execute())
+  onConfigChanged(() => result.execute())
+  onReconnected(() => result.execute())
+
+  return result
 }
 
 export interface ModuleDest {

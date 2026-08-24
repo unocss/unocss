@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UnoCSS Inspector — Vite DevTools</title>
+  </head>
+  <body>
+    <div id="app" class="h-screen flex flex-col items-center justify-center gap-4 bg-gray-100 dark:bg-gray-900">
+      <h1 class="text-title text-violet-600">UnoCSS + Vite DevTools</h1>
+      <p class="op60 max-w-100 text-center">
+        Vite DevTools is enabled — open
+        <a class="text-violet-600 underline" href="/__devtools/">/__devtools/</a>
+        and pick the UnoCSS dock. Visiting
+        <a class="text-violet-600 underline" href="/__unocss/">/__unocss/</a>
+        directly redirects there.
+      </p>
+      <button class="btn">A button</button>
+      <div class="m-4 p-2 text-sm text-emerald hover:op50">Some utilities to inspect</div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

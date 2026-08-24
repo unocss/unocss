@@ -4,6 +4,7 @@ import { aliasVirtual } from '../../alias'
 export default defineConfig({
   entry: [
     'src/index.ts',
+    'src/devframe.ts',
   ],
   clean: true,
   dts: true,

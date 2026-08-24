@@ -65,6 +65,16 @@ catalogs:
     windicss:
       specifier: ^3.5.6
       version: 3.5.6
+  devtools:
+    '@devframes/vite':
+      specifier: ^0.9.6
+      version: 0.9.6
+    '@vitejs/devtools-kit':
+      specifier: ^0.6.1
+      version: 0.6.1
+    devframe:
+      specifier: ^0.9.6
+      version: 0.9.6
   docs:
     '@codemirror/lang-html':
       specifier: ^6.4.12
@@ -255,9 +265,6 @@ catalogs:
     '@types/ws':
       specifier: ^8.18.1
       version: 8.18.1
-    '@vitejs/devtools-kit':
-      specifier: ^0.0.0-alpha.10
-      version: 0.0.0-alpha.34
   typescript:
     '@typescript-eslint/rule-tester':
       specifier: ^8.68.0
@@ -368,9 +375,6 @@ catalogs:
     simple-git-hooks:
       specifier: ^2.13.1
       version: 2.13.1
-    sirv:
-      specifier: ^3.0.2
-      version: 3.0.2
     splitpanes:
       specifier: ^4.1.2
       version: 4.1.2
@@ -1073,25 +1077,37 @@ importers:
 
   packages-integrations/inspector:
     dependencies:
+      '@devframes/vite':
+        specifier: catalog:devtools
+        version: 0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)
+      '@unocss/config':
+        specifier: workspace:*
+        version: link:../../packages-engine/config
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../../packages-presets/rule-utils
+      '@vitejs/devtools-kit':
+        specifier: catalog:devtools
+        version: 0.6.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)
       colorette:
         specifier: catalog:utils
         version: 2.0.20
+      devframe:
+        specifier: catalog:devtools
+        version: 0.9.6(cac@7.0.0)(srvx@0.12.7)
       gzip-size:
         specifier: catalog:build
         version: 6.0.0
-      sirv:
+      tinyglobby:
         specifier: catalog:utils
-        version: 3.0.2
+        version: 0.2.17
+      unplugin-utils:
+        specifier: catalog:utils
+        version: 0.3.2
     devDependencies:
-      '@vitejs/devtools-kit':
-        specifier: catalog:types
-        version: 0.0.0-alpha.34(typescript@6.0.3)(vite@8.2.2)(ws@8.21.3)
       vue-flow-layout:
         specifier: catalog:vue
         version: 0.2.0
@@ -2480,6 +2496,11 @@ packages:
     peerDependencies:
       devframe: 0.8.2
 
+  '@devframes/hub@0.9.6':
+    resolution: {integrity: sha512-jWiMwukH0fEP7rA34ovWC3pFzghrLCCJP4SxKiTPqBtPke1W7bGtxEGz9ARUoB10VkgdVcDbQs2x00d+iJHCAw==}
+    peerDependencies:
+      devframe: 0.9.6
+
   '@devframes/json-render@0.8.2':
     resolution: {integrity: sha512-LpIMMXDZGHsIlrNDWo1PbLenZcYRlxZ4lZ/vR/5j8bEh9FsSSY5Sd6RVPL93lyl4jz+2Sc+S2j4BKKzk9Zi8Fg==}
     peerDependencies:
@@ -2487,6 +2508,30 @@ packages:
       devframe: 0.8.2
     peerDependenciesMeta:
       '@devframes/hub':
+        optional: true
+
+  '@devframes/json-render@0.9.6':
+    resolution: {integrity: sha512-DxdCVUHdhpy+uu4aPAgS6vvZ+Avbc2tKVX/C4mo5mdBzoKl44XTQHWQ6QNmgqmfAsRWSx+PL52ffhkUnaEN3Xw==}
+    peerDependencies:
+      '@devframes/hub': 0.9.6
+      devframe: 0.9.6
+    peerDependenciesMeta:
+      '@devframes/hub':
+        optional: true
+
+  '@devframes/vite@0.9.6':
+    resolution: {integrity: sha512-y7MA0gyK9s/ieXIjVFR6qvBEfOmhiX5dCCnOkR2CbaipaDVZgTDkpRiNwg6oYEsyIZj4H4e5Iv91ykwnvT80vw==}
+    peerDependencies:
+      '@devframes/hub': 0.9.6
+      '@devframes/hub-ui': 0.9.6
+      devframe: 0.9.6
+      vite: ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@devframes/hub':
+        optional: true
+      '@devframes/hub-ui':
+        optional: true
+      vite:
         optional: true
 
   '@docsearch/css@4.7.0':
@@ -3379,6 +3424,11 @@ packages:
 
   '@json-render/core@0.19.0':
     resolution: {integrity: sha512-vvcyZ+10EDZKbEyB1J2kXOGfDaiZR2LurZGSqi2r5STHyKr+Te85DWaBxTwRGgM7U1LtIvNx85BzzjElRKoAIg==}
+    peerDependencies:
+      zod: ^4.0.0
+
+  '@json-render/core@0.20.0':
+    resolution: {integrity: sha512-cXAXn7h3QaylefQgh85AEGPuVq4C8SJ3k9JqigWLJhaBSozF1Fmsrm43DP16RmkqNiVgj5pBRdmB48lEO5qlow==}
     peerDependencies:
       zod: ^4.0.0
 
@@ -4695,23 +4745,15 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  '@vitejs/devtools-kit@0.0.0-alpha.34':
-    resolution: {integrity: sha512-c3e0ZJ/CKkf5lGP56eTTaTZlnVP8BN2Vchrl1p4m+7Wm/SgQpc8zGOf66+UZ45U8va5GuM/UH7CkOmw1CKbmAA==}
-    peerDependencies:
-      vite: '*'
-
   '@vitejs/devtools-kit@0.4.12':
     resolution: {integrity: sha512-3S2kT/ZwGy49zkEmOfXb/Z4fEuRzZgi4+CgL0tKvxxAFj526R5wGRT2jASWu6VaSsPVYqob9REbHvLJzEJtk6g==}
     peerDependencies:
       vite: '*'
 
-  '@vitejs/devtools-rpc@0.0.0-alpha.34':
-    resolution: {integrity: sha512-tkHAV3dzAcQN/+Aoituf5WLS7pVlUVpnv9oKF9RS+47bQ27Pm7SqWGRx3m/YErb298zWgPPqR0hwmRc7IRoXFQ==}
+  '@vitejs/devtools-kit@0.6.1':
+    resolution: {integrity: sha512-0+KY6TU5ukw/onaY3FdffSml/LZGuAauilbRqPYerS3GEkbgO3JKPYw4UsjlL5IahZ1AK9QpbPfoqhf5dhw8Og==}
     peerDependencies:
-      ws: '*'
-    peerDependenciesMeta:
-      ws:
-        optional: true
+      vite: '*'
 
   '@vitejs/plugin-legacy@8.2.3':
     resolution: {integrity: sha512-MMHLsn/0FrBkCQyb1x44cPYGwkfqcGr2FblcEP2ne79aXe7d5tFKoZ09xs5C4wuh8fOu2JRaNhgAS3K3uvUeJA==}
@@ -5857,6 +5899,21 @@ packages:
       cac:
         optional: true
 
+  devframe@0.9.6:
+    resolution: {integrity: sha512-Rg1hBceM07K9/kL+J2bvjbbG2yIdOFYg6EaJHnzhc9uGA8o7BXLDJC0ied6fQIlUEBmFvtrbMi+AWOJS3+/LBA==}
+    hasBin: true
+    peerDependencies:
+      '@modelcontextprotocol/client': ^2.0.0
+      '@modelcontextprotocol/server': ^2.0.0
+      cac: ^7.0.0
+    peerDependenciesMeta:
+      '@modelcontextprotocol/client':
+        optional: true
+      '@modelcontextprotocol/server':
+        optional: true
+      cac:
+        optional: true
+
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
 
@@ -6675,9 +6732,6 @@ packages:
 
   image-meta@0.2.2:
     resolution: {integrity: sha512-3MOLanc3sb3LNGWQl1RlQlNWURE5g32aUphrDyFeCsxBTk08iE3VNe4CwsUZ0Qs1X+EfX0+r29Sxdpza4B+yRA==}
-
-  immer@11.1.18:
-    resolution: {integrity: sha512-EQyQtLiYW029lyoczMl/Hh4Xu7cDecSc58JRYpHyL4tIAu3eqd1yJzQX04d2BZHDkzFFvm6qJEJWOtfDSWAXbQ==}
 
   import-meta-resolve@4.2.0:
     resolution: {integrity: sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg==}
@@ -8700,9 +8754,6 @@ packages:
   strip-literal@4.0.0:
     resolution: {integrity: sha512-PaqAvfUZKBwc/SLmNZtHmzK+v19Z4O4eS3cKPeGvbIv/U3pnyEq4Tuw3/4v/FwfM8VQaEawsyCcOQ0P+kpwWWw==}
 
-  structured-clone-es@1.0.0:
-    resolution: {integrity: sha512-FL8EeKFFyNQv5cMnXI31CIMCsFarSVI2bF0U0ImeNE3g/F1IvJQyqzOXxPBRXiwQfyBTlbNe88jh1jFW0O/jiQ==}
-
   structured-clone-es@2.0.1:
     resolution: {integrity: sha512-10ZL5r77LhknxlP1FBiCW+VdnuWOEFLdSS2SKtjyEV+L4qP1hUEIMIZW94LC3jKxRmT/Dj7KkD1mqh/IY6lhKQ==}
 
@@ -9336,14 +9387,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  valibot@1.4.2:
-    resolution: {integrity: sha512-gjdCvJ6d3RyHAneqxMYMW9QMCwYMb3jpOO0IyHZV1bnRHFBHrX3VkIILt5XYR0WhwHiH7Mty8ovuPZ/O3gamrg==}
-    peerDependencies:
-      typescript: '>=5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   validate-npm-package-name@5.0.1:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
@@ -10974,6 +11017,21 @@ snapshots:
       tinyexec: 1.3.0
       zigpty: 0.2.1
 
+  '@devframes/hub@0.9.6(crossws@0.4.12)(devframe@0.9.6)':
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      destr: 2.0.5
+      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      h3: 2.0.1-rc.29(crossws@0.4.12)
+      pathe: 2.0.3
+      perfect-debounce: 2.1.0
+      tinyexec: 1.3.0
+      ufo: 1.6.4
+      zigpty: 0.2.1
+    transitivePeerDependencies:
+      - crossws
+      - ocache
+
   '@devframes/json-render@0.8.2(@devframes/hub@0.8.2)(devframe@0.8.2)':
     dependencies:
       '@json-render/core': 0.19.0(zod@4.4.3)
@@ -10982,6 +11040,23 @@ snapshots:
       zod: 4.4.3
     optionalDependencies:
       '@devframes/hub': 0.8.2(devframe@0.8.2)
+
+  '@devframes/json-render@0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)':
+    dependencies:
+      '@json-render/core': 0.20.0(zod@4.4.3)
+      '@standard-schema/spec': 1.1.0
+      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      zod: 4.4.3
+    optionalDependencies:
+      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+
+  '@devframes/vite@0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)':
+    dependencies:
+      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      pathe: 2.0.3
+    optionalDependencies:
+      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+      vite: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.0)(tsx@4.23.12)(yaml@2.9.0)
 
   '@docsearch/css@4.7.0': {}
 
@@ -11620,6 +11695,10 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@json-render/core@0.19.0(zod@4.4.3)':
+    dependencies:
+      zod: 4.4.3
+
+  '@json-render/core@0.20.0(zod@4.4.3)':
     dependencies:
       zod: 4.4.3
 
@@ -13040,16 +13119,6 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vitejs/devtools-kit@0.0.0-alpha.34(typescript@6.0.3)(vite@8.2.2)(ws@8.21.3)':
-    dependencies:
-      '@vitejs/devtools-rpc': 0.0.0-alpha.34(typescript@6.0.3)(ws@8.21.3)
-      birpc: 4.2.0
-      immer: 11.1.18
-      vite: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.0)(tsx@4.23.12)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - typescript
-      - ws
-
   '@vitejs/devtools-kit@0.4.12(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)':
     dependencies:
       '@devframes/hub': 0.8.2(devframe@0.8.2)
@@ -13067,17 +13136,23 @@ snapshots:
       - ocache
       - srvx
 
-  '@vitejs/devtools-rpc@0.0.0-alpha.34(typescript@6.0.3)(ws@8.21.3)':
+  '@vitejs/devtools-kit@0.6.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)':
     dependencies:
-      birpc: 4.2.0
-      ohash: 2.0.12
-      p-limit: 7.3.1
-      structured-clone-es: 1.0.0
-      valibot: 1.4.2(typescript@6.0.3)
-    optionalDependencies:
-      ws: 8.21.3
+      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+      '@devframes/json-render': 0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)
+      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      local-pkg: 1.2.1
+      mlly: 1.8.2
+      nostics: 1.2.0
+      nypm: 0.6.9
+      vite: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.0)(tsx@4.23.12)(yaml@2.9.0)
     transitivePeerDependencies:
-      - typescript
+      - '@modelcontextprotocol/client'
+      - '@modelcontextprotocol/server'
+      - cac
+      - crossws
+      - ocache
+      - srvx
 
   '@vitejs/plugin-legacy@8.2.3(supports-color@10.2.2)(terser@5.51.0)(vite@8.2.2)':
     dependencies:
@@ -14170,6 +14245,10 @@ snapshots:
     optionalDependencies:
       srvx: 0.11.22
 
+  crossws@0.4.12(srvx@0.12.7):
+    optionalDependencies:
+      srvx: 0.12.7
+
   css-select@6.0.0:
     dependencies:
       boolbase: 1.0.0
@@ -14301,6 +14380,22 @@ snapshots:
       birpc: 4.2.0
       crossws: 0.4.12(srvx@0.11.22)
       destr: 2.0.5
+      h3: 2.0.1-rc.29(crossws@0.4.12)
+      mrmime: 2.0.1
+      nostics: 1.2.0
+      pathe: 2.0.3
+      ufo: 1.6.4
+    optionalDependencies:
+      cac: 7.0.0
+    transitivePeerDependencies:
+      - ocache
+      - srvx
+
+  devframe@0.9.6(cac@7.0.0)(srvx@0.12.7):
+    dependencies:
+      '@standard-schema/spec': 1.1.0
+      birpc: 4.2.0
+      crossws: 0.4.12(srvx@0.12.7)
       h3: 2.0.1-rc.29(crossws@0.4.12)
       mrmime: 2.0.1
       nostics: 1.2.0
@@ -15278,8 +15373,6 @@ snapshots:
   ignore@7.0.6: {}
 
   image-meta@0.2.2: {}
-
-  immer@11.1.18: {}
 
   import-meta-resolve@4.2.0: {}
 
@@ -17915,8 +18008,6 @@ snapshots:
     dependencies:
       js-tokens: 10.0.0
 
-  structured-clone-es@1.0.0: {}
-
   structured-clone-es@2.0.1: {}
 
   style-mod@4.1.3: {}
@@ -18588,10 +18679,6 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
-
-  valibot@1.4.2(typescript@6.0.3):
-    optionalDependencies:
-      typescript: 6.0.3
 
   validate-npm-package-name@5.0.1: {}
 

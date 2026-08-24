@@ -10,7 +10,9 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias,
   },
-  base: command === 'build' ? '/__unocss/' : '/',
+  // Relative base so the built SPA can be mounted at any path
+  // (`/__unocss/` standalone, or the Vite DevTools dock base)
+  base: command === 'build' ? './' : '/',
   plugins: [
     UnoCSS('uno.config.ts'),
     Vue(),
