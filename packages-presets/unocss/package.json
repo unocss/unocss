@@ -1,7 +1,7 @@
 {
   "name": "unocss",
   "type": "module",
-  "version": "66.6.6",
+  "version": "66.8.1",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -66,9 +66,6 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=14"
-  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch"
@@ -112,5 +109,11 @@
     "@unocss/astro": "workspace:*",
     "@unocss/postcss": "workspace:*",
     "@unocss/webpack": "workspace:*"
+  },
+  "inlinedDependencies": {
+    "detect-libc": "2.1.2",
+    "lightningcss": "1.33.0",
+    "lightningcss-wasm": "1.31.1",
+    "napi-wasm": "1.1.3"
   }
 }

@@ -1,15 +1,15 @@
-import { useCSSPrettify, useHTMLPrettify, useJSPrettify } from '../../../packages-integrations/inspector/client/composables/usePrettify'
+import { prettify, useCSSPrettify } from '../../../packages-integrations/inspector/client/composables/usePrettify'
 
-export function formatHTML() {
-  inputHTML.value = useHTMLPrettify(options.value.transformHtml ? transformedHTML : inputHTML).value
+export async function formatHTML() {
+  inputHTML.value = await prettify(toValue(options.value.transformHtml ? transformedHTML : inputHTML), 'html')
 }
 
-export function formatConfig() {
-  customConfigRaw.value = useJSPrettify(customConfigRaw).value
+export async function formatConfig() {
+  customConfigRaw.value = await prettify(customConfigRaw.value, 'babel')
 }
 
-export function formatCSS() {
-  customCSS.value = useCSSPrettify(options.value.transformCustomCSS ? transformedCSS : customCSS).value
+export async function formatCSS() {
+  customCSS.value = await prettify(toValue(options.value.transformCustomCSS ? transformedCSS : customCSS), 'css')
 }
 
 export const isCSSPrettify = ref(false)

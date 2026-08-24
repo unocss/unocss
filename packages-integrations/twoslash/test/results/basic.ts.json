@@ -1,0 +1,25 @@
+{
+  "code": "// @unocss-include\n\nconst arr = [\n  'm-1',\n  'w-1/2',\n]",
+  "nodes": [
+    {
+      "type": "hover",
+      "text": "CSS Output",
+      "docs": "```css\n/* layer: default */\n.m-1 {\n  margin: 0.25rem;\n}\n```",
+      "start": 37,
+      "target": "m-1",
+      "length": 3,
+      "line": 3,
+      "character": 3
+    },
+    {
+      "type": "hover",
+      "text": "CSS Output",
+      "docs": "```css\n/* layer: default */\n.w-1\\/2 {\n  width: 50%;\n}\n```",
+      "start": 46,
+      "target": "w-1/2",
+      "length": 5,
+      "line": 4,
+      "character": 3
+    }
+  ]
+}

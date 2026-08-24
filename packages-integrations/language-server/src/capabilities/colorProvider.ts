@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { INCLUDE_COMMENT_IDE } from '#integration/constants'
 import { isCssId } from '#integration/utils'
 import { getMatchedPositionsFromDoc } from '../core/cache'
-import { getColorString, parseColorToRGBA } from '../utils/color'
+import { getColorString, getCssVariables, parseColorToRGBA } from '../utils/color'
 import { getCSS } from '../utils/css'
 
 export function registerColorProvider(
@@ -56,12 +56,19 @@ export function registerColorProvider(
     )
 
     const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
+    const isWind4 = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-wind4')
     const colors: ColorInformation[] = []
+
+    let themeCssVars: Map<string, string> | undefined
+    if (isWind4) {
+      const { css: preflightCss } = await ctx.uno.generate(new Set(), { preflights: true, safelist: false })
+      themeCssVars = getCssVariables(preflightCss)
+    }
 
     for (const [start, end, className] of positions) {
       try {
         const css = await getCSS(ctx.uno, isAttributify ? [className, `[${className}=""]`] : className)
-        const colorString = getColorString(css)
+        const colorString = getColorString(css, themeCssVars)
         if (!colorString)
           continue
 

@@ -19,6 +19,7 @@ export const allPackages = [
   "@unocss/runtime",
   "@unocss/scope",
   "@unocss/svelte-scoped",
+  "@unocss/twoslash",
   "@unocss/vite",
   "@unocss/webpack",
   "@unocss/extractor-arbitrary-variants",

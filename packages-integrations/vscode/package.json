@@ -3,7 +3,7 @@
   "name": "@unocss/vscode",
   "displayName": "UnoCSS",
   "type": "module",
-  "version": "66.6.6",
+  "version": "66.8.1",
   "private": true,
   "description": "UnoCSS for VS Code",
   "license": "MIT",
@@ -145,17 +145,17 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
-    "dev": "esno ./scripts/dev.ts && tsdown --watch src",
-    "publish": "esno ./scripts/publish.ts",
+    "build": "pnpm run update && tsdown",
+    "dev": "tsx ./scripts/dev.ts",
+    "publish": "tsx ./scripts/publish.ts",
     "prepare": "nr update",
     "update": "vscode-ext-gen --scope=unocss --output src/generated/meta.ts",
-    "pack": "npx @vscode/vsce package --no-dependencies"
+    "pack": "tsx ./scripts/pack.ts"
   },
   "devDependencies": {
     "@types/vscode": "^1.96.0",
     "@unocss/language-server": "workspace:*",
-    "esno": "catalog:utils",
+    "tsx": "catalog:typescript",
     "vscode-ext-gen": "catalog:vscode",
     "vscode-languageclient": "catalog:vscode"
   }

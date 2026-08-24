@@ -82,7 +82,7 @@ describe('shortcuts', async () => {
 
   it('merge transform-duplicated', async () => {
     const { css } = await uno.generate('transform-duplicated', { preflights: false })
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       parser: 'css',
       plugins: [parserCSS],
     })

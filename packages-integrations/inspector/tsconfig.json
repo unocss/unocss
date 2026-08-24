@@ -14,5 +14,6 @@
     "sourceMap": true,
     "esModuleInterop": true
   },
-  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"]
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"],
+  "exclude": ["dist", "node_modules"]
 }

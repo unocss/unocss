@@ -45,7 +45,7 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
     return `@media (min-width: ${size})`
   }
 
-  if (!variantEntries.find(i => i[0] === breakpointName))
+  if (!variantEntries.some(i => i[0] === breakpointName))
     throw new Error(`breakpoint ${breakpointName} not found`)
 
   const offset = node.loc!.start.offset

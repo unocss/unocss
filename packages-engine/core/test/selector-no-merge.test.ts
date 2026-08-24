@@ -17,6 +17,32 @@ describe('selector', async () => {
   })
 })
 
+describe('indexed selector merge', () => {
+  it('merges a large selector set without changing scope, order, or noMerge output', async () => {
+    const uno = await createGenerator({
+      rules: [
+        [/^merge-(\d+)$/, () => ({ color: 'red' })],
+        ['not-merged', { color: 'red' }, { noMerge: true }],
+      ],
+    })
+    const tokens = Array.from({ length: 250 }, (_, index) => `merge-${index}`)
+    const expectedSelectors = tokens
+      .map(token => `.scope .${token}`)
+      .sort((a, b) => a.localeCompare(b))
+
+    for (const minify of [false, true]) {
+      const { css } = await uno.generate([...tokens, 'not-merged'], { minify, preflights: false, scope: '.scope' })
+      const [mergedSelectors] = css
+        .replace('/* layer: default */\n', '')
+        .split('{color:red;}')
+
+      expect(mergedSelectors.split(minify ? ',' : ',\n')).toEqual(expectedSelectors)
+      expect(css.match(/\{color:red;\}/g)).toHaveLength(2)
+      expect(css).toContain('.scope .not-merged{color:red;}')
+    }
+  })
+})
+
 describe('variant', async () => {
   const uno = await createGenerator({
     shortcuts: [

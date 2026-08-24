@@ -6,6 +6,9 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  deps: {
+    neverBundle: ['magic-string'],
+  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',

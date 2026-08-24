@@ -5,12 +5,10 @@ import fs from 'node:fs'
 import fsp from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
-import { replaceAsync } from '#integration/utils'
 import { fetch } from 'ofetch'
 
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
-// eslint-disable-next-line regexp/no-unused-capturing-group
-const urlProtocolRegex = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/
+const urlProtocolRegex = /^[\s\w\0+.-]{2,}:[/\\]{1,2}/
 
 export interface LocalFontProcessorOptions {
   /**
@@ -45,6 +43,13 @@ export interface LocalFontProcessorOptions {
    * Custom fetch function to provide the font data.
    */
   fetch?: typeof fetch
+
+  /**
+   * Callback invoked when a font file is downloaded during build.
+   * Receives the filename and file buffer, useful for emitting fonts
+   * directly to the build output instead of relying on public dir copy.
+   */
+  onDownload?: (filename: string, buf: Buffer) => void | Promise<void>
 }
 
 export function createLocalFontProcessor(options?: LocalFontProcessorOptions): WebFontProcessor {
@@ -58,8 +63,11 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
     const fetcher = options?.fetch ?? fetch
     const response = await fetcher(url)
       .then(r => r.arrayBuffer())
+    const buf = Buffer.from(response)
+    const filename = assetPath.split(/[\\/]/).pop()!
+    await options?.onDownload?.(filename, buf)
     await fsp.mkdir(fontAssetsDir, { recursive: true })
-    await fsp.writeFile(assetPath, Buffer.from(response))
+    await fsp.writeFile(assetPath, buf)
   }
 
   const cache = new Map<string, Promise<void>>()
@@ -75,9 +83,9 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
       const hash = getHash(JSON.stringify(fonts))
       const cachePath = join(cacheDir, `${hash}.css`)
 
-      if (fs.existsSync(cachePath)) {
+      if (fs.existsSync(cachePath))
         return fsp.readFile(cachePath, 'utf-8')
-      }
+
       const css = await getCSSDefault(fonts, providers)
 
       await fsp.mkdir(cacheDir, { recursive: true })
@@ -86,12 +94,17 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
       return css
     },
     async transformCSS(css) {
-      return await replaceAsync(css, fontUrlRegex, async (url) => {
+      // Find all font URLs in the CSS
+      const matches = css.match(fontUrlRegex) || []
+      const replacements = new Map<string, string>()
+
+      // Process each unique URL found in the CSS
+      await Promise.all(Array.from(new Set(matches)).map(async (url) => {
         const hash = getHash(url)
         const ext = url.split('.').pop()
 
         let name = ''
-        const match1 = url.match(/\/s\/([^/]+)\//) // Google Fonts
+        const match1 = url.match(/\/s\/([^/]+)\//)
         if (match1)
           name = match1[1].replace(/\W/g, ' ').trim().replace(/\s+/, '-').toLowerCase()
 
@@ -103,8 +116,11 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
           await downloadFont(_url, assetPath)
         }
 
-        return `${fontServeBaseUrl}/${filename}`
-      })
+        replacements.set(url, `${fontServeBaseUrl}/${filename}`)
+      }))
+
+      // Replace all occurrences using the populated map
+      return css.replace(fontUrlRegex, match => replacements.get(match) || match)
     },
   }
 }

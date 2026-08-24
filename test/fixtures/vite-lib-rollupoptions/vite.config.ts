@@ -5,33 +5,33 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'lib/main.ts'),
+      entry: resolve(import.meta.dirname, 'lib/main.ts'),
       name: 'MyLib',
     },
     rollupOptions: {
       external: ['vue'],
       output: [
         {
-          dir: resolve(__dirname, 'dist/es'),
+          dir: resolve(import.meta.dirname, 'dist/es'),
           format: 'es',
           entryFileNames: 'index.mjs',
           assetFileNames: 'assets/mylib.css',
           preserveModules: true,
-          preserveModulesRoot: resolve(__dirname, './'),
+          preserveModulesRoot: resolve(import.meta.dirname, './'),
         },
         {
-          dir: resolve(__dirname, 'dist/cjs'),
+          dir: resolve(import.meta.dirname, 'dist/cjs'),
           format: 'cjs',
           entryFileNames: 'index.cjs',
           assetFileNames: 'assets/mylib.css',
           preserveModules: true,
-          preserveModulesRoot: resolve(__dirname, './'),
+          preserveModulesRoot: resolve(import.meta.dirname, './'),
         },
         {
           globals: {
             vue: 'Vue',
           },
-          dir: resolve(__dirname, 'dist/umd'),
+          dir: resolve(import.meta.dirname, 'dist/umd'),
           format: 'umd',
           entryFileNames: 'index.js',
           name: 'MyLib',
@@ -40,7 +40,7 @@ export default defineConfig({
           globals: {
             vue: 'Vue',
           },
-          dir: resolve(__dirname, 'dist/iife'),
+          dir: resolve(import.meta.dirname, 'dist/iife'),
           format: 'iife',
           entryFileNames: 'index.js',
           name: 'MyLib',

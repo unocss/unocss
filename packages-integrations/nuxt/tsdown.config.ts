@@ -6,6 +6,9 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
+  deps: {
+    neverBundle: true,
+  },
   format: ['esm', 'cjs'],
   outputOptions: {
     exports: 'named',

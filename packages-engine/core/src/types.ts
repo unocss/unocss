@@ -667,6 +667,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Custom metadata for the preset
    */
   meta?: Record<string, any>
+
+  /**
+   * Documentation URL for the preset
+   */
+  docs?: string
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
@@ -808,6 +813,10 @@ export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 export interface SourceCodeTransformer {
   name: string
   /**
+   * Documentation URL for the transformer
+   */
+  docs?: string
+  /**
    * The order of transformer
    */
   enforce?: SourceCodeTransformerEnforce
@@ -815,6 +824,12 @@ export interface SourceCodeTransformer {
    * Custom id filter, if not provided, the extraction filter will be applied
    */
   idFilter?: (id: string) => boolean
+  /**
+   * Cheap source filter evaluated before creating a MagicString instance.
+   *
+   * It must return true for every source the transformer may modify.
+   */
+  codeFilter?: (code: string, id: string) => boolean
   /**
    * The transform function
    */
@@ -927,6 +942,14 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   rulesSize: number
   rules: readonly Rule<Theme>[]
   rulesDynamic: readonly DynamicRule<Theme>[]
+  /**
+   * Prefilter for dynamic rules.
+   * @internal
+   */
+  rulesDynamicFilter?: {
+    fallback: readonly DynamicRule<Theme>[]
+    filters: readonly RegExp[]
+  }
   rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
