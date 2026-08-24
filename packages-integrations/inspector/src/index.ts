@@ -63,7 +63,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
         const mod: ModuleInfo = {
           ...result,
           ...analyzed,
-          layers: await Promise.all(result.layers.map(async name => ({ name, css: await result.getLayer(name) ?? '' }))),
+          layers: result.layers.map(name => ({ name, css: result.getLayer(name) ?? '' })),
           gzipSize: await gzipSize(result.css),
           code,
           id,
@@ -99,7 +99,7 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
           ...result,
           ...analyzed,
           gzipSize: await gzipSize(result.css),
-          layers: await Promise.all(result.layers.map(async name => ({ name, css: await result.getLayer(name) ?? '' }))),
+          layers: result.layers.map(name => ({ name, css: result.getLayer(name) ?? '' })),
         }
         res.setHeader('Content-Type', 'application/json')
         res.write(JSON.stringify(mod, null, 2))

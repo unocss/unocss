@@ -408,7 +408,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
-    const getLayer = async (layer: string = LAYER_DEFAULT) => {
+    const getLayer = (layer: string = LAYER_DEFAULT) => {
       if (layerCache[layer] != null)
         return layerCache[layer]
 
@@ -512,23 +512,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
       css = layerMark + css
 
-      if (this.config.loaders?.length) {
-        const sortedLoaders = this.config.loaders.slice().sort((a, b) => (a.order || 0) - (b.order || 0))
-        const applyLoaders = async (input: string) => {
-          let loadedcss = input
-          for (const loader of sortedLoaders) {
-            loadedcss = await loader.load(loadedcss, layer)
-          }
-          return loadedcss
-        }
-        css = await applyLoaders(css)
-      }
       return layerCache[layer] = css
     }
 
-    const getLayers = async (includes = layers, excludes?: string[]) => {
+    const getLayers = (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      const css = (await Promise.all(layers.map(layer => getLayer(layer)))).filter(Boolean)
+      const css = layers.map(layer => getLayer(layer)).filter(Boolean)
 
       if (outputCssLayers) {
         let layerNames = layers
@@ -542,13 +531,25 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
-      const content = await callback(await getLayer(layer))
+      const content = await callback(getLayer(layer))
       layerCache[layer] = content
       return content
     }
 
+    if (this.config.loaders?.length) {
+      const loaders = this.config.loaders.slice().sort((a, b) => (a.order || 0) - (b.order || 0))
+      await Promise.all(layers.map(async (layer) => {
+        let css = getLayer(layer)
+        if (!css)
+          return
+        for (const loader of loaders)
+          css = await loader.load(css, layer)
+        layerCache[layer] = css
+      }))
+    }
+
     return {
-      css: await getLayers(),
+      get css() { return getLayers() },
       layers,
       matched,
       getLayers,

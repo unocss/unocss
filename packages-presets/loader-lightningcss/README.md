@@ -2,7 +2,7 @@
 
 <!-- @unocss-ignore -->
 
-LightningCSS loader for UnoCSS. In Node environments it uses `lightningcss`, and in non-Node environments it falls back to `lightningcss-wasm`.
+Lightning CSS loader for UnoCSS running in Node.js.
 
 ## Install
 
@@ -34,11 +34,6 @@ export default defineConfig({
 ## Options
 
 The loader accepts all LightningCSS `TransformOptions` except `code` and `filename`.
-
-## Notes
-
-- In non-Node environments, the loader initializes `lightningcss-wasm` once and reuses it.
-- Ensure your bundler supports loading WASM when targeting browsers.
 
 ## License
 

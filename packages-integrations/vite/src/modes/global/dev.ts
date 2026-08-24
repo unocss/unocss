@@ -44,8 +44,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       .filter((i): i is string => !!i)
 
     const css = layer === LAYER_MARK_ALL
-      ? await result.getLayers(undefined, resolvedLayers)
-      : await result.getLayer(layer)
+      ? result.getLayers(undefined, resolvedLayers)
+      : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
     lastServedHash.set(layer, hash)
     lastServedTime = Date.now()

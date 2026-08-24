@@ -113,7 +113,6 @@
   "inlinedDependencies": {
     "detect-libc": "2.1.2",
     "lightningcss": "1.33.0",
-    "lightningcss-wasm": "1.31.1",
     "napi-wasm": "1.1.3"
   }
 }

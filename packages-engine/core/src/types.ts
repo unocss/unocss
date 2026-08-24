@@ -962,8 +962,8 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
 export interface GenerateResult<T = Set<string>> {
   css: string
   layers: string[]
-  getLayer: (name?: string) => Promise<string | undefined>
-  getLayers: (includes?: string[], excludes?: string[]) => Promise<string>
+  getLayer: (name?: string) => string | undefined
+  getLayers: (includes?: string[], excludes?: string[]) => string
   setLayer: (layer: string, callback: (content: string) => Promise<string>) => Promise<string>
   matched: T
 }

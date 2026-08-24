@@ -235,7 +235,7 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
     let previous: string | undefined
     for (const current of result.layers) {
-      const css = await result.getLayer(current)
+      const css = result.getLayer(current)
       getStyleElement(current, previous).innerHTML = css ?? ''
       previous = current
     }

@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
-    "lightningcss": "catalog:css",
-    "lightningcss-wasm": "catalog:css"
+    "lightningcss": "catalog:css"
   }
 }
