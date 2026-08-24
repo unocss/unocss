@@ -1,11 +1,11 @@
+import type { Configuration } from 'webpack'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import UnoCSS from '@unocss/webpack'
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
-/** @type {import('webpack').Configuration} */
-export default {
+const config: Configuration = {
   context: dir,
   mode: 'production',
   entry: './src/main.js',
@@ -30,3 +30,5 @@ export default {
     minimize: false,
   },
 }
+
+export default config

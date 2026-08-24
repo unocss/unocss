@@ -2,7 +2,7 @@ import { join, resolve } from 'node:path'
 import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'
 import webpack from 'webpack'
-import config from './fixtures/webpack-png/webpack.config.mjs'
+import config from './fixtures/webpack-png/webpack.config'
 
 describe('webpack png', () => {
   it('preserves imported png bytes with @unocss/webpack enabled', async () => {
