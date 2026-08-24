@@ -22,6 +22,10 @@ export function createWebpackConfig(options?: WebpackPluginOptions): Configurati
           test: /\.png$/,
           type: 'asset/resource',
         },
+        {
+          test: /\.css$/,
+          type: 'asset/source',
+        },
       ],
     },
     plugins: [

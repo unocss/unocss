@@ -1,5 +1,6 @@
 import { defineConfig, presetMini } from 'unocss'
 
 export default defineConfig({
-  presets: [presetMini()],
+  presets: [presetMini({preflight: false})],
+  safelist: ['text-red'],
 })
