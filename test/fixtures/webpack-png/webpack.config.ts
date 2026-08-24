@@ -1,34 +1,34 @@
 import type { Configuration } from 'webpack'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import UnoCSS from '@unocss/webpack'
+import UnoCSS, { type WebpackPluginOptions } from '@unocss/webpack'
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
-const config: Configuration = {
-  context: dir,
-  mode: 'production',
-  entry: './src/main.js',
-  output: {
-    path: path.join(dir, 'dist'),
-    filename: 'main.js',
-    assetModuleFilename: 'assets/[name][ext]',
-    clean: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.png$/,
-        type: 'asset/resource',
-      },
+export function createWebpackConfig(options?: WebpackPluginOptions): Configuration {
+  return {
+    context: dir,
+    mode: 'production',
+    entry: './src/main.js',
+    output: {
+      path: path.join(dir, 'dist'),
+      filename: 'main.js',
+      assetModuleFilename: 'assets/[name][ext]',
+      clean: true,
+    },
+    module: {
+      rules: [
+        {
+          test: /\.png$/,
+          type: 'asset/resource',
+        },
+      ],
+    },
+    plugins: [
+      UnoCSS(options),
     ],
-  },
-  plugins: [
-    UnoCSS(),
-  ],
-  optimization: {
-    minimize: false,
-  },
+    optimization: {
+      minimize: false,
+    },
+  }
 }
-
-export default config

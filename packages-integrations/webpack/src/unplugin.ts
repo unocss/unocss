@@ -48,12 +48,23 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
     const hashes = new Map<string, string>()
 
     let RESOLVED_ID_RE: RegExp
+    // Default matches `virtualModulePrefix || '__uno'` in getVMPRegexes.
+    // Mutated after config resolves so custom prefixes still hit `load`.
+    const virtualCssInclude: Array<string | RegExp> = [
+      /[/\\]__uno(?:_.*?)?\.css(\?.*)?$/,
+    ]
+
+    async function applyVirtualCssFilter() {
+      const regexes = await ctx.getVMPRegexes()
+      RESOLVED_ID_RE = regexes.RESOLVED_ID_RE
+      virtualCssInclude[0] = regexes.RESOLVED_ID_WITH_QUERY_RE
+    }
 
     const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
       async buildStart() {
-        ({ RESOLVED_ID_RE } = await ctx.getVMPRegexes())
+        await applyVirtualCssFilter()
       },
       transform: {
         filter: {
@@ -91,11 +102,12 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       },
       // serve the placeholders in virtual module
       // #5164: unfiltered load hook registers unplugin's global load loader on all modules,
-      // corrupting binary assets (unjs/unplugin#524). Only match virtual CSS module ids.
+      // corrupting binary assets (unjs/unplugin#524). Only match virtual CSS module ids
+      // (`virtualModulePrefix`, default `__uno`).
       load: {
         filter: {
           id: {
-            include: [/[/\\]__uno(?:_.*?)?\.css(\?.*)?$/],
+            include: virtualCssInclude,
           },
         },
         async handler(id) {
@@ -110,6 +122,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
           await ctx.ready
+          await applyVirtualCssFilter()
 
           const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
           if (nonPreTransformers?.length) {
