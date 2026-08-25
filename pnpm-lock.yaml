@@ -50,6 +50,9 @@ catalogs:
     css-tree:
       specifier: ^3.2.1
       version: 3.2.1
+    lightningcss:
+      specifier: ^1.31.1
+      version: 1.33.0
     postcss:
       specifier: ^8.5.26
       version: 8.5.26
@@ -1389,6 +1392,15 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+
+  packages-presets/processor-lightningcss:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      lightningcss:
+        specifier: catalog:css
+        version: 1.33.0
 
   packages-presets/preset-attributify:
     dependencies:

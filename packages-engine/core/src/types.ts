@@ -562,6 +562,11 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Processors to transform generated CSS layers before they are exposed.
+   */
+  processors?: CSSProcessor<Theme>[]
 }
 
 export interface OutputCssLayersOptions {
@@ -833,6 +838,29 @@ export interface SourceCodeTransformer {
     id: string,
     ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
+}
+
+export interface CSSProcessorContext<Theme extends object = object> {
+  /**
+   * The current CSS layer being processed.
+   */
+  layer: string
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * Environment mode
+   *
+   * @default 'build'
+   */
+  envMode: 'dev' | 'build'
+}
+
+export interface CSSProcessor<Theme extends object = object> {
+  name: string
+  order?: number
+  process: (css: string, context: CSSProcessorContext<Theme>) => Awaitable<string>
 }
 
 export interface ContentOptions {
