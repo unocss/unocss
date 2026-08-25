@@ -840,10 +840,27 @@ export interface SourceCodeTransformer {
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
+export interface LoaderContext<Theme extends object = object> {
+  /**
+   * The current CSS layer being processed.
+   */
+  layer: string
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * Environment mode
+   *
+   * @default 'build'
+   */
+  envMode?: 'dev' | 'build'
+}
+
 export interface CSSLoader {
   name: string
   order?: number
-  load: (css: string, layer: string) => Awaitable<string>
+  load: (css: string, context: LoaderContext) => Awaitable<string>
 }
 
 export interface ContentOptions {

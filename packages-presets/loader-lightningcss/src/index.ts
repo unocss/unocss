@@ -12,7 +12,7 @@ export default function loaderLightningCSS(
 ): CSSLoader {
   return {
     name: '@unocss/loader-lightningcss',
-    load: async (css, layer) => {
+    load: async (css, { layer, envMode }) => {
       if (!getEnvFlags().isNode) {
         warnOnce('@unocss/loader-lightningcss is not supported in non-Node.js environments; returning CSS unchanged')
         return css
@@ -23,9 +23,10 @@ export default function loaderLightningCSS(
         import('lightningcss'),
       ])
       const result = transform({
-        ...options,
         code: Buffer.from(css),
         filename: `${layer ?? 'uno'}.css`,
+        minify: envMode === 'build',
+        ...options,
       })
       return result.code.toString()
     },

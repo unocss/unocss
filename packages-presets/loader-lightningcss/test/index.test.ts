@@ -13,7 +13,7 @@ describe('loader-lightningcss', () => {
 
     expect(loader.name).toBe('@unocss/loader-lightningcss')
     await expect(
-      loader.load('.foo { color: red; }', 'default'),
+      loader.load('.foo { color: red; }', { layer: 'default' }),
     )
       .resolves
       .toBe('.foo{color:red}')
@@ -22,7 +22,7 @@ describe('loader-lightningcss', () => {
   it('uses the layer name as the filename', async () => {
     const loader = loaderLightningCSS()
 
-    await expect(loader.load('}', 'utilities'))
+    await expect(loader.load('}', { layer: 'utilities' }))
       .rejects
       .toMatchObject({ fileName: 'utilities.css' })
   })
@@ -57,8 +57,8 @@ describe('loader-lightningcss', () => {
     const loader = loaderLightningCSS()
     const css = '.foo { color: red; }'
 
-    await expect(loader.load(css, 'default')).resolves.toBe(css)
-    await expect(loader.load(css, 'default')).resolves.toBe(css)
+    await expect(loader.load(css, { layer: 'default' })).resolves.toBe(css)
+    await expect(loader.load(css, { layer: 'default' })).resolves.toBe(css)
 
     expect(warn).toHaveBeenCalledOnce()
     expect(warn).toHaveBeenCalledWith(
