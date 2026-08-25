@@ -26,7 +26,7 @@ export const allPackages = [
   "@unocss/extractor-mdc",
   "@unocss/extractor-pug",
   "@unocss/extractor-svelte",
-  "@unocss/loader-lightningcss",
+  "@unocss/processor-lightningcss",
   "@unocss/preset-attributify",
   "@unocss/preset-icons",
   "@unocss/preset-legacy-compat",

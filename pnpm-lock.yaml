@@ -1387,7 +1387,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages-engine/core
 
-  packages-presets/loader-lightningcss:
+  packages-presets/processor-lightningcss:
     dependencies:
       '@unocss/core':
         specifier: workspace:*

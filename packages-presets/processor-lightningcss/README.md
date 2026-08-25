@@ -1,25 +1,25 @@
-# @unocss/loader-lightningcss
+# @unocss/processor-lightningcss
 
 <!-- @unocss-ignore -->
 
-Lightning CSS loader for UnoCSS running in Node.js.
+Lightning CSS processor for UnoCSS running in Node.js.
 
 ## Install
 
 ```bash
-npm i -D @unocss/loader-lightningcss
+npm i -D @unocss/processor-lightningcss
 ```
 
 ## Usage
 
 ```ts
-import loaderLightningCSS from '@unocss/loader-lightningcss'
+import processorLightningCSS from '@unocss/processor-lightningcss'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
   // ...
-  loaders: [
-    loaderLightningCSS({
+  processors: [
+    processorLightningCSS({
       minify: true,
       targets: {
         // Example: modern browsers
@@ -33,7 +33,7 @@ export default defineConfig({
 
 ## Options
 
-The loader accepts all LightningCSS `TransformOptions` except `code` and `filename`.
+The processor accepts all Lightning CSS `TransformOptions` except `code` and `filename`.
 
 ## License
 

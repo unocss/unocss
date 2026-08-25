@@ -1,28 +1,28 @@
 import { createGenerator } from '@unocss/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import loaderLightningCSS from '../src'
+import processorLightningCSS from '../src'
 
-describe('loader-lightningcss', () => {
+describe('processor-lightningcss', () => {
   afterEach(() => {
     vi.restoreAllMocks()
     vi.unstubAllGlobals()
   })
 
   it('transforms CSS in Node.js', async () => {
-    const loader = loaderLightningCSS({ minify: true })
+    const processor = processorLightningCSS({ minify: true })
 
-    expect(loader.name).toBe('@unocss/loader-lightningcss')
+    expect(processor.name).toBe('@unocss/processor-lightningcss')
     await expect(
-      loader.load('.foo { color: red; }', { layer: 'default' }),
+      processor.process('.foo { color: red; }', { layer: 'default', theme: {}, envMode: 'build' }),
     )
       .resolves
       .toBe('.foo{color:red}')
   })
 
   it('uses the layer name as the filename', async () => {
-    const loader = loaderLightningCSS()
+    const processor = processorLightningCSS()
 
-    await expect(loader.load('}', { layer: 'utilities' }))
+    await expect(processor.process('}', { layer: 'utilities', theme: {}, envMode: 'build' }))
       .rejects
       .toMatchObject({ fileName: 'utilities.css' })
   })
@@ -33,7 +33,7 @@ describe('loader-lightningcss', () => {
         ['a', { color: 'red' }, { layer: 'a' }],
         ['b', { color: 'blue' }, { layer: 'b' }],
       ],
-      loaders: [loaderLightningCSS({ minify: true })],
+      processors: [processorLightningCSS({ minify: true })],
     })
 
     const result = await uno.generate('a b')
@@ -54,16 +54,17 @@ describe('loader-lightningcss', () => {
   it('warns once and returns CSS unchanged outside Node.js', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     vi.stubGlobal('process', undefined)
-    const loader = loaderLightningCSS()
+    const processor = processorLightningCSS()
     const css = '.foo { color: red; }'
 
-    await expect(loader.load(css, { layer: 'default' })).resolves.toBe(css)
-    await expect(loader.load(css, { layer: 'default' })).resolves.toBe(css)
+    const context = { layer: 'default', theme: {}, envMode: 'build' as const }
+    await expect(processor.process(css, context)).resolves.toBe(css)
+    await expect(processor.process(css, context)).resolves.toBe(css)
 
     expect(warn).toHaveBeenCalledOnce()
     expect(warn).toHaveBeenCalledWith(
       '[unocss]',
-      '@unocss/loader-lightningcss is not supported in non-Node.js environments; returning CSS unchanged',
+      '@unocss/processor-lightningcss is not supported in non-Node.js environments; returning CSS unchanged',
     )
   })
 })

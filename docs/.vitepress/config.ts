@@ -32,6 +32,7 @@ const Configs: DefaultTheme.NavItemWithLink[] = [
   { text: 'Layers', link: '/config/layers' },
   { text: 'Presets', link: '/config/presets' },
   { text: 'Transformers', link: '/config/transformers' },
+  { text: 'Processors', link: '/config/processors' },
   { text: 'AutoComplete', link: '/config/autocomplete' },
 ]
 
@@ -78,6 +79,10 @@ const Extractors: DefaultTheme.NavItemWithLink[] = [
   { text: 'MDC Extractor', link: '/extractors/mdc' },
   { text: 'Svelte Extractor', link: '/extractors/svelte' },
   { text: 'Arbitrary Variants Extractor', link: '/extractors/arbitrary-variants' },
+]
+
+const Processors: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Lightning CSS', link: '/processors/lightningcss' },
 ]
 
 const Tools: DefaultTheme.NavItemWithLink[] = [
@@ -162,8 +167,12 @@ const Nav: DefaultTheme.NavItem[] = [
         text: 'Extractors',
         items: Extractors,
       },
+      {
+        text: 'Processors',
+        items: Processors,
+      },
     ],
-    activeMatch: '^/(presets|transformers|extractors)/',
+    activeMatch: '^/(presets|transformers|extractors|processors)/',
   },
   {
     text: 'Resources',
@@ -247,6 +256,11 @@ const SidebarPresets: DefaultTheme.SidebarItem[] = [
     text: 'Extractors',
     collapsed: false,
     items: Extractors,
+  },
+  {
+    text: 'Processors',
+    collapsed: false,
+    items: Processors,
   },
   {
     text: 'Other Packages',
@@ -337,6 +351,7 @@ export default defineConfig({
       '/presets/': SidebarPresets,
       '/transformers/': SidebarPresets,
       '/extractors/': SidebarPresets,
+      '/processors/': SidebarPresets,
 
       '/config/': SidebarConfig,
     },

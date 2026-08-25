@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, LoaderContext, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSProcessorContext, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
@@ -516,16 +516,16 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return rawLayerCache[layer] = css
     }
 
-    const loaders = this.config.loaders?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)) ?? []
+    const processors = this.config.processors?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)) ?? []
     const processLayer = async (css: string, layer: string) => {
       let processed = css
-      const context: LoaderContext = {
+      const context: CSSProcessorContext<Theme> = {
         layer,
         theme: this.config.theme,
-        envMode: this.config.envMode,
+        envMode: this.config.envMode || 'build',
       }
-      for (const loader of loaders)
-        processed = await loader.load(processed, context)
+      for (const processor of processors)
+        processed = await processor.process(processed, context)
       return processed
     }
 

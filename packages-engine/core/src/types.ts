@@ -564,9 +564,9 @@ export interface ConfigBase<Theme extends object = object> {
   transformers?: SourceCodeTransformer[]
 
   /**
-   * CSS loaders to process generated CSS
+   * Processors to transform generated CSS layers before they are exposed.
    */
-  loaders?: CSSLoader[]
+  processors?: CSSProcessor<Theme>[]
 }
 
 export interface OutputCssLayersOptions {
@@ -840,7 +840,7 @@ export interface SourceCodeTransformer {
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
 }
 
-export interface LoaderContext<Theme extends object = object> {
+export interface CSSProcessorContext<Theme extends object = object> {
   /**
    * The current CSS layer being processed.
    */
@@ -854,13 +854,13 @@ export interface LoaderContext<Theme extends object = object> {
    *
    * @default 'build'
    */
-  envMode?: 'dev' | 'build'
+  envMode: 'dev' | 'build'
 }
 
-export interface CSSLoader {
+export interface CSSProcessor<Theme extends object = object> {
   name: string
   order?: number
-  load: (css: string, context: LoaderContext) => Awaitable<string>
+  process: (css: string, context: CSSProcessorContext<Theme>) => Awaitable<string>
 }
 
 export interface ContentOptions {

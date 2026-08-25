@@ -43,7 +43,7 @@ async function preparePackagesBundle() {
     'babel',
     '/config',
     'extractor',
-    'loader-lightningcss',
+    'processor-lightningcss',
     'language-server',
     'twoslash',
   ]
