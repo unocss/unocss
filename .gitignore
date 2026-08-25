@@ -22,6 +22,7 @@ interactive/app/data/guides.ts
 interactive/public/play
 interactive/public/shiki
 .svelte-kit
+.turbo
 .eslintcache
 vite.config.ts.timestamp-*
 test/assets/fonts

@@ -44,6 +44,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "typecheck": "tsgo --noEmit",
     "lint": "nr build && cd ./fixtures && eslint ./src"
   },

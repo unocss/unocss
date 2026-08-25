@@ -146,6 +146,7 @@
   },
   "scripts": {
     "build": "pnpm run update && tsdown",
+    "prepack": "turbo build --filter=.",
     "dev": "tsx ./scripts/dev.ts",
     "publish": "tsx ./scripts/publish.ts",
     "prepare": "nr update",
