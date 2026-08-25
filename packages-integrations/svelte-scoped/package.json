@@ -44,6 +44,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "bench": "vitest bench",
     "test:integration": "pnpm -r --filter=\"./test/fixtures/*\" test",
     "dev": "tsdown --config-loader unrun --watch"

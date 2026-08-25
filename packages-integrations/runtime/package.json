@@ -36,6 +36,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "prepack": "turbo build --filter=.",
     "watch": "tsdown --watch",
     "dev": "nr watch & live-server --open=/play"
   },
