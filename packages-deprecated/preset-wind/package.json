@@ -41,6 +41,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {

@@ -23,7 +23,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "tsx scripts/copy.ts"
+    "build": "tsx scripts/copy.ts",
+    "prepack": "turbo build --filter=."
   },
   "devDependencies": {
     "@csstools/normalize.css": "catalog:css",

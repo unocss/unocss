@@ -43,6 +43,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "prepack": "turbo build --filter=.",
     "dev": "tsdown --watch"
   },
   "dependencies": {
