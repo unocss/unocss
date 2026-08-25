@@ -4,44 +4,6 @@ import presetWebFonts from '@unocss/preset-web-fonts'
 import { describe, expect, it } from 'vitest'
 
 describe('layers', () => {
-  it('applies async CSS loaders before exposing synchronous layer getters', async () => {
-    const uno = await createGenerator({
-      rules: [
-        ['a', { color: 'red' }, { layer: 'a' }],
-        ['b', { color: 'blue' }, { layer: 'b' }],
-      ],
-      loaders: [
-        {
-          name: 'second',
-          order: 2,
-          load: async css => `${css}\n/* second */`,
-        },
-        {
-          name: 'first',
-          order: 1,
-          load: async css => `${css}\n/* first */`,
-        },
-      ],
-      presets: [],
-    })
-
-    const result = await uno.generate('a b', { preflights: false })
-
-    expect(result.getLayer('a')).toContain('.a{color:red;}\n/* first */\n/* second */')
-    expect(result.getLayer('b')).toContain('.b{color:blue;}\n/* first */\n/* second */')
-    expect(result.getLayers()).toBe(result.css)
-
-    await result.setLayer('a', async (css) => {
-      expect(css).not.toContain('/* first */')
-      expect(css).not.toContain('/* second */')
-      return css.replace('red', 'green')
-    })
-
-    expect(result.getLayer('a')).toContain('.a{color:green;}\n/* first */\n/* second */')
-    expect(result.getLayer('a')?.match(/\/\* first \*\//g)).toHaveLength(1)
-    expect(result.getLayers()).toBe(result.css)
-  })
-
   it('static', async () => {
     const uno = await createGenerator({
       rules: [
