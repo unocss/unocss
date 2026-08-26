@@ -77,7 +77,7 @@ function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext
 
 function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | (CSSValueInput | string)[] | undefined {
   if (a in directionMap) {
-    if (isCSSMathFn(h.bracket(b, ctx.theme)))
+    if (h.bracketOfLength(b, ctx.theme) != null || isCSSMathFn(h.bracket(b, ctx.theme)))
       return handlerBorderSize(['', a, b], ctx)
 
     const bracketColor = h.bracketOfColor(b, ctx.theme)

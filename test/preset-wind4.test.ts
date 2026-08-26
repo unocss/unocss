@@ -46,9 +46,6 @@ describe('preset-wind4', () => {
         "color-bluegray-400/10",
         "color-bluegray/10",
         "text-red2",
-        "text-[color:--variable]",
-        "text-[color:var(--color)]",
-        "text-[color:var(--color-x)]:[trick]",
         "ring-red2",
         "ring-red2/5",
         "ring-width-px",
@@ -527,6 +524,26 @@ describe('preset-wind4', () => {
     expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:space-y-4{\n:where(&>:not(:last-child)){--un-space-y-reverse:0;')
     expect(css).not.toContain('.dark\\:divide-gray-700{@media')
     expect(css).not.toContain('.dark\\:space-y-4{@media')
+  })
+
+  it('resolves arbitrary lengths before colors across utilities', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('border-l-[3px] border-r-[length:5px] border-l-red-500 text-[3px] text-[color:3px] bg-[3px] bg-[color:3px] color-[3px]', { preflights: false })
+
+    expect(css).toContain('.border-l-\\[3px\\]{border-left-width:3px;}')
+    expect(css).toContain('.border-r-\\[length\\:5px\\]{border-right-width:5px;}')
+    expect(css).toContain('.border-l-red-500{border-left-color:')
+    expect(css).not.toContain('.border-l-\\[3px\\]{border-left-color:')
+    expect(css).toContain('.text-\\[3px\\]{font-size:3px;}')
+    expect(css).not.toContain('.text-\\[color\\:3px\\]{color:')
+    expect(css).toContain('.bg-\\[3px\\]{background-position:3px;}')
+    expect(css).not.toContain('.bg-\\[color\\:3px\\]{background-color:')
+    expect(css).not.toContain('.color-\\[3px\\]{color:')
   })
 })
 
