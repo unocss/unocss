@@ -2,7 +2,7 @@ import type { CSSEntries, CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { CSSColorValue } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { colorOpacityToString, colorToString } from '@unocss/rule-utils'
-import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor } from '../utils'
+import { cornerMap, directionMap, globalKeywords, h, hasParseableColor, isCSSLength, parseColor } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -100,6 +100,9 @@ function borderColorResolver(direction: string) {
 }
 
 function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+  if (b?.startsWith('#'))
+    return
+
   const v = theme.lineWidth?.[b || 'DEFAULT'] ?? h.bracket.cssvar.global.px(b || '1')
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
@@ -107,7 +110,7 @@ function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme
 
 function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
   if (a in directionMap) {
-    if (h.numberWithUnit(h.bracket(b)) != null || isCSSMathFn(h.bracket(b)))
+    if (isCSSLength(b))
       return handlerBorderSize(['', a, b], ctx)
     if (hasParseableColor(b, ctx.theme, 'borderColor')) {
       return Object.assign(

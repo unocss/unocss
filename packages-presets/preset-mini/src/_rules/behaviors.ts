@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, globalKeywords, h, isCSSMathFn } from '../utils'
+import { colorResolver, globalKeywords, h, isCSSLength } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size
@@ -23,7 +23,7 @@ function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject 
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (h.numberWithUnit(h.bracket(match[1])) != null || isCSSMathFn(h.bracket(match[1])))
+  if (isCSSLength(match[1]))
     return handleWidth(match, ctx)
   return colorResolver('outline-color', 'outline-color', 'borderColor')(match, ctx) as CSSObject | undefined
 }

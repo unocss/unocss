@@ -305,6 +305,23 @@ export function isCSSMathFn(value: string | undefined) {
   return value != null && cssMathFnRE.test(value)
 }
 
+export function isCSSLength(value: string, theme?: Theme) {
+  if (value.startsWith('#'))
+    return false
+
+  const bracket = h.bracket(value, theme)
+  if (bracket.startsWith('#'))
+    return false
+
+  if (h.numberWithUnit(bracket) != null)
+    return true
+
+  if (isCSSMathFn(bracket))
+    return true
+
+  return false
+}
+
 export function isSize(str: string) {
   if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)

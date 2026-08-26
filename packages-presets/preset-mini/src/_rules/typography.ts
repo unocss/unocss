@@ -1,7 +1,7 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
-import { colorableShadows, colorResolver, globalKeywords, h, isCSSMathFn, splitShorthand } from '../utils'
+import { colorableShadows, colorResolver, globalKeywords, h, isCSSLength, splitShorthand } from '../utils'
 
 export const fonts: Rule<Theme>[] = [
   // text
@@ -141,7 +141,7 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
 }
 
 function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (h.numberWithUnit(h.bracket(match[1])) != null || isCSSMathFn(h.bracket(match[1])))
+  if (isCSSLength(match[1]))
     return handleSize(match, ctx)
   return colorResolver('color', 'text', 'textColor')(match, ctx) as CSSObject | undefined
 }

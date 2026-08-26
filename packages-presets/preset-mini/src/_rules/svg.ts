@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, h, isCSSMathFn } from '../utils'
+import { colorResolver, h, isCSSLength } from '../utils'
 
 export const svgUtilities: Rule<Theme>[] = [
   // fills
@@ -40,7 +40,7 @@ function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject 
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (h.numberWithUnit(h.bracket(match[1])) != null || isCSSMathFn(h.bracket(match[1])))
+  if (isCSSLength(match[1]))
     return handleWidth(match, ctx)
   return colorResolver('stroke', 'stroke', 'borderColor')(match, ctx) as CSSObject | undefined
 }
