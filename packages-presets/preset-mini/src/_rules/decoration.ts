@@ -30,7 +30,7 @@ function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject 
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (isCSSMathFn(h.bracket(match[1])))
+  if (h.numberWithUnit(h.bracket(match[1])) != null || isCSSMathFn(h.bracket(match[1])))
     return handleWidth(match, ctx)
 
   const result = colorResolver('text-decoration-color', 'line', 'borderColor')(match, ctx) as CSSObject | undefined

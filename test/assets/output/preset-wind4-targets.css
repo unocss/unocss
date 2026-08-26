@@ -249,17 +249,14 @@
 .text-size-1em{font-size:1em;}
 .text-size-unset{font-size:unset;}
 .text-\[--variable\],
-.text-\[color\:--variable\],
 .text-\$variable{color:color-mix(in oklab, var(--variable) var(--un-text-opacity), transparent) /* var(--variable) */;}
 .text-\[\#124\]{color:color-mix(in oklab, #124 var(--un-text-opacity), transparent) /* #124 */;}
 .text-\[calc\(1em-1px\)\],
 .text-\[length\:calc\(1em-1px\)\]{font-size:calc(1em - 1px);}
 .text-\[calc\(1rem-1px\)\]{font-size:calc(1rem - 1px);}
-.text-\[color\:var\(--color-x\)\]\:\[trick\]{color:color-mix(in oklab, var(--color-x) trick, transparent) /* var(--color-x) */;}
-.text-\[color\:var\(--color\)\],
+.text-\[red\]\:50\/display-p3{color:color-mix(in display-p3, red 50%, transparent) /* red */;}
+.text-\[red\]\/50{color:color-mix(in oklab, red 50%, transparent) /* red */;}
 .text-\[var\(--color\)\]{color:color-mix(in oklab, var(--color) var(--un-text-opacity), transparent) /* var(--color) */;}
-.text-\[red\]\:50\/display-p3{color:color-mix(in display-p3, var(--colors-red-DEFAULT) 50%, transparent) /* oklch(70.4% 0.191 22.216) */;}
-.text-\[red\]\/50{color:color-mix(in srgb, var(--colors-red-DEFAULT) 50%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 .text-black\/10{color:color-mix(in srgb, var(--colors-black) 10%, transparent) /* #000 */;}
 .aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"],
 .aria-busy\:data-\[bar\]\:text-green-600[data-bar][aria-busy="true"],
@@ -621,14 +618,14 @@
 .border-s-width-\$variable{border-inline-start-width:var(--variable);}
 .border-t-width-3{border-top-width:3px;}
 .b-block-size-\$variable{border-block-start-width:var(--variable);border-block-end-width:var(--variable);}
-.border-\[\#124\]{border-color:color-mix(in oklab, #124 var(--un-border-opacity), transparent) /* #124 */;}
+.border-\[\#124\]{border-width:#124;}
 .border-\[calc\(10px\+1px\)\]{border-width:calc(10px + 1px);}
 .border-\[calc\(var\(--border-width\)\*1px\)\]{border-width:calc(var(--border-width) * 1px);}
 .border-\[color\:\#000\]{border-color:color-mix(in oklab, #000 var(--un-border-opacity), transparent) /* #000 */;}
 .border-\[color\:red\]{border-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-border-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .border-\[color\:var\(--color\)\],
-.border-\[var\(--color\)\],
 .border-\$color{border-color:color-mix(in oklab, var(--color) var(--un-border-opacity), transparent) /* var(--color) */;}
+.border-\[var\(--color\)\]{border-width:var(--color);}
 .border-black{border-color:color-mix(in srgb, var(--colors-black) var(--un-border-opacity), transparent) /* #000 */;}
 .border-black\/10{border-color:color-mix(in srgb, var(--colors-black) 10%, transparent) /* #000 */;}
 .border-blue{border-color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-border-opacity), transparent) /* oklch(70.7% 0.165 254.624) */;}
@@ -647,7 +644,7 @@
 .border-e-red-400{border-inline-end-color:color-mix(in srgb, var(--colors-red-400) var(--un-border-inline-end-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;--un-border-inline-end-opacity:var(--un-border-opacity);}
 .border-s-green-500{border-inline-start-color:color-mix(in srgb, var(--colors-green-500) var(--un-border-inline-start-opacity), transparent) /* oklch(72.3% 0.219 149.579) */;--un-border-inline-start-opacity:var(--un-border-opacity);}
 .border-s-red-100{border-inline-start-color:color-mix(in srgb, var(--colors-red-100) var(--un-border-inline-start-opacity), transparent) /* oklch(93.6% 0.032 17.717) */;--un-border-inline-start-opacity:var(--un-border-opacity);}
-.border-t-\[\#124\]{border-top-color:color-mix(in oklab, #124 var(--un-border-top-opacity), transparent) /* #124 */;--un-border-top-opacity:var(--un-border-opacity);}
+.border-t-\[\#124\]{border-top-width:#124;}
 .border-t-\$color{border-top-color:color-mix(in oklab, var(--color) var(--un-border-top-opacity), transparent) /* var(--color) */;--un-border-top-opacity:var(--un-border-opacity);}
 .border-t-black\/10{border-top-color:color-mix(in srgb, var(--colors-black) 10%, transparent) /* #000 */;}
 .border-opacity-\$opacity-variable{--un-border-opacity:var(--opacity-variable);}
@@ -1968,7 +1965,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .supports-\[backdrop-filter\]\:backdrop-blur{--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);}
 }
 @supports (color: color-mix(in lab, red, red)){
-.text-\[red\]\/50{color:color-mix(in oklab, var(--colors-red-DEFAULT) 50%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 .text-black\/10{color:color-mix(in oklab, var(--colors-black) 10%, transparent) /* #000 */;}
 .aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"]{color:color-mix(in oklab, var(--colors-green-600) var(--un-text-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
 .aria-busy\:data-\[bar\]\:text-green-600[data-bar][aria-busy="true"]{color:color-mix(in oklab, var(--colors-green-600) var(--un-text-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}

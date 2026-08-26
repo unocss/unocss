@@ -29,7 +29,7 @@ function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject 
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme)))
+  if (h.numberWithUnit(h.bracket(match[1], ctx.theme)) != null || isCSSMathFn(h.bracket(match[1], ctx.theme)))
     return handleWidth(match, ctx)
 
   const result = colorResolver('text-decoration-color', 'line')(match, ctx)

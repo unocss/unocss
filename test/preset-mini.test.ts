@@ -700,4 +700,21 @@ describe('preset-mini', () => {
       "
     `)
   })
+
+  it('resolves arbitrary lengths before colors across compound utilities', async () => {
+    const mini = await createGenerator({ presets: [presetMini()] })
+    const { css } = await mini.generate([
+      'border-l-[3px]',
+      'outline-[length:4px]',
+      'decoration-[5px]',
+      'stroke-[length:6px]',
+      'text-[7px]',
+    ], { preflights: false })
+
+    expect(css).toContain('.border-l-\\[3px\\]{border-left-width:3px;}')
+    expect(css).toContain('.outline-\\[length\\:4px\\]{outline-width:4px;}')
+    expect(css).toContain('.decoration-\\[5px\\]{text-decoration-thickness:5px;}')
+    expect(css).toContain('.stroke-\\[length\\:6px\\]{stroke-width:6px;}')
+    expect(css).toContain('.text-\\[7px\\]{font-size:7px;}')
+  })
 })

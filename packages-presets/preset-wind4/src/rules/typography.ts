@@ -375,7 +375,7 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
 }
 
 function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme)))
+  if (h.numberWithUnit(h.bracket(match[1], ctx.theme)) != null || isCSSMathFn(h.bracket(match[1], ctx.theme)))
     return handleSize(match, ctx)
   return colorResolver('color', 'text')(match, ctx)
 }

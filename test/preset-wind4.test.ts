@@ -46,6 +46,9 @@ describe('preset-wind4', () => {
         "color-bluegray-400/10",
         "color-bluegray/10",
         "text-red2",
+        "text-[color:--variable]",
+        "text-[color:var(--color)]",
+        "text-[color:var(--color-x)]:[trick]",
         "ring-red2",
         "ring-red2/5",
         "ring-width-px",
@@ -533,7 +536,20 @@ describe('preset-wind4', () => {
       ],
     })
 
-    const { css } = await uno.generate('border-l-[3px] border-r-[length:5px] border-l-red-500 text-[3px] text-[color:3px] bg-[3px] bg-[color:3px] color-[3px]', { preflights: false })
+    const { css } = await uno.generate([
+      'border-l-[3px]',
+      'border-r-[length:5px]',
+      'border-l-red-500',
+      'text-[3px]',
+      'text-[color:3px]',
+      'bg-[3px]',
+      'bg-[color:3px]',
+      'color-[3px]',
+      'outline-[3px]',
+      'decoration-[length:4px]',
+      'stroke-[5px]',
+      'text-[length:6px]',
+    ], { preflights: false })
 
     expect(css).toContain('.border-l-\\[3px\\]{border-left-width:3px;}')
     expect(css).toContain('.border-r-\\[length\\:5px\\]{border-right-width:5px;}')
@@ -544,6 +560,10 @@ describe('preset-wind4', () => {
     expect(css).toContain('.bg-\\[3px\\]{background-position:3px;}')
     expect(css).not.toContain('.bg-\\[color\\:3px\\]{background-color:')
     expect(css).not.toContain('.color-\\[3px\\]{color:')
+    expect(css).toContain('.outline-\\[3px\\]{outline-style:var(--un-outline-style);outline-width:3px;}')
+    expect(css).toContain('.decoration-\\[length\\:4px\\]{text-decoration-thickness:4px;}')
+    expect(css).toContain('.stroke-\\[5px\\]{stroke-width:5px;}')
+    expect(css).toContain('.text-\\[length\\:6px\\]{font-size:6px;}')
   })
 })
 

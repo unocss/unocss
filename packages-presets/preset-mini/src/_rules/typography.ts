@@ -141,7 +141,7 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
 }
 
 function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | undefined {
-  if (isCSSMathFn(h.bracket(match[1])))
+  if (h.numberWithUnit(h.bracket(match[1])) != null || isCSSMathFn(h.bracket(match[1])))
     return handleSize(match, ctx)
   return colorResolver('color', 'text', 'textColor')(match, ctx) as CSSObject | undefined
 }

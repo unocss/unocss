@@ -107,7 +107,7 @@ function handlerBorderSize([, a = '', b]: string[], { theme }: RuleContext<Theme
 
 function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
   if (a in directionMap) {
-    if (isCSSMathFn(h.bracket(b)))
+    if (h.numberWithUnit(h.bracket(b)) != null || isCSSMathFn(h.bracket(b)))
       return handlerBorderSize(['', a, b], ctx)
     if (hasParseableColor(b, ctx.theme, 'borderColor')) {
       return Object.assign(

@@ -47,7 +47,7 @@ function* handleWidth([, b]: string[], { theme }: RuleContext<Theme>): Generator
 }
 
 function* handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): Generator<CSSValueInput | string | undefined> {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme))) {
+  if (h.numberWithUnit(h.bracket(match[1], ctx.theme)) != null || isCSSMathFn(h.bracket(match[1], ctx.theme))) {
     yield* handleWidth(match, ctx)
   }
   else {
