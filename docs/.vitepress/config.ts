@@ -4,23 +4,23 @@ import { createTwoslasher } from '@unocss/twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import { version } from '../../package.json'
+import { version } from '../../package.json' with { type: 'json' }
 
 const ogUrl = 'https://unocss.dev/'
 const ogImage = `${ogUrl}og.png#1`
 const title = 'UnoCSS'
 const description = 'The instant on-demand Atomic CSS engine'
 
-const Guides: DefaultTheme.NavItemWithLink[] = [
+const Guides = [
   { text: 'Getting Started', link: '/guide/' },
   { text: 'Why UnoCSS?', link: '/guide/why' },
   { text: 'Presets', link: '/guide/presets' },
   { text: 'Style reset', link: '/guide/style-reset' },
   { text: 'Config file', link: '/guide/config-file' },
   { text: 'Extracting & Safelist', link: '/guide/extracting' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Configs: DefaultTheme.NavItemWithLink[] = [
+const Configs = [
   { text: 'Overview', link: '/config/' },
   { text: 'Rules', link: '/config/rules' },
   { text: 'Variants', link: '/config/variants' },
@@ -34,9 +34,9 @@ const Configs: DefaultTheme.NavItemWithLink[] = [
   { text: 'Transformers', link: '/config/transformers' },
   { text: 'Processors', link: '/config/processors' },
   { text: 'AutoComplete', link: '/config/autocomplete' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Integrations: DefaultTheme.NavItemWithLink[] = [
+const Integrations = [
   { text: 'Vite', link: '/integrations/vite' },
   { text: 'Nuxt', link: '/integrations/nuxt' },
   { text: 'Next', link: '/integrations/next' },
@@ -52,9 +52,9 @@ const Integrations: DefaultTheme.NavItemWithLink[] = [
   { text: 'VS Code Extension', link: '/integrations/vscode' },
   { text: 'JetBrains IDE Plugin', link: '/integrations/jetbrains' },
   { text: 'Zed Extension', link: '/integrations/zed' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Presets: DefaultTheme.NavItemWithLink[] = [
+const Presets = [
   { text: 'Mini', link: '/presets/mini' },
   { text: 'Wind3', link: '/presets/wind3' },
   { text: 'Wind4', link: '/presets/wind4' },
@@ -65,31 +65,31 @@ const Presets: DefaultTheme.NavItemWithLink[] = [
   { text: 'Legacy Compat', link: '/presets/legacy-compat' },
   { text: 'Tagify', link: '/presets/tagify' },
   { text: 'Rem to px', link: '/presets/rem-to-px' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Transformers: DefaultTheme.NavItemWithLink[] = [
+const Transformers = [
   { text: 'Variant Group', link: '/transformers/variant-group' },
   { text: 'Directives', link: '/transformers/directives' },
   { text: 'Compile Class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Extractors: DefaultTheme.NavItemWithLink[] = [
+const Extractors = [
   { text: 'Pug Extractor', link: '/extractors/pug' },
   { text: 'MDC Extractor', link: '/extractors/mdc' },
   { text: 'Svelte Extractor', link: '/extractors/svelte' },
   { text: 'Arbitrary Variants Extractor', link: '/extractors/arbitrary-variants' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Processors: DefaultTheme.NavItemWithLink[] = [
+const Processors = [
   { text: 'Lightning CSS', link: '/processors/lightningcss' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
-const Tools: DefaultTheme.NavItemWithLink[] = [
+const Tools = [
   { text: 'Inspector', link: '/tools/inspector' },
   { text: 'Core', link: '/tools/core' },
   { text: 'Autocomplete', link: '/tools/autocomplete' },
-]
+] satisfies DefaultTheme.NavItemWithLink[]
 
 const Resources: DefaultTheme.NavItemWithLink[] = [
   { text: 'Interactive Docs', link: '/interactive/', target: '_blank' },
@@ -97,9 +97,7 @@ const Resources: DefaultTheme.NavItemWithLink[] = [
   { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
 ]
 
-const Introes: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Team', link: '/team' },
-]
+const Introes: DefaultTheme.NavItemWithLink[] = [{ text: 'Team', link: '/team' }]
 
 const Nav: DefaultTheme.NavItem[] = [
   {
@@ -300,17 +298,22 @@ export default defineConfig({
     ['meta', { name: 'twitter:image', content: ogImage }],
     ['meta', { name: 'twitter:site', content: '@antfu7' }],
     ['meta', { name: 'twitter:url', content: ogUrl }],
-    ['link', { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' }],
+    [
+      'link',
+      {
+        rel: 'search',
+        type: 'application/opensearchdescription+xml',
+        href: '/search.xml',
+        title: 'UnoCSS',
+      },
+    ],
   ],
   lastUpdated: true,
   cleanUrls: true,
-  ignoreDeadLinks: [
-    /^\/play/,
-    /^\/interactive/,
-    /:\/\/localhost/,
-  ],
+  ignoreDeadLinks: [/^\/play/, /^\/interactive/, /:\/\/localhost/],
 
   markdown: {
+    languages: ['html', 'vue'],
     theme: {
       light: 'vitesse-light',
       dark: 'vitesse-dark',
