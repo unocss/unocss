@@ -70,8 +70,8 @@ export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: Unocs
     // build
     renderChunk(code) {
       if (isSvelteKit && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
-        // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping.
-        const tag = `<link href=\\"${viteConfig.base ?? '/'}${unoCssGlobalFileName}\\" rel=\\"stylesheet\\" />`
+        // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping. The href is concatenated with SvelteKit's `assets` template variable, as the vite base of the server build does not carry `kit.paths`.
+        const tag = `<link href=\\"" + assets + "/${unoCssGlobalFileName}\\" rel=\\"stylesheet\\" />`
 
         return code.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, tag)
       }
