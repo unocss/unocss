@@ -8,6 +8,7 @@ import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
+import { toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
@@ -162,8 +163,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          entries.add(entry)
-          return entry
+          const virtualId = toViteVirtualId(entry)
+          entries.add(virtualId)
+          return virtualId
         }
       },
       async load(id) {
