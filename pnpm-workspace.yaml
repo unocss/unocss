@@ -44,10 +44,10 @@ catalogs:
     brotli-size: ^4.0.0
     bumpp: ^12.2.1
     gzip-size: ^6.0.0
-    rollup: ^4.62.4
+    rollup: ^4.63.0
     terser: ^5.50.0
     tsdown: ^0.22.14
-    turbo: ^2.10.11
+    turbo: ^2.10.12
     webpack: ^5.109.2
     webpack-sources: ^3.5.1
   css:
@@ -55,7 +55,7 @@ catalogs:
     '@csstools/normalize.css': ^12.1.1
     autoprefixer: ^10.5.4
     css-tree: ^3.2.1
-    lightningcss: ^1.31.1
+    lightningcss: ^1.33.0
     postcss: ^8.5.26
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
@@ -78,7 +78,7 @@ catalogs:
     vitepress-plugin-llms: ^1.13.5
   eslint:
     '@antfu/eslint-config': ^9.3.0
-    eslint: ^10.8.1
+    eslint: ^10.9.1
     eslint-plugin-antfu: ^3.2.3
     eslint-plugin-format: ^2.0.1
     eslint-vitest-rule-tester: ^3.1.0
@@ -98,7 +98,7 @@ catalogs:
     '@iconify-json/teenyicons': ^1.2.2
     '@iconify-json/twemoji': ^1.2.5
     '@iconify-json/uim': ^1.2.3
-    '@iconify-json/vscode-icons': ^1.2.73
+    '@iconify-json/vscode-icons': ^1.2.75
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.1.4
   nuxt:
@@ -111,12 +111,12 @@ catalogs:
     oxc-walker: ^0.7.0
   svelte:
     prettier-plugin-svelte: ^3.5.2
-    svelte: ^5.56.4
+    svelte: ^5.56.10
   testing:
-    '@vitest/ui': ^4.1.10
+    '@vitest/ui': ^4.1.11
     jsdom: ^29.1.1
     msw: ^2.7.0
-    vitest: ^4.1.10
+    vitest: ^4.1.11
   twoslash:
     twoslash-protocol: ^0.3.9
   types:
@@ -133,8 +133,8 @@ catalogs:
     '@types/ws': ^8.18.1
     '@vitejs/devtools-kit': ^0.0.0-alpha.10
   typescript:
-    '@typescript-eslint/rule-tester': ^8.67.0
-    '@typescript-eslint/utils': ^8.62.0
+    '@typescript-eslint/rule-tester': ^8.68.0
+    '@typescript-eslint/utils': ^8.68.0
     '@typescript/native-preview': 7.0.0-dev.20260514.1
     tsx: ^4.23.12
     typescript: 6.0.3
@@ -142,7 +142,7 @@ catalogs:
     '@antfu/ni': ^30.5.0
     '@antfu/utils': ^9.3.0
     '@arethetypeswrong/cli': ^0.18.5
-    '@colordx/core': ^5.5.0
+    '@colordx/core': ^5.6.0
     acorn: ^8.18.0
     cac: ^7.0.0
     chokidar: ^5.0.0
@@ -158,15 +158,15 @@ catalogs:
     local-pkg: ^1.2.1
     lru-cache: ^11.5.2
     lz-string: ^1.5.0
-    magic-string: ^1.2.0
+    magic-string: ^1.2.2
     ofetch: ^1.5.1
     p-limit: ^7.3.1
     pathe: ^2.0.3
     perfect-debounce: ^2.1.0
-    pnpm: ^11.22.0
+    pnpm: ^11.24.0
     premove: ^4.0.0
     prettier: ^3.9.6
-    publint: ^0.3.23
+    publint: ^0.3.24
     semver: ^7.8.5
     simple-git: ^3.36.0
     simple-git-hooks: ^2.13.1
@@ -185,7 +185,7 @@ catalogs:
   vite:
     '@vitejs/plugin-legacy': ^8.2.3
     '@vitejs/plugin-vue': ^6.0.8
-    vite: ^8.2.1
+    vite: ^8.2.2
     vite-plugin-inspect: ^12.0.2
     vite-plugin-pages: ^0.33.3
     vite-plugin-windicss: ^1.9.4
@@ -193,7 +193,7 @@ catalogs:
     vscode-ext-gen: ^1.6.0
     vscode-languageclient: ^9.0.1
     vscode-languageserver: ^9.0.1
-    vscode-languageserver-textdocument: ^1.0.12
+    vscode-languageserver-textdocument: ^1.0.13
   vue:
     '@vue/reactivity': ^3.5.41
     '@vueuse/core': ^14.4.0

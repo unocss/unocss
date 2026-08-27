@@ -13,12 +13,12 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.123",
+    "@iconify-json/lucide": "^1.2.126",
     "@types/node": "^25.9.5",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
+    "@types/react-dom": "^19.2.5",
     "@unocss/postcss": "latest",
-    "eslint": "^10.8.1",
+    "eslint": "^10.9.1",
     "eslint-config-next": "16.1.2",
     "typescript": "^6.0.3",
     "unocss": "latest"
