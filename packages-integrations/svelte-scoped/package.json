@@ -67,7 +67,7 @@
     "vite": "catalog:vite"
   },
   "inlinedDependencies": {
-    "picomatch": "4.0.4",
+    "picomatch": "4.0.7",
     "unplugin-utils": "0.3.2"
   }
 }
