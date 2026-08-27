@@ -24,6 +24,8 @@ import { getPath, isCssId } from '#integration/utils'
 
 const PLUGIN_NAME = 'unocss:webpack'
 const UPDATE_DEBOUNCE = 10
+// #5164 / unjs/unplugin#524: unplugin webpack loaders treat non-filtered modules as text
+const BINARY_ASSET_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|otf|avif)$/i
 
 export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptions<Theme> | string, defaults?: UserConfigDefaults) {
   return createUnplugin(() => {
@@ -46,17 +48,28 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
     const hashes = new Map<string, string>()
 
     let RESOLVED_ID_RE: RegExp
+    // Default matches `virtualModulePrefix || '__uno'` in getVMPRegexes.
+    // Mutated after config resolves so custom prefixes still hit `load`.
+    const virtualCssInclude: Array<string | RegExp> = [
+      /[/\\]__uno(?:_.*?)?\.css(\?.*)?$/,
+    ]
+
+    async function applyVirtualCssFilter() {
+      const regexes = await ctx.getVMPRegexes()
+      RESOLVED_ID_RE = regexes.RESOLVED_ID_RE
+      virtualCssInclude[0] = regexes.RESOLVED_ID_WITH_QUERY_RE
+    }
 
     const plugin = {
       name: 'unocss:webpack',
       enforce: 'pre',
       async buildStart() {
-        ({ RESOLVED_ID_RE } = await ctx.getVMPRegexes())
+        await applyVirtualCssFilter()
       },
       transform: {
         filter: {
           id: {
-            exclude: /\.html$/,
+            exclude: [/\.html$/, BINARY_ASSET_RE],
           },
         },
         async handler(code, id) {
@@ -88,17 +101,28 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         }
       },
       // serve the placeholders in virtual module
-      async load(id) {
-        const layer = await getLayer(ctx, id)
-        if (!layer)
-          return
+      // #5164: unfiltered load hook registers unplugin's global load loader on all modules,
+      // corrupting binary assets (unjs/unplugin#524). Only match virtual CSS module ids
+      // (`virtualModulePrefix`, default `__uno`).
+      load: {
+        filter: {
+          id: {
+            include: virtualCssInclude,
+          },
+        },
+        async handler(id) {
+          const layer = await getLayer(ctx, id)
+          if (!layer)
+            return
 
-        const hash = hashes.get(id)
-        return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+          const hash = hashes.get(id)
+          return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+        },
       },
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
           await ctx.ready
+          await applyVirtualCssFilter()
 
           const nonPreTransformers = ctx.uno.config.transformers?.filter(i => i.enforce !== 'pre')
           if (nonPreTransformers?.length) {

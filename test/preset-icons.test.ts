@@ -80,4 +80,43 @@ describe('preset-icons', async () => {
     const { css } = await uno.generate(fixtures.join(' '), { preflights: false })
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons-propsProcessor.css')
   })
+
+  it('custom without unit', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetIcons({
+          collections: {
+            custom: {
+              foo: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"></svg>`,
+              bar: `<svg width='32' height='32' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"></svg>`,
+              baz: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"></svg>`,
+              qux: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"></svg>`,
+            },
+          },
+          customizations: {
+            iconCustomizer(collection, icon, props) {
+              if (collection === 'custom' && icon === 'baz') {
+                props.width = 'var(--icon-size)'
+                props.height = 'var(--icon-size)'
+              }
+              if (collection === 'custom' && icon === 'qux') {
+                props.width = 'auto'
+                props.height = 'auto'
+              }
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('i-custom:foo i-custom:bar i-custom:baz i-custom:qux')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: icons */
+      .i-custom\\:bar{background:url("data:image/svg+xml;utf8,%3Csvg width='32' height='32' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3C/svg%3E") no-repeat;background-size:100% 100%;background-color:transparent;width:1em;height:1em;}
+      .i-custom\\:baz{background:url("data:image/svg+xml;utf8,%3Csvg width='var(--icon-size)' height='var(--icon-size)' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3C/svg%3E") no-repeat;background-size:100% 100%;background-color:transparent;width:var(--icon-size);height:var(--icon-size);}
+      .i-custom\\:foo{background:url("data:image/svg+xml;utf8,%3Csvg width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3C/svg%3E") no-repeat;background-size:100% 100%;background-color:transparent;width:1em;height:1em;}
+      .i-custom\\:qux{background:url("data:image/svg+xml;utf8,%3Csvg width='auto' height='auto' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3C/svg%3E") no-repeat;background-size:100% 100%;background-color:transparent;width:auto;height:auto;}"
+    `)
+  })
 })

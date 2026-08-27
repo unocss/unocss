@@ -48,6 +48,7 @@ export const presetAttributify = definePreset((options: AttributifyOptions = {})
 
   return {
     name: '@unocss/preset-attributify',
+    docs: 'https://unocss.dev/presets/attributify',
     enforce: 'post',
     variants,
     extractors,

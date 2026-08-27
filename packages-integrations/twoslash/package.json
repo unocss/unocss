@@ -1,7 +1,7 @@
 {
   "name": "@unocss/twoslash",
   "type": "module",
-  "version": "66.7.5",
+  "version": "66.8.1",
   "description": "Twoslash integration for UnoCSS",
   "author": "Vida Xie <vida_2020@163.com>",
   "license": "MIT",
@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
@@ -41,6 +42,6 @@
   },
   "inlinedDependencies": {
     "@jridgewell/sourcemap-codec": "1.5.5",
-    "magic-string": "0.30.21"
+    "magic-string": "1.2.3"
   }
 }

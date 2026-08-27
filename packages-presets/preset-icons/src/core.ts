@@ -10,6 +10,7 @@ import { getEnvFlags } from '#integration/env'
 import icons from './collections'
 
 const COLLECTION_NAME_PARTS_MAX = 3
+const numberWithUnitRE = /^(-?\d*(?:\.\d+)?)(px|pt|pc|%|r?(?:em|ex|lh|cap|ch|ic)|(?:[sld]?v|cq)(?:[whib]|min|max)|in|cm|mm|rpx)?$/i
 
 export { IconsOptions }
 export { icons }
@@ -74,6 +75,7 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 
     return {
       name: '@unocss/preset-icons',
+      docs: 'https://unocss.dev/presets/icons',
       enforce: 'pre',
       options,
       layers: { icons: -30 },
@@ -88,13 +90,22 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
 
           iconLoader = iconLoader || await lookupIconLoader(options)
 
-          const usedProps = {}
+          const usedProps: Record<string, string> = {}
           const parsed = await parseIconWithLoader(
             body,
             iconLoader,
             { ...loaderOptions, usedProps },
             iconifyCollectionsNames,
           )
+
+          const fallbackSize = `${scale}${unit ?? 'em'}`
+          for (const prop of ['width', 'height']) {
+            const value = usedProps[prop]
+            const match = value?.match(numberWithUnitRE)
+
+            if (!value || (match && !match[2]))
+              usedProps[prop] = fallbackSize
+          }
 
           if (!parsed) {
             if (warn && !flags.isESLint)

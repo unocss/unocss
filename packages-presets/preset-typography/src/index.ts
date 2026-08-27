@@ -63,6 +63,7 @@ export const presetTypography = definePreset(<Theme extends TypographyTheme = Ty
 
   return {
     name: '@unocss/preset-typography',
+    docs: 'https://unocss.dev/presets/typography',
     enforce: 'post',
     layers: { typography: -20 },
     shortcuts: [

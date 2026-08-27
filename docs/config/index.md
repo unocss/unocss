@@ -19,6 +19,7 @@ Configurations are what make UnoCSS powerful.
 - [Layers](/config/layers) - Define the order of each utilities layer.
 - [Presets](/config/presets) - Predefined configurations for common use cases.
 - [Transformers](/config/transformers) - Code transformers to user sources code to support conventions.
+- [Processors](/config/processors) - Transform generated CSS before it is exposed.
 - [Autocomplete](/config/autocomplete) - Define customized autocomplete suggestions.
 
 ## Options
@@ -117,6 +118,12 @@ Predefined configurations for common use cases.
 - **Type:** `SourceCodeTransformer[]`
 
 Custom transformers to the source code.
+
+### processors
+
+- **Type:** `CSSProcessor<Theme>[]`
+
+Custom processors that transform generated CSS layers. See [Processors](/config/processors) for execution details.
 
 ### blocklist
 

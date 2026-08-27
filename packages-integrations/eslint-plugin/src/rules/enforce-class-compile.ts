@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/types'
+import type { TSESTree } from '@typescript-eslint/utils'
 import type { ReportFixFunction, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { AST } from 'vue-eslint-parser'
 import { createRule } from './_'

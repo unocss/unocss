@@ -6,7 +6,7 @@ import { startCli } from '../src/cli-start'
 const isCI = !!process.env.CI
 
 export const tempDir = resolve('_temp')
-export const cli = resolve(__dirname, '../src/cli.ts')
+export const cli = resolve(import.meta.dirname, '../src/cli.ts')
 
 export function sleep(time = 300) {
   return new Promise<void>((resolve) => {

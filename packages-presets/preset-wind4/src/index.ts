@@ -157,6 +157,7 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
 
   return {
     name: PRESET_NAME,
+    docs: 'https://unocss.dev/presets/wind4',
     rules,
     shortcuts,
     theme,

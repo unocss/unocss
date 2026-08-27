@@ -43,8 +43,13 @@ html,
   tab-size: 4; /* 3 */
   font-family: var(
     --default-font-family,
-    ui-sans-serif,
-    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    'Noto Sans',
+    Arial,
     sans-serif,
     'Apple Color Emoji',
     'Segoe UI Emoji',
@@ -181,7 +186,7 @@ table {
   Use the modern Firefox focus style for all focusable elements.
 */
 
-:-moz-focusring {
+:-moz-focusring:where(:not(iframe)) {
   outline: auto;
 }
 

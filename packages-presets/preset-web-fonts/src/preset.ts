@@ -146,6 +146,7 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
 
     const preset: Preset<any> = {
       name: '@unocss/preset-web-fonts',
+      docs: 'https://unocss.dev/presets/web-fonts',
       preflights: [
         {
           async getCSS() {

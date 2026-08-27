@@ -1,7 +1,7 @@
 {
   "name": "@unocss/preset-web-fonts",
   "type": "module",
-  "version": "66.7.5",
+  "version": "66.8.1",
   "description": "Web Fonts support for Uno CSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -42,6 +42,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {

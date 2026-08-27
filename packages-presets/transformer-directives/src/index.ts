@@ -10,6 +10,7 @@ export default function transformerDirectives(options: TransformerDirectivesOpti
 
   return {
     name: '@unocss/transformer-directives',
+    docs: 'https://unocss.dev/transformers/directives',
     enforce: options?.enforce,
     idFilter: id => cssIdRE.test(id),
     codeFilter: code =>

@@ -1,15 +1,28 @@
-import fs from 'fs-extra'
+import process from 'node:process'
+import { execa } from 'execa'
+import { readPackage, vscodeRoot, withTempName } from './utils'
 
-async function run() {
+async function dev() {
   // Change package.json name to "unocss" temporary
   // as VS Code will append it with the publisher, causing the dev extension fail to override the production extension.
-  const json = await fs.readJSON(new URL('../package.json', import.meta.url))
-  if (json.name !== 'unocss') {
-    json.name = 'unocss'
-    await fs.writeJSON(new URL('../package.json', import.meta.url), json, { spaces: 2, EOL: '\n' })
-
+  const { rawJSON, pkg } = await readPackage()
+  if (pkg.name !== 'unocss')
     console.log('Update package.json name to "unocss"')
-  }
+
+  await withTempName(rawJSON, async () => {
+    const child = execa('tsdown', ['--watch', 'src'], { cwd: vscodeRoot, stdio: 'inherit' })
+
+    for (const signal of ['SIGINT', 'SIGTERM'] as const)
+      process.once(signal, () => child.kill(signal))
+
+    try {
+      await child
+    }
+    catch (error) {
+      if (!(error instanceof Error) || !('signal' in error))
+        throw error
+    }
+  })
 }
 
-run()
+await dev()

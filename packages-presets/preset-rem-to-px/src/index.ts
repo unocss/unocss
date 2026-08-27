@@ -20,6 +20,7 @@ export const presetRemToPx = definePreset((options: RemToPxOptions = {}) => {
 
   return {
     name: '@unocss/preset-rem-to-px',
+    docs: 'https://unocss.dev/presets/rem-to-px',
     postprocess: (util) => {
       util.entries.forEach((i) => {
         const value = i[1]

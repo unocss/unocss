@@ -84,6 +84,7 @@ export const presetMini = definePreset((options: PresetMiniOptions = {}) => {
   options.variablePrefix = options.variablePrefix ?? 'un-'
   return {
     name: '@unocss/preset-mini',
+    docs: 'https://unocss.dev/presets/mini',
     theme,
     rules,
     variants: variants(options),

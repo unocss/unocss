@@ -1,7 +1,7 @@
-import type { TSESTree } from '@typescript-eslint/types'
+import type { TSESTree } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
+import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
