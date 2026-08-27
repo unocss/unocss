@@ -66,6 +66,9 @@ catalogs:
       specifier: ^3.5.6
       version: 3.5.6
   devtools:
+    '@devframes/service-shiki':
+      specifier: ^0.9.6
+      version: 0.9.6
     '@devframes/vite':
       specifier: ^0.9.6
       version: 0.9.6
@@ -1077,6 +1080,9 @@ importers:
 
   packages-integrations/inspector:
     dependencies:
+      '@devframes/service-shiki':
+        specifier: catalog:devtools
+        version: 0.9.6(devframe@0.9.6)
       '@devframes/vite':
         specifier: catalog:devtools
         version: 0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)
@@ -2518,6 +2524,11 @@ packages:
     peerDependenciesMeta:
       '@devframes/hub':
         optional: true
+
+  '@devframes/service-shiki@0.9.6':
+    resolution: {integrity: sha512-GggXNUJila0+HSkmPFXfKQa3MjKV/MBq1I93FtqPCjPKD6R0mm7xK9e/pwoHrDhNZKeorWYRtGwIk7ubiX2y5g==}
+    peerDependencies:
+      devframe: 0.9.6
 
   '@devframes/vite@0.9.6':
     resolution: {integrity: sha512-y7MA0gyK9s/ieXIjVFR6qvBEfOmhiX5dCCnOkR2CbaipaDVZgTDkpRiNwg6oYEsyIZj4H4e5Iv91ykwnvT80vw==}
@@ -11049,6 +11060,11 @@ snapshots:
       zod: 4.4.3
     optionalDependencies:
       '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+
+  '@devframes/service-shiki@0.9.6(devframe@0.9.6)':
+    dependencies:
+      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      shiki: 4.4.3
 
   '@devframes/vite@0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)':
     dependencies:

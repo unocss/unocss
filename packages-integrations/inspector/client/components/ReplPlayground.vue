@@ -40,10 +40,9 @@ const { data: result } = fetchRepl(input, isSafelistIncluded)
         class="scrolls repl-scrolls"
         :style="style"
       />
-      <CodeMirror
+      <ShikiCode
         border="l main"
         :model-value="result?.css || '/* empty */'"
-        :read-only="true"
         mode="css"
         class="scrolls repl-scrolls"
         :style="style"

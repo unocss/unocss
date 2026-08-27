@@ -108,8 +108,8 @@ const formatted = useCSSPrettify(computed(() => {
         </label>
       </TitleBar>
     </StatusBar>
-    <CodeMirror
-      v-if="active === 'source'" :model-value="formatted" :read-only="true" mode="css" class="overview-scrolls"
+    <ShikiCode
+      v-if="active === 'source'" :model-value="formatted" mode="css" class="overview-scrolls"
       :style="style"
     />
     <Analyzer

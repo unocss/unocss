@@ -87,8 +87,8 @@ const formatted = useCSSPrettify(computed(() => mod.value?.css), isPrettify)
                 Prettify
               </label>
             </TitleBar>
-            <CodeMirror
-              h-full border="l main" :model-value="formatted" :read-only="true" mode="css"
+            <ShikiCode
+              h-full border="l main" :model-value="formatted" mode="css"
               class="scrolls module-scrolls" :style="style"
             />
           </div>

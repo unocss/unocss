@@ -116,6 +116,24 @@ export async function rpcCall<T>(method: string, ...args: any[]): Promise<T> {
   return await rpc.scope('unocss').rpc.call(method as any, ...args) as T
 }
 
+const SHIKI_SERVICE = '@devframes/service-shiki'
+
+/**
+ * Highlight code to dual-theme HTML through the host's Shiki wire service,
+ * so the client doesn't bundle its own highlighter. Returns `null` when the
+ * service isn't available (e.g. a static build) so callers can fall back to
+ * plain text.
+ */
+export async function shikiHighlight(code: string, lang: string): Promise<string | null> {
+  const rpc = await ensureClient()
+  await rpc.ensureTrusted(0)
+  const service = rpc.services.get(SHIKI_SERVICE)
+  if (!service)
+    return null
+  const { html } = await service.rpc.call('highlight', { code, lang })
+  return html
+}
+
 /**
  * Exchange the one-time code printed in the dev server terminal for a
  * persisted auth token.

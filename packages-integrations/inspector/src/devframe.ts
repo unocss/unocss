@@ -77,6 +77,17 @@ export function createInspectorDevframe(ctx: UnocssPluginContext): UnocssInspect
     icon: 'https://unocss.dev/logo.svg',
     basePath: '/__unocss/',
     clientAssets: resolveClientDist(),
+    // Server-side syntax highlighting shared with the host, so the client
+    // stops shipping its own grammars. Declared lazily by package name —
+    // the host imports it from the inspector's own deps, and a host that
+    // already provides it just merges the requested languages. When it's
+    // unavailable the client degrades to plain text.
+    services: [
+      {
+        package: '@devframes/service-shiki',
+        options: { langs: ['css', 'html', 'js', 'ts', 'vue', 'jsx', 'tsx'] },
+      },
+    ],
     setup(host) {
       hosts.add(host)
       const scoped = host.scope(INSPECTOR_RPC_SCOPE)

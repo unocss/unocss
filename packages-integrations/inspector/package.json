@@ -48,6 +48,7 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "@devframes/service-shiki": "catalog:devtools",
     "@devframes/vite": "catalog:devtools",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
