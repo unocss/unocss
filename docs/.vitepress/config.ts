@@ -4,7 +4,7 @@ import { createTwoslasher } from '@unocss/twoslash'
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import { version } from '../../package.json'
+import { version } from '../../package.json' with { type: 'json' }
 
 const ogUrl = 'https://unocss.dev/'
 const ogImage = `${ogUrl}og.png#1`
@@ -97,9 +97,7 @@ const Resources: DefaultTheme.NavItemWithLink[] = [
   { text: 'Tutorial', link: 'https://tutorial.unocss.dev/', target: '_blank' },
 ]
 
-const Introes: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Team', link: '/team' },
-]
+const Introes: DefaultTheme.NavItemWithLink[] = [{ text: 'Team', link: '/team' }]
 
 const Nav: DefaultTheme.NavItem[] = [
   {
@@ -300,15 +298,19 @@ export default defineConfig({
     ['meta', { name: 'twitter:image', content: ogImage }],
     ['meta', { name: 'twitter:site', content: '@antfu7' }],
     ['meta', { name: 'twitter:url', content: ogUrl }],
-    ['link', { rel: 'search', type: 'application/opensearchdescription+xml', href: '/search.xml', title: 'UnoCSS' }],
+    [
+      'link',
+      {
+        rel: 'search',
+        type: 'application/opensearchdescription+xml',
+        href: '/search.xml',
+        title: 'UnoCSS',
+      },
+    ],
   ],
   lastUpdated: true,
   cleanUrls: true,
-  ignoreDeadLinks: [
-    /^\/play/,
-    /^\/interactive/,
-    /:\/\/localhost/,
-  ],
+  ignoreDeadLinks: [/^\/play/, /^\/interactive/, /:\/\/localhost/],
 
   markdown: {
     languages: ['html', 'vue'],
