@@ -3,7 +3,7 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetWind3 from '@unocss/preset-wind3'
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
 import MagicString from 'magic-string'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 const originalCode = `
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>
@@ -119,6 +119,25 @@ describe('transformerAttributifyJsx', async () => {
       </div>"
     `)
   })
+  it('transforms MDX frontmatter without Oxc fallback warning', async () => {
+    const code = new MagicString(`---
+title: Attributify
+---
+
+<div flex />`)
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    try {
+      await transformerAttributifyJsx().transform(code, 'example.mdx', { uno, tokens: new Set() } as any)
+
+      expect(code.toString()).toContain('<div flex="" />')
+      expect(warn).not.toHaveBeenCalled()
+    }
+    finally {
+      warn.mockRestore()
+    }
+  })
+
   // #3754
   it('transform test2', async () => {
     const code = new MagicString(`

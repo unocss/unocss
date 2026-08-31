@@ -94,6 +94,11 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
         isBlocked,
       }
 
+      if (id.endsWith('.mdx')) {
+        await attributifyJsxRegexResolver(params)
+        return
+      }
+
       try {
         await attributifyJsxOxcResolver(params)
       }
