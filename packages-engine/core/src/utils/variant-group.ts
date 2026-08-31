@@ -9,7 +9,14 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
   const key = escaped.join('|')
   if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    // The body accepts `@` and `*` because the container and children variants
+    // are valid inside a group, not just as its prefix. A single unmatchable
+    // character makes the whole group fail to match, so omitting them silently
+    // left the group unexpanded.
+    // The bracket alternative stops at `]` rather than running to the next
+    // whitespace, otherwise a group nested inside an arbitrary variant swallows
+    // the outer `]:(` and captures the wrong prefix.
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?[^\\s\\]]*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }

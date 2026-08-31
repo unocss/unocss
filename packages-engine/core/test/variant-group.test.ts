@@ -43,6 +43,23 @@ describe('variant-group', () => {
     expect(expandVariantGroup('b:[&:not(c)]:d:(!a z)')).toEqual('!b:[&:not(c)]:d:a b:[&:not(c)]:d:z')
   })
 
+  it('container and children variants inside a group body', () => {
+    // These are valid as a group prefix, so they must also be valid inside one.
+    expect(expandVariantGroup('hover:(@sm:text-red bg-blue)'))
+      .toEqual('hover:@sm:text-red hover:bg-blue')
+    expect(expandVariantGroup('hover:(*:text-red bg-blue)'))
+      .toEqual('hover:*:text-red hover:bg-blue')
+    expect(expandVariantGroup('hover:(**:text-red bg-blue)'))
+      .toEqual('hover:**:text-red hover:bg-blue')
+  })
+
+  it('group nested inside an arbitrary variant', () => {
+    expect(expandVariantGroup('[&>a]:([&>b]:(p-1 p-2))'))
+      .toEqual('[&>a]:[&>b]:p-1 [&>a]:[&>b]:p-2')
+    expect(expandVariantGroup('[&:nth-child(2)]:([&:nth-child(3)]:(text-red p-1))'))
+      .toEqual('[&:nth-child(2)]:[&:nth-child(3)]:text-red [&:nth-child(2)]:[&:nth-child(3)]:p-1')
+  })
+
   it('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
