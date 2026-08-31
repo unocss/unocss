@@ -14,6 +14,25 @@ it('extractorSplit', async () => {
   expect(await extract('<div :class="{ fixed: isMobile }">')).toContain('fixed')
 })
 
+it('extractorSplit extracts unquoted HTML class attributes', async () => {
+  async function extract(code: string) {
+    return [...await extractorSplit.extract?.({ code, original: code } as any) || []]
+  }
+
+  const classAttribute = await extract('<div class=foo id=ignored>')
+  expect(classAttribute).toContain('foo')
+  expect(classAttribute).not.toContain('class=foo')
+
+  const selfClosingClassAttribute = await extract('<div class=hover:bg-red-500/>')
+  expect(selfClosingClassAttribute).toContain('hover:bg-red-500')
+  expect(selfClosingClassAttribute).not.toContain('class=hover:bg-red-500/>')
+
+  const unquotedAttributes = await extract('<div id=ignored data-class=ignored className=ignored :class=ignored title="class=ignored">')
+  expect(unquotedAttributes).not.toContain('ignored')
+
+  expect(await extract('<div class={active}>')).eql(['<div', 'class=', 'active', '>'])
+})
+
 it('extractorSplitArbitrary', async () => {
   async function extract(code: string) {
     return [...await extractorArbitraryVariants().extract!({ code, original: code } as any) || []]
