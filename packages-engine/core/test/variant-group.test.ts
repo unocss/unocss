@@ -25,6 +25,16 @@ describe('variant-group', () => {
     expect(expandVariantGroup('a-(b c-(d e f))')).toEqual('a-b a-c-d a-c-e a-c-f')
   })
 
+  it('nested group followed by a sibling group', () => {
+    // A nested group is matched on an earlier pass than the group containing
+    // it, so the outer group is recorded after a sibling that starts later in
+    // the string (issue: #4791).
+    expect(expandVariantGroup('a-(b-(c d) e) f-(g h)'))
+      .toEqual('a-b-c a-b-d a-e f-g f-h')
+    expect(expandVariantGroup('[&_p]:(text-(16px #9f4021) lh-18px) [&_img]:(w-full h-auto)'))
+      .toEqual('[&_p]:text-16px [&_p]:text-#9f4021 [&_p]:lh-18px [&_img]:w-full [&_img]:h-auto')
+  })
+
   it('spaces', () => {
     expect(expandVariantGroup('a-( ~ b c )')).toEqual('a a-b a-c')
   })
