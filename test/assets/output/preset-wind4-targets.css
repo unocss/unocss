@@ -387,8 +387,8 @@
 .font-\$font-name{font-family:var(--font-name);}
 .font-550{--un-font-weight:550;font-weight:550;}
 .font-inherit{font-family:inherit;}
-.font-mono{font-family:var(--font-mono);}
-.font-sans{font-family:var(--font-sans);}
+.font-mono{font-family:var(--font-mono, ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);}
+.font-sans{font-family:var(--font-sans, ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");}
 .font-thin{--un-font-weight:var(--fontWeight-thin);font-weight:var(--fontWeight-thin);}
 .group:hover .group-hover\:font-10{--un-font-weight:10;font-weight:10;}
 .group\/label:hover .group-hover\/label\:font-15{--un-font-weight:15;font-weight:15;}
