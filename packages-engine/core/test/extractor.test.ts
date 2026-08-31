@@ -27,6 +27,15 @@ it('extractorSplit extracts unquoted HTML class attributes', async () => {
   expect(selfClosingClassAttribute).toContain('hover:bg-red-500')
   expect(selfClosingClassAttribute).not.toContain('class=hover:bg-red-500/>')
 
+  for (const code of ['<div class = text-red-500>', '<div class= text-red-500>']) {
+    const whitespaceClassAttribute = await extract(code)
+    expect(whitespaceClassAttribute).toContain('text-red-500')
+    expect(whitespaceClassAttribute).not.toContain('text-red-500>')
+  }
+
+  for (const code of ['<div class=foo=bar>', '<div class=foo"bar>', '<div class=foo{bar}>', '<div class=foo<bar>'])
+    expect(await extract(code)).not.toContain('foo')
+
   const unquotedAttributes = await extract('<div id=ignored data-class=ignored className=ignored :class=ignored title="class=ignored">')
   expect(unquotedAttributes).not.toContain('ignored')
 

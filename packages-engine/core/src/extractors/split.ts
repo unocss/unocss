@@ -2,7 +2,7 @@ import type { Extractor } from '../types'
 
 export const defaultSplitRE = /[\\:]?[\s'"`;{}]+/g
 export const splitWithVariantGroupRE = /([\\:]?[\s"'`;<>]|:\(|\)"|\)\s)/g
-const htmlClassAttributeRE = /<[a-z](?:[^"'<>]|"[^"]*"|'[^']*')*\sclass\s*=\s*([^\s"'`=<>{}]+)/gi
+const htmlClassAttributeRE = /(<[a-z](?:[^"'<>]|"[^"]*"|'[^']*')*?)\sclass\s*=\s*([^\s"'`=<>{}]+)(?=[\s/>]|$)/gi
 
 export function splitCode(code: string): string[] {
   return code.split(defaultSplitRE)
@@ -10,7 +10,11 @@ export function splitCode(code: string): string[] {
 
 function extractUnquotedClasses(code: string) {
   return [...code.matchAll(htmlClassAttributeRE)]
-    .map(([, value]) => value.endsWith('/') ? value.slice(0, -1) : value)
+    .map(([, , value]) => value.endsWith('/') ? value.slice(0, -1) : value)
+}
+
+function removeUnquotedClassAttributes(code: string) {
+  return code.replace(htmlClassAttributeRE, '$1')
 }
 
 export const extractorSplit: Extractor = {
@@ -19,7 +23,7 @@ export const extractorSplit: Extractor = {
   extract({ code }) {
     const classes = extractUnquotedClasses(code)
     return [
-      ...splitCode(code).filter(token => !classes.some(value => token === `class=${value}` || token === `class=${value}>` || token === `class=${value}/>`)),
+      ...splitCode(removeUnquotedClassAttributes(code)),
       ...classes,
     ]
   },
