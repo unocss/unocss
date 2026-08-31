@@ -6,17 +6,47 @@ import { attributifyJsxOxcResolver } from './resolver/oxc'
 import { attributifyJsxRegexResolver } from './resolver/regex'
 
 export type FilterPattern = Array<string | RegExp> | string | RegExp | null
+export type ResolverType = 'oxc' | 'regex'
+export interface ResolverFilterPattern {
+  pattern: string | RegExp
+  resolver: ResolverType
+}
+export type IncludePattern
+  = | Array<string | RegExp | ResolverFilterPattern>
+    | string
+    | RegExp
+    | ResolverFilterPattern
+    | null
 
 function createFilter(
-  include: FilterPattern,
+  include: IncludePattern,
   exclude: FilterPattern,
-): (id: string) => boolean {
+): {
+  idFilter: (id: string) => boolean
+  resolveResolver: (id: string) => ResolverType | undefined
+} {
   const includePattern = toArray(include || [])
   const excludePattern = toArray(exclude || [])
-  return (id: string) => {
+
+  const match = (id: string) => {
     if (excludePattern.some(p => id.match(p)))
-      return false
-    return includePattern.some(p => id.match(p))
+      return
+
+    return includePattern.find((item) => {
+      const pattern = item instanceof RegExp || typeof item === 'string'
+        ? item
+        : item.pattern
+      return id.match(pattern)
+    })
+  }
+
+  return {
+    idFilter: id => match(id) != null,
+    resolveResolver: (id) => {
+      const matched = match(id)
+      if (matched && !(matched instanceof RegExp) && typeof matched !== 'string')
+        return matched.resolver
+    },
   }
 }
 
@@ -28,10 +58,15 @@ export interface TransformerAttributifyJsxOptions {
   blocklist?: (string | RegExp)[]
 
   /**
-   * Regex of modules to be included from processing
+   * Patterns of modules to be included from processing.
+   *
+   * Use `{ pattern, resolver }` to select a resolver for matching files.
+   * The first matching pattern is used.
+   * Patterns without a resolver retain the default Oxc-to-regex fallback.
+   *
    * @default [/\.[jt]sx$/, /\.mdx$/]
    */
-  include?: FilterPattern
+  include?: IncludePattern
 
   /**
    * Regex of modules to exclude from processing
@@ -67,7 +102,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     return false
   }
 
-  const idFilter = createFilter(
+  const filter = createFilter(
     options.include || [/\.[jt]sx$/, /\.mdx$/],
     options.exclude || [],
   )
@@ -76,7 +111,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     name: '@unocss/transformer-attributify-jsx',
     docs: 'https://unocss.dev/transformers/attributify-jsx',
     enforce: 'pre',
-    idFilter,
+    idFilter: filter.idFilter,
     async transform(code, id, { uno }) {
       // Skip if running in VSCode extension context
       try {
@@ -92,6 +127,16 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
         id,
         uno,
         isBlocked,
+      }
+
+      const resolver = filter.resolveResolver(id)
+      if (resolver === 'oxc') {
+        await attributifyJsxOxcResolver(params)
+        return
+      }
+      if (resolver === 'regex') {
+        await attributifyJsxRegexResolver(params)
+        return
       }
 
       try {
