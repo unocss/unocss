@@ -1,5 +1,5 @@
-import type { UnoGenerator } from '@unocss/core'
-import { LAYER_PREFLIGHTS, toArray } from '@unocss/core'
+import type { PreflightContext, UnoGenerator } from '@unocss/core'
+import { toArray } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 
@@ -41,7 +41,7 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
 
 /**
  * Collect the CSS custom properties that belong to the active theme, declared
- * on `:root`/`:host` by the theme preflight. Generated runtime variables such
+ * on `:root`/`:host` in preflight CSS. Generated runtime variables such
  * as `--un-*` live in other blocks (properties preflight) and are excluded, so
  * they never produce resolved-value comments.
  */
@@ -91,16 +91,21 @@ export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
-  // A single generation emits both the util CSS and the theme variables its
-  // declarations reference (the on-demand theme preflight reflects exactly the
-  // theme keys tracked while processing this util), so the variable map is
-  // never stale and no extra full preflight generation is needed per hover.
-  const result = (await uno.generate(new Set(toArray(util)), { preflights: true, safelist: false }))
-  const preflightLayers = [...new Set(uno.config.preflights.map(i => i.layer ?? LAYER_PREFLIGHTS))]
+  // Preflight CSS never belongs to the hover output; it only supplies the
+  // theme custom properties referenced by the util's declarations. Rendering
+  // the preflights directly keeps a single `generate` call per hover (the
+  // on-demand theme preflight reflects exactly the theme keys tracked while
+  // processing this util), and excludes only the preflight CSS itself, so
+  // rule CSS sharing a layer with a user preflight is never dropped.
+  const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
+  const preflightContext: PreflightContext = { generator: uno, theme: uno.config.theme }
+  const preflightCSS = (await Promise.all(uno.config.preflights.map(i => i.getCSS(preflightContext))))
+    .filter(Boolean)
+    .join('\n')
   const css = addRemToPxComment(
     addResolvedValueComments(
-      result.getLayers(undefined, preflightLayers),
-      getThemeCSSVariables(result.getLayers(preflightLayers)),
+      result.css,
+      getThemeCSSVariables(preflightCSS),
     ),
     remToPxRatio,
   )

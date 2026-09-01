@@ -72,6 +72,17 @@ describe('getPrettiedMarkdown', () => {
     await getPrettiedCSS(uno, 'p-4', -1)
 
     expect(generate).toHaveBeenCalledTimes(1)
-    expect(generate.mock.calls[0]?.[1]).toMatchObject({ preflights: true })
+    expect(generate.mock.calls[0]?.[1]).toMatchObject({ preflights: false })
+  })
+
+  it('keeps rule CSS when a user preflight shares a rule-bearing layer', async () => {
+    const uno = await createGenerator({
+      preflights: [{ layer: 'default', getCSS: () => ':root { --brand: 4rem }' }],
+      rules: [['p-brand', { padding: 'var(--brand)' }]],
+    })
+
+    await expect(getPrettiedMarkdown(uno, 'p-brand', -1)).resolves.toContain(`.p-brand {
+  padding: var(--brand); /* 4rem */
+}`)
   })
 })
