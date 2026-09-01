@@ -25,9 +25,18 @@ let hadConnected = false
 
 async function connect(): Promise<DevframeRpcClient> {
   connectionStatus.value = 'connecting'
+  // The standalone client dev server (`dev:client`) runs the backend on a
+  // side-car the client connects to directly over an absolute URL, with the
+  // connection descriptor injected so it skips the cross-origin discovery
+  // fetch. Every other host shares an origin with the SPA, so the default
+  // (relative to the page, auto-discovered) is correct.
+  const devBase = import.meta.env.VITE_INSPECTOR_RPC_BASE
+  const devMeta = import.meta.env.VITE_INSPECTOR_RPC_META
   const rpc = await connectDevframe({
     // The inspector renders its own auth screen (see AuthGate.vue)
     simpleAuth: false,
+    baseURL: devBase || undefined,
+    connectionMeta: devMeta ? JSON.parse(devMeta) : undefined,
   })
   client = rpc
 
@@ -65,6 +74,15 @@ async function connect(): Promise<DevframeRpcClient> {
       _onInvalidated.trigger()
     },
   })
+
+  // When the backend runs with auth disabled (the `dev:client` playground),
+  // the server auto-trusts every connection — proactively request trust so
+  // the UI unlocks without showing the code prompt. Harmless elsewhere: with
+  // a persisted token it re-validates, otherwise it resolves false and the
+  // auth screen stays up for the user to enter a code.
+  if (devBase) {
+    rpc.requestTrust().catch(() => {})
+  }
 
   if (hadConnected) {
     rpc.ensureTrusted(0).then(() => _onReconnected.trigger())
