@@ -1,13 +1,14 @@
 import type { UnoGenerator } from '@unocss/core'
-import { toArray } from '@unocss/core'
+import { LAYER_PREFLIGHTS, toArray } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
-import { getCssVariables } from './color'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
 const cssVariableRE = /var\((--[\w-]+)\)/g
 const cssDeclarationRE = /(?<property>[\w-]+):(?<value>[^;{}]+);/g
 const multiplicationRE = /^calc\(\s*(-?[\d.]+)([a-z%]+)\s*\*\s*(-?[\d.]+)\s*\)$/
+const cssBlockRE = /(?<selector>[^{}@][^{}]*)\{(?<body>[^{}]*)\}/g
+const themeVariableRE = /(?<name>--[\w-]+)\s*:(?<declaration>[^;{}]+)/g
 
 /**
  * Credit to [@voorjaar](https://github.com/voorjaar)
@@ -38,6 +39,25 @@ export function addRemToPxComment(str?: string, remToPixel = 16) {
   return output.join('')
 }
 
+/**
+ * Collect the CSS custom properties that belong to the active theme, declared
+ * on `:root`/`:host` by the theme preflight. Generated runtime variables such
+ * as `--un-*` live in other blocks (properties preflight) and are excluded, so
+ * they never produce resolved-value comments.
+ */
+export function getThemeCSSVariables(css: string) {
+  const variables = new Map<string, string>()
+  for (const block of css.matchAll(cssBlockRE)) {
+    if (!/:root\b|:host\b/.test(block.groups?.selector ?? ''))
+      continue
+    for (const match of (block.groups?.body ?? '').matchAll(themeVariableRE)) {
+      if (match.groups?.name)
+        variables.set(match.groups.name, match.groups.declaration.replace(/!important\s*$/i, '').trim())
+    }
+  }
+  return variables
+}
+
 function resolveCSSValue(value: string, cssVariables: Map<string, string>) {
   let resolved = value.replace(cssVariableRE, (match, name: string) => cssVariables.get(name) ?? match)
 
@@ -54,7 +74,12 @@ function resolveCSSValue(value: string, cssVariables: Map<string, string>) {
 }
 
 export function addResolvedValueComments(css: string, cssVariables: Map<string, string>) {
+  if (!cssVariables.size)
+    return css
   return css.replace(cssDeclarationRE, (declaration, _property, value: string) => {
+    // Only annotate declarations that reference theme custom properties.
+    if (!value.includes('var('))
+      return declaration
     const resolved = resolveCSSValue(value.trim(), cssVariables)
     return resolved ? `${declaration} /* ${resolved} */` : declaration
   })
@@ -66,10 +91,17 @@ export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
 }
 
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
-  const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
-  const { css: preflightCSS } = await uno.generate(new Set(), { preflights: true, safelist: false })
+  // A single generation emits both the util CSS and the theme variables its
+  // declarations reference (the on-demand theme preflight reflects exactly the
+  // theme keys tracked while processing this util), so the variable map is
+  // never stale and no extra full preflight generation is needed per hover.
+  const result = (await uno.generate(new Set(toArray(util)), { preflights: true, safelist: false }))
+  const preflightLayers = [...new Set(uno.config.preflights.map(i => i.layer ?? LAYER_PREFLIGHTS))]
   const css = addRemToPxComment(
-    addResolvedValueComments(result.css, getCssVariables(preflightCSS)),
+    addResolvedValueComments(
+      result.getLayers(undefined, preflightLayers),
+      getThemeCSSVariables(result.getLayers(preflightLayers)),
+    ),
     remToPxRatio,
   )
   const prettified = await prettier.format(css, {
@@ -79,6 +111,7 @@ export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[],
 
   return {
     ...result,
+    css,
     prettified,
   }
 }
