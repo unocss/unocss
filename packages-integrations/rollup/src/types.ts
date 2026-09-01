@@ -3,7 +3,7 @@ import type { Plugin } from 'rollup'
 
 export interface RollupPluginConfig<Theme extends object = object> extends UserConfig<Theme> {
   /**
-   * Disable the warning when no UnoCSS virtual CSS entry is imported.
+   * Warn when no UnoCSS virtual CSS entry is imported.
    *
    * @default false
    */
