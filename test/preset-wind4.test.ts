@@ -201,6 +201,24 @@ describe('preset-wind4', () => {
     )
   })
 
+  it('font families fall back to custom theme values without theme preflight', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+      theme: {
+        font: { sans: 'Custom Sans' },
+      },
+    })
+
+    const { css } = await uno.generate('font-sans')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .font-sans{font-family:var(--font-sans, Custom Sans);}"
+    `,
+    )
+  })
+
   it('custom theme values with variable', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
