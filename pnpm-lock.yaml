@@ -496,7 +496,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:eslint
-        version: 9.3.0(@typescript-eslint/typescript-estree@8.69.0)(@typescript-eslint/utils@8.69.0)(@unocss/eslint-plugin@66.8.1)(@vue/compiler-sfc@3.5.42)(eslint-plugin-format@2.0.1)(eslint@10.9.1)(supports-color@10.2.2)(svelte-eslint-parser@1.8.1)(typescript@6.0.3)(vitest@4.1.11)
+        version: 9.3.0(@typescript-eslint/typescript-estree@8.69.0)(@typescript-eslint/utils@8.69.0)(@unocss/eslint-plugin@66.9.1)(@vue/compiler-sfc@3.5.42)(eslint-plugin-format@2.0.1)(eslint@10.9.1)(supports-color@10.2.2)(svelte-eslint-parser@1.8.1)(typescript@6.0.3)(vitest@4.1.11)
       '@antfu/ni':
         specifier: catalog:utils
         version: 30.5.0
@@ -1231,7 +1231,7 @@ importers:
         version: 1.2.6
       rollup:
         specifier: catalog:build
-        version: 4.63.0
+        version: 4.63.1
 
   packages-integrations/runtime:
     dependencies:
@@ -4691,17 +4691,17 @@ packages:
       webpack:
         optional: true
 
-  '@unocss/config@66.8.1':
-    resolution: {integrity: sha512-2MhijaV6a4OWSH5zJeo2QLIUr7gtjxdA3x1D4CIDCWQnrEqmPstOBRQOhWDl3HbLW6/0jHOFSMExbeeFvCvnsA==}
+  '@unocss/config@66.9.1':
+    resolution: {integrity: sha512-1Re36+AGU6c3OXIq/lOhsEe6yGVsNy0DBFscKiA7GTl/ZS6ofADitSKkd9+FFx2QbztAJi2mbcuMnW+gtY76yw==}
 
-  '@unocss/core@66.8.1':
-    resolution: {integrity: sha512-ze/3qTloXZtFn6TXiNjL6ai1vgMvTCXIm8nqTzoU/Dt5d5MRxA86ERfUmgTX70rEBam5l6vnsaEVZO6WnHhdRA==}
+  '@unocss/core@66.9.1':
+    resolution: {integrity: sha512-x4ckZij1dV8mdLx9dpLPH5Aw5bUvGQM58p7pj6HYpeufxxE+qQeEOGuMZkmWSjilfZ039Zj9/KPf+e/V7sqMdQ==}
 
-  '@unocss/eslint-plugin@66.8.1':
-    resolution: {integrity: sha512-MC2zoxGq9LRa1Ix3DujBNAkhLXkv3y0R1CuAFvLujvxjuXls4wv29O2NdwNNazuAL8smXDs5LceRZvIijdP7+g==}
+  '@unocss/eslint-plugin@66.9.1':
+    resolution: {integrity: sha512-2NVwDXQ6HsK+2juROpn+qai1vklVXAEduN9rzwd83oj1aKowUG2ATY6/YZK28e2uNpNkXqskHUtag5vJMv/7aA==}
 
-  '@unocss/rule-utils@66.8.1':
-    resolution: {integrity: sha512-EQ9bhifqIodIsl7+eOmkCVWXkZ7dnwkmTURFyAosVpUc8j4WYsfnQC+3SjKnJfT44s1rIqHJtoBBaG9X97opdA==}
+  '@unocss/rule-utils@66.9.1':
+    resolution: {integrity: sha512-4Du8AAauGzLoMBfic0C7S1oo2PFuDYeM8etiE8ZBR66T+utIWUrP6JZWE1h5ti6DNrhf7OFWRM/EuOFus1AjjQ==}
 
   '@vercel/nft@1.11.0':
     resolution: {integrity: sha512-m1QFg+U+3yPOnP1xSYJ73UIRxLOXdts1JOhiOiyPYqEsALgrXFFINvgUaD6R6iNvaBFAjHllBCbkfx4FuOdpaA==}
@@ -9949,7 +9949,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.4': {}
 
-  '@antfu/eslint-config@9.3.0(@typescript-eslint/typescript-estree@8.69.0)(@typescript-eslint/utils@8.69.0)(@unocss/eslint-plugin@66.8.1)(@vue/compiler-sfc@3.5.42)(eslint-plugin-format@2.0.1)(eslint@10.9.1)(supports-color@10.2.2)(svelte-eslint-parser@1.8.1)(typescript@6.0.3)(vitest@4.1.11)':
+  '@antfu/eslint-config@9.3.0(@typescript-eslint/typescript-estree@8.69.0)(@typescript-eslint/utils@8.69.0)(@unocss/eslint-plugin@66.9.1)(@vue/compiler-sfc@3.5.42)(eslint-plugin-format@2.0.1)(eslint@10.9.1)(supports-color@10.2.2)(svelte-eslint-parser@1.8.1)(typescript@6.0.3)(vitest@4.1.11)':
     dependencies:
       '@antfu/install-pkg': 2.0.1
       '@clack/prompts': 1.7.0
@@ -9989,7 +9989,7 @@ snapshots:
       vue-eslint-parser: 10.4.1(eslint@10.9.1)(supports-color@10.2.2)
       yaml-eslint-parser: 2.1.0
     optionalDependencies:
-      '@unocss/eslint-plugin': 66.8.1(eslint@10.9.1)(supports-color@10.2.2)(typescript@6.0.3)
+      '@unocss/eslint-plugin': 66.9.1(eslint@10.9.1)(supports-color@10.2.2)(typescript@6.0.3)
       eslint-plugin-format: 2.0.1(eslint@10.9.1)
       svelte-eslint-parser: 1.8.1(svelte@5.57.0)
     transitivePeerDependencies:
@@ -12965,23 +12965,23 @@ snapshots:
       - rollup
       - unloader
 
-  '@unocss/config@66.8.1':
+  '@unocss/config@66.9.1':
     dependencies:
-      '@unocss/core': 66.8.1
+      '@unocss/core': 66.9.1
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
     optional: true
 
-  '@unocss/core@66.8.1':
+  '@unocss/core@66.9.1':
     optional: true
 
-  '@unocss/eslint-plugin@66.8.1(eslint@10.9.1)(supports-color@10.2.2)(typescript@6.0.3)':
+  '@unocss/eslint-plugin@66.9.1(eslint@10.9.1)(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/utils': 8.69.0(eslint@10.9.1)(supports-color@10.2.2)(typescript@6.0.3)
-      '@unocss/config': 66.8.1
-      '@unocss/core': 66.8.1
-      '@unocss/rule-utils': 66.8.1
+      '@unocss/config': 66.9.1
+      '@unocss/core': 66.9.1
+      '@unocss/rule-utils': 66.9.1
       magic-string: 1.2.3
       synckit: 0.11.13
     transitivePeerDependencies:
@@ -12990,9 +12990,9 @@ snapshots:
       - typescript
     optional: true
 
-  '@unocss/rule-utils@66.8.1':
+  '@unocss/rule-utils@66.9.1':
     dependencies:
-      '@unocss/core': 66.8.1
+      '@unocss/core': 66.9.1
       magic-string: 1.2.3
     optional: true
 
