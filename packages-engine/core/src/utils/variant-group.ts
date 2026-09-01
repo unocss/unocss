@@ -9,7 +9,14 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
   const key = escaped.join('|')
   if (!regexCache[key])
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?\\S*\\])+?)(${key})\\(((?:[~!<>\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    // The body accepts `@` and `*` because the container and children variants
+    // are valid inside a group, not just as its prefix. A single unmatchable
+    // character makes the whole group fail to match, so omitting them silently
+    // left the group unexpanded.
+    // The bracket alternative stops at `]` rather than running to the next
+    // whitespace, otherwise a group nested inside an arbitrary variant swallows
+    // the outer `]:(` and captures the wrong prefix.
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?[^\\s\\]]*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }
@@ -74,10 +81,18 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
 
   let expanded: MagicString | string
 
+  // `groupsByOffset` is keyed by offset but iterates in insertion order, and a
+  // group is inserted in the pass that matched it. A group nested inside
+  // another is matched first, so an outer group starting earlier in the string
+  // is inserted later than a sibling that starts after it. Rebuilding the
+  // string from that order interleaves the slices wrongly and leaves the
+  // unexpanded source behind, so walk the groups in positional order instead.
+  const groupsInOrder = [...groupsByOffset].sort(([a], [b]) => a - b)
+
   if (typeof str === 'string') {
     expanded = ''
     let prevOffset = 0
-    for (const [offset, group] of groupsByOffset) {
+    for (const [offset, group] of groupsInOrder) {
       expanded += str.slice(prevOffset, offset)
       expanded += group.items.map(item => item.className).join(' ')
       prevOffset = offset + group.length
@@ -86,7 +101,7 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
   }
   else {
     expanded = str
-    for (const [offset, group] of groupsByOffset) {
+    for (const [offset, group] of groupsInOrder) {
       expanded.overwrite(
         offset,
         offset + group.length,

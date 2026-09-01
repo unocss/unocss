@@ -131,7 +131,6 @@ catalogs:
     '@types/js-yaml': ^4.0.9
     '@types/markdown-it-link-attributes': ^3.0.5
     '@types/node': ^25.9.5
-
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.31
     '@types/splitpanes': ^2.2.6
@@ -167,7 +166,7 @@ catalogs:
     p-limit: ^7.3.1
     pathe: ^2.0.3
     perfect-debounce: ^2.1.0
-    pnpm: ^11.24.0
+    pnpm: 11.25.0
     premove: ^4.0.0
     prettier: ^3.9.6
     publint: ^0.3.24

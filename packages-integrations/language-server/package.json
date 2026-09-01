@@ -1,7 +1,7 @@
 {
   "name": "@unocss/language-server",
   "type": "module",
-  "version": "66.8.1",
+  "version": "66.9.1",
   "description": "UnoCSS Language Server",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -55,9 +55,9 @@
   },
   "inlinedDependencies": {
     "@antfu/install-pkg": "1.1.0",
-    "@colordx/core": "5.6.0",
+    "@colordx/core": "5.7.0",
     "@iconify/utils": "3.1.4",
-    "@jridgewell/sourcemap-codec": "1.5.5",
+    "@jridgewell/sourcemap-codec": "1.6.0",
     "@quansync/fs": "1.0.0",
     "colorette": "2.0.20",
     "consola": "3.4.2",

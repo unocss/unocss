@@ -4,8 +4,10 @@ import { Buffer } from 'node:buffer'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
+import { toViteVirtualId } from '../virtual'
 
 const VIRTUAL_PREFIX = '/@unocss/'
+const VIRTUAL_ID_PREFIX = toViteVirtualId(VIRTUAL_PREFIX)
 const SCOPE_IMPORT_RE = / from (['"])(@unocss\/scope)\1/
 
 export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
@@ -15,7 +17,7 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
   const invalidate = (hash: string) => {
     if (!server)
       return
-    const id = `${VIRTUAL_PREFIX}${hash}.css`
+    const id = `${VIRTUAL_ID_PREFIX}${hash}.css`
     const mod = server.moduleGraph.getModuleById(id)
     if (!mod)
       return
@@ -23,8 +25,8 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
     server.ws.send({
       type: 'update',
       updates: [{
-        acceptedPath: id,
-        path: id,
+        acceptedPath: `${VIRTUAL_PREFIX}${hash}.css`,
+        path: `${VIRTUAL_PREFIX}${hash}.css`,
         timestamp: +Date.now(),
         type: 'js-update',
       }],
@@ -38,7 +40,7 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
       async resolveId(id) {
         const entry = await resolveId(ctx, id)
         if (entry)
-          return entry
+          return toViteVirtualId(entry)
       },
       async load(id) {
         const layer = await resolveLayer(ctx, getPath(id))
@@ -99,13 +101,16 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
         }
       },
       resolveId(id) {
-        return id.startsWith(VIRTUAL_PREFIX) ? id : null
+        if (id.startsWith(VIRTUAL_PREFIX))
+          return toViteVirtualId(id)
+        return id.startsWith(VIRTUAL_ID_PREFIX) ? id : null
       },
       load(id) {
-        if (!id.startsWith(VIRTUAL_PREFIX))
+        if (!id.startsWith(VIRTUAL_ID_PREFIX))
           return null
 
-        const hash = id.slice(VIRTUAL_PREFIX.length, -'.css'.length)
+        const path = getPath(id)
+        const hash = path.slice(VIRTUAL_ID_PREFIX.length, -'.css'.length)
 
         const [source, css] = moduleMap.get(hash) || []
 

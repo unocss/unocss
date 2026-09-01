@@ -1,7 +1,7 @@
 {
   "name": "@unocss/twoslash",
   "type": "module",
-  "version": "66.8.1",
+  "version": "66.9.1",
   "description": "Twoslash integration for UnoCSS",
   "author": "Vida Xie <vida_2020@163.com>",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "twoslash-protocol": "catalog:twoslash"
   },
   "inlinedDependencies": {
-    "@jridgewell/sourcemap-codec": "1.5.5",
+    "@jridgewell/sourcemap-codec": "1.6.0",
     "magic-string": "1.2.3"
   }
 }

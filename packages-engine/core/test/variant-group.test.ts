@@ -25,12 +25,39 @@ describe('variant-group', () => {
     expect(expandVariantGroup('a-(b c-(d e f))')).toEqual('a-b a-c-d a-c-e a-c-f')
   })
 
+  it('nested group followed by a sibling group', () => {
+    // A nested group is matched on an earlier pass than the group containing
+    // it, so the outer group is recorded after a sibling that starts later in
+    // the string (issue: #4791).
+    expect(expandVariantGroup('a-(b-(c d) e) f-(g h)'))
+      .toEqual('a-b-c a-b-d a-e f-g f-h')
+    expect(expandVariantGroup('[&_p]:(text-(16px #9f4021) lh-18px) [&_img]:(w-full h-auto)'))
+      .toEqual('[&_p]:text-16px [&_p]:text-#9f4021 [&_p]:lh-18px [&_img]:w-full [&_img]:h-auto')
+  })
+
   it('spaces', () => {
     expect(expandVariantGroup('a-( ~ b c )')).toEqual('a a-b a-c')
   })
 
   it('square bracket', async () => {
     expect(expandVariantGroup('b:[&:not(c)]:d:(!a z)')).toEqual('!b:[&:not(c)]:d:a b:[&:not(c)]:d:z')
+  })
+
+  it('container and children variants inside a group body', () => {
+    // These are valid as a group prefix, so they must also be valid inside one.
+    expect(expandVariantGroup('hover:(@sm:text-red bg-blue)'))
+      .toEqual('hover:@sm:text-red hover:bg-blue')
+    expect(expandVariantGroup('hover:(*:text-red bg-blue)'))
+      .toEqual('hover:*:text-red hover:bg-blue')
+    expect(expandVariantGroup('hover:(**:text-red bg-blue)'))
+      .toEqual('hover:**:text-red hover:bg-blue')
+  })
+
+  it('group nested inside an arbitrary variant', () => {
+    expect(expandVariantGroup('[&>a]:([&>b]:(p-1 p-2))'))
+      .toEqual('[&>a]:[&>b]:p-1 [&>a]:[&>b]:p-2')
+    expect(expandVariantGroup('[&:nth-child(2)]:([&:nth-child(3)]:(text-red p-1))'))
+      .toEqual('[&:nth-child(2)]:[&:nth-child(3)]:text-red [&:nth-child(2)]:[&:nth-child(3)]:p-1')
   })
 
   it('square bracket case2', async () => {
