@@ -8,7 +8,7 @@ import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { toViteVirtualId } from '../../virtual'
+import { toViteClientPath, toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
@@ -75,9 +75,10 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
             const mod = server.moduleGraph.getModuleById(id)
             if (!mod)
               return null
+            const path = toViteClientPath(mod.url)
             return {
-              acceptedPath: mod.url,
-              path: mod.url,
+              acceptedPath: path,
+              path,
               timestamp: lastServedTime,
               type: 'js-update',
             } as Update

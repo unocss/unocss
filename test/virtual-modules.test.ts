@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 import UnoCSS from '../packages-integrations/vite/src/index'
+import { toViteClientPath } from '../packages-integrations/vite/src/virtual'
 
 describe('vite virtual module ids', () => {
   async function createServer(mode: 'global' | 'per-module') {
@@ -26,6 +27,13 @@ describe('vite virtual module ids', () => {
     finally {
       await server.close()
     }
+  })
+
+  it('converts internal ids to public client paths', () => {
+    expect(toViteClientPath('\0/__uno.css'))
+      .toBe('/@id/__x00__/__uno.css')
+    expect(toViteClientPath('/src/main.ts'))
+      .toBe('/src/main.ts')
   })
 
   it('uses internal ids for per-module CSS', async () => {
