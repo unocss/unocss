@@ -12,6 +12,13 @@ export const presetWind4Targets: string[] = [
   'text-red/$op-variable', // When the color components length = 2, the second variable is used as opacity
   'text-red/$op-variable/$method-variable',
 
+  // `color:` type hint
+  'bg-[color:#000]',
+  'ring-[color:red]',
+  'outline-[color:red]',
+  'decoration-[color:red]',
+  'fill-[color:red]',
+
   // font family
   'font-sans',
   'font-[custom-family-name]',

@@ -100,7 +100,8 @@ export function splitShorthand(body: string, type: string) {
  */
 export function parseColor(body: string, theme: Theme) {
   let split
-  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3) ?? []
+  // Group by brackets so a `[color:...]` type hint is not split on its own colon.
+  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3, '[', ']') ?? []
 
   if (front != null) {
     const match = (front.match(bracketTypeRe) ?? [])[1]
