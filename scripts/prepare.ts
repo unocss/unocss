@@ -38,6 +38,7 @@ async function preparePackagesBundle() {
     'reset',
     'svelte',
     'runtime',
+    'rollup',
     'shared',
     'scope',
     'babel',

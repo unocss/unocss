@@ -16,6 +16,7 @@ export const allPackages = [
   "@unocss/language-server",
   "@unocss/nuxt",
   "@unocss/postcss",
+  "@unocss/rollup",
   "@unocss/runtime",
   "@unocss/scope",
   "@unocss/svelte-scoped",
