@@ -36,6 +36,16 @@ export interface ModuleUpdate {
   path: string
 }
 
+/**
+ * Reactive change signal shared from server to client (devframe shared
+ * state). Every extraction/config change bumps `revision`; `module` carries
+ * the path of the last hot-updated module (empty for project-wide changes).
+ */
+export interface InspectorChanges {
+  revision: number
+  module: string
+}
+
 export interface MatchedSelector {
   name: string
   rawSelector: string

@@ -1,6 +1,6 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
-import type { ModuleInfo, ModuleUpdate, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
 import { BetterMap, CountableSet } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
 import gzipSize from 'gzip-size'
@@ -122,12 +122,6 @@ export type InspectorServerFunctions = ReturnType<typeof createRpcFunctions>
 
 declare module 'devframe' {
   interface DevframeRpcServerFunctions extends RpcDefinitionsToFunctionsWithNamespace<typeof INSPECTOR_RPC_SCOPE, InspectorServerFunctions> {}
-
-  interface DevframeRpcClientFunctions {
-    'unocss:on-module-updated': (update: ModuleUpdate) => void
-    'unocss:on-config-changed': () => void
-    'unocss:on-invalidated': () => void
-  }
 }
 
 function getCircularReplacer() {

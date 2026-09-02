@@ -1,27 +1,24 @@
 import type { DevframeConnectionStatus, DevframeRpcClient } from 'devframe/client'
-import type { ModuleUpdate } from '../../types'
+import type { InspectorChanges } from '../../types'
 import { connectDevframe } from 'devframe/client'
 
 export const connectionStatus = ref<DevframeConnectionStatus>('connecting')
 export const isTrusted = ref(false)
 export const authError = ref<string | null>(null)
 
-const _onModuleUpdated = createEventHook<ModuleUpdate>()
-const _onConfigChanged = createEventHook<void>()
-const _onInvalidated = createEventHook<void>()
-const _onReconnected = createEventHook<void>()
-
-export const onModuleUpdated = _onModuleUpdated.on
-export const onConfigChanged = _onConfigChanged.on
-export const onInvalidated = _onInvalidated.on
-export const onReconnected = _onReconnected.on
+/**
+ * Reactive change signal mirrored from the server's `changes` shared state.
+ * Every extraction/config/module change bumps `changeRevision`; watch it to
+ * refetch. A reconnecting client receives the latest snapshot for free.
+ */
+export const changeRevision = ref(0)
+export const changedModule = ref('')
 
 const RECONNECT_INTERVAL = 2000
 
 let client: DevframeRpcClient | undefined
 let connectPromise: Promise<DevframeRpcClient> | undefined
 let reconnectTimer: ReturnType<typeof setTimeout> | undefined
-let hadConnected = false
 
 async function connect(): Promise<DevframeRpcClient> {
   connectionStatus.value = 'connecting'
@@ -43,6 +40,28 @@ async function connect(): Promise<DevframeRpcClient> {
   connectionStatus.value = rpc.status
   isTrusted.value = !!rpc.isTrusted
 
+  const scoped = rpc.scope('unocss')
+
+  // Mirror the server's `changes` shared state into reactive refs. Gated on
+  // trust because the initial sync is an RPC call; a reconnecting client
+  // re-reads the snapshot, so a revision bumped while it was away triggers a
+  // refetch on return.
+  let subscribed = false
+  async function subscribeChanges() {
+    if (subscribed || !rpc.isTrusted)
+      return
+    subscribed = true
+    const state = await scoped.rpc.sharedState('changes', {
+      initialValue: { revision: 0, module: '' } satisfies InspectorChanges,
+    })
+    const apply = (s: InspectorChanges) => {
+      changedModule.value = s.module
+      changeRevision.value = s.revision
+    }
+    apply(state.value() as InspectorChanges)
+    state.on('updated', apply as any)
+  }
+
   rpc.events.on('connection:status', (status) => {
     connectionStatus.value = status
     if (status === 'disconnected' || status === 'error')
@@ -50,29 +69,7 @@ async function connect(): Promise<DevframeRpcClient> {
   })
   rpc.events.on('rpc:is-trusted:updated', (trusted) => {
     isTrusted.value = trusted
-  })
-
-  const scoped = rpc.scope('unocss')
-  scoped.rpc.register({
-    name: 'on-module-updated',
-    type: 'event',
-    handler: (update: ModuleUpdate) => {
-      _onModuleUpdated.trigger(update)
-    },
-  })
-  scoped.rpc.register({
-    name: 'on-config-changed',
-    type: 'event',
-    handler: () => {
-      _onConfigChanged.trigger()
-    },
-  })
-  scoped.rpc.register({
-    name: 'on-invalidated',
-    type: 'event',
-    handler: () => {
-      _onInvalidated.trigger()
-    },
+    subscribeChanges()
   })
 
   // When the backend runs with auth disabled (the `dev:client` playground),
@@ -80,14 +77,10 @@ async function connect(): Promise<DevframeRpcClient> {
   // the UI unlocks without showing the code prompt. Harmless elsewhere: with
   // a persisted token it re-validates, otherwise it resolves false and the
   // auth screen stays up for the user to enter a code.
-  if (devBase) {
+  if (devBase)
     rpc.requestTrust().catch(() => {})
-  }
 
-  if (hadConnected) {
-    rpc.ensureTrusted(0).then(() => _onReconnected.trigger())
-  }
-  hadConnected = true
+  subscribeChanges()
 
   return rpc
 }

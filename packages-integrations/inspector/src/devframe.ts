@@ -1,6 +1,6 @@
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
-import type { DevframeDefinition, DevframeNodeContext } from 'devframe'
-import type { ModuleUpdate } from '../types'
+import type { DevframeDefinition } from 'devframe'
+import type { InspectorChanges, ModuleUpdate } from '../types'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
@@ -43,16 +43,15 @@ export interface UnocssInspectorDevframe {
    */
   definition: DevframeDefinition
   /**
-   * Notify every connected inspector client that a module changed.
+   * Signal that a module hot-updated, so connected inspectors refresh.
    */
   notifyModuleUpdated: (update: ModuleUpdate) => void
   /**
-   * Notify every connected inspector client that the UnoCSS config reloaded.
+   * Signal that the UnoCSS config reloaded.
    */
   notifyConfigChanged: () => void
   /**
-   * Notify every connected inspector client that generated CSS was
-   * invalidated (new tokens were extracted).
+   * Signal that generated CSS was invalidated (new tokens extracted).
    */
   notifyInvalidated: () => void
 }
@@ -60,11 +59,25 @@ export interface UnocssInspectorDevframe {
 /**
  * Create the UnoCSS inspector as a devframe, bound to an existing UnoCSS
  * plugin context. The same definition can be mounted by multiple hosts at
- * once (e.g. a standalone mount and a Vite DevTools dock); change
- * notifications are broadcast to every host.
+ * once (e.g. a standalone mount and a Vite DevTools dock).
+ *
+ * Change signals ride a devframe shared state (`changes`) rather than custom
+ * broadcasts: every host holds one, mutating it bumps a revision the client
+ * watches, and a reconnecting client gets the latest snapshot for free.
  */
 export function createInspectorDevframe(ctx: UnocssPluginContext): UnocssInspectorDevframe {
-  const hosts = new Set<DevframeNodeContext>()
+  // Structural view of the bits of devframe's `SharedState` we use (the type
+  // isn't re-exported from the package root)
+  const changeStates = new Set<{ mutate: (fn: (state: InspectorChanges) => void) => void }>()
+
+  function bump(module: string) {
+    for (const state of changeStates) {
+      state.mutate((s) => {
+        s.revision++
+        s.module = module
+      })
+    }
+  }
 
   const definition = defineDevframe({
     id: 'unocss',
@@ -88,25 +101,22 @@ export function createInspectorDevframe(ctx: UnocssPluginContext): UnocssInspect
         options: { langs: ['css', 'html', 'js', 'ts', 'vue', 'jsx', 'tsx'] },
       },
     ],
-    setup(host) {
-      hosts.add(host)
+    async setup(host) {
       const scoped = host.scope(INSPECTOR_RPC_SCOPE)
       for (const fn of createRpcFunctions(ctx))
         scoped.rpc.register(fn as any)
+      const state = await scoped.rpc.sharedState('changes', {
+        initialValue: { revision: 0, module: '' } satisfies InspectorChanges,
+      })
+      changeStates.add(state)
     },
   })
 
-  function broadcast(method: 'on-module-updated' | 'on-config-changed' | 'on-invalidated', args: any[]) {
-    for (const host of hosts) {
-      host.scope(INSPECTOR_RPC_SCOPE).rpc.broadcast({ method, args, event: true, optional: true } as any).catch(() => {})
-    }
-  }
-
   return {
     definition,
-    notifyModuleUpdated: update => broadcast('on-module-updated', [update]),
-    notifyConfigChanged: () => broadcast('on-config-changed', []),
-    notifyInvalidated: () => broadcast('on-invalidated', []),
+    notifyModuleUpdated: update => bump(update.path),
+    notifyConfigChanged: () => bump(''),
+    notifyInvalidated: () => bump(''),
   }
 }
 

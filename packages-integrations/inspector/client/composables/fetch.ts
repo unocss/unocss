@@ -1,7 +1,7 @@
 import type { Ref, ShallowRef } from 'vue'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../../types'
 import { shallowRef, unref } from 'vue'
-import { onConfigChanged, onInvalidated, onModuleUpdated, onReconnected, rpcCall } from './rpc'
+import { changeRevision, rpcCall } from './rpc'
 
 export interface RpcQuery<T> {
   data: ShallowRef<T | null>
@@ -48,29 +48,18 @@ export const overviewFetch = createQuery<OverviewInfo>(() => rpcCall('get-overvi
 export const info = infoFetch.data
 export const overview = overviewFetch.data
 
-function refreshProject() {
+// Refetch whenever the server signals a change (config reload, new tokens,
+// module hot-update) — one reactive source replaces the old event hooks.
+watch(changeRevision, () => {
   infoFetch.execute()
   overviewFetch.execute()
-}
-
-onConfigChanged(refreshProject)
-onInvalidated(refreshProject)
-onReconnected(refreshProject)
+})
 
 export function fetchModule(id: string | Ref<string>) {
   const result = createQuery<ModuleInfo | null>(() => rpcCall('get-module-info', unref(id)))
 
   watch(() => unref(id), () => result.execute())
-  onConfigChanged(() => result.execute())
-  onReconnected(() => result.execute())
-  onModuleUpdated((update) => {
-    const currentId = unref(id)
-    if (update.path === currentId || currentId.startsWith(`${update.path}?`)) {
-      setTimeout(() => {
-        result.execute()
-      }, 50)
-    }
-  })
+  watch(changeRevision, () => result.execute())
 
   return result
 }
@@ -80,8 +69,7 @@ export function fetchRepl(input: Ref<string>, includeSafelist: Ref<boolean>) {
   const result = createQuery<ReplResult>(() => rpcCall('generate-repl', debounced.value, includeSafelist.value))
 
   watch([debounced, includeSafelist], () => result.execute())
-  onConfigChanged(() => result.execute())
-  onReconnected(() => result.execute())
+  watch(changeRevision, () => result.execute())
 
   return result
 }

@@ -1,4 +1,4 @@
-import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../packages-integrations/inspector/types'
+import type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../packages-integrations/inspector/types'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
@@ -114,7 +114,7 @@ describe('inspector devframe', () => {
             register: (fn: any) => {
               registered.push(fn.name)
             },
-            broadcast: async () => {},
+            sharedState: async () => ({ mutate: () => {}, value: () => ({}), on: () => {} }),
           },
         }
       },
@@ -131,18 +131,26 @@ describe('inspector devframe', () => {
     ])
   })
 
-  it('broadcasts change notifications to every mounted host', async () => {
+  it('signals changes through the shared state of every mounted host', async () => {
     const ctx = await prepareContext()
     const inspector = createInspectorDevframe(ctx)
 
-    const broadcasts: any[] = []
+    const mutations: InspectorChanges[] = []
+    const state = {
+      value: () => ({ revision: 0, module: '' }),
+      on: () => {},
+      mutate: (fn: (s: InspectorChanges) => void) => {
+        const next = mutations.at(-1) ?? { revision: 0, module: '' }
+        const draft = { ...next }
+        fn(draft)
+        mutations.push(draft)
+      },
+    }
     const host = {
       scope: () => ({
         rpc: {
           register: () => {},
-          broadcast: async (options: any) => {
-            broadcasts.push(options)
-          },
+          sharedState: async () => state,
         },
       }),
     } as any
@@ -153,11 +161,9 @@ describe('inspector devframe', () => {
     inspector.notifyConfigChanged()
     inspector.notifyInvalidated()
 
-    expect(broadcasts.map(i => i.method)).toEqual([
-      'on-module-updated',
-      'on-config-changed',
-      'on-invalidated',
-    ])
-    expect(broadcasts[0].args).toEqual([{ path: MODULE_ID }])
+    // Every notification bumps the revision; module updates carry the path
+    expect(mutations.map(m => m.revision)).toEqual([1, 2, 3])
+    expect(mutations[0].module).toBe(MODULE_ID)
+    expect(mutations[1].module).toBe('')
   })
 })
