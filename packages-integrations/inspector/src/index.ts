@@ -1,7 +1,9 @@
 import type { UnocssPluginContext } from '@unocss/core'
+import type { DevframeDefinition } from 'devframe'
 import type { Plugin } from 'vite'
-import { devframeViteBridge, devframeVitePlugin } from '@devframes/vite/single'
+import { devframeVitePlugin } from '@devframes/vite/single'
 import { createPluginFromDevframe } from '@vitejs/devtools-kit/node'
+import { initDevframe } from 'devframe/initiate'
 import { createInspectorDevframe } from './devframe'
 
 export * from './devframe'
@@ -9,6 +11,46 @@ export * from './devframe'
 const BASE_URL = '/__unocss/'
 const DEVTOOLS_DOCK_BASE_URL = '/__unocss-devtools/'
 const VITE_DEVTOOLS_URL = '/__devtools/'
+
+/**
+ * Mount the inspector's RPC + WebSocket backend into Vite's own dev server,
+ * gated by devframe's interactive OTP auth.
+ *
+ * This is `@devframes/vite`'s `devframeViteBridge` with one change: the WS
+ * accepts any origin. The bridge defaults to loopback-only, which refuses the
+ * upgrade (403) whenever the dev server is reached at a non-loopback origin —
+ * `vite --host`, containers, WSL, tunnels — leaving the client stuck
+ * "connecting". The endpoint is served same-origin by this dev server and the
+ * OTP gate is the real trust boundary, so the origin check adds nothing here.
+ */
+function inspectorRpcBridge(definition: DevframeDefinition): Plugin {
+  let instance: ReturnType<typeof initDevframe> | undefined
+  return {
+    name: 'unocss:inspector:rpc',
+    apply: 'serve',
+    async configureServer(server) {
+      await instance?.close().catch(() => {})
+      instance = undefined
+      const created = initDevframe(definition, {
+        base: BASE_URL,
+        distDir: false,
+        // Share Vite's HTTP server for the WS upgrade (side-car only if absent)
+        ...(server.httpServer ? { server: server.httpServer as any } : { ws: { sidecar: true } }),
+        allowedOrigins: false,
+      })
+      server.middlewares.use(created.nodeMiddleware)
+      await created.ready
+      instance = created
+      server.httpServer?.once('close', () => {
+        instance?.close().catch(() => {})
+      })
+    },
+    async closeBundle() {
+      await instance?.close().catch(() => {})
+      instance = undefined
+    },
+  }
+}
 
 export default function UnocssInspector(ctx: UnocssPluginContext): Plugin[] {
   const inspector = createInspectorDevframe(ctx)
@@ -71,15 +113,11 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin[] {
   const spa = devframeVitePlugin(inspector.definition, { base: BASE_URL })
   spa.name = 'unocss:inspector:spa'
 
-  // RPC + WebSocket backend, bridged into Vite's own HTTP server.
-  // Gated by devframe's interactive OTP auth by default.
-  const bridge = devframeViteBridge(inspector.definition, { base: BASE_URL })
-  bridge.name = 'unocss:inspector:rpc'
-
   return [
     events,
     spa,
-    bridge,
+    // RPC + WebSocket backend, bridged into Vite's own HTTP server.
+    inspectorRpcBridge(inspector.definition),
     // The Vite DevTools dock (mounted only when @vitejs/devtools is
     // installed and enabled), on its own base to keep the two hosts apart
     createPluginFromDevframe(inspector.definition, {
