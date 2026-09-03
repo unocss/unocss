@@ -275,7 +275,7 @@ export const backgroundBlendModes: Rule<Theme>[] = [
   ['bg-blend-color', { 'background-blend-mode': 'color' }],
   ['bg-blend-luminosity', { 'background-blend-mode': 'luminosity' }],
   ['bg-blend-normal', { 'background-blend-mode': 'normal' }],
-  ...makeGlobalStaticRules('bg-blend', 'background-blend'),
+  ...makeGlobalStaticRules('bg-blend', 'background-blend-mode'),
 ]
 
 export const mixBlendModes: Rule<Theme>[] = [
@@ -296,7 +296,7 @@ export const mixBlendModes: Rule<Theme>[] = [
   ['mix-blend-luminosity', { 'mix-blend-mode': 'luminosity' }],
   ['mix-blend-plus-lighter', { 'mix-blend-mode': 'plus-lighter' }],
   ['mix-blend-normal', { 'mix-blend-mode': 'normal' }],
-  ...makeGlobalStaticRules('mix-blend'),
+  ...makeGlobalStaticRules('mix-blend', 'mix-blend-mode'),
 ]
 
 export const dynamicViewportHeight: Rule<Theme>[] = [

@@ -128,6 +128,22 @@ describe('preset-wind4', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
   })
 
+  it('blend mode global keywords', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('bg-blend-inherit bg-blend-unset mix-blend-revert mix-blend-unset', { preflights: false })
+
+    expect(css).toContain('background-blend-mode:inherit')
+    expect(css).toContain('background-blend-mode:unset')
+    expect(css).toContain('mix-blend-mode:revert')
+    expect(css).toContain('mix-blend-mode:unset')
+  })
+
   it('scrollbar gutter utilities', async () => {
     const uno = await createGenerator({
       envMode: 'dev',

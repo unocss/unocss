@@ -72,6 +72,20 @@ it('non-targets', async () => {
   expect(css).toBe('')
 })
 
+it('blend mode global keywords', async () => {
+  const { css } = await uno.generate([
+    'bg-blend-inherit',
+    'bg-blend-unset',
+    'mix-blend-revert',
+    'mix-blend-unset',
+  ].join(' '), { preflights: false })
+
+  expect(css).toContain('background-blend-mode:inherit')
+  expect(css).toContain('background-blend-mode:unset')
+  expect(css).toContain('mix-blend-mode:revert')
+  expect(css).toContain('mix-blend-mode:unset')
+})
+
 it('custom var prefix', async () => {
   const uno = await createGenerator({
     presets: [
