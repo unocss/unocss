@@ -61,6 +61,7 @@
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
+    "@iconify-json/catppuccin": "catalog:icons",
     "vue-flow-layout": "catalog:vue"
   }
 }

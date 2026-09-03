@@ -93,6 +93,7 @@ catalogs:
     react: ^18.3.1
   icons:
     '@iconify-json/carbon': ^1.2.25
+    '@iconify-json/catppuccin': ^1.2.17
     '@iconify-json/iconoir': ^1.2.11
     '@iconify-json/la': ^1.2.1
     '@iconify-json/logos': ^1.2.13

@@ -154,6 +154,9 @@ catalogs:
     '@iconify-json/carbon':
       specifier: ^1.2.25
       version: 1.2.26
+    '@iconify-json/catppuccin':
+      specifier: ^1.2.17
+      version: 1.2.17
     '@iconify-json/iconoir':
       specifier: ^1.2.11
       version: 1.2.11
@@ -1114,6 +1117,9 @@ importers:
         specifier: catalog:utils
         version: 0.3.2
     devDependencies:
+      '@iconify-json/catppuccin':
+        specifier: catalog:icons
+        version: 1.2.17
       vue-flow-layout:
         specifier: catalog:vue
         version: 0.2.0
@@ -3151,6 +3157,9 @@ packages:
 
   '@iconify-json/carbon@1.2.26':
     resolution: {integrity: sha512-UVzlnCAzSkrNydW3GYESeggndriR1JSgU5M8DNz9S0Fu10I3NpJUYPWar+WYjMAQUIm9B7mljPpc30oal3PRSQ==}
+
+  '@iconify-json/catppuccin@1.2.17':
+    resolution: {integrity: sha512-l1pFOADEUlw+j7V+yfFzBowdE4deeMuI4amqfKaN+7uTI9B0Ho24C86DitQk5zb62NkEM9poOyfuG7WS2bw6jg==}
 
   '@iconify-json/iconoir@1.2.11':
     resolution: {integrity: sha512-clBrCsZPkmdksYOkufVp7aoAU1j1hFQPrLUooWWmoYIMvKskUHQ+IDnwV7agTR+tGYHbud7OP2SRfYEpnqFDNw==}
@@ -11428,6 +11437,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/carbon@1.2.26':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/catppuccin@1.2.17':
     dependencies:
       '@iconify/types': 2.0.0
 
