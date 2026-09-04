@@ -360,6 +360,37 @@ describe('preset-mini', () => {
     `)
   })
 
+  it('h-screen-* uses verticalBreakpoints', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        breakpoints: {
+          sm: '640px',
+          md: '768px',
+        },
+        verticalBreakpoints: {
+          sm: '400px',
+          md: '500px',
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'h-screen-sm',
+      'h-screen-md',
+      'w-screen-sm',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .h-screen-md{height:500px;}
+      .h-screen-sm{height:400px;}
+      .w-screen-sm{width:640px;}"
+    `)
+  })
+
   it('theme for zIndex', async () => {
     const uno = await createGenerator({
       presets: [

@@ -274,7 +274,7 @@ export function hasParseableColor(color: string | undefined, theme: Theme, key: 
 }
 
 const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
+const resolvedBreakpoints = new WeakMap<any, Map<string, { point: string, size: string }[]>>()
 
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
   const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
@@ -282,14 +282,20 @@ export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext
   if (!breakpoints)
     return undefined
 
-  if (resolvedBreakpoints.has(theme))
-    return resolvedBreakpoints.get(theme)
+  let cache = resolvedBreakpoints.get(theme)
+  if (!cache) {
+    cache = new Map()
+    resolvedBreakpoints.set(theme, cache)
+  }
+  // horizontal and vertical breakpoints share the same theme, so the cache has to be keyed by both
+  if (cache.has(key))
+    return cache.get(key)
 
   const resolved = Object.entries(breakpoints)
     .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
     .map(([point, size]) => ({ point, size }))
 
-  resolvedBreakpoints.set(theme, resolved)
+  cache.set(key, resolved)
   return resolved
 }
 

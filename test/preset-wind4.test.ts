@@ -544,6 +544,39 @@ describe('preset-wind4', () => {
     expect(css).not.toContain('.dark\\:divide-gray-700{@media')
     expect(css).not.toContain('.dark\\:space-y-4{@media')
   })
+
+  it('h-screen-* uses verticalBreakpoint', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false },
+        }),
+      ],
+      theme: {
+        breakpoint: {
+          sm: '640px',
+          md: '768px',
+        },
+        verticalBreakpoint: {
+          sm: '400px',
+          md: '500px',
+        },
+      },
+    })
+
+    const { getLayer } = await uno.generate([
+      'h-screen-sm',
+      'h-screen-md',
+      'w-screen-sm',
+    ])
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .h-screen-md{height:500px;}
+      .h-screen-sm{height:400px;}
+      .w-screen-sm{width:640px;}"
+    `)
+  })
 })
 
 describe('important', () => {
