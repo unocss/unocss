@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import type { TreeNode } from '../composables/fetch'
 import { moduleTree } from '../composables/fetch'
+
+// Show a group when it has nested folders or files directly at its root
+function hasNodes(node: TreeNode) {
+  return Object.keys(node.children).length > 0 || node.items.length > 0
+}
 </script>
 
 <template>
@@ -27,19 +33,19 @@ import { moduleTree } from '../composables/fetch'
     </div>
     <div class="scrolls scrolls-sidebar">
       <ModuleTreeNode
-        v-if="Object.keys(moduleTree.workspace.children).length"
+        v-if="hasNodes(moduleTree.workspace)"
         :node="moduleTree.workspace"
         p="l3 t4"
         icon="i-carbon-portfolio"
       />
       <ModuleTreeNode
-        v-if="Object.keys(moduleTree.root.children).length"
+        v-if="hasNodes(moduleTree.root)"
         :node="moduleTree.root"
         p="l3 t4"
         icon="i-carbon-vmdk-disk"
       />
       <ModuleTreeNode
-        v-if="Object.keys(moduleTree.nodeModules.children).length"
+        v-if="hasNodes(moduleTree.nodeModules)"
         :node="moduleTree.nodeModules"
         p="l3 t4"
         icon="i-carbon-categories"

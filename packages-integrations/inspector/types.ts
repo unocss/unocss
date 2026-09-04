@@ -1,4 +1,4 @@
-import type { GenerateResult, ResolvedConfig, RuleMeta } from '@unocss/core'
+import type { ResolvedConfig, RuleMeta } from '@unocss/core'
 
 export interface ProjectInfo {
   version: string
@@ -9,7 +9,8 @@ export interface ProjectInfo {
   configPath?: string
 }
 
-export interface Result extends Omit<GenerateResult, 'matched' | 'layers'> {
+export interface Result {
+  css: string
   matched: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
   icons: (Omit<MatchedSelector, 'modules'> & { modules: string[] })[]
   colors: (Omit<MatchedColor, 'modules'> & { modules: string[] })[]
@@ -24,6 +25,25 @@ export interface ModuleInfo extends Result {
 
 export interface OverviewInfo extends Result {
   gzipSize: number
+}
+
+export interface ReplResult {
+  css: string
+  matched: string[]
+}
+
+export interface ModuleUpdate {
+  path: string
+}
+
+/**
+ * Reactive change signal shared from server to client (devframe shared
+ * state). Every extraction/config change bumps `revision`; `module` carries
+ * the path of the last hot-updated module (empty for project-wide changes).
+ */
+export interface InspectorChanges {
+  revision: number
+  module: string
 }
 
 export interface MatchedSelector {

@@ -23,9 +23,19 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
+    "./devframe": "./dist/devframe.mjs",
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./dist/*.d.cts",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
@@ -38,14 +48,20 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "@devframes/service-shiki": "catalog:devtools",
+    "@devframes/vite": "catalog:devtools",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
+    "@vitejs/devtools-kit": "catalog:devtools",
     "colorette": "catalog:utils",
+    "devframe": "catalog:devtools",
     "gzip-size": "catalog:build",
-    "sirv": "catalog:utils"
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
-    "@vitejs/devtools-kit": "catalog:types",
+    "@iconify-json/catppuccin": "catalog:icons",
     "vue-flow-layout": "catalog:vue"
   }
 }

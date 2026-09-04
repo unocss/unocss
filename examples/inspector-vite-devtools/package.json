@@ -1,0 +1,24 @@
+{
+  "name": "inspector-vite-devtools",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@unocss/core": "link:../../packages-engine/core",
+    "@unocss/preset-attributify": "link:../../packages-presets/preset-attributify",
+    "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
+    "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
+    "@vitejs/devtools": "^0.7.1",
+    "typescript": "^6.0.3",
+    "unocss": "link:../../packages-presets/unocss",
+    "vite": "^8.2.1"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.js && npm install && npm run dev"
+  }
+}

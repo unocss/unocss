@@ -1,0 +1,26 @@
+{
+  "name": "inspector-next",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "16.1.2",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@devframes/next": "^0.9.11",
+    "@types/node": "^25.9.5",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@unocss/core": "link:../../packages-engine/core",
+    "@unocss/inspector": "link:../../packages-integrations/inspector",
+    "@unocss/postcss": "link:../../packages-integrations/postcss",
+    "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
+    "typescript": "^6.0.3",
+    "unocss": "link:../../packages-presets/unocss"
+  }
+}

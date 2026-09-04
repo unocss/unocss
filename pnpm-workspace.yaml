@@ -60,6 +60,11 @@ catalogs:
     postcss-nested: ^7.0.2
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
+  devtools:
+    '@devframes/service-shiki': ^0.9.11
+    '@devframes/vite': ^0.9.11
+    '@vitejs/devtools-kit': ^0.7.1
+    devframe: ^0.9.11
   docs:
     '@codemirror/lang-html': ^6.4.12
     '@codemirror/lang-javascript': ^6.2.5
@@ -88,6 +93,7 @@ catalogs:
     react: ^18.3.1
   icons:
     '@iconify-json/carbon': ^1.2.25
+    '@iconify-json/catppuccin': ^1.2.17
     '@iconify-json/iconoir': ^1.2.11
     '@iconify-json/la': ^1.2.1
     '@iconify-json/logos': ^1.2.13
@@ -130,7 +136,6 @@ catalogs:
     '@types/react': ^18.3.31
     '@types/splitpanes': ^2.2.6
     '@types/ws': ^8.18.1
-    '@vitejs/devtools-kit': ^0.0.0-alpha.10
   typescript:
     '@typescript-eslint/rule-tester': ^8.68.0
     '@typescript-eslint/utils': ^8.68.0
@@ -169,7 +174,6 @@ catalogs:
     semver: ^7.8.5
     simple-git: ^3.36.0
     simple-git-hooks: ^2.13.1
-    sirv: ^3.0.2
     splitpanes: ^4.1.2
     std-env: ^4.2.0
     synckit: ^0.11.13

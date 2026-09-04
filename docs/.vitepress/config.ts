@@ -318,6 +318,10 @@ export default defineConfig({
       light: 'vitesse-light',
       dark: 'vitesse-dark',
     },
+    // Preload the grammars the twoslash transformers depend on, so a cold
+    // build can't race on a lazily-loaded language ("Language `html` not
+    // found") — otherwise intermittent in the Netlify deploy build.
+    languages: ['vue', 'html'],
     codeTransformers: [
       transformerTwoslash({
         processHoverInfo: info => info.replace(/_unocss_core\./g, ''),

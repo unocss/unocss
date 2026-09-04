@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Analyzer: typeof import('./components/Analyzer.vue')['default']
     AnalyzerItem: typeof import('./components/AnalyzerItem.vue')['default']
+    AuthGate: typeof import('./components/AuthGate.vue')['default']
     CodeMirror: typeof import('./components/CodeMirror.vue')['default']
     Copy: typeof import('./components/Copy.vue')['default']
     FileIcon: typeof import('./components/FileIcon.vue')['default']
@@ -26,6 +27,7 @@ declare module 'vue' {
     ReplPlayground: typeof import('./components/ReplPlayground.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ShikiCode: typeof import('./components/ShikiCode.vue')['default']
     Sidebar: typeof import('./components/Sidebar.vue')['default']
     StatusBar: typeof import('./components/StatusBar.vue')['default']
     Tabs: typeof import('./components/Tabs.vue')['default']
@@ -37,6 +39,7 @@ declare module 'vue' {
 declare global {
   const Analyzer: typeof import('./components/Analyzer.vue')['default']
   const AnalyzerItem: typeof import('./components/AnalyzerItem.vue')['default']
+  const AuthGate: typeof import('./components/AuthGate.vue')['default']
   const CodeMirror: typeof import('./components/CodeMirror.vue')['default']
   const Copy: typeof import('./components/Copy.vue')['default']
   const FileIcon: typeof import('./components/FileIcon.vue')['default']
@@ -49,6 +52,7 @@ declare global {
   const ReplPlayground: typeof import('./components/ReplPlayground.vue')['default']
   const RouterLink: typeof import('vue-router')['RouterLink']
   const RouterView: typeof import('vue-router')['RouterView']
+  const ShikiCode: typeof import('./components/ShikiCode.vue')['default']
   const Sidebar: typeof import('./components/Sidebar.vue')['default']
   const StatusBar: typeof import('./components/StatusBar.vue')['default']
   const Tabs: typeof import('./components/Tabs.vue')['default']
