@@ -10,7 +10,7 @@ import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
-import { transformDirectives } from '../packages-presets/transformer-directives/src/transform'
+import { resolveApplyVariables, transformDirectives } from '../packages-presets/transformer-directives/src/transform'
 
 describe('source filter', () => {
   it('detects supported directives', () => {
@@ -23,6 +23,21 @@ describe('source filter', () => {
   it('detects custom apply variables', () => {
     const transformer = transformerDirectives({ applyVariable: '--custom-apply' })
     expect(transformer.codeFilter?.('.button { --custom-apply: text-red; }', 'fixture.css')).toBe(true)
+  })
+})
+
+describe('apply variables', () => {
+  it('defaults', () => {
+    expect(resolveApplyVariables({})).toEqual(['--at-apply', '--uno-apply', '--uno'])
+  })
+
+  it('respects the deprecated varStyle option', () => {
+    expect(resolveApplyVariables({ varStyle: '--my-' })).toEqual(['--my-apply'])
+    expect(resolveApplyVariables({ varStyle: false })).toEqual([])
+  })
+
+  it('applyVariable takes precedence over varStyle', () => {
+    expect(resolveApplyVariables({ applyVariable: '--custom-apply', varStyle: '--my-' })).toEqual(['--custom-apply'])
   })
 })
 

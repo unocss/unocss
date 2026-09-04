@@ -15,7 +15,8 @@ export function resolveApplyVariables(options: TransformerDirectivesOptions) {
   if (applyVariable === undefined) {
     if (varStyle !== undefined)
       applyVariable = varStyle ? [`${varStyle}apply`] : []
-    applyVariable = ['--at-apply', '--uno-apply', '--uno']
+    else
+      applyVariable = ['--at-apply', '--uno-apply', '--uno']
   }
   return toArray(applyVariable || [])
 }
