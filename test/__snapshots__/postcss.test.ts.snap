@@ -82,8 +82,11 @@ exports[`postcss > @unocss 1`] = `
 .animate-ease-linear{animation-timing-function:linear;}
 .animate-fill-backwards{animation-fill-mode:backwards;}
 .animate-fill-mode-both{animation-fill-mode:both;}
+.animate-fill-mode-inherit{animation-fill-mode:inherit;}
 .animate-mode-none{animation-fill-mode:none;}
+.animate-mode-unset{animation-fill-mode:unset;}
 .animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
+.animate-direction-revert{animation-direction:revert;}
 .animate-normal{animation-direction:normal;}
 .animate-reverse{animation-direction:reverse;}
 .animate-count-2\\.4{animation-iteration-count:2.4;}
@@ -94,6 +97,7 @@ exports[`postcss > @unocss 1`] = `
 .animate-iteration-count-\\$variable{animation-iteration-count:var(--variable);}
 .animate-paused,
 .animate-play-paused{animation-play-state:paused;}
+.animate-play-state-initial{animation-play-state:initial;}
 .animate-play-state-running,
 .animate-state-running{animation-play-state:running;}
 .animate-none{animation:none;}

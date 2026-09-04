@@ -72,6 +72,24 @@ it('non-targets', async () => {
   expect(css).toBe('')
 })
 
+it('animation global keywords', async () => {
+  const { css } = await uno.generate([
+    'animate-fill-mode-inherit',
+    'animate-fill-revert',
+    'animate-mode-unset',
+    'animate-direction-initial',
+    'animate-play-state-revert-layer',
+    'animate-state-inherit',
+  ].join(' '), { preflights: false })
+
+  expect(css).toContain('animation-fill-mode:inherit')
+  expect(css).toContain('animation-fill-mode:revert')
+  expect(css).toContain('animation-fill-mode:unset')
+  expect(css).toContain('animation-direction:initial')
+  expect(css).toContain('animation-play-state:revert-layer')
+  expect(css).toContain('animation-play-state:inherit')
+})
+
 it('blend mode global keywords', async () => {
   const { css } = await uno.generate([
     'bg-blend-inherit',
