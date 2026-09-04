@@ -43,6 +43,7 @@ const Integrations = [
   { text: 'Astro', link: '/integrations/astro' },
   { text: 'Svelte Scoped', link: '/integrations/svelte-scoped' },
   { text: 'Webpack', link: '/integrations/webpack' },
+  { text: 'Rollup and Rolldown', link: '/integrations/rollup' },
   { text: 'Runtime', link: '/integrations/runtime' },
   { text: 'CLI', link: '/integrations/cli' },
   { text: 'PostCSS', link: '/integrations/postcss' },

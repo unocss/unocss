@@ -44,6 +44,8 @@
     "./preset-wind": "./dist/preset-wind.mjs",
     "./preset-wind3": "./dist/preset-wind3.mjs",
     "./preset-wind4": "./dist/preset-wind4.mjs",
+    "./rolldown": "./dist/rolldown.mjs",
+    "./rollup": "./dist/rollup.mjs",
     "./vite": "./dist/vite.mjs",
     "./webpack": {
       "import": "./dist/webpack.mjs",
@@ -100,6 +102,7 @@
     "@unocss/preset-wind": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
     "@unocss/preset-wind4": "workspace:*",
+    "@unocss/rollup": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",

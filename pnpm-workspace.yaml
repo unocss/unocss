@@ -44,6 +44,7 @@ catalogs:
     brotli-size: ^4.0.0
     bumpp: ^12.2.1
     gzip-size: ^6.0.0
+    rolldown: ^1.0.0
     rollup: ^4.63.0
     terser: ^5.50.0
     tsdown: ^0.22.14

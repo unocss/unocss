@@ -33,12 +33,16 @@ export default defineConfig([
       'src/preset-mini.ts',
       'src/preset-wind3.ts',
       'src/preset-wind4.ts',
+      'src/rolldown.ts',
+      'src/rollup.ts',
     ],
     clean: false,
     dts: true,
     deps: {
       neverBundle: [
         'astro',
+        'rolldown',
+        'rollup',
         'vite',
       ],
     },

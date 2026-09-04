@@ -19,6 +19,9 @@ catalogs:
     gzip-size:
       specifier: ^6.0.0
       version: 6.0.0
+    rolldown:
+      specifier: ^1.0.0
+      version: 1.2.6
     rollup:
       specifier: ^4.63.0
       version: 4.63.1
@@ -1224,6 +1227,40 @@ importers:
         specifier: catalog:utils
         version: 0.2.17
 
+  packages-integrations/rollup:
+    dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
+      '@unocss/config':
+        specifier: workspace:*
+        version: link:../../packages-engine/config
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+      chokidar:
+        specifier: catalog:utils
+        version: 5.0.0
+      magic-string:
+        specifier: catalog:utils
+        version: 1.2.3
+      pathe:
+        specifier: catalog:utils
+        version: 2.0.3
+      tinyglobby:
+        specifier: catalog:utils
+        version: 0.2.17
+      unplugin-utils:
+        specifier: catalog:utils
+        version: 0.3.2
+    devDependencies:
+      rolldown:
+        specifier: catalog:build
+        version: 1.2.6
+      rollup:
+        specifier: catalog:build
+        version: 4.63.1
+
   packages-integrations/runtime:
     dependencies:
       '@iconify/utils':
@@ -1632,6 +1669,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: workspace:*
         version: link:../preset-wind4
+      '@unocss/rollup':
+        specifier: workspace:*
+        version: link:../../packages-integrations/rollup
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../transformer-attributify-jsx
