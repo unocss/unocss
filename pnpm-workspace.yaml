@@ -61,10 +61,10 @@ catalogs:
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
   devtools:
-    '@devframes/service-shiki': ^0.9.6
-    '@devframes/vite': ^0.9.6
-    '@vitejs/devtools-kit': ^0.6.1
-    devframe: ^0.9.6
+    '@devframes/service-shiki': ^0.9.11
+    '@devframes/vite': ^0.9.11
+    '@vitejs/devtools-kit': ^0.7.1
+    devframe: ^0.9.11
   docs:
     '@codemirror/lang-html': ^6.4.12
     '@codemirror/lang-javascript': ^6.2.5

@@ -67,17 +67,17 @@ catalogs:
       version: 3.5.6
   devtools:
     '@devframes/service-shiki':
-      specifier: ^0.9.6
-      version: 0.9.6
+      specifier: ^0.9.11
+      version: 0.9.11
     '@devframes/vite':
-      specifier: ^0.9.6
-      version: 0.9.6
+      specifier: ^0.9.11
+      version: 0.9.11
     '@vitejs/devtools-kit':
-      specifier: ^0.6.1
-      version: 0.6.1
+      specifier: ^0.7.1
+      version: 0.7.1
     devframe:
-      specifier: ^0.9.6
-      version: 0.9.6
+      specifier: ^0.9.11
+      version: 0.9.11
   docs:
     '@codemirror/lang-html':
       specifier: ^6.4.12
@@ -746,7 +746,7 @@ importers:
         version: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.0)
       vite-plugin-inspect:
         specifier: catalog:vite
-        version: 12.0.2(@nuxt/kit@4.5.2)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
+        version: 12.0.2(@modelcontextprotocol/server@2.0.0)(@nuxt/kit@4.5.2)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
       vite-plugin-pages:
         specifier: catalog:vite
         version: 0.33.3(@vue/compiler-sfc@3.5.42)(supports-color@10.2.2)(vite@8.2.2)(vue-router@5.3.0)
@@ -1085,10 +1085,10 @@ importers:
     dependencies:
       '@devframes/service-shiki':
         specifier: catalog:devtools
-        version: 0.9.6(devframe@0.9.6)
+        version: 0.9.11(devframe@0.9.11)
       '@devframes/vite':
         specifier: catalog:devtools
-        version: 0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)
+        version: 0.9.11(@devframes/hub@0.9.11)(devframe@0.9.11)(vite@8.2.2)
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
@@ -1100,13 +1100,13 @@ importers:
         version: link:../../packages-presets/rule-utils
       '@vitejs/devtools-kit':
         specifier: catalog:devtools
-        version: 0.6.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)
+        version: 0.7.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)
       colorette:
         specifier: catalog:utils
         version: 2.0.20
       devframe:
         specifier: catalog:devtools
-        version: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+        version: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       gzip-size:
         specifier: catalog:build
         version: 6.0.0
@@ -2487,10 +2487,10 @@ packages:
     peerDependencies:
       devframe: 0.8.2
 
-  '@devframes/hub@0.9.6':
-    resolution: {integrity: sha512-jWiMwukH0fEP7rA34ovWC3pFzghrLCCJP4SxKiTPqBtPke1W7bGtxEGz9ARUoB10VkgdVcDbQs2x00d+iJHCAw==}
+  '@devframes/hub@0.9.11':
+    resolution: {integrity: sha512-oK93xmp6E5SD+34SdE7eUBRFGREObQHlpiqTQefi/VfXFt1Lo3Sb8cBU8NbekLgsHIiHsmCsXuBWjRmH8TX0nQ==}
     peerDependencies:
-      devframe: 0.9.6
+      devframe: 0.9.11
 
   '@devframes/json-render@0.8.2':
     resolution: {integrity: sha512-LpIMMXDZGHsIlrNDWo1PbLenZcYRlxZ4lZ/vR/5j8bEh9FsSSY5Sd6RVPL93lyl4jz+2Sc+S2j4BKKzk9Zi8Fg==}
@@ -2501,26 +2501,26 @@ packages:
       '@devframes/hub':
         optional: true
 
-  '@devframes/json-render@0.9.6':
-    resolution: {integrity: sha512-DxdCVUHdhpy+uu4aPAgS6vvZ+Avbc2tKVX/C4mo5mdBzoKl44XTQHWQ6QNmgqmfAsRWSx+PL52ffhkUnaEN3Xw==}
+  '@devframes/json-render@0.9.11':
+    resolution: {integrity: sha512-tYIpOZZ5SG0CB71lZHR747IWoWeHwWU5WxqUazGzuber7hOk8UYF80LLSiR+PDoyhWdYUC7l8Ipt1fqSIVka0A==}
     peerDependencies:
-      '@devframes/hub': 0.9.6
-      devframe: 0.9.6
+      '@devframes/hub': 0.9.11
+      devframe: 0.9.11
     peerDependenciesMeta:
       '@devframes/hub':
         optional: true
 
-  '@devframes/service-shiki@0.9.6':
-    resolution: {integrity: sha512-GggXNUJila0+HSkmPFXfKQa3MjKV/MBq1I93FtqPCjPKD6R0mm7xK9e/pwoHrDhNZKeorWYRtGwIk7ubiX2y5g==}
+  '@devframes/service-shiki@0.9.11':
+    resolution: {integrity: sha512-twkWqsrY7dKF/UkxuywEh98bHIIX+Mqr0JHDahRMaEaRO//PeDatMNZxElGaVa0CrjzA74F2M1GAUMbgtoTjHw==}
     peerDependencies:
-      devframe: 0.9.6
+      devframe: 0.9.11
 
-  '@devframes/vite@0.9.6':
-    resolution: {integrity: sha512-y7MA0gyK9s/ieXIjVFR6qvBEfOmhiX5dCCnOkR2CbaipaDVZgTDkpRiNwg6oYEsyIZj4H4e5Iv91ykwnvT80vw==}
+  '@devframes/vite@0.9.11':
+    resolution: {integrity: sha512-KfGIBMY9hPcLQ6Vu384bjwde8iw5XPMvhk9L+kyygR6KKMxRZ+j/5FB8nSZNSTHwvIMWYsoWdB7DpdP395OX0A==}
     peerDependencies:
-      '@devframes/hub': 0.9.6
-      '@devframes/hub-ui': 0.9.6
-      devframe: 0.9.6
+      '@devframes/hub': 0.9.11
+      '@devframes/hub-ui': 0.9.11
+      devframe: 0.9.11
       vite: ^7.0.0 || ^8.0.0
     peerDependenciesMeta:
       '@devframes/hub':
@@ -3480,6 +3480,14 @@ packages:
   '@mdit-vue/types@3.0.2':
     resolution: {integrity: sha512-00aAZ0F0NLik6I6Yba2emGbHLxv+QYrPH00qQ5dFKXlAo1Ll2RHDXwY7nN2WAfrx2pP+WrvSRFTGFCNGdzBDHw==}
     engines: {node: '>=20.0.0'}
+
+  '@modelcontextprotocol/core@2.0.0':
+    resolution: {integrity: sha512-pJCEwGG7Lfr/+PQp9ZTwKXNeO5wzbfKL7H3MYpCorM4oFBoQrdjnBgEoqG+RjhsvS1FKrDbKux+M1HhlnGWqcA==}
+    engines: {node: '>=20'}
+
+  '@modelcontextprotocol/server@2.0.0':
+    resolution: {integrity: sha512-YhHWdHfpFMQfd0prsEnxKeS3Qz3ytIGmsS0sth4KDjnacIT7hxk6hXHkJ9KysxlkvTM+WZAtQbbcUhdoP4Hvtw==}
+    engines: {node: '>=20'}
 
   '@mswjs/interceptors@0.41.9':
     resolution: {integrity: sha512-VVPPgHyQ6ShqnrmDWuxjmUIsO9gWyOZFmuOfLd9LfBGQJwZfy0gvv9pbHSJuoFNIYC7ZDX9aoFwowjcdSC4E8w==}
@@ -4743,8 +4751,8 @@ packages:
     peerDependencies:
       vite: '*'
 
-  '@vitejs/devtools-kit@0.6.1':
-    resolution: {integrity: sha512-0+KY6TU5ukw/onaY3FdffSml/LZGuAauilbRqPYerS3GEkbgO3JKPYw4UsjlL5IahZ1AK9QpbPfoqhf5dhw8Og==}
+  '@vitejs/devtools-kit@0.7.1':
+    resolution: {integrity: sha512-She+yf6adPWlVxYgf7FzGNdlt1lW2rF8kT9+PPcNaJ9+wdBVSJBbSESw1izkeqTJH4m/YWB7XaXcxycZBAePyA==}
     peerDependencies:
       vite: '*'
 
@@ -5892,17 +5900,14 @@ packages:
       cac:
         optional: true
 
-  devframe@0.9.6:
-    resolution: {integrity: sha512-Rg1hBceM07K9/kL+J2bvjbbG2yIdOFYg6EaJHnzhc9uGA8o7BXLDJC0ied6fQIlUEBmFvtrbMi+AWOJS3+/LBA==}
+  devframe@0.9.11:
+    resolution: {integrity: sha512-6zCHsycinUV8KAvV/wqWBik7NtD2hxyJIS+kJNeCHun68D0yQdrIQX7ak6QYylVi8vdvBH3k5Pa+oced+ru1MA==}
     hasBin: true
     peerDependencies:
       '@modelcontextprotocol/client': ^2.0.0
-      '@modelcontextprotocol/server': ^2.0.0
       cac: ^7.0.0
     peerDependenciesMeta:
       '@modelcontextprotocol/client':
-        optional: true
-      '@modelcontextprotocol/server':
         optional: true
       cac:
         optional: true
@@ -10970,18 +10975,18 @@ snapshots:
     dependencies:
       '@standard-schema/spec': 1.1.0
       destr: 2.0.5
-      devframe: 0.8.2(cac@7.0.0)(srvx@0.11.22)
+      devframe: 0.8.2(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)
       nostics: 1.2.0
       pathe: 2.0.3
       perfect-debounce: 2.1.0
       tinyexec: 1.3.0
       zigpty: 0.2.1
 
-  '@devframes/hub@0.9.6(crossws@0.4.12)(devframe@0.9.6)':
+  '@devframes/hub@0.9.11(crossws@0.4.12)(devframe@0.9.11)':
     dependencies:
       '@standard-schema/spec': 1.1.0
       destr: 2.0.5
-      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       h3: 2.0.1-rc.29(crossws@0.4.12)
       pathe: 2.0.3
       perfect-debounce: 2.1.0
@@ -10995,32 +11000,32 @@ snapshots:
   '@devframes/json-render@0.8.2(@devframes/hub@0.8.2)(devframe@0.8.2)':
     dependencies:
       '@json-render/core': 0.19.0(zod@4.5.4)
-      devframe: 0.8.2(cac@7.0.0)(srvx@0.11.22)
+      devframe: 0.8.2(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)
       nostics: 1.2.0
       zod: 4.5.4
     optionalDependencies:
       '@devframes/hub': 0.8.2(devframe@0.8.2)
 
-  '@devframes/json-render@0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)':
+  '@devframes/json-render@0.9.11(@devframes/hub@0.9.11)(devframe@0.9.11)':
     dependencies:
       '@json-render/core': 0.20.0(zod@4.5.4)
       '@standard-schema/spec': 1.1.0
-      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       zod: 4.5.4
     optionalDependencies:
-      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+      '@devframes/hub': 0.9.11(crossws@0.4.12)(devframe@0.9.11)
 
-  '@devframes/service-shiki@0.9.6(devframe@0.9.6)':
+  '@devframes/service-shiki@0.9.11(devframe@0.9.11)':
     dependencies:
-      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       shiki: 4.4.3
 
-  '@devframes/vite@0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)(vite@8.2.2)':
+  '@devframes/vite@0.9.11(@devframes/hub@0.9.11)(devframe@0.9.11)(vite@8.2.2)':
     dependencies:
-      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       pathe: 2.0.3
     optionalDependencies:
-      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
+      '@devframes/hub': 0.9.11(crossws@0.4.12)(devframe@0.9.11)
       vite: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.0)
 
   '@docsearch/css@4.7.0': {}
@@ -11745,6 +11750,15 @@ snapshots:
       markdown-it: 14.3.1
 
   '@mdit-vue/types@3.0.2': {}
+
+  '@modelcontextprotocol/core@2.0.0':
+    dependencies:
+      zod: 4.5.4
+
+  '@modelcontextprotocol/server@2.0.0':
+    dependencies:
+      '@modelcontextprotocol/core': 2.0.0
+      zod: 4.5.4
 
   '@mswjs/interceptors@0.41.9':
     dependencies:
@@ -12995,7 +13009,7 @@ snapshots:
       unhead: 3.4.0(esbuild@0.28.2)(rolldown@1.2.6)(rollup@4.63.1)(vite@8.2.2)(webpack@5.110.2)
       unplugin: 3.3.0(esbuild@0.28.2)(rolldown@1.2.6)(rollup@4.63.1)(vite@8.2.2)(webpack@5.110.2)
     optionalDependencies:
-      '@vitejs/devtools-kit': 0.4.12(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
+      '@vitejs/devtools-kit': 0.4.12(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
       esbuild: 0.28.2
       lightningcss: 1.33.0
       rolldown: 1.2.6
@@ -13083,11 +13097,11 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vitejs/devtools-kit@0.4.12(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)':
+  '@vitejs/devtools-kit@0.4.12(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)':
     dependencies:
       '@devframes/hub': 0.8.2(devframe@0.8.2)
       '@devframes/json-render': 0.8.2(@devframes/hub@0.8.2)(devframe@0.8.2)
-      devframe: 0.8.2(cac@7.0.0)(srvx@0.11.22)
+      devframe: 0.8.2(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)
       local-pkg: 1.2.1
       mlly: 1.8.2
       nostics: 1.2.0
@@ -13100,11 +13114,11 @@ snapshots:
       - ocache
       - srvx
 
-  '@vitejs/devtools-kit@0.6.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)':
+  '@vitejs/devtools-kit@0.7.1(cac@7.0.0)(crossws@0.4.12)(srvx@0.12.7)(vite@8.2.2)':
     dependencies:
-      '@devframes/hub': 0.9.6(crossws@0.4.12)(devframe@0.9.6)
-      '@devframes/json-render': 0.9.6(@devframes/hub@0.9.6)(devframe@0.9.6)
-      devframe: 0.9.6(cac@7.0.0)(srvx@0.12.7)
+      '@devframes/hub': 0.9.11(crossws@0.4.12)(devframe@0.9.11)
+      '@devframes/json-render': 0.9.11(@devframes/hub@0.9.11)(devframe@0.9.11)
+      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
       local-pkg: 1.2.1
       mlly: 1.8.2
       nostics: 1.2.0
@@ -13112,7 +13126,6 @@ snapshots:
       vite: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/client'
-      - '@modelcontextprotocol/server'
       - cac
       - crossws
       - ocache
@@ -14338,7 +14351,7 @@ snapshots:
 
   devalue@5.9.2: {}
 
-  devframe@0.8.2(cac@7.0.0)(srvx@0.11.22):
+  devframe@0.8.2(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22):
     dependencies:
       '@standard-schema/spec': 1.1.0
       birpc: 4.2.0
@@ -14350,13 +14363,15 @@ snapshots:
       pathe: 2.0.3
       ufo: 1.6.4
     optionalDependencies:
+      '@modelcontextprotocol/server': 2.0.0
       cac: 7.0.0
     transitivePeerDependencies:
       - ocache
       - srvx
 
-  devframe@0.9.6(cac@7.0.0)(srvx@0.12.7):
+  devframe@0.9.11(cac@7.0.0)(srvx@0.12.7):
     dependencies:
+      '@modelcontextprotocol/server': 2.0.0
       '@standard-schema/spec': 1.1.0
       birpc: 4.2.0
       crossws: 0.4.12(srvx@0.12.7)
@@ -18716,9 +18731,9 @@ snapshots:
     optionalDependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.2.3)(magicast@0.5.4)(rolldown@1.2.6)(unplugin@3.3.0)
 
-  vite-plugin-inspect@12.0.2(@nuxt/kit@4.5.2)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2):
+  vite-plugin-inspect@12.0.2(@modelcontextprotocol/server@2.0.0)(@nuxt/kit@4.5.2)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2):
     dependencies:
-      '@vitejs/devtools-kit': 0.4.12(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
+      '@vitejs/devtools-kit': 0.4.12(@modelcontextprotocol/server@2.0.0)(cac@7.0.0)(srvx@0.11.22)(vite@8.2.2)
       ansis: 4.3.1
       error-stack-parser-es: 2.0.1
       obug: 2.1.4
