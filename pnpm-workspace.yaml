@@ -41,11 +41,9 @@ overrides:
 catalogs:
   build:
     '@jridgewell/remapping': ^2.3.5
-    brotli-size: ^4.0.0
     bumpp: ^12.2.1
     rolldown: ^1.0.0
     rollup: ^4.63.0
-    terser: ^5.50.0
     tsdown: ^0.22.14
     turbo: ^2.10.12
     webpack: ^5.109.2
@@ -89,7 +87,7 @@ catalogs:
     eslint-vitest-rule-tester: ^3.1.0
     svelte-eslint-parser: ^1.8.1
   frameworks:
-    astro: ^5.18.2
+    astro: ^7.1.0
     react: ^18.3.1
   icons:
     '@iconify-json/carbon': ^1.2.25
