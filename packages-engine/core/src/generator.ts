@@ -1006,7 +1006,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (raw !== inputWithoutVariant) {
           const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
           if (expanded) {
-            stringResult = expanded[0].filter(isString).map(item => raw.replace(inputWithoutVariant, item))
+            // the matcher is always the last occurrence, the variants may contain
+            // it as well (e.g. `[&_.btn]:btn`), so the earlier ones have to be kept
+            const matcherIndex = raw.lastIndexOf(inputWithoutVariant)
+            stringResult = expanded[0].filter(isString).map(item => matcherIndex === -1
+              ? raw
+              : raw.slice(0, matcherIndex) + item + raw.slice(matcherIndex + inputWithoutVariant.length))
             inlineResult = (expanded[0].filter(i => !isString(i)) as ShortcutInlineValue[]).map((item) => {
               return { handles: [...item.handles, ...handles], value: item.value }
             })

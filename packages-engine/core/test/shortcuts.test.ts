@@ -228,6 +228,24 @@ describe('shortcuts', async () => {
     `)
   })
 
+  it('nested shortcut keeps the class name used by an arbitrary variant', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3(),
+      ],
+      shortcuts: {
+        btn: 'mr-10',
+        card: '[&_.btn]:btn',
+      },
+    })
+
+    const { css } = await uno.generate(['card'], { preflights: false })
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .card .btn{margin-right:2.5rem;}"
+    `)
+  })
+
   it('inline only body with variants', async () => {
     const { css } = await uno.generate('test-inline-body-with-variant', { preflights: false })
     expect(css).toMatchInlineSnapshot(`
