@@ -1,10 +1,10 @@
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 import { readPackage, vscodeRoot, withTempName } from './utils'
 
 async function pack() {
   const { rawJSON } = await readPackage()
   await withTempName(rawJSON, async () => {
-    await execa('npx', ['@vscode/vsce', 'package', '--no-dependencies'], { cwd: vscodeRoot, stdio: 'inherit' })
+    await x('npx', ['@vscode/vsce', 'package', '--no-dependencies'], { nodeOptions: { cwd: vscodeRoot, stdio: 'inherit' }, throwOnError: true })
   })
 }
 

@@ -1,7 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -26,7 +26,7 @@ async function update() {
       'utf-8',
     )
 
-    await execa('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION])
+    await x('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION], { throwOnError: true })
   }
   catch (err) {
     console.log(err)

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import { basename } from 'node:path'
+import { gzipSync } from 'node:zlib'
 import { sync as brotli } from 'brotli-size'
-import { sync as gzip } from 'gzip-size'
 import { minify } from 'terser'
 import { glob, globSync } from 'tinyglobby'
 import { version } from '../package.json'
@@ -28,7 +28,7 @@ for (const pkg of packages) {
 
   console.log()
   console.log(`@unocss/${pkg}`)
-  console.log(`gzip    ${(gzip(minified) / 1024).toFixed(2)} KiB`)
+  console.log(`gzip    ${(gzipSync(minified).byteLength / 1024).toFixed(2)} KiB`)
   console.log(`brotli  ${(brotli(minified) / 1024).toFixed(2)} KiB`)
 }
 
@@ -44,6 +44,6 @@ for (const f of globals) {
   console.log(basename(f))
   const code = await fs.readFile(f, 'utf8')
   const minified = (await minify(code)).code || ''
-  console.log(`gzip    ${(gzip(minified) / 1024).toFixed(2)} KiB`)
+  console.log(`gzip    ${(gzipSync(minified).byteLength / 1024).toFixed(2)} KiB`)
   console.log(`brotli  ${(brotli(minified) / 1024).toFixed(2)} KiB`)
 }

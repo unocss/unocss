@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 import { readPackage, vscodeRoot, withTempName } from './utils'
 
 async function dev() {
@@ -10,7 +10,7 @@ async function dev() {
     console.log('Update package.json name to "unocss"')
 
   await withTempName(rawJSON, async () => {
-    const child = execa('tsdown', ['--watch', 'src'], { cwd: vscodeRoot, stdio: 'inherit' })
+    const child = x('tsdown', ['--watch', 'src'], { nodeOptions: { cwd: vscodeRoot, stdio: 'inherit' }, throwOnError: true })
 
     for (const signal of ['SIGINT', 'SIGTERM'] as const)
       process.once(signal, () => child.kill(signal))

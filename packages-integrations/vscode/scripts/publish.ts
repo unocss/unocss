@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 import { readPackage, vscodeRoot, withTempName } from './utils'
 
 async function publish() {
@@ -9,14 +9,14 @@ async function publish() {
     return
   }
 
-  await execa('npm', ['run', 'build'], { cwd: vscodeRoot, stdio: 'inherit' })
+  await x('npm', ['run', 'build'], { nodeOptions: { cwd: vscodeRoot, stdio: 'inherit' }, throwOnError: true })
 
   await withTempName(rawJSON, async () => {
     console.log('\nPublish to VSCE...\n')
-    await execa('npx', ['@vscode/vsce', 'publish', '--no-dependencies', '-p', process.env.VSCE_TOKEN!], { cwd: vscodeRoot, stdio: 'inherit' })
+    await x('npx', ['@vscode/vsce', 'publish', '--no-dependencies', '-p', process.env.VSCE_TOKEN!], { nodeOptions: { cwd: vscodeRoot, stdio: 'inherit' }, throwOnError: true })
 
     console.log('\nPublish to OVSE...\n')
-    await execa('npx', ['ovsx', 'publish', '--no-dependencies', '-p', process.env.OVSX_TOKEN!], { cwd: vscodeRoot, stdio: 'inherit' })
+    await x('npx', ['ovsx', 'publish', '--no-dependencies', '-p', process.env.OVSX_TOKEN!], { nodeOptions: { cwd: vscodeRoot, stdio: 'inherit' }, throwOnError: true })
   })
 }
 

@@ -1,6 +1,6 @@
+import { readFile, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
-import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
 import { build } from 'vite'
 import * as vite from 'vite'
@@ -11,14 +11,14 @@ const isRolldownVite = 'rolldownVersion' in vite
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
-    .then(r => Promise.all(r.map(f => fs.readFile(f, 'utf8'))))
+    .then(r => Promise.all(r.map(f => readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
 }
 
 describe.concurrent('fixtures', () => {
   it('vite client', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite')
-    await fs.emptyDir(join(root, 'dist'))
+    await rm(join(root, 'dist'), { recursive: true, force: true })
     await build({
       root,
       logLevel: 'warn',
@@ -56,7 +56,7 @@ describe.concurrent('fixtures', () => {
 
   it.skipIf(isWindows || isRolldownVite)('vite legacy', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-legacy')
-    await fs.emptyDir(join(root, 'dist'))
+    await rm(join(root, 'dist'), { recursive: true, force: true })
     await build({
       root,
       logLevel: 'warn',
@@ -75,7 +75,7 @@ describe.concurrent('fixtures', () => {
 
   it.skipIf(isWindows || isRolldownVite)('vite legacy renderModernChunks false', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-legacy-chunks')
-    await fs.emptyDir(join(root, 'dist'))
+    await rm(join(root, 'dist'), { recursive: true, force: true })
     await build({
       root,
       logLevel: 'warn',
@@ -86,7 +86,7 @@ describe.concurrent('fixtures', () => {
 
   it('vite lib', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-lib')
-    await fs.emptyDir(join(root, 'dist'))
+    await rm(join(root, 'dist'), { recursive: true, force: true })
     await build({
       root,
       logLevel: 'warn',
@@ -104,7 +104,7 @@ describe.concurrent('fixtures', () => {
     expect(files).toHaveLength(2)
 
     for (const path of files) {
-      const code = await fs.readFile(path, 'utf-8')
+      const code = await readFile(path, 'utf-8')
       // basic
       expect(code).contains('.text-red')
       // transformer-variant-group
@@ -126,7 +126,7 @@ describe.concurrent('fixtures', () => {
 
   it.skipIf(isWindows)('vite lib rollupOptions', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-lib-rollupoptions')
-    await fs.emptyDir(join(root, 'dist'))
+    await rm(join(root, 'dist'), { recursive: true, force: true })
     await build({
       root,
       logLevel: 'warn',
@@ -140,7 +140,7 @@ describe.concurrent('fixtures', () => {
     expect(files).toHaveLength(2)
 
     for (const path of files) {
-      const code = await fs.readFile(path, 'utf-8')
+      const code = await readFile(path, 'utf-8')
       // basic
       expect(code).contains('.text-red')
       // transformer-variant-group
