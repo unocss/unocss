@@ -1,14 +1,15 @@
+import { readFileSync } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { execa } from 'execa'
-import fs from 'fs-extra'
 import { relative } from 'pathe'
+import { x } from 'tinyexec'
 import { globSync } from 'tinyglobby'
 
 async function fixVSCodePackage() {
-  const json = await fs.readJSON('./packages-integrations/vscode/package.json')
+  const json = JSON.parse(await readFile('./packages-integrations/vscode/package.json', 'utf-8'))
   if (json.name !== '@unocss/vscode') {
     json.name = '@unocss/vscode'
-    await fs.writeJSON('./packages-integrations/vscode/package.json', json, { spaces: 2, EOL: '\n' })
+    await writeFile('./packages-integrations/vscode/package.json', `${JSON.stringify(json, null, 2)}\n`, 'utf-8')
   }
 }
 
@@ -18,7 +19,7 @@ async function preparePackagesBundle() {
     { absolute: true, expandDirectories: false },
   )
     .map((p) => {
-      const json = JSON.parse(fs.readFileSync(p, 'utf-8'))
+      const json = JSON.parse(readFileSync(p, 'utf-8'))
       if (json.private)
         return undefined
       return json.name
@@ -51,7 +52,7 @@ async function preparePackagesBundle() {
 
   const clientPackages = allPackages.filter(p => !ignores.some(i => p.includes(i)))
 
-  await fs.writeFile(
+  await writeFile(
     './virtual-shared/docs/src/packages.ts',
     [
       '// GENERATED FILE, DO NOT EDIT',
@@ -65,7 +66,7 @@ async function preparePackagesBundle() {
     'utf-8',
   )
 
-  await fs.writeFile(
+  await writeFile(
     './virtual-shared/docs/src/unocss-bundle.ts',
     [
       '// GENERATED FILE, DO NOT EDIT',
@@ -83,7 +84,7 @@ async function preparePackagesBundle() {
 async function updateTsconfig() {
   const root = fileURLToPath(new URL('..', import.meta.url))
   const alias = await import('../alias').then(r => r.alias)
-  const tsconfig = await fs.readJSON('./tsconfig.json')
+  const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
   tsconfig.compilerOptions.paths = Object.fromEntries(
     Object.entries(alias).flatMap(([k, v]) => {
       let path = `./${relative(root, v)}`
@@ -93,16 +94,16 @@ async function updateTsconfig() {
       return [[k, [path]]]
     }),
   )
-  await fs.writeJSON('./tsconfig.json', tsconfig, { spaces: 2, EOL: '\n' })
+  await writeFile('./tsconfig.json', `${JSON.stringify(tsconfig, null, 2)}\n`, 'utf-8')
 }
 
 async function prepare() {
   await Promise.all([
-    execa('pnpm', ['run', 'update:iconify-collections']),
+    x('pnpm', ['run', 'update:iconify-collections'], { throwOnError: true }),
     fixVSCodePackage(),
     preparePackagesBundle(),
     updateTsconfig(),
-    execa('npx', ['simple-git-hooks']),
+    x('npx', ['simple-git-hooks'], { throwOnError: true }),
   ])
 }
 

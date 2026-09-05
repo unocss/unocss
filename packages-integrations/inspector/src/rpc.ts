@@ -1,9 +1,9 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import { gzipSync } from 'node:zlib'
 import { BetterMap, CountableSet } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
-import gzipSize from 'gzip-size'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { analyzer } from './analyzer'
 
@@ -58,7 +58,7 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
           ...analyzed,
           css: result.css,
           layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
-          gzipSize: await gzipSize(result.css),
+          gzipSize: gzipSync(result.css).byteLength,
           code,
           id,
         }
@@ -104,7 +104,7 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
           ...analyzed,
           css: result.css,
           layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
-          gzipSize: await gzipSize(result.css),
+          gzipSize: gzipSync(result.css).byteLength,
         }
       },
     }),

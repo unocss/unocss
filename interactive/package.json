@@ -1,7 +1,7 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "66.9.2",
+  "version": "66.10.0",
   "private": true,
   "scripts": {
     "build": "nuxi prepare && pnpm run prepare && nuxi generate",
@@ -16,9 +16,7 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@vueuse/nuxt": "catalog:vue",
-    "fs-extra": "catalog:utils",
     "fuse.js": "catalog:utils",
-    "js-yaml": "catalog:utils",
     "knitwork": "catalog:utils",
     "markdown-it-link-attributes": "catalog:docs",
     "nuxt": "catalog:nuxt",
@@ -30,6 +28,7 @@
     "tsx": "catalog:typescript",
     "unplugin-vue-markdown": "catalog:vue",
     "vue": "catalog:vue",
-    "vue-virtual-scroller": "catalog:vue"
+    "vue-virtual-scroller": "catalog:vue",
+    "yaml": "catalog:utils"
   }
 }

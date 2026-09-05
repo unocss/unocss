@@ -11,10 +11,7 @@ import { handleScreen } from './screen'
 
 export function resolveApplyVariables(options: TransformerDirectivesOptions) {
   let { applyVariable } = options
-  const varStyle = options.varStyle
   if (applyVariable === undefined) {
-    if (varStyle !== undefined)
-      applyVariable = varStyle ? [`${varStyle}apply`] : []
     applyVariable = ['--at-apply', '--uno-apply', '--uno']
   }
   return toArray(applyVariable || [])

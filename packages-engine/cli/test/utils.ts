@@ -1,5 +1,7 @@
+import { existsSync } from 'node:fs'
+import { mkdir, readFile as readFileAsync, writeFile } from 'node:fs/promises'
+import { dirname } from 'node:path'
 import process from 'node:process'
-import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { startCli } from '../src/cli-start'
 
@@ -7,6 +9,11 @@ const isCI = !!process.env.CI
 
 export const tempDir = resolve('_temp')
 export const cli = resolve(import.meta.dirname, '../src/cli.ts')
+
+export async function outputFile(file: string, content: string, encoding: BufferEncoding = 'utf8') {
+  await mkdir(dirname(file), { recursive: true })
+  await writeFile(file, content, encoding)
+}
 
 export function sleep(time = 300) {
   return new Promise<void>((resolve) => {
@@ -22,7 +29,7 @@ export function getTestDir() {
 
 function initOutputFiles(testDir: string, files: Record<string, string>) {
   return Promise.all(
-    Object.entries(files).map(([path, content]) => fs.outputFile(resolve(testDir, path), content, 'utf8')),
+    Object.entries(files).map(([path, content]) => outputFile(resolve(testDir, path), content, 'utf8')),
   )
 }
 
@@ -31,7 +38,7 @@ export function runAsyncChildProcess(cwd: string, ...args: string[]) {
 }
 
 export function readFile(testDir: string, targetFile?: string) {
-  return fs.readFile(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
+  return readFileAsync(resolve(testDir, targetFile ?? 'uno.css'), 'utf8')
 }
 
 export async function runCli(files: Record<string, string>, options?: { transformFile?: string, args?: string[], outFile?: string }) {
@@ -62,7 +69,7 @@ export default defineConfig({
       await sleep(isCI ? 1000 : 100)
       const outFilePath = resolve(testDir, fileName)
 
-      if (fs.existsSync(outFilePath)) {
+      if (existsSync(outFilePath)) {
         const content = await readFile(testDir, fileName)
         if (content.length > 0)
           break

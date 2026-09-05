@@ -1,7 +1,7 @@
 import {
   defineConfig,
   presetIcons,
-  presetWind3,
+  presetWind4,
   transformerCompileClass,
   transformerDirectives,
   transformerVariantGroup,
@@ -17,7 +17,7 @@ export default defineConfig({
     transformerVariantGroup(),
   ],
   presets: [
-    presetWind3(),
+    presetWind4(),
     presetIcons({
       extraProperties: {
         'display': 'inline-block',

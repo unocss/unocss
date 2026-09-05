@@ -1,17 +1,18 @@
-import { execa } from 'execa'
-import fs from 'fs-extra'
+import { existsSync } from 'node:fs'
+import { rm } from 'node:fs/promises'
 import { resolve } from 'pathe'
+import { x } from 'tinyexec'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { getWatcher } from '../src/watcher'
-import { cli, getTestDir, readFile, runAsyncChildProcess, runCli, sleep, tempDir } from './utils'
+import { cli, getTestDir, outputFile, readFile, runAsyncChildProcess, runCli, sleep, tempDir } from './utils'
 
 beforeAll(async () => {
-  await fs.remove(tempDir)
+  await rm(tempDir, { recursive: true, force: true })
 })
 
 afterAll(async () => {
   (await getWatcher()).close()
-  await fs.remove(tempDir)
+  await rm(tempDir, { recursive: true, force: true })
 })
 
 describe('cli', () => {
@@ -132,12 +133,12 @@ describe('cli', () => {
             `.trim(),
       },
     ]
-    await Promise.all(files.map(({ path, content }) => fs.outputFile(resolve(testDir, path), content)))
+    await Promise.all(files.map(({ path, content }) => outputFile(resolve(testDir, path), content)))
     await runAsyncChildProcess(testDir, '', '')
 
     while (true) {
       await sleep(50)
-      const allExist = outFiles.every(file => fs.existsSync(resolve(testDir, file)))
+      const allExist = outFiles.every(file => existsSync(resolve(testDir, file)))
       if (allExist)
         break
     }
@@ -189,9 +190,9 @@ describe('cli', () => {
 
   it('keeps cli logs off stdout when writing generated css to stdout', async () => {
     const testDir = getTestDir()
-    await fs.outputFile(resolve(testDir, 'views/index.html'), '<div class="bg-black"></div>', 'utf8')
+    await outputFile(resolve(testDir, 'views/index.html'), '<div class="bg-black"></div>', 'utf8')
 
-    const { stdout, stderr } = await execa(
+    const { stdout, stderr } = await x(
       'pnpm',
       [
         'exec',
@@ -205,10 +206,13 @@ describe('cli', () => {
         'false',
       ],
       {
-        env: {
-          NODE_ENV: 'development',
-          TEST: 'false',
-          VITEST: 'false',
+        throwOnError: true,
+        nodeOptions: {
+          env: {
+            NODE_ENV: 'development',
+            TEST: 'false',
+            VITEST: 'false',
+          },
         },
       },
     )
@@ -231,7 +235,7 @@ describe.skipIf(process.version.startsWith('v20'))('cli watch mode', () => {
 
     const changedContent = '<div class="bg-red"></div>'
     const absolutePathOfFile = resolve(testDir!, 'views/index.html')
-    await fs.writeFile(absolutePathOfFile, changedContent)
+    await outputFile(absolutePathOfFile, changedContent)
 
     // polling until update
 
@@ -264,7 +268,7 @@ describe.skipIf(process.version.startsWith('v20'))('cli watch mode', () => {
 
     expect(output).toContain('red')
 
-    await fs.writeFile(resolve(testDir as string, 'uno.config.ts'), `
+    await outputFile(resolve(testDir as string, 'uno.config.ts'), `
   import { defineConfig, presetWind3 } from 'unocss'
   export default defineConfig({
     presets: [presetWind3()],

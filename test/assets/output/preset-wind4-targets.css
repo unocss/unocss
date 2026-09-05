@@ -249,14 +249,17 @@
 .text-size-1em{font-size:1em;}
 .text-size-unset{font-size:unset;}
 .text-\[--variable\],
+.text-\[color\:--variable\],
 .text-\$variable{color:color-mix(in oklab, var(--variable) var(--un-text-opacity), transparent) /* var(--variable) */;}
 .text-\[\#124\]{color:color-mix(in oklab, #124 var(--un-text-opacity), transparent) /* #124 */;}
 .text-\[calc\(1em-1px\)\],
 .text-\[length\:calc\(1em-1px\)\]{font-size:calc(1em - 1px);}
 .text-\[calc\(1rem-1px\)\]{font-size:calc(1rem - 1px);}
+.text-\[color\:var\(--color-x\)\]\:\[trick\]{color:color-mix(in oklab, var(--color-x) trick, transparent) /* var(--color-x) */;}
+.text-\[color\:var\(--color\)\],
+.text-\[var\(--color\)\]{color:color-mix(in oklab, var(--color) var(--un-text-opacity), transparent) /* var(--color) */;}
 .text-\[red\]\:50\/display-p3{color:color-mix(in display-p3, red 50%, transparent) /* red */;}
 .text-\[red\]\/50{color:color-mix(in oklab, red 50%, transparent) /* red */;}
-.text-\[var\(--color\)\]{color:color-mix(in oklab, var(--color) var(--un-text-opacity), transparent) /* var(--color) */;}
 .text-black\/10{color:color-mix(in srgb, var(--colors-black) 10%, transparent) /* #000 */;}
 .aria-busy\:aria-pressed\:text-green-600[aria-pressed="true"][aria-busy="true"],
 .aria-busy\:data-\[bar\]\:text-green-600[data-bar][aria-busy="true"],
@@ -542,6 +545,7 @@
 .outline-width-10px{outline-style:var(--un-outline-style);outline-width:10px;}
 .outline-width-revert{outline-style:var(--un-outline-style);outline-width:revert;}
 .outline-\[calc\(1rem-1px\)\]{outline-style:var(--un-outline-style);outline-width:calc(1rem - 1px);}
+.outline-\[color\:red\]{outline-color:color-mix(in oklab, red var(--un-outline-opacity), transparent) /* red */;}
 .outline-\[var\(--red\)\]{outline-color:color-mix(in oklab, var(--red) var(--un-outline-opacity), transparent) /* var(--red) */;}
 .outline-\$variable{outline-color:color-mix(in oklab, var(--variable) var(--un-outline-opacity), transparent) /* var(--variable) */;}
 .outline-gray{outline-color:color-mix(in srgb, var(--colors-gray-DEFAULT) var(--un-outline-opacity), transparent) /* oklch(70.7% 0.022 261.325) */;}
@@ -709,6 +713,7 @@
 .bg-\[10vw\]{background-position:10vw;}
 .bg-\[calc\(10\%\+10px\)\]{background-position:calc(10% + 10px);}
 .bg-\[calc\(10vw\+10px\)\]{background-position:calc(10vw + 10px);}
+.bg-\[color\:\#000\]{background-color:color-mix(in oklab, #000 var(--un-bg-opacity), transparent) /* #000 */;}
 .bg-\[conic-gradient\(red\,blue\)\]{background-image:conic-gradient(red,blue);}
 .bg-\[image\:\$variable\],
 .bg-image-\$variable{background-image:var(--variable);}
@@ -782,6 +787,7 @@
 .underline-auto{text-decoration-thickness:auto;}
 .decoration-\[calc\(1rem-1px\)\],
 .underline-\[calc\(1rem-1px\)\]{text-decoration-thickness:calc(1rem - 1px);}
+.decoration-\[color\:red\]{text-decoration-color:color-mix(in oklab, red var(--un-line-opacity), transparent) /* red */;-webkit-text-decoration-color:color-mix(in oklab, red var(--un-line-opacity), transparent) /* red */;}
 .decoration-purple\/50{text-decoration-color:color-mix(in srgb, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;}
 .decoration-transparent{text-decoration-color:transparent;-webkit-text-decoration-color:transparent;}
 .data-\[invalid\~\=grammar\]\:underline-green-600[data-invalid~=grammar]{text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
@@ -1072,6 +1078,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .ring-px{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-10{--un-ring-shadow:var(--un-ring-inset,) 0 0 0 calc(10px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
 .ring-\[calc\(1rem-1px\)\]{--un-ring-color:color-mix(in oklab, calc(1rem - 1px) var(--un-ring-opacity), transparent) /* calc(1rem - 1px) */;}
+.ring-\[color\:red\]{--un-ring-color:color-mix(in oklab, red var(--un-ring-opacity), transparent) /* red */;}
 .ring-op-\$opacity-variable{--un-ring-opacity:var(--opacity-variable);}
 .ring-op-5{--un-ring-opacity:5%;}
 .ring-offset{--un-ring-offset-width:1px;--un-ring-offset-shadow:var(--un-ring-inset,) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);}
@@ -1349,6 +1356,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .overflow-x-scroll{overflow-x:scroll;}
 .overflow-y-clip{overflow-y:clip;}
 .fill-\[\#123\]{fill:color-mix(in oklab, #123 var(--un-fill-opacity), transparent) /* #123 */;}
+.fill-\[color\:red\]{fill:color-mix(in oklab, red var(--un-fill-opacity), transparent) /* red */;}
 .fill-current{fill:currentColor;}
 .fill-green-400{fill:color-mix(in srgb, var(--colors-green-400) var(--un-fill-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 .all-\[svg\]\:fill-red svg,

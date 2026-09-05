@@ -1,5 +1,5 @@
 {
-  "version": "66.9.2",
+  "version": "66.10.0",
   "scripts": {
     "bench": "node run.mjs"
   },
@@ -7,7 +7,6 @@
     "@unocss/vite": "workspace:*",
     "@vitejs/plugin-vue": "catalog:vite",
     "autoprefixer": "catalog:css",
-    "fs-extra": "catalog:utils",
     "local-pkg": "catalog:utils",
     "postcss": "catalog:css",
     "tailwindcss4": "npm:tailwindcss@4.0.0-beta.1",
