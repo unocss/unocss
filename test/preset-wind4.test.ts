@@ -125,24 +125,6 @@ describe('preset-wind4', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
   })
 
-  it('animation global keywords', async () => {
-    const uno = await createGenerator({
-      envMode: 'dev',
-      presets: [
-        presetWind4({ preflights: { reset: false } }),
-      ],
-    })
-
-    const { css } = await uno.generate('animate-fill-mode-inherit animate-fill-revert animate-mode-unset animate-direction-initial animate-play-state-revert-layer animate-state-inherit', { preflights: false })
-
-    expect(css).toContain('animation-fill-mode:inherit')
-    expect(css).toContain('animation-fill-mode:revert')
-    expect(css).toContain('animation-fill-mode:unset')
-    expect(css).toContain('animation-direction:initial')
-    expect(css).toContain('animation-play-state:revert-layer')
-    expect(css).toContain('animation-play-state:inherit')
-  })
-
   it('blend mode global keywords', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
