@@ -1,5 +1,5 @@
+import { readFile, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'
 import webpack from 'webpack'
 import { createWebpackConfig } from './fixtures/webpack-assets/webpack.config'
@@ -19,7 +19,7 @@ async function runWebpack(options?: Parameters<typeof createWebpackConfig>[0]) {
 }
 
 async function runWebpackConfig(config: webpack.Configuration) {
-  await fs.emptyDir(join(root, 'dist'))
+  await rm(join(root, 'dist'), { recursive: true, force: true })
 
   await new Promise<void>((resolvePromise, reject) => {
     webpack(config, (err, stats) => {
@@ -31,9 +31,9 @@ async function runWebpackConfig(config: webpack.Configuration) {
     })
   })
 
-  const src = await fs.readFile(join(root, 'src/logo.png'))
-  const out = await fs.readFile(join(root, 'dist/assets/logo.png'))
-  const bundle = await fs.readFile(join(root, 'dist/main.js'), 'utf8')
+  const src = await readFile(join(root, 'src/logo.png'))
+  const out = await readFile(join(root, 'dist/assets/logo.png'))
+  const bundle = await readFile(join(root, 'dist/main.js'), 'utf8')
   expect(out.equals(src)).toBe(true)
   expect(out[0]).toBe(0x89)
   expect(out[1]).toBe(0x50)

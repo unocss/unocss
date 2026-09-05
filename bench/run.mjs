@@ -1,8 +1,8 @@
 /* eslint-disable no-console, antfu/no-top-level-await */
 import { execSync } from 'node:child_process'
+import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { escapeSelector } from '@unocss/core'
-import fs from 'fs-extra'
 import { classes, writeMock } from './gen.mjs'
 import { dir, getVersions, targets } from './meta.mjs'
 
@@ -13,7 +13,7 @@ await run()
 await report()
 
 async function run() {
-  await fs.writeJSON(`${dir}/result.json`, [], { spaces: 2 })
+  await writeFile(`${dir}/result.json`, JSON.stringify([], null, 2))
 
   for (let i = 0; i < times; i++) {
     console.log(`\n(${i + 1}/${times})`)
@@ -27,8 +27,8 @@ async function checkClasses() {
     if (name === 'none')
       continue
     const dist = join(dir, 'fixtures', name, 'dist/assets')
-    const file = (await fs.readdir(dist)).find(i => i.endsWith('.css'))
-    const content = await fs.readFile(join(dist, file), 'utf-8')
+    const file = (await readdir(dist)).find(i => i.endsWith('.css'))
+    const content = await readFile(join(dist, file), 'utf-8')
     const lose = classes.filter(i => !content.includes(escapeSelector(i)))
     if (lose.length) {
       console.log(name.padEnd(12), `${lose.length} unmatched`)
@@ -38,7 +38,7 @@ async function checkClasses() {
 }
 
 async function report() {
-  const result = await fs.readJSON(`${dir}/result.json`, [], { spaces: 2 })
+  const result = JSON.parse(await readFile(`${dir}/result.json`, 'utf-8'))
 
   const average = targets.map((target) => {
     const items = result.filter(i => i.name === target)
@@ -100,7 +100,7 @@ async function report() {
 
   const date = new Date().toISOString().replace(/[:T.]/g, '-').slice(0, -5)
 
-  await fs.writeJSON(`${dir}/results/${date}.json`, {
+  await writeFile(`${dir}/results/${date}.json`, JSON.stringify({
     time: new Date(),
     versions,
     utilities: classes.length,
@@ -112,7 +112,7 @@ async function report() {
     ninetyNine: Object.fromEntries(ninetyNine),
     delta: Object.fromEntries(delta),
     runs: result,
-  }, { spaces: 2 })
+  }, null, 2))
 
-  await fs.writeFile(`${dir}/results/${date}.md`, `\`\`\`text\n${logs.join('\n')}\n\`\`\``)
+  await writeFile(`${dir}/results/${date}.md`, `\`\`\`text\n${logs.join('\n')}\n\`\`\``)
 }

@@ -56,7 +56,6 @@
     "@vitejs/devtools-kit": "catalog:devtools",
     "colorette": "catalog:utils",
     "devframe": "catalog:devtools",
-    "gzip-size": "catalog:build",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },

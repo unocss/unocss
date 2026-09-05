@@ -1,8 +1,8 @@
 /* eslint-disable no-console, antfu/no-top-level-await */
+import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import process from 'node:process'
-import fs from 'fs-extra'
 import { build } from 'vite'
 import { dir, targets } from './meta.mjs'
 
@@ -52,8 +52,8 @@ async function run(target, bench = false) {
   })
 }
 
-const full = await fs.readJSON(`${dir}/result.json`) || []
+const full = JSON.parse(await readFile(`${dir}/result.json`, 'utf-8')) || []
 
 full.push(...Object.values(result))
 
-await fs.writeJSON(`${dir}/result.json`, full, { spaces: 2 })
+await writeFile(`${dir}/result.json`, JSON.stringify(full, null, 2))

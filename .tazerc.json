@@ -1,7 +1,6 @@
 {
   "exclude": [
     "find-up",
-    "gzip-size",
     "@types/vscode",
     "codemirror",
     "@vue/cli-plugin-babel",
