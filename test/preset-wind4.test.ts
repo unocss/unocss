@@ -182,6 +182,59 @@ describe('preset-wind4', () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-theme.css')
   })
 
+  it('font families fall back to the theme value without theme preflight', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('font-sans font-serif font-mono')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .font-mono{font-family:var(--font-mono, ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);}
+      .font-sans{font-family:var(--font-sans, ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");}
+      .font-serif{font-family:var(--font-serif, ui-serif,Georgia,Cambria,"Times New Roman",Times,serif);}"
+    `,
+    )
+  })
+
+  it('font families use custom theme values with theme preflight', async () => {
+    const uno = await createGenerator({
+      presets: [presetWind4({ preflights: { reset: false } })],
+      theme: {
+        font: { sans: 'Custom Sans' },
+      },
+    })
+
+    const { css } = await uno.generate('font-sans')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: theme */
+      :root, :host { --font-sans: Custom Sans; }
+      /* layer: default */
+      .font-sans{font-family:var(--font-sans, Custom Sans);}"
+    `,
+    )
+  })
+
+  it('font families fall back to custom theme values without theme preflight', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+      theme: {
+        font: { sans: 'Custom Sans' },
+      },
+    })
+
+    const { css } = await uno.generate('font-sans')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .font-sans{font-family:var(--font-sans, Custom Sans);}"
+    `,
+    )
+  })
+
   it('custom theme values with variable', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
