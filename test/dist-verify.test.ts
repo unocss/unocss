@@ -37,9 +37,10 @@ afterEach(async () => {
 })
 
 describe('dist verification', () => {
-  it('accepts valid CJS runtime and declaration outputs', async () => {
+  it('accepts runtime CJS requiring ESM-only packages and valid declarations', async () => {
     const root = await createFixture({
-      'index.cjs': 'module.exports = { value: 1 }',
+      // require() of an ESM-only package is valid at runtime on Node >= 22.12
+      'index.cjs': 'const uno = require("@unocss/core")\nmodule.exports = { value: uno }',
       'index.d.cts': 'declare const value: number\nexport = value',
       'index.d.ts': 'import type { UnoGenerator } from \'@unocss/core\'',
     })
@@ -47,12 +48,11 @@ describe('dist verification', () => {
     const result = await runChecker(root)
 
     expect(result.code).toBe(0)
-    expect(result.output).toContain('2 CJS output files found')
+    expect(result.output).toContain('2 CJS declaration files found')
   })
 
   it.each([
-    ['runtime CJS', 'index.cjs', 'const uno = require("@unocss/core")\nmodule.exports = uno'],
-    ['runtime CJS with default export', 'index.cjs', 'const uno = require("@unocss/core")\nmodule.exports.default = uno'],
+    ['CJS declaration', 'index.d.cts', 'import uno = require("@unocss/core")\nexport = uno'],
     ['CJS declaration with default export', 'index.d.cts', 'import uno = require("@unocss/core")\nexport { uno as default }'],
   ])('rejects a forbidden import in %s even with a default export', async (_, file, content) => {
     const root = await createFixture({ [file]: content })
