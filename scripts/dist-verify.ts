@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import { join } from 'node:path'
 import process from 'node:process'
+import { pathToFileURL } from 'node:url'
 import { glob } from 'tinyglobby'
 
 // UnoCSS packages ship no CJS types, so declaration output must not use
@@ -38,5 +39,5 @@ export async function verifyDist(root = process.cwd()) {
     console.log('\nDist files verify passed')
 }
 
-if (process.argv[1] === new URL(import.meta.url).pathname)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)
   await verifyDist(process.argv[2])
