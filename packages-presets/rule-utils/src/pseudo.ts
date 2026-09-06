@@ -388,7 +388,8 @@ export function createTaggedPseudoClasses<T extends object = object>(
   ]
 }
 
-const PartClassesRE = /(part-\[(.+)\]:)(.+)/
+// Must stay anchored: the matcher below slices from index 0, so a mid-string match would corrupt it.
+const PartClassesRE = /^(part-\[(.+)\]:)(.+)/
 
 export function createPartClasses<T extends object = object>(): VariantObject<T> {
   return {
