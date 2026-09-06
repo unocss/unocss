@@ -1,41 +1,20 @@
-import type { VariantContext } from '@unocss/core'
-import { resolveBreakpoints, resolveScreenMediaQuery, variantBreakpoints } from '@unocss/rule-utils'
+import type { BreakpointsContext } from '@unocss/rule-utils'
+import { createGenerator } from '@unocss/core'
+import { resolveBreakpoints, resolveScreenMediaQuery, resolveVerticalBreakpoints, variantBreakpoints } from '@unocss/rule-utils'
 import { describe, expect, it } from 'vitest'
 
-function createContext(theme: Record<string, any>): VariantContext {
-  return {
-    theme,
-    generator: {
-      config: { separators: [':'] },
-      userConfig: {},
-    },
-  } as any
-}
-
-const wind3Theme = {
-  breakpoints: {
-    sm: '640px',
-    md: '768px',
-    lg: '1024px',
-  },
-}
-
-const wind4Theme = {
-  breakpoint: {
-    sm: '640px',
-    md: '768px',
-    lg: '1024px',
-  },
+const wind3Theme = { breakpoints: { sm: '640px', md: '768px', lg: '1024px' } }
+const wind4Theme = { breakpoint: { sm: '640px', md: '768px', lg: '1024px' } }
+const mixedTheme = {
+  breakpoints: { sm: '640px' },
+  breakpoint: { sm: '40rem' },
+  verticalBreakpoints: { sm: '480px' },
+  verticalBreakpoint: { sm: '30rem' },
 }
 
 describe('resolveBreakpoints', () => {
-  it('resolves `breakpoints` (Wind3) and `breakpoint` (Wind4) keys by presence', () => {
-    expect(resolveBreakpoints(createContext(wind3Theme))).toEqual([
-      { point: 'sm', size: '640px' },
-      { point: 'md', size: '768px' },
-      { point: 'lg', size: '1024px' },
-    ])
-    expect(resolveBreakpoints(createContext(wind4Theme))).toEqual([
+  it.each([wind3Theme, wind4Theme])('detects the horizontal key by presence', (theme) => {
+    expect(resolveBreakpoints({ theme })).toEqual([
       { point: 'sm', size: '640px' },
       { point: 'md', size: '768px' },
       { point: 'lg', size: '1024px' },
@@ -44,43 +23,90 @@ describe('resolveBreakpoints', () => {
 
   it('sorts breakpoints by size', () => {
     const theme = { breakpoints: { lg: '1024px', sm: '640px', md: '768px' } }
-    expect(resolveBreakpoints(createContext(theme))?.map(i => i.point)).toEqual(['sm', 'md', 'lg'])
+    expect(resolveBreakpoints({ theme })?.map(entry => entry.point)).toEqual(['sm', 'md', 'lg'])
   })
 
-  it('resolves vertical breakpoints from either key', () => {
-    expect(resolveBreakpoints(createContext({ verticalBreakpoints: { sm: '640px' } }), 'verticalBreakpoints'))
-      .toEqual([{ point: 'sm', size: '640px' }])
-    expect(resolveBreakpoints(createContext({ verticalBreakpoint: { sm: '640px' } }), 'verticalBreakpoint'))
-      .toEqual([{ point: 'sm', size: '640px' }])
+  it.each([
+    ['breakpoints', '640px'],
+    ['breakpoint', '40rem'],
+    ['verticalBreakpoints', '480px'],
+    ['verticalBreakpoint', '30rem'],
+  ] as const)('uses the explicit %s key', (key, size) => {
+    expect(resolveBreakpoints({ theme: mixedTheme }, key)).toEqual([{ point: 'sm', size }])
+  })
+
+  it('does not use another key from user configuration', () => {
+    const context = {
+      theme: mixedTheme,
+      generator: { userConfig: { theme: { breakpoints: { sm: '100px' } } } },
+    }
+    expect(resolveBreakpoints(context, 'breakpoint')).toEqual([{ point: 'sm', size: '40rem' }])
+    expect(resolveBreakpoints({ theme: wind4Theme }, 'breakpoints')).toBeUndefined()
   })
 
   it('prefers the generator user config theme', () => {
-    const context = createContext({ breakpoints: { md: '768px' } })
-    context.generator!.userConfig!.theme = { breakpoints: { custom: '1px' } }
+    const context = {
+      theme: wind3Theme,
+      generator: { userConfig: { theme: { breakpoints: { custom: '1px' } } } },
+    }
     expect(resolveBreakpoints(context)).toEqual([{ point: 'custom', size: '1px' }])
   })
 
   it('returns undefined when no breakpoint key is present', () => {
-    expect(resolveBreakpoints(createContext({}))).toBeUndefined()
+    expect(resolveBreakpoints({ theme: {} })).toBeUndefined()
   })
 
-  it('caches the resolved breakpoints per theme and key', () => {
-    const context = createContext(wind3Theme)
-    expect(resolveBreakpoints(context)).toBe(resolveBreakpoints(context))
-    expect(resolveBreakpoints(context, 'verticalBreakpoints'))
-      .not
-      .toBe(resolveBreakpoints(context))
+  it('caches by breakpoint map, including replacement maps', () => {
+    const context = { theme: { breakpoints: { sm: '640px' } } }
+    const first = resolveBreakpoints(context)
+    expect(resolveBreakpoints(context)).toBe(first)
+    expect(resolveBreakpoints({ theme: { breakpoint: context.theme.breakpoints } })).toBe(first)
+    context.theme.breakpoints = { sm: '700px' }
+    expect(resolveBreakpoints(context)).toEqual([{ point: 'sm', size: '700px' }])
+  })
+
+  it.each(['variant-first', 'screen-first'])('keeps screen and user-config results separate: %s', (order) => {
+    const theme = { breakpoints: { sm: '640px', md: '768px' } }
+    const context: BreakpointsContext = {
+      theme,
+      generator: { userConfig: { theme: { breakpoints: { sm: '600px' } } } },
+    }
+    const checkVariant = () => expect(resolveBreakpoints(context)).toEqual([{ point: 'sm', size: '600px' }])
+    const checkScreen = () => expect(resolveScreenMediaQuery(theme, 'md')).toBe('(min-width: 768px)')
+    if (order === 'variant-first') {
+      checkVariant()
+      checkScreen()
+    }
+    else {
+      checkScreen()
+      checkVariant()
+    }
+    checkScreen()
+    checkVariant()
+  })
+
+  it('resolves vertical breakpoints by presence', () => {
+    expect(resolveVerticalBreakpoints({ theme: { verticalBreakpoints: { sm: '480px' } } }))
+      .toEqual([{ point: 'sm', size: '480px' }])
+    expect(resolveVerticalBreakpoints({ theme: { verticalBreakpoint: { sm: '30rem' } } }))
+      .toEqual([{ point: 'sm', size: '30rem' }])
   })
 })
 
 describe('resolveScreenMediaQuery', () => {
-  it('generates a min-width query', () => {
-    expect(resolveScreenMediaQuery(wind3Theme, 'md')).toBe('(min-width: 768px)')
-    expect(resolveScreenMediaQuery(wind4Theme, 'md')).toBe('(min-width: 768px)')
+  it.each([wind3Theme, wind4Theme])('generates a min-width query', (theme) => {
+    expect(resolveScreenMediaQuery(theme, 'md')).toBe('(min-width: 768px)')
+  })
+
+  it('prefers breakpoint when both horizontal keys exist', () => {
+    expect(resolveScreenMediaQuery(mixedTheme, 'sm')).toBe('(min-width: 40rem)')
+    expect(() => resolveScreenMediaQuery({ breakpoint: {}, breakpoints: mixedTheme.breakpoints }, 'sm'))
+      .toThrow('breakpoint sm not found')
   })
 
   it('generates an lt query', () => {
     expect(resolveScreenMediaQuery(wind3Theme, 'lt-md')).toBe('(max-width: 767.9px)')
+    expect(resolveScreenMediaQuery(mixedTheme, 'lt-sm')).toBe('(max-width: calc(40rem - 0.1px))')
   })
 
   it('generates an at query bounded by the next breakpoint', () => {
@@ -95,55 +121,48 @@ describe('resolveScreenMediaQuery', () => {
 })
 
 describe('variantBreakpoints', () => {
-  const variant = variantBreakpoints()
-
-  function match(matcher: string, theme: Record<string, any> = wind3Theme) {
-    return variant.match!(matcher, createContext(theme)) as any
+  async function match(matcher: string, theme: object = wind3Theme, themeKey: 'breakpoint' | 'breakpoints' = 'breakpoints', parent = '') {
+    const generator = await createGenerator({ theme })
+    const result = await variantBreakpoints(themeKey).match(matcher, { theme, generator, rawSelector: matcher })
+    if (!result)
+      return undefined
+    if (typeof result === 'string' || Array.isArray(result) || !result.handle)
+      throw new Error('Expected one breakpoint handler')
+    return {
+      matcher: result.matcher,
+      ...result.handle({ prefix: '', selector: '', pseudo: '', parent, entries: [] }, input => input),
+    }
   }
 
-  function runParent(handler: any) {
-    let parent = ''
-    let parentOrder: number | undefined
-    handler.handle({ parent: '', entries: [] }, (input: any) => {
-      parent = input.parent
-      parentOrder = input.parentOrder
-      return input
-    })
-    return { parent, parentOrder }
-  }
-
-  it('resolves the parent media query', () => {
-    const handler = match('md:font-bold')!
-    expect(handler.matcher).toBe('font-bold')
-    expect(runParent(handler).parent).toBe('@media (min-width: 768px)')
+  it('resolves the parent media query', async () => {
+    expect(await match('md:font-bold')).toMatchObject({ matcher: 'font-bold', parent: '@media (min-width: 768px)', parentOrder: 3002 })
   })
 
-  it('supports lt and at prefixes with ordering', () => {
-    const lt = match('lt-md:font-bold')!
-    expect(lt.parentOrder).toBeUndefined()
-    expect(runParent(lt)).toEqual({
-      parent: '@media (max-width: 767.9px)',
-      parentOrder: 2998,
-    })
-    const at = match('at-md:font-bold')!
-    expect(at.parentOrder).toBeUndefined()
-    expect(runParent(at)).toEqual({
-      parent: '@media (min-width: 768px) and (max-width: 1023.9px)',
-      parentOrder: 3002,
-    })
+  it.each(['lt-', '<', 'max-'])('supports the %s prefix with descending order', async (prefix) => {
+    expect(await match(`${prefix}md:font-bold`)).toMatchObject({ parent: '@media (max-width: 767.9px)', parentOrder: 2998 })
   })
 
-  it('matches Wind4 theme breakpoints', () => {
-    expect(match('sm:font-bold', wind4Theme)!.matcher).toBe('font-bold')
+  it.each(['at-', '~'])('supports the %s prefix and an unbounded final breakpoint', async (prefix) => {
+    expect(await match(`${prefix}md:font-bold`)).toMatchObject({ parent: '@media (min-width: 768px) and (max-width: 1023.9px)', parentOrder: 3002 })
+    expect(await match(`${prefix}lg:font-bold`)).toMatchObject({ parent: '@media (min-width: 1024px)', parentOrder: 3003 })
   })
 
-  it('leaves the container rule to its own variant', () => {
-    expect(match('md:container')).toBeUndefined()
+  it.each([['breakpoint', '40rem'], ['breakpoints', '640px']] as const)('uses %s for resolution and autocomplete', async (key, size) => {
+    expect(await match('sm:font-bold', mixedTheme, key)).toMatchObject({ parent: `@media (min-width: ${size})` })
+    expect(variantBreakpoints(key).autocomplete).toBe(`(at-|lt-|max-|)$${key}:`)
   })
 
-  it('handles arbitrary (max|min)-width pseudo conditions', () => {
-    const handler = match('max-[600px]:font-bold')!
-    expect(handler.matcher).toBe('font-bold')
-    expect(runParent(handler).parent).toBe('@media (max-width: 600px)')
+  it('preserves existing parents', async () => {
+    expect(await match('md:font-bold', wind3Theme, 'breakpoints', '@supports (display: grid)'))
+      .toMatchObject({ parent: '@supports (display: grid) $$ @media (min-width: 768px)' })
+  })
+
+  it('leaves the container rule to its own variant', async () => {
+    expect(await match('md:container')).toBeUndefined()
+  })
+
+  it.each(['min', 'max'])('handles arbitrary %s-width conditions', async (prefix) => {
+    expect(await match(`${prefix}-[600px]:font-bold`))
+      .toMatchObject({ matcher: 'font-bold', parent: `@media (${prefix}-width: 600px)` })
   })
 })

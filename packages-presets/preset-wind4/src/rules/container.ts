@@ -36,7 +36,7 @@ export const container: Rule<Theme>[] = [
         if (isString(query)) {
           const match = query.match(queryMatcher)?.[1]
           if (match) {
-            const bp = resolveBreakpoints(context) ?? []
+            const bp = resolveBreakpoints(context, 'breakpoint') ?? []
             const matchBp = bp.find(i => i.size === match)?.point
 
             if (!themeMaxWidth)
@@ -76,7 +76,7 @@ export const container: Rule<Theme>[] = [
 
 export const containerShortcuts: Shortcut<Theme>[] = [
   [/^(?:(\w+)[:-])?container$/, ([, bp], context) => {
-    let points = (resolveBreakpoints(context) ?? []).map(i => i.point)
+    let points = (resolveBreakpoints(context, 'breakpoint') ?? []).map(i => i.point)
     if (bp) {
       if (!points.includes(bp))
         return
