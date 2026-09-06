@@ -270,15 +270,13 @@ async function transformFiles(
     sources: FileEntryItem[],
     enforce: SourceCodeTransformerEnforce,
   ) => Promise.all(
-    sources.map(source => new Promise<FileEntryItem>((resolve) => {
-      applyTransformers(ctx, source.transformedCode ?? source.code, source.id, enforce)
-        .then((transformsRes) => {
-          resolve({
-            ...source,
-            transformedCode: transformsRes?.code ?? source.transformedCode,
-          })
-        })
-    })),
+    sources.map(async (source) => {
+      const transformsRes = await applyTransformers(ctx, source.transformedCode ?? source.code, source.id, enforce)
+      return {
+        ...source,
+        transformedCode: transformsRes?.code ?? source.transformedCode,
+      }
+    }),
   )
 
   const preTrans = await run(sources, 'pre')
