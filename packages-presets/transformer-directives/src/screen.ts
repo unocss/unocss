@@ -24,14 +24,10 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
   const variantEntries: Array<[string, string, number]> = (resolveBreakpoints(uno.config.theme) ?? []).map(({ point, size }, idx) => [point, size, idx])
   const generateMediaQuery = (breakpointName: string, prefix?: string) => {
     const [, size, idx] = variantEntries.find(i => i[0] === breakpointName)!
-    if (prefix) {
-      if (prefix === 'lt')
-        return `@media (max-width: ${calcMaxWidthBySize(size)})`
-      else if (prefix === 'at')
-        return `@media (min-width: ${size})${variantEntries[idx + 1] ? ` and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})` : ''}`
-
-      else throw new Error(`breakpoint variant not supported: ${prefix}`)
-    }
+    if (prefix === 'lt')
+      return `@media (max-width: ${calcMaxWidthBySize(size)})`
+    if (prefix === 'at')
+      return `@media (min-width: ${size})${variantEntries[idx + 1] ? ` and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})` : ''}`
     return `@media (min-width: ${size})`
   }
 
