@@ -1,6 +1,6 @@
 import type { Atrule } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
-import { calcMaxWidthBySize } from '@unocss/rule-utils'
+import { calcMaxWidthBySize, resolveBreakpoints } from '@unocss/rule-utils'
 
 // eslint-disable-next-line regexp/no-misleading-capturing-group
 const screenRuleRE = /(@screen [^{]+)(.+)/g
@@ -21,17 +21,7 @@ export function handleScreen({ code, uno }: TransformerDirectivesContext, node: 
     breakpointName = match[2]
   }
 
-  const resolveBreakpoints = () => {
-    const key = uno.config.presets.some(p => p.name === '@unocss/preset-wind4') ? 'breakpoint' : 'breakpoints'
-    const breakpoints = uno.config.theme[key as keyof typeof uno.config.theme] as Record<string, string> | undefined
-
-    return breakpoints
-      ? Object.entries(breakpoints)
-          .sort((a, b) => Number.parseInt(a[1].replace(/[a-z]+/gi, '')) - Number.parseInt(b[1].replace(/[a-z]+/gi, '')))
-          .map(([point, size]) => ({ point, size }))
-      : undefined
-  }
-  const variantEntries: Array<[string, string, number]> = (resolveBreakpoints() ?? []).map(({ point, size }, idx) => [point, size, idx])
+  const variantEntries: Array<[string, string, number]> = (resolveBreakpoints(uno.config.theme) ?? []).map(({ point, size }, idx) => [point, size, idx])
   const generateMediaQuery = (breakpointName: string, prefix?: string) => {
     const [, size, idx] = variantEntries.find(i => i[0] === breakpointName)!
     if (prefix) {

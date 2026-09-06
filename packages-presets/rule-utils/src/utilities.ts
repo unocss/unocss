@@ -95,3 +95,17 @@ export function getStringComponents(str: string, separators: string | string[], 
   if (components.length > 0)
     return components
 }
+
+// Wind4 theme keys breakpoints as `breakpoint`, Wind3 as `breakpoints`; keying on theme presence keeps custom or renamed presets working.
+const reLetters = /[a-z]+/gi
+
+export function resolveBreakpoints(theme: Record<string, any>) {
+  const breakpoints: Record<string, string> | undefined = theme.breakpoint ?? theme.breakpoints
+
+  if (!breakpoints)
+    return undefined
+
+  return Object.entries(breakpoints)
+    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
+    .map(([point, size]) => ({ point, size }))
+}
