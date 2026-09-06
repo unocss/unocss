@@ -1,7 +1,7 @@
 import type { CSSObject, Rule, Shortcut, VariantHandlerContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { isString } from '@unocss/core'
-import { resolveBreakpoints } from '../utils'
+import { resolveBreakpoints } from '@unocss/rule-utils'
 
 export const containerParent: Rule<Theme>[] = [
   [/^@container(?:\/(\w+))?(?:-(normal))?$/, ([, l, v]) => {
