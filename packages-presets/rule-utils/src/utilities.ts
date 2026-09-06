@@ -97,17 +97,9 @@ export function getStringComponents(str: string, separators: string | string[], 
     return components
 }
 
-// #region resolve breakpoints
 export type BreakpointsThemeKey = 'breakpoint' | 'breakpoints' | 'verticalBreakpoint' | 'verticalBreakpoints'
 
-// Wind4 themes key breakpoints as `breakpoint`/`verticalBreakpoint`, Wind3 themes as `breakpoints`/`verticalBreakpoints`;
-// resolving by key presence keeps custom or renamed presets working.
-const fallbackBreakpointKeys: Record<BreakpointsThemeKey, BreakpointsThemeKey> = {
-  breakpoint: 'breakpoints',
-  breakpoints: 'breakpoint',
-  verticalBreakpoint: 'verticalBreakpoints',
-  verticalBreakpoints: 'verticalBreakpoint',
-}
+type BreakpointsTheme = Partial<Record<BreakpointsThemeKey, Record<string, string>>>
 
 export interface BreakpointsContext {
   theme: object
@@ -115,39 +107,43 @@ export interface BreakpointsContext {
 }
 
 const reLetters = /[a-z]+/gi
-const resolvedBreakpointsCache = new WeakMap<object, Map<BreakpointsThemeKey, { point: string, size: string }[]>>()
+const resolvedBreakpointsCache = new WeakMap<Record<string, string>, { point: string, size: string }[]>()
 
-export function resolveBreakpoints({ theme, generator }: BreakpointsContext, key: BreakpointsThemeKey = 'breakpoints') {
-  const userTheme = generator?.userConfig?.theme as Record<string, any> | undefined
-  const t = theme as Record<string, any>
-  const fallbackKey = fallbackBreakpointKeys[key]
-  const breakpoints: Record<string, string> | undefined = userTheme?.[key] || userTheme?.[fallbackKey] || t[key] || t[fallbackKey]
+export function resolveBreakpoints({ theme, generator }: BreakpointsContext, key?: BreakpointsThemeKey) {
+  const resolvedTheme = theme as BreakpointsTheme
+  const userTheme = generator?.userConfig?.theme as BreakpointsTheme | undefined
+  // Directives detect the key from the theme, while presets select their own key.
+  const themeKey = key ?? (resolvedTheme.breakpoint != null ? 'breakpoint' : 'breakpoints')
+  const breakpoints = userTheme?.[themeKey] || resolvedTheme[themeKey]
 
   if (!breakpoints)
     return undefined
 
-  let cache = resolvedBreakpointsCache.get(theme)
-  if (!cache) {
-    cache = new Map()
-    resolvedBreakpointsCache.set(theme, cache)
-  }
-  // horizontal and vertical breakpoints share the same theme, so the cache has to be keyed by both
-  if (cache.has(key))
-    return cache.get(key)
+  // User configuration and the merged theme can contain different breakpoint maps.
+  const cached = resolvedBreakpointsCache.get(breakpoints)
+  if (cached)
+    return cached
 
   const resolved = Object.entries(breakpoints)
     .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
     .map(([point, size]) => ({ point, size }))
 
-  cache.set(key, resolved)
+  resolvedBreakpointsCache.set(breakpoints, resolved)
   return resolved
 }
 
 export function resolveVerticalBreakpoints(context: BreakpointsContext) {
-  return resolveBreakpoints(context, 'verticalBreakpoints')
+  const theme = context.theme as BreakpointsTheme
+  return resolveBreakpoints(context, theme.verticalBreakpoint != null ? 'verticalBreakpoint' : 'verticalBreakpoints')
 }
 
-// #endregion
+export function generateBreakpointMediaQuery(size: string, prefix?: 'lt' | 'at', nextSize?: string) {
+  if (prefix === 'lt')
+    return `(max-width: ${calcMaxWidthBySize(size)})`
+  if (prefix === 'at' && nextSize != null)
+    return `(min-width: ${size}) and (max-width: ${calcMaxWidthBySize(nextSize)})`
+  return `(min-width: ${size})`
+}
 
 const screenValueRE = /^(?:(lt|at)-)?(\w+)$/
 
@@ -161,10 +157,5 @@ export function resolveScreenMediaQuery(theme: object, value: string) {
   if (index === -1)
     throw new Error(`breakpoint ${breakpoint} not found`)
 
-  const { size } = entries[index]
-  if (prefix === 'lt')
-    return `(max-width: ${calcMaxWidthBySize(size)})`
-  if (prefix === 'at')
-    return `(min-width: ${size})${entries[index + 1] ? ` and (max-width: ${calcMaxWidthBySize(entries[index + 1].size)})` : ''}`
-  return `(min-width: ${size})`
+  return generateBreakpointMediaQuery(entries[index].size, prefix, entries[index + 1]?.size)
 }

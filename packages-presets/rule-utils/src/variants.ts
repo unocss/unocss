@@ -1,7 +1,6 @@
 import type { Arrayable, VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
-import { calcMaxWidthBySize } from './directive'
-import { getBracket, resolveBreakpoints } from './utilities'
+import { generateBreakpointMediaQuery, getBracket, resolveBreakpoints } from './utilities'
 
 const sizePseudo = /(max|min)-\[([^\]]*)\]:/
 
@@ -12,18 +11,17 @@ export function variantBreakpoints(themeKey: 'breakpoint' | 'breakpoints' = 'bre
     match(matcher, context) {
       if (sizePseudo.test(matcher)) {
         const match = matcher.match(sizePseudo)!
-        const m = matcher.replace(match[0], '')
+        const remainingMatcher = matcher.replace(match[0], '')
         return {
-          matcher: m,
+          matcher: remainingMatcher,
           handle: (input, next) => next({
             ...input,
             parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (${match[1]}-width: ${match[2]})`,
           }),
         }
       }
-      const variantEntries: Array<[string, string, number]> = (resolveBreakpoints(context) ?? [])
-        .map(({ point, size }, idx) => [point, size, idx])
-      for (const [point, size, idx] of variantEntries) {
+      const breakpoints = resolveBreakpoints(context, themeKey) ?? []
+      for (const [index, { point, size }] of breakpoints.entries()) {
         if (!regexCache[point])
           regexCache[point] = new RegExp(`^((?:([al]t-|[<~]|max-))?${point}(?:${context.generator.config.separators.join('|')}))`)
 
@@ -31,52 +29,24 @@ export function variantBreakpoints(themeKey: 'breakpoint' | 'breakpoints' = 'bre
         if (!match)
           continue
 
-        const [, pre] = match
-
-        const m = matcher.slice(pre.length)
-        // container rule is responsive, but also is breakpoint aware
-        // it is handled on its own module (container.ts) and so we
-        // exclude it from here
-        if (m === 'container')
+        const [matchedPrefix] = match
+        const remainingMatcher = matcher.slice(matchedPrefix.length)
+        // Container rules handle their own responsive breakpoints.
+        if (remainingMatcher === 'container')
           continue
 
-        const isLtPrefix = pre.startsWith('lt-') || pre.startsWith('<') || pre.startsWith('max-')
-        const isAtPrefix = pre.startsWith('at-') || pre.startsWith('~')
-
-        let order = 3000 // parseInt(size)
-
-        if (isLtPrefix) {
-          order -= (idx + 1)
-          return {
-            matcher: m,
-            handle: (input, next) => next({
-              ...input,
-              parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (max-width: ${calcMaxWidthBySize(size)})`,
-              parentOrder: order,
-            }),
-          }
-        }
-
-        order += (idx + 1)
-
-        // support for windicss @<breakpoint> => last breakpoint will not have the upper bound
-        if (isAtPrefix && idx < variantEntries.length - 1) {
-          return {
-            matcher: m,
-            handle: (input, next) => next({
-              ...input,
-              parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size}) and (max-width: ${calcMaxWidthBySize(variantEntries[idx + 1][1])})`,
-              parentOrder: order,
-            }),
-          }
-        }
+        const isLtPrefix = matchedPrefix.startsWith('lt-') || matchedPrefix.startsWith('<') || matchedPrefix.startsWith('max-')
+        const isAtPrefix = matchedPrefix.startsWith('at-') || matchedPrefix.startsWith('~')
+        const prefix = isLtPrefix ? 'lt' : isAtPrefix ? 'at' : undefined
+        const mediaQuery = generateBreakpointMediaQuery(size, prefix, breakpoints[index + 1]?.size)
+        const parentOrder = 3000 + (isLtPrefix ? -(index + 1) : index + 1)
 
         return {
-          matcher: m,
+          matcher: remainingMatcher,
           handle: (input, next) => next({
             ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media (min-width: ${size})`,
-            parentOrder: order,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@media ${mediaQuery}`,
+            parentOrder,
           }),
         }
       }
