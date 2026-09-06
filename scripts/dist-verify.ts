@@ -1,42 +1,31 @@
 import fs from 'node:fs/promises'
+import { join } from 'node:path'
 import process from 'node:process'
 import { glob } from 'tinyglobby'
 
-export async function verifyDist() {
-  const cjsFiles = await glob([
-    'packages-*/*/dist/**/*.d.ts',
+// UnoCSS packages are ESM-only, so CJS output must not require them
+const forbiddenCjsImport = /\brequire\(\s*['"]@?unocss(?:\/core)?['"]\s*\)/
+
+export async function verifyDist(root = process.cwd()) {
+  const cjsOutputFiles = await glob([
+    'packages-*/*/dist/**/*.cjs',
     'packages-*/*/dist/**/*.d.cts',
   ], {
+    cwd: root,
     ignore: ['**/node_modules/**'],
     expandDirectories: false,
   })
-  // const cjsFiles = await fg('packages-*/*/dist/**/*.cjs', {
-  //   ignore: ['**/node_modules/**'],
-  // })
 
-  console.log(`${cjsFiles.length} dts files found`)
-  // console.log(`${cjsFiles.length} cjs files found`)
-  console.log(cjsFiles.map(i => ` - ${i}`).join('\n'))
-
-  const forbidden = [
-    // Make sure no CJS is importing UnoCSS packages as they are ESM only
-    /require\(['"]@?unocss(\/core)?['"]\)/,
-    // Use `exports.default` instead, should be patched by postbuild.ts
-    // 'module.exports',
-  ]
-
-  const exportsDefault = 'as default'
-  // const exportsDefault = 'exports.default'
+  console.log(`${cjsOutputFiles.length} CJS output files found`)
+  console.log(cjsOutputFiles.map(i => ` - ${i}`).join('\n'))
 
   let error = false
-  await Promise.all(cjsFiles.map(async (file) => {
-    const code = await fs.readFile(file, 'utf-8')
-    const matches = forbidden.map(r => code.match(r)).filter(Boolean)
-    // the CJS module can have exports.default and another module.exports
-    // preset-legacy-compat is an example, exporting presetLegacyCompat as default and named
-    if (matches.length && !code.match(exportsDefault)) {
+  await Promise.all(cjsOutputFiles.map(async (file) => {
+    const code = await fs.readFile(join(root, file), 'utf-8')
+    const match = code.match(forbiddenCjsImport)
+    if (match) {
       console.error(`\nFound forbidden code in ${file}`)
-      console.error(matches.map(i => ` - ${i![0]}`).join('\n'))
+      console.error(` - ${match[0]}`)
       error = true
     }
   }))
@@ -48,4 +37,4 @@ export async function verifyDist() {
 }
 
 if (process.argv[1] === new URL(import.meta.url).pathname)
-  await verifyDist()
+  await verifyDist(process.argv[2])
