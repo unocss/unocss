@@ -1,4 +1,5 @@
 import { isString } from '@unocss/core'
+import { calcMaxWidthBySize } from './directive'
 
 export function getBracket(str: string, open: string, close: string) {
   if (str === '')
@@ -96,16 +97,74 @@ export function getStringComponents(str: string, separators: string | string[], 
     return components
 }
 
-// Wind4 theme keys breakpoints as `breakpoint`, Wind3 as `breakpoints`; keying on theme presence keeps custom or renamed presets working.
-const reLetters = /[a-z]+/gi
+// #region resolve breakpoints
+export type BreakpointsThemeKey = 'breakpoint' | 'breakpoints' | 'verticalBreakpoint' | 'verticalBreakpoints'
 
-export function resolveBreakpoints(theme: Record<string, any>) {
-  const breakpoints: Record<string, string> | undefined = theme.breakpoint ?? theme.breakpoints
+// Wind4 themes key breakpoints as `breakpoint`/`verticalBreakpoint`, Wind3 themes as `breakpoints`/`verticalBreakpoints`;
+// resolving by key presence keeps custom or renamed presets working.
+const fallbackBreakpointKeys: Record<BreakpointsThemeKey, BreakpointsThemeKey> = {
+  breakpoint: 'breakpoints',
+  breakpoints: 'breakpoint',
+  verticalBreakpoint: 'verticalBreakpoints',
+  verticalBreakpoints: 'verticalBreakpoint',
+}
+
+export interface BreakpointsContext {
+  theme: object
+  generator?: { userConfig?: { theme?: object } }
+}
+
+const reLetters = /[a-z]+/gi
+const resolvedBreakpointsCache = new WeakMap<object, Map<BreakpointsThemeKey, { point: string, size: string }[]>>()
+
+export function resolveBreakpoints({ theme, generator }: BreakpointsContext, key: BreakpointsThemeKey = 'breakpoints') {
+  const userTheme = generator?.userConfig?.theme as Record<string, any> | undefined
+  const t = theme as Record<string, any>
+  const fallbackKey = fallbackBreakpointKeys[key]
+  const breakpoints: Record<string, string> | undefined = userTheme?.[key] || userTheme?.[fallbackKey] || t[key] || t[fallbackKey]
 
   if (!breakpoints)
     return undefined
 
-  return Object.entries(breakpoints)
+  let cache = resolvedBreakpointsCache.get(theme)
+  if (!cache) {
+    cache = new Map()
+    resolvedBreakpointsCache.set(theme, cache)
+  }
+  // horizontal and vertical breakpoints share the same theme, so the cache has to be keyed by both
+  if (cache.has(key))
+    return cache.get(key)
+
+  const resolved = Object.entries(breakpoints)
     .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
     .map(([point, size]) => ({ point, size }))
+
+  cache.set(key, resolved)
+  return resolved
+}
+
+export function resolveVerticalBreakpoints(context: BreakpointsContext) {
+  return resolveBreakpoints(context, 'verticalBreakpoints')
+}
+
+// #endregion
+
+const screenValueRE = /^(?:(lt|at)-)?(\w+)$/
+
+export function resolveScreenMediaQuery(theme: object, value: string) {
+  const match = value.match(screenValueRE)
+  const prefix = match?.[1] as 'lt' | 'at' | undefined
+  const breakpoint = match?.[2] ?? value
+
+  const entries = resolveBreakpoints({ theme }) ?? []
+  const index = entries.findIndex(({ point }) => point === breakpoint)
+  if (index === -1)
+    throw new Error(`breakpoint ${breakpoint} not found`)
+
+  const { size } = entries[index]
+  if (prefix === 'lt')
+    return `(max-width: ${calcMaxWidthBySize(size)})`
+  if (prefix === 'at')
+    return `(min-width: ${size})${entries[index + 1] ? ` and (max-width: ${calcMaxWidthBySize(entries[index + 1].size)})` : ''}`
+  return `(min-width: ${size})`
 }

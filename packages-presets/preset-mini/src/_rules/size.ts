@@ -1,6 +1,7 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, resolveBreakpoints } from '../utils'
+import { resolveBreakpoints } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 const sizeMapping: Record<string, string> = {
   h: 'height',

@@ -1,8 +1,8 @@
 import type { Variant } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
+import { variantBreakpoints } from '@unocss/rule-utils'
 import { variantAria, variantTaggedAriaAttributes } from './aria'
-import { variantBreakpoints } from './breakpoints'
 import { variantChildren } from './children'
 import { variantCombinators, variantSvgCombinators } from './combinators'
 import { variantContainerQuery } from './container'
@@ -48,7 +48,7 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     ...variantMotions,
     ...variantOrientations,
     ...variantForcedColors,
-    variantBreakpoints(),
+    variantBreakpoints('breakpoint'),
     ...variantCombinators,
     ...variantSvgCombinators,
 
