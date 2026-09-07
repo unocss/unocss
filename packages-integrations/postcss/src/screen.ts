@@ -2,9 +2,8 @@ import type { UnoGenerator } from '@unocss/core'
 import type { Root } from 'postcss'
 import { calcMaxWidthBySize } from '@unocss/rule-utils'
 
-export async function parseScreen(root: Root, uno: UnoGenerator, directiveName: string) {
-  // @ts-expect-error types
-  root.walkAtRules(directiveName, async (rule) => {
+export function parseScreen(root: Root, uno: UnoGenerator, directiveName: string) {
+  root.walkAtRules(directiveName, (rule) => {
     let breakpointName = ''
     let prefix = ''
 
