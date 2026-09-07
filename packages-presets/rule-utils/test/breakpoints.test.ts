@@ -56,6 +56,10 @@ describe('resolveBreakpoints', () => {
     expect(resolveBreakpoints({ theme: {} })).toBeUndefined()
   })
 
+  it('resolves an empty breakpoint map to an empty array', () => {
+    expect(resolveBreakpoints({ theme: { breakpoints: {} } })).toEqual([])
+  })
+
   it('caches by breakpoint map, including replacement maps', () => {
     const context = { theme: { breakpoints: { sm: '640px' } } }
     const first = resolveBreakpoints(context)
@@ -159,6 +163,10 @@ describe('variantBreakpoints', () => {
 
   it('leaves the container rule to its own variant', async () => {
     expect(await match('md:container')).toBeUndefined()
+  })
+
+  it('matches nothing when the theme has no breakpoints', async () => {
+    expect(await match('md:font-bold', {})).toBeUndefined()
   })
 
   it.each(['min', 'max'])('handles arbitrary %s-width conditions', async (prefix) => {
