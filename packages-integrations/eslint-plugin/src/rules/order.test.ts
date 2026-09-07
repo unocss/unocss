@@ -467,3 +467,100 @@ run({
     },
   ],
 })
+
+run({
+  name: 'order-unoVariables-satisfies',
+  rule,
+  languageOptions: {
+    parser: vueParser,
+    parserOptions: {
+      parser: '@typescript-eslint/parser',
+    },
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    html`
+      <script lang="ts">
+      const clsButton = 'ml-1 mr-1' satisfies string
+      </script>
+    `,
+    html`
+      <script lang="ts">
+      const buttonClassNames = { default: 'pl1 pr1' } satisfies object
+      </script>
+    `,
+    html`
+      <script lang="ts">
+      const notSorted = 'mr-1 ml-1' satisfies string
+      </script>
+    `,
+  ],
+  invalid: [
+    {
+      code: html`
+        <script lang="ts">
+        const clsButton = 'mr-1 ml-1' satisfies string
+        </script>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<script lang="ts">
+        const clsButton = 'ml-1 mr-1' satisfies string
+        </script>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: html`
+        <script lang="ts">
+        const clsButton = 'mr-1 ml-1' as const satisfies string
+        </script>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<script lang="ts">
+        const clsButton = 'ml-1 mr-1' as const satisfies string
+        </script>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: html`
+        <script lang="ts">
+        const buttonClassNames = { default: 'pr1 pl1', variants: { light: 'mr-1 ml-1' } } satisfies object
+        </script>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<script lang="ts">
+        const buttonClassNames = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1' } } satisfies object
+        </script>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoVariables: ['^theme'] }],
+      code: html`
+        <script lang="ts">
+        const themeDashboard = { slots: { root: 'mr-1 ml-1' } } satisfies object
+        </script>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<script lang="ts">
+        const themeDashboard = { slots: { root: 'ml-1 mr-1' } } satisfies object
+        </script>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+  ],
+})
