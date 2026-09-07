@@ -8,7 +8,7 @@ import {
   createPseudoClassFunctions,
   createTaggedPseudoClasses,
 } from '../src/pseudo'
-import { variantGetBracket } from '../src/variants'
+import { variantGetBracket, variantMatcher } from '../src/variants'
 
 // Create utilities similar to what presets use
 const utils: PseudoVariantUtilities = {
@@ -237,6 +237,35 @@ it('part classes', async () => {
       "/* layer: default */
       .part-\\[button\\]\\:foo-1::part(button){color:foo-1;}
       .part-\\[slider-thumb\\]\\:foo-2::part(slider-thumb){color:foo-2;}"
+    `)
+})
+
+it('part classes after another variant', async () => {
+  const uno = await createGenerator({
+    variants: [
+      createPartClasses(),
+      variantMatcher('dark', input => ({ prefix: `.dark $$ ${input.prefix}` })),
+    ],
+    rules: [
+      [/^foo-(\d)$/, ([_, a]) => ({ color: `foo-${a}` })],
+    ],
+  })
+
+  const result = await uno.generate([
+    'dark:part-[button]:foo-1',
+  ])
+
+  expect(result.matched)
+    .toMatchInlineSnapshot(`
+      Set {
+        "dark:part-[button]:foo-1",
+      }
+    `)
+
+  expect(result.css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .dark .dark\\:part-\\[button\\]\\:foo-1::part(button){color:foo-1;}"
     `)
 })
 
