@@ -1,7 +1,9 @@
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
+import { variantBreakpoints as miniVariantBreakpoints } from '@unocss/preset-mini/variants'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
+import { variantBreakpoints as wind4VariantBreakpoints } from '@unocss/preset-wind4/variants'
 import { resolveScreenMediaQuery } from '@unocss/rule-utils'
 import { describe, expect, it } from 'vitest'
 
@@ -47,6 +49,13 @@ describe.each(presets)('$name breakpoint resolution', ({ preset, width, height, 
       checkScreen()
       await checkVariants()
     }
+  })
+})
+
+describe('variantBreakpoints subpath exports', () => {
+  it('binds each preset to its own theme key', () => {
+    expect(miniVariantBreakpoints().autocomplete).toBe('(at-|lt-|max-|)$breakpoints:')
+    expect(wind4VariantBreakpoints().autocomplete).toBe('(at-|lt-|max-|)$breakpoint:')
   })
 })
 

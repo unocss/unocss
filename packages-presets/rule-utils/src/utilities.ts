@@ -109,12 +109,12 @@ export interface BreakpointsContext {
 const reLetters = /[a-z]+/gi
 const resolvedBreakpointsCache = new WeakMap<Record<string, string>, { point: string, size: string }[]>()
 
-export function resolveBreakpoints({ theme, generator }: BreakpointsContext, key?: BreakpointsThemeKey) {
+export function resolveBreakpoints({ theme, generator }: BreakpointsContext, themeKey?: BreakpointsThemeKey) {
   const resolvedTheme = theme as BreakpointsTheme
   const userTheme = generator?.userConfig?.theme as BreakpointsTheme | undefined
   // Directives detect the key from the theme, while presets select their own key.
-  const themeKey = key ?? (resolvedTheme.breakpoint != null ? 'breakpoint' : 'breakpoints')
-  const breakpoints = userTheme?.[themeKey] || resolvedTheme[themeKey]
+  const selectedKey = themeKey ?? (resolvedTheme.breakpoint != null ? 'breakpoint' : 'breakpoints')
+  const breakpoints = userTheme?.[selectedKey] || resolvedTheme[selectedKey]
 
   if (!breakpoints)
     return undefined
