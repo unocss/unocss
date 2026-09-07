@@ -1,4 +1,3 @@
-/* @export-submodules */
 export * from './aria'
 export * from './children'
 export * from './combinators'
@@ -14,3 +13,5 @@ export * from './negative'
 export * from './pseudo'
 export * from './startingstyle'
 export * from './supports'
+/* @export-submodules */
+export { variantBreakpoints } from '@unocss/rule-utils'
