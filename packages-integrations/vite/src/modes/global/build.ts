@@ -146,6 +146,12 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
+        // for Vite 8's Environment API, each environment may have its own build.outDir
+        for (const env of Object.values(config.environments ?? {})) {
+          if (env?.build?.outDir)
+            distDirs.push(resolve(config.root, env.build.outDir))
+        }
+
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
         const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 

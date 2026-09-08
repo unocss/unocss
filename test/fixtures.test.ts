@@ -2,7 +2,7 @@ import { readFile, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
 import { glob } from 'tinyglobby'
-import { build } from 'vite'
+import { build, createBuilder } from 'vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 
@@ -158,5 +158,18 @@ describe.concurrent('fixtures', () => {
       // transformer-compile-class
       expect(code).contains('uno-tacwqa')
     }
+  })
+
+  // https://github.com/unocss/unocss/issues/5323
+  it.skipIf(isWindows)('vite environments with shared config build', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-environments')
+    await rm(join(root, 'dist-client'), { recursive: true, force: true })
+    await rm(join(root, 'dist-ssr'), { recursive: true, force: true })
+
+    const builder = await createBuilder({ root, logLevel: 'warn' })
+    await builder.buildApp()
+
+    const css = await getGlobContent(root, 'dist-client/**/*.css')
+    expect(css).contains('.text-red')
   })
 })
