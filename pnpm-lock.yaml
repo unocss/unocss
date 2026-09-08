@@ -1661,6 +1661,8 @@ importers:
 
   test/fixtures/vite: {}
 
+  test/fixtures/vite-environments: {}
+
   test/fixtures/vite-legacy: {}
 
   test/fixtures/vite-legacy-chunks:
