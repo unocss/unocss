@@ -220,6 +220,15 @@ describe('preset-mini', () => {
     expect(css).toEqual('')
   })
 
+  it('does not let values break out of the declaration (#5300)', async () => {
+    const uno = await createGenerator({
+      presets: [presetMini()],
+      theme: { colors: { custom: 'red;}body{background:red}' as any } },
+    })
+    const { css } = await uno.generate(['text-custom', 'w-[1px;}body{background:red}]'], { preflights: false })
+    expect(css).not.toContain('body{background:red}')
+  })
+
   it('fontSize theme', async () => {
     const uno = await createGenerator({
       presets: [
