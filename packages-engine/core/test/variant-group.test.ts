@@ -58,6 +58,8 @@ describe('variant-group', () => {
       .toEqual('[&>a]:[&>b]:p-1 [&>a]:[&>b]:p-2')
     expect(expandVariantGroup('[&:nth-child(2)]:([&:nth-child(3)]:(text-red p-1))'))
       .toEqual('[&:nth-child(2)]:[&:nth-child(3)]:text-red [&:nth-child(2)]:[&:nth-child(3)]:p-1')
+    expect(expandVariantGroup('[&[aria-selected=true]]:(bg-accent/9/oklab text-accent-strong/oklab)'))
+      .toEqual('[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab')
   })
 
   it('square bracket case2', async () => {
