@@ -597,6 +597,7 @@
 .scroll-auto{scroll-behavior:auto;}
 .scroll-unset{scroll-behavior:unset;}
 .b-2,
+.border-\[2px\],
 .border-\[length\:2px\],
 .border-\[width\:2px\],
 .border-size-2{border-width:2px;}
@@ -604,8 +605,10 @@
 .border-4{border-width:4px;}
 .border-x{border-inline-width:1px;}
 .border-b{border-bottom-width:1px;}
+.border-b-\[2px\]{border-bottom-width:2px;}
 .border-e-4{border-inline-end-width:4px;}
 .border-s-0{border-inline-start-width:0px;}
+.border-t-\[2px\],
 .border-t-2,
 .border-t-size-2{border-top-width:2px;}
 .border-inline{border-inline-start-width:1px;border-inline-end-width:1px;}

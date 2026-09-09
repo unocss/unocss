@@ -671,6 +671,11 @@ export const presetWind4Targets: string[] = [
   'border-[length:2px]',
   'border-[width:2px]',
 
+  // #5322
+  'border-[2px]',
+  'border-b-[2px]',
+  'border-t-[2px]',
+
   // zoom
   'zoom-50',
   'zoom-[1.1]',
