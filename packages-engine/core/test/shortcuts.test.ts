@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
@@ -253,5 +254,20 @@ describe('shortcuts', async () => {
       .test-inline-body-with-variant{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}
       .dark .test-inline-body-with-variant{margin:3px;padding:0.5rem;}"
     `)
+  })
+
+  it.each([
+    ['[&[aria-selected=true]]:(bg-red/oklab text-blue/oklab)', '[&[aria-selected=true]]:bg-red/oklab [&[aria-selected=true]]:text-blue/oklab'],
+    ['hover:([&[aria-selected=true]]:bg-red/oklab text-blue/oklab)', 'hover:[&[aria-selected=true]]:bg-red/oklab hover:text-blue/oklab'],
+  ])('attribute selector groups generate the expanded shortcut CSS: %s', async (grouped, expanded) => {
+    const uno = await createGenerator({ presets: [presetWind4()], shortcuts: { button: grouped } })
+    const reference = await createGenerator({ presets: [presetWind4()], shortcuts: { button: expanded } })
+    const { css } = await uno.generate('button', { preflights: false })
+    const { css: expected } = await reference.generate('button', { preflights: false })
+    expect(css).toBe(expected)
+    expect(css).toContain('[aria-selected=true]')
+    expect(css).toContain('background-color:color-mix(in oklab,')
+    expect(css).toMatch(/[;{]color:color-mix\(in oklab,/)
+    await prettier.format(css, { parser: 'css', plugins: [parserCSS] })
   })
 })

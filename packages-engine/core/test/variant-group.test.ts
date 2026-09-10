@@ -1,4 +1,5 @@
 import { collapseVariantGroup, expandVariantGroup } from '@unocss/core'
+import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 
 describe('variant-group', () => {
@@ -64,6 +65,19 @@ describe('variant-group', () => {
 
   it('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
+  })
+
+  it.each(['string', 'MagicString'])('attribute selectors inside a group body (%s)', (inputType) => {
+    const cases = [
+      ['hover:([&[aria-selected=true]]:bg-accent text-accent)', 'hover:[&[aria-selected=true]]:bg-accent hover:text-accent'],
+      ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
+      ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
+      ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
+    ]
+    for (const [input, expected] of cases) {
+      const expanded = inputType === 'string' ? expandVariantGroup(input) : expandVariantGroup(new MagicString(input)).toString()
+      expect(expanded).toEqual(expected)
+    }
   })
 
   it('asterisk with tilde', async () => {

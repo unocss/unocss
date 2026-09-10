@@ -13,11 +13,11 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
     // are valid inside a group, not just as its prefix. A single unmatchable
     // character makes the whole group fail to match, so omitting them silently
     // left the group unexpanded.
-    // The bracket alternative stops at the matching `]`, allowing a nested
-    // attribute bracket, rather than stopping at the first inner `]`.
-    // Without this, `[&[aria-selected=true]]:(...)` is left unexpanded and the
-    // unmatched group body is later emitted as malformed CSS.
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?(?:[^\\s\\[\\]]|\\[[^\\[\\]]*\\])*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    // Both the prefix and body must consume nested attribute brackets as a unit.
+    // Stopping at the inner `]` leaves `[&[open]]:(...)` or `hover:([&[open]]:...)`
+    // unexpanded, and the unmatched group can later produce malformed CSS.
+    // Quoted body values can contain literal brackets, as in `content-['[']`.
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?(?:[^\\s\\[\\]]|\\[[^\\[\\]]*\\])*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[(?:[^\\[\\]'\"]|'(?:\\\\.|[^'\\\\])*'|\"(?:\\\\.|[^\"\\\\])*\"|\\[[^\\[\\]]*\\])*\\])+?)\\)(?!\\s*?=>)`, 'gm')
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }
