@@ -26,6 +26,10 @@ interactive/public/shiki
 .turbo
 .eslintcache
 vite.config.ts.timestamp-*
+
 test/assets/fonts
+test/**/vite-environments/dist-?*?
+
 examples/**/public/assets/fonts
 playground/public/assets/fonts
+

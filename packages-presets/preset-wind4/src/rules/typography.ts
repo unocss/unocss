@@ -8,7 +8,7 @@ import {
   globalKeywords,
   h,
   hasParseableColor,
-  isCSSMathFn,
+  isSize,
   numberResolver,
 } from '../utils'
 import { bracketTypeRe } from '../utils/handlers/regex'
@@ -375,7 +375,7 @@ function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject |
 }
 
 function handlerColorOrSize(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme)))
+  if (isSize(match[1]))
     return handleSize(match, ctx)
   return colorResolver('color', 'text')(match, ctx)
 }

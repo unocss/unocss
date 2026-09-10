@@ -1,6 +1,6 @@
 import type { CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, globalKeywords, h, isCSSMathFn } from '../utils'
+import { colorResolver, globalKeywords, h, isSize } from '../utils'
 
 const decorationStyles = ['solid', 'double', 'dotted', 'dashed', 'wavy', ...globalKeywords]
 
@@ -29,7 +29,7 @@ function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject 
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme)))
+  if (isSize(match[1]))
     return handleWidth(match, ctx)
 
   const result = colorResolver('text-decoration-color', 'line')(match, ctx)
