@@ -31,6 +31,8 @@ function createClient(options: { supportsRequestCode?: boolean, status?: string 
 
 async function load(rpc = createClient()) {
   connectDevframe.mockResolvedValue(rpc)
+  // After resetModules(), import with this test's mock in place: the module
+  // connects eagerly and holds connection state that must not leak between tests.
   const auth = await import('../packages-integrations/inspector/client/composables/rpc')
   await vi.waitFor(() => expect(auth.connectionStatus.value).toBe(rpc.status))
   return auth
