@@ -27,9 +27,7 @@ export default defineConfig({
   },
   plugins: [
     Vue(),
-    UnoCSS({
-      // hmrTopLevelAwait: false, // Related to #2066
-    }),
+    UnoCSS(),
     Inspect(),
     Components({
       dirs: [
