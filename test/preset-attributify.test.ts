@@ -244,6 +244,19 @@ describe('attributify', async () => {
     expect(css3).toMatchSnapshot()
   })
 
+  it('ignores attributes bound with `:` or `v-bind:`', async () => {
+    const code = `
+      <input placeholder="msg" :placeholder="msg" v-bind:placeholder="msg" />
+      <path fill="c" :fill="c" v-bind:fill="c" />
+    `
+    const extracted = await extractorAttributify().extract!({ code } as any)
+    expect(Array.from(extracted ?? [])).toEqual([])
+
+    const custom = await extractorAttributify({ ignoreAttributes: ['text'] })
+      .extract!({ code: '<a text="red" :text="red" v-bind:text="red" />' } as any)
+    expect(Array.from(custom ?? [])).toEqual([])
+  })
+
   it('#4818: extracts an attribute when a nearby line has an unbalanced backtick', async () => {
     // The JSX template-literal lines and the stray quote in `>"something"` used
     // to make the backtick alternative in `elementRE` span multiple lines,
