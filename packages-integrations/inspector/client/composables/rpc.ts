@@ -174,6 +174,11 @@ export async function requestAuthCode(reissue = false): Promise<void> {
   }
   catch (error: any) {
     if (client === rpc) {
+      // Legacy hosts without a method list report unsupported calls through birpc.
+      // Match its exact message so transport and other request failures stay visible.
+      // This is an implementation detail, not a stable error-code contract:
+      // https://github.com/antfu/birpc/blob/v4.2.0/src/main.ts
+      // TODO: Replace when Devframe exposes reliable capability detection or a typed error.
       if (error?.message === `[birpc] function "${REQUEST_CODE_METHOD}" not found`)
         canRequestAuthCode.value = false
       else
