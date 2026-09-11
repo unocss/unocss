@@ -17,18 +17,15 @@ const REFRESH_EVENT = 'unocss:refresh'
 
 const REFRESH_SNIPPET = `
 if (import.meta.hot) {
-  const isRefreshRequest = new URL(import.meta.url).searchParams.has('t')
-  if (!isRefreshRequest) {
-    import.meta.hot.on('${REFRESH_EVENT}', async () => {
-      const url = new URL(import.meta.url)
-      url.searchParams.set('t', Date.now())
-      try {
-        await import(/* @vite-ignore */ url.href)
-      } catch (e) {
-        console.warn('[unocss-hmr]', e)
-      }
-    })
-  }
+  import.meta.hot.on('${REFRESH_EVENT}', async () => {
+    const url = new URL(import.meta.url)
+    url.searchParams.set('t', Date.now())
+    try {
+      await import(/* @vite-ignore */ url.href)
+    } catch (e) {
+      console.warn('[unocss-hmr]', e)
+    }
+  })
 }`
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
@@ -234,7 +231,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       async transform(code, id) {
         const layer = await resolveLayer(ctx, getPath(id))
 
-        if (layer && code.includes('import.meta.hot')) {
+        if (layer && !/(?:\\?|&)t=/.test(id) && code.includes('import.meta.hot')) {
           const s = new MagicString(code)
           s.append(REFRESH_SNIPPET)
           return {

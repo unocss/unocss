@@ -152,7 +152,9 @@ describe('vite virtual modules', () => {
       const code = (await server.environments.client.transformRequest('\0/__uno.css'))!.code
 
       expect(code).toContain('unocss:refresh')
-      expect(code).toContain('searchParams.has(\'t\')')
+
+      const refreshed = (await server.environments.client.transformRequest('\0/__uno.css?t=1'))!.code
+      expect(refreshed).not.toContain('unocss:refresh')
     }
     finally {
       await server.close()
