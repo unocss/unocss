@@ -1,11 +1,6 @@
 /* @export-submodules */
-import { variantBreakpoints as sharedVariantBreakpoints } from '@unocss/rule-utils'
-
-export function variantBreakpoints() {
-  return sharedVariantBreakpoints('breakpoint')
-}
-
 export * from './aria'
+export * from './breakpoints'
 export * from './children'
 export * from './combinators'
 export * from './container'
@@ -14,6 +9,7 @@ export * from './data'
 export * from './default'
 export * from './directions'
 export * from './important'
+export * from './inert'
 export * from './media'
 export * from './misc'
 export * from './negative'

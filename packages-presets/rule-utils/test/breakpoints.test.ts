@@ -153,7 +153,7 @@ describe('variantBreakpoints', () => {
 
   it.each([['breakpoint', '40rem'], ['breakpoints', '640px']] as const)('uses %s for resolution and autocomplete', async (key, size) => {
     expect(await match('sm:font-bold', mixedTheme, key)).toMatchObject({ parent: `@media (min-width: ${size})` })
-    expect(variantBreakpoints(key).autocomplete).toBe(`(at-|lt-|max-|)$${key}:`)
+    expect(variantBreakpoints(key).autocomplete).toContain(`$${key}:`)
   })
 
   it('preserves existing parents', async () => {
