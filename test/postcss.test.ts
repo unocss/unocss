@@ -198,6 +198,14 @@ describe('postcss', () => {
     expect(css).toContain('@media (min-width: 48rem) and (max-width: calc(64rem - 0.1px))')
   })
 
+  it('@screen resolves breakpoints from a renamed Wind4 preset', async () => {
+    const { css } = await pcssScreen({ presets: [{ ...presetWind4(), name: 'custom-wind4' }] }).process(`
+      @screen sm { .sm { color: red } }
+    `, processOptions)
+
+    expect(css).toContain('@media (min-width: 40rem)')
+  })
+
   it('inline media node type', async () => {
     const { root, css } = await pcssLite().process(`.test { @apply bg-green [@media(hover:hover)]:bg-red; }`, processOptions)
     expect(css).toMatchSnapshot()

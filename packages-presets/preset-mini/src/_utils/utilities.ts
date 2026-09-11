@@ -1,4 +1,4 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
+import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule } from '@unocss/core'
 import type { ParsedColorValue } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
@@ -271,36 +271,6 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
 
 export function hasParseableColor(color: string | undefined, theme: Theme, key: ThemeColorKeys) {
   return color != null && !!parseColor(color, theme, key)?.color
-}
-
-const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, Map<string, { point: string, size: string }[]>>()
-
-export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
-  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
-
-  if (!breakpoints)
-    return undefined
-
-  let cache = resolvedBreakpoints.get(theme)
-  if (!cache) {
-    cache = new Map()
-    resolvedBreakpoints.set(theme, cache)
-  }
-  // horizontal and vertical breakpoints share the same theme, so the cache has to be keyed by both
-  if (cache.has(key))
-    return cache.get(key)
-
-  const resolved = Object.entries(breakpoints)
-    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
-    .map(([point, size]) => ({ point, size }))
-
-  cache.set(key, resolved)
-  return resolved
-}
-
-export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
-  return resolveBreakpoints(context, 'verticalBreakpoints')
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
