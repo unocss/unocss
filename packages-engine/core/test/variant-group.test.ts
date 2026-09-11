@@ -76,6 +76,8 @@ describe('variant-group', () => {
       ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
       ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
       ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
+      ['hover:(grid-cols-[1fr 2fr] p-2)', 'hover:grid-cols-[1fr 2fr] hover:p-2'],
+      ['hover:(shadow-[0 0 0 1px red] p-2)', 'hover:shadow-[0 0 0 1px red] hover:p-2'],
       ['hover:(content-[\'a b\'] p-2)', 'hover:content-[\'a b\'] hover:p-2'],
       ['hover:(content-["a b"] p-2)', 'hover:content-["a b"] hover:p-2'],
       ['hover:(content-[\'a\\\' b\'] p-2)', 'hover:content-[\'a\\\' b\'] hover:p-2'],
@@ -85,6 +87,20 @@ describe('variant-group', () => {
     ]
     for (const [input, expected] of cases)
       expect(expand(input)).toEqual(expected)
+  })
+
+  it.each(['[&[data-a=b]]:', '[&foo]:', '[>foo]:', '[:foo]:'])('repeated arbitrary variant prefixes: %s', (variant) => {
+    // Optional prefix markers used to multiply backtracking paths at each bracket.
+    const prefix = variant.repeat(32)
+    const cases = [
+      [`${prefix}text-red`, `${prefix}text-red`],
+      [`${prefix}(p-1 p-2`, `${prefix}(p-1 p-2`],
+      [`${prefix}(p-1 p-2)`, `${prefix}p-1 ${prefix}p-2`],
+    ]
+    for (const [input, expected] of cases) {
+      expect(expandVariantGroup(input)).toBe(expected)
+      expect(expandVariantGroup(new MagicString(input)).toString()).toBe(expected)
+    }
   })
 
   it('asterisk with tilde', async () => {

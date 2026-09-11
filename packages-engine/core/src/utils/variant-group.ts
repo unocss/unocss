@@ -68,7 +68,8 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
     // Quoted body values can contain literal brackets, as in `content-['[']`.
     const nestedBracket = '\\[[^\\[\\]]*\\]'
     const quotedValue = `'(?:\\\\.|[^'\\\\])*'|"(?:\\\\.|[^"\\\\])*"`
-    const prefixBracket = `\\[&?>?:?(?:[^\\s\\[\\]]|${nestedBracket})*\\]`
+    // The character class already accepts &, > and :; optional copies create exponentially many prefix parses.
+    const prefixBracket = `\\[(?:[^\\s\\[\\]]|${nestedBracket})*\\]`
     const bodyBracket = `\\[(?:[^\\[\\]'"]|${quotedValue}|${nestedBracket})*\\]`
     regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|${prefixBracket})+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|${bodyBracket})+?)\\)(?!\\s*?=>)`, 'gm')
   }
