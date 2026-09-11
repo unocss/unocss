@@ -4,7 +4,55 @@ import { notNull } from '../utils'
 import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
-const itemRE = /(?:[^\s'"]|'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")+/g
+function splitVariantGroupBody(body: string) {
+  const items: { index: number, value: string }[] = []
+  let start = -1
+  let depth = 0
+  let quote = ''
+  let escaped = false
+  const push = (end: number) => {
+    if (start >= 0)
+      items.push({ index: start, value: body.slice(start, end) })
+    start = -1
+  }
+  for (let i = 0; i < body.length; i++) {
+    const char = body[i]
+    if (quote) {
+      if (escaped)
+        escaped = false
+      else if (char === '\\')
+        escaped = true
+      else if (char === quote)
+        quote = ''
+      continue
+    }
+    if (char === '\'' || char === '"') {
+      if (start < 0)
+        start = i
+      quote = char
+      continue
+    }
+    if (char === '[') {
+      if (start < 0)
+        start = i
+      depth++
+      continue
+    }
+    if (char === ']') {
+      if (start < 0)
+        start = i
+      if (depth)
+        depth--
+      continue
+    }
+    if (/\s/.test(char) && depth === 0)
+      push(i)
+    else if (start < 0)
+      start = i
+  }
+  push(body.length)
+  return items
+}
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
@@ -55,8 +103,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
         groupsByOffset.set(groupOffset, group)
 
         // Whitespace inside quoted arbitrary values belongs to the utility, not the group.
-        for (const itemMatch of [...body.matchAll(itemRE)]) {
-          const itemOffset = bodyOffset + itemMatch.index!
+        for (const itemMatch of splitVariantGroupBody(body)) {
+          const itemOffset = bodyOffset + itemMatch.index
           let innerItems = groupsByOffset.get(itemOffset)?.items
           if (innerItems) {
             // We won't need to look up this group from this offset again.
@@ -66,8 +114,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
           else {
             innerItems = [{
               offset: itemOffset,
-              length: itemMatch[0].length,
-              className: itemMatch[0],
+              length: itemMatch.value.length,
+              className: itemMatch.value,
             }]
           }
           for (const item of innerItems) {
