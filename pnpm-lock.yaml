@@ -1663,6 +1663,8 @@ importers:
 
   test/fixtures/vite-environments: {}
 
+  test/fixtures/vite-environments-isolated: {}
+
   test/fixtures/vite-legacy: {}
 
   test/fixtures/vite-legacy-chunks:
