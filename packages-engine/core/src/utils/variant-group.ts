@@ -8,7 +8,7 @@ const regexCache: Record<string, RegExp> = {}
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
   const key = escaped.join('|')
-  if (!regexCache[key])
+  if (!regexCache[key]) {
     // The body accepts `@` and `*` because the container and children variants
     // are valid inside a group, not just as its prefix. A single unmatchable
     // character makes the whole group fail to match, so omitting them silently
@@ -17,7 +17,12 @@ export function makeRegexClassGroup(separators = ['-', ':']) {
     // Stopping at the inner `]` leaves `[&[open]]:(...)` or `hover:([&[open]]:...)`
     // unexpanded, and the unmatched group can later produce malformed CSS.
     // Quoted body values can contain literal brackets, as in `content-['[']`.
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?(?:[^\\s\\[\\]]|\\[[^\\[\\]]*\\])*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[(?:[^\\[\\]'\"]|'(?:\\\\.|[^'\\\\])*'|\"(?:\\\\.|[^\"\\\\])*\"|\\[[^\\[\\]]*\\])*\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    const nestedBracket = '\\[[^\\[\\]]*\\]'
+    const quotedValue = `'(?:\\\\.|[^'\\\\])*'|"(?:\\\\.|[^"\\\\])*"`
+    const prefixBracket = `\\[&?>?:?(?:[^\\s\\[\\]]|${nestedBracket})*\\]`
+    const bodyBracket = `\\[(?:[^\\[\\]'"]|${quotedValue}|${nestedBracket})*\\]`
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|${prefixBracket})+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|${bodyBracket})+?)\\)(?!\\s*?=>)`, 'gm')
+  }
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }
