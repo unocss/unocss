@@ -67,17 +67,18 @@ describe('variant-group', () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
 
-  it.each(['string', 'MagicString'])('attribute selectors inside a group body (%s)', (inputType) => {
+  it.each([
+    ['string', (s: string) => expandVariantGroup(s)],
+    ['MagicString', (s: string) => expandVariantGroup(new MagicString(s)).toString()],
+  ])('attribute selectors inside a group body (%s)', (_name, expand) => {
     const cases = [
       ['hover:([&[aria-selected=true]]:bg-accent text-accent)', 'hover:[&[aria-selected=true]]:bg-accent hover:text-accent'],
       ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
       ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
       ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
     ]
-    for (const [input, expected] of cases) {
-      const expanded = inputType === 'string' ? expandVariantGroup(input) : expandVariantGroup(new MagicString(input)).toString()
-      expect(expanded).toEqual(expected)
-    }
+    for (const [input, expected] of cases)
+      expect(expand(input)).toEqual(expected)
   })
 
   it('asterisk with tilde', async () => {
