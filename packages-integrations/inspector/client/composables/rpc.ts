@@ -19,6 +19,7 @@ export const changeRevision = ref(0)
 export const changedModule = ref('')
 
 const RECONNECT_INTERVAL = 2000
+// TODO: Replace with an upstream constant when Devframe exports this RPC method name.
 const REQUEST_CODE_METHOD = 'anonymous:devframe:auth:request-code'
 
 let client: DevframeRpcClient | undefined
