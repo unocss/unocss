@@ -231,7 +231,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       async transform(code, id) {
         const layer = await resolveLayer(ctx, getPath(id))
 
-        if (layer && code.includes('import.meta.hot')) {
+        if (layer && !/(?:\?|&)t=/.test(id) && code.includes('import.meta.hot')) {
           const s = new MagicString(code)
           s.append(REFRESH_SNIPPET)
           return {
