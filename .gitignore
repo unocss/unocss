@@ -29,6 +29,7 @@ vite.config.ts.timestamp-*
 
 test/assets/fonts
 test/**/vite-environments/dist-?*?
+test/**/vite-environments-isolated/dist-?*?
 
 examples/**/public/assets/fonts
 playground/public/assets/fonts
