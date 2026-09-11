@@ -2,7 +2,7 @@ import { resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 import UnoCSS from '../packages-integrations/vite/src/index'
-import { toViteClientPath } from '../packages-integrations/vite/src/virtual'
+import { toViteClientPath, toViteHmrPath } from '../packages-integrations/vite/src/virtual'
 
 describe('vite virtual module ids', () => {
   async function createServer(mode: 'global' | 'per-module') {
@@ -34,6 +34,37 @@ describe('vite virtual module ids', () => {
       .toBe('/@id/__x00__/__uno.css')
     expect(toViteClientPath('/src/main.ts'))
       .toBe('/src/main.ts')
+  })
+
+  it('resolves HMR paths for the Vite version that registers them', () => {
+    expect(toViteHmrPath('\0/__uno.css', '7.3.0'))
+      .toBe('/@id/__x00__/__uno.css')
+    expect(toViteHmrPath('\0/__uno.css', '8.2.2'))
+      .toBe('/@id/__x00__/__uno.css')
+    expect(toViteHmrPath('\0/__uno.css', '8.3.0-beta.1'))
+      .toBe('\0/__uno.css')
+    expect(toViteHmrPath('\0/__uno.css', '8.3.0'))
+      .toBe('\0/__uno.css')
+    expect(toViteHmrPath('\0/__uno.css', '9.0.0'))
+      .toBe('\0/__uno.css')
+    expect(toViteHmrPath('/src/main.ts', '8.3.0'))
+      .toBe('/src/main.ts')
+  })
+
+  it('matches the hot context path registered by the running Vite', async () => {
+    const server = await createServer('global')
+
+    try {
+      const result = await server.environments.client.transformRequest('\0/__uno.css')
+      const registered = JSON.parse(result!.code.match(/createHotContext\((".*?")\)/)![1])
+      const mod = server.environments.client.moduleGraph.getModuleById('\0/__uno.css')
+
+      expect(toViteHmrPath(mod!.url))
+        .toBe(registered)
+    }
+    finally {
+      await server.close()
+    }
   })
 
   it('uses internal ids for per-module CSS', async () => {
