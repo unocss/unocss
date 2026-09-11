@@ -7,7 +7,7 @@ import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { toViteClientPath, toViteVirtualId } from '../../virtual'
+import { toViteHmrPath, toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
@@ -69,20 +69,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(ids).flatMap((id) => {
-          const mod = server.moduleGraph.getModuleById(id)
-          if (!mod)
-            return []
-          // Vite < 8.3 keys the client module registry by the wrapped
-          // `/@id/__x00__` form, >= 8.3 by the raw module URL (vitejs/vite#23172).
-          // Send both; the client silently ignores paths it doesn't know.
-          return [...new Set([mod.url, toViteClientPath(mod.url)])].map(path => ({
-            acceptedPath: path,
-            path,
-            timestamp: lastServedTime,
-            type: 'js-update',
-          } as Update))
-        }),
+        updates: Array.from(ids)
+          .map((id) => {
+            const mod = server.moduleGraph.getModuleById(id)
+            if (!mod)
+              return null
+            const path = toViteHmrPath(mod.url)
+            return {
+              acceptedPath: path,
+              path,
+              timestamp: lastServedTime,
+              type: 'js-update',
+            } as Update
+          })
+          .filter(notNull),
       })
     }
   }
