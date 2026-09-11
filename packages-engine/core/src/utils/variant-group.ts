@@ -4,6 +4,7 @@ import { notNull } from '../utils'
 import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
+const itemRE = /(?:[^\s'"]|'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")+/g
 
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
@@ -53,7 +54,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
         const group: VariantGroup = { length: from.length, items: [] }
         groupsByOffset.set(groupOffset, group)
 
-        for (const itemMatch of [...body.matchAll(/\S+/g)]) {
+        // Whitespace inside quoted arbitrary values belongs to the utility, not the group.
+        for (const itemMatch of [...body.matchAll(itemRE)]) {
           const itemOffset = bodyOffset + itemMatch.index!
           let innerItems = groupsByOffset.get(itemOffset)?.items
           if (innerItems) {
