@@ -193,7 +193,7 @@ describe('vite virtual modules', () => {
     }
   })
 
-  it('injects the refresh listener into the CSS module', async () => {
+  it('injects the refresh listener only for the base CSS module URL', async () => {
     const server = await createServer('global')
 
     try {
@@ -201,6 +201,7 @@ describe('vite virtual modules', () => {
       const code = (await server.environments.client.transformRequest('\0/__uno.css'))!.code
 
       expect(code).toContain('unocss:refresh')
+      expect(code).toContain('searchParams.has(\'t\')')
     }
     finally {
       await server.close()
