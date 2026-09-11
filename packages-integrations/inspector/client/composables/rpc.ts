@@ -1,6 +1,7 @@
 import type { DevframeConnectionStatus, DevframeRpcClient } from 'devframe/client'
 import type { InspectorChanges } from '../../types'
 import { connectDevframe } from 'devframe/client'
+import { DEVFRAME_EVENTS } from 'devframe/constants'
 import { ref } from 'vue'
 
 export const connectionStatus = ref<DevframeConnectionStatus>('connecting')
@@ -77,9 +78,9 @@ async function connect(): Promise<DevframeRpcClient> {
     if (status === 'disconnected' || status === 'error')
       scheduleReconnect()
   }
-  rpc.events.on('connection:status', updateStatus)
+  rpc.events.on(DEVFRAME_EVENTS.client.connectionStatus, updateStatus)
   updateStatus(rpc.status)
-  rpc.events.on('rpc:is-trusted:updated', (trusted) => {
+  rpc.events.on(DEVFRAME_EVENTS.client.isTrustedUpdated, (trusted) => {
     isTrusted.value = trusted
     subscribeChanges()
   })
