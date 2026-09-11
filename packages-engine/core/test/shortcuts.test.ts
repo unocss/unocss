@@ -1,6 +1,8 @@
+import { Buffer } from 'node:buffer'
 import { createGenerator } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
+import { transform } from 'lightningcss'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
@@ -259,15 +261,23 @@ describe('shortcuts', async () => {
   it.each([
     ['[&[aria-selected=true]]:(bg-red/oklab text-blue/oklab)', '[&[aria-selected=true]]:bg-red/oklab [&[aria-selected=true]]:text-blue/oklab'],
     ['hover:([&[aria-selected=true]]:bg-red/oklab text-blue/oklab)', 'hover:[&[aria-selected=true]]:bg-red/oklab hover:text-blue/oklab'],
+    ['[&[aria-selected=true]]:(bg-accent/9/oklab text-accent-strong/oklab)', '[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab'],
   ])('attribute selector groups generate the expanded shortcut CSS: %s', async (grouped, expanded) => {
-    const uno = await createGenerator({ presets: [presetWind4()], shortcuts: { button: grouped } })
-    const reference = await createGenerator({ presets: [presetWind4()], shortcuts: { button: expanded } })
+    const theme = {
+      colors: {
+        'accent': 'light-dark(#a65e2b, #c99076)',
+        'accent-strong': 'light-dark(#a64f4f, #cb7676)',
+      },
+    }
+    const uno = await createGenerator({ presets: [presetWind4()], theme, shortcuts: { button: grouped } })
+    const reference = await createGenerator({ presets: [presetWind4()], theme, shortcuts: { button: expanded } })
     const { css } = await uno.generate('button', { preflights: false })
     const { css: expected } = await reference.generate('button', { preflights: false })
     expect(css).toBe(expected)
     expect(css).toContain('[aria-selected=true]')
     expect(css).toContain('background-color:color-mix(in oklab,')
     expect(css).toMatch(/[;{]color:color-mix\(in oklab,/)
+    expect(() => transform({ filename: 'test.css', code: Buffer.from(css), minify: true })).not.toThrow()
     await prettier.format(css, { parser: 'css', plugins: [parserCSS] })
   })
 })
