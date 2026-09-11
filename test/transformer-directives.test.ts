@@ -1497,7 +1497,17 @@ describe('wind4', () => {
             font-size: var(--text-lg-fontSize);
             line-height: var(--un-leading, var(--text-lg-lineHeight));
             border-radius: var(--radius-DEFAULT);
-            font-family: var(--font-mono);
+            font-family: var(
+              --font-mono,
+              ui-monospace,
+              SFMono-Regular,
+              Menlo,
+              Monaco,
+              Consolas,
+              "Liberation Mono",
+              "Courier New",
+              monospace
+            );
           }
           "
         `)

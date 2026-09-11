@@ -1470,5 +1470,5 @@ exports[`with presetWind4 1`] = `
 /* layer: theme */
 :root, :host { --font-custom: "Fira Code"; }
 /* layer: default */
-.font-custom{font-family:var(--font-custom);}"
+.font-custom{font-family:var(--font-custom, "Fira Code");}"
 `;
