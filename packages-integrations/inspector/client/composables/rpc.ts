@@ -1,10 +1,13 @@
 import type { DevframeConnectionStatus, DevframeRpcClient } from 'devframe/client'
 import type { InspectorChanges } from '../../types'
 import { connectDevframe } from 'devframe/client'
+import { ref } from 'vue'
 
 export const connectionStatus = ref<DevframeConnectionStatus>('connecting')
 export const isTrusted = ref(false)
 export const authError = ref<string | null>(null)
+export const canRequestAuthCode = ref(false)
+export const isRequestingAuthCode = ref(false)
 
 /**
  * Reactive change signal mirrored from the server's `changes` shared state.
@@ -15,6 +18,7 @@ export const changeRevision = ref(0)
 export const changedModule = ref('')
 
 const RECONNECT_INTERVAL = 2000
+const REQUEST_CODE_METHOD = 'anonymous:devframe:auth:request-code'
 
 let client: DevframeRpcClient | undefined
 let connectPromise: Promise<DevframeRpcClient> | undefined
@@ -37,8 +41,12 @@ async function connect(): Promise<DevframeRpcClient> {
   })
   client = rpc
 
-  connectionStatus.value = rpc.status
   isTrusted.value = !!rpc.isTrusted
+  authError.value = null
+  isRequestingAuthCode.value = false
+  // Some hosts omit the method list (e.g. initDevframe/Next.js). Probe once
+  // in that case; pre-0.9.14 hosts reject the method and print automatically.
+  canRequestAuthCode.value = rpc.connectionMeta.jsonSerializableMethods?.includes(REQUEST_CODE_METHOD) ?? true
 
   const scoped = rpc.scope('unocss')
 
@@ -62,11 +70,15 @@ async function connect(): Promise<DevframeRpcClient> {
     state.on('updated', apply as any)
   }
 
-  rpc.events.on('connection:status', (status) => {
+  function updateStatus(status: DevframeConnectionStatus) {
     connectionStatus.value = status
+    if (status === 'unauthorized')
+      requestAuthCode()
     if (status === 'disconnected' || status === 'error')
       scheduleReconnect()
-  })
+  }
+  rpc.events.on('connection:status', updateStatus)
+  updateStatus(rpc.status)
   rpc.events.on('rpc:is-trusted:updated', (trusted) => {
     isTrusted.value = trusted
     subscribeChanges()
@@ -146,6 +158,33 @@ export async function shikiHighlight(code: string, lang: string): Promise<string
 }
 
 /**
+ * Ask a supporting host to print its code. Only explicit reissue requests
+ * rotate a still-valid code; ordinary requests are deduplicated by the host.
+ */
+export async function requestAuthCode(reissue = false): Promise<void> {
+  const rpc = client
+  if (!rpc || rpc.status !== 'unauthorized' || rpc.isTrusted || !canRequestAuthCode.value || isRequestingAuthCode.value)
+    return
+  isRequestingAuthCode.value = true
+  authError.value = null
+  try {
+    await rpc.requestAuthCode({ reissue })
+  }
+  catch (error: any) {
+    if (client === rpc) {
+      if (error?.message === `[birpc] function "${REQUEST_CODE_METHOD}" not found`)
+        canRequestAuthCode.value = false
+      else
+        authError.value = error?.message ?? String(error)
+    }
+  }
+  finally {
+    if (client === rpc)
+      isRequestingAuthCode.value = false
+  }
+}
+
+/**
  * Exchange the one-time code printed in the dev server terminal for a
  * persisted auth token.
  */
@@ -154,8 +193,10 @@ export async function submitAuthCode(code: string): Promise<boolean> {
   try {
     const rpc = await ensureClient()
     const ok = await rpc.requestTrustWithCode(code.trim())
-    if (!ok)
-      authError.value = 'Invalid or expired code. Check your dev server terminal for a fresh one.'
+    if (!ok) {
+      await requestAuthCode()
+      authError.value ||= 'Invalid or expired code. Check your dev server terminal for a fresh one.'
+    }
     return ok
   }
   catch (error: any) {
