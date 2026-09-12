@@ -1,7 +1,7 @@
 import type { Variant } from '@unocss/core'
-import { variantMatcher } from '../utils'
+import { variantMatcher, variantPrefix } from '../utils'
 
 export const variantLanguageDirections: Variant[] = [
-  variantMatcher('rtl', input => ({ prefix: `[dir="rtl"] $$ ${input.prefix}` })),
-  variantMatcher('ltr', input => ({ prefix: `[dir="ltr"] $$ ${input.prefix}` })),
+  variantMatcher('rtl', (input, ctx) => ({ prefix: variantPrefix(input, '[dir="rtl"] $$ ', ctx) })),
+  variantMatcher('ltr', (input, ctx) => ({ prefix: variantPrefix(input, '[dir="ltr"] $$ ', ctx) })),
 ]
