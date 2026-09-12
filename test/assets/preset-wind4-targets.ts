@@ -483,6 +483,10 @@ export const presetWind4Targets: string[] = [
   '**:hover:data-[inline]:p-2',
   '**:aria-[id=avatar]:p-2',
   '**:aria-[id=avatar]:hover:p-2',
+  '*:last:p-2',
+  'last:*:p-2',
+  '*:data-[avatar]:rounded-full',
+  '[&>*]:hover:bg-blue-400',
 
   // variants experimental
   '@hover-text-red',

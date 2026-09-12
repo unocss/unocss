@@ -1,7 +1,7 @@
 import type { Variant } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
-import { variantMatcher, variantParentMatcher } from '@unocss/rule-utils'
+import { variantMatcher, variantParentMatcher, variantPrefix } from '@unocss/rule-utils'
 
 export function variantColorsMediaOrClass(options: PresetWind4Options = {}): Variant<Theme>[] {
   if (options?.dark === 'class' || typeof options.dark === 'object') {
@@ -10,8 +10,8 @@ export function variantColorsMediaOrClass(options: PresetWind4Options = {}): Var
       : options.dark
 
     return [
-      variantMatcher('dark', input => ({ prefix: `${dark} $$ ${input.prefix}` })),
-      variantMatcher('light', input => ({ prefix: `${light} $$ ${input.prefix}` })),
+      variantMatcher('dark', (input, ctx) => ({ prefix: variantPrefix(input, `${dark} $$ `, ctx) })),
+      variantMatcher('light', (input, ctx) => ({ prefix: variantPrefix(input, `${light} $$ `, ctx) })),
     ] as Variant<Theme>[]
   }
 
@@ -22,8 +22,8 @@ export function variantColorsMediaOrClass(options: PresetWind4Options = {}): Var
 }
 
 export const variantColorsScheme: Variant<Theme>[] = [
-  variantMatcher('.dark', input => ({ prefix: `.dark $$ ${input.prefix}` })),
-  variantMatcher('.light', input => ({ prefix: `.light $$ ${input.prefix}` })),
+  variantMatcher('.dark', (input, ctx) => ({ prefix: variantPrefix(input, '.dark $$ ', ctx) })),
+  variantMatcher('.light', (input, ctx) => ({ prefix: variantPrefix(input, '.light $$ ', ctx) })),
   variantParentMatcher('@dark', '@media (prefers-color-scheme: dark)'),
   variantParentMatcher('@light', '@media (prefers-color-scheme: light)'),
   variantParentMatcher('not-dark', '@media not (prefers-color-scheme: dark)'),
