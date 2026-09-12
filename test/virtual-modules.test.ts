@@ -155,6 +155,9 @@ describe('vite virtual modules', () => {
 
       const refreshed = (await server.environments.client.transformRequest('\0/__uno.css?t=1'))!.code
       expect(refreshed).not.toContain('unocss:refresh')
+
+      const nestedQuery = (await server.environments.client.transformRequest('\0/__uno.css?source=t=1'))!.code
+      expect(nestedQuery).toContain('unocss:refresh')
     }
     finally {
       await server.close()
