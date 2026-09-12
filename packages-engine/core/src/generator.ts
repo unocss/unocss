@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSProcessorContext, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSProcessorContext, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandler, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
@@ -136,6 +136,34 @@ class TokenProcessor<Theme extends object> {
     this.cache.delete(token)
     this.blocked.delete(token)
   }
+}
+
+/**
+ * Marks the handlers of the variants of a utility, as opposed to the ones injected by its rule
+ * (`symbols.parent`, `symbols.variants`, ...). Set on a copy owned by the generator, so the objects
+ * of the variants are never mutated, and as an own property so that it survives cloning.
+ */
+const SymbolUtilityVariant: unique symbol = Symbol('unocss-utility-variant')
+
+interface UtilityVariantHandler extends VariantHandler {
+  [SymbolUtilityVariant]?: true
+}
+
+function markUtilityVariant(handler: VariantHandler): VariantHandler {
+  return isUtilityVariant(handler)
+    ? handler
+    : { ...handler, [SymbolUtilityVariant]: true } as UtilityVariantHandler
+}
+
+function isUtilityVariant(handler: VariantHandler) {
+  return (handler as UtilityVariantHandler)[SymbolUtilityVariant] === true
+}
+
+function unmarkUtilityVariant(handler: VariantHandler): VariantHandler {
+  if (!isUtilityVariant(handler))
+    return handler
+  const { [SymbolUtilityVariant]: _, ...rest } = handler as UtilityVariantHandler
+  return rest
 }
 
 class UnoGeneratorInternal<Theme extends object = object> {
@@ -409,12 +437,20 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
+    // in `left-to-right` mode the at-rules are nested in the written order, so the blocks with more
+    // conditions are placed after the ones with fewer (`@dark:contrast-more:` after `contrast-more:`)
+    // to keep the cascade instead of relying on the alphabetical order of the parents
+    const leftToRight = this.config.variantApplyOrder === 'left-to-right'
+    const parentDepth = (parent: string | undefined) => parent ? parent.split(' $$ ').length : 0
+
     const getRawLayer = (layer: string = LAYER_DEFAULT) => {
       if (rawLayerCache[layer] != null)
         return rawLayerCache[layer]
 
       let css = Array.from(sheet)
-        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
+        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0))
+          || (leftToRight ? parentDepth(a[0]) - parentDepth(b[0]) : 0)
+          || a[0]?.localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
@@ -579,6 +615,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
       theme: this.config.theme,
       generator: this,
     }
+    // the handlers are stored in the order they are applied to the selector:
+    // from the rightmost variant by default, or from the leftmost one
+    const leftToRight = this.config.variantApplyOrder === 'left-to-right'
 
     const match = async (result: VariantMatchedResult<Theme>): Promise<VariantMatchedResult<Theme>[]> => {
       let applied = true
@@ -597,6 +636,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
               continue
             handler = { matcher: handler }
           }
+          handler = Array.isArray(handler) ? handler.map(markUtilityVariant) : markUtilityVariant(handler)
 
           // If variant return an array of handlers,
           // we clone the matched result and branch the matching items
@@ -612,7 +652,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
               const clones = handler.map((h): VariantMatchedResult<Theme> => {
                 const _processed = h.matcher ?? processed
-                const _handlers = [h, ...handlers]
+                const _handlers = leftToRight ? [...handlers, h] : [h, ...handlers]
                 const _variants = new Set(variants)
                 _variants.add(v)
                 return [result[0], _processed, _handlers, _variants]
@@ -622,7 +662,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
           }
 
           result[1] = handler.matcher ?? processed
-          handlers.unshift(handler)
+          if (leftToRight)
+            handlers.push(handler)
+          else
+            handlers.unshift(handler)
           variants.add(v)
           applied = true
           break
@@ -650,7 +693,29 @@ class UnoGeneratorInternal<Theme extends object = object> {
     variantHandlers = parsed[4],
     raw = parsed[1],
   ): UtilObject[] {
-    const handler = variantHandlers.slice()
+    const leftToRight = this.config.variantApplyOrder === 'left-to-right'
+    const handlers = variantHandlers.slice()
+
+    // identifies this application of the variants for the handlers, see `VariantHandlerContext.application`
+    const application = {}
+    // in `left-to-right` mode the `parentOrder`, `sort` and `layer` set by the handlers injected
+    // by the rule are defaults, the first variant of the utility setting them decides
+    const defaults: Partial<Pick<VariantHandlerContext, 'parentOrder' | 'sort' | 'layer'>> = {}
+    const decided = { parentOrder: false, sort: false, layer: false }
+    // a value decided by a variant is kept even when it is `undefined`, like the one of the leftmost
+    // variant in `right-to-left` mode (an arbitrary `group-[...]` or a pseudo element resets the `sort`)
+    const decide = <K extends keyof typeof defaults>(input: VariantHandlerContext, key: K): (typeof defaults)[K] =>
+      decided[key] ? input[key] : input[key] ?? defaults[key]
+    const seed = (input: VariantHandlerContext): VariantHandlerContext => leftToRight
+      ? {
+          ...input,
+          parentOrder: decide(input, 'parentOrder'),
+          sort: decide(input, 'sort'),
+          layer: decide(input, 'layer'),
+        }
+      : input
+
+    const handler = handlers
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reduceRight(
         (previous, v) => (input: VariantHandlerContext) => {
@@ -661,17 +726,52 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
           const selector = v.selector?.(input.selector, entries)
 
-          return (v.handle ?? defaultVariantHandler)({
+          // the leftmost variant decides the position of the rule (`sort`), of its block (`parentOrder`)
+          // and its layer: it is applied last by default, in `left-to-right` mode it is applied first
+          // so its values are kept over the ones set by the following variants
+          const next = (output: VariantHandlerContext) => {
+            if (!leftToRight)
+              return previous({ ...output, application })
+            const keep = <K extends keyof typeof defaults>(key: K): VariantHandlerContext[K] => {
+              if (!isUtilityVariant(v)) {
+                // a handler injected by the rule sets the default, also when it clears it
+                if (key in output)
+                  defaults[key] = output[key]
+                return input[key]
+              }
+              if (decided[key])
+                return input[key]
+              // a handler setting the value decides it, also when it sets it to `undefined`
+              if (key in output)
+                decided[key] = true
+              return output[key]
+            }
+            return previous({ ...output, application, parentOrder: keep('parentOrder'), sort: keep('sort'), layer: keep('layer') })
+          }
+
+          // in `left-to-right` mode the handlers injected by the rule build on the defaults set before them
+          const base = leftToRight && !isUtilityVariant(v) ? defaults : input
+          const context: VariantHandlerContext = {
             ...input,
             entries,
             selector: selector || input.selector,
             parent: parents[0] || input.parent,
-            parentOrder: parents[1] || input.parentOrder,
-            layer: v.layer || input.layer,
-            sort: v.sort || input.sort,
-          }, previous)
+            parentOrder: parents[1] || base.parentOrder,
+            layer: v.layer || base.layer,
+            sort: v.sort || base.sort,
+          }
+          // in `left-to-right` mode the values still unset are left out, so that `keep` can tell a
+          // handler setting one to `undefined` from a handler passing it through
+          if (leftToRight) {
+            for (const key of ['parentOrder', 'layer', 'sort'] as const) {
+              if (context[key] === undefined)
+                delete context[key]
+            }
+          }
+
+          return (v.handle ?? defaultVariantHandler)(context, next)
         },
-        (input: VariantHandlerContext) => input,
+        seed,
       )
 
     const variantContextResult = handler({
@@ -679,6 +779,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       selector: toEscapedSelector(raw),
       pseudo: '',
       entries: parsed[2],
+      application,
     })
 
     const { parent, parentOrder } = variantContextResult
@@ -858,6 +959,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           return [meta!.__index!, css, meta]
 
         // Extract variants from special symbols
+        const utilityVariants = [...context.variantHandlers]
         let variants = context.variantHandlers
         let entryMeta = meta
         const setVariant = (variant: (typeof variants)[number]) => {
@@ -905,6 +1007,17 @@ class UnoGeneratorInternal<Theme extends object = object> {
               break
           }
         }
+
+        // the variants of the utility are the handlers matched for it and the ones a callback may
+        // have cloned or rebuilt from them (a missing property and `undefined` being the same),
+        // the other handlers are injected by the rule
+        const sameHandler = (a: VariantHandler, b: VariantHandler) => {
+          const keys = new Set([...Object.keys(a), ...Object.keys(b)])
+          return keys.size > 0 && [...keys].every(key => (a as Record<string, unknown>)[key] === (b as Record<string, unknown>)[key])
+        }
+        const isDerived = (handler: VariantHandler) => utilityVariants.some(utility => utility === handler || sameHandler(handler, utility))
+        // a copy of a variant modified by a callback keeps its mark, drop it
+        variants = variants.map(handler => isDerived(handler) ? markUtilityVariant(handler) : unmarkUtilityVariant(handler))
 
         return [meta!.__index!, raw, css as CSSEntries, entryMeta, variants]
       })
@@ -1017,7 +1130,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
               ? raw
               : raw.slice(0, matcherIndex) + item + raw.slice(matcherIndex + inputWithoutVariant.length))
             inlineResult = (expanded[0].filter(i => !isString(i)) as ShortcutInlineValue[]).map((item) => {
-              return { handles: [...item.handles, ...handles], value: item.value }
+              // the variants of the shortcut wrap the ones of its utilities
+              const shortcutFirst = this.config.variantApplyOrder === 'left-to-right'
+              return { handles: shortcutFirst ? [...handles, ...item.handles] : [...item.handles, ...handles], value: item.value }
             })
           }
         }
@@ -1070,7 +1185,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
 
       const isNoMerge = Object.fromEntries(item[2])[symbols.shortcutsNoMerge]
-      const variants = [...item[4], ...(!isNoMerge ? parentVariants : [])]
+      const shortcutVariants = isNoMerge ? [] : parentVariants
+      // the variants of the shortcut wrap the ones of its utilities, the handlers injected by
+      // the rules keep being applied before all of them
+      const variants = this.config.variantApplyOrder === 'left-to-right' && shortcutVariants.length
+        ? [...item[4].filter(h => !isUtilityVariant(h)), ...shortcutVariants, ...item[4].filter(isUtilityVariant)]
+        : [...item[4], ...shortcutVariants]
       for (const { selector, entries, parent, sort, noMerge, layer } of this.applyVariants(item, variants, raw)) {
         // find existing layer and merge
         const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
