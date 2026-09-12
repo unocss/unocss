@@ -156,6 +156,20 @@ Postprocess the generate utils object.
 
 Variant separator.
 
+### variantApplyOrder
+
+- **Type:** `'right-to-left' | 'left-to-right'`
+- **Default:** `'right-to-left'`
+
+The order in which stacked variants are applied to a utility.
+
+- `'right-to-left'`: the rightmost variant is applied to the selector first, e.g. `hover:*:p-2` generates `.hover\:\*\:p-2 > *:hover`.
+- `'left-to-right'`: variants are applied in the order they are written, like Tailwind CSS v4, e.g. `hover:*:p-2` generates `.hover\:\*\:p-2:hover > *`.
+
+The handlers injected by the rules (`symbols.parent`, `symbols.variants`, ...) are applied before the variants of the utility in both orders. The presets are built around their default order: `presetWind4` sets `'left-to-right'`, `presetMini` and `presetWind3` expect `'right-to-left'`.
+
+It may be set by a preset or the user config, the user config takes precedence. [`@unocss/preset-wind4`](/presets/wind4#variant-stacking-order) sets it to `'left-to-right'`.
+
 ### extractorDefault
 
 - **Type:** `Extractor | null | false`

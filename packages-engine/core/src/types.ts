@@ -333,6 +333,12 @@ export interface VariantHandlerContext {
    * @default false
    */
   noMerge?: boolean
+  /**
+   * Identifies the application of the variants to a utility. It is unique for each utility and
+   * kept across the handlers, so a variant can use it as a `WeakMap` key to share state with
+   * the handlers applied after it.
+   */
+  application?: object
 }
 
 export interface VariantHandler {
@@ -419,6 +425,22 @@ export interface ConfigBase<Theme extends object = object> {
    * @default [':', '-']
    */
   separators?: Arrayable<string>
+
+  /**
+   * The order in which stacked variants are applied to a utility.
+   *
+   * - `right-to-left`: the rightmost variant is applied to the selector first,
+   *   e.g. `hover:*:p-2` generates `.hover\:\*\:p-2 > *:hover`.
+   * - `left-to-right`: variants are applied in the order they are written, like Tailwind CSS v4,
+   *   e.g. `hover:*:p-2` generates `.hover\:\*\:p-2:hover > *`.
+   *
+   * The handlers injected by the rules (`symbols.parent`, `symbols.variants`, ...) are applied
+   * before the variants of the utility in both orders.
+   * Presets can set this option, the user config takes precedence.
+   *
+   * @default 'right-to-left'
+   */
+  variantApplyOrder?: 'right-to-left' | 'left-to-right'
 
   /**
    * Variants that preprocess the selectors,
@@ -948,7 +970,7 @@ export interface UserConfig<Theme extends object = object> extends ConfigBase<Th
 export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> { }
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
-  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'variantApplyOrder'>,
   'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]

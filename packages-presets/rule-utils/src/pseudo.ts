@@ -1,9 +1,18 @@
-import type { VariantObject } from '@unocss/core'
+import type { VariantHandlerContext, VariantObject } from '@unocss/core'
 import type { getBracket } from './utilities'
 import type { variantGetBracket } from './variants'
 import { escapeRegExp, escapeSelector } from '@unocss/core'
 
 const PseudoPlaceholder = '__pseudo_placeholder__'
+
+/**
+ * The last simple segment (`.group:hover `) appended to the prefix of a utility in `left-to-right`
+ * mode and the prefix it produced, keyed by the application of the variants to that utility. The
+ * next tagged pseudo class variant of the same tag merges with it (`group-hover:group-focus:` gives
+ * `.group:hover:focus `) as long as the prefix is untouched, also across a shortcut expansion,
+ * while an arbitrary selector such as `group-[&_.group:focus]` is never merged.
+ */
+const lastAppendedSegments = new WeakMap<object, { prefix: string, segment: string }>()
 
 /**
  * Note: the order of following pseudo classes will affect the order of generated css.
@@ -160,7 +169,31 @@ export function createTaggedPseudoClassMatcher<T extends object = object>(
   utils: PseudoVariantUtilities,
 ): VariantObject<T> {
   const { h, variantGetBracket } = utils
+  // merge stacked variants of the same tag: `group-hover:group-focus:` -> `.group:hover:focus`
+  // `right-to-left`: the segment of the current variant is prepended, merge it with the one that follows
   const rawRE = new RegExp(`^(${escapeRegExp(parent)}:)(\\S+)${escapeRegExp(combinator)}\\1`)
+  // `left-to-right`: the segment is appended, merge it with the previous one when both are simple
+  // `${parent}:<pseudo>` segments of the same utility and the prefix has not changed in between
+  const simpleSegmentRE = new RegExp(`^${escapeRegExp(parent)}:\\S+$`)
+  const appendSegment = (input: VariantHandlerContext, prefix: string) => {
+    const simple = simpleSegmentRE.test(prefix)
+    const previous = input.application ? lastAppendedSegments.get(input.application) : undefined
+    let accumulated = input.prefix
+    let segment = `${prefix}${combinator}`
+    if (simple && previous && previous.prefix === accumulated && previous.segment.startsWith(`${parent}:`)) {
+      accumulated = accumulated.slice(0, -previous.segment.length)
+      segment = `${previous.segment.slice(0, -combinator.length)}${prefix.slice(parent.length)}${combinator}`
+    }
+    const result = `${accumulated}${segment}`
+    // rules may probe the handlers with an empty context
+    if (input.application) {
+      if (simple)
+        lastAppendedSegments.set(input.application, { prefix: result, segment })
+      else
+        lastAppendedSegments.delete(input.application)
+    }
+    return result
+  }
   let splitRE: RegExp
   let pseudoRE: RegExp
   let pseudoColonRE: RegExp
@@ -181,7 +214,7 @@ export function createTaggedPseudoClassMatcher<T extends object = object>(
     return [
       label,
       input.slice(input.length - (rest.length - label.length - 1)),
-      bracketValue.includes('&') ? bracketValue.replace(/&/g, prefix) : `${prefix}${bracketValue}`,
+      bracketValue.includes('&') ? bracketValue.replace(/&/g, () => prefix) : `${prefix}${bracketValue}`,
     ]
   }
 
@@ -242,7 +275,9 @@ export function createTaggedPseudoClassMatcher<T extends object = object>(
         matcher,
         handle: (input, next) => next({
           ...input,
-          prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
+          prefix: ctx.generator.config.variantApplyOrder === 'left-to-right'
+            ? appendSegment(input, prefix)
+            : `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
           sort: PseudoClassesKeys.indexOf(pseudoName) ?? PseudoClassesColonKeys.indexOf(pseudoName),
         }),
       }
