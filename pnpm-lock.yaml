@@ -998,7 +998,7 @@ importers:
         specifier: workspace:*
         version: link:../vite
       vite:
-        specifier: ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
+        specifier: ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
         version: 8.2.2(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.0)
     devDependencies:
       astro:
