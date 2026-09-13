@@ -1,5 +1,6 @@
-import { rm, writeFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
 import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
@@ -8,9 +9,9 @@ import UnoCSS from '../packages-integrations/vite/src/index'
 const ROOT = resolve(import.meta.dirname, 'fixtures/vite')
 
 describe('vite virtual modules', () => {
-  async function createServer(mode: 'global' | 'per-module') {
+  async function createServer(mode: 'global' | 'per-module', root = ROOT) {
     return await vite.createServer({
-      root: ROOT,
+      root,
       configFile: false,
       logLevel: 'error',
       server: { middlewareMode: true, ws: false },
@@ -55,10 +56,6 @@ describe('vite virtual modules', () => {
         server,
       },
     )
-  }
-
-  function getRegisteredHotPath(code: string) {
-    return JSON.parse(code.match(/createHotContext\((".*?")\)/)![1]) as string
   }
 
   it('reloads a deleted config source', async () => {
@@ -225,13 +222,14 @@ describe('vite virtual modules', () => {
   })
 
   it('sends the HMR path that Vite registers for the CSS module', async () => {
-    const server = await createServer('global')
-    const probe = resolve(ROOT, 'src/__uno-hmr-probe.vue')
+    const root = await mkdtemp(join(tmpdir(), 'unocss-vite-hmr-'))
+    const probe = resolve(root, 'src/Probe.vue')
+    const server = await createServer('global', root)
 
     try {
+      await mkdir(resolve(root, 'src'))
       await registerEntry(server)
-      const code = (await server.environments.client.transformRequest('\0/__uno.css'))!.code
-      const registered = getRegisteredHotPath(code)
+      const registered = server.environments.client.moduleGraph.getModuleById('\0/__uno.css')!.url
       const payloads = captureHotPayloads(server)
 
       await writeFile(probe, '<template><div class="uno-hmr-probe" /></template>')
@@ -248,8 +246,8 @@ describe('vite virtual modules', () => {
       expect(cssUpdate.path).toBe(registered)
     }
     finally {
-      await rm(probe, { force: true })
       await server.close()
+      await rm(root, { recursive: true, force: true })
     }
   })
 })
