@@ -2,6 +2,7 @@ import { rm, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
+import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
 import UnoCSS from '../packages-integrations/vite/src/index'
 
 const ROOT = resolve(import.meta.dirname, 'fixtures/vite')
@@ -42,11 +43,11 @@ describe('vite virtual modules', () => {
     return payloads
   }
 
-  async function runHotUpdate(server: vite.ViteDevServer, file: string, code: string) {
+  async function runHotUpdate(server: vite.ViteDevServer, file: string, code: string, type: 'delete' | 'update' = 'update') {
     return await getGlobalPlugin(server).hotUpdate.handler.call(
       { environment: server.environments.client },
       {
-        type: 'update',
+        type,
         file,
         modules: [],
         read: async () => code,
@@ -59,6 +60,27 @@ describe('vite virtual modules', () => {
   function getRegisteredHotPath(code: string) {
     return JSON.parse(code.match(/createHotContext\((".*?")\)/)![1]) as string
   }
+
+  it('reloads a deleted config source', async () => {
+    const config = resolve(ROOT, 'uno.config.ts')
+    const reloadConfig = vi.fn()
+    const plugin = ConfigHMRPlugin({
+      ready: Promise.resolve(),
+      getConfigFileList: () => [config],
+      reloadConfig,
+    } as any)!
+
+    expect(plugin.enforce).toBe('pre')
+
+    const hotUpdate = plugin.hotUpdate!
+    const handler = typeof hotUpdate === 'function' ? hotUpdate : hotUpdate.handler
+    await handler.call(
+      { environment: { name: 'client' } } as any,
+      { file: config, type: 'delete' } as any,
+    )
+
+    expect(reloadConfig).toHaveBeenCalledOnce()
+  })
 
   it('uses internal ids for global CSS', async () => {
     const server = await createServer('global')
@@ -120,6 +142,22 @@ describe('vite virtual modules', () => {
       )
 
       expect(result).toBeUndefined()
+    }
+    finally {
+      await server.close()
+    }
+  })
+
+  it('refreshes CSS after a source file is deleted', async () => {
+    const server = await createServer('global')
+    const source = resolve(ROOT, 'src/Deleted.vue')
+
+    try {
+      await registerEntry(server)
+      await runHotUpdate(server, source, '<template><div class="uno-hmr-probe" /></template>')
+      const result = await runHotUpdate(server, source, '', 'delete')
+
+      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('\0/__uno.css')
     }
     finally {
       await server.close()

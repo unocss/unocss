@@ -1,19 +1,21 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { EnvironmentModuleGraph, EnvironmentModuleNode, Plugin, ViteDevServer } from 'vite'
+import type { EnvironmentModuleGraph, EnvironmentModuleNode, HmrContext, HotUpdateOptions, Plugin, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
 import MagicString from 'magic-string'
+import { version } from 'vite'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { isConfigSource } from '../../config-hmr'
+import { consumeConfigSource, isConfigSource } from '../../config-hmr'
 import { toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const HASH_LENGTH = 6
 const REFRESH_EVENT = 'unocss:refresh'
+const supportsEnvironmentHmr = Number.parseInt(version) >= 8
 
 const REFRESH_SNIPPET = `
 if (import.meta.hot) {
@@ -28,6 +30,7 @@ if (import.meta.hot) {
   })
 }`
 
+type HotUpdateContext = Pick<HotUpdateOptions, 'file' | 'modules' | 'read'> & { type?: HotUpdateOptions['type'] }
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
@@ -89,14 +92,23 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
    */
   function scheduleRefresh() {
     clearTimeout(refreshTimer)
-    refreshTimer = setTimeout(async () => {
+    refreshTimer = setTimeout(() => {
+      void refresh()
+    }, 10)
+  }
+
+  async function refresh() {
+    try {
       if (!server)
         return
       const environment = server.environments.client
       const changed = await regenerateChangedModules(environment.moduleGraph)
       if (changed.length)
         environment.hot.send({ type: 'custom', event: REFRESH_EVENT })
-    }, 10)
+    }
+    catch (error) {
+      console.warn('[unocss-hmr]', error)
+    }
   }
 
   async function setWarnTimer() {
@@ -125,6 +137,63 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       resolvedWarnTimer = undefined
     }
   }
+
+  async function handleHotUpdate(
+    { file, modules, read, type }: HotUpdateContext,
+    moduleGraph: EnvironmentModuleGraph,
+  ) {
+    if (type === 'delete') {
+      if (ctx.modules.delete(file))
+        await ctx.reloadConfig()
+    }
+    // HTML is re-extracted by the transformIndexHtml hook. Returning here
+    // keeps Vite's page reload for HTML changes.
+    else if (file.endsWith('.html')) {
+      return
+    }
+    // The config plugin already reloaded the config, so only the CSS has
+    // to be refreshed. Config files are not content sources.
+    else if (!isConfigSource(ctx, file)) {
+      // Skip files that are neither modules nor potential content sources
+      // (for example assets), so that large binaries are never read.
+      if (modules.length === 0 && !filter('', file))
+        return
+
+      let code: string
+      try {
+        code = await read()
+      }
+      catch {
+        return
+      }
+      if (!filter(code, file))
+        return
+      await extract(code, file)
+    }
+
+    consumeConfigSource(ctx, file)
+    const changed = await regenerateChangedModules(moduleGraph)
+    if (!changed.length)
+      return
+
+    return [...new Set([...modules, ...changed])]
+  }
+
+  const hmrHook: Pick<Plugin, 'handleHotUpdate' | 'hotUpdate'> = supportsEnvironmentHmr
+    ? {
+        hotUpdate: {
+          order: 'post',
+          handler(this: { environment: { name: string, moduleGraph: EnvironmentModuleGraph } }, options) {
+            if (this.environment.name === 'client')
+              return handleHotUpdate(options, this.environment.moduleGraph)
+          },
+        },
+      }
+    : {
+        handleHotUpdate(context: HmrContext) {
+          return handleHotUpdate(context as unknown as HotUpdateContext, context.server.moduleGraph as unknown as EnvironmentModuleGraph) as any
+        },
+      }
 
   return [
     {
@@ -155,47 +224,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           tasks.push(extract(code, filename))
         },
       },
-      hotUpdate: {
-        // Run after other plugins narrowed the module list, so the appended
-        // CSS modules are not dropped, and after the config plugin reloaded a
-        // changed config file.
-        order: 'post',
-        async handler({ file, modules, read, type }) {
-          if (this.environment.name !== 'client' || type === 'delete')
-            return
-
-          // HTML is re-extracted by the transformIndexHtml hook. Returning here
-          // keeps Vite's page reload for HTML changes.
-          if (file.endsWith('.html'))
-            return
-
-          // The config plugin already reloaded the config, so only the CSS has
-          // to be refreshed. Config files are not content sources.
-          if (!isConfigSource(ctx, file)) {
-            // Skip files that are neither modules nor potential content sources
-            // (for example assets), so that large binaries are never read.
-            if (modules.length === 0 && !filter('', file))
-              return
-
-            let code: string
-            try {
-              code = await read()
-            }
-            catch {
-              return
-            }
-            if (!filter(code, file))
-              return
-            await extract(code, file)
-          }
-
-          const changed = await regenerateChangedModules(this.environment.moduleGraph)
-          if (!changed.length)
-            return
-
-          return [...new Set([...modules, ...changed])]
-        },
-      },
+      ...hmrHook,
       async resolveId(id) {
         const entry = await resolveId(ctx, id)
         if (entry) {
