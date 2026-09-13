@@ -1,5 +1,5 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { Plugin, ViteDevServer } from 'vite'
+import type { EnvironmentModuleGraph, EnvironmentModuleNode, HotUpdateOptions, Plugin, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
 import MagicString from 'magic-string'
@@ -28,19 +28,6 @@ if (import.meta.hot) {
   })
 }`
 
-interface HmrModule {
-  id: string | null
-  url: string
-}
-interface HmrModuleGraph<Module extends HmrModule> {
-  getModuleById: (id: string) => Module | undefined
-}
-interface HotUpdateContext<Module extends HmrModule> {
-  file: string
-  modules: Module[]
-  read: () => string | Promise<string>
-  type?: string
-}
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
@@ -73,7 +60,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         ? result.getLayers(
             undefined,
             await Promise.all(
-              Array.from(entries).map(i => resolveLayer(ctx, i)),
+              Array.from(entries).map(i => resolveLayer(ctx, getPath(i))),
             ).then(layers => layers.filter((i): i is string => !!i)),
           )
         : result.getLayer(layer)
@@ -86,10 +73,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
    * Return the imported entries whose generated CSS differs from what the
    * client holds, so that Vite can build the HMR update itself.
    */
-  async function regenerateChangedModules<Module extends HmrModule>(
-    moduleGraph: HmrModuleGraph<Module>,
-  ) {
-    const changed: Module[] = []
+  async function regenerateChangedModules(moduleGraph: EnvironmentModuleGraph) {
+    const changed: EnvironmentModuleNode[] = []
     const result = await generateResult()
     const generatedCSS = new Map<string, { hash: string }>()
     const previousHashes = new Map(lastServedHash)
@@ -174,7 +159,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     modules,
     read,
     type,
-  }: HotUpdateContext<HmrModule>) {
+  }: HotUpdateOptions) {
     if (type === 'delete') {
       if (ctx.modules.delete(file))
         await ctx.reloadConfig()
