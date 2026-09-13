@@ -1,7 +1,8 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { Plugin, Update, ViteDevServer } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
+import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
@@ -12,30 +13,18 @@ import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const HASH_LENGTH = 6
+const REFRESH_EVENT = 'unocss:refresh'
+
+const REFRESH_SNIPPET = `
+if (import.meta.hot) {
+  import.meta.hot.on('${REFRESH_EVENT}', () => {
+    import(/* @vite-ignore */ \`\${import.meta.url}?t=\${Date.now()}\`)
+  })
+}`
+
 interface HmrModule {
   id: string | null
   url: string
-  transformResult?: { code: string } | null
-}
-
-/**
- * Vite 6 and 7 register the hot context under the wrapped public URL
- * (`/@id/__x00__/__uno.css`), while Vite 8.3 registers the raw module URL.
- * Read the path Vite actually injected so the update reaches the client on
- * every supported version.
- */
-function getRegisteredHmrPath(module: HmrModule): string {
-  const injected = module.transformResult?.code?.match(
-    /__vite__createHotContext\("((?:[^"\\]|\\.)*)"\)/,
-  )
-  if (!injected)
-    return module.url
-  try {
-    return JSON.parse(`"${injected[1]}"`)
-  }
-  catch {
-    return module.url
-  }
 }
 interface HmrModuleGraph<Module extends HmrModule> {
   getModuleById: (id: string) => Module | undefined
@@ -56,7 +45,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   let resolved = false
   let server: ViteDevServer | undefined
   let resolvedWarnTimer: TimeoutTimer
-  let updateTimer: TimeoutTimer
+  let refreshTimer: TimeoutTimer
 
   async function generateResult() {
     await flushTasks()
@@ -120,16 +109,16 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   /**
    * A lazily imported module is transformed for the first time after the CSS
    * module already loaded, so no file changed and `hotUpdate` does not run.
-   * Ask Vite to apply a normal update when new tokens change the CSS.
+   * Ask the browser to re-import the CSS module when new tokens change it.
    */
-  function scheduleUpdate() {
-    clearTimeout(updateTimer)
-    updateTimer = setTimeout(() => {
-      void updateCSS()
+  function scheduleRefresh() {
+    clearTimeout(refreshTimer)
+    refreshTimer = setTimeout(() => {
+      void refresh()
     }, 10)
   }
 
-  async function updateCSS() {
+  async function refresh() {
     try {
       if (!server)
         return
@@ -138,14 +127,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       if (!changed.length)
         return
 
-      const timestamp = Date.now()
-      const updates: Update[] = changed.map((module) => {
-        const path = getRegisteredHmrPath(module)
-        return { type: 'js-update', path, acceptedPath: path, timestamp }
-      })
       for (const module of changed)
-        environment.moduleGraph.invalidateModule(module, undefined, timestamp)
-      environment.hot.send({ type: 'update', updates })
+        environment.moduleGraph.invalidateModule(module)
+      environment.hot.send({ type: 'custom', event: REFRESH_EVENT })
     }
     catch (error) {
       console.warn('[unocss-hmr]', error)
@@ -237,7 +221,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           tasks.push(
             extract(code, id).then(() => {
               if (tokens.size > previousTokenCount)
-                scheduleUpdate()
+                scheduleRefresh()
             }),
           )
         }
@@ -287,7 +271,29 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       },
       closeBundle() {
         clearWarnTimer()
-        clearTimeout(updateTimer)
+        clearTimeout(refreshTimer)
+      },
+    },
+    {
+      name: 'unocss:global:post',
+      apply(config, env) {
+        return env.command === 'serve' && !config.build?.ssr
+      },
+      enforce: 'post',
+      async transform(code, id) {
+        const layer = await resolveLayer(ctx, getPath(id))
+        if (
+          layer
+          && !/(?:\?|&)t=/.test(id)
+          && code.includes('import.meta.hot')
+        ) {
+          const s = new MagicString(code)
+          s.append(REFRESH_SNIPPET)
+          return {
+            code: s.toString(),
+            map: s.generateMap() as any,
+          }
+        }
       },
     },
   ]

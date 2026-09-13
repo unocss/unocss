@@ -256,12 +256,11 @@ describe('vite virtual modules', () => {
     }
   })
 
-  it('updates the CSS module when a lazy transform adds new tokens', async () => {
+  it('refreshes CSS when a lazy transform adds new tokens', async () => {
     const server = await createServer('global')
 
     try {
-      const entry = await registerEntry(server)
-      const registered = server.environments.client.moduleGraph.getModuleById(entry)!.url
+      await registerEntry(server)
       const payloads = captureHotPayloads(server)
 
       await getGlobalPlugin(server).transform.call(
@@ -272,8 +271,7 @@ describe('vite virtual modules', () => {
 
       await vi.waitFor(() => {
         expect(payloads.some(payload =>
-          payload.type === 'update'
-          && payload.updates.some((update: vite.Update) => update.acceptedPath === registered),
+          payload.type === 'custom' && payload.event === 'unocss:refresh',
         )).toBe(true)
       }, { timeout: 10_000 })
     }
