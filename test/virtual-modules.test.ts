@@ -25,13 +25,19 @@ describe('vite virtual modules', () => {
     })
   }
 
-  async function registerEntry(server: vite.ViteDevServer) {
-    await server.pluginContainer.resolveId('uno.css')
-    await server.environments.client.transformRequest('\0/__uno.css')
+  async function registerEntry(server: vite.ViteDevServer, id = 'uno.css') {
+    const entry = (await server.pluginContainer.resolveId(id))!.id
+    await server.environments.client.transformRequest(entry)
+    return entry
   }
 
   function getGlobalPlugin(server: vite.ViteDevServer) {
     return server.config.plugins.find(plugin => plugin.name === 'unocss:global') as any
+  }
+
+  function getContext(server: vite.ViteDevServer) {
+    const apiPlugin = server.config.plugins.find(plugin => plugin.name === 'unocss:api') as any
+    return apiPlugin.api.getContext()
   }
 
   function captureHotPayloads(server: vite.ViteDevServer) {
@@ -164,6 +170,30 @@ describe('vite virtual modules', () => {
       )
 
       expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('\0/__uno.css')
+    }
+    finally {
+      await server.close()
+    }
+  })
+
+  it('generates CSS once when multiple virtual layers update', async () => {
+    const server = await createServer('global')
+
+    try {
+      const entries = [
+        await registerEntry(server, 'uno:first.css'),
+        await registerEntry(server, 'uno:second.css'),
+      ]
+      expect(entries.every(entry => server.environments.client.moduleGraph.getModuleById(entry))).toBe(true)
+
+      const generate = vi.spyOn(getContext(server).uno, 'generate')
+      await runHotUpdate(
+        server,
+        resolve(ROOT, 'src/Probe.vue'),
+        '<template><div class="uno-hmr-probe" /></template>',
+      )
+
+      expect(generate).toHaveBeenCalledOnce()
     }
     finally {
       await server.close()
