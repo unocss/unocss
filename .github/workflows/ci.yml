@@ -63,3 +63,36 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+  vite-compat:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        vite_version: [6, 7, 8]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install
+
+      - name: Install Vite ${{ matrix.vite_version }}
+        run: |
+          pnpm add -Dw vite@${{ matrix.vite_version }} --ignore-scripts
+          pnpm --filter @unocss/vite add -D vite@${{ matrix.vite_version }} --ignore-scripts
+
+      - name: Test Vite ${{ matrix.vite_version }} compatibility
+        run: |
+          pnpm exec vite --version
+          pnpm exec vitest run test/vite-compat.test.ts
