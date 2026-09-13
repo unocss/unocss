@@ -1,5 +1,5 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { Plugin, ViteDevServer } from 'vite'
+import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
 import { LAYER_MARK_ALL } from '#integration/constants'
@@ -15,6 +15,27 @@ const HASH_LENGTH = 6
 interface HmrModule {
   id: string | null
   url: string
+  transformResult?: { code: string } | null
+}
+
+/**
+ * Vite 6 and 7 register the hot context under the wrapped public URL
+ * (`/@id/__x00__/__uno.css`), while Vite 8.3 registers the raw module URL.
+ * Read the path Vite actually injected so the update reaches the client on
+ * every supported version.
+ */
+function getRegisteredHmrPath(module: HmrModule): string {
+  const injected = module.transformResult?.code?.match(
+    /__vite__createHotContext\("((?:[^"\\]|\\.)*)"\)/,
+  )
+  if (!injected)
+    return module.url
+  try {
+    return JSON.parse(`"${injected[1]}"`)
+  }
+  catch {
+    return module.url
+  }
 }
 interface HmrModuleGraph<Module extends HmrModule> {
   getModuleById: (id: string) => Module | undefined
@@ -117,17 +138,13 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         return
 
       const timestamp = Date.now()
+      const updates: Update[] = changed.map((module) => {
+        const path = getRegisteredHmrPath(module)
+        return { type: 'js-update', path, acceptedPath: path, timestamp }
+      })
       for (const module of changed)
         environment.moduleGraph.invalidateModule(module, undefined, timestamp)
-      environment.hot.send({
-        type: 'update',
-        updates: changed.map(module => ({
-          type: 'js-update',
-          path: module.url,
-          acceptedPath: module.url,
-          timestamp,
-        })),
-      })
+      environment.hot.send({ type: 'update', updates })
     }
     catch (error) {
       console.warn('[unocss-hmr]', error)
