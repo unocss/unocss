@@ -97,6 +97,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     const changed: Module[] = []
     const result = await generateResult()
     const generatedCSS = new Map<string, { hash: string }>()
+    const previousHashes = new Map(lastServedHash)
     for (const id of entries) {
       const mod = moduleGraph.getModuleById(id)
       if (!mod)
@@ -104,7 +105,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       const layer = await resolveLayer(ctx, getPath(id))
       if (!layer)
         continue
-      const previousHash = lastServedHash.get(layer)
+      const previousHash = previousHashes.get(layer)
       let css = generatedCSS.get(layer)
       if (!css) {
         css = await generateCSS(layer, result)

@@ -182,6 +182,28 @@ describe('vite virtual modules', () => {
     }
   })
 
+  it('returns every entry for a layer when the generated CSS changes', async () => {
+    const server = await createServer('global')
+
+    try {
+      const entries = [
+        await registerEntry(server, 'uno.css'),
+        await registerEntry(server, 'uno.css?inline'),
+      ]
+      const result = await runHotUpdate(
+        server,
+        resolve(ROOT, 'src/Probe.vue'),
+        '<template><div class="uno-hmr-probe" /></template>',
+      )
+
+      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id))
+        .toEqual(expect.arrayContaining(entries))
+    }
+    finally {
+      await server.close()
+    }
+  })
+
   it('leaves the module list untouched when the generated CSS does not change', async () => {
     const server = await createServer('global')
 
