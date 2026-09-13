@@ -4,8 +4,8 @@ import { join, resolve } from 'node:path'
 import UnoCSS, { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '@unocss/vite'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
+import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/compat-flags'
 import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
-import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/hmr'
 
 const ROOT = resolve(import.meta.dirname, 'fixtures/vite')
 
