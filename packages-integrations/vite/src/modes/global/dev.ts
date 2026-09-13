@@ -56,7 +56,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   let resolvedWarnTimer: TimeoutTimer
   let refreshTimer: TimeoutTimer
 
-  async function generateCSS(layer: string) {
+  async function generateResult() {
     await flushTasks()
     let result: GenerateResult
     let tokensSize = tokens.size
@@ -64,10 +64,13 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       result = await ctx.uno.generate(tokens)
       // to capture new tokens created during generation
       if (tokensSize === tokens.size)
-        break
+        return result
       tokensSize = tokens.size
     } while (true)
+  }
 
+  async function generateCSS(layer: string, result?: GenerateResult) {
+    result ??= await generateResult()
     const css
       = layer === LAYER_MARK_ALL
         ? result.getLayers(
@@ -90,6 +93,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     moduleGraph: HmrModuleGraph<Module>,
   ) {
     const changed: Module[] = []
+    const result = await generateResult()
+    const generatedCSS = new Map<string, { hash: string }>()
     for (const id of entries) {
       const mod = moduleGraph.getModuleById(id)
       if (!mod)
@@ -98,8 +103,12 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       if (!layer)
         continue
       const previousHash = lastServedHash.get(layer)
-      const { hash } = await generateCSS(layer)
-      if (hash !== previousHash)
+      let css = generatedCSS.get(layer)
+      if (!css) {
+        css = await generateCSS(layer, result)
+        generatedCSS.set(layer, css)
+      }
+      if (css.hash !== previousHash)
         changed.push(mod)
     }
     return changed
