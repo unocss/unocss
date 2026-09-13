@@ -3,7 +3,6 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
-import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/compat-flags'
 import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
 import UnoCSS from '../packages-integrations/vite/src/index'
 
@@ -96,31 +95,14 @@ describe('vite virtual modules', () => {
       const entry = (await server.pluginContainer.resolveId('uno.css'))!.id
       await writeFile(source, '<template><div class="uno-hmr-probe" /></template>')
 
-      if (supportsEnvironmentHmr) {
-        await server.environments.client.transformRequest(entry)
-        const payloads = captureHotPayloads(server)
+      await server.environments.client.transformRequest(entry)
+      const payloads = captureHotPayloads(server)
 
-        server.watcher.emit('add', source)
+      server.watcher.emit('add', source)
 
-        await vi.waitFor(() => {
-          expect(payloads.some(payload => payload.type === 'update')).toBe(true)
-        }, { timeout: 10_000 })
-      }
-      else {
-        await server.transformRequest(entry)
-        const plugin = getGlobalPlugin(server)
-        const legacyHook = plugin.handleHotUpdate
-        const handler = typeof legacyHook === 'function' ? legacyHook : legacyHook.handler
-        const result = await handler.call({} as ThisParameterType<typeof handler>, {
-          file: source,
-          modules: [],
-          read: async () => '<template><div class="uno-hmr-probe" /></template>',
-          timestamp: Date.now(),
-          server,
-        })
-
-        expect(result?.map((module: vite.ModuleNode) => module.id)).toContain(entry)
-      }
+      await vi.waitFor(() => {
+        expect(payloads.some(payload => payload.type === 'update')).toBe(true)
+      }, { timeout: 10_000 })
     }
     finally {
       await server.close()
@@ -252,31 +234,12 @@ describe('vite virtual modules', () => {
     }
   })
 
-  it('injects the refresh listener only for the base CSS module URL', async () => {
+  it('updates the CSS module when a lazy transform adds new tokens', async () => {
     const server = await createServer('global')
 
     try {
-      await registerEntry(server)
-      const code = (await server.environments.client.transformRequest('\0/__uno.css'))!.code
-
-      expect(code).toContain('unocss:refresh')
-
-      const refreshed = (await server.environments.client.transformRequest('\0/__uno.css?t=1'))!.code
-      expect(refreshed).not.toContain('unocss:refresh')
-
-      const nestedQuery = (await server.environments.client.transformRequest('\0/__uno.css?source=t=1'))!.code
-      expect(nestedQuery).toContain('unocss:refresh')
-    }
-    finally {
-      await server.close()
-    }
-  })
-
-  it('refreshes the CSS module when a lazy transform adds new tokens', async () => {
-    const server = await createServer('global')
-
-    try {
-      await registerEntry(server)
+      const entry = await registerEntry(server)
+      const registered = server.environments.client.moduleGraph.getModuleById(entry)!.url
       const payloads = captureHotPayloads(server)
 
       await getGlobalPlugin(server).transform.call(
@@ -286,7 +249,10 @@ describe('vite virtual modules', () => {
       )
 
       await vi.waitFor(() => {
-        expect(payloads.some(payload => payload.type === 'custom' && payload.event === 'unocss:refresh')).toBe(true)
+        expect(payloads.some(payload =>
+          payload.type === 'update'
+          && payload.updates.some((update: vite.Update) => update.acceptedPath === registered),
+        )).toBe(true)
       }, { timeout: 10_000 })
     }
     finally {

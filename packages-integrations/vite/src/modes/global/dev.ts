@@ -1,40 +1,21 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type {
-  EnvironmentModuleGraph,
-  HmrContext,
-  Plugin,
-  ViteDevServer,
-} from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
-import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { supportsEnvironmentHmr } from '../../compat-flags'
 import { consumeConfigSource, isConfigSource } from '../../config-hmr'
 import { toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const HASH_LENGTH = 6
-const REFRESH_EVENT = 'unocss:refresh'
-
-const REFRESH_SNIPPET = `
-if (import.meta.hot) {
-  import.meta.hot.on('${REFRESH_EVENT}', async () => {
-    const url = new URL(import.meta.url)
-    url.searchParams.set('t', Date.now())
-    try {
-      await import(/* @vite-ignore */ url.href)
-    } catch (e) {
-      console.warn('[unocss-hmr]', e)
-    }
-  })
-}`
-
-interface HmrModule { id: string | null }
+interface HmrModule {
+  id: string | null
+  url: string
+}
 interface HmrModuleGraph<Module extends HmrModule> {
   getModuleById: (id: string) => Module | undefined
 }
@@ -54,7 +35,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   let resolved = false
   let server: ViteDevServer | undefined
   let resolvedWarnTimer: TimeoutTimer
-  let refreshTimer: TimeoutTimer
+  let updateTimer: TimeoutTimer
 
   async function generateResult() {
     await flushTasks()
@@ -117,23 +98,36 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
   /**
    * A lazily imported module is transformed for the first time after the CSS
    * module already loaded, so no file changed and `hotUpdate` does not run.
-   * Ask the client to re-import the CSS module when new tokens change the CSS.
+   * Ask Vite to apply a normal update when new tokens change the CSS.
    */
-  function scheduleRefresh() {
-    clearTimeout(refreshTimer)
-    refreshTimer = setTimeout(() => {
-      void refresh()
+  function scheduleUpdate() {
+    clearTimeout(updateTimer)
+    updateTimer = setTimeout(() => {
+      void updateCSS()
     }, 10)
   }
 
-  async function refresh() {
+  async function updateCSS() {
     try {
       if (!server)
         return
       const environment = server.environments.client
       const changed = await regenerateChangedModules(environment.moduleGraph)
-      if (changed.length)
-        environment.hot.send({ type: 'custom', event: REFRESH_EVENT })
+      if (!changed.length)
+        return
+
+      const timestamp = Date.now()
+      for (const module of changed)
+        environment.moduleGraph.invalidateModule(module, undefined, timestamp)
+      environment.hot.send({
+        type: 'update',
+        updates: changed.map(module => ({
+          type: 'js-update',
+          path: module.url,
+          acceptedPath: module.url,
+          timestamp,
+        })),
+      })
     }
     catch (error) {
       console.warn('[unocss-hmr]', error)
@@ -207,46 +201,6 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     return true
   }
 
-  async function handleHotUpdate<Module extends HmrModule>(
-    context: HotUpdateContext<Module>,
-    moduleGraph: HmrModuleGraph<Module>,
-  ) {
-    if (!(await prepareHotUpdate(context)))
-      return
-
-    consumeConfigSource(ctx, context.file)
-    const changed = await regenerateChangedModules(moduleGraph)
-    if (!changed.length)
-      return
-
-    return [...new Set([...context.modules, ...changed])]
-  }
-
-  const hmrHook: Pick<Plugin, 'handleHotUpdate' | 'hotUpdate'>
-    = supportsEnvironmentHmr
-      ? {
-          hotUpdate: {
-            order: 'post',
-            handler(
-              this: {
-                environment: {
-                  name: string
-                  moduleGraph: EnvironmentModuleGraph
-                }
-              },
-              options,
-            ) {
-              if (this.environment.name === 'client')
-                return handleHotUpdate(options, this.environment.moduleGraph)
-            },
-          },
-        }
-      : {
-          handleHotUpdate(context: HmrContext) {
-            return handleHotUpdate(context, context.server.moduleGraph)
-          },
-        }
-
   return [
     {
       name: 'unocss:global',
@@ -265,7 +219,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           tasks.push(
             extract(code, id).then(() => {
               if (tokens.size > previousTokenCount)
-                scheduleRefresh()
+                scheduleUpdate()
             }),
           )
         }
@@ -278,7 +232,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           tasks.push(extract(code, filename))
         },
       },
-      ...hmrHook,
+      hotUpdate: {
+        order: 'post',
+        async handler(options) {
+          if (this.environment.name !== 'client' || !(await prepareHotUpdate(options)))
+            return
+
+          consumeConfigSource(ctx, options.file)
+          const changed = await regenerateChangedModules(this.environment.moduleGraph)
+          if (!changed.length)
+            return
+
+          return [...new Set([...options.modules, ...changed])]
+        },
+      },
       async resolveId(id) {
         const entry = await resolveId(ctx, id)
         if (entry) {
@@ -302,30 +269,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       },
       closeBundle() {
         clearWarnTimer()
-        clearTimeout(refreshTimer)
-      },
-    },
-    {
-      name: 'unocss:global:post',
-      apply(config, env) {
-        return env.command === 'serve' && !config.build?.ssr
-      },
-      enforce: 'post',
-      async transform(code, id) {
-        const layer = await resolveLayer(ctx, getPath(id))
-
-        if (
-          layer
-          && !/(?:\?|&)t=/.test(id)
-          && code.includes('import.meta.hot')
-        ) {
-          const s = new MagicString(code)
-          s.append(REFRESH_SNIPPET)
-          return {
-            code: s.toString(),
-            map: s.generateMap() as any,
-          }
-        }
+        clearTimeout(updateTimer)
       },
     },
   ]
