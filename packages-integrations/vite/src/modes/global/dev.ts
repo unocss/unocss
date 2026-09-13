@@ -17,8 +17,14 @@ const REFRESH_EVENT = 'unocss:refresh'
 
 const REFRESH_SNIPPET = `
 if (import.meta.hot) {
-  import.meta.hot.on('${REFRESH_EVENT}', () => {
-    import(/* @vite-ignore */ \`\${import.meta.url}?t=\${Date.now()}\`)
+  import.meta.hot.on('${REFRESH_EVENT}', async () => {
+    const url = new URL(import.meta.url)
+    url.searchParams.set('t', Date.now())
+    try {
+      await import(/* @vite-ignore */ url.href)
+    } catch (e) {
+      console.warn('[unocss-hmr]', e)
+    }
   })
 }`
 
