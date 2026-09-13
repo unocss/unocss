@@ -1,7 +1,6 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { normalizePath } from 'vite'
-import { supportsEnvironmentHmr } from './compat-flags'
 
 const changedConfigSources = new WeakMap<UnocssPluginContext, Set<string>>()
 
@@ -40,23 +39,10 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin {
       await ready
       ctx.uno.config.envMode = 'dev'
       server.watcher.add(ctx.getConfigFileList())
-      if (!supportsEnvironmentHmr)
-        server.watcher.on('unlink', reload)
     },
-    ...(supportsEnvironmentHmr
-      ? {
-          async hotUpdate(
-            this: { environment: { name: string } },
-            { file }: { file: string },
-          ) {
-            if (this.environment.name === 'client')
-              await reload(file)
-          },
-        }
-      : {
-          async handleHotUpdate({ file }: { file: string }) {
-            await reload(file)
-          },
-        }),
+    async hotUpdate({ file }) {
+      if (this.environment.name === 'client')
+        await reload(file)
+    },
   }
 }
