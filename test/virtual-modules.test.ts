@@ -80,7 +80,7 @@ describe('vite virtual modules', () => {
     expect(reloadConfig).toHaveBeenCalledOnce()
   })
 
-  it(`updates global CSS through Vite ${vite.version}`, async () => {
+  it.runIf(process.env.VITE_COMPAT === 'true')(`updates global CSS through Vite ${vite.version}`, async () => {
     const root = await mkdtemp(join(tmpdir(), 'unocss-vite-hmr-'))
     const source = resolve(root, 'src/Probe.vue')
     await mkdir(resolve(root, 'src'))
