@@ -1,20 +1,22 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import { normalizePath, version } from 'vite'
+import { normalizePath } from 'vite'
+import { supportsEnvironmentHmr } from './hmr'
 
-const supportsEnvironmentHmr = Number.parseInt(version) >= 8
 const changedConfigSources = new WeakMap<UnocssPluginContext, Set<string>>()
 
 export function isConfigSource(ctx: UnocssPluginContext, file: string) {
-  return ctx.getConfigFileList().some(source => normalizePath(source) === file)
+  return (
+    ctx.getConfigFileList().some(source => normalizePath(source) === file)
     || changedConfigSources.get(ctx)?.has(file)
+  )
 }
 
 export function consumeConfigSource(ctx: UnocssPluginContext, file: string) {
   return changedConfigSources.get(ctx)?.delete(file) ?? false
 }
 
-export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
+export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin {
   const { ready } = ctx
   const reload = async (file: string) => {
     if (!isConfigSource(ctx, file))
@@ -27,7 +29,7 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
     changed.add(file)
     await ctx.reloadConfig()
   }
-  const plugin: Plugin = {
+  return {
     name: 'unocss:config',
     enforce: 'pre',
     async configResolved(config) {
@@ -40,19 +42,20 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin | undefined {
       if (!supportsEnvironmentHmr)
         server.watcher.on('unlink', reload)
     },
+    ...(supportsEnvironmentHmr
+      ? {
+          async hotUpdate(
+            this: { environment: { name: string } },
+            { file }: { file: string },
+          ) {
+            if (this.environment.name === 'client')
+              await reload(file)
+          },
+        }
+      : {
+          async handleHotUpdate({ file }: { file: string }) {
+            await reload(file)
+          },
+        }),
   }
-
-  if (supportsEnvironmentHmr) {
-    plugin.hotUpdate = async function ({ file }) {
-      if (this.environment.name === 'client')
-        await reload(file)
-    }
-  }
-  else {
-    plugin.handleHotUpdate = async ({ file }) => {
-      await reload(file)
-    }
-  }
-
-  return plugin
 }
