@@ -3,8 +3,8 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
+import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/compat-flags'
 import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
-import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/hmr'
 import UnoCSS from '../packages-integrations/vite/src/index'
 
 const ROOT = resolve(import.meta.dirname, 'fixtures/vite')

@@ -1,19 +1,20 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { normalizePath } from 'vite'
-import { supportsEnvironmentHmr } from './hmr'
+import { supportsEnvironmentHmr } from './compat-flags'
 
 const changedConfigSources = new WeakMap<UnocssPluginContext, Set<string>>()
 
 export function isConfigSource(ctx: UnocssPluginContext, file: string) {
+  const normalizedFile = normalizePath(file)
   return (
-    ctx.getConfigFileList().some(source => normalizePath(source) === file)
-    || changedConfigSources.get(ctx)?.has(file)
+    ctx.getConfigFileList().some(source => normalizePath(source) === normalizedFile)
+    || changedConfigSources.get(ctx)?.has(normalizedFile)
   )
 }
 
 export function consumeConfigSource(ctx: UnocssPluginContext, file: string) {
-  return changedConfigSources.get(ctx)?.delete(file) ?? false
+  return changedConfigSources.get(ctx)?.delete(normalizePath(file)) ?? false
 }
 
 export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin {
@@ -26,7 +27,7 @@ export function ConfigHMRPlugin(ctx: UnocssPluginContext): Plugin {
       changed = new Set()
       changedConfigSources.set(ctx, changed)
     }
-    changed.add(file)
+    changed.add(normalizePath(file))
     await ctx.reloadConfig()
   }
   return {
