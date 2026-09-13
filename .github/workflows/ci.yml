@@ -98,4 +98,4 @@ jobs:
       - name: Test Vite ${{ matrix.vite_version }} compatibility
         run: |
           pnpm exec vite --version
-          pnpm exec vitest run test/vite-compat.test.ts
+          pnpm exec vitest run test/virtual-modules.test.ts --testNamePattern 'updates global CSS through Vite'

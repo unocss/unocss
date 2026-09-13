@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import * as vite from 'vite'
 import { describe, expect, it, vi } from 'vitest'
 import { ConfigHMRPlugin } from '../packages-integrations/vite/src/config-hmr'
+import { supportsEnvironmentHmr } from '../packages-integrations/vite/src/hmr'
 import UnoCSS from '../packages-integrations/vite/src/index'
 
 const ROOT = resolve(import.meta.dirname, 'fixtures/vite')
@@ -77,6 +78,48 @@ describe('vite virtual modules', () => {
     )
 
     expect(reloadConfig).toHaveBeenCalledOnce()
+  })
+
+  it(`updates global CSS through Vite ${vite.version}`, async () => {
+    const root = await mkdtemp(join(tmpdir(), 'unocss-vite-hmr-'))
+    const source = resolve(root, 'src/Probe.vue')
+    await mkdir(resolve(root, 'src'))
+    const server = await createServer('global', root)
+
+    try {
+      const entry = (await server.pluginContainer.resolveId('uno.css'))!.id
+      await writeFile(source, '<template><div class="uno-hmr-probe" /></template>')
+
+      if (supportsEnvironmentHmr) {
+        await server.environments.client.transformRequest(entry)
+        const payloads = captureHotPayloads(server)
+
+        server.watcher.emit('add', source)
+
+        await vi.waitFor(() => {
+          expect(payloads.some(payload => payload.type === 'update')).toBe(true)
+        }, { timeout: 10_000 })
+      }
+      else {
+        await server.transformRequest(entry)
+        const plugin = getGlobalPlugin(server)
+        const legacyHook = plugin.handleHotUpdate
+        const handler = typeof legacyHook === 'function' ? legacyHook : legacyHook.handler
+        const result = await handler.call({} as ThisParameterType<typeof handler>, {
+          file: source,
+          modules: [],
+          read: async () => '<template><div class="uno-hmr-probe" /></template>',
+          timestamp: Date.now(),
+          server,
+        })
+
+        expect(result?.map((module: vite.ModuleNode) => module.id)).toContain(entry)
+      }
+    }
+    finally {
+      await server.close()
+      await rm(root, { recursive: true, force: true })
+    }
   })
 
   it('uses internal ids for global CSS', async () => {
