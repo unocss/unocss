@@ -78,20 +78,7 @@ export declare const rules: Rule<Theme$1>[];
 export declare const screenReadersAccess: Rule<Theme$1>[];
 export declare const scrollBehaviors: Rule<Theme$1>[];
 export declare const scrolls: Rule<Theme$1>[];
-export declare const shadowProperties: {
-  shadow: CSSValueInput;
-  shadowColor: CSSValueInput;
-  insetShadow: CSSValueInput;
-  insetShadowColor: CSSValueInput;
-  ringColor: CSSValueInput;
-  ringShadow: CSSValueInput;
-  insetRingColor: CSSValueInput;
-  insetRingShadow: CSSValueInput;
-  ringInset: CSSValueInput;
-  ringOffsetWidth: CSSValueInput;
-  ringOffsetColor: CSSValueInput;
-  ringOffsetShadow: CSSValueInput;
-};
+export declare const shadowProperties: { /* collapsed */ }
 export declare const sizes: Rule<Theme$1>[];
 export declare const spaces: Rule<Theme$1>[];
 export declare const svgUtilities: Rule<Theme$1>[];

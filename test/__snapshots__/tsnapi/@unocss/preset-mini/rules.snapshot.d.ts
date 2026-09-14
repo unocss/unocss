@@ -74,20 +74,7 @@ export declare const textShadows: Rule<Theme>[];
 export declare const textStrokes: Rule<Theme>[];
 export declare const textTransforms: Rule[];
 export declare const textWraps: Rule[];
-export declare const transformBase: {
-  '--un-rotate': number;
-  '--un-rotate-x': number;
-  '--un-rotate-y': number;
-  '--un-rotate-z': number;
-  '--un-scale-x': number;
-  '--un-scale-y': number;
-  '--un-scale-z': number;
-  '--un-skew-x': number;
-  '--un-skew-y': number;
-  '--un-translate-x': number;
-  '--un-translate-y': number;
-  '--un-translate-z': number;
-};
+export declare const transformBase: { /* collapsed */ }
 export declare const transforms: Rule[];
 export declare const transitions: Rule<Theme>[];
 export declare const userSelects: Rule[];

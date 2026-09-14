@@ -23,8 +23,8 @@ catalogs:
       specifier: ^0.22.14
       version: 0.22.14
     tsnapi:
-      specifier: ^1.4.2
-      version: 1.4.2
+      specifier: ^1.5.0
+      version: 1.5.0
     turbo:
       specifier: ^2.10.12
       version: 2.10.12
@@ -692,7 +692,7 @@ importers:
         version: 0.22.14(@arethetypeswrong/core@0.18.5)(@typescript/native-preview@7.0.0-dev.20260514.1)(publint@0.3.24)(tsx@4.23.13)(typescript@6.0.3)(unrun@0.3.1)
       tsnapi:
         specifier: catalog:build
-        version: 1.4.2(srvx@0.11.22)(vitest@4.1.11)
+        version: 1.5.0(srvx@0.11.22)(vitest@4.1.11)
       tsx:
         specifier: catalog:typescript
         version: 4.23.13
@@ -8794,8 +8794,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsnapi@1.4.2:
-    resolution: {integrity: sha512-jzZKdp9Hvg6/cL6Y0zfarpNrHrOdIaQfIXAOY799QnWoPM7ymJdDhgQOUD6XQS9U2I5ULYeLqxbG3zfJ1N0cNQ==}
+  tsnapi@1.5.0:
+    resolution: {integrity: sha512-vSN0KI8x79WiKTyXpDR89aYUnNJ+Z3Ydktb1Trf2Yvo+5yxVNVL/39kSTap8O9RKMMD4T+9jGH7YyBlKQ4+Cwg==}
     hasBin: true
     peerDependencies:
       vitest: '>=4.0.0'
@@ -17689,7 +17689,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsnapi@1.4.2(srvx@0.11.22)(vitest@4.1.11):
+  tsnapi@1.5.0(srvx@0.11.22)(vitest@4.1.11):
     dependencies:
       '@devframes/service-shiki': 0.9.11(devframe@0.9.11)
       '@vitest/utils': 4.1.11

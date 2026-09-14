@@ -17,4 +17,16 @@ await describePackagesApiSnapshots({
     if (skip.has(ctx.packageName))
       return false
   },
+  // Presets export large default-data objects (theme, color palettes, keyframe
+  // maps) whose inlined shape dominates the dts snapshots without carrying real
+  // API signal. Collapse those object literals so the export is still guarded
+  // (rename/removal shows up) while the noisy key list stays out of the diff.
+  transformEntries(entries, { surface }) {
+    if (surface !== 'dts')
+      return
+    for (const entry of entries) {
+      if (entry.kind === 'variable' && entry.text.split('\n').length > 12)
+        entry.text = entry.text.replace(/:[\s\S]*$/, ': { /* collapsed */ }')
+    }
+  },
 })
