@@ -1,3 +1,4 @@
+import type { Rule, VariantHandlerContext } from '@unocss/core'
 import type { PseudoVariantUtilities } from '../src/pseudo'
 import { createGenerator } from '@unocss/core'
 import { h } from '@unocss/preset-wind4/utils'
@@ -8,7 +9,7 @@ import {
   createPseudoClassFunctions,
   createTaggedPseudoClasses,
 } from '../src/pseudo'
-import { variantGetBracket, variantMatcher } from '../src/variants'
+import { variantGetBracket, variantMatcher, variantPrefix } from '../src/variants'
 
 // Create utilities similar to what presets use
 const utils: PseudoVariantUtilities = {
@@ -470,4 +471,138 @@ it('multi pseudo classes', async () => {
       .selection\\:foo-1 *::selection,
       .selection\\:foo-1::selection{content:"1";}"
     `)
+})
+
+// https://github.com/unocss/unocss/issues/5043
+it('tagged pseudo classes keep the written prefix order in both variant apply orders', async () => {
+  for (const variantApplyOrder of ['right-to-left', 'left-to-right'] as const) {
+    const uno = await createGenerator({
+      variantApplyOrder,
+      variants: [
+        ...createTaggedPseudoClasses({}, utils),
+        variantMatcher('dark', (input, ctx) => ({ prefix: variantPrefix(input, '.dark $$ ', ctx) })),
+        // a third-party variant replacing the entries array
+        {
+          name: 'copy',
+          match(matcher) {
+            if (!matcher.startsWith('copy:'))
+              return
+            return {
+              matcher: matcher.slice('copy:'.length),
+              body: entries => entries.map(entry => [...entry] as typeof entry),
+            }
+          },
+        },
+        // a third-party variant rebuilding the context from its documented fields
+        {
+          name: 'plugin',
+          match(matcher) {
+            if (!matcher.startsWith('plugin:'))
+              return
+            return {
+              matcher: matcher.slice('plugin:'.length),
+              handle: (input, next) => next({
+                prefix: input.prefix,
+                selector: `${input.selector}:checked`,
+                pseudo: input.pseudo,
+                entries: input.entries,
+                parent: input.parent,
+                parentOrder: input.parentOrder,
+                layer: input.layer,
+                sort: input.sort,
+                noMerge: input.noMerge,
+              }),
+            }
+          },
+        },
+      ],
+      rules: [
+        [/^foo-(\d+)$/, ([_, a]) => ({ text: `foo-${a}` })],
+      ],
+      shortcuts: [['sc', 'group-focus:foo-14']],
+    })
+
+    const { css } = await uno.generate([
+      'dark:group-hover:foo-1',
+      'group-hover:dark:foo-2',
+      'dark:group-hover:group-focus:foo-3',
+      'group-hover:group-focus:group-active:foo-4',
+      'group-hover:peer-[&_.group:focus_.group:active]:foo-5',
+      'group-[&_.group:focus_.group:active]:foo-6',
+      'group-[&_.group:focus_.group:active]:group-hover:foo-7',
+      'group-hover:group-[&_.group:focus_.group:active]:foo-8',
+      'group-hover:peer-hover:peer-focus:foo-9',
+      'group-hover:plugin:group-focus:foo-0',
+      'group-[&_.foo]:group-hover:group-focus:foo-10',
+      'group-hover:group-[&_.foo]:group-focus:foo-11',
+      'group-[.x&:first-child]:group-last:foo-12',
+      'peer-[.x&:first-child]:peer-last:foo-13',
+      'group-hover:sc',
+      'group-hover:copy:group-focus:foo-16',
+    ], { preflights: false })
+
+    expect(css).toContain('.dark .group:hover .dark\\:group-hover\\:foo-1{')
+    expect(css).toContain('.group:hover .dark .group-hover\\:dark\\:foo-2{')
+    expect(css).toContain('.dark .group:hover:focus .dark\\:group-hover\\:group-focus\\:foo-3{')
+    expect(css).toContain('.group:hover:focus:active .group-hover\\:group-focus\\:group-active\\:foo-4{')
+    // only the segments of stacked simple `group-*` variants are merged, never arbitrary selectors
+    expect(css).toContain('.group:hover .peer .group:focus .group:active~.group-hover\\:peer-')
+    expect(css).toContain('.group .group:focus .group:active .group-\\[')
+    expect(css).toContain('.group .group:focus .group:active .group:hover .group-\\[')
+    expect(css).toContain('.group:hover .group .group:focus .group:active .group-hover\\:group-\\[')
+    expect(css).not.toContain('.group:focus:active')
+    // stacked segments of another tag are merged too
+    expect(css).toContain('.group:hover .peer:hover:focus~.group-hover\\:peer-hover\\:peer-focus\\:foo-9{')
+    // merging does not depend on the variants in between preserving anything but the prefix
+    expect(css).toContain('.group:hover:focus .group-hover\\:plugin\\:group-focus\\:foo-0:checked{')
+    // simple segments following an arbitrary one are merged, an arbitrary one in between is not
+    expect(css).toContain('.group .foo .group:hover:focus .group-\\[')
+    expect(css).toContain('.group:hover .group .foo .group:focus .group-hover\\:group-\\[')
+    // a compound arbitrary segment is never merged with the simple segment that follows it
+    expect(css).toContain('.x.group:first-child .group:last-child .group-\\[')
+    expect(css).toContain('.x.peer:first-child~.peer:last-child~.peer-\\[')
+    // the variants of a shortcut merge with the ones of its utilities
+    expect(css).toContain('.group:hover:focus .group-hover\\:sc{')
+    // merging survives a body transform replacing the entries
+    expect(css).toContain('.group:hover:focus .group-hover\\:copy\\:group-focus\\:foo-16{')
+
+    // merging keeps the scope placeholder of the preceding prefixes
+    const { css: scoped } = await uno.generate(['dark:group-hover:group-focus:foo-3'], { preflights: false, scope: '.scope' })
+    expect(scoped).toContain('.dark .scope .group:hover:focus .dark\\:group-hover\\:group-focus\\:foo-3{')
+  }
+})
+
+// https://github.com/unocss/unocss/issues/5043
+it('only merges the segments appended by tagged pseudo classes of the same utility', async () => {
+  const config = {
+    variantApplyOrder: 'left-to-right' as const,
+    variants: [
+      ...createTaggedPseudoClasses({}, utils),
+      // a third-party variant writing a prefix that looks like a `group-hover` segment
+      {
+        name: 'custom',
+        match(matcher: string) {
+          if (!matcher.startsWith('custom:'))
+            return
+          return {
+            matcher: matcher.slice('custom:'.length),
+            handle: (input: VariantHandlerContext, next: (input: VariantHandlerContext) => VariantHandlerContext) => next({ ...input, prefix: `${input.prefix}.group:hover ` }),
+          }
+        },
+      },
+    ],
+    // a static rule shares its entries array between all the utilities using it
+    rules: [
+      ['bar', [['text', 'bar']]],
+    ] as Rule[],
+  }
+  const uno = await createGenerator(config)
+
+  // the prefix produced by `group-hover:bar` must not be mistaken for the one of the next utility
+  const { css } = await uno.generate(['group-hover:bar', 'custom:group-focus:bar'], { preflights: false })
+  expect(css).toContain('.group:hover .group:focus .custom\\:group-focus\\:bar{')
+
+  // nor across generators
+  const { css: other } = await (await createGenerator(config)).generate(['custom:group-focus:bar'], { preflights: false })
+  expect(other).toContain('.group:hover .group:focus .custom\\:group-focus\\:bar{')
 })

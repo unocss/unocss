@@ -1,8 +1,8 @@
-import type { Arrayable, VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
+import type { Arrayable, VariantContext, VariantHandler, VariantHandlerContext, VariantObject } from '@unocss/core'
 import { escapeRegExp, toArray } from '@unocss/core'
 import { getBracket } from './utilities'
 
-export function variantMatcher<T extends object = object>(name: string, handler: Arrayable<(input: VariantHandlerContext) => Record<string, any>>, options: Omit<VariantObject<T>, 'match'> = {}): VariantObject<T> {
+export function variantMatcher<T extends object = object>(name: string, handler: Arrayable<(input: VariantHandlerContext, ctx: VariantContext<T>) => Record<string, any>>, options: Omit<VariantObject<T>, 'match'> = {}): VariantObject<T> {
   let re: RegExp
   return {
     name,
@@ -17,7 +17,7 @@ export function variantMatcher<T extends object = object>(name: string, handler:
           matcher,
           handle: (input, next) => next({
             ...input,
-            ...handler(input),
+            ...handler(input, ctx),
           }),
           ...options,
         }))
@@ -28,6 +28,17 @@ export function variantMatcher<T extends object = object>(name: string, handler:
     },
     autocomplete: `${name}:`,
   }
+}
+
+/**
+ * Join the prefix of a variant (e.g. `.dark $$ `) with the prefix accumulated by the
+ * variants applied before it, so that the leftmost variant in the utility ends up
+ * leftmost in the generated selector regardless of the `variantApplyOrder` of the generator.
+ */
+export function variantPrefix<T extends object = object>(input: VariantHandlerContext, prefix: string, ctx: VariantContext<T>): string {
+  return ctx.generator.config.variantApplyOrder === 'left-to-right'
+    ? `${input.prefix}${prefix}`
+    : `${prefix}${input.prefix}`
 }
 
 export function variantParentMatcher<T extends object = object>(name: string, parent: string): VariantObject<T> {

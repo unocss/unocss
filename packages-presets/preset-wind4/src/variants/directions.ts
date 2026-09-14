@@ -1,8 +1,8 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
-import { variantMatcher } from '@unocss/rule-utils'
+import { variantMatcher, variantPrefix } from '@unocss/rule-utils'
 
 export const variantLanguageDirections = [
-  variantMatcher('rtl', input => ({ prefix: `[dir="rtl"] $$ ${input.prefix}` })),
-  variantMatcher('ltr', input => ({ prefix: `[dir="ltr"] $$ ${input.prefix}` })),
+  variantMatcher('rtl', (input, ctx) => ({ prefix: variantPrefix(input, '[dir="rtl"] $$ ', ctx) })),
+  variantMatcher('ltr', (input, ctx) => ({ prefix: variantPrefix(input, '[dir="ltr"] $$ ', ctx) })),
 ] as Variant<Theme>[]
