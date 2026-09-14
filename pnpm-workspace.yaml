@@ -45,6 +45,7 @@ catalogs:
     rolldown: ^1.0.0
     rollup: ^4.63.0
     tsdown: ^0.22.14
+    tsnapi: ^1.4.2
     turbo: ^2.10.12
     webpack: ^5.109.2
     webpack-sources: ^3.5.1
