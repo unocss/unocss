@@ -22,6 +22,7 @@ export default antfu(
       'interactive/app/guides/vendor/*.md',
       'interactive/app/markdown.css',
       'test/cases/preset-attributify/**',
+      'test/__snapshots__/tsnapi/**',
       'packages-presets/reset/**/*.css',
       'packages-presets/preset-icons/src/collections.json',
       'packages-integrations/eslint-plugin/fixtures',
