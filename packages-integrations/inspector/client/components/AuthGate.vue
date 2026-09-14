@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { authError, connectionStatus, isTrusted, submitAuthCode } from '../composables/rpc'
+import { authError, canRequestAuthCode, connectionStatus, isRequestingAuthCode, isTrusted, requestAuthCode, submitAuthCode } from '../composables/rpc'
 
 const code = ref('')
 const isSubmitting = ref(false)
@@ -8,7 +8,7 @@ const isReady = computed(() => connectionStatus.value === 'connected' && isTrust
 const isReconnecting = computed(() => connectionStatus.value === 'disconnected' || connectionStatus.value === 'error')
 
 async function submit() {
-  if (!code.value || isSubmitting.value)
+  if (!code.value || isSubmitting.value || isRequestingAuthCode.value)
     return
   isSubmitting.value = true
   try {
@@ -66,17 +66,26 @@ async function submit() {
             maxlength="6"
             border="~ main rounded"
             bg-transparent px3 py1 w-32 text-center font-mono tracking-widest
-            :disabled="isSubmitting"
+            :disabled="isSubmitting || isRequestingAuthCode"
           >
           <button
             type="submit"
             border="~ main rounded"
             px3 py1 bg-active hover:op80
-            :disabled="isSubmitting || !code"
+            :disabled="isSubmitting || isRequestingAuthCode || !code"
           >
             Unlock
           </button>
         </form>
+        <button
+          v-if="canRequestAuthCode"
+          type="button"
+          text-sm op60 hover:op100
+          :disabled="isSubmitting || isRequestingAuthCode"
+          @click="code = ''; requestAuthCode(true)"
+        >
+          {{ isRequestingAuthCode ? 'Requesting code…' : 'Re-issue code in terminal' }}
+        </button>
         <div v-if="authError" text-red text-sm max-w-70 text-center>
           {{ authError }}
         </div>
