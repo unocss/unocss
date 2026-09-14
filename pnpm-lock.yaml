@@ -60,9 +60,6 @@ catalogs:
       specifier: ^3.5.6
       version: 3.5.6
   devtools:
-    '@devframes/service-shiki':
-      specifier: ^0.9.11
-      version: 0.9.11
     devframe:
       specifier: ^0.9.11
       version: 0.9.11
@@ -1057,12 +1054,12 @@ importers:
         specifier: catalog:utils
         version: 0.3.2
     devDependencies:
-      '@devframes/service-shiki':
-        specifier: catalog:devtools
-        version: 0.9.11(devframe@0.9.11)
       '@iconify-json/catppuccin':
         specifier: catalog:icons
         version: 1.2.17
+      shiki:
+        specifier: catalog:docs
+        version: 4.4.3
       vue-flow-layout:
         specifier: catalog:vue
         version: 0.2.0
@@ -2590,11 +2587,6 @@ packages:
     peerDependenciesMeta:
       '@devframes/hub':
         optional: true
-
-  '@devframes/service-shiki@0.9.11':
-    resolution: {integrity: sha512-twkWqsrY7dKF/UkxuywEh98bHIIX+Mqr0JHDahRMaEaRO//PeDatMNZxElGaVa0CrjzA74F2M1GAUMbgtoTjHw==}
-    peerDependencies:
-      devframe: 0.9.11
 
   '@docsearch/css@4.7.0':
     resolution: {integrity: sha512-Sk5xkdRFeE7PeWjG9l4AfTwdvMfr9wHiwNNCpHXT4v4SNyNMKdHGvEILc31BgaVFGDDNbv5u/a73tofRiwbEZw==}
@@ -10560,11 +10552,6 @@ snapshots:
       zod: 4.5.4
     optionalDependencies:
       '@devframes/hub': 0.8.2(devframe@0.8.2)
-
-  '@devframes/service-shiki@0.9.11(devframe@0.9.11)':
-    dependencies:
-      devframe: 0.9.11(cac@7.0.0)(srvx@0.12.7)
-      shiki: 4.4.3
 
   '@docsearch/css@4.7.0': {}
 

@@ -47,14 +47,6 @@
     "dev:client": "vite",
     "update-post": "vite build"
   },
-  "peerDependencies": {
-    "@devframes/service-shiki": "^0.9.11"
-  },
-  "peerDependenciesMeta": {
-    "@devframes/service-shiki": {
-      "optional": true
-    }
-  },
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
@@ -64,8 +56,8 @@
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
-    "@devframes/service-shiki": "catalog:devtools",
     "@iconify-json/catppuccin": "catalog:icons",
+    "shiki": "catalog:docs",
     "vue-flow-layout": "catalog:vue"
   }
 }
