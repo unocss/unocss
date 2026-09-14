@@ -60,8 +60,6 @@ catalogs:
     windicss: ^3.5.6
   devtools:
     '@devframes/service-shiki': ^0.9.11
-    '@devframes/vite': ^0.9.11
-    '@vitejs/devtools-kit': ^0.7.1
     devframe: ^0.9.11
   docs:
     '@codemirror/lang-html': ^6.4.12

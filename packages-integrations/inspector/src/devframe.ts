@@ -91,10 +91,11 @@ export function createInspectorDevframe(ctx: UnocssPluginContext): UnocssInspect
     basePath: '/__unocss/',
     clientAssets: resolveClientDist(),
     // Server-side syntax highlighting shared with the host, so the client
-    // stops shipping its own grammars. Declared lazily by package name —
-    // the host imports it from the inspector's own deps, and a host that
-    // already provides it just merges the requested languages. When it's
-    // unavailable the client degrades to plain text.
+    // stops shipping its own grammars. Declared lazily by package name and
+    // resolved as an optional peer: a host that provides it (or a project
+    // that installs it) merges the requested languages; when it's not
+    // installed the client degrades to plain text — shiki stays out of the
+    // inspector's install footprint.
     services: [
       {
         package: '@devframes/service-shiki',

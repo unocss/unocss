@@ -47,19 +47,24 @@
     "dev:client": "vite",
     "update-post": "vite build"
   },
+  "peerDependencies": {
+    "@devframes/service-shiki": "^0.9.11"
+  },
+  "peerDependenciesMeta": {
+    "@devframes/service-shiki": {
+      "optional": true
+    }
+  },
   "dependencies": {
-    "@devframes/service-shiki": "catalog:devtools",
-    "@devframes/vite": "catalog:devtools",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "@vitejs/devtools-kit": "catalog:devtools",
-    "colorette": "catalog:utils",
     "devframe": "catalog:devtools",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
+    "@devframes/service-shiki": "catalog:devtools",
     "@iconify-json/catppuccin": "catalog:icons",
     "vue-flow-layout": "catalog:vue"
   }
