@@ -1,4 +1,5 @@
 import { collapseVariantGroup, expandVariantGroup } from '@unocss/core'
+import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 
 describe('variant-group', () => {
@@ -58,10 +59,48 @@ describe('variant-group', () => {
       .toEqual('[&>a]:[&>b]:p-1 [&>a]:[&>b]:p-2')
     expect(expandVariantGroup('[&:nth-child(2)]:([&:nth-child(3)]:(text-red p-1))'))
       .toEqual('[&:nth-child(2)]:[&:nth-child(3)]:text-red [&:nth-child(2)]:[&:nth-child(3)]:p-1')
+    expect(expandVariantGroup('[&[aria-selected=true]]:(bg-accent/9/oklab text-accent-strong/oklab)'))
+      .toEqual('[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab')
   })
 
   it('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
+  })
+
+  it.each([
+    ['string', (s: string) => expandVariantGroup(s)],
+    ['MagicString', (s: string) => expandVariantGroup(new MagicString(s)).toString()],
+  ])('attribute selectors inside a group body (%s)', (_name, expand) => {
+    const cases = [
+      ['hover:([&[aria-selected=true]]:bg-accent text-accent)', 'hover:[&[aria-selected=true]]:bg-accent hover:text-accent'],
+      ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
+      ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
+      ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
+      ['hover:(grid-cols-[1fr 2fr] p-2)', 'hover:grid-cols-[1fr 2fr] hover:p-2'],
+      ['hover:(shadow-[0 0 0 1px red] p-2)', 'hover:shadow-[0 0 0 1px red] hover:p-2'],
+      ['hover:(content-[\'a b\'] p-2)', 'hover:content-[\'a b\'] hover:p-2'],
+      ['hover:(content-["a b"] p-2)', 'hover:content-["a b"] hover:p-2'],
+      ['hover:(content-[\'a\\\' b\'] p-2)', 'hover:content-[\'a\\\' b\'] hover:p-2'],
+      ['hover:(content-["a\\" b"] p-2)', 'hover:content-["a\\" b"] hover:p-2'],
+      ['hover:(content-[\'[ a ]\'] p-2)', 'hover:content-[\'[ a ]\'] hover:p-2'],
+      ['hover:(focus:(content-[\'a b\'] p-2) m-1) active:(p-3 m-2)', 'hover:focus:content-[\'a b\'] hover:focus:p-2 hover:m-1 active:p-3 active:m-2'],
+    ]
+    for (const [input, expected] of cases)
+      expect(expand(input)).toEqual(expected)
+  })
+
+  it.each(['[&[data-a=b]]:', '[&foo]:', '[>foo]:', '[:foo]:'])('repeated arbitrary variant prefixes: %s', (variant) => {
+    // Optional prefix markers used to multiply backtracking paths at each bracket.
+    const prefix = variant.repeat(32)
+    const cases = [
+      [`${prefix}text-red`, `${prefix}text-red`],
+      [`${prefix}(p-1 p-2`, `${prefix}(p-1 p-2`],
+      [`${prefix}(p-1 p-2)`, `${prefix}p-1 ${prefix}p-2`],
+    ]
+    for (const [input, expected] of cases) {
+      expect(expandVariantGroup(input)).toBe(expected)
+      expect(expandVariantGroup(new MagicString(input)).toString()).toBe(expected)
+    }
   })
 
   it('asterisk with tilde', async () => {
