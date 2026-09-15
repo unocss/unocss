@@ -422,10 +422,6 @@ export function defineProperty(
 // #endregion
 
 // #region Basic util functions
-export function isCSSMathFn(value: string | undefined) {
-  return value != null && cssMathFnRE.test(value)
-}
-
 export function isSize(str: string) {
   if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)

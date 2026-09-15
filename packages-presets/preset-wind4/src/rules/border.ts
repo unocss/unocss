@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { notNull } from '@unocss/core'
-import { colorCSSGenerator, cornerMap, directionMap, generateThemeVariable, globalKeywords, h, hasParseableColor, isCSSMathFn, parseColor, SpecialColorKey, themeTracking } from '../utils'
+import { colorCSSGenerator, cornerMap, directionMap, generateThemeVariable, globalKeywords, h, hasParseableColor, isSize, parseColor, SpecialColorKey, themeTracking } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -77,7 +77,7 @@ function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext
 
 function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Theme>): CSSEntries | (CSSValueInput | string)[] | undefined {
   if (a in directionMap) {
-    if (isCSSMathFn(h.bracket(b, ctx.theme)))
+    if (isSize(b))
       return handlerBorderSize(['', a, b], ctx)
 
     const bracketColor = h.bracketOfColor(b, ctx.theme)
