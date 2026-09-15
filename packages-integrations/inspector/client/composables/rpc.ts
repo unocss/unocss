@@ -79,13 +79,6 @@ async function connect(): Promise<DevframeRpcClient> {
   // auth screen stays up for the user to enter a code.
   if (devBase)
     rpc.requestTrust().catch(() => {})
-  // Otherwise, when the custom auth screen will be shown, ask the host to
-  // print its one-time code in the terminal. devframe >=0.9.14 no longer
-  // prints the banner automatically on page load, so a client driving its
-  // own auth UI (`simpleAuth: false`) must request it explicitly. Older
-  // hosts lack the method and still print the banner themselves.
-  else if (!rpc.isTrusted)
-    rpc.requestAuthCode?.().catch(() => {})
 
   subscribeChanges()
 
@@ -93,12 +86,16 @@ async function connect(): Promise<DevframeRpcClient> {
 }
 
 /**
- * Ask the dev server to print a fresh one-time code in its terminal, rotating
- * the previous one. Backs the "resend code" affordance on the auth screen.
+ * Ask the dev server to print its one-time code in the terminal — the auth
+ * screen calls this when it appears. devframe >=0.9.14 no longer prints the
+ * banner automatically on page load, so a client driving its own auth UI
+ * (`simpleAuth: false`) must request it explicitly; older hosts lack the
+ * method and still print the banner themselves. Pass `reissue` to rotate a
+ * fresh code (the server prints each code at most once).
  */
-export async function reissueAuthCode(): Promise<void> {
+export async function requestAuthCode(reissue = false): Promise<void> {
   const rpc = await ensureClient()
-  await rpc.requestAuthCode?.({ reissue: true })
+  await rpc.requestAuthCode?.({ reissue })
 }
 
 function ensureClient(): Promise<DevframeRpcClient> {
