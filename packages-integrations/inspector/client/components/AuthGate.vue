@@ -1,8 +1,21 @@
 <script setup lang="ts">
-import { authError, connectionStatus, isTrusted, submitAuthCode } from '../composables/rpc'
+import { authError, connectionStatus, isTrusted, reissueAuthCode, submitAuthCode } from '../composables/rpc'
 
 const code = ref('')
 const isSubmitting = ref(false)
+const isResending = ref(false)
+
+async function resend() {
+  if (isResending.value)
+    return
+  isResending.value = true
+  try {
+    await reissueAuthCode()
+  }
+  finally {
+    isResending.value = false
+  }
+}
 
 const isReady = computed(() => connectionStatus.value === 'connected' && isTrusted.value)
 const isReconnecting = computed(() => connectionStatus.value === 'disconnected' || connectionStatus.value === 'error')
@@ -80,6 +93,14 @@ async function submit() {
         <div v-if="authError" text-red text-sm max-w-70 text-center>
           {{ authError }}
         </div>
+        <button
+          type="button"
+          op50 hover:op80 text-sm
+          :disabled="isResending"
+          @click="resend"
+        >
+          {{ isResending ? 'Sending…' : "Didn't get a code? Resend" }}
+        </button>
       </template>
     </div>
   </div>
