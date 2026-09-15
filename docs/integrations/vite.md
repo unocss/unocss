@@ -254,6 +254,14 @@ export default defineConfig({
 })
 ```
 
+For the default global mode, SvelteKit has no `main.ts` entry. Import the generated stylesheet from the root layout:
+
+```svelte [src/routes/+layout.svelte]
+<script>
+  import 'virtual:uno.css'
+</script>
+```
+
 <ContentExample :item="playgrounds['sveltekit']"  class="Link mb-4" integrations />
 
 <ContentExample :item="playgrounds['sveltekit-preprocess']"  class="Link mb-4" integrations />

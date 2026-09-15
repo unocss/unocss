@@ -1,7 +1,7 @@
 {
   "name": "@unocss/inspector",
   "type": "module",
-  "version": "66.10.2",
+  "version": "66.10.3",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -48,19 +48,16 @@
     "update-post": "vite build"
   },
   "dependencies": {
-    "@devframes/service-shiki": "catalog:devtools",
-    "@devframes/vite": "catalog:devtools",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "@vitejs/devtools-kit": "catalog:devtools",
-    "colorette": "catalog:utils",
     "devframe": "catalog:devtools",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
     "@iconify-json/catppuccin": "catalog:icons",
+    "shiki": "catalog:docs",
     "vue-flow-layout": "catalog:vue"
   }
 }

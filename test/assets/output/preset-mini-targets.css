@@ -123,11 +123,6 @@
 .clear-both{clear:both;}
 .clear-none{clear:none;}
 .clear-revert{clear:revert;}
-.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
-.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
-.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
-.previous:is(div)+.previous-is-\[div\]\:m-1,
-.has-\[\:hover\]\:m-1:has(:hover){margin:0.25rem;}
 .-m-lg,
 .m--lg{margin:calc(var(--spacing-lg) * -1);}
 .-m-md,
@@ -143,6 +138,11 @@
 .children\:m-auto>*,
 .m-auto{margin:auto;}
 .all\:m1\/1 *{margin:100%;}
+.group:not([data-potato]) .group-not-\[\[data-potato\]\]\:m-1,
+.has-\[\:hover\]\:m-1:has(:hover),
+.parent:not(#someId)>.parent-not-\[\#someId\]\:m-1,
+.peer:where(.child)~.peer-where-\[\.child\]\:m-1,
+.previous:is(div)+.previous-is-\[div\]\:m-1{margin:0.25rem;}
 .m-\[3em\]{margin:3em;}
 .m-0,
 .m-none{margin:0;}
@@ -871,16 +871,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .placeholder-color-opacity-60::placeholder{--un-text-opacity:0.6;}
 .as-parent .group .group-\[\.as-parent_\&\]\:font-13{font-weight:13;}
 .as-parent .group\/label .group-\[\.as-parent_\&\]\/label\:font-18{font-weight:18;}
-.group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
-.group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
-.group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
-.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
-.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
-.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17,
-.group\/named[data-x=y] .group-data-\[x\=y\]\/named\:font-17,
-.parent\/named[data-x=y]>.parent-data-\[x\=y\]\/named\:font-17,
-.peer\/named[data-x=y]~.peer-data-\[x\=y\]\/named\:font-17,
-.previous\/named[data-x=y]+.previous-data-\[x\=y\]\/named\:font-17{font-weight:17;}
 .font-050,
 .font-50,
 .fw-050,
@@ -890,7 +880,17 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .fw-900{font-weight:900;}
 .font-thin{font-weight:100;}
 .fw-inherit{font-weight:inherit;}
+.group:hover .group-\[\:hover\]\:font-11{font-weight:11;}
+.group.not-parent .group-\[\.not-parent\]\:font-14{font-weight:14;}
+.group[data-attr] .group-\[\[data-attr\]\]\:font-12{font-weight:12;}
 .group[data-state=open] .group-data-\[state\=open\]\:font-bold{font-weight:700;}
+.group\/label:hover .group-\[\:hover\]\/label\:font-16{font-weight:16;}
+.group\/label.not-parent .group-\[\.not-parent\]\/label\:font-19{font-weight:19;}
+.group\/label[data-attr] .group-\[\[data-attr\]\]\/label\:font-17,
+.group\/named[data-x=y] .group-data-\[x\=y\]\/named\:font-17,
+.parent\/named[data-x=y]>.parent-data-\[x\=y\]\/named\:font-17,
+.peer\/named[data-x=y]~.peer-data-\[x\=y\]\/named\:font-17,
+.previous\/named[data-x=y]+.previous-data-\[x\=y\]\/named\:font-17{font-weight:17;}
 .group\/named[aria-level="1"] .group-aria-\[level\=\"1\"\]\/named\:font-21,
 .parent\/named[aria-level="3"]>.parent-aria-\[level\=\"3\"\]\/named\:font-21,
 .peer\/named[aria-level="2"]~.peer-aria-\[level\=\"2\"\]\/named\:font-21{font-weight:21;}
