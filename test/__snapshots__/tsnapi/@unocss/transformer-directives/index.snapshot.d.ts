@@ -18,6 +18,5 @@ export interface TransformerDirectivesOptions {
 // #endregion
 
 // #region Default Export
-declare function _default(_?: TransformerDirectivesOptions): SourceCodeTransformer;
-export default _default
+export default function transformerDirectives(_?: TransformerDirectivesOptions): SourceCodeTransformer;
 // #endregion

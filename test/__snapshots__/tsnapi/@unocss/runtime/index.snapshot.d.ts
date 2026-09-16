@@ -42,6 +42,5 @@ export declare function defineConfig<T extends object = Theme>(_: UserConfig<T>)
 // #endregion
 
 // #region Default Export
-declare function _default(_?: RuntimeOptions): Promise<void>;
-export default _default
+export default function init(_?: RuntimeOptions): Promise<void>;
 // #endregion

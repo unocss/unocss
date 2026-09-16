@@ -10,6 +10,5 @@ export interface AstroIntegrationConfig<Theme extends object = object> extends V
 // #endregion
 
 // #region Default Export
-declare function _default<Theme extends object>(_?: AstroIntegrationConfig<Theme>, _?: UserConfigDefaults): AstroIntegration;
-export default _default
+export default function UnoCSSAstroIntegration<Theme extends object>(_?: AstroIntegrationConfig<Theme>, _?: UserConfigDefaults): AstroIntegration;
 // #endregion

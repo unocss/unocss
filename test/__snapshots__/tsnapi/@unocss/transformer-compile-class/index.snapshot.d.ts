@@ -13,6 +13,5 @@ export interface CompileClassOptions {
 // #endregion
 
 // #region Default Export
-declare function _default(_?: CompileClassOptions): SourceCodeTransformer;
-export default _default
+export default function transformerCompileClass(_?: CompileClassOptions): SourceCodeTransformer;
 // #endregion

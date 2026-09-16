@@ -16,6 +16,5 @@ export declare function defineConfig<Theme extends object>(_: RollupPluginConfig
 // #endregion
 
 // #region Default Export
-declare function _default<Theme extends object>(_?: RollupPluginConfig<Theme> | string, _?: UserConfigDefaults): UnoCSSRollupPlugin;
-export default _default
+export default function RollupPlugin<Theme extends object>(_?: RollupPluginConfig<Theme> | string, _?: UserConfigDefaults): UnoCSSRollupPlugin;
 // #endregion

@@ -26,6 +26,5 @@ export type ResolverType = 'oxc' | 'regex';
 // #endregion
 
 // #region Default Export
-declare function _default(_?: TransformerAttributifyJsxOptions): SourceCodeTransformer;
-export default _default
+export default function transformerAttributifyJsx(_?: TransformerAttributifyJsxOptions): SourceCodeTransformer;
 // #endregion

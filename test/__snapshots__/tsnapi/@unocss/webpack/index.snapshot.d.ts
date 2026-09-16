@@ -12,6 +12,5 @@ export declare function WebpackPlugin<Theme extends object>(_?: WebpackPluginOpt
 // #endregion
 
 // #region Default Export
-declare function _default<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): WebpackPluginInstance;
-export default _default
+export default function WebpackPlugin<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): WebpackPluginInstance;
 // #endregion

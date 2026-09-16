@@ -8,6 +8,5 @@ export interface TransformerVariantGroupOptions {
 // #endregion
 
 // #region Default Export
-declare function _default(_?: TransformerVariantGroupOptions): SourceCodeTransformer;
-export default _default
+export default function transformerVariantGroup(_?: TransformerVariantGroupOptions): SourceCodeTransformer;
 // #endregion

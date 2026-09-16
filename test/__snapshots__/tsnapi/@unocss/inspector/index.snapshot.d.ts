@@ -22,63 +22,7 @@ export type InspectorServerFunctions = ReturnType<typeof createRpcFunctions>;
 
 // #region Functions
 export declare function createInspectorDevframe(_: UnocssPluginContext): UnocssInspectorDevframe;
-export declare function createRpcFunctions(_: UnocssPluginContext): readonly [{
-  name: "get-project-info";
-  type?: "query" | undefined;
-  cacheable?: boolean;
-  args?: undefined;
-  returns?: undefined;
-  jsonSerializable?: boolean;
-  agent?: import("devframe").RpcFunctionAgentOptions;
-  setup?: ((context: undefined) => import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<ProjectInfo>>>) | undefined;
-  handler?: (() => Promise<ProjectInfo>) | undefined;
-  dump?: import("devframe/rpc").RpcDump<[], Promise<ProjectInfo>, undefined> | undefined;
-  snapshot?: boolean;
-  __cache?: WeakMap<object, import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<ProjectInfo>>>> | undefined;
-  __promise?: import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<ProjectInfo>>> | undefined;
-}, {
-  name: "get-module-info";
-  type?: "query" | undefined;
-  cacheable?: boolean;
-  args?: undefined;
-  returns?: undefined;
-  jsonSerializable?: boolean;
-  agent?: import("devframe").RpcFunctionAgentOptions;
-  setup?: ((context: undefined) => import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[string], Promise<ModuleInfo | null> | null>>) | undefined;
-  handler?: ((args_0: string) => Promise<ModuleInfo | null> | null) | undefined;
-  dump?: import("devframe/rpc").RpcDump<[string], Promise<ModuleInfo | null> | null, undefined> | undefined;
-  snapshot?: boolean;
-  __cache?: WeakMap<object, import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[string], Promise<ModuleInfo | null> | null>>> | undefined;
-  __promise?: import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[string], Promise<ModuleInfo | null> | null>> | undefined;
-}, {
-  name: "generate-repl";
-  type?: "query" | undefined;
-  cacheable?: boolean;
-  args?: undefined;
-  returns?: undefined;
-  jsonSerializable?: boolean;
-  agent?: import("devframe").RpcFunctionAgentOptions;
-  setup?: ((context: undefined) => import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[input: string, includeSafelist: boolean], Promise<ReplResult>>>) | undefined;
-  handler?: ((input: string, includeSafelist: boolean) => Promise<ReplResult>) | undefined;
-  dump?: import("devframe/rpc").RpcDump<[input: string, includeSafelist: boolean], Promise<ReplResult>, undefined> | undefined;
-  snapshot?: boolean;
-  __cache?: WeakMap<object, import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[input: string, includeSafelist: boolean], Promise<ReplResult>>>> | undefined;
-  __promise?: import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[input: string, includeSafelist: boolean], Promise<ReplResult>>> | undefined;
-}, {
-  name: "get-overview";
-  type?: "query" | undefined;
-  cacheable?: boolean;
-  args?: undefined;
-  returns?: undefined;
-  jsonSerializable?: boolean;
-  agent?: import("devframe").RpcFunctionAgentOptions;
-  setup?: ((context: undefined) => import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<OverviewInfo>>>) | undefined;
-  handler?: (() => Promise<OverviewInfo>) | undefined;
-  dump?: import("devframe/rpc").RpcDump<[], Promise<OverviewInfo>, undefined> | undefined;
-  snapshot?: boolean;
-  __cache?: WeakMap<object, import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<OverviewInfo>>>> | undefined;
-  __promise?: import("devframe/rpc").Thenable<import("devframe/rpc").RpcFunctionSetupResult<[], Promise<OverviewInfo>>> | undefined;
-}];
+export declare function createRpcFunctions(_: UnocssPluginContext): readonly [import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-project-info", "query", [], Promise<ProjectInfo>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-module-info", "query", [string], Promise<ModuleInfo | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"generate-repl", "query", [input: string, includeSafelist: boolean], Promise<ReplResult>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-overview", "query", [], Promise<OverviewInfo>, undefined, undefined, undefined>];
 export declare function createStandaloneInspectorDevframe(_?: StandaloneInspectorOptions): Promise<UnocssInspectorDevframe>;
 // #endregion
 
@@ -87,6 +31,5 @@ export declare const INSPECTOR_RPC_SCOPE: string;
 // #endregion
 
 // #region Default Export
-declare function _default(_: UnocssPluginContext): Plugin[];
-export default _default
+export default function UnocssInspector(_: UnocssPluginContext): Plugin[];
 // #endregion

@@ -6,6 +6,5 @@ export interface ProcessorLightningCSSOptions extends Omit<TransformOptions<Cust
 // #endregion
 
 // #region Default Export
-declare function _default(_?: ProcessorLightningCSSOptions): CSSProcessor;
-export default _default
+export default function processorLightningCSS(_?: ProcessorLightningCSSOptions): CSSProcessor;
 // #endregion

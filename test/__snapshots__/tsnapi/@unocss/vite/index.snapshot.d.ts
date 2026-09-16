@@ -28,6 +28,5 @@ export declare function VueScopedPlugin(_: UnocssPluginContext): Plugin;
 // #endregion
 
 // #region Default Export
-declare function _default<Theme extends object>(_?: VitePluginConfig<Theme> | string, _?: UserConfigDefaults): Plugin[];
-export default _default
+export default function UnocssPlugin<Theme extends object>(_?: VitePluginConfig<Theme> | string, _?: UserConfigDefaults): Plugin[];
 // #endregion
