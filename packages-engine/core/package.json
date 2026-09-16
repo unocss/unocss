@@ -1,7 +1,7 @@
 {
   "name": "@unocss/core",
   "type": "module",
-  "version": "66.10.4",
+  "version": "66.10.5",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "bench": "pnpm --dir ../.. exec vitest bench packages-engine/core/test --run --project unit",
+    "bench": "pnpm --dir ../.. exec vitest bench packages-engine/core/test --run",
     "build": "tsdown",
     "prepack": "turbo build --filter=.",
     "dev": "tsdown --watch"
