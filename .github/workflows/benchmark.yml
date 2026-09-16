@@ -43,7 +43,7 @@ jobs:
       - name: Run core benchmarks
         run: |
           mkdir -p .bench/current
-          pnpm exec vitest bench packages-engine/core/test --run --project unit --outputJson .bench/current/core-bench.json
+          pnpm exec vitest bench packages-engine/core/test --run --reporter=json --outputFile .bench/current/core-bench.json
 
       - name: Locate base benchmark
         id: base
