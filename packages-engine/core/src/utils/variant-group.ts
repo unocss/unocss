@@ -4,7 +4,8 @@ import { notNull } from '../utils'
 import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
-function splitVariantGroupBody(body: string) {
+
+export function splitVariantGroupBody(body: string) {
   const items: { index: number, value: string }[] = []
   let start = -1
   let depth = 0
@@ -26,7 +27,8 @@ function splitVariantGroupBody(body: string) {
         quote = ''
       continue
     }
-    if (char === '\'' || char === '"') {
+    // Mirror bodyBracket: quoted values are only valid inside square brackets.
+    if (depth > 0 && (char === '\'' || char === '"')) {
       if (start < 0)
         start = i
       quote = char
@@ -180,9 +182,14 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
   const collection = new Map<string, string[]>()
 
   const sortedPrefix = prefixes.sort((a, b) => b.length - a.length)
+  const parts = splitVariantGroupBody(str).map(item => item.value)
+  // Preserve the boundary empty strings produced by the previous whitespace split.
+  if (/^\s/.test(str))
+    parts.unshift('')
+  if (/\s$/.test(str))
+    parts.push('')
 
-  return str
-    .split(/\s+/g)
+  return parts
     .map((part) => {
       const prefix = sortedPrefix.find(prefix => part.startsWith(prefix))
       if (!prefix)

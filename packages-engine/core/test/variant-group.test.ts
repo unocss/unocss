@@ -142,4 +142,34 @@ describe('collapse-variant-group', () => {
     expect(collapseVariantGroup('a:b:c a:c:b', [])).toEqual('a:b:c a:c:b')
     expect(collapseVariantGroup('hello a:b a:c middle c:a:b c:d a:d', ['a:', 'c:'])).toEqual('hello a:(b c d) middle c:(a:b d)')
   })
+
+  it.each([
+    'content-[\'a b\']',
+    'content-["a b"]',
+    'content-[\'a\\\' b\']',
+    'content-["a\\" b"]',
+    'content-[\'[ a ]\']',
+    'grid-cols-[1fr 2fr]',
+    '[&[data-label="a b"]]:p-1',
+  ])('preserves arbitrary values when collapsing %s', (utility) => {
+    const expanded = `hover:${utility} hover:p-2`
+    const collapsed = collapseVariantGroup(expanded, ['hover:'])
+    expect(collapsed).toBe(`hover:(${utility} p-2)`)
+    expect(expandVariantGroup(collapsed)).toBe(expanded)
+  })
+
+  it.each([
+    ['', ''],
+    [' \t\n ', ' '],
+    [' \thover:p-1 hover:p-2\n ', ' hover:(p-1 p-2) '],
+    ['\thover:p-1 hover:p-2', ' hover:(p-1 p-2)'],
+    ['hover:p-1 hover:p-2\n', 'hover:(p-1 p-2) '],
+    ['foo\t\nhover:p-1   hover:p-2', 'foo hover:(p-1 p-2)'],
+  ])('preserves whitespace normalization for %j', (input, expected) => {
+    expect(collapseVariantGroup(input, ['hover:'])).toBe(expected)
+  })
+
+  it('treats quotes outside brackets as literal characters', () => {
+    expect(collapseVariantGroup('don\'t hover:p-1 hover:p-2', ['hover:'])).toBe('don\'t hover:(p-1 p-2)')
+  })
 })
