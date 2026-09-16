@@ -85,6 +85,19 @@ async function connect(): Promise<DevframeRpcClient> {
   return rpc
 }
 
+/**
+ * Ask the dev server to print its one-time code in the terminal — the auth
+ * screen calls this when it appears. devframe >=0.9.14 no longer prints the
+ * banner automatically on page load, so a client driving its own auth UI
+ * (`simpleAuth: false`) must request it explicitly; older hosts lack the
+ * method and still print the banner themselves. Pass `reissue` to rotate a
+ * fresh code (the server prints each code at most once).
+ */
+export async function requestAuthCode(reissue = false): Promise<void> {
+  const rpc = await ensureClient()
+  await rpc.requestAuthCode?.({ reissue })
+}
+
 function ensureClient(): Promise<DevframeRpcClient> {
   if (!connectPromise) {
     connectPromise = connect().catch((error) => {
