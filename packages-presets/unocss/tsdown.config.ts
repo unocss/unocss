@@ -52,7 +52,6 @@ export default defineConfig([
     publint: 'ci-only',
     attw: {
       enabled: 'ci-only',
-      excludeEntrypoints: ['./webpack'],
       ignoreRules: ['cjs-resolves-to-esm'],
     },
   },
