@@ -2,6 +2,11 @@ import { collapseVariantGroup, expandVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 
+const expanders = {
+  string: (s: string) => expandVariantGroup(s),
+  MagicString: (s: string) => expandVariantGroup(new MagicString(s)).toString(),
+}
+
 describe('variant-group', () => {
   it('basic', async () => {
     expect(expandVariantGroup('')).toEqual('')
@@ -67,10 +72,7 @@ describe('variant-group', () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
 
-  it.each([
-    ['string', (s: string) => expandVariantGroup(s)],
-    ['MagicString', (s: string) => expandVariantGroup(new MagicString(s)).toString()],
-  ])('attribute selectors inside a group body (%s)', (_name, expand) => {
+  it.each(Object.entries(expanders))('attribute selectors inside a group body (%s)', (_name, expand) => {
     const cases = [
       ['hover:([&[aria-selected=true]]:bg-accent text-accent)', 'hover:[&[aria-selected=true]]:bg-accent hover:text-accent'],
       ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
@@ -89,6 +91,12 @@ describe('variant-group', () => {
       expect(expand(input)).toEqual(expected)
   })
 
+  it.each(Object.entries(expanders))('leaves deeper prefix brackets unexpanded (%s)', (_name, expand) => {
+    // Prefix matching supports one inner bracket level; deeper nesting remains untouched.
+    const input = '[&[[data-a=b]]]:(p-1 p-2)'
+    expect(expand(input)).toBe(input)
+  })
+
   it.each(['[&[data-a=b]]:', '[&foo]:', '[>foo]:', '[:foo]:'])('repeated arbitrary variant prefixes: %s', (variant) => {
     // Optional prefix markers used to multiply backtracking paths at each bracket.
     const prefix = variant.repeat(32)
@@ -98,8 +106,8 @@ describe('variant-group', () => {
       [`${prefix}(p-1 p-2)`, `${prefix}p-1 ${prefix}p-2`],
     ]
     for (const [input, expected] of cases) {
-      expect(expandVariantGroup(input)).toBe(expected)
-      expect(expandVariantGroup(new MagicString(input)).toString()).toBe(expected)
+      expect(expanders.string(input)).toBe(expected)
+      expect(expanders.MagicString(input)).toBe(expected)
     }
   })
 
