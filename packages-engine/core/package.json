@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "bench": "pnpm --dir ../.. exec vitest bench packages-engine/core/test --run --project unit",
+    "bench": "pnpm --dir ../.. exec vitest bench packages-engine/core/test --run",
     "build": "tsdown",
     "prepack": "turbo build --filter=.",
     "dev": "tsdown --watch"
