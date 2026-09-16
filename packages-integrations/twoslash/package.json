@@ -36,12 +36,9 @@
   "dependencies": {
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "magic-string": "catalog:utils",
     "prettier": "catalog:utils",
     "synckit": "catalog:utils",
     "twoslash-protocol": "catalog:twoslash"
-  },
-  "inlinedDependencies": {
-    "@jridgewell/sourcemap-codec": "1.6.0",
-    "magic-string": "1.2.3"
   }
 }
