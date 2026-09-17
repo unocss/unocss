@@ -24,6 +24,7 @@ export declare const variantCustomMedia: VariantObject<Theme>;
 export declare const variantDataAttribute: VariantObject<Theme>;
 export declare const variantForcedColors: Variant<Theme>[];
 export declare const variantImplicitGroup: Variant<Theme>;
+export declare const variantInert: Variant;
 export declare const variantInternalLayer: Variant<Theme>;
 export declare const variantLanguageDirections: Variant<Theme>[];
 export declare const variantMotions: Variant<Theme>[];

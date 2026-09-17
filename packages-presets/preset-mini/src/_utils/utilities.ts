@@ -1,8 +1,8 @@
-import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule } from '@unocss/core'
+import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { ParsedColorValue } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor, resolveBreakpoints as resolveBreakpointsShared } from '@unocss/rule-utils'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
@@ -271,6 +271,14 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
 
 export function hasParseableColor(color: string | undefined, theme: Theme, key: ThemeColorKeys) {
   return color != null && !!parseColor(color, theme, key)?.color
+}
+
+export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
+  return resolveBreakpointsShared({ theme, generator }, key)
+}
+
+export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
+  return resolveBreakpointsShared(context, 'verticalBreakpoints')
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
