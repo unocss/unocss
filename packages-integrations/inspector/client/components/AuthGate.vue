@@ -11,7 +11,7 @@ const otp = ref<{ focus: () => void }>()
 
 const isReady = computed(() => connectionStatus.value === 'connected' && isTrusted.value)
 const isReconnecting = computed(() => connectionStatus.value === 'disconnected' || connectionStatus.value === 'error')
-const needsCode = computed(() => connectionStatus.value === 'connected' && !isTrusted.value)
+const needsCode = computed(() => !isTrusted.value && (connectionStatus.value === 'unauthorized' || connectionStatus.value === 'connected'))
 
 // Ask the host to print its code banner the moment the auth screen appears; the
 // server dedupes per code, so this never spams the terminal, and an already
