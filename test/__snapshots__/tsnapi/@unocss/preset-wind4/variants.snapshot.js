@@ -24,6 +24,7 @@ export var variantCustomMedia /* const */
 export var variantDataAttribute /* const */
 export var variantForcedColors /* const */
 export var variantImplicitGroup /* const */
+export var variantInert /* const */
 export var variantInternalLayer /* const */
 export var variantLanguageDirections /* const */
 export var variantMotions /* const */

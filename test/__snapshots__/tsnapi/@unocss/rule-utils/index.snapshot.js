@@ -11,6 +11,7 @@ export function createPseudoClassFunctions(_) {}
 export function createTaggedPseudoClasses(_, _) {}
 export function createTaggedPseudoClassMatcher(_, _, _, _) {}
 export function createValueHandler(_) {}
+export function generateBreakpointMediaQuery(_, _, _) {}
 export function getBracket(_, _, _) {}
 export function getStringComponent(_, _, _, _) {}
 export function getStringComponents(_, _, _, _, _) {}
@@ -19,8 +20,12 @@ export function hasThemeFn(_) {}
 export function hex2rgba(_) {}
 export function isInterpolatedMethod(_) {}
 export function parseCssColor(_) {}
+export function resolveBreakpoints(_, _) {}
+export function resolveScreenMediaQuery(_, _) {}
+export function resolveVerticalBreakpoints(_) {}
 export function transformThemeFn(_, _, _) {}
 export function transformThemeString(_, _, _) {}
+export function variantBreakpoints(_) {}
 export function variantGetBracket(_, _, _) {}
 export function variantGetParameter(_, _, _) {}
 export function variantMatcher(_, _, _) {}
