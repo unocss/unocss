@@ -5,18 +5,76 @@ import { escapeRegExp } from './escape'
 
 const regexCache: Record<string, RegExp> = {}
 
+export function splitVariantGroupBody(body: string) {
+  const items: { index: number, value: string }[] = []
+  let start = -1
+  let depth = 0
+  let quote = ''
+  let escaped = false
+  const push = (end: number) => {
+    if (start >= 0)
+      items.push({ index: start, value: body.slice(start, end) })
+    start = -1
+  }
+  for (let i = 0; i < body.length; i++) {
+    const char = body[i]
+    if (quote) {
+      if (escaped)
+        escaped = false
+      else if (char === '\\')
+        escaped = true
+      else if (char === quote)
+        quote = ''
+      continue
+    }
+    // Mirror bodyBracket: quoted values are only valid inside square brackets.
+    if (depth > 0 && (char === '\'' || char === '"')) {
+      if (start < 0)
+        start = i
+      quote = char
+      continue
+    }
+    if (char === '[') {
+      if (start < 0)
+        start = i
+      depth++
+      continue
+    }
+    if (char === ']') {
+      if (start < 0)
+        start = i
+      if (depth)
+        depth--
+      continue
+    }
+    if (/\s/.test(char) && depth === 0)
+      push(i)
+    else if (start < 0)
+      start = i
+  }
+  push(body.length)
+  return items
+}
+
 export function makeRegexClassGroup(separators = ['-', ':']) {
   const escaped = separators.map(s => escapeRegExp(s))
   const key = escaped.join('|')
-  if (!regexCache[key])
+  if (!regexCache[key]) {
     // The body accepts `@` and `*` because the container and children variants
     // are valid inside a group, not just as its prefix. A single unmatchable
     // character makes the whole group fail to match, so omitting them silently
     // left the group unexpanded.
-    // The bracket alternative stops at `]` rather than running to the next
-    // whitespace, otherwise a group nested inside an arbitrary variant swallows
-    // the outer `]:(` and captures the wrong prefix.
-    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|\\[&?>?:?[^\\s\\]]*\\])+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|\\[[^\\]]*?\\])+?)\\)(?!\\s*?=>)`, 'gm')
+    // Both the prefix and body must consume nested attribute brackets as a unit.
+    // Stopping at the inner `]` leaves `[&[open]]:(...)` or `hover:([&[open]]:...)`
+    // unexpanded, and the unmatched group can later produce malformed CSS.
+    // Quoted body values can contain literal brackets, as in `content-['[']`.
+    const nestedBracket = '\\[[^\\[\\]]*\\]'
+    const quotedValue = `'(?:\\\\.|[^'\\\\])*'|"(?:\\\\.|[^"\\\\])*"`
+    // The character class already accepts &, > and :; optional copies create exponentially many prefix parses.
+    const prefixBracket = `\\[(?:[^\\s\\[\\]]|${nestedBracket})*\\]`
+    const bodyBracket = `\\[(?:[^\\[\\]'"]|${quotedValue}|${nestedBracket})*\\]`
+    regexCache[key] = new RegExp(`((?:[!@*<~\\w+:_-]|${prefixBracket})+?)(${key})\\(((?:[~!<>@*\\w\\s:/\\\\,%#.$?-]|${bodyBracket})+?)\\)(?!\\s*?=>)`, 'gm')
+  }
   regexCache[key].lastIndex = 0
   return regexCache[key]
 }
@@ -47,8 +105,9 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
         const group: VariantGroup = { length: from.length, items: [] }
         groupsByOffset.set(groupOffset, group)
 
-        for (const itemMatch of [...body.matchAll(/\S+/g)]) {
-          const itemOffset = bodyOffset + itemMatch.index!
+        // Whitespace inside quoted arbitrary values belongs to the utility, not the group.
+        for (const itemMatch of splitVariantGroupBody(body)) {
+          const itemOffset = bodyOffset + itemMatch.index
           let innerItems = groupsByOffset.get(itemOffset)?.items
           if (innerItems) {
             // We won't need to look up this group from this offset again.
@@ -58,8 +117,8 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
           else {
             innerItems = [{
               offset: itemOffset,
-              length: itemMatch[0].length,
-              className: itemMatch[0],
+              length: itemMatch.value.length,
+              className: itemMatch.value,
             }]
           }
           for (const item of innerItems) {
@@ -123,9 +182,14 @@ export function collapseVariantGroup(str: string, prefixes: string[]): string {
   const collection = new Map<string, string[]>()
 
   const sortedPrefix = prefixes.sort((a, b) => b.length - a.length)
+  const parts = splitVariantGroupBody(str).map(item => item.value)
+  // Preserve the boundary empty strings produced by the previous whitespace split.
+  if (/^\s/.test(str))
+    parts.unshift('')
+  if (/\s$/.test(str))
+    parts.push('')
 
-  return str
-    .split(/\s+/g)
+  return parts
     .map((part) => {
       const prefix = sortedPrefix.find(prefix => part.startsWith(prefix))
       if (!prefix)
