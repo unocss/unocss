@@ -209,6 +209,41 @@ describe('typography elements modify', () => {
   })
 })
 
+describe('typography compatibility', () => {
+  const notProseGuard = ':not(:where([class~="not-prose"],[class~="not-prose"] *))'
+
+  async function generateProse(compatibility?: TypographyOptions['compatibility']) {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3({ preflight: false }),
+        presetTypography({ compatibility }),
+      ],
+    })
+
+    const { css } = await uno.generate('prose prose-sm', { preflights: false })
+    return css
+  }
+
+  it('keeps the not-prose guard by default', async () => {
+    const css = await generateProse()
+
+    expect(css).toContain(`:where(p)${notProseGuard} {`)
+    expect(css).toContain(`:where(ol > li)${notProseGuard}::marker {`)
+  })
+
+  // `not-prose` is built from `:where()` and `:not()`, so either flag drops it
+  for (const compatibility of [{ noColonWhere: true }, { noColonNot: true }]) {
+    it(`drops it with ${JSON.stringify(compatibility)}`, async () => {
+      const css = await generateProse(compatibility)
+
+      expect(css).not.toContain(':where(')
+      expect(css).not.toContain(':not(')
+      expect(css).toContain('p {margin-top:1.25em;')
+      expect(css).toContain('ol > li::marker {')
+    })
+  }
+})
+
 describe('typography with custom theme colors', () => {
   it('with alpha', async () => {
     const uno = await createGenerator({
