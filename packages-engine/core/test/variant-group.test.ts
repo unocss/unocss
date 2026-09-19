@@ -68,6 +68,14 @@ describe('variant-group', () => {
       .toEqual('[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab')
   })
 
+  it('arbitrary variant prefix with a nested bracket', () => {
+    // A `[...]` inside the `[&...]` prefix (an attribute selector under `&`)
+    // previously ended the prefix's bracket class too early, leaving the whole
+    // group unexpanded and producing malformed CSS downstream (issue #5326).
+    expect(expandVariantGroup('[&[data-x]]:(p-1 p-2)'))
+      .toEqual('[&[data-x]]:p-1 [&[data-x]]:p-2')
+  })
+
   it('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
   })
