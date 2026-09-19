@@ -728,9 +728,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     return this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
       .map(({ selector, entries, parent }) => {
-        const cssBody = `${selector}{${entriesToCss(entries)}}`
-        if (parent)
-          return `${parent}{${cssBody}}`
+        // Rules that return their CSS as a raw string bypass the scope
+        // placeholder expansion applied to normal utilities at render time,
+        // so expand the `$$` slots left by prefix- and parent-based variants
+        // here.
+        const cssBody = `${applyScope(selector)}{${entriesToCss(entries)}}`
+        if (parent) {
+          const parents = parent.split(' $$ ')
+          return `${parents.join('{')}{${cssBody}}${'}'.repeat(parents.length)}`
+        }
         return cssBody
       })
       .join('')
