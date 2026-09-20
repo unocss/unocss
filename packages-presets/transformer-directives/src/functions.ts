@@ -1,7 +1,21 @@
-import type { FunctionNode } from 'css-tree'
+import type { Atrule, FunctionNode } from 'css-tree'
 import type { TransformerDirectivesContext } from './types'
-import { transformThemeFn, transformThemeString } from '@unocss/rule-utils'
+import { hasThemeFn, transformThemeFn, transformThemeString } from '@unocss/rule-utils'
 import { transformIconString } from './icon'
+
+// At-rule preludes are kept as raw text by the parser, so the walk never yields
+// the `theme()` calls inside `@media`, `@supports` or `@container` conditions.
+export function handleAtrulePrelude({ code, uno, options }: TransformerDirectivesContext, node: Atrule) {
+  const { throwOnMissing = true } = options
+  const prelude = node.prelude
+
+  if (prelude?.type !== 'Raw' || !hasThemeFn(prelude.value))
+    return
+
+  const value = transformThemeFn(prelude.value, uno.config.theme, throwOnMissing)
+  if (value !== prelude.value)
+    code.overwrite(prelude.loc!.start.offset, prelude.loc!.end.offset, value)
+}
 
 export async function handleFunction({ code, uno, options }: TransformerDirectivesContext, node: FunctionNode) {
   const { throwOnMissing = true } = options
