@@ -59,6 +59,55 @@ export default createRule({
       return current
     }
 
+    function isUnoFunctionCall(call: TSESTree.CallExpression): boolean {
+      return call.callee.type === 'Identifier' && isUnoFunction(call.callee.name)
+    }
+
+    function handleObjectExpression(node: TSESTree.ObjectExpression) {
+      node.properties.forEach((p) => {
+        if (p.type !== 'Property')
+          return
+
+        if (isPossibleLiteral(p.value)) {
+          return checkPossibleLiteral(p.value)
+        }
+
+        // arrow-function / function slot values, e.g. `base: () => 'mr-1 ml-1'`
+        // (and block bodies: `base: () => { return 'mr-1 ml-1' }`)
+        if (p.value.type === 'ArrowFunctionExpression' || p.value.type === 'FunctionExpression') {
+          const body = unwrapTsExpression(p.value.body as TSESTree.Expression)
+          if (isPossibleLiteral(body)) {
+            return checkPossibleLiteral(body)
+          }
+          if (body.type === 'ObjectExpression') {
+            return handleObjectExpression(body)
+          }
+        }
+
+        if (p.value.type === 'ObjectExpression') {
+          return handleObjectExpression(p.value)
+        }
+
+        if (p.value.type === 'CallExpression' && isUnoFunctionCall(p.value)) {
+          return handleCallArguments(p.value)
+        }
+      })
+    }
+
+    function handleCallArguments(call: TSESTree.CallExpression) {
+      call.arguments.forEach((arg) => {
+        if (arg.type === 'SpreadElement') return
+        const value = unwrapTsExpression(arg)
+        if (isPossibleLiteral(value)) {
+          return checkPossibleLiteral(value)
+        }
+        // { slots: { root: 'mr-1 ml-1' } }
+        if (value.type === 'ObjectExpression') {
+          return handleObjectExpression(value)
+        }
+      })
+    }
+
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
@@ -288,22 +337,13 @@ export default createRule({
           return checkPossibleLiteral(init)
         }
 
-        function handleObjectExpression(node: TSESTree.ObjectExpression) {
-          node.properties.forEach((p) => {
-            if (p.type !== 'Property')
-              return
-
-            if (isPossibleLiteral(p.value)) {
-              return checkPossibleLiteral(p.value)
-            }
-
-            if (p.value.type === 'ObjectExpression') {
-              return handleObjectExpression(p.value)
-            }
-          })
-        }
         if (init.type === 'ObjectExpression') {
           return handleObjectExpression(init)
+        }
+
+        // helper-call initializer, e.g. `const theme = defu({ slots: { ... } }, {})`
+        if (init.type === 'CallExpression' && isUnoFunctionCall(init)) {
+          return handleCallArguments(init)
         }
       },
     }
