@@ -1,5 +1,6 @@
 import { createGenerator } from '@unocss/core'
 import { expect, it } from 'vitest'
+import { variantMatcher } from '@unocss/rule-utils'
 
 it('rule-generator', async () => {
   const uno = await createGenerator({
@@ -76,4 +77,29 @@ it('rule-generator bail out', async () => {
       .rule-red{color:red;}
       .rule-red{font-size:12px;}"
     `)
+})
+
+it('rule-generator constructCSS with $$ variant parent', async () => {
+  const uno = await createGenerator({
+    rules: [
+      [
+        /^rule$/,
+        function (_, { constructCSS }) {
+          return constructCSS({
+            animation: '__un_qm 0.5s',
+          })
+        },
+      ],
+    ],
+    variants: [
+      variantMatcher('dark', input => ({ prefix: `${input.prefix}.dark $$ ` })),
+    ],
+  })
+  const { css } = await uno.generate('dark:rule')
+  expect(css).toMatchInlineSnapshot(`
+    "/* layer: default */
+    .dark .dark\\:rule{animation:__un_qm 0.5s;}"
+  `)
+  // The raw $$ placeholder must never leak into output
+  expect(css).not.toContain('$$')
 })

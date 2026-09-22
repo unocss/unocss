@@ -728,10 +728,24 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     return this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
       .map(({ selector, entries, parent }) => {
-        const cssBody = `${selector}{${entriesToCss(entries)}}`
-        if (parent)
-          return `${parent}{${cssBody}}`
-        return cssBody
+        const body = `${entriesToCss(entries)}`
+        // Variant handlers (e.g. variantMatcher prefix) may inject `$$` into the
+        // selector as a parent/selector separator. Split it the same way the main
+        // layer-stringify path does (generator.ts resolveCSSResult), producing
+        // `parent selector { ... }` instead of leaking `$$` into the output.
+        if (selector && selector.includes(' $$ ')) {
+          const segments = selector.split(' $$ ')
+          const realSelector = segments.pop()!
+          const parents = [...segments, parent].filter(Boolean)
+          if (parents.length)
+            return `${parents.join(' ')} ${realSelector}{${body}}`
+          return `${realSelector}{${body}}`
+        }
+        if (parent) {
+          const parents = parent.split(' $$ ')
+          return `${parents.join(' ')}{${body}}`
+        }
+        return `${selector}{${body}}`
       })
       .join('')
   }
