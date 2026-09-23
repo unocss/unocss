@@ -39,7 +39,6 @@
     "dev": "tsdown --watch"
   },
   "devDependencies": {
-    "lightningcss": "catalog:css",
     "magic-string": "catalog:utils",
     "unconfig": "catalog:utils"
   }

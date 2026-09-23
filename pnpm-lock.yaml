@@ -1134,9 +1134,6 @@ importers:
 
   packages-engine/core:
     devDependencies:
-      lightningcss:
-        specifier: catalog:css
-        version: 1.33.0
       magic-string:
         specifier: catalog:utils
         version: 1.4.1

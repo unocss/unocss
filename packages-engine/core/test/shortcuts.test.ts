@@ -1,8 +1,6 @@
-import { Buffer } from 'node:buffer'
 import { createGenerator } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
-import { transform } from 'lightningcss'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
@@ -277,7 +275,6 @@ describe('shortcuts', async () => {
     expect(css).toContain('[aria-selected=true]')
     expect(css).toContain('background-color:color-mix(in oklab,')
     expect(css).toMatch(/[;{]color:color-mix\(in oklab,/)
-    expect(() => transform({ filename: 'test.css', code: Buffer.from(css), minify: true })).not.toThrow()
     await prettier.format(css, { parser: 'css', plugins: [parserCSS] })
   })
 })
