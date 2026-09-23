@@ -269,8 +269,8 @@ describe('shortcuts', async () => {
         'accent-strong': 'light-dark(#a64f4f, #cb7676)',
       },
     }
-    const uno = await createGenerator({ presets: [presetWind4()], theme, shortcuts: { button: grouped } })
-    const reference = await createGenerator({ presets: [presetWind4()], theme, shortcuts: { button: expanded } })
+    const uno = await createGenerator({ presets: [presetWind4() as any], theme, shortcuts: { button: grouped } })
+    const reference = await createGenerator({ presets: [presetWind4() as any], theme, shortcuts: { button: expanded } })
     const { css } = await uno.generate('button', { preflights: false })
     const { css: expected } = await reference.generate('button', { preflights: false })
     expect(css).toBe(expected)

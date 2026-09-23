@@ -35,8 +35,8 @@ describe('sort rules', async () => {
   })
 
   it.each([
-    ['content-[\'a b\']', 'hover:(p-2 content-[\'a b\'])', 'hover:p-2 hover:content-[\'a b\']'],
-    ['grid-cols-[1fr 2fr]', 'hover:(grid-cols-[1fr 2fr] p-2)', 'hover:grid-cols-[1fr 2fr] hover:p-2'],
+    ['content-[\'a_b\']', 'hover:(p-2 content-[\'a_b\'])', 'hover:p-2 hover:content-[\'a_b\']'],
+    ['grid-cols-[1fr_2fr]', 'hover:(grid-cols-[1fr_2fr] p-2)', 'hover:grid-cols-[1fr_2fr] hover:p-2'],
   ])('preserves spaces in %s', async (utility, grouped, expanded) => {
     expect(await sort(`hover:(p-2 ${utility})`)).toBe(grouped)
     expect(await sort(`hover:p-2 hover:${utility}`)).toBe(expanded)

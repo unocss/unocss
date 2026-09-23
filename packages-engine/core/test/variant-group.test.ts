@@ -78,14 +78,14 @@ describe('variant-group', () => {
       ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
       ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
       ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
-      ['hover:(grid-cols-[1fr 2fr] p-2)', 'hover:grid-cols-[1fr 2fr] hover:p-2'],
-      ['hover:(shadow-[0 0 0 1px red] p-2)', 'hover:shadow-[0 0 0 1px red] hover:p-2'],
-      ['hover:(content-[\'a b\'] p-2)', 'hover:content-[\'a b\'] hover:p-2'],
-      ['hover:(content-["a b"] p-2)', 'hover:content-["a b"] hover:p-2'],
-      ['hover:(content-[\'a\\\' b\'] p-2)', 'hover:content-[\'a\\\' b\'] hover:p-2'],
-      ['hover:(content-["a\\" b"] p-2)', 'hover:content-["a\\" b"] hover:p-2'],
+      ['hover:(grid-cols-[1fr_2fr] p-2)', 'hover:grid-cols-[1fr_2fr] hover:p-2'],
+      ['hover:(shadow-[0_0_0_1px_red] p-2)', 'hover:shadow-[0_0_0_1px_red] hover:p-2'],
+      ['hover:(content-[\'a_b\'] p-2)', 'hover:content-[\'a_b\'] hover:p-2'],
+      ['hover:(content-["a_b"] p-2)', 'hover:content-["a_b"] hover:p-2'],
+      ['hover:(content-[\'a\\\'_b\'] p-2)', 'hover:content-[\'a\\\'_b\'] hover:p-2'],
+      ['hover:(content-["a\\"_b"] p-2)', 'hover:content-["a\\"_b"] hover:p-2'],
       ['hover:(content-[\'[ a ]\'] p-2)', 'hover:content-[\'[ a ]\'] hover:p-2'],
-      ['hover:(focus:(content-[\'a b\'] p-2) m-1) active:(p-3 m-2)', 'hover:focus:content-[\'a b\'] hover:focus:p-2 hover:m-1 active:p-3 active:m-2'],
+      ['hover:(focus:(content-[\'a_b\'] p-2) m-1) active:(p-3 m-2)', 'hover:focus:content-[\'a_b\'] hover:focus:p-2 hover:m-1 active:p-3 active:m-2'],
     ]
     for (const [input, expected] of cases)
       expect(expand(input)).toEqual(expected)
