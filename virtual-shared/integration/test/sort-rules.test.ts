@@ -34,6 +34,14 @@ describe('sort rules', async () => {
       .toMatchInlineSnapshot('"foo hover:(p-4 pt-2 text-red) hover:focus:(m1 mx2)"')
   })
 
+  it.each([
+    ['content-[\'a_b\']', 'hover:(p-2 content-[\'a_b\'])', 'hover:p-2 hover:content-[\'a_b\']'],
+    ['grid-cols-[1fr_2fr]', 'hover:(grid-cols-[1fr_2fr] p-2)', 'hover:grid-cols-[1fr_2fr] hover:p-2'],
+  ])('preserves spaces in %s', async (utility, grouped, expanded) => {
+    expect(await sort(`hover:(p-2 ${utility})`)).toBe(grouped)
+    expect(await sort(`hover:p-2 hover:${utility}`)).toBe(expanded)
+  })
+
   it('should not add extra space', async () => {
     expect(await sort('none-uno-class mr-1 ml-1'))
       .toMatchInlineSnapshot('"none-uno-class ml-1 mr-1"')
