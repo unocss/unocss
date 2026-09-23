@@ -480,15 +480,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
             .filter(Boolean)
 
-          const rules = Array.from(new Set(ruleLines))
+          const cssBody = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
           if (!parent)
-            return rules
+            return cssBody
 
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
+          return wrapWithParent(parent, cssBody, nl)
         })
         .filter(Boolean)
         .join(nl)
@@ -734,8 +733,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
         // here.
         const cssBody = `${applyScope(selector)}{${entriesToCss(entries)}}`
         if (parent) {
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${cssBody}}${'}'.repeat(parents.length)}`
+          return wrapWithParent(parent, cssBody)
         }
         return cssBody
       })
@@ -1151,6 +1149,11 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
+}
+
+function wrapWithParent(parent: string, cssBody: string, nl = '') {
+  const parents = parent.split(' $$ ')
+  return `${parents.join('{')}{${nl}${cssBody}${nl}${'}'.repeat(parents.length)}`
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
