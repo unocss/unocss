@@ -159,6 +159,24 @@ describe('postcss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('theme() in at-rule prelude', async () => {
+    const { css } = await pcssLite().process(`@media (min-width: theme('breakpoints.md')) {
+      div{color:theme('colors.red.600')}
+    }
+    @container (min-width: theme('breakpoints.lg')) {
+      span{color:red}
+    }`, processOptions)
+
+    expect(css).toMatchInlineSnapshot(`
+      "@media (min-width: 768px) {
+            div{color:#dc2626}
+          }
+          @container (min-width: 1024px) {
+            span{color:red}
+          }"
+    `)
+  })
+
   it('@screen', async () => {
     const { css } = await pcssLite().process(`@screen at-md {
       div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}

@@ -6,7 +6,7 @@ import { toArray } from '@unocss/core'
 import { hasIconFn, hasThemeFn } from '@unocss/rule-utils'
 import { parse, walk } from 'css-tree'
 import { handleApply } from './apply'
-import { handleFunction } from './functions'
+import { handleAtrulePrelude, handleFunction } from './functions'
 import { handleScreen } from './screen'
 
 export function resolveApplyVariables(options: TransformerDirectivesOptions) {
@@ -62,6 +62,8 @@ export async function transformDirectives(
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
     if (hasScreen && node.type === 'Atrule' && node.name === 'screen')
       handleScreen(ctx, node)
+    else if (hasFn && node.type === 'Atrule')
+      handleAtrulePrelude(ctx, node)
     else if (node.type === 'Function')
       await handleFunction(ctx, node)
     else if (hasApply && node.type === 'Rule')
