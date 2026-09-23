@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.10.1",
+  "version": "66.10.5",
   "private": true,
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.4.2",
   "engines": {
     "node": ">=22"
   },
@@ -100,6 +100,7 @@
     "tinyexec": "catalog:utils",
     "tinyglobby": "catalog:utils",
     "tsdown": "catalog:build",
+    "tsnapi": "catalog:build",
     "tsx": "catalog:typescript",
     "turbo": "catalog:build",
     "typescript": "catalog:typescript",

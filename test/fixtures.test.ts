@@ -1,10 +1,12 @@
 import { readFile, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
+import presetUno from '@unocss/preset-uno'
 import { glob } from 'tinyglobby'
 import { build, createBuilder } from 'vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
+import UnoCSS from '../packages-integrations/vite/src/index'
 
 const isWindows = process.platform === 'win32'
 const isRolldownVite = 'rolldownVersion' in vite
@@ -167,6 +169,56 @@ describe.concurrent('fixtures', () => {
     await rm(join(root, 'dist-ssr'), { recursive: true, force: true })
 
     const builder = await createBuilder({ root, logLevel: 'warn' })
+    await builder.buildApp()
+
+    const css = await getGlobContent(root, 'dist-client/**/*.css')
+    expect(css).contains('.text-red')
+  })
+
+  // https://github.com/unocss/unocss/issues/5329
+  it.skipIf(isWindows)('vite environments with per-environment configs', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-environments-isolated')
+    await rm(join(root, 'dist-client'), { recursive: true, force: true })
+    await rm(join(root, 'dist-ssr'), { recursive: true, force: true })
+
+    // inline config, as frameworks like Astro pass it: without
+    // `sharedConfigBuild`, the same UnoCSS plugin instance sees one
+    // configResolved per environment, each with its own vite:css-post instance
+    const builder = await createBuilder({
+      root,
+      configFile: false,
+      logLevel: 'warn',
+      environments: {
+        client: {
+          build: {
+            outDir: 'dist-client',
+          },
+        },
+        ssr: {
+          build: {
+            outDir: 'dist-ssr',
+            ssr: true,
+            rollupOptions: {
+              input: 'src/entry-server.ts',
+            },
+          },
+        },
+      },
+      builder: {
+        async buildApp(builder) {
+          // client first: its outDir must not resolve to another environment's
+          // css-post instance, whose build never ran (#5329)
+          await builder.build(builder.environments.client)
+          await builder.build(builder.environments.ssr)
+        },
+      },
+      plugins: [
+        UnoCSS({
+          configFile: false,
+          presets: [presetUno()],
+        }),
+      ],
+    })
     await builder.buildApp()
 
     const css = await getGlobContent(root, 'dist-client/**/*.css')

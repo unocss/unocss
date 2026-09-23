@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shikiHighlight } from '../composables/rpc'
+import { shikiHighlight } from '../composables/shiki'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -22,16 +22,8 @@ watch(
       return
     }
     try {
-      const result = await shikiHighlight(code, lang)
-      if (result == null) {
-        // Service unavailable — fall back to plain text
-        failed.value = true
-        html.value = null
-      }
-      else {
-        failed.value = false
-        html.value = result
-      }
+      html.value = await shikiHighlight(code, lang)
+      failed.value = false
     }
     catch {
       failed.value = true

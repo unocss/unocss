@@ -146,20 +146,28 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
-        // for Vite 8's Environment API, each environment may have its own build.outDir
+        // for Vite 8's Environment API, each environment may have its own build.outDir.
+        // configResolved may run once per environment config (each with its own
+        // vite:css/vite:css-post instances), so other environments' dirs must not
+        // override an entry already claimed by that environment's own config (#5329)
+        const envDirs: string[] = []
         for (const env of Object.values(config.environments ?? {})) {
           if (env?.build?.outDir)
-            distDirs.push(resolve(config.root, env.build.outDir))
+            envDirs.push(resolve(config.root, env.build.outDir))
         }
 
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
         const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 
-        if (cssPostPlugin)
+        if (cssPostPlugin) {
           distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
+          envDirs.forEach(dir => cssPostPlugins.has(dir) || cssPostPlugins.set(dir, cssPostPlugin))
+        }
 
-        if (cssPlugin)
+        if (cssPlugin) {
           distDirs.forEach(dir => cssPlugins.set(dir, cssPlugin))
+          envDirs.forEach(dir => cssPlugins.has(dir) || cssPlugins.set(dir, cssPlugin))
+        }
 
         await ready
       },

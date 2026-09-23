@@ -1,7 +1,7 @@
 import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { symbols } from '@unocss/core'
-import { colorResolver, defineProperty, globalKeywords, h, isCSSMathFn, makeGlobalStaticRules } from '../utils'
+import { colorResolver, defineProperty, globalKeywords, h, isSize, makeGlobalStaticRules } from '../utils'
 
 export const outline: Rule<Theme>[] = [
   // size
@@ -47,7 +47,7 @@ function* handleWidth([, b]: string[], { theme }: RuleContext<Theme>): Generator
 }
 
 function* handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): Generator<CSSValueInput | string | undefined> {
-  if (isCSSMathFn(h.bracket(match[1], ctx.theme))) {
+  if (isSize(match[1])) {
     yield* handleWidth(match, ctx)
   }
   else {
