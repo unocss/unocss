@@ -596,29 +596,24 @@ run({
       options: [{ unoVariables: ['^theme'], unoFunctions: ['defu'] }],
       code: html`
         <script lang="ts">
-        const themeSelect = defu(
-          {
-            slots: {
-              base: () => 'mr-1 ml-1',
-            },
+        const themeSelect = {
+          slots: {
+            base: defu('mr-1 ml-1', {}),
           },
-          {},
-        )
+        }
         </script>
       `,
       output: output => expect(output).toMatchInlineSnapshot(`
         "<script lang="ts">
-        const themeSelect = defu(
-          {
-            slots: {
-              base: () => 'ml-1 mr-1',
-            },
+        const themeSelect = {
+          slots: {
+            base: defu('ml-1 mr-1', {}),
           },
-          {},
-        )
+        }
         </script>"
       `),
       errors: [
+        { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
       ],
     },

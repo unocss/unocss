@@ -96,7 +96,8 @@ export default createRule({
 
     function handleCallArguments(call: TSESTree.CallExpression) {
       call.arguments.forEach((arg) => {
-        if (arg.type === 'SpreadElement') return
+        if (arg.type === 'SpreadElement')
+          return
         const value = unwrapTsExpression(arg)
         if (isPossibleLiteral(value)) {
           return checkPossibleLiteral(value)
