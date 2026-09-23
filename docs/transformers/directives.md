@@ -258,6 +258,16 @@ Will be compiled to:
 }
 ```
 
+It also works in at-rule conditions:
+
+```css
+@media (min-width: theme('breakpoints.md')) {
+  .btn-blue {
+    background-color: theme('colors.blue.500');
+  }
+}
+```
+
 ### `icon()`
 
 Use the `icon()` function to convert the icon utility to a specific svg icon.
