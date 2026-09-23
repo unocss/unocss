@@ -480,14 +480,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
             .filter(Boolean)
 
-          const cssBody = Array.from(new Set(ruleLines))
+          const css = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
           if (!parent)
-            return cssBody
+            return css
 
-          return wrapWithParent(parent, cssBody, nl)
+          return wrapWithParent(parent, css, nl)
         })
         .filter(Boolean)
         .join(nl)
@@ -731,11 +731,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
         // placeholder expansion applied to normal utilities at render time,
         // so expand the `$$` slots left by prefix- and parent-based variants
         // here.
-        const cssBody = `${applyScope(selector)}{${entriesToCss(entries)}}`
+        const css = `${applyScope(selector)}{${entriesToCss(entries)}}`
         if (parent) {
-          return wrapWithParent(parent, cssBody)
+          return wrapWithParent(parent, css)
         }
-        return cssBody
+        return css
       })
       .join('')
   }
@@ -1151,9 +1151,9 @@ function applyScope(css: string, scope?: string) {
     return scope ? `${scope} ${css}` : css
 }
 
-function wrapWithParent(parent: string, cssBody: string, nl = '') {
+function wrapWithParent(parent: string, css: string, nl = '') {
   const parents = parent.split(' $$ ')
-  return `${parents.join('{')}{${nl}${cssBody}${nl}${'}'.repeat(parents.length)}`
+  return `${parents.join('{')}{${nl}${css}${nl}${'}'.repeat(parents.length)}`
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/
