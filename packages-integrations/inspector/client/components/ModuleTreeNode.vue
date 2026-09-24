@@ -57,10 +57,10 @@ function nodeTitle(node: TreeNode) {
       <RouterLink
         v-for="i of node.items"
         :key="i.full"
-        class="my-0.5 flex min-h-7 min-w-0 items-center gap-2 rounded-md px-2 text-sm text-inherit no-underline hover:bg-gray:8"
+        class="my-0.5 flex min-h-7 min-w-0 items-center gap-2 rounded-md px-2 text-sm text-inherit no-underline hover:bg-gray/8"
         :to="`/module/${encodeURIComponent(i.full)}`"
         :title="moduleTitle(i.path, i.full)"
-        :class="{ 'bg-active': i.full === route.params.id, 'op40': hasNoGeneratedCss(i.full) }"
+        :class="{ 'bg-blue/10 text-blue! dark:bg-yellow/10 dark:text-yellow!': i.full === route.params.id, 'op40': hasNoGeneratedCss(i.full) }"
       >
         <FileIcon :id="i.path" />
         <InlineText :text="i.path.split('/').pop() || ''" class="min-w-0 flex-1" />

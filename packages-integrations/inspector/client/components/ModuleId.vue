@@ -9,7 +9,18 @@ const displayId = computed(() => {
   if (!props.id || !root)
     return props.id || ''
 
-  return props.id.startsWith(root) ? `./${props.id.slice(root.length)}` : props.id
+  // Normalize the boundary before adding `./`: slicing only `root.length`
+  // leaves the separator from the absolute path, which would render as `.//`.
+  const normalizedRoot = root.replace(/\\/g, '/').replace(/\/+$/, '')
+  const normalizedId = props.id.replace(/\\/g, '/')
+  const rootPrefix = normalizedRoot ? `${normalizedRoot}/` : '/'
+
+  if (normalizedId === normalizedRoot)
+    return './'
+
+  return normalizedId.startsWith(rootPrefix)
+    ? `./${normalizedId.slice(rootPrefix.length)}`
+    : props.id
 })
 </script>
 
