@@ -60,6 +60,7 @@
   "devDependencies": {
     "@iconify-json/catppuccin": "catalog:icons",
     "shiki": "catalog:docs",
+    "vue-clamp": "catalog:",
     "vue-flow-layout": "catalog:vue"
   }
 }

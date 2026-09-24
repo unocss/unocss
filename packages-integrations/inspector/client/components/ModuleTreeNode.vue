@@ -47,7 +47,7 @@ function nodeTitle(node: TreeNode) {
       :class="{ op40: hasNoGeneratedCssInNode(node) }"
     >
       <span class="icon-catppuccin inline-block h-4 w-4 shrink-0" :class="icon" aria-hidden="true" />
-      <span class="min-w-0 truncate text-sm font-normal">{{ node.name }}</span>
+      <InlineText :text="node.name || ''" class="min-w-0 flex-1 text-sm font-normal" />
     </summary>
 
     <div class="ml-3 border-l border-gray:20 pl-3">
@@ -63,7 +63,7 @@ function nodeTitle(node: TreeNode) {
         :class="{ 'bg-active': i.full === route.params.id, 'op40': hasNoGeneratedCss(i.full) }"
       >
         <FileIcon :id="i.path" />
-        <span class="min-w-0 truncate">{{ i.path.split('/').pop() }}</span>
+        <InlineText :text="i.path.split('/').pop() || ''" class="min-w-0 flex-1" />
       </RouterLink>
     </div>
   </details>

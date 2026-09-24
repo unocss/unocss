@@ -130,7 +130,7 @@ grammarly-desktop-integration {
 html.dark {
   --cm-scheme: dark;
   --cm-foreground: #d4cfbf80;
-  --cm-background: #121212;
+  --cm-background: #222222;
   --cm-comment: #758575;
   --cm-string: #d48372;
   --cm-keyword: #4d9375;

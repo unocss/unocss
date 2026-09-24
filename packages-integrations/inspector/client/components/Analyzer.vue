@@ -118,7 +118,7 @@ const grouped = computed(() => mergedSelectors
         <span v-for="(item, i) in matchedColors" :key="i">
           <div p-2 w-25 inline-block of-hidden bg-active>
             <AnalyzerItem :item="item" />
-            <div font-mono text-sm op50 ws-nowrap text-ellipsis of-hidden>{{ item.color }}</div>
+            <InlineText :text="item.color" :title="item.color" class="max-w-full font-mono text-sm op50" />
             <div h-10 mt-1 :style="{ background: item.color }" />
           </div>
         </span>
