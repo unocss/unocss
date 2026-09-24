@@ -60,6 +60,11 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
   }
 }
 
+export async function getGeneratedCss(token: string): Promise<string | null> {
+  const result = await (await __uno).generate(token, { preflights: false })
+  return result.css || null
+}
+
 debouncedWatch(
   [customConfigRaw, customCSS],
   async () => {

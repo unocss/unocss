@@ -48,6 +48,11 @@ export const overviewFetch = createQuery<OverviewInfo>(() => rpcCall('get-overvi
 export const info = infoFetch.data
 export const overview = overviewFetch.data
 
+export function ensureOverview() {
+  if (!overview.value && !overviewFetch.isFetching.value)
+    return overviewFetch.execute()
+}
+
 // Refetch whenever the server signals a change (config reload, new tokens,
 // module hot-update) — one reactive source replaces the old event hooks.
 watch(changeRevision, () => {

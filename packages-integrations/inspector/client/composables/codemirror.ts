@@ -1,6 +1,7 @@
 import type { CompletionSource } from '@codemirror/autocomplete'
 import type { Extension } from '@codemirror/state'
 import type { EditorViewConfig } from '@codemirror/view'
+import type { HighlightAnnotation } from '@unocss/core'
 import type { MaybeRef, Ref, WritableComputedRef } from 'vue'
 import { acceptCompletion, completionKeymap } from '@codemirror/autocomplete'
 import { css } from '@codemirror/lang-css'
@@ -8,10 +9,22 @@ import { htmlLanguage } from '@codemirror/lang-html'
 import { javascript } from '@codemirror/lang-javascript'
 import { xml } from '@codemirror/lang-xml'
 import { EditorSelection, EditorState, StateEffect, StateField } from '@codemirror/state'
-import { Decoration, keymap } from '@codemirror/view'
+import { Decoration, hoverTooltip, keymap } from '@codemirror/view'
 import { basicSetup, EditorView } from 'codemirror'
 import { computed, unref, watch } from 'vue'
+import { getMatchedPositions } from '#integration/match-positions'
 import { vitesse } from '../theme'
+import { shikiHighlight } from './shiki'
+
+type MatchedTokens = Set<string> | string[]
+type CodeMirrorOptions = EditorViewConfig & {
+  readOnly?: boolean
+  mode?: string
+  autocomplete?: CompletionSource
+  matched?: MatchedTokens
+  annotations?: HighlightAnnotation[]
+  getCss?: (token: string) => string | null | Promise<string | null>
+}
 
 // Effects can be attached to transactions to communicate with the extension
 export const addMarks = StateEffect.define<any>()
@@ -59,16 +72,67 @@ const langExtensions: Record<string, () => object> = {
 export function useCodeMirror(
   parent: Ref<HTMLElement | null | undefined>,
   input: Ref<string> | WritableComputedRef<string>,
-  options: MaybeRef<EditorViewConfig & { readOnly?: boolean, mode?: string, autocomplete?: CompletionSource }> = {},
+  options: MaybeRef<CodeMirrorOptions> = {},
 ) {
   const keymaps = [...completionKeymap]
   keymaps.push({ key: 'Tab', run: acceptCompletion })
   const extensions = computed(() => {
-    const { mode = 'html', readOnly, autocomplete } = unref(options)
+    const { mode = 'html', readOnly, autocomplete, matched, annotations = [], getCss } = unref(options)
+    const matchedTokens = Array.from(matched || [])
+    let positionsDoc = ''
+    let matchedPositions: ReturnType<typeof getMatchedPositions> = []
+    const hover = getCss && matchedTokens.length
+      ? hoverTooltip((view, pos) => {
+          const code = view.state.doc.toString()
+          if (positionsDoc !== code) {
+            positionsDoc = code
+            matchedPositions = getMatchedPositions(code, matchedTokens, annotations)
+          }
+          const hit = matchedPositions.find(([from, to]) => pos >= from && pos <= to)
+          if (!hit)
+            return null
+
+          return {
+            pos: hit[0],
+            end: hit[1],
+            above: true,
+            create: () => {
+              const dom = document.createElement('div')
+              dom.className = 'cm-unocss-hover'
+              const codeDom = document.createElement('div')
+              codeDom.className = 'shiki-code'
+              const pre = document.createElement('pre')
+              pre.textContent = 'Loading…'
+              codeDom.append(pre)
+              dom.append(codeDom)
+
+              return {
+                dom,
+                mount: () => {
+                  void Promise.resolve(getCss(hit[2]))
+                    .then(async (css) => {
+                      if (!css) {
+                        pre.textContent = 'No generated CSS'
+                        return
+                      }
+                      pre.textContent = css
+                      try {
+                        codeDom.innerHTML = await shikiHighlight(css, 'css')
+                      }
+                      catch {}
+                    })
+                    .catch(() => pre.textContent = 'Unable to load generated CSS')
+                },
+              }
+            },
+          }
+        }, { hoverTime: 120 })
+      : undefined
     return [
       basicSetup,
       vitesse,
       markField,
+      hover,
       langExtensions[mode](),
       mode === 'html' && autocomplete && htmlLanguage.data.of({ autocomplete }),
       readOnly && EditorState.readOnly.of(true),

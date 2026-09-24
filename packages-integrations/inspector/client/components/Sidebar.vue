@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { TreeNode } from '../composables/fetch'
-import { moduleTree } from '../composables/fetch'
+import { ensureOverview, moduleTree } from '../composables/fetch'
+
+ensureOverview()
 
 // Show a group when it has nested folders or files directly at its root
 function hasNodes(node: TreeNode) {
@@ -35,20 +37,20 @@ function hasNodes(node: TreeNode) {
       <ModuleTreeNode
         v-if="hasNodes(moduleTree.workspace)"
         :node="moduleTree.workspace"
-        p="l3 t4"
-        icon="i-carbon-portfolio"
+        p="x3 y4"
+        icon="i-catppuccin-folder-src"
       />
       <ModuleTreeNode
         v-if="hasNodes(moduleTree.root)"
         :node="moduleTree.root"
-        p="l3 t4"
-        icon="i-carbon-vmdk-disk"
+        p="x3 y4"
+        icon="i-catppuccin-folder-open"
       />
       <ModuleTreeNode
         v-if="hasNodes(moduleTree.nodeModules)"
         :node="moduleTree.nodeModules"
-        p="l3 t4"
-        icon="i-carbon-categories"
+        p="x3 y4"
+        icon="i-catppuccin-folder-node"
       />
     </div>
   </div>
