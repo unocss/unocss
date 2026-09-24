@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 import { ensureOverview, info, overview } from '../composables/fetch'
 import { useCSSPrettify } from '../composables/usePrettify'
 import { useScrollStyle } from '../composables/useScrollStyle'
@@ -12,11 +13,23 @@ ensureOverview()
 const isPrettify = ref(false)
 const active = ref('source')
 const selectedLayers = ref<string[]>([])
+let didInitializeLayers = false
+
+watch(overview, (data) => {
+  if (!data || didInitializeLayers)
+    return
+
+  selectedLayers.value = data.layers.map(layer => layer.name)
+  didInitializeLayers = true
+}, { immediate: true })
 
 const formatted = useCSSPrettify(computed(() => {
+  const layers = overview.value?.layers ?? []
   if (!selectedLayers.value.length)
+    return ''
+  if (selectedLayers.value.length === layers.length)
     return overview.value?.css
-  return overview.value?.layers
+  return layers
     .filter(layer => selectedLayers.value.includes(layer.name))
     .map(layer => layer.css)
     .join('\n')
@@ -31,8 +44,19 @@ const formatted = useCSSPrettify(computed(() => {
           <div text-amber op80>
             Presets
           </div>
-          <div h25 op50 ws-pre overflow="auto">
-            {{ info?.config?.presets?.map(i => i.name).join('\n') }}
+          <div h25 op50 overflow="auto" flex flex-col>
+            <template v-for="preset in info?.config?.presets" :key="preset.name">
+              <a
+                v-if="preset.docs"
+                :href="preset.docs"
+                target="_blank"
+                rel="noopener noreferrer"
+                hover:text-amber
+              >
+                {{ preset.name }}
+              </a>
+              <span v-else>{{ preset.name }}</span>
+            </template>
           </div>
         </div>
         <div overflow="auto">
@@ -92,7 +116,7 @@ const formatted = useCSSPrettify(computed(() => {
           <div text-rose op80>
             Layers
           </div>
-          <div class="context-purple" op50 flex flex-col>
+          <div class="context-rose" op50 flex flex-col>
             <CheckBox
               v-for="_layer in overview?.layers"
               :key="_layer.name"
