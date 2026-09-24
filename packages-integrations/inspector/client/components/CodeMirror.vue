@@ -14,6 +14,7 @@ const props = defineProps<{
   matched?: Set<string> | string[]
   annotations?: HighlightAnnotation[]
   getHint?: CompletionSource
+  getCss?: (token: string) => string | null | Promise<string | null>
 }>()
 
 const emit = defineEmits<{ (e: 'update:modelValue', payload: string): void }>()
@@ -85,6 +86,15 @@ grammarly-desktop-integration {
 }
 .cm-content {
   cursor: text !important;
+}
+.cm-unocss-hover pre {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  max-width: min(80vw, 40rem);
+  max-height: 18rem;
+  overflow: auto;
+  white-space: pre;
+  font: inherit;
 }
 
 :root:not(.dark) .cm-search .cm-button {

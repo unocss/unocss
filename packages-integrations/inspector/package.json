@@ -48,8 +48,10 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/language-server": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "devframe": "catalog:devtools",
     "tinyglobby": "catalog:utils",

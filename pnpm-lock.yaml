@@ -1199,12 +1199,18 @@ importers:
 
   packages-integrations/inspector:
     dependencies:
+      '@unocss/autocomplete':
+        specifier: workspace:*
+        version: link:../../packages-engine/autocomplete
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      '@unocss/language-server':
+        specifier: workspace:*
+        version: link:../language-server
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../../packages-presets/rule-utils
