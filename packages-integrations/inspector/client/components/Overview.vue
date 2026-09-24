@@ -11,16 +11,15 @@ ensureOverview()
 
 const isPrettify = ref(false)
 const active = ref('source')
-const layer = ref()
-
-function displayLayerCSS(name: string) {
-  layer.value = layer.value === name ? undefined : name
-}
+const selectedLayers = ref<string[]>([])
 
 const formatted = useCSSPrettify(computed(() => {
-  if (!layer.value)
+  if (!selectedLayers.value.length)
     return overview.value?.css
-  return overview.value?.layers.find(i => i.name === layer.value)?.css
+  return overview.value?.layers
+    .filter(layer => selectedLayers.value.includes(layer.name))
+    .map(layer => layer.css)
+    .join('\n')
 }), isPrettify)
 </script>
 
@@ -93,10 +92,13 @@ const formatted = useCSSPrettify(computed(() => {
           <div text-rose op80>
             Layers
           </div>
-          <div op50 ws-pre flex flex-col>
-            <span v-for="_layer in overview?.layers" :key="_layer.name" :class="layer === _layer.name ? 'text-rose:70' : ''" hover:text-rose:50 cursor-pointer @click="displayLayerCSS(_layer.name)">
-              {{ _layer.name }}
-            </span>
+          <div class="context-purple" op50 flex flex-col>
+            <CheckBox
+              v-for="_layer in overview?.layers"
+              :key="_layer.name"
+              v-model="selectedLayers"
+              :value="_layer.name"
+            />
           </div>
         </div>
       </div>
