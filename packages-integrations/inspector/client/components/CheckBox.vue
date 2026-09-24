@@ -26,7 +26,7 @@ function handleChange(event: Event) {
     <label class="relative flex items-center cursor-pointer" :for="value">
       <input
         :id="value" :value="value" type="checkbox" :checked="modelValue.includes(value)"
-        class="peer size-4 cursor-pointer appearance-none rounded-1 border border-slate-300 checked:border-[var(--context-color)] transition-all"
+        class="peer size-3.75 cursor-pointer appearance-none rounded-1 border border-slate-300 checked:border-[var(--context-color)] transition-all"
         @change="handleChange"
       >
       <span
