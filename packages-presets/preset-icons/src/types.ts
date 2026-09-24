@@ -128,4 +128,14 @@ export interface IconsOptions {
    * Processor for the CSS object before stringify
    */
   processor?: (cssObject: CSSObject, meta: Required<IconMeta>) => void
+
+  /**
+   * Extract repeated mask declarations into a collection-scoped shared rule.
+   *
+   * This requires preflights to be enabled. It is disabled when `processor` is set.
+   *
+   * @experimental
+   * @default false
+   */
+  dedupe?: boolean
 }

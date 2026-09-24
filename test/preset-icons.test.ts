@@ -50,6 +50,35 @@ describe('preset-icons', async () => {
     await expect(css).toMatchFileSnapshot('./assets/output/preset-icons.css')
   })
 
+  it('deduplicates shared mask styles by used collection', async () => {
+    const icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M0 0h24v24H0z"/></svg>`
+    const backgroundIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="#000" d="M0 0h24v24H0z"/></svg>`
+    const uno = await createGenerator({
+      presets: [
+        presetIcons({
+          dedupe: true,
+          collections: {
+            custom: { mask: icon, background: backgroundIcon },
+            unused: { icon },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('i-custom-mask dark:i-custom:mask i-custom-background?bg')
+
+    expect(css.match(/-webkit-mask:/g)).toHaveLength(1)
+    expect(css.match(/;mask-size:100% 100%/g)).toHaveLength(1)
+    expect(css).toContain(':where([class^="i-custom-"]')
+    expect(css).toContain('[class*=" i-custom:"]')
+    expect(css).not.toContain('i-unused-')
+    expect(css).toContain('--un-icon:initial')
+
+    const nextGeneration = await uno.generate('i-unused-icon')
+    expect(nextGeneration.css).toContain('[class^="i-unused-"]')
+    expect(nextGeneration.css).not.toContain('i-custom-')
+  })
+
   it('icon unit fixtures', async () => {
     const { css, layers } = await unoWithUnit.generate(fixtures.join(' '), { preflights: false })
     expect(layers).toEqual(['icons', 'default'])
