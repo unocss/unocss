@@ -43,7 +43,7 @@ function toggleDark(event?: MouseEvent) {
           : '::view-transition-new(root)',
       },
     )
-  })
+  }).catch(() => undefined)
 }
 </script>
 
