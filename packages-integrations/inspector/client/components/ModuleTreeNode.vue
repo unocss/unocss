@@ -1,50 +1,70 @@
 <script setup lang="ts">
 import type { TreeNode } from '../composables/fetch'
+import { computed } from 'vue'
+import { overview } from '../composables/fetch'
 
 withDefaults(defineProps<{
   node: TreeNode
   icon?: string
 }>(), {
-  icon: 'i-carbon-folder',
+  icon: 'i-catppuccin-folder',
 })
 
 const route = useRoute()
+const modulesWithCss = computed(() => new Set([
+  ...(overview.value?.matched ?? []),
+  ...(overview.value?.icons ?? []),
+].flatMap(item => item.modules)))
+
+function hasNoGeneratedCss(id: string) {
+  return Boolean(overview.value) && !modulesWithCss.value.has(id)
+}
+
+function hasNoGeneratedCssInNode(node: TreeNode): boolean {
+  if (!overview.value)
+    return false
+
+  const hasGeneratedDescendant = node.items.some(item => modulesWithCss.value.has(item.full))
+    || Object.values(node.children).some(child => !hasNoGeneratedCssInNode(child))
+
+  return !hasGeneratedDescendant && (node.items.length > 0 || Object.keys(node.children).length > 0)
+}
+
+function moduleTitle(path: string, id: string) {
+  return hasNoGeneratedCss(id) ? `${path} · no generated UnoCSS CSS` : path
+}
+
+function nodeTitle(node: TreeNode) {
+  return hasNoGeneratedCssInNode(node) ? `${node.name} · no generated UnoCSS CSS in descendants` : node.name
+}
 </script>
 
 <template>
-  <details open>
+  <details class="min-w-0" open>
     <summary
-      cursor-default
-      select-none
-      text-sm
-      truncate
-      p="y1"
+      class="flex min-h-7 cursor-default select-none items-center gap-2 rounded-md px-2 text-sm font-medium hover:bg-gray:8"
+      :title="nodeTitle(node)"
+      :class="{ op40: hasNoGeneratedCssInNode(node) }"
     >
-      <div :class="icon" />
-      {{ node.name }}
+      <span class="icon-catppuccin inline-block h-4 w-4 shrink-0" :class="icon" aria-hidden="true" />
+      <span class="min-w-0 truncate text-sm font-normal">{{ node.name }}</span>
     </summary>
 
-    <ModuleTreeNode v-for="e of Object.entries(node.children)" :key="e[0]" ml4 :node="e[1]" />
-    <div
-      v-for="i of node.items"
-      :key="i.full"
-      ml4
-      ws-nowrap
-    >
+    <div class="ml-3 border-l border-gray:20 pl-3">
+      <ModuleTreeNode v-for="e of Object.entries(node.children)" :key="e[0]" :node="e[1]" />
+    </div>
+    <div class="ml-3 border-l border-gray:20 pl-3">
       <RouterLink
-        block
-        text-sm
-        p="x2 y1"
-        ml1
-        rounded
+        v-for="i of node.items"
+        :key="i.full"
+        class="my-0.5 flex min-h-7 min-w-0 items-center gap-2 rounded-md px-2 text-sm text-inherit no-underline hover:bg-gray:8"
         :to="`/module/${encodeURIComponent(i.full)}`"
-        :class="{ 'bg-active': i.full === route.params.id }"
+        :title="moduleTitle(i.path, i.full)"
+        :class="{ 'bg-active': i.full === route.params.id, 'op40': hasNoGeneratedCss(i.full) }"
       >
         <FileIcon :id="i.path" />
-        <span ml-1>
-          {{ i.path.split('/').pop() }}
-        </span>
-      </Routerlink>
+        <span class="min-w-0 truncate">{{ i.path.split('/').pop() }}</span>
+      </RouterLink>
     </div>
   </details>
 </template>

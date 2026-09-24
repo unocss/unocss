@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { info, overview, overviewFetch } from '../composables/fetch'
+import { ensureOverview, info, overview } from '../composables/fetch'
 import { useCSSPrettify } from '../composables/usePrettify'
 import { useScrollStyle } from '../composables/useScrollStyle'
 import Analyzer from './Analyzer.vue'
@@ -7,7 +7,7 @@ import Analyzer from './Analyzer.vue'
 const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
 
-overviewFetch.execute()
+ensureOverview()
 
 const isPrettify = ref(false)
 const active = ref('source')
