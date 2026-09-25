@@ -13,6 +13,9 @@ export async function attributifyJsxOxcResolver(params: AttributifyResolverParam
     throw new Error(`Oxc parse errors:\n${ast.errors.map(err => err.codeframe ?? err.helpMessage ?? err.message).join(('\n'))}`)
   }
 
+  const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
+  const attributifyPrefix = attributify?.options?.prefix ?? 'un-'
+
   walk(ast.program, {
     enter(node) {
       if (node.type !== 'JSXAttribute')
@@ -26,8 +29,10 @@ export async function attributifyJsxOxcResolver(params: AttributifyResolverParam
         if (isBlocked(attr))
           return
 
+        const updatedAttr = attr.startsWith(attributifyPrefix) ? attr.slice(attributifyPrefix.length) : attr
+
         tasks.push(
-          uno.parseToken(attr).then((matched) => {
+          uno.parseToken(updatedAttr).then((matched) => {
             if (matched) {
               code.appendRight(node.end, '=""')
             }
