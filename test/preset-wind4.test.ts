@@ -1,4 +1,5 @@
-import { createGenerator, escapeSelector } from '@unocss/core'
+import type { VariantHandler } from '@unocss/core'
+import { createGenerator, escapeSelector, symbols } from '@unocss/core'
 import presetWind4 from '@unocss/preset-wind4'
 import { createRemToPxProcessor } from '@unocss/preset-wind4/utils'
 import parserCSS from 'prettier/parser-postcss'
@@ -464,36 +465,421 @@ describe('preset-wind4', () => {
     expect(prettified).toMatchInlineSnapshot(`
       "/* layer: default */
       .has-aria-\\[hidden\\=false\\]\\:in-data-\\[state\\=collapsed\\]\\:b-3 {
-        :where(*[data-state="collapsed"]) & {
-          &:has(*[aria-hidden="false"]) {
+        &:has(*[aria-hidden="false"]) {
+          :where(*[data-state="collapsed"]) & {
             border-width: 3px;
           }
         }
       }
       .peer-aria-checked\\:has-aria-\\[level\\=3\\]\\:b-2 {
-        &:has(*[aria-level="3"]) {
-          &:is(:where(.peer)[aria-checked="true"] ~ *) {
+        &:is(:where(.peer)[aria-checked="true"] ~ *) {
+          &:has(*[aria-level="3"]) {
             border-width: 2px;
           }
         }
       }
       .peer-data-\\[variant\\=inset\\]\\:peer-data-\\[state\\=collapsed\\]\\:b-1 {
-        &:is(:where(.peer)[data-state="collapsed"] ~ *) {
-          &:is(:where(.peer)[data-variant="inset"] ~ *) {
+        &:is(:where(.peer)[data-variant="inset"] ~ *) {
+          &:is(:where(.peer)[data-state="collapsed"] ~ *) {
             border-width: 1px;
           }
         }
       }
-      .md\\:has-aria-\\[hidden\\=false\\]\\:peer-data-\\[dialog\\=open\\]\\:group-data-\\[vv\\=w\\]\\/accordion\\:b-4 {
-        &:is(:where(.group\\/accordion)[data-vv="w"] *) {
-          &:is(:where(.peer)[data-dialog="open"] ~ *) {
-            @media (min-width: 48rem) {
-              &:has(*[aria-hidden="false"]) {
+      @media (min-width: 48rem) {
+        .md\\:has-aria-\\[hidden\\=false\\]\\:peer-data-\\[dialog\\=open\\]\\:group-data-\\[vv\\=w\\]\\/accordion\\:b-4 {
+          &:has(*[aria-hidden="false"]) {
+            &:is(:where(.peer)[data-dialog="open"] ~ *) {
+              &:is(:where(.group\\/accordion)[data-vv="w"] *) {
                 border-width: 4px;
               }
             }
           }
         }
+      }
+      "
+    `)
+  })
+
+  // https://github.com/unocss/unocss/issues/5043
+  // https://github.com/unocss/unocss/issues/4726
+  // https://github.com/unocss/unocss/issues/4962
+  it('applies stacked variants left to right like Tailwind v4', async () => {
+    const uno = await createGenerator({
+      mergeSelectors: false,
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+      rules: [
+        // a rule cloning the handlers of its variants
+        [/^copied$/, () => ({ padding: '1px', [symbols.variants]: (variants: VariantHandler[]) => variants.map(v => ({ ...v })) })],
+        // a rule providing the order of its parent
+        [/^gridp$/, () => ({ padding: '20px', [symbols.parent]: ['@supports (display: grid)', -1] })],
+        // a rule providing the same order as the `md` breakpoint
+        [/^gridp2$/, () => ({ padding: '20px', [symbols.parent]: ['@supports (display: grid)', 3002] })],
+        // a rule replacing the handlers of its variants
+        [/^custom$/, () => ({ color: 'red', [symbols.variants]: () => [{ selector: () => '.target' }] })],
+        // a rule appending a handler
+        [/^icon$/, () => ({ color: 'red', [symbols.variants]: (variants: VariantHandler[]) => [...variants, { selector: (s: string) => `${s} > .icon` }] })],
+        // a rule appending a modified copy of a handler
+        [/^micon$/, () => ({ color: 'red', [symbols.variants]: (variants: VariantHandler[]) => [...variants, { ...variants[0], handle: undefined, selector: (s: string) => `${s} > .icon` }] })],
+        // a rule appending a copy of a handler with a property removed
+        [/^dicon$/, () => ({ color: 'red', [symbols.variants]: (variants: VariantHandler[]) => {
+          const { handle: _, ...rest } = variants[0]
+          return [...variants, { ...rest, selector: (s: string) => `${s} > .icon` }]
+        } })],
+      ],
+      shortcuts: [
+        ['child-pad', '*:p-2'],
+        ['fpad', 'group-focus:p-2'],
+        ['card', 'group-hover:container'],
+        ['copied-pad', '*:copied'],
+        ['sc-target', 'hover:custom'],
+        ['plain', 'icon'],
+        ['strong', '!icon'],
+        ['sc-micon', 'focus:micon'],
+        ['sc-dicon', 'focus:dicon'],
+        ['sc-alias', 'hover:icon'],
+        ['red', 'uno-layer-inner:p-2'],
+      ],
+    })
+
+    const result = await uno.generate([
+      '*:last:p-2',
+      'last:*:p-2',
+      '*:data-[avatar]:rounded-full',
+      'data-[avatar]:*:rounded-full',
+      '[&>*]:hover:p-2',
+      'hover:[&>*]:p-2',
+      'dark:group-hover:opacity-50',
+      'group-hover:dark:opacity-50',
+      'md:starting:opacity-0',
+      'md:outline-hidden',
+      'md:text-red-500',
+      'hover:space-x-4',
+      'hover:child-pad',
+      'group-hover:fpad',
+      'card',
+      'hover:copied-pad',
+      'focus:sc-target',
+      'hover:icon',
+      'hover:plain',
+      'hover:strong',
+      'hover:sc-micon',
+      'hover:sc-dicon',
+      'sc-alias',
+      'uno-layer-outer:red',
+      'md:gridp',
+      'md:lt-lg:gridp2',
+      'p-2',
+      '!-rotate-45',
+      '-rotate-45!',
+      '!outline-hidden',
+      '!text-red-500',
+      '-m-[theme(spacing.sm)]',
+      'sm:p-4',
+      'md:lt-lg:p-2',
+      'contrast-more:p-2',
+      '@dark:contrast-more:p-4',
+      'scope-[.foo]:[&>*]:p-2',
+    ])
+
+    const { css } = result
+    // the written order is the nesting order: leftmost variant is the outermost
+    expect(css).toContain(`.${escapeSelector('*:last:p-2')} > *:last-child{`)
+    expect(css).toContain(`.${escapeSelector('last:*:p-2')}:last-child > *{`)
+    expect(css).toContain(`.${escapeSelector('*:data-[avatar]:rounded-full')} > *[data-avatar]{`)
+    expect(css).toContain(`.${escapeSelector('data-[avatar]:*:rounded-full')}[data-avatar] > *{`)
+    expect(css).toContain(`.${escapeSelector('[&>*]:hover:p-2')}>*:hover{`)
+    expect(css).toContain(`.${escapeSelector('hover:[&>*]:p-2')}:hover>*{`)
+    // the scope placeholder survives the replacement of `&`
+    expect(css).toContain(`.foo .${escapeSelector('scope-[.foo]:[&>*]:p-2')}>*{`)
+    // prefix variants keep the written ancestor order
+    expect(css).toContain(`.dark .group:hover .${escapeSelector('dark:group-hover:opacity-50')}{`)
+    expect(css).toContain(`.group:hover .dark .${escapeSelector('group-hover:dark:opacity-50')}{`)
+    // at-rules nest in the written order, the parents set by the rules stay outermost
+    expect(css).toContain('@media (min-width: 48rem){@starting-style{')
+    expect(css).toContain('@media (forced-colors: active){@media (min-width: 48rem){')
+    expect(css).toContain('@supports (color: color-mix(in lab, red, red)){@media (min-width: 48rem){')
+    // variants of a shortcut wrap the variants of its utilities
+    expect(css).toContain(`.${escapeSelector('hover:child-pad')}:hover > *{`)
+    expect(css).toContain(`.group:hover:focus .${escapeSelector('group-hover:fpad')}{`)
+    // the `container` rule probes the handlers with an empty context
+    expect(css).toContain('.group:hover .card{')
+    // handlers cloned by a rule keep being the variants of the utility
+    expect(css).toContain(`.${escapeSelector('hover:copied-pad')}:hover > *{`)
+    // handlers replacing or appended to the ones of the utility are injected by the rule
+    expect(css).toContain(`.target:focus{`)
+    expect(css).toContain(`.${escapeSelector('hover:icon')}:hover > .icon{`)
+    expect(css).toContain(`.${escapeSelector('hover:plain')} > .icon:hover{`)
+    expect(css).toContain(`.${escapeSelector('hover:strong')} > .icon:hover{`)
+    expect(css).toContain(`.${escapeSelector('hover:sc-micon')} > .icon:hover:focus{`)
+    expect(css).toContain(`.${escapeSelector('hover:sc-dicon')} > .icon:hover:focus{`)
+    // a shortcut without variants keeps the order of the utility
+    expect(css).toContain('.sc-alias:hover > .icon{')
+    // the leftmost variant decides the layer
+    expect(result.getLayer('outer')).toContain(`.${escapeSelector('uno-layer-outer:red')}{`)
+    // the `parentOrder` provided by a rule is a default, the breakpoint decides
+    expect(css.indexOf('.p-2{')).toBeLessThan(css.indexOf(`.${escapeSelector('md:gridp')}{`))
+    expect(css.indexOf('@media (min-width: 40rem){')).toBeLessThan(css.indexOf(`.${escapeSelector('md:lt-lg:gridp2')}{`))
+    // body transforms keep their pipeline: theme() before negative before important
+    expect(css).toContain(`.${escapeSelector('!-rotate-45')}{rotate:-45deg !important;}`)
+    expect(css).toContain(`.${escapeSelector('-rotate-45!')}{rotate:-45deg !important;}`)
+    expect(css).toContain(`.${escapeSelector('-m-[theme(spacing.sm)]')}{margin:-0.875rem;}`)
+    expect(css).toContain('outline:2px solid transparent !important')
+    expect(css).not.toContain(' !important){')
+    // the leftmost breakpoint decides the position of the block: the `md`..`lg` range comes after `sm`
+    expect(css.indexOf('@media (min-width: 40rem){')).toBeLessThan(css.indexOf('@media (min-width: 48rem){@media (max-width: calc(64rem - 0.1px)){'))
+    // blocks with more conditions come after the ones with fewer, so `@dark:contrast-more:` wins over `contrast-more:`
+    expect(css.indexOf(`.${escapeSelector('contrast-more:p-2')}{`)).toBeLessThan(css.indexOf(`.${escapeSelector('@dark:contrast-more:p-4')}{`))
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or
+        ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+        *,
+        ::before,
+        ::after,
+        ::backdrop {
+          --un-space-x-reverse: initial;
+          --un-text-opacity: 100%;
+        }
+      }
+      @property --un-text-opacity {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 100%;
+      }
+      @property --un-space-x-reverse {
+        syntax: "*";
+        inherits: false;
+        initial-value: 0;
+      }
+      /* layer: theme */
+      :root,
+      :host {
+        --spacing: 0.25rem;
+        --colors-red-500: oklch(63.7% 0.237 25.331);
+      }
+      /* layer: shortcuts */
+      .hover\\:child-pad:hover > * {
+        padding: calc(var(--spacing) * 2);
+      }
+      .group:hover:focus .group-hover\\:fpad {
+        padding: calc(var(--spacing) * 2);
+      }
+      .hover\\:copied-pad:hover > * {
+        padding: 1px;
+      }
+      .target:focus {
+        color: red;
+      }
+      .hover\\:plain > .icon:hover {
+        color: red;
+      }
+      .sc-alias:hover > .icon {
+        color: red;
+      }
+      .hover\\:strong > .icon:hover {
+        color: red !important;
+      }
+      .hover\\:sc-micon > .icon:hover:focus {
+        color: red;
+      }
+      .hover\\:sc-dicon > .icon:hover:focus {
+        color: red;
+      }
+      @media (min-width: 40rem) {
+        .group:hover .card {
+          max-width: 40rem;
+        }
+      }
+      @media (min-width: 48rem) {
+        .group:hover .card {
+          max-width: 48rem;
+        }
+      }
+      @media (min-width: 64rem) {
+        .group:hover .card {
+          max-width: 64rem;
+        }
+      }
+      @media (min-width: 80rem) {
+        .group:hover .card {
+          max-width: 80rem;
+        }
+      }
+      @media (min-width: 96rem) {
+        .group:hover .card {
+          max-width: 96rem;
+        }
+      }
+      /* layer: default */
+      .\\!text-red-500 {
+        color: color-mix(
+          in srgb,
+          var(--colors-red-500) var(--un-text-opacity),
+          transparent
+        ) !important;
+      }
+      .-m-\\[theme\\(spacing\\.sm\\)\\] {
+        margin: -0.875rem;
+      }
+      .foo .scope-\\[\\.foo\\]\\:\\[\\&\\>\\*\\]\\:p-2 > * {
+        padding: calc(var(--spacing) * 2);
+      }
+      .p-2 {
+        padding: calc(var(--spacing) * 2);
+      }
+      .\\[\\&\\>\\*\\]\\:hover\\:p-2 > *:hover {
+        padding: calc(var(--spacing) * 2);
+      }
+      .hover\\:\\[\\&\\>\\*\\]\\:p-2:hover > * {
+        padding: calc(var(--spacing) * 2);
+      }
+      .\\*\\:last\\:p-2 > *:last-child {
+        padding: calc(var(--spacing) * 2);
+      }
+      .last\\:\\*\\:p-2:last-child > * {
+        padding: calc(var(--spacing) * 2);
+      }
+      .\\!outline-hidden {
+        outline-style: none !important;
+      }
+      .\\*\\:data-\\[avatar\\]\\:rounded-full > *[data-avatar] {
+        border-radius: calc(infinity * 1px);
+      }
+      .data-\\[avatar\\]\\:\\*\\:rounded-full[data-avatar] > * {
+        border-radius: calc(infinity * 1px);
+      }
+      .dark .group:hover .dark\\:group-hover\\:opacity-50 {
+        opacity: 50%;
+      }
+      .group:hover .dark .group-hover\\:dark\\:opacity-50 {
+        opacity: 50%;
+      }
+      .-rotate-45\\! {
+        rotate: -45deg !important;
+      }
+      .\\!-rotate-45 {
+        rotate: -45deg !important;
+      }
+      .hover\\:icon:hover > .icon {
+        color: red;
+      }
+      .hover\\:space-x-4:hover {
+        :where(& > :not(:last-child)) {
+          --un-space-x-reverse: 0;
+          margin-inline-start: calc(
+            calc(var(--spacing) * 4) * var(--un-space-x-reverse)
+          );
+          margin-inline-end: calc(
+            calc(var(--spacing) * 4) * calc(1 - var(--un-space-x-reverse))
+          );
+        }
+      }
+      @media (forced-colors: active) {
+        .\\!outline-hidden {
+          outline: 2px solid transparent !important;
+          outline-offset: 2px !important;
+        }
+      }
+      @media (prefers-contrast: more) {
+        .contrast-more\\:p-2 {
+          padding: calc(var(--spacing) * 2);
+        }
+      }
+      @supports (color: color-mix(in lab, red, red)) {
+        .\\!text-red-500 {
+          color: color-mix(
+            in oklab,
+            var(--colors-red-500) var(--un-text-opacity),
+            transparent
+          ) !important;
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        @media (prefers-contrast: more) {
+          .\\@dark\\:contrast-more\\:p-4 {
+            padding: calc(var(--spacing) * 4);
+          }
+        }
+      }
+      @media (min-width: 40rem) {
+        .sm\\:p-4 {
+          padding: calc(var(--spacing) * 4);
+        }
+      }
+      @media (min-width: 48rem) {
+        .md\\:text-red-500 {
+          color: color-mix(
+            in srgb,
+            var(--colors-red-500) var(--un-text-opacity),
+            transparent
+          );
+        }
+        .md\\:outline-hidden {
+          outline-style: none;
+        }
+      }
+      @media (forced-colors: active) {
+        @media (min-width: 48rem) {
+          .md\\:outline-hidden {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+          }
+        }
+      }
+      @media (min-width: 48rem) {
+        @media (max-width: calc(64rem - 0.1px)) {
+          .md\\:lt-lg\\:p-2 {
+            padding: calc(var(--spacing) * 2);
+          }
+        }
+      }
+      @media (min-width: 48rem) {
+        @starting-style {
+          .md\\:starting\\:opacity-0 {
+            opacity: 0%;
+          }
+        }
+      }
+      @supports (color: color-mix(in lab, red, red)) {
+        @media (min-width: 48rem) {
+          .md\\:text-red-500 {
+            color: color-mix(
+              in oklab,
+              var(--colors-red-500) var(--un-text-opacity),
+              transparent
+            );
+          }
+        }
+      }
+      @supports (display: grid) {
+        @media (min-width: 48rem) {
+          .md\\:gridp {
+            padding: 20px;
+          }
+        }
+      }
+      @supports (display: grid) {
+        @media (min-width: 48rem) {
+          @media (max-width: calc(64rem - 0.1px)) {
+            .md\\:lt-lg\\:gridp2 {
+              padding: 20px;
+            }
+          }
+        }
+      }
+      /* layer: outer */
+      .uno-layer-outer\\:red {
+        padding: calc(var(--spacing) * 2);
       }
       "
     `)

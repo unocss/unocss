@@ -11,7 +11,7 @@ export const variantStartingStyle: Variant<Theme> = {
       matcher: matcher.slice(9),
       handle: (input, next) => next({
         ...input,
-        parent: `@starting-style`,
+        parent: input.parent ? `${input.parent} $$ @starting-style` : '@starting-style',
       }),
     }
   },

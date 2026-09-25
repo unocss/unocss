@@ -37,6 +37,7 @@ export interface CliOptions {
 export interface ConfigBase<Theme extends object = object> {
   rules?: Rule<Theme>[];
   separators?: Arrayable<string>;
+  variantApplyOrder?: 'right-to-left' | 'left-to-right';
   variants?: Variant<Theme>[];
   shortcuts?: UserShortcuts<Theme>;
   blocklist?: BlocklistRule[];
@@ -180,7 +181,7 @@ export interface Replacement {
   end: number;
   replacement: string;
 }
-export interface ResolvedConfig<Theme extends object = object> extends Omit<RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>, 'rules' | 'shortcuts' | 'autocomplete' | 'presets'> {
+export interface ResolvedConfig<Theme extends object = object> extends Omit<RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'variantApplyOrder'>, 'rules' | 'shortcuts' | 'autocomplete' | 'presets'> {
   presets: Preset<Theme>[];
   shortcuts: Shortcut<Theme>[];
   variants: VariantObject<Theme>[];
@@ -324,6 +325,7 @@ export interface VariantHandlerContext {
   layer?: string;
   sort?: number;
   noMerge?: boolean;
+  application?: object;
 }
 export interface VariantObject<Theme extends object = object> {
   name?: string;
