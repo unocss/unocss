@@ -1,6 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import { resolve } from 'pathe'
 import { LAYER_MARK_ALL, VIRTUAL_ENTRY_ALIAS } from './constants'
+import { getPath } from './utils'
 
 export async function resolveId(ctx: UnocssPluginContext, id: string, importer?: string) {
   const { RESOLVED_ID_WITH_QUERY_RE, prefix } = await ctx.getVMPRegexes()
@@ -27,7 +28,8 @@ export async function resolveId(ctx: UnocssPluginContext, id: string, importer?:
 
 export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
   const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
-  const match = id.match(RESOLVED_ID_RE)
+  // Query strings like `?inline` are not part of RESOLVED_ID_RE (#4884)
+  const match = getPath(id).match(RESOLVED_ID_RE)
   if (match) {
     return match[1] || LAYER_MARK_ALL
   }
