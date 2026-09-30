@@ -61,22 +61,25 @@ const formatted = useCSSPrettify(computed(() => {
         </div>
         <div overflow="auto">
           <div text-blue op80>
-            Rules
+            Rules & Variants
           </div>
           {{ info?.config?.rulesDynamic?.length }} <span op50>dynamic</span><br>
-          {{ Object.keys(info?.config?.rulesStaticMap || {}).length }} <span op50>static</span>
+          {{ Object.keys(info?.config?.rulesStaticMap || {}).length }} <span op50>static</span><br>
+          {{ info?.config?.variants?.length }} <span op50>variants</span><br>
+          {{ info?.config.shortcuts.length }} <span op50>shortcuts</span>
         </div>
         <div>
-          <div text-fuchsia op80>
-            Variants
+          <div text-rose op80>
+            Layers
           </div>
-          {{ info?.config?.variants?.length }}
-        </div>
-        <div>
-          <div text-emerald op80>
-            Shortcuts
+          <div class="context-rose" op50 flex flex-col>
+            <CheckBox
+              v-for="_layer in overview?.layers"
+              :key="_layer.name"
+              v-model="selectedLayers"
+              :value="_layer.name"
+            />
           </div>
-          {{ info?.config.shortcuts.length }}
         </div>
         <div v-if="info?.configPath">
           <div text-lime op80>
@@ -84,12 +87,19 @@ const formatted = useCSSPrettify(computed(() => {
           </div>
           <ModuleId :id="info.configPath" />
         </div>
-        <div>
+        <div v-if="info?.version">
           <div text-orange op80>
             Version
           </div>
           <div op50 ws-pre>
-            {{ info?.version }}
+            <a
+              :href="`https://npmx.dev/package/unocss/v/${info.version}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              hover:text-orange
+            >
+              {{ info?.version }}
+            </a>
           </div>
         </div>
       </div>
@@ -111,19 +121,6 @@ const formatted = useCSSPrettify(computed(() => {
             Matched Rules
           </div>
           {{ overview?.matched.length }}
-        </div>
-        <div>
-          <div text-rose op80>
-            Layers
-          </div>
-          <div class="context-rose" op50 flex flex-col>
-            <CheckBox
-              v-for="_layer in overview?.layers"
-              :key="_layer.name"
-              v-model="selectedLayers"
-              :value="_layer.name"
-            />
-          </div>
         </div>
       </div>
       <OverviewTabs v-model="active" />
