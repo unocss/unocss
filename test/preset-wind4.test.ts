@@ -542,6 +542,39 @@ describe('preset-wind4', () => {
     expect(css).not.toContain('.dark\\:space-y-4{@media')
   })
 
+  it('in-* resolves pseudo-class names against the ancestor', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('in-focus:block in-odd:block in-open:block in-div:block in-[.card]:block', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .in-\\[\\.card\\]\\:block{
+      :where(*:is(.card)) &{display:block;}
+      }
+      .in-div\\:block{
+      :where(*:is(div)) &{display:block;}
+      }
+      .in-focus\\:block{
+      :where(*:is(:focus)) &{display:block;}
+      }
+      .in-odd\\:block{
+      :where(*:is(:nth-child(odd))) &{display:block;}
+      }
+      .in-open\\:block{
+      :where(*:is(:is([open],:popover-open,:open))) &{display:block;}
+      }"
+    `)
+
+    const { css: skipped } = await uno.generate('in-before:block in-nth:block', { preflights: false })
+    expect(skipped).toContain(':where(*:is(before)) &')
+    expect(skipped).toContain(':where(*:is(nth)) &')
+  })
+
   it('h-screen-* uses verticalBreakpoint', async () => {
     const uno = await createGenerator({
       presets: [
