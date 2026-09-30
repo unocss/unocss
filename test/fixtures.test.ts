@@ -94,7 +94,7 @@ describe.concurrent('fixtures', () => {
 
     const require = createRequire(join(root, 'package.json'))
     const astroCli = resolve(dirname(require.resolve('astro')), '../../astro.js')
-    await execFileAsync(process.execPath, [astroCli, 'build'], {
+    await execFileAsync(process.execPath, [astroCli, 'build', '--root', root], {
       cwd: root,
       env: {
         ...process.env,
