@@ -40,5 +40,5 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <span class="icon-catppuccin" :class="icon" aria-hidden="true" />
+  <span class="icon-catppuccin inline-block h-4 w-4 shrink-0" :class="icon" aria-hidden="true" />
 </template>

@@ -55,6 +55,7 @@ const computedInputHTML = computed({
       :matched="output?.matched || new Set()"
       :annotations="annotations"
       :get-hint="getHint"
+      :get-css="getGeneratedCss"
       :read-only="options.transformHtml"
     />
   </Pane>

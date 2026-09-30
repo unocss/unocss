@@ -33,7 +33,7 @@ function openEditor(id: string) {
       >
         <i v-if="item.category === 'icons'" :class="[item.baseSelector, item.name]" />
         <span v-else>
-          {{ name }}
+          <InlineText :text="name" :title="name" class="max-w-64 align-bottom" />
         </span>
       </span>
       <sup text-xs ml-0.5>{{ item.count }}</sup>
@@ -63,7 +63,7 @@ function openEditor(id: string) {
             v-for="([aName, aCount]) of Object.entries(item.alias)" :key="aName"
             font-mono op50
           >
-            <span>{{ aName }}</span>
+            <InlineText :text="aName" :title="aName" class="max-w-64" />
             <sup text-xs ml-0.5>{{ aCount }}</sup>
           </span>
         </div>
