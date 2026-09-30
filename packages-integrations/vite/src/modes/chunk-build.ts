@@ -1,18 +1,13 @@
 import type { UnocssPluginContext } from '@unocss/core'
-import type { Plugin, Rollup } from 'vite'
+import type { Plugin } from 'vite'
 
 export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
-  let cssPlugin: Plugin | undefined
-
   const files: Record<string, string> = {}
 
   return {
     name: 'unocss:chunk',
     apply: 'build',
     enforce: 'pre',
-    configResolved(config) {
-      cssPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
-    },
     async transform(code, id) {
       await ctx.ready
       if (!ctx.filter(code, id))
@@ -31,26 +26,17 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
 
       const tokens = new Set<string>()
       await Promise.all(chunks.map(c => ctx.uno.applyExtractors(c, undefined, tokens)))
-      const { css } = await ctx.uno.generate(tokens)
+      const { css } = await ctx.uno.generate(tokens, { minify: true })
 
-      const cssPostTransformHandler = 'handler' in cssPlugin!.transform!
-        ? cssPlugin!.transform.handler
-        : cssPlugin!.transform!
-
-      // fool the css plugin to generate the css in corresponding chunk
-      const fakeCssId = `${chunk.fileName}.css`
-      await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, fakeCssId)
-      chunk.modules[fakeCssId] = {
-        code: null,
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-ignore does not exist in rolldown
-        originalLength: 0,
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-ignore does not exist in rolldown
-        removedExports: [],
-        renderedExports: [],
-        renderedLength: 0,
-      }
+      // Emit the CSS as an asset and register it on the chunk's metadata.
+      // `chunk.modules` is a read-only getter under rolldown-vite (#4403), so we
+      // must not mutate it. Vite injects `chunk.viteMetadata` before render hooks.
+      const referenceId = this.emitFile({
+        type: 'asset',
+        name: `${chunk.name || 'unocss'}.css`,
+        source: css,
+      })
+      chunk.viteMetadata!.importedCss.add(this.getFileName(referenceId))
 
       return null
     },
