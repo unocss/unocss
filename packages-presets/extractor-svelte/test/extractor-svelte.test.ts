@@ -69,6 +69,37 @@ it('extractorSvelte generates CSS for static unquoted classes', async () => {
   expect(unquoted.css).toBe(quoted.css)
 })
 
+it.each([
+  '<UI.Button class=test-unquoted />',
+  '<UI.Forms.Button class=test-unquoted />',
+  String.raw`<div id={(/\{/).test(id)} class=test-unquoted />`,
+  '<div id={/[{}]/.test(id)} class=test-unquoted />',
+  '<div id={/[/{]/.test(id)} class=test-unquoted />',
+  String.raw`<div id={/\/{/.test(id)} class=test-unquoted />`,
+  '<div id={/* { */ id} class=test-unquoted />',
+  '<div id={/* } */ id} class=test-unquoted />',
+  '<div id={id // { }\n} class=test-unquoted />',
+  String.raw`<div id={() => { return /\{/.test(id) }} class=test-unquoted />`,
+  '<div id={total / count} class=test-unquoted />',
+  '<div id={(total / count) / scale} class=test-unquoted />',
+  '<div id={total /* { */ / count} class=test-unquoted />',
+  '<div id={total++ / count} class=test-unquoted />',
+  '<div id={object. /* { */ return / count} class=test-unquoted />',
+])('extractorSvelte continues extracting after component names and expressions: %s', async (code) => {
+  const uno = await createGenerator({
+    extractors: [extractorSvelte()],
+    rules: [
+      ['test-unquoted', { display: 'block' }],
+      ['test-following', { display: 'flex' }],
+    ],
+  })
+  const result = await uno.generate(`${code}<span class=test-following />`, { id: 'file.svelte' })
+  expect(result.matched).toContain('test-unquoted')
+  expect(result.matched).toContain('test-following')
+  expect(result.css).toContain('display:block')
+  expect(result.css).toContain('display:flex')
+})
+
 it('extractorSvelte uses regular split with non .svelte files', async () => {
   const uno = await createGenerator({
     extractors: [
