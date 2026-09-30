@@ -9,6 +9,8 @@ import { normalizePath } from 'vite'
 
 const UNO_INJECT_ID = 'uno-astro'
 const WIND3_RESET_CSS = '@unocss/reset/tailwind.css'
+const PAGE_SSR_ID = 'astro:scripts/page-ssr.js'
+const PAGE_SSR_CHUNK = 'unocss-astro-page-ssr'
 
 /**
  * When presetWind4 is detected in the resolved config, remove the Wind 3 reset
@@ -65,6 +67,37 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
     load(id) {
       if (id.endsWith(UNO_INJECT_ID))
         return injects.join('\n')
+    },
+  }
+}
+
+function AstroPageSSRChunkPlugin(): Plugin {
+  return {
+    name: 'unocss:astro-page-ssr-chunk',
+    apply: 'build',
+    enforce: 'post',
+    outputOptions(outputOptions) {
+      const { manualChunks } = outputOptions
+      if (typeof manualChunks === 'function') {
+        outputOptions.manualChunks = function (...args) {
+          if (args[0] === PAGE_SSR_ID)
+            return PAGE_SSR_CHUNK
+          return manualChunks.apply(this, args)
+        }
+      }
+      else {
+        const chunks = Object.fromEntries(
+          Object.entries(manualChunks ?? {}).map(([name, ids]) => [
+            name,
+            ids.filter(id => id !== PAGE_SSR_ID),
+          ]),
+        )
+        let chunkName = PAGE_SSR_CHUNK
+        for (let index = 1; Object.hasOwn(chunks, chunkName); index++)
+          chunkName = `${PAGE_SSR_CHUNK}-${index}`
+        chunks[chunkName] = [PAGE_SSR_ID]
+        outputOptions.manualChunks = chunks
+      }
     },
   }
 }
@@ -137,6 +170,7 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
                 injects,
               }) as any,
               ...VitePlugin(options, defaults),
+              ...(options.mode === 'dist-chunk' && injects.length > 0 ? [AstroPageSSRChunkPlugin()] : []),
             ],
           },
         })
