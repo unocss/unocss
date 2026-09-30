@@ -11,8 +11,8 @@ function hasNodes(node: TreeNode) {
 </script>
 
 <template>
-  <div h-full border="r main">
-    <div of-hidden>
+  <div class="flex h-full min-h-0 flex-col" border="r main">
+    <div class="flex-none" of-hidden>
       <NarBar />
       <div
         pt="4"
@@ -33,25 +33,23 @@ function hasNodes(node: TreeNode) {
         <div border="b main" />
       </div>
     </div>
-    <div class="scrolls scrolls-sidebar">
-      <ModuleTreeNode
-        v-if="hasNodes(moduleTree.workspace)"
-        :node="moduleTree.workspace"
-        p="x3 y4"
-        icon="i-catppuccin-folder-src"
-      />
-      <ModuleTreeNode
-        v-if="hasNodes(moduleTree.root)"
-        :node="moduleTree.root"
-        p="x3 y4"
-        icon="i-catppuccin-folder-open"
-      />
-      <ModuleTreeNode
-        v-if="hasNodes(moduleTree.nodeModules)"
-        :node="moduleTree.nodeModules"
-        p="x3 y4"
-        icon="i-catppuccin-folder-node"
-      />
+    <div class="sidebar-tree min-h-0 flex-1 overflow-y-auto">
+      <div v-if="hasNodes(moduleTree.workspace)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.workspace" icon="i-catppuccin-folder-src" />
+      </div>
+      <div v-if="hasNodes(moduleTree.root)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.root" icon="i-catppuccin-folder-open" />
+      </div>
+      <div v-if="hasNodes(moduleTree.nodeModules)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.nodeModules" icon="i-catppuccin-folder-node" />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.sidebar-tree {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
+}
+</style>

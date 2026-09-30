@@ -143,7 +143,7 @@ const grouped = computed(() => mergedSelectors
       </div>
 
       <FlowLayout v-if="grouped.length" :cols="2" :gap="16">
-        <div v-for="(group, key) in grouped" :key="key" p-4 bg-active>
+        <div v-for="(group, key) in grouped" :key="key" p-4 bg-active rd-sm>
           <div text-sm pb-4>
             <span capitalize>{{ group.name }}</span><sup op50 ml-1>{{ group.count }}</sup>
           </div>

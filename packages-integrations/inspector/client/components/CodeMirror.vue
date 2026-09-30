@@ -167,9 +167,6 @@ html.dark {
   scrollbar-width: thin;
   scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
 }
-.scrolls-sidebar {
-  height: calc(100vh - 25px - 1.5rem - 65px - 1rem - 2px) !important;
-}
 .overview-scrolls .cm-scroller {
   --use-overview-scrolls: var(--overview-scrolls, calc(100vh - 116px - 1rem - 61px - 1rem - 2px));
   height: var(--use-overview-scrolls) !important;
