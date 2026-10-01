@@ -79,13 +79,13 @@ catalogs:
     '@codemirror/lang-javascript': ^6.2.5
     '@codemirror/lang-xml': ^6.1.0
     '@oxc-parser/binding-wasm32-wasi': ^0.150.0
-    '@shikijs/markdown-it': ^4.4.3
-    '@shikijs/vitepress-twoslash': ^4.4.3
+    '@shikijs/markdown-it': ^4.5.0
+    '@shikijs/vitepress-twoslash': ^4.5.0
     codemirror: ^6.0.1
     codemirror-theme-vars: ^0.1.2
     markdown-it-link-attributes: ^4.0.1
     pug: ^3.0.4
-    shiki: ^4.4.3
+    shiki: ^4.5.0
     theme-vitesse: ^1.0.0
     vitepress: ^2.0.0-alpha.20
     vitepress-plugin-group-icons: ^1.7.6
@@ -165,7 +165,7 @@ catalogs:
     lint-staged: ^17.5.1
     local-pkg: ^1.2.1
     lru-cache: ^11.5.2
-    lz-string: ^1.5.0
+    lz-string-es: ^1.0.0
     magic-string: ^1.4.1
     ofetch: ^1.5.1
     p-limit: ^7.3.2
