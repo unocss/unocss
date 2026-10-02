@@ -291,6 +291,15 @@ export const presetWind4Targets: string[] = [
   'line-clamp-unset',
 
   // scrolls
+  'scrollbar-auto',
+  'scrollbar-thin',
+  'scrollbar-none',
+  'scrollbar-thumb-red-500',
+  'scrollbar-thumb-red-500/50',
+  'scrollbar-thumb-op-50',
+  'scrollbar-track-[#0088cc]',
+  'scrollbar-track-transparent',
+  'scrollbar-track-opacity-30',
   'snap-y',
   'snap-both',
   'snap-mandatory',

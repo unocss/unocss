@@ -1,8 +1,27 @@
-import type { Rule, StaticRule } from '@unocss/core'
+import type { CSSObject, Rule, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, directionSize } from '../utils'
+import { colorResolver, defineProperty, directionSize, h } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
+  ['scrollbar-auto', { 'scrollbar-width': 'auto' }],
+  ['scrollbar-thin', { 'scrollbar-width': 'thin' }],
+  ['scrollbar-none', { 'scrollbar-width': 'none' }],
+
+  [/^scrollbar-(thumb|track)-(.+)$/, function* ([, part, body], ctx) {
+    const result = colorResolver(`--un-scrollbar-${part}`, `scrollbar-${part}`)(['', body], ctx)
+    if (result) {
+      const [css, ...rest] = result
+      yield {
+        ...css as CSSObject,
+        'scrollbar-color': 'var(--un-scrollbar-thumb) var(--un-scrollbar-track)',
+      }
+      yield* rest
+      yield defineProperty('--un-scrollbar-thumb', { syntax: '<color>', initialValue: '#0000' })
+      yield defineProperty('--un-scrollbar-track', { syntax: '<color>', initialValue: '#0000' })
+    }
+  }, { autocomplete: 'scrollbar-(thumb|track)-$colors' }],
+  [/^scrollbar-(thumb|track)-op(?:acity)?-?(.+)$/, ([, part, opacity], { theme }) => ({ [`--un-scrollbar-${part}-opacity`]: h.bracket.percent(opacity, theme) }), { autocomplete: ['scrollbar-(thumb|track)-(op|opacity)', 'scrollbar-(thumb|track)-(op|opacity)-<percent>'] }],
+
   ['scrollbar-gutter-auto', { 'scrollbar-gutter': 'auto' }],
   ['scrollbar-gutter-stable', { 'scrollbar-gutter': 'stable' }],
   ['scrollbar-gutter-both', { 'scrollbar-gutter': 'stable both-edges' }],
