@@ -528,6 +528,17 @@ Recommends:
 
 Preset used [`ofetch`](https://github.com/unjs/ofetch) as the default fetcher, you can also custom fetch function to provide the icon data.
 
+### dedupe
+
+- Type: `boolean`
+- Default: `false`
+
+Extract repeated mask declarations into one selector per icon collection used during generation. This can reduce repeated CSS without adding a shared class to your markup. It requires preflight output to be enabled and is disabled when `processor` is configured.
+
+:::warning
+This option is experimental and may change in a future release.
+:::
+
 ### processor
 
 - Type: `(cssObject: CSSObject, meta: Required<IconMeta>) => void`

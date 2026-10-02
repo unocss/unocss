@@ -12,6 +12,23 @@ import icons from './collections'
 const COLLECTION_NAME_PARTS_MAX = 3
 const numberWithUnitRE = /^(-?\d*(?:\.\d+)?)(px|pt|pc|%|r?(?:em|ex|lh|cap|ch|ic)|(?:[sld]?v|cq)(?:[whib]|min|max)|in|cm|mm|rpx)?$/i
 
+function escapeCSSString(value: string) {
+  return value.replace(/[\0-\x1F\x7F"\\]/g, char => `\\${char.codePointAt(0)!.toString(16)} `)
+}
+
+function getCollectionSelectors(collection: string, prefixes: string[]) {
+  const selectors = new Set<string>()
+  for (const prefix of prefixes) {
+    for (const separator of ['-', ':']) {
+      const start = escapeCSSString(`${prefix}${collection}${separator}`)
+      selectors.add(`[class^="${start}"]`)
+      selectors.add(`[class*=" ${start}"]`)
+      selectors.add(`[class*=":${start}"]`)
+    }
+  }
+  return [...selectors].join(',')
+}
+
 export { IconsOptions }
 export { icons }
 
@@ -43,9 +60,13 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       layer = 'icons',
       unit,
       processor,
+      dedupe = false,
     } = options
 
     const flags = getEnvFlags()
+    // Preflight CSS is generated after token rules resolve, so collect only the
+    // collections that actually produced mask icons during this generation.
+    const sharedMaskCollections = new Set<string>()
 
     const loaderOptions: IconifyLoaderOptions = {
       addXmlNs: true,
@@ -79,6 +100,24 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
       enforce: 'pre',
       options,
       layers: { icons: -30 },
+      preflights: dedupe && !processor
+        ? [{
+            layer,
+            getCSS() {
+              if (sharedMaskCollections.size === 0)
+                return
+
+              // Match both supported icon syntaxes, class-list boundaries, and
+              // variant-prefixed classes without requiring an extra HTML class.
+              const selectors = [...sharedMaskCollections]
+                .map(collection => getCollectionSelectors(collection, Array.isArray(prefix) ? prefix : [prefix]))
+                .join(',')
+              sharedMaskCollections.clear()
+
+              return `:where(${selectors}){-webkit-mask:var(--un-icon) no-repeat;mask:var(--un-icon) no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;background-color:currentColor;color:inherit}`
+            },
+          }]
+        : undefined,
       api: <IconsAPI>{
         encodeSvgForCss,
         parseIconWithLoader,
@@ -123,18 +162,27 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
             // Thanks to https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images
             cssObject = {
               '--un-icon': url,
-              '-webkit-mask': 'var(--un-icon) no-repeat',
-              'mask': 'var(--un-icon) no-repeat',
-              '-webkit-mask-size': '100% 100%',
-              'mask-size': '100% 100%',
-              'background-color': 'currentColor',
-              // for Safari https://github.com/elk-zone/elk/pull/264
-              'color': 'inherit',
+              ...(!dedupe || processor
+                ? {
+                    '-webkit-mask': 'var(--un-icon) no-repeat',
+                    'mask': 'var(--un-icon) no-repeat',
+                    '-webkit-mask-size': '100% 100%',
+                    'mask-size': '100% 100%',
+                    'background-color': 'currentColor',
+                    // for Safari https://github.com/elk-zone/elk/pull/264
+                    'color': 'inherit',
+                  }
+                : {}),
               ...usedProps,
             }
+            if (dedupe && !processor)
+              sharedMaskCollections.add(parsed.collection)
           }
           else {
             cssObject = {
+              // Mask declarations are shared by collection. Reset the inherited
+              // private variable so a background icon cannot acquire an ancestor's mask.
+              ...(dedupe && !processor ? { '--un-icon': 'initial' } : {}),
               'background': `${url} no-repeat`,
               'background-size': '100% 100%',
               'background-color': 'transparent',
