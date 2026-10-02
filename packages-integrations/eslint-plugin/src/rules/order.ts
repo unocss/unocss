@@ -179,6 +179,86 @@ export default createRule({
       })
     }
 
+    function checkFunctionReturn(fn: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression): void {
+      if (fn.body.type !== 'BlockStatement') {
+        checkClassValue(fn.body)
+        return
+      }
+
+      for (const statement of fn.body.body) {
+        if (statement.type === 'ReturnStatement' && statement.argument)
+          checkClassValue(statement.argument)
+      }
+    }
+
+    function checkClassValue(node: TSESTree.Node, checkObjectKeys = false): void {
+      if (node.type === 'TSAsExpression' || node.type === 'TSSatisfiesExpression') {
+        checkClassValue(node.expression, checkObjectKeys)
+        return
+      }
+
+      if (isPossibleLiteral(node)) {
+        checkPossibleLiteral(node as TSESTree.Expression)
+        return
+      }
+
+      if (node.type === 'ObjectExpression') {
+        handleObjectExpression(node, checkObjectKeys)
+        return
+      }
+
+      if (node.type === 'ArrowFunctionExpression' || node.type === 'FunctionExpression') {
+        checkFunctionReturn(node)
+      }
+    }
+
+    function handleObjectExpression(node: TSESTree.ObjectExpression, checkKeys = false): void {
+      node.properties.forEach((p) => {
+        if (p.type !== 'Property')
+          return
+
+        checkClassValue(p.value, checkKeys)
+      })
+
+      if (checkKeys) {
+        const keys = node.properties.filter(p => p.type === 'Property').map(p => p.key)
+        checkPossibleLiteral(...keys)
+      }
+    }
+
+    function visitCallArguments(node: TSESTree.CallExpression, checkObjectKeys = false) {
+      node.arguments.forEach((arg) => {
+        if (arg.type === 'SpreadElement')
+          return
+
+        if (isPossibleLiteral(arg)) {
+          return checkPossibleLiteral(arg)
+        }
+
+        // true ? 'block' : 'none',
+        if (arg.type === 'ConditionalExpression') {
+          return checkPossibleLiteral(arg.consequent, arg.alternate)
+        }
+
+        // true && 'block',
+        if (arg.type === 'LogicalExpression') {
+          return checkPossibleLiteral(arg.left, arg.right)
+        }
+
+        if (arg.type === 'ObjectExpression') {
+          return handleObjectExpression(arg, checkObjectKeys)
+        }
+
+        if (arg.type === 'ArrayExpression') {
+          return arg.elements.forEach((element) => {
+            if (element && isPossibleLiteral(element)) {
+              return checkPossibleLiteral(element)
+            }
+          })
+        }
+      })
+    }
+
     const scriptVisitor: RuleListener = {
       JSXAttribute(node) {
         if (typeof node.name.name === 'string' && CLASS_FIELDS.includes(node.name.name.toLowerCase()) && node.value) {
@@ -229,52 +309,7 @@ export default createRule({
         if (!(node.callee.type === 'Identifier' && isUnoFunction(node.callee.name)))
           return
 
-        node.arguments.forEach((arg) => {
-          if (isPossibleLiteral(arg)) {
-            return checkPossibleLiteral(arg)
-          }
-
-          // true ? 'block' : 'none',
-          if (arg.type === 'ConditionalExpression') {
-            return checkPossibleLiteral(arg.consequent, arg.alternate)
-          }
-
-          // true && 'block',
-          if (arg.type === 'LogicalExpression') {
-            return checkPossibleLiteral(arg.left, arg.right)
-          }
-
-          function handleObjectExpression(node: TSESTree.ObjectExpression) {
-            node.properties.forEach((p) => {
-              if (p.type !== 'Property')
-                return
-
-              if (isPossibleLiteral(p.value)) {
-                return checkPossibleLiteral(p.value)
-              }
-
-              if (p.value.type === 'ObjectExpression') {
-                return handleObjectExpression(p.value)
-              }
-            })
-
-            // {"hello": true, "world": false}
-            const keys = node.properties.filter(p => p.type === 'Property').map(p => p.key)
-            return checkPossibleLiteral(...keys)
-          }
-
-          if (arg.type === 'ObjectExpression') {
-            return handleObjectExpression(arg)
-          }
-
-          if (arg.type === 'ArrayExpression') {
-            return arg.elements.forEach((element) => {
-              if (element && isPossibleLiteral(element)) {
-                return checkPossibleLiteral(element)
-              }
-            })
-          }
-        })
+        visitCallArguments(node, true)
       },
 
       // https://typescript-eslint.io/play/#ts=5.8.2&showAST=es&fileType=.tsx&code=MYewdgzgLgBApgDygJwIYGEA2qIQHKoC2cMAvDAOQBeAtAIwAMDFAUCwPTswBuqyAlqgBGmEgBM4wbGij9wLUJFhSIAIQCuUKODKVCyeq0XQYKjVvAAmXQAN99GABIA3ohQZsuAsQC%2BNheAmZpraYADMtvZ0Tq5IaFg4%2BERwfjA4poFQbJwwIEIAVpKwElJ8qLLyxrBCUGAJXskQus4sMDASAGao6phQAFx6mDSWAA4IFAA0rTAA7vxQABYAonGoAzYdoggw83CEEDTAcGBQcMgwQgDmNDMLuzCnSDQiqMAA1jFu8Z5JvjZTbQQAxabTaAE8BhRCENRuNpj4WAiOFx0lV2pJpOU5GAAkoLrV6r84BBrOQQeiuj1%2BoNhmNJtMgTByeDIdDaXC2gifGkmlUgA&eslintrc=N4KABGBEBOCuA2BTAzpAXGYBfEWg&tsconfig=N4KABGBEDGD2C2AHAlgGwKYCcDyiAuysAdgM6QBcYoEEkJemy0eAcgK6qoDCAFutAGsylBm3TgwAXxCSgA&tokens=false
@@ -284,26 +319,14 @@ export default createRule({
 
         const init = unwrapTsExpression(node.init)
 
-        if (isPossibleLiteral(init)) {
-          return checkPossibleLiteral(init)
+        if (isPossibleLiteral(init) || init.type === 'ObjectExpression' || init.type === 'ArrowFunctionExpression' || init.type === 'FunctionExpression') {
+          return checkClassValue(init)
         }
 
-        function handleObjectExpression(node: TSESTree.ObjectExpression) {
-          node.properties.forEach((p) => {
-            if (p.type !== 'Property')
-              return
-
-            if (isPossibleLiteral(p.value)) {
-              return checkPossibleLiteral(p.value)
-            }
-
-            if (p.value.type === 'ObjectExpression') {
-              return handleObjectExpression(p.value)
-            }
-          })
-        }
-        if (init.type === 'ObjectExpression') {
-          return handleObjectExpression(init)
+        if (init.type === 'CallExpression') {
+          if (init.callee.type === 'Identifier' && isUnoFunction(init.callee.name))
+            return
+          return visitCallArguments(init)
         }
       },
     }
