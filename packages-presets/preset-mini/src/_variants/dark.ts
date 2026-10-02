@@ -1,7 +1,7 @@
-import type { Variant } from '@unocss/core'
+import type { Variant, VariantContext, VariantHandlerContext } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import { toArray } from '@unocss/core'
-import { variantMatcher, variantParentMatcher } from '../utils'
+import { variantMatcher, variantParentMatcher, variantPrefix } from '../utils'
 
 export function variantColorsMediaOrClass(options: PresetMiniOptions = {}): Variant[] {
   if (options?.dark === 'class' || typeof options.dark === 'object') {
@@ -10,8 +10,8 @@ export function variantColorsMediaOrClass(options: PresetMiniOptions = {}): Vari
       : options.dark
 
     return [
-      variantMatcher('dark', toArray(dark).map(dark => input => ({ prefix: `${dark} $$ ${input.prefix}` }))),
-      variantMatcher('light', toArray(light).map(light => input => ({ prefix: `${light} $$ ${input.prefix}` }))),
+      variantMatcher('dark', toArray(dark).map(dark => (input: VariantHandlerContext, ctx: VariantContext) => ({ prefix: variantPrefix(input, `${dark} $$ `, ctx) }))),
+      variantMatcher('light', toArray(light).map(light => (input: VariantHandlerContext, ctx: VariantContext) => ({ prefix: variantPrefix(input, `${light} $$ `, ctx) }))),
     ]
   }
 

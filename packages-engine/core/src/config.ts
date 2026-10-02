@@ -187,6 +187,10 @@ export async function resolveConfig<Theme extends object = object>(
 
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
+  const variantApplyOrder = sourcesReversed
+    .find(i => i.variantApplyOrder !== undefined)
+    ?.variantApplyOrder ?? 'right-to-left'
+
   const rules = getMerged('rules')
   const rulesSize = rules.length
   const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
@@ -248,6 +252,7 @@ export async function resolveConfig<Theme extends object = object>(
     extractors,
     safelist: getMerged('safelist'),
     separators,
+    variantApplyOrder,
     details: config.details ?? (config.envMode === 'dev'),
     content,
     transformers: uniqueBy(getMerged('transformers'), (a, b) => a.name === b.name),
