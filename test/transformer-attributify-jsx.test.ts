@@ -283,4 +283,25 @@ describe('transformerAttributifyJsx', async () => {
             />"
     `)
   })
+
+  // #3867
+  it('with default prefix attributify', async () => {
+    const code = new MagicString(`<div un-hidden un-text-red></div>`)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`"<div un-hidden="" un-text-red=""></div>"`)
+  })
+
+  it('with custom prefix attributify', async () => {
+    const unoWithPrefix = await createGenerator({
+      presets: [
+        presetWind3(),
+        presetAttributify({ prefix: 'uno-' }),
+      ],
+    })
+    const code = new MagicString(`<div uno-hidden uno-text-red></div>`)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno: unoWithPrefix, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`"<div uno-hidden="" uno-text-red=""></div>"`)
+  })
 })
