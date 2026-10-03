@@ -3,9 +3,10 @@ import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
 import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
+import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
-import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
+import { getCssEscaperForJsContent, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
 import { getPath } from '#integration/utils'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
@@ -185,20 +186,13 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     {
       name: 'unocss:global:build:generate',
       apply: 'build',
-      async renderChunk(_, chunk, options) {
+      async renderChunk(code, chunk, options) {
         const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
-        const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
-        if (!entryModules.length)
+        const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(getPath(id)))
+        // `?inline` bakes the layer placeholder into JS before css-post can replace it (#4884)
+        const hasLayerPlaceholder = code.includes('#--unocss--')
+        if (!entryModules.length && !hasLayerPlaceholder)
           return null
-
-        const cssPost = cssPostPlugins.get(options.dir)
-        if (!cssPost) {
-          this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
-          return null
-        }
-        const cssPostTransformHandler = 'handler' in cssPost.transform!
-          ? cssPost.transform.handler
-          : cssPost.transform!
 
         const result = await generateAll()
         const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
@@ -211,24 +205,59 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
         })))
 
-        for (const mod of entryModules) {
-          const layer = RESOLVED_ID_RE.exec(mod)?.[1] || LAYER_MARK_ALL
+        if (entryModules.length) {
+          const cssPost = cssPostPlugins.get(options.dir)
+          if (!cssPost) {
+            this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
+          }
+          else {
+            const cssPostTransformHandler = 'handler' in cssPost.transform!
+              ? cssPost.transform.handler
+              : cssPost.transform!
 
-          const layerContent = layer === LAYER_MARK_ALL
+            for (const mod of entryModules) {
+              const layer = RESOLVED_ID_RE.exec(getPath(mod))?.[1] || LAYER_MARK_ALL
+
+              const layerContent = layer === LAYER_MARK_ALL
+                ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
+                : result.getLayer(layer) || ''
+
+              const css = await applyCssTransform(
+                layerContent,
+                mod,
+                options.dir,
+                // .emitFile in Rollup has different FileEmitter instance in load/transform hooks and renderChunk hooks
+                // here we need to store the resolveId context to use it in the vite:css transform hook
+                resolveContexts.get(layer) || this,
+              )
+
+              // Fool the vite:css-post plugin to replace the CSS content
+              await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
+            }
+          }
+        }
+
+        if (!hasLayerPlaceholder)
+          return null
+
+        const s = new MagicString(code)
+        LAYER_PLACEHOLDER_RE.lastIndex = 0
+        for (const match of code.matchAll(LAYER_PLACEHOLDER_RE)) {
+          const [full, layer, escapeView] = match
+          const layerName = layer.trim()
+          const layerContent = layerName === LAYER_MARK_ALL
             ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
-            : result.getLayer(layer) || ''
+            : result.getLayer(layerName) || ''
+          const css = getCssEscaperForJsContent((escapeView || '').trim())(layerContent)
+          s.overwrite(match.index!, match.index! + full.length, css)
+        }
 
-          const css = await applyCssTransform(
-            layerContent,
-            mod,
-            options.dir,
-            // .emitFile in Rollup has different FileEmitter instance in load/transform hooks and renderChunk hooks
-            // here we need to store the resolveId context to use it in the vite:css transform hook
-            resolveContexts.get(layer) || this,
-          )
+        if (!s.hasChanged())
+          return null
 
-          // Fool the vite:css-post plugin to replace the CSS content
-          await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true }),
         }
       },
       async buildEnd() {
