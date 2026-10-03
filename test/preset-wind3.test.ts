@@ -226,6 +226,11 @@ it('containers with max width', async () => {
 })
 
 describe('important', () => {
+  it('keeps the default output of `mix-*` stacked with `!`', async () => {
+    const { css } = await uno.generate('mix-tint-50:!bg-red', { preflights: false })
+    expect(css).toContain('background-color:rgb(248 113 113 / var(--un-bg-opacity)) !important')
+  })
+
   it(`should add " !important" at the end when "true" unless it's already marked important`, async () => {
     const uno = await createGenerator({
       presets: [

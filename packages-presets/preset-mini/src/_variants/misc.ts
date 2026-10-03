@@ -106,7 +106,8 @@ export const variantVariables: Variant = {
               parent: `${input.parent ? `${input.parent} $$ ` : ''}${variant}`,
             }
           : {
-              selector: variant.replace(/&/g, input.selector),
+              // the selector may hold the `$$` scope placeholder, keep it out of the replacement patterns
+              selector: variant.replace(/&/g, () => input.selector),
             }
         return next({
           ...input,
@@ -126,6 +127,8 @@ export const variantTheme: Variant = {
 
     return {
       matcher,
+      // substitute `theme()` before the other body transforms (negative, `!important`)
+      order: -2,
       handle(input, next) {
         return next({
           ...input,
