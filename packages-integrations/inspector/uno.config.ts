@@ -1,6 +1,7 @@
 import type { VitePluginConfig } from '@unocss/vite'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
+import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind4 from '@unocss/preset-wind4'
 import { colorResolver } from '@unocss/preset-wind4/utils'
 
@@ -9,10 +10,6 @@ export function createConfig(): VitePluginConfig {
     envMode: 'dev',
     details: true,
     theme: {
-      fontFamily: {
-        sans: '\'Inter\', sans-serif',
-        mono: '\'Fira Code\', monospace',
-      },
     },
     presets: [
       presetAttributify(),
@@ -25,6 +22,12 @@ export function createConfig(): VitePluginConfig {
         },
       }),
       presetWind4(),
+      presetWebFonts({
+        provider: 'fontsource',
+        fonts: {
+          dm: 'DM Sans',
+        },
+      }),
     ],
     rules: [
       [/^context-(.+)$/, colorResolver('--context-color', 'context-color')],

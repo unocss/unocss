@@ -126,7 +126,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 </script>
 
 <template>
-  <details ref="details" class="relative min-w-0" open>
+  <details ref="details" class="relative min-w-0 font-dm" open>
     <summary
       class="relative z-1 flex min-h-7 cursor-default select-none items-center gap-2 rounded-md px-2 text-sm font-medium hover:bg-gray:8"
       :title="nodeTitle(node)"
@@ -150,7 +150,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
         v-for="(center, index) in branchCenters"
         v-show="isHighlighted(index)"
         :key="`active-${index}`"
-        class="module-tree-line-active fill-none stroke-current text-blue-500 dark:text-yellow-400"
+        class="module-tree-line-active fill-none stroke-current text-blue dark:text-[#2f2a17]"
         :d="`M 16 24 V ${center - 8} Q 16 ${center} 24 ${center} H 31`"
       />
     </svg>

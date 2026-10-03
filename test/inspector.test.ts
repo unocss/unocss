@@ -1,7 +1,9 @@
 import type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../packages-integrations/inspector/types'
+import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
+import { analyzer } from '../packages-integrations/inspector/src/analyzer'
 import { createInspectorDevframe } from '../packages-integrations/inspector/src/devframe'
 import { createRpcFunctions } from '../packages-integrations/inspector/src/rpc'
 
@@ -85,7 +87,7 @@ describe('inspector rpc', () => {
 
   it('get-overview aggregates the whole project', async () => {
     const ctx = await prepareContext()
-    const [, , , getOverview] = createRpcFunctions(ctx)
+    const getOverview = createRpcFunctions(ctx).find(fn => fn.name === 'get-overview')!
     const handler = await resolveHandler(getOverview)
     const overview: OverviewInfo = await handler()
 
@@ -93,6 +95,79 @@ describe('inspector rpc', () => {
     expect(overview.gzipSize).toBeGreaterThan(0)
     expect(overview.matched.map(i => i.name)).toContain('m-4')
     expect(overview.layers.map(i => i.name)).toContain('default')
+  })
+
+  it('identifies icon collections with custom prefixes and hyphenated names', async () => {
+    const ctx = createContext({
+      presets: [
+        presetIcons({
+          prefix: 'icon-',
+          layer: 'pictograms',
+          collections: {
+            'my-icons': {
+              star: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>',
+              moon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>',
+            },
+          },
+        }),
+        presetWind3(),
+      ],
+    })
+    await ctx.ready
+    await ctx.extract('<div class="icon-my-icons-star hover:icon-my-icons-star icon-my-icons:moon icon-mdi:home" />', MODULE_ID)
+    await ctx.flushTasks()
+
+    const overview = await analyzer(ctx.modules, ctx)
+
+    expect(overview.icons.map(icon => [icon.baseSelector, icon.collection])).toEqual(expect.arrayContaining([
+      ['icon-my-icons-star', 'my-icons'],
+      ['icon-my-icons:moon', 'my-icons'],
+      ['icon-mdi:home', 'mdi'],
+    ]))
+    expect(overview.icons.find(icon => icon.baseSelector === 'icon-my-icons-star')?.count).toBe(2)
+  })
+
+  it('identifies collections for default icon syntax', async () => {
+    const ctx = createContext({ presets: [presetIcons(), presetWind3()] })
+    await ctx.ready
+    await ctx.extract('<div class="i-mdi-home i-carbon-sun i-vscode-icons:file-type-light-pnpm" />', MODULE_ID)
+    await ctx.flushTasks()
+
+    const overview = await analyzer(ctx.modules, ctx)
+    expect(overview.icons.map(icon => [icon.baseSelector, icon.collection])).toEqual(expect.arrayContaining([
+      ['i-carbon-sun', 'carbon'],
+      ['i-mdi-home', 'mdi'],
+      ['i-vscode-icons:file-type-light-pnpm', 'vscode-icons'],
+    ]))
+  })
+
+  it('does not assign one collection to a shortcut containing multiple icons', async () => {
+    const ctx = createContext({
+      presets: [presetIcons(), presetWind3()],
+      shortcuts: { logos: 'i-carbon-sun i-mdi-home' },
+    })
+    await ctx.ready
+    await ctx.extract('<div class="logos" />', MODULE_ID)
+    await ctx.flushTasks()
+
+    const overview = await analyzer(ctx.modules, ctx)
+    expect(overview.icons.some(icon => icon.rawSelector === 'logos')).toBe(false)
+  })
+
+  it('aggregates utilities, colors, and icon variants across modules', async () => {
+    const ctx = createContext({ details: true, presets: [presetIcons(), presetWind3()] })
+    const secondModule = '/root/playground/Other.vue'
+    await ctx.ready
+    await ctx.extract('<div class="text-red-500 i-mdi-home hover:i-mdi-home" />', MODULE_ID)
+    await ctx.extract('<div class="text-red-500 i-mdi-home" />', secondModule)
+    await ctx.flushTasks()
+
+    const result = await analyzer(ctx.modules, ctx)
+    expect(result.matched.find(item => item.name === 'text-red-500')?.count).toBe(2)
+    expect(result.colors.find(item => item.name === 'red')?.count).toBe(2)
+    expect(result.icons).toHaveLength(1)
+    expect(result.icons[0].count).toBe(3)
+    expect(result.icons[0].modules).toEqual([MODULE_ID, secondModule])
   })
 })
 
@@ -127,6 +202,8 @@ describe('inspector devframe', () => {
       'get-project-info',
       'get-module-info',
       'generate-repl',
+      'get-autocomplete-suggestions',
+      'get-generated-css',
       'get-overview',
     ])
   })
