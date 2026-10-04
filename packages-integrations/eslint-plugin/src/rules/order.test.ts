@@ -223,6 +223,8 @@ run({
     `clsx(['ml-1 mr-1'])`,
     `clsx(['flex flex-col'], ['bottom-1 top-1'])`,
     `notSorted('mr-1 ml-1')`,
+    { code: `defuFn({ slots: { base: () => 'ml-1 mr-1' } }, {})`, options: [{ unoFunctions: ['defuFn'] }] },
+    `defuFn({ slots: { base: () => 'mr-1 ml-1' } }, {})`,
   ],
   invalid: [
     {
@@ -379,6 +381,26 @@ run({
         { messageId: 'invalid-order' },
       ],
     },
+    {
+      options: [{ unoFunctions: ['defuFn'] }],
+      code: `defuFn({ slots: { base: () => 'mr-1 ml-1' } }, {})`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "defuFn({ slots: { base: () => 'ml-1 mr-1' } }, {})"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoFunctions: ['defuFn'] }],
+      code: `defuFn({ slots: { base: () => { return 'mr-1 ml-1' } } }, {})`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "defuFn({ slots: { base: () => { return 'ml-1 mr-1' } } }, {})"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
   ],
 })
 
@@ -398,6 +420,8 @@ run({
     `const buttonClassNames = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }`,
     { code: `const CLS_BUTTON = 'ml-1 mr-1'`, options: [{ unoVariables: ['^CLS_'] }] },
     { code: `const CLS_BUTTON = { default: 'pl1 pr1', variants: { light: 'ml-1 mr-1', dark: 'left-1 right-1' } }`, options: [{ unoVariables: ['^CLS_'] }] },
+    `const themeSelect = defuFn({ slots: { base: () => 'mr-1 ml-1' } }, {})`,
+    { code: `const themeSelect = defuFn({ slots: { base: () => 'ml-1 mr-1' } }, {})`, options: [{ unoVariables: ['^theme'] }] },
   ],
   invalid: [
     {
@@ -462,6 +486,26 @@ run({
       errors: [
         { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoVariables: ['^theme'] }],
+      code: `const themeSelect = defuFn({ slots: { base: () => 'mr-1 ml-1' } }, {})`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const themeSelect = defuFn({ slots: { base: () => 'ml-1 mr-1' } }, {})"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      options: [{ unoVariables: ['^theme'] }],
+      code: `const themeSelect = defuFn({ slots: { base: () => 'hover:(pt-2 p-4) hover:text-red' } }, {})`,
+      output: output => expect(output).toMatchInlineSnapshot(`
+            "const themeSelect = defuFn({ slots: { base: () => 'hover:text-red hover:(p-4 pt-2)' } }, {})"
+      `),
+      errors: [
         { messageId: 'invalid-order' },
       ],
     },
