@@ -219,6 +219,19 @@ describe.concurrent('fixtures', () => {
     }
   })
 
+  // https://github.com/unocss/unocss/issues/4884
+  it('vite client virtual:uno.css?inline', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-inline')
+    await rm(join(root, 'dist'), { recursive: true, force: true })
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+
+    const js = await getGlobContent(root, 'dist/**/*.js')
+    expect(js).contains('.text-red')
+  })
+
   // https://github.com/unocss/unocss/issues/5323
   it.skipIf(isWindows)('vite environments with shared config build', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-environments')
