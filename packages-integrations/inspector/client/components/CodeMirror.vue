@@ -14,6 +14,7 @@ const props = defineProps<{
   matched?: Set<string> | string[]
   annotations?: HighlightAnnotation[]
   getHint?: CompletionSource
+  getCss?: (token: string) => string | null | Promise<string | null>
 }>()
 
 const emit = defineEmits<{ (e: 'update:modelValue', payload: string): void }>()
@@ -86,6 +87,15 @@ grammarly-desktop-integration {
 .cm-content {
   cursor: text !important;
 }
+.cm-unocss-hover pre {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  max-width: min(80vw, 40rem);
+  max-height: 18rem;
+  overflow: auto;
+  white-space: pre;
+  font: inherit;
+}
 
 :root:not(.dark) .cm-search .cm-button {
   background-image: linear-gradient(#f5f6f7, #eee);
@@ -120,7 +130,7 @@ grammarly-desktop-integration {
 html.dark {
   --cm-scheme: dark;
   --cm-foreground: #d4cfbf80;
-  --cm-background: #121212;
+  --cm-background: #222222;
   --cm-comment: #758575;
   --cm-string: #d48372;
   --cm-keyword: #4d9375;
@@ -156,9 +166,6 @@ html.dark {
   height: calc(100vh - 2px) !important;
   scrollbar-width: thin;
   scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
-}
-.scrolls-sidebar {
-  height: calc(100vh - 25px - 1.5rem - 65px - 1rem - 2px) !important;
 }
 .overview-scrolls .cm-scroller {
   --use-overview-scrolls: var(--overview-scrolls, calc(100vh - 116px - 1rem - 61px - 1rem - 2px));

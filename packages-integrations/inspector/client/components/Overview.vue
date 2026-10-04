@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { info, overview, overviewFetch } from '../composables/fetch'
+import { watch } from 'vue'
+import { ensureOverview, info, overview } from '../composables/fetch'
 import { useCSSPrettify } from '../composables/usePrettify'
 import { useScrollStyle } from '../composables/useScrollStyle'
 import Analyzer from './Analyzer.vue'
@@ -7,20 +8,31 @@ import Analyzer from './Analyzer.vue'
 const status = ref(null)
 const style = useScrollStyle(status, 'overview-scrolls')
 
-overviewFetch.execute()
+ensureOverview()
 
 const isPrettify = ref(false)
 const active = ref('source')
-const layer = ref()
+const selectedLayers = ref<string[]>([])
+let didInitializeLayers = false
 
-function displayLayerCSS(name: string) {
-  layer.value = layer.value === name ? undefined : name
-}
+watch(overview, (data) => {
+  if (!data || didInitializeLayers)
+    return
+
+  selectedLayers.value = data.layers.map(layer => layer.name)
+  didInitializeLayers = true
+}, { immediate: true })
 
 const formatted = useCSSPrettify(computed(() => {
-  if (!layer.value)
+  const layers = overview.value?.layers ?? []
+  if (!selectedLayers.value.length)
+    return ''
+  if (selectedLayers.value.length === layers.length)
     return overview.value?.css
-  return overview.value?.layers.find(i => i.name === layer.value)?.css
+  return layers
+    .filter(layer => selectedLayers.value.includes(layer.name))
+    .map(layer => layer.css)
+    .join('\n')
 }), isPrettify)
 </script>
 
@@ -32,28 +44,42 @@ const formatted = useCSSPrettify(computed(() => {
           <div text-amber op80>
             Presets
           </div>
-          <div h25 op50 ws-pre overflow="auto">
-            {{ info?.config?.presets?.map(i => i.name).join('\n') }}
+          <div h25 op50 overflow="auto" flex flex-col>
+            <template v-for="preset in info?.config?.presets" :key="preset.name">
+              <a
+                v-if="preset.docs"
+                :href="preset.docs"
+                target="_blank"
+                rel="noopener noreferrer"
+                hover:text-amber
+              >
+                {{ preset.name }}
+              </a>
+              <span v-else>{{ preset.name }}</span>
+            </template>
           </div>
         </div>
         <div overflow="auto">
           <div text-blue op80>
-            Rules
+            Rules & Variants
           </div>
           {{ info?.config?.rulesDynamic?.length }} <span op50>dynamic</span><br>
-          {{ Object.keys(info?.config?.rulesStaticMap || {}).length }} <span op50>static</span>
+          {{ Object.keys(info?.config?.rulesStaticMap || {}).length }} <span op50>static</span><br>
+          {{ info?.config?.variants?.length }} <span op50>variants</span><br>
+          {{ info?.config.shortcuts.length }} <span op50>shortcuts</span>
         </div>
         <div>
-          <div text-fuchsia op80>
-            Variants
+          <div text-rose op80>
+            Layers
           </div>
-          {{ info?.config?.variants?.length }}
-        </div>
-        <div>
-          <div text-emerald op80>
-            Shortcuts
+          <div class="context-rose" op50 flex flex-col>
+            <CheckBox
+              v-for="_layer in overview?.layers"
+              :key="_layer.name"
+              v-model="selectedLayers"
+              :value="_layer.name"
+            />
           </div>
-          {{ info?.config.shortcuts.length }}
         </div>
         <div v-if="info?.configPath">
           <div text-lime op80>
@@ -61,12 +87,19 @@ const formatted = useCSSPrettify(computed(() => {
           </div>
           <ModuleId :id="info.configPath" />
         </div>
-        <div>
+        <div v-if="info?.version">
           <div text-orange op80>
             Version
           </div>
           <div op50 ws-pre>
-            {{ info?.version }}
+            <a
+              :href="`https://npmx.dev/package/unocss/v/${info.version}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              hover:text-orange
+            >
+              {{ info?.version }}
+            </a>
           </div>
         </div>
       </div>
@@ -88,16 +121,6 @@ const formatted = useCSSPrettify(computed(() => {
             Matched Rules
           </div>
           {{ overview?.matched.length }}
-        </div>
-        <div>
-          <div text-rose op80>
-            Layers
-          </div>
-          <div op50 ws-pre flex flex-col>
-            <span v-for="_layer in overview?.layers" :key="_layer.name" :class="layer === _layer.name ? 'text-rose:70' : ''" hover:text-rose:50 cursor-pointer @click="displayLayerCSS(_layer.name)">
-              {{ _layer.name }}
-            </span>
-          </div>
         </div>
       </div>
       <OverviewTabs v-model="active" />

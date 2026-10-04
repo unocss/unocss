@@ -51,6 +51,9 @@ allowBuilds:
   sharp: true
   simple-git-hooks: true
 
+catalog:
+  vue-clamp: ^1.7.1
+
 catalogs:
   build:
     '@jridgewell/remapping': ^2.3.5
