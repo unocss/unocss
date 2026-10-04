@@ -159,7 +159,7 @@ export const fonts: Rule<Theme>[] = [
       // Prefer theme font family
       if (theme.font?.[d]) {
         themeTracking('font', d)
-        v = generateThemeVariable('font', d)
+        v = `var(--font-${d}, ${theme.font[d]})`
         return { 'font-family': v }
       }
 
