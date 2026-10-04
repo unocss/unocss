@@ -57,9 +57,15 @@ describe('preset-icons', async () => {
   it('parses from the current preset options without generation', async () => {
     const uno = await createGenerator({
       presets: [presetIcons({
+        extraProperties: { display: 'inline-block' },
         collections: {
           custom: {
             star: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l3 7 7 1z"/></svg>',
+          },
+        },
+        customizations: {
+          iconCustomizer(_collection, _icon, props) {
+            props.height = '2em'
           },
         },
       })],
@@ -68,6 +74,12 @@ describe('preset-icons', async () => {
     const first = api.parseIcon('custom-star')
     expect(api.parseIcon('custom-star')).toBe(first)
     expect((await first)?.collection).toBe('custom')
+    expect((await first)?.svg).toContain('display=')
+    const withoutExtraProperties = await api.parseIcon('custom-star', {
+      customizations: { additionalProps: {} },
+    })
+    expect(withoutExtraProperties?.svg).not.toContain('display=')
+    expect(withoutExtraProperties?.svg).toMatch(/height=["']2em["']/)
     expect(await api.parseIcon('missing-star')).toBeUndefined()
   })
 

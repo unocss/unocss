@@ -56,6 +56,24 @@ describe.concurrent('fixtures', () => {
     expect(css).not.contains('.text-teal')
   })
 
+  it('vite dist-chunk', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-dist-chunk')
+    await rm(join(root, 'dist'), { recursive: true, force: true })
+    await build({ root, logLevel: 'warn' })
+
+    // Assumes base '/' and a single generated stylesheet link per entry.
+    const cssHref = (html: string) => /href="\/([^"]+\.css)"/.exec(html)?.[1]
+    const aHtml = await readFile(join(root, 'dist/a.html'), 'utf-8')
+    const bHtml = await readFile(join(root, 'dist/b.html'), 'utf-8')
+    const aCss = await readFile(join(root, 'dist', cssHref(aHtml)!), 'utf-8')
+    const bCss = await readFile(join(root, 'dist', cssHref(bHtml)!), 'utf-8')
+
+    expect(aCss).contains('.text-red')
+    expect(aCss).not.contains('.c-red')
+    expect(bCss).contains('.c-red')
+    expect(bCss).not.contains('.text-red')
+  })
+
   it.skipIf(isWindows || isRolldownVite)('vite legacy', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-legacy')
     await rm(join(root, 'dist'), { recursive: true, force: true })

@@ -16,7 +16,9 @@ export async function transformIconString(uno: UnoGenerator, icon: string, color
 
   for (const p of toArray(prefix)) {
     if (icon.startsWith(p)) {
-      const parsed = await api.parseIcon(icon.slice(p.length))
+      const parsed = await api.parseIcon(icon.slice(p.length), {
+        customizations: { additionalProps: {} },
+      })
       if (parsed)
         return `url("data:image/svg+xml;utf8,${color ? api.encodeSvgForCss(parsed.svg).replace(/currentcolor/gi, color) : api.encodeSvgForCss(parsed.svg)}")`
     }

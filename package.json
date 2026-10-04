@@ -77,7 +77,7 @@
     "floating-vue": "catalog:vue",
     "jsdom": "catalog:testing",
     "lint-staged": "catalog:utils",
-    "lz-string": "catalog:utils",
+    "lz-string-es": "catalog:utils",
     "magic-string": "catalog:utils",
     "msw": "catalog:testing",
     "nuxt": "catalog:nuxt",

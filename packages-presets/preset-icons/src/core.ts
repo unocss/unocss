@@ -84,7 +84,16 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
         return parseIconWithLoader(
           body,
           iconLoader,
-          overrides ? { ...loaderOptions, ...overrides } : loaderOptions,
+          overrides
+            ? {
+                ...loaderOptions,
+                ...overrides,
+                customizations: {
+                  ...loaderOptions.customizations,
+                  ...overrides.customizations,
+                },
+              }
+            : loaderOptions,
           iconifyCollectionsNames,
         )
       })()
