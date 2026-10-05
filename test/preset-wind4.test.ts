@@ -185,6 +185,32 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('scrollbar size utilities', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('scrollbar-w-2px scrollbar-w-4 scrollbar-h-[3rem] scrollbar-radius-sm scrollbar-radius-full scrollbar-thumb-radius-4px scrollbar-track-radius-$my-radius md:scrollbar-w-4')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .scrollbar-h-\\[3rem\\]::-webkit-scrollbar{height:3rem;}
+      .scrollbar-w-2px::-webkit-scrollbar{width:2px;}
+      .scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
+      .scrollbar-radius-full::-webkit-scrollbar-thumb{border-radius:calc(infinity * 1px);}
+      .scrollbar-radius-full::-webkit-scrollbar-track{border-radius:calc(infinity * 1px);}
+      .scrollbar-radius-sm::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}
+      .scrollbar-radius-sm::-webkit-scrollbar-track{border-radius:var(--radius-sm);}
+      .scrollbar-thumb-radius-4px::-webkit-scrollbar-thumb{border-radius:4px;}
+      .scrollbar-track-radius-\\$my-radius::-webkit-scrollbar-track{border-radius:var(--my-radius);}
+      @media (min-width: 48rem){
+      .md\\:scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
+      }"
+    `)
+  })
+
   it('fully theme prefight', async () => {
     const uno = await createGenerator({
       envMode: 'dev',

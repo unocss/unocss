@@ -1725,6 +1725,15 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .scrollbar-track-transparent{--un-scrollbar-track:transparent;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
 .scrollbar-thumb-op-50{--un-scrollbar-thumb-opacity:50%;}
 .scrollbar-track-opacity-30{--un-scrollbar-track-opacity:30%;}
+.scrollbar-h-\[3rem\]::-webkit-scrollbar{height:3rem;}
+.scrollbar-w-2px::-webkit-scrollbar{width:2px;}
+.scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
+.scrollbar-radius-full::-webkit-scrollbar-thumb{border-radius:calc(infinity * 1px);}
+.scrollbar-radius-full::-webkit-scrollbar-track{border-radius:calc(infinity * 1px);}
+.scrollbar-radius-sm::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}
+.scrollbar-radius-sm::-webkit-scrollbar-track{border-radius:var(--radius-sm);}
+.scrollbar-thumb-radius-4px::-webkit-scrollbar-thumb{border-radius:4px;}
+.scrollbar-track-radius-2px::-webkit-scrollbar-track{border-radius:2px;}
 .snap-y{scroll-snap-type:y var(--un-scroll-snap-strictness);}
 .snap-both{scroll-snap-type:both var(--un-scroll-snap-strictness);}
 .snap-mandatory{--un-scroll-snap-strictness:mandatory;}

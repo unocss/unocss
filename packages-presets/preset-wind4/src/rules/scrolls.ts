@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { colorResolver, defineProperty, directionSize, h } from '../utils'
+import { colorResolver, defineProperty, directionSize, generateThemeVariable, h, themeTracking } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
   ['scrollbar-auto', { 'scrollbar-width': 'auto' }],
@@ -21,6 +21,36 @@ export const scrolls: Rule<Theme>[] = [
     }
   }, { autocomplete: 'scrollbar-(thumb|track)-$colors' }],
   [/^scrollbar-(thumb|track)-op(?:acity)?-?(.+)$/, ([, part, opacity], { theme }) => ({ [`--un-scrollbar-${part}-opacity`]: h.bracket.percent(opacity, theme) }), { autocomplete: ['scrollbar-(thumb|track)-(op|opacity)', 'scrollbar-(thumb|track)-(op|opacity)-<percent>'] }],
+
+  // The prefix `$ ` is intentional. These rules are not to be matched directly from user-generated token.
+  // The `::-webkit-scrollbar*` selectors are applied by variants/scrollbar.
+  [/^\$ scrollbar-(w|h)-(.+)$/, ([, w, v], { theme }) => {
+    let value: string | undefined
+    if (h.number(v) != null) {
+      themeTracking('spacing')
+      value = `calc(var(--spacing) * ${h.number(v)})`
+    }
+    else {
+      value = h.bracket.cssvar.global.fraction.rem(v, theme)
+    }
+    if (value != null)
+      return { [w === 'w' ? 'width' : 'height']: value }
+  }, { autocomplete: 'scrollbar-(w|h)-<num>' }],
+  [/^\$ scrollbar-((?:track-|thumb-)?radius)-(.+)$/, ([, _part, v], { theme }) => {
+    let value: string | undefined
+    if (v === 'full') {
+      value = 'calc(infinity * 1px)'
+    }
+    else if (theme.radius && v in theme.radius) {
+      themeTracking('radius', v)
+      value = generateThemeVariable('radius', v)
+    }
+    else {
+      value = h.bracket.cssvar.global.fraction.rem(v, theme)
+    }
+    if (value != null)
+      return { 'border-radius': value }
+  }, { autocomplete: ['scrollbar-radius-$radius', 'scrollbar-(track|thumb)-radius-$radius'] }],
 
   ['scrollbar-gutter-auto', { 'scrollbar-gutter': 'auto' }],
   ['scrollbar-gutter-stable', { 'scrollbar-gutter': 'stable' }],
