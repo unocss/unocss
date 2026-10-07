@@ -6,6 +6,15 @@ const attributeRE = /(?<![~`!$%^&*()_+\-=[{;':"|,.<>/?])([a-z()#][[?\w\-:()#%\]]
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 const valuedAttributeRE = /((?!\d|-{2}|-\d)[\w\u00A0-\uFFFF:!%.~<-]+)=(?:"[^"]*"|'[^']*'|(\{)((?:[`(][^`)]*[`)]|[^}])+)(\}))/g
 
+// The attribute section (capture group 2) always ends just before the closing
+// `>`, so its offset inside a match is structural. Looking it up with indexOf()
+// found the first occurrence anywhere in the tag instead, which lands inside the
+// tag name when the attributes repeat it: `<flex flex>` was rewritten to
+// `<flex="" flex>`, which no longer parses as JSX. Both call sites below need it.
+function attributesStart(match: RegExpExecArray) {
+  return match[0].length - match[2].length - 1
+}
+
 export async function attributifyJsxRegexResolver(params: AttributifyResolverParams) {
   const { code, uno, isBlocked } = params
   const tasks: Promise<void>[] = []
@@ -26,7 +35,7 @@ export async function attributifyJsxRegexResolver(params: AttributifyResolverPar
           if (valuedAttributeRE.test(attrAttributePart))
             attrAttributePart.replace(valuedAttributeRE, (m: string) => ' '.repeat(m.length))
 
-          const pre = temp.slice(0, preLastModifierIndex) + ' '.repeat(_item.index + _item[0].indexOf(_item[2]) - preLastModifierIndex) + attrAttributePart
+          const pre = temp.slice(0, preLastModifierIndex) + ' '.repeat(_item.index + attributesStart(_item) - preLastModifierIndex) + attrAttributePart
           temp = pre + ' '.repeat(_item.input.length - pre.length)
           preLastModifierIndex = pre.length
         }
@@ -43,7 +52,7 @@ export async function attributifyJsxRegexResolver(params: AttributifyResolverPar
       const updatedMatchedRule = matchedRule.startsWith(attributifyPrefix) ? matchedRule.slice(attributifyPrefix.length) : matchedRule
       tasks.push(uno.parseToken(updatedMatchedRule).then((matched) => {
         if (matched) {
-          const startIdx = (item.index || 0) + (attr.index || 0) + item[0].indexOf(item[2])
+          const startIdx = (item.index || 0) + (attr.index || 0) + attributesStart(item)
           const endIdx = startIdx + matchedRule.length
           code.overwrite(startIdx, endIdx, `${matchedRule}=""`)
         }

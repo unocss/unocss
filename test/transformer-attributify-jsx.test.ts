@@ -62,6 +62,16 @@ const tagCouldBeAttrCode = `
 </div>
 `.trim()
 
+const tagRepeatsAttributesCode = `
+<div>
+  <flex flex></flex>
+  <my-flex flex></my-flex>
+  <x-grid grid></x-grid>
+  <div components={<my-flex flex></my-flex>}></div>
+  <div components={() => <x-grid grid></x-grid>}></div>
+</div>
+`.trim()
+
 describe('transformerAttributifyJsx', async () => {
   const uno = await createGenerator({
     presets: [
@@ -224,6 +234,21 @@ describe('transformerAttributifyJsx', async () => {
         <h4 text-red="">Test</h4>
         <h5 text-red="">Test</h5>
         <h6 text-red="">Test</h6>
+      </div>"
+    `)
+  })
+  it('regex resolver does not rewrite a tag whose name repeats the attributes', async () => {
+    const code = new MagicString(tagRepeatsAttributesCode)
+    await transformerAttributifyJsx({ include: [{ pattern: /\.tsx$/, resolver: 'regex' }] })
+      .transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <flex flex=""></flex>
+        <my-flex flex=""></my-flex>
+        <x-grid grid=""></x-grid>
+        <div components={<my-flex flex=""></my-flex>}></div>
+        <div components={() => <x-grid grid=""></x-grid>}></div>
       </div>"
     `)
   })
