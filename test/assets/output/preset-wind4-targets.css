@@ -790,7 +790,8 @@
 .decoration-purple\/50{text-decoration-color:color-mix(in srgb, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;}
 .decoration-transparent{text-decoration-color:transparent;-webkit-text-decoration-color:transparent;}
 .underline-1rem{text-decoration-thickness:1rem;}
-.data-\[invalid\~\=grammar\]\:underline-green-600[data-invalid~=grammar]{text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
+.data-\[invalid\~\=grammar\]\:underline-green-600[data-invalid~=grammar],
+.not-data-\[invalid\~\=grammar\]\:underline-green-600:not([data-invalid~=grammar]){text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
 .underline-red-500{text-decoration-color:color-mix(in srgb, var(--colors-red-500) var(--un-line-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-red-500) var(--un-line-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
 .aria-\[invalid\=spelling\]\:underline-red-600[aria-invalid=spelling]{text-decoration-color:color-mix(in srgb, var(--colors-red-600) var(--un-line-opacity), transparent) /* oklch(57.7% 0.245 27.325) */;-webkit-text-decoration-color:color-mix(in srgb, var(--colors-red-600) var(--un-line-opacity), transparent) /* oklch(57.7% 0.245 27.325) */;}
 .underline-op-\$opacity-variable{--un-line-opacity:var(--opacity-variable);}
@@ -802,7 +803,8 @@
 .underline-dashed{text-decoration-style:dashed;}
 .underline-inherit{text-decoration-style:inherit;}
 .decoration-none{text-decoration:none;}
-.flex{display:flex;}
+.flex,
+.not-data-\[state\=collapsed\]\:flex:not([data-state=collapsed]){display:flex;}
 .flex-\[\$variable1_\$variable2_\$variable3\]{flex:var(--variable1) var(--variable2) var(--variable3);}
 .flex-\[0_0_auto\]{flex:0 0 auto;}
 .flex-\[1_0_100\%\]{flex:1 0 100%;}
@@ -1865,6 +1867,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .in-data-\[state\=closed\]\:border-5{
 :where(*[data-state=closed]) &{border-width:5px;}
 }
+.in-not-data-\[state\=closed\]\:border-5{
+:where(*:not([data-state=closed])) &{border-width:5px;}
+}
 .inert\:opacity-25{
 &:is([inert],[inert] *){opacity:25%;}
 }
@@ -2052,6 +2057,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .details-content\:bg-green-100::details-content{background-color:color-mix(in oklab, var(--colors-green-100) var(--un-bg-opacity), transparent) /* oklch(96.2% 0.044 156.743) */;}
 .decoration-purple\/50{text-decoration-color:color-mix(in oklab, var(--colors-purple-DEFAULT) 50%, transparent) /* oklch(71.4% 0.203 305.504) */;}
 .data-\[invalid\~\=grammar\]\:underline-green-600[data-invalid~=grammar]{text-decoration-color:color-mix(in oklab, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
+.not-data-\[invalid\~\=grammar\]\:underline-green-600:not([data-invalid~=grammar]){text-decoration-color:color-mix(in oklab, var(--colors-green-600) var(--un-line-opacity), transparent) /* oklch(62.7% 0.194 149.214) */;}
 .underline-red-500{text-decoration-color:color-mix(in oklab, var(--colors-red-500) var(--un-line-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;}
 .aria-\[invalid\=spelling\]\:underline-red-600[aria-invalid=spelling]{text-decoration-color:color-mix(in oklab, var(--colors-red-600) var(--un-line-opacity), transparent) /* oklch(57.7% 0.245 27.325) */;}
 .backdrop\:shadow-green::backdrop{--un-shadow-color:color-mix(in oklab, var(--colors-green-DEFAULT) var(--un-shadow-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
