@@ -499,6 +499,81 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('negated data variants', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'not-data-[state=collapsed]:flex',
+      'group-not-data-[state=collapsed]/sidebar:flex',
+      'peer-not-data-[state=collapsed]/sidebar:flex',
+      'group-not-data-[state=open]:b-1',
+      'peer-not-data-[state=open]:b-2',
+      'has-not-data-[state=open]:b-3',
+      'in-not-data-[state=open]:b-4',
+      'parent-not-data-[state=open]:b-5',
+      'previous-not-data-[state=open]:b-6',
+    ])
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .not-data-\\[state\\=collapsed\\]\\:flex:not([data-state="collapsed"]) {
+        display: flex;
+      }
+      .group-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.group\\/sidebar):not([data-state="collapsed"]) *) {
+          display: flex;
+        }
+      }
+      .group-not-data-\\[state\\=open\\]\\:b-1 {
+        &:is(:where(.group):not([data-state="open"]) *) {
+          border-width: 1px;
+        }
+      }
+      .has-not-data-\\[state\\=open\\]\\:b-3 {
+        &:has(*:not([data-state="open"])) {
+          border-width: 3px;
+        }
+      }
+      .in-not-data-\\[state\\=open\\]\\:b-4 {
+        :where(*:not([data-state="open"])) & {
+          border-width: 4px;
+        }
+      }
+      .parent-not-data-\\[state\\=open\\]\\:b-5 {
+        :where(*:not([data-state="open"]) > &) {
+          border-width: 5px;
+        }
+      }
+      .peer-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.peer\\/sidebar):not([data-state="collapsed"]) ~ *) {
+          display: flex;
+        }
+      }
+      .peer-not-data-\\[state\\=open\\]\\:b-2 {
+        &:is(:where(.peer):not([data-state="open"]) ~ *) {
+          border-width: 2px;
+        }
+      }
+      .previous-not-data-\\[state\\=open\\]\\:b-6 {
+        :where(*:not([data-state="open"]) + &) {
+          border-width: 6px;
+        }
+      }
+      "
+    `)
+  })
+
   it('basic variable prefix', async () => {
     const uno = await createGenerator({
       presets: [
