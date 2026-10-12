@@ -51,37 +51,34 @@ allowBuilds:
   sharp: true
   simple-git-hooks: true
 
-catalog:
-  vue-clamp: ^1.7.1
-
 catalogs:
   build:
     '@jridgewell/remapping': ^2.3.5
     bumpp: ^12.3.0
-    rolldown: ^1.2.8
-    rollup: ^4.63.3
-    tsdown: ^0.23.0
+    rolldown: ^1.2.13
+    rollup: ^4.64.5
+    tsdown: ^0.23.1
     tsnapi: ^1.5.0c
-    turbo: ^2.10.13
-    webpack: ^5.111.0
-    webpack-sources: ^3.5.1
+    turbo: ^2.11.7
+    webpack: ^5.111.1
+    webpack-sources: ^3.6.0
   css:
     '@codemirror/lang-css': ^6.3.1
     '@csstools/normalize.css': ^12.1.1
     autoprefixer: ^10.6.1
     css-tree: ^3.2.1
     lightningcss: ^1.33.0
-    postcss: ^8.5.28
-    postcss-nested: ^7.0.2
+    postcss: ^8.5.29
+    postcss-nested: ^8.0.1
     sanitize.css: ^13.0.0
     windicss: ^3.5.6
   devtools:
-    devframe: ^1.0.0
+    devframe: ^1.2.3
   docs:
     '@codemirror/lang-html': ^6.4.12
     '@codemirror/lang-javascript': ^6.2.5
     '@codemirror/lang-xml': ^6.1.0
-    '@oxc-parser/binding-wasm32-wasi': ^0.150.0
+    '@oxc-parser/binding-wasm32-wasi': ^0.153.0
     '@shikijs/markdown-it': ^4.5.0
     '@shikijs/vitepress-twoslash': ^4.5.0
     codemirror: ^6.0.1
@@ -91,104 +88,104 @@ catalogs:
     shiki: ^4.5.0
     theme-vitesse: ^1.0.0
     vitepress: ^2.0.0-alpha.20
-    vitepress-plugin-group-icons: ^1.7.6
+    vitepress-plugin-group-icons: ^1.7.7
     vitepress-plugin-llms: ^1.14.0
   eslint:
     '@antfu/eslint-config': ^9.5.1
-    eslint: ^10.10.0
+    eslint: ^10.12.0
     eslint-plugin-antfu: ^3.2.3
     eslint-plugin-format: ^2.0.1
     eslint-vitest-rule-tester: ^3.2.0
-    svelte-eslint-parser: ^1.8.1
+    svelte-eslint-parser: ^1.9.0
   frameworks:
-    astro: ^7.3.2
+    astro: ^7.3.8
     react: ^18.3.1
   icons:
-    '@iconify-json/carbon': ^1.2.27
+    '@iconify-json/carbon': ^1.2.28
     '@iconify-json/catppuccin': ^1.2.17
-    '@iconify-json/iconoir': ^1.2.11
+    '@iconify-json/iconoir': ^1.2.12
     '@iconify-json/la': ^1.2.1
-    '@iconify-json/logos': ^1.2.14
+    '@iconify-json/logos': ^1.2.15
     '@iconify-json/mdi': ^1.2.3
     '@iconify-json/ph': ^1.2.2
     '@iconify-json/ri': ^1.2.10
-    '@iconify-json/tabler': ^1.2.38
+    '@iconify-json/tabler': ^1.2.42
     '@iconify-json/teenyicons': ^1.2.2
     '@iconify-json/twemoji': ^1.2.5
     '@iconify-json/uim': ^1.2.3
-    '@iconify-json/vscode-icons': ^1.2.77
+    '@iconify-json/vscode-icons': ^1.2.87
     '@iconify/types': ^2.0.0
     '@iconify/utils': ^3.1.7
   nuxt:
-    '@nuxt/kit': ^4.5.2
-    nuxt: ^4.5.2
+    '@nuxt/kit': ^4.6.1
+    nuxt: ^4.6.1
     nuxt-tsconfig-stub: ^0.0.2
     pkg-types: ^2.3.3
   oxc:
-    oxc-parser: ^0.150.0
-    oxc-walker: ^0.7.0
+    oxc-parser: ^0.153.0
+    oxc-walker: ^1.1.1
   svelte:
-    prettier-plugin-svelte: ^3.5.2
-    svelte: ^5.57.0
+    prettier-plugin-svelte: ^4.1.1
+    svelte: ^5.57.2
   testing:
-    '@vitest/ui': ^5.0.1
-    jsdom: ^29.1.1
+    '@vitest/ui': ^5.0.3
+    jsdom: ^30.1.2
     msw: ^2.7.0
-    vitest: ^5.0.1
+    vitest: ^5.0.3
   twoslash:
     twoslash-protocol: ^0.3.9
   types:
     '@types/connect': ^3.4.38
     '@types/css-tree': ^3.2.0
     '@types/markdown-it-link-attributes': ^3.0.5
-    '@types/node': ^25.9.7
+    '@types/node': ^25.9.9
     '@types/pug': ^2.0.10
     '@types/react': ^18.3.31
     '@types/splitpanes': ^2.2.6
-    '@types/ws': ^8.18.1
+    '@types/ws': ^8.18.2
   typescript:
-    '@typescript-eslint/rule-tester': ^8.70.0
-    '@typescript-eslint/utils': ^8.70.0
+    '@typescript-eslint/rule-tester': ^8.71.1
+    '@typescript-eslint/utils': ^8.71.1
     '@typescript/native-preview': 7.0.0-dev.20260514.1
-    tsx: ^4.23.13
+    tsx: ^4.23.15
     typescript: 6.0.3
   utils:
     '@antfu/ni': ^30.6.0
     '@antfu/utils': ^9.3.0
     '@arethetypeswrong/cli': ^0.18.5
-    '@colordx/core': ^5.8.0
-    acorn: ^8.18.0
-    cac: ^7.0.0
+    '@colordx/core': ^7.3.0
+    acorn: ^8.19.0
+    cac: ^7.1.0
     chokidar: ^5.0.0
     colorette: ^2.0.20
     consola: ^3.4.2
     fuse.js: ^7.5.0
     fzf: ^0.5.2
     knitwork: ^1.3.0
-    lint-staged: ^17.5.1
+    lint-staged: ^17.6.0
     local-pkg: ^1.2.1
-    lru-cache: ^11.5.2
+    lru-cache: ^11.5.3
     lz-string-es: ^1.0.0
-    magic-string: ^1.4.1
+    magic-string: ^1.4.3
     ofetch: ^1.5.1
-    p-limit: ^7.3.2
+    p-limit: ^7.3.3
     pathe: ^2.0.3
     perfect-debounce: ^2.1.0
     pnpm: 12.4.2
     premove: ^4.0.0
-    prettier: ^3.9.6
-    publint: ^0.3.24
+    prettier: ^3.9.10
+    publint: ^0.3.25
     semver: ^7.8.5
-    simple-git: ^3.36.0
+    simple-git: ^4.0.2
     simple-git-hooks: ^2.14.0
     splitpanes: ^4.1.2
-    std-env: ^4.2.0
-    synckit: ^0.11.13
-    taze: ^21.1.0
+    std-env: ^4.3.0
+    synckit: ^0.12.3
+    taze: ^21.3.0
     tinyexec: ^1.3.1
     tinyglobby: ^0.2.17
     unconfig: ^7.5.0
-    unplugin: ^3.3.0
+    unplugin: ^3.4.0
     unplugin-auto-import: ^21.1.0
     unplugin-utils: ^0.3.2
     unrun: ^0.3.1
@@ -196,26 +193,27 @@ catalogs:
     zimmerframe: ^1.1.5
   vite:
     '@vitejs/plugin-legacy': ^8.2.3
-    '@vitejs/plugin-vue': ^6.0.9
-    vite: ^8.3.0
-    vite-plugin-inspect: ^12.0.2
+    '@vitejs/plugin-vue': ^6.0.10
+    vite: ^8.3.4
+    vite-plugin-inspect: ^12.1.0
     vite-plugin-pages: ^0.33.3
     vite-plugin-windicss: ^1.9.4
   vscode:
     vscode-ext-gen: ^1.6.0
-    vscode-languageclient: ^9.0.1
-    vscode-languageserver: ^9.0.1
-    vscode-languageserver-textdocument: ^1.0.14
+    vscode-languageclient: ^10.1.2
+    vscode-languageserver: ^10.1.2
+    vscode-languageserver-textdocument: ^1.0.15
   vue:
-    '@vue/reactivity': ^3.5.42
-    '@vueuse/core': ^14.4.0
-    '@vueuse/math': ^14.4.0
-    '@vueuse/nuxt': ^14.4.0
+    '@vue/reactivity': ^3.5.43
+    '@vueuse/core': ^15.0.0
+    '@vueuse/math': ^15.0.0
+    '@vueuse/nuxt': ^15.0.0
     floating-vue: ^5.4.0
     unplugin-vue-components: ^32.1.0
-    unplugin-vue-markdown: ^30.0.0
-    vue: ^3.5.42
+    unplugin-vue-markdown: ^32.1.1
+    vue: ^3.5.43
+    vue-clamp: ^1.7.2
     vue-eslint-parser: ^10.4.1
     vue-flow-layout: ^0.2.0
-    vue-router: ^5.3.1
-    vue-virtual-scroller: ^2.0.1
+    vue-router: ^5.4.0
+    vue-virtual-scroller: ^3.0.5
