@@ -1,4 +1,5 @@
 import { describePackagesApiSnapshots } from 'tsnapi/vitest'
+import { normalizeValueHandlerKeys } from './api-snapshot-utils'
 
 // tsnapi reads built dist, so packages must be built first (as with the rest of
 // the suite, which resolves packages through their `exports` → dist). CI runs
@@ -25,6 +26,7 @@ await describePackagesApiSnapshots({
     if (surface !== 'dts')
       return
     for (const entry of entries) {
+      entry.text = normalizeValueHandlerKeys(entry.text)
       if (entry.kind === 'variable' && entry.text.split('\n').length > 12)
         entry.text = entry.text.replace(/:[\s\S]*$/, ': { /* collapsed */ }')
     }
