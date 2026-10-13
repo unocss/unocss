@@ -28,6 +28,16 @@ run({
         <div class="m-class f-class"></div>
       </template>
     `,
+    html`
+      <template>
+        <div un-before="m1 mx1 mr-1"></div>
+      </template>
+    `,
+    html`
+      <template>
+        <div title="mx1 m1 mr-1"></div>
+      </template>
+    `,
   ],
   invalid: [
     {
@@ -39,6 +49,23 @@ run({
       output: output => expect(output).toMatchInlineSnapshot(`
         "<template>
           <div class="m1 mx1 mr-1"></div>
+        </template>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+    {
+      code: html`
+        <template>
+          <div un-before="mx1 m1 mr-1"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div un-before="m1 mx1 mr-1"></div>
         </template>"
       `),
       errors: [
