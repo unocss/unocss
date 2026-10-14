@@ -234,7 +234,7 @@ catalogs:
     '@codemirror/lang-xml':
       specifier: ^6.1.0
       version: 6.1.0
-    '@oxc-parser/binding-wasm32-wasi':
+    '@oxc-parser/binding-wasm32-wasip1':
       specifier: ^0.153.0
       version: 0.153.0
     '@shikijs/markdown-it':
@@ -695,7 +695,7 @@ importers:
       '@iconify-json/uim':
         specifier: catalog:icons
         version: 1.2.3
-      '@oxc-parser/binding-wasm32-wasi':
+      '@oxc-parser/binding-wasm32-wasip1':
         specifier: catalog:docs
         version: 0.153.0
       '@shikijs/vitepress-twoslash':
@@ -4326,8 +4326,8 @@ packages:
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxc-parser/binding-wasm32-wasi@0.153.0':
-    resolution: {integrity: sha512-7elVTIUjz/IIHjYqFP9UmxEaEcOp9GWBSxih4Wlc8nSgGFh/RByqU8Z0cf/XYsOysoOwuYH7JEIZZkJcHQcvrA==}
+  '@oxc-parser/binding-wasm32-wasip1@0.153.0':
+    resolution: {integrity: sha512-drOABa4GV/ewLkhYVQY+yxdViPrP6fsgoEtzox2h7zS3cJlDpyyPUSFvMP6g3LGLnNEVHqAFH0z6jxIK4QlpBA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
 
   '@oxc-parser/binding-win32-arm64-msvc@0.147.0':
@@ -14106,7 +14106,7 @@ snapshots:
   '@oxc-parser/binding-openharmony-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-wasm32-wasi@0.153.0':
+  '@oxc-parser/binding-wasm32-wasip1@0.153.0':
     dependencies:
       '@emnapi/core': 2.0.0-alpha.3
       '@emnapi/runtime': 2.0.0-alpha.3
