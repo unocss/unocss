@@ -3,8 +3,7 @@ import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
 import { gzipSync } from 'node:zlib'
 import { createAutocomplete } from '@unocss/autocomplete'
-import { BetterMap, CountableSet } from '@unocss/core'
-import { getCSS } from '@unocss/language-server'
+import { BetterMap, CountableSet, toArray } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { analyzer } from './analyzer'
@@ -145,7 +144,7 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
         if (cached)
           return cached
 
-        const css = await getCSS(ctx.uno, token)
+        const { css } = await ctx.uno.generate(new Set(toArray(token)), { preflights: false, safelist: false })
         if (css)
           generatedCssCache.set(token, css)
         return css || null
