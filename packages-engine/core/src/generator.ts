@@ -421,8 +421,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
             .sort((a, b) => {
               return a[0] - b[0] // rule index
                 || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-                || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-                || a[1]?.localeCompare(b[1] || '') // selector
+                || (a[5]?.currentSelector ?? '').localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                || (a[1] ?? '').localeCompare(b[1] ?? '') // selector
                 || a[2]?.localeCompare(b[2] || '') // body
                 || 0
             })

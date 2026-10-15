@@ -181,4 +181,48 @@ describe('order', () => {
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
   })
+
+  describe.each([false, true])('optional sort keys (details: %s)', (details) => {
+    it.each([0, 4100])('keeps raw shortcut order with cold and warm caches (%s unmatched tokens)', async (paddingSize) => {
+      const padding = Array.from({ length: paddingSize }, (_, i) => `unused-${i}`)
+      for (const tokens of [
+        ['shortcut', 'raw-red', ...padding],
+        ['raw-red', ...padding, 'shortcut'],
+        ['shortcut', ...padding, 'raw-red'],
+      ]) {
+        const uno = await createGenerator({
+          presets: [],
+          details,
+          rules: [[/^raw-(red|blue)$/, ([, color]) => `.example{color:${color}}`]],
+          shortcuts: { shortcut: 'raw-blue' },
+        })
+
+        // Repeat the input after populating the cache, then reverse its order.
+        for (const input of [tokens, tokens, tokens.toReversed()]) {
+          const { css } = await uno.generate(input.join(' '), { preflights: false })
+          expect(css).toBe('/* layer: default */\n.example{color:red}\n.example{color:blue}')
+        }
+      }
+    })
+
+    it('keeps mixed raw and normal rule order independent of input order', async () => {
+      const create = () => createGenerator({
+        presets: [],
+        details,
+        rules: [[/^rule-(raw|normal)$/, ([, mode]) => mode === 'raw' ? 'z{color:blue}' : { color: 'red' }]],
+      })
+      const reference = await create()
+      const { css: expected } = await reference.generate('rule-raw rule-normal', { preflights: false })
+      expect(expected).toContain('z{color:blue}')
+      expect(expected).toContain('.rule-normal{color:red;}')
+
+      for (const input of ['rule-raw rule-normal', 'rule-normal rule-raw']) {
+        const uno = await create()
+        const cold = await uno.generate(input, { preflights: false })
+        const warm = await uno.generate(input, { preflights: false })
+        expect(cold.css).toBe(expected)
+        expect(warm.css).toBe(expected)
+      }
+    })
+  })
 })
