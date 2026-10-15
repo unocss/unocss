@@ -177,6 +177,9 @@
 --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
 --container-sm: 24rem;
 --colors-sky-300: oklch(82.8% 0.111 230.318);
+--container-xs: 20rem;
+--container-2xl: 42rem;
+--container-7xl: 80rem;
 --colors-gray-DEFAULT: oklch(70.7% 0.022 261.325);
 --colors-gray-400: oklch(70.7% 0.022 261.325);
 --colors-black: #000;
@@ -826,10 +829,13 @@
 .grow-0{flex-grow:0;}
 .grow-\$variable{flex-grow:var(--variable);}
 .grow-10{flex-grow:10;}
+.basis-2xl{flex-basis:var(--container-2xl);}
 .basis-auto{flex-basis:auto;}
+.basis-xs{flex-basis:var(--container-xs);}
 .flex-basis-\$variable{flex-basis:var(--variable);}
 .flex-basis-0{flex-basis:calc(var(--spacing) * 0);}
 .flex-basis-1\/2{flex-basis:50%;}
+.flex-basis-7xl{flex-basis:var(--container-7xl);}
 .flex-basis-full{flex-basis:100%;}
 .flex-row{flex-direction:row;}
 .flex-col-reverse{flex-direction:column-reverse;}

@@ -679,6 +679,11 @@ export const presetWind4Targets: string[] = [
   'zoom-[1.1]',
   'zoom-[var(--zoom)]',
 
+  // flex-basis container sizes
+  'basis-xs',
+  'basis-2xl',
+  'flex-basis-7xl',
+
   /* gap rules */
 
   // rule style
