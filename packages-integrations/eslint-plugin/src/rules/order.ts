@@ -310,8 +310,9 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
-        if (node.key.name === 'class') {
-          if (node.value.type === 'VLiteral')
+        const name = node.key.name
+        if (name === 'class' || (typeof name === 'string' && name.startsWith('un-'))) {
+          if (node.value?.type === 'VLiteral')
             checkLiteral(node.value)
         }
       },
