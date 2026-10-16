@@ -250,6 +250,35 @@ describe('preset-wind4', () => {
     `)
   })
 
+  // https://github.com/unocss/unocss/issues/5370
+  // Arbitrary var() values are complete colors and must not be wrapped in
+  // color-mix(). This matches preset-mini/preset-wind3 and Tailwind v4,
+  // where bg-[var(--x)] emits background-color: var(--x).
+  it('arbitrary css variables are not wrapped in color-mix', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'bg-[var(--h-btn-bg,color-mix(in_oklab,var(--h-info)_100%,transparent))]',
+      'bg-[var(--some-var)]',
+      'text-[var(--some-var)]',
+      'bg-[var(--some-var)]/50',
+    ].join(' '), { preflights: false })
+
+    expect(css).toContain('background-color:var(--h-btn-bg,color-mix(in oklab,var(--h-info) 100%,transparent));')
+    expect(css).toContain('background-color:var(--some-var);')
+    expect(css).toContain('color:var(--some-var);')
+    expect(css).not.toContain('color-mix(in oklab, var(--h-btn-bg')
+    // an opacity modifier still has to use color-mix()
+    expect(css).toContain('background-color:color-mix(in oklab, var(--some-var) 50%, transparent)')
+  })
+
   it('unit resolve rem to px', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
@@ -924,8 +953,8 @@ describe('important', () => {
 
     expect(getLayer('default')).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
-      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:var(--colors-blue-DEFAULT, #000);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:var(--colors-red-200, #fff);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
