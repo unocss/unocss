@@ -25,6 +25,7 @@ import {
 import { variantNegative } from './negative'
 import { placeholderModifier } from './placeholder'
 import { variantPartClasses, variantPseudoClassesAndElements, variantPseudoClassFunctions, variantTaggedPseudoClasses } from './pseudo'
+import { variantScrollbarSize } from './scrollbar'
 import { variantStartingStyle } from './startingstyle'
 import { variantSupports } from './supports'
 
@@ -52,6 +53,7 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     ...variantCombinators,
     ...variantSvgCombinators,
 
+    variantScrollbarSize,
     placeholderModifier,
     ...variantPseudoClassesAndElements(),
     variantPseudoClassFunctions(),
