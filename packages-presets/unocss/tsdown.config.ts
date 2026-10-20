@@ -16,6 +16,7 @@ export default defineConfig([
     },
     format: ['esm', 'cjs'],
     exports: true,
+    cjsDefault: false,
   },
   {
     name: 'ESM only',

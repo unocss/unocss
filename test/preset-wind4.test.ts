@@ -548,6 +548,81 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('negated data variants', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'not-data-[state=collapsed]:flex',
+      'group-not-data-[state=collapsed]/sidebar:flex',
+      'peer-not-data-[state=collapsed]/sidebar:flex',
+      'group-not-data-[state=open]:b-1',
+      'peer-not-data-[state=open]:b-2',
+      'has-not-data-[state=open]:b-3',
+      'in-not-data-[state=open]:b-4',
+      'parent-not-data-[state=open]:b-5',
+      'previous-not-data-[state=open]:b-6',
+    ])
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .not-data-\\[state\\=collapsed\\]\\:flex:not([data-state="collapsed"]) {
+        display: flex;
+      }
+      .group-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.group\\/sidebar):not([data-state="collapsed"]) *) {
+          display: flex;
+        }
+      }
+      .group-not-data-\\[state\\=open\\]\\:b-1 {
+        &:is(:where(.group):not([data-state="open"]) *) {
+          border-width: 1px;
+        }
+      }
+      .has-not-data-\\[state\\=open\\]\\:b-3 {
+        &:has(*:not([data-state="open"])) {
+          border-width: 3px;
+        }
+      }
+      .in-not-data-\\[state\\=open\\]\\:b-4 {
+        :where(*:not([data-state="open"])) & {
+          border-width: 4px;
+        }
+      }
+      .parent-not-data-\\[state\\=open\\]\\:b-5 {
+        :where(*:not([data-state="open"]) > &) {
+          border-width: 5px;
+        }
+      }
+      .peer-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.peer\\/sidebar):not([data-state="collapsed"]) ~ *) {
+          display: flex;
+        }
+      }
+      .peer-not-data-\\[state\\=open\\]\\:b-2 {
+        &:is(:where(.peer):not([data-state="open"]) ~ *) {
+          border-width: 2px;
+        }
+      }
+      .previous-not-data-\\[state\\=open\\]\\:b-6 {
+        :where(*:not([data-state="open"]) + &) {
+          border-width: 6px;
+        }
+      }
+      "
+    `)
+  })
+
   it('basic variable prefix', async () => {
     const uno = await createGenerator({
       presets: [
@@ -589,6 +664,39 @@ describe('preset-wind4', () => {
     expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:space-y-4{\n:where(&>:not(:last-child)){--un-space-y-reverse:0;')
     expect(css).not.toContain('.dark\\:divide-gray-700{@media')
     expect(css).not.toContain('.dark\\:space-y-4{@media')
+  })
+
+  it('in-* resolves pseudo-class names against the ancestor', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('in-focus:block in-odd:block in-open:block in-div:block in-[.card]:block', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .in-\\[\\.card\\]\\:block{
+      :where(*:is(.card)) &{display:block;}
+      }
+      .in-div\\:block{
+      :where(*:is(div)) &{display:block;}
+      }
+      .in-focus\\:block{
+      :where(*:is(:focus)) &{display:block;}
+      }
+      .in-odd\\:block{
+      :where(*:is(:nth-child(odd))) &{display:block;}
+      }
+      .in-open\\:block{
+      :where(*:is(:is([open],:popover-open,:open))) &{display:block;}
+      }"
+    `)
+
+    const { css: skipped } = await uno.generate('in-before:block in-nth:block', { preflights: false })
+    expect(skipped).toContain(':where(*:is(before)) &')
+    expect(skipped).toContain(':where(*:is(nth)) &')
   })
 
   it('h-screen-* uses verticalBreakpoint', async () => {

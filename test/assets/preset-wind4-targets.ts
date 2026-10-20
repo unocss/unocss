@@ -520,6 +520,8 @@ export const presetWind4Targets: string[] = [
   'data-[foo=x]:text-green-600',
   'data-[foo=x]:data-[bar=y]:text-green-600',
   'data-dropdown:ring-green',
+  'not-data-[state=collapsed]:flex',
+  'not-data-[invalid~=grammar]:underline-green-600',
 
   // view-transition
   'view-transition-foo',
@@ -675,6 +677,7 @@ export const presetWind4Targets: string[] = [
   'in-[div]:bg-red-400',
   'in-[a>button:hover]:font-bold',
   'in-data-[state=closed]:border-5',
+  'in-not-data-[state=closed]:border-5',
   'in-aria-[hidden=false]:font-21',
 
   // inert
@@ -691,6 +694,11 @@ export const presetWind4Targets: string[] = [
   'zoom-50',
   'zoom-[1.1]',
   'zoom-[var(--zoom)]',
+
+  // flex-basis container sizes
+  'basis-xs',
+  'basis-2xl',
+  'flex-basis-7xl',
 
   /* gap rules */
 

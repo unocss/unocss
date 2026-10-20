@@ -1,5 +1,5 @@
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import type { UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { FilterPattern, UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { BetterMap, createGenerator } from '@unocss/core'
@@ -52,10 +52,9 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     await uno.setConfig(rawConfig)
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
-      : createFilter(
+      : createPipelineFilter(
           rawConfig.content?.pipeline?.include || defaultPipelineInclude,
           rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
-          { resolve: typeof configOrPath === 'string' ? configOrPath : root },
         )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
@@ -63,6 +62,36 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     dispatchReload()
 
     return result
+  }
+
+  /**
+   * Create a filter for the pipeline `include`/`exclude` patterns.
+   *
+   * The patterns are resolved against the context root, which is updated from the
+   * build tool's root directory. In some setups that directory is not the one the
+   * patterns are written relative to — Nuxt, for example, reports `srcDir` as the
+   * Vite root, so `app/composables/**` would be resolved to `<root>/app/app/...`
+   * and never match. Resolving against `process.cwd()` as well keeps those
+   * patterns working.
+   *
+   * `include` is a union across the bases (matching either one is enough), while
+   * `exclude` stays an intersection (being excluded by either one is enough).
+   * Taking the union of the complete filters instead would let a file that one
+   * base excludes slip through whenever another base does not match it.
+   */
+  function createPipelineFilter(
+    include: FilterPattern,
+    exclude: FilterPattern,
+  ) {
+    const bases = [...new Set([
+      typeof configOrPath === 'string' ? configOrPath : root,
+      process.cwd(),
+    ])]
+    const includeFilters = bases.map(base => createFilter(include, [], { resolve: base }))
+    const excludeFilters = bases.map(base => createFilter(exclude, [], { resolve: base }))
+    return (id: unknown) =>
+      includeFilters.some(filter => filter(id))
+      && !excludeFilters.some(filter => filter(id))
   }
 
   async function updateRoot(newRoot: string) {

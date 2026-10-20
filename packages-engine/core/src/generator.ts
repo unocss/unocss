@@ -480,15 +480,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
             .filter(Boolean)
 
-          const rules = Array.from(new Set(ruleLines))
+          const css = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
           if (!parent)
-            return rules
+            return css
 
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
+          return wrapWithParent(parent, css, nl)
         })
         .filter(Boolean)
         .join(nl)
@@ -728,10 +727,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     return this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
       .map(({ selector, entries, parent }) => {
-        const cssBody = `${selector}{${entriesToCss(entries)}}`
-        if (parent)
-          return `${parent}{${cssBody}}`
-        return cssBody
+        // Rules that return their CSS as a raw string bypass the scope
+        // placeholder expansion applied to normal utilities at render time,
+        // so expand the `$$` slots left by prefix- and parent-based variants
+        // here.
+        const css = `${applyScope(selector)}{${entriesToCss(entries)}}`
+        if (parent) {
+          return wrapWithParent(parent, css)
+        }
+        return css
       })
       .join('')
   }
@@ -1145,6 +1149,11 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
+}
+
+function wrapWithParent(parent: string, css: string, nl = '') {
+  const parents = parent.split(' $$ ')
+  return `${parents.join('{')}{${nl}${css}${nl}${'}'.repeat(parents.length)}`
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/

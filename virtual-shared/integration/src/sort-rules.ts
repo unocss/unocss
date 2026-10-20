@@ -1,5 +1,5 @@
 import type { UnoGenerator } from '@unocss/core'
-import { collapseVariantGroup, notNull, parseVariantGroup } from '@unocss/core'
+import { collapseVariantGroup, notNull, parseVariantGroup, splitVariantGroupBody } from '@unocss/core'
 
 export async function sortRules(rules: string, uno: UnoGenerator) {
   const unknown: string[] = []
@@ -15,7 +15,7 @@ export async function sortRules(rules: string, uno: UnoGenerator) {
   rules = expandedResult.expanded
 
   const result: Array<[number, string] | undefined> = []
-  const arr = rules.split(/\s+/g)
+  const arr = splitVariantGroupBody(rules).map(item => item.value)
   for (const i of arr) {
     if (!i)
       continue
