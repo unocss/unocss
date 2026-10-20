@@ -28,6 +28,9 @@ export default createRule({
             type: 'array',
             items: { type: 'string' },
           },
+          attributifyPrefix: {
+            type: 'string',
+          },
         },
         additionalProperties: false,
       },
@@ -36,11 +39,12 @@ export default createRule({
       {
         unoFunctions: ['clsx', 'classnames'],
         unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
+        attributifyPrefix: 'un-',
       },
     ],
   },
   create(context) {
-    let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
+    let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'], attributifyPrefix = 'un-' } = context.options[0] || {}
 
     unoFunctions = unoFunctions.map(name => name.toLowerCase())
     function isUnoFunction(name: string) {
@@ -311,7 +315,7 @@ export default createRule({
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
         const name = node.key.name
-        if (name === 'class' || (typeof name === 'string' && name.startsWith('un-'))) {
+        if (name === 'class' || (typeof name === 'string' && name.startsWith(attributifyPrefix))) {
           if (node.value?.type === 'VLiteral')
             checkLiteral(node.value)
         }

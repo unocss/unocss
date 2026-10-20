@@ -9,6 +9,7 @@ type UnocssEnforceClassCompile = [] | [{
 type UnocssOrder = [] | [{
   unoFunctions?: string[]
   unoVariables?: string[]
+  attributifyPrefix?: string
 }]
 
 export interface UnoCSSEslintPlugin {
