@@ -88,7 +88,9 @@ describe.concurrent('fixtures', () => {
     expect(bCss).not.contains('.text-red')
   })
 
-  it.skipIf(isWindows)('astro dist-chunk', async () => {
+  // this test relies on old Astro version which requires old Vite version
+  // ecosystem-ci uses the latest Vite version and this test fails
+  it.skipIf(isWindows || process.env.ECOSYSTEM_CI)('astro dist-chunk', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/astro-dist-chunk')
     await rm(join(root, 'dist'), { recursive: true, force: true })
 
