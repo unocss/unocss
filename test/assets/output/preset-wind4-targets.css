@@ -1328,7 +1328,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .justify-self-end-safe{justify-self:safe flex-end;}
 .justify-self-revert{justify-self:revert;}
 .order-\$variable{order:var(--variable);}
-.order-first{order:calc(-infinity);}
+.order-first{order:-9999;}
 .order-none{order:0;}
 .place-content-stretch{place-content:stretch;}
 .place-content-baseline{place-content:baseline;}
@@ -1724,9 +1724,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .placeholder-inherit::placeholder{color:inherit;}
 .placeholder-red-400::placeholder{color:color-mix(in srgb, var(--colors-red-400) var(--un-placeholder-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 .placeholder-opacity-60::placeholder{--un-placeholder-opacity:60%;}
-.scrollbar-auto{scrollbar-width:auto;}
-.scrollbar-thin{scrollbar-width:thin;}
-.scrollbar-none{scrollbar-width:none;}
 .scrollbar-thumb-red-500{--un-scrollbar-thumb:color-mix(in srgb, var(--colors-red-500) var(--un-scrollbar-thumb-opacity), transparent) /* oklch(63.7% 0.237 25.331) */;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
 .scrollbar-thumb-red-500\/50{--un-scrollbar-thumb:color-mix(in srgb, var(--colors-red-500) 50%, transparent) /* oklch(63.7% 0.237 25.331) */;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
 .scrollbar-track-\[\#0088cc\]{--un-scrollbar-track:color-mix(in oklab, #0088cc var(--un-scrollbar-track-opacity), transparent) /* #0088cc */;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
@@ -1742,6 +1739,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .scrollbar-radius-sm::-webkit-scrollbar-track{border-radius:var(--radius-sm);}
 .scrollbar-thumb-radius-4px::-webkit-scrollbar-thumb{border-radius:4px;}
 .scrollbar-track-radius-2px::-webkit-scrollbar-track{border-radius:2px;}
+.scrollbar-auto{scrollbar-width:auto;}
+.scrollbar-thin{scrollbar-width:thin;}
+.scrollbar-none{scrollbar-width:none;}
 .snap-y{scroll-snap-type:y var(--un-scroll-snap-strictness);}
 .snap-both{scroll-snap-type:both var(--un-scroll-snap-strictness);}
 .snap-mandatory{--un-scroll-snap-strictness:mandatory;}
