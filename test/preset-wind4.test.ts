@@ -178,10 +178,10 @@ describe('preset-wind4', () => {
       @property --un-scrollbar-track{syntax:"<color>";inherits:false;initial-value:#0000;}
       @property --un-scrollbar-track-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: default */
-      .scrollbar-thin{scrollbar-width:thin;}
-      .scrollbar-none{scrollbar-width:none;}
       .scrollbar-thumb-current{--un-scrollbar-thumb:currentColor;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
-      .scrollbar-track-\\[\\#0088cc\\]{--un-scrollbar-track:color-mix(in oklab, #0088cc var(--un-scrollbar-track-opacity), transparent);scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}"
+      .scrollbar-track-\\[\\#0088cc\\]{--un-scrollbar-track:color-mix(in oklab, #0088cc var(--un-scrollbar-track-opacity), transparent);scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
+      .scrollbar-thin{scrollbar-width:thin;}
+      .scrollbar-none{scrollbar-width:none;}"
     `)
   })
 
@@ -209,6 +209,32 @@ describe('preset-wind4', () => {
       .md\\:scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
       }"
     `)
+  })
+
+  it('scrollbar size utilities compose with variants and shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [presetWind4({ preflights: { reset: false, theme: false } })],
+      shortcuts: { 'scrollbar-rounded': 'scrollbar-w-4 scrollbar-radius-sm' },
+    })
+
+    const { css } = await uno.generate([
+      'hover:scrollbar-w-4',
+      'focus:scrollbar-radius-sm',
+      'children:scrollbar-w-4',
+      '[&>div]:scrollbar-thumb-radius-4px',
+      'scrollbar-w-4!',
+      'hover:scrollbar-rounded',
+    ], { preflights: false })
+
+    expect(css).toContain('.hover\\:scrollbar-w-4:hover::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.focus\\:scrollbar-radius-sm:focus::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.focus\\:scrollbar-radius-sm:focus::-webkit-scrollbar-track{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.children\\:scrollbar-w-4>*::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.\\[\\&\\>div\\]\\:scrollbar-thumb-radius-4px>div::-webkit-scrollbar-thumb{border-radius:4px;}')
+    expect(css).toContain('.scrollbar-w-4\\!::-webkit-scrollbar{width:calc(var(--spacing) * 4) !important;}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar-track{border-radius:var(--radius-sm);}')
   })
 
   it('fully theme prefight', async () => {
