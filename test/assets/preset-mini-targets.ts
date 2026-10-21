@@ -1346,6 +1346,12 @@ export const presetMiniNonTargets = [
   // https://github.com/unocss/unocss/issues/2951
   '[https://example.com/documentation/](https://example.com/documentation/)',
 
+  // arbitrary values must not break out of the declaration and inject rules
+  // https://github.com/unocss/unocss/issues/5300
+  'w-[100px;}body{background:red}]',
+  'text-[url(https://evil?a=b);}html{}]',
+  'bg-[calc(1px);}*{}]',
+
   // not exists
   'text-main/50',
 

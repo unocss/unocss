@@ -99,6 +99,63 @@ describe('cli', () => {
     expect(transform).toMatchSnapshot()
   })
 
+  it('applies pre, default, and post transformers', async () => {
+    const { output, transform } = await runCli({
+      'views/index.html': '<div></div>',
+      'unocss.config.js': `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    transformers: [
+      {
+        name: 'pre',
+        enforce: 'pre',
+        transform(code) {
+          code.prepend('<div class="bg-red"></div>')
+        },
+      },
+      {
+        name: 'default',
+        transform(code) {
+          code.append('<div class="bg-blue"></div>')
+        },
+      },
+      {
+        name: 'post',
+        enforce: 'post',
+        transform(code) {
+          code.append('<div class="p-4"></div>')
+        },
+      },
+    ],
+  })
+      `.trim(),
+    }, { args: ['--rewrite'], transformFile: 'views/index.html' })
+
+    expect(output).toContain('.bg-red')
+    expect(output).toContain('.bg-blue')
+    expect(output).toContain('.p-4')
+    expect(transform).toBe('<div class="bg-red"></div><div></div><div class="bg-blue"></div><div class="p-4"></div>')
+  })
+
+  it('rejects the build when a transformer rejects', async () => {
+    await expect(runCli({
+      'views/index.html': '<div class="bg-red"></div>',
+      'unocss.config.js': `
+  import { defineConfig, presetWind3 } from 'unocss'
+  export default defineConfig({
+    presets: [presetWind3()],
+    transformers: [{
+      name: 'rejecting-transformer',
+      async transform() {
+        throw new Error('intentional transformer failure')
+      },
+    }],
+  })
+      `.trim(),
+    })).rejects.toThrow('intentional transformer failure')
+  })
+
   it('supports unocss.config.js cli options', async () => {
     const testDir = getTestDir()
     const outFiles = ['./uno1.css', './test/uno2.css']

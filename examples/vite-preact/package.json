@@ -19,9 +19,9 @@
     "@unocss/preset-attributify": "link:../../packages-presets/preset-attributify",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
     "cross-env": "^7.0.3",
-    "typescript": "^5.8.2",
+    "typescript": "^6.0.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.2.1"
+    "vite": "^8.3.0"
   },
   "stackblitz": {
     "installDependencies": false,

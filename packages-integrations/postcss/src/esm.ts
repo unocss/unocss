@@ -115,7 +115,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)
-    await parseScreen(root, uno, directiveMap.screen)
+    parseScreen(root, uno, directiveMap.screen)
 
     promises.push(
       ...plainContent.map(async (c, idx) => {

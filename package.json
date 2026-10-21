@@ -1,9 +1,9 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.10.0",
+  "version": "66.11.0",
   "private": true,
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=22"
   },
@@ -51,7 +51,7 @@
     "@iconify-json/teenyicons": "catalog:icons",
     "@iconify-json/twemoji": "catalog:icons",
     "@iconify-json/uim": "catalog:icons",
-    "@oxc-parser/binding-wasm32-wasi": "catalog:docs",
+    "@oxc-parser/binding-wasm32-wasip1": "catalog:docs",
     "@shikijs/vitepress-twoslash": "catalog:docs",
     "@types/connect": "catalog:types",
     "@types/css-tree": "catalog:types",
@@ -77,7 +77,7 @@
     "floating-vue": "catalog:vue",
     "jsdom": "catalog:testing",
     "lint-staged": "catalog:utils",
-    "lz-string": "catalog:utils",
+    "lz-string-es": "catalog:utils",
     "magic-string": "catalog:utils",
     "msw": "catalog:testing",
     "nuxt": "catalog:nuxt",
@@ -100,6 +100,7 @@
     "tinyexec": "catalog:utils",
     "tinyglobby": "catalog:utils",
     "tsdown": "catalog:build",
+    "tsnapi": "catalog:build",
     "tsx": "catalog:typescript",
     "turbo": "catalog:build",
     "typescript": "catalog:typescript",

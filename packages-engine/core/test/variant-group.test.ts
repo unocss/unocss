@@ -1,5 +1,11 @@
 import { collapseVariantGroup, expandVariantGroup } from '@unocss/core'
+import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
+
+const expanders = {
+  string: (s: string) => expandVariantGroup(s),
+  MagicString: (s: string) => expandVariantGroup(new MagicString(s)).toString(),
+}
 
 describe('variant-group', () => {
   it('basic', async () => {
@@ -58,10 +64,51 @@ describe('variant-group', () => {
       .toEqual('[&>a]:[&>b]:p-1 [&>a]:[&>b]:p-2')
     expect(expandVariantGroup('[&:nth-child(2)]:([&:nth-child(3)]:(text-red p-1))'))
       .toEqual('[&:nth-child(2)]:[&:nth-child(3)]:text-red [&:nth-child(2)]:[&:nth-child(3)]:p-1')
+    expect(expandVariantGroup('[&[aria-selected=true]]:(bg-accent/9/oklab text-accent-strong/oklab)'))
+      .toEqual('[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab')
   })
 
   it('square bracket case2', async () => {
     expect(expandVariantGroup('[&]:(a-b c-d)')).toEqual('[&]:a-b [&]:c-d')
+  })
+
+  it.each(Object.entries(expanders))('attribute selectors inside a group body (%s)', (_name, expand) => {
+    const cases = [
+      ['hover:([&[aria-selected=true]]:bg-accent text-accent)', 'hover:[&[aria-selected=true]]:bg-accent hover:text-accent'],
+      ['[&[open]]:(hover:([&[disabled]]:p-1 p-2)) focus:(m-1 m-2)', '[&[open]]:hover:[&[disabled]]:p-1 [&[open]]:hover:p-2 focus:m-1 focus:m-2'],
+      ['hover:(content-[\'[\'] p-2)', 'hover:content-[\'[\'] hover:p-2'],
+      ['hover:(content-["["] p-2)', 'hover:content-["["] hover:p-2'],
+      ['hover:(grid-cols-[1fr_2fr] p-2)', 'hover:grid-cols-[1fr_2fr] hover:p-2'],
+      ['hover:(shadow-[0_0_0_1px_red] p-2)', 'hover:shadow-[0_0_0_1px_red] hover:p-2'],
+      ['hover:(content-[\'a_b\'] p-2)', 'hover:content-[\'a_b\'] hover:p-2'],
+      ['hover:(content-["a_b"] p-2)', 'hover:content-["a_b"] hover:p-2'],
+      ['hover:(content-[\'a\\\'_b\'] p-2)', 'hover:content-[\'a\\\'_b\'] hover:p-2'],
+      ['hover:(content-["a\\"_b"] p-2)', 'hover:content-["a\\"_b"] hover:p-2'],
+      ['hover:(content-[\'[ a ]\'] p-2)', 'hover:content-[\'[ a ]\'] hover:p-2'],
+      ['hover:(focus:(content-[\'a_b\'] p-2) m-1) active:(p-3 m-2)', 'hover:focus:content-[\'a_b\'] hover:focus:p-2 hover:m-1 active:p-3 active:m-2'],
+    ]
+    for (const [input, expected] of cases)
+      expect(expand(input)).toEqual(expected)
+  })
+
+  it.each(Object.entries(expanders))('leaves deeper prefix brackets unexpanded (%s)', (_name, expand) => {
+    // Prefix matching supports one inner bracket level; deeper nesting remains untouched.
+    const input = '[&[[data-a=b]]]:(p-1 p-2)'
+    expect(expand(input)).toBe(input)
+  })
+
+  it.each(['[&[data-a=b]]:', '[&foo]:', '[>foo]:', '[:foo]:'])('repeated arbitrary variant prefixes: %s', (variant) => {
+    // Optional prefix markers used to multiply backtracking paths at each bracket.
+    const prefix = variant.repeat(32)
+    const cases = [
+      [`${prefix}text-red`, `${prefix}text-red`],
+      [`${prefix}(p-1 p-2`, `${prefix}(p-1 p-2`],
+      [`${prefix}(p-1 p-2)`, `${prefix}p-1 ${prefix}p-2`],
+    ]
+    for (const [input, expected] of cases) {
+      expect(expanders.string(input)).toBe(expected)
+      expect(expanders.MagicString(input)).toBe(expected)
+    }
   })
 
   it('asterisk with tilde', async () => {
@@ -102,5 +149,35 @@ describe('collapse-variant-group', () => {
     expect(collapseVariantGroup('', [])).toEqual('')
     expect(collapseVariantGroup('a:b:c a:c:b', [])).toEqual('a:b:c a:c:b')
     expect(collapseVariantGroup('hello a:b a:c middle c:a:b c:d a:d', ['a:', 'c:'])).toEqual('hello a:(b c d) middle c:(a:b d)')
+  })
+
+  it.each([
+    'content-[\'a b\']',
+    'content-["a b"]',
+    'content-[\'a\\\' b\']',
+    'content-["a\\" b"]',
+    'content-[\'[ a ]\']',
+    'grid-cols-[1fr 2fr]',
+    '[&[data-label="a b"]]:p-1',
+  ])('preserves arbitrary values when collapsing %s', (utility) => {
+    const expanded = `hover:${utility} hover:p-2`
+    const collapsed = collapseVariantGroup(expanded, ['hover:'])
+    expect(collapsed).toBe(`hover:(${utility} p-2)`)
+    expect(expandVariantGroup(collapsed)).toBe(expanded)
+  })
+
+  it.each([
+    ['', ''],
+    [' \t\n ', ' '],
+    [' \thover:p-1 hover:p-2\n ', ' hover:(p-1 p-2) '],
+    ['\thover:p-1 hover:p-2', ' hover:(p-1 p-2)'],
+    ['hover:p-1 hover:p-2\n', 'hover:(p-1 p-2) '],
+    ['foo\t\nhover:p-1   hover:p-2', 'foo hover:(p-1 p-2)'],
+  ])('preserves whitespace normalization for %j', (input, expected) => {
+    expect(collapseVariantGroup(input, ['hover:'])).toBe(expected)
+  })
+
+  it('treats quotes outside brackets as literal characters', () => {
+    expect(collapseVariantGroup('don\'t hover:p-1 hover:p-2', ['hover:'])).toBe('don\'t hover:(p-1 p-2)')
   })
 })

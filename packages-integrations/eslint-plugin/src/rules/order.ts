@@ -52,6 +52,13 @@ export default createRule({
       return unoVariablesRegexes.some(reg => reg.test(name))
     }
 
+    function unwrapTsExpression(node: TSESTree.Expression): TSESTree.Expression {
+      let current = node
+      while (current.type === 'TSAsExpression' || current.type === 'TSSatisfiesExpression')
+        current = current.expression
+      return current
+    }
+
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
@@ -275,12 +282,10 @@ export default createRule({
         if (node.id.type !== 'Identifier' || !node.init || !isUnoVariable(node.id.name))
           return
 
-        if (isPossibleLiteral(node.init)) {
-          return checkPossibleLiteral(node.init)
-        }
+        const init = unwrapTsExpression(node.init)
 
-        if (node.init.type === 'TSAsExpression' && isPossibleLiteral(node.init.expression)) {
-          return checkPossibleLiteral(node.init.expression)
+        if (isPossibleLiteral(init)) {
+          return checkPossibleLiteral(init)
         }
 
         function handleObjectExpression(node: TSESTree.ObjectExpression) {
@@ -297,11 +302,8 @@ export default createRule({
             }
           })
         }
-        if (node.init.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init)
-        }
-        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init.expression)
+        if (init.type === 'ObjectExpression') {
+          return handleObjectExpression(init)
         }
       },
     }

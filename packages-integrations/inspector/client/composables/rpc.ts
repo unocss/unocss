@@ -85,6 +85,19 @@ async function connect(): Promise<DevframeRpcClient> {
   return rpc
 }
 
+/**
+ * Ask the dev server to print its one-time code in the terminal — the auth
+ * screen calls this when it appears. devframe >=0.9.14 no longer prints the
+ * banner automatically on page load, so a client driving its own auth UI
+ * (`simpleAuth: false`) must request it explicitly; older hosts lack the
+ * method and still print the banner themselves. Pass `reissue` to rotate a
+ * fresh code (the server prints each code at most once).
+ */
+export async function requestAuthCode(reissue = false): Promise<void> {
+  const rpc = await ensureClient()
+  await rpc.requestAuthCode?.({ reissue })
+}
+
 function ensureClient(): Promise<DevframeRpcClient> {
   if (!connectPromise) {
     connectPromise = connect().catch((error) => {
@@ -125,24 +138,6 @@ export async function rpcCall<T>(method: string, ...args: any[]): Promise<T> {
   const rpc = await ensureClient()
   await rpc.ensureTrusted(0)
   return await rpc.scope('unocss').rpc.call(method as any, ...args) as T
-}
-
-const SHIKI_SERVICE = '@devframes/service-shiki'
-
-/**
- * Highlight code to dual-theme HTML through the host's Shiki wire service,
- * so the client doesn't bundle its own highlighter. Returns `null` when the
- * service isn't available (e.g. a static build) so callers can fall back to
- * plain text.
- */
-export async function shikiHighlight(code: string, lang: string): Promise<string | null> {
-  const rpc = await ensureClient()
-  await rpc.ensureTrusted(0)
-  const service = rpc.services.get(SHIKI_SERVICE)
-  if (!service)
-    return null
-  const { html } = await service.rpc.call('highlight', { code, lang })
-  return html
 }
 
 /**

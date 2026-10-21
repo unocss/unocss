@@ -23,9 +23,9 @@
     "@unocss/preset-attributify": "link:../../packages-presets/preset-attributify",
     "@unocss/preset-icons": "link:../../packages-presets/preset-icons",
     "@unocss/preset-typography": "link:../../packages-presets/preset-typography",
-    "typescript": "^5.8.2",
+    "typescript": "^6.0.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.2.1",
+    "vite": "^8.3.0",
     "vite-plugin-inspect": "^10.3.0"
   },
   "stackblitz": {

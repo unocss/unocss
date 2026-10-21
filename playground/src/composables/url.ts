@@ -1,4 +1,4 @@
-import { decompressFromEncodedURIComponent as decode, compressToEncodedURIComponent as encode } from 'lz-string'
+import { decompressFromEncodedURIComponent as decode, compressToEncodedURIComponent as encode } from 'lz-string-es'
 
 const params = new URLSearchParams(
   window.location.hash.slice(1)

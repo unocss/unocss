@@ -38,9 +38,40 @@ export function entriesToCss(arr?: CSSEntries) {
   if (arr == null)
     return ''
   return clearIdenticalEntries(arr)
-    .map(([key, value]) => (value != null && typeof value !== 'function') ? key !== VirtualKey ? `${key}:${value};` : value : undefined)
+    .map(([key, value]) => {
+      if (value == null || typeof value === 'function')
+        return undefined
+      if (key === VirtualKey)
+        return value
+      if (breaksOutOfDeclaration(String(value)))
+        return undefined
+      return `${key}:${value};`
+    })
     .filter(Boolean)
     .join('')
+}
+
+// A `{` or `}` outside a quoted string lets a value close its own rule and open
+// a new one, injecting arbitrary CSS from untrusted content (theme values,
+// arbitrary bracket values, ...). https://github.com/unocss/unocss/issues/5300
+function breaksOutOfDeclaration(value: string) {
+  let quote: string | undefined
+  for (let i = 0; i < value.length; i++) {
+    const c = value[i]
+    if (quote) {
+      if (c === '\\')
+        i += 1
+      else if (c === quote)
+        quote = undefined
+    }
+    else if (c === '"' || c === '\'' || c === '`') {
+      quote = c
+    }
+    else if (c === '{' || c === '}') {
+      return true
+    }
+  }
+  return false
 }
 
 export function isObject(item: any): item is Record<string, any> {

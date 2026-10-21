@@ -87,6 +87,15 @@ export const PseudoClassesColon: Record<string, string> = Object.fromEntries([
 
 export const PseudoClassesColonKeys = Object.keys(PseudoClassesColon)
 
+// `indexOf` returns -1 for unknown names, which would otherwise be passed on as a real sort value
+// and hoist the rule above utilities that carry no sort at all.
+function getPseudoSortIndex(name: string): number | undefined {
+  let index = PseudoClassesKeys.indexOf(name)
+  if (index === -1)
+    index = PseudoClassesColonKeys.indexOf(name)
+  return index === -1 ? undefined : index
+}
+
 export const PseudoClassFunctions = [
   'not',
   'is',
@@ -243,7 +252,7 @@ export function createTaggedPseudoClassMatcher<T extends object = object>(
         handle: (input, next) => next({
           ...input,
           prefix: `${prefix}${combinator}${input.prefix}`.replace(rawRE, '$1$2:'),
-          sort: PseudoClassesKeys.indexOf(pseudoName) ?? PseudoClassesColonKeys.indexOf(pseudoName),
+          sort: getPseudoSortIndex(pseudoName),
         }),
       }
     },
@@ -285,11 +294,7 @@ export function createPseudoClassesAndElements<T extends object = object>(utils:
           }
 
           // order of pseudo classes
-          let index: number | undefined = PseudoClassesKeys.indexOf(match[1])
-          if (index === -1)
-            index = PseudoClassesColonKeys.indexOf(match[1])
-          if (index === -1)
-            index = undefined
+          const index = getPseudoSortIndex(match[1])
 
           return {
             matcher: input.slice(match[0].length),
@@ -388,7 +393,8 @@ export function createTaggedPseudoClasses<T extends object = object>(
   ]
 }
 
-const PartClassesRE = /(part-\[(.+)\]:)(.+)/
+// Must stay anchored: the matcher below slices from index 0, so a mid-string match would corrupt it.
+const PartClassesRE = /^(part-\[(.+)\]:)(.+)/
 
 export function createPartClasses<T extends object = object>(): VariantObject<T> {
   return {
