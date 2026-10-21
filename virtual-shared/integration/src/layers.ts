@@ -62,7 +62,17 @@ export function getCssEscaperForJsContent(view: string) {
     prefix[char] = bs.replace(/\\\\/g, '\\')
     return ''
   })
-  return (css: string) => css.replace(/["'`\\]/g, (v) => {
+  const lineBreaks: Record<string, string> = {
+    '\n': 'n',
+    '\r': 'r',
+    '\u2028': 'u2028',
+    '\u2029': 'u2029',
+  }
+  return (css: string) => css.replace(/["'`\\\n\r\u2028\u2029]/g, (v) => {
+    if (lineBreaks[v] && prefix['\\']) {
+      // Each enclosing string doubles the backslashes in a line-break escape.
+      return '\\'.repeat((prefix['\\'].length + 1) / 2) + lineBreaks[v]
+    }
     return (prefix[v] || '') + v
   })
 }
