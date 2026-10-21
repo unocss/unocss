@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@unocss/astro": "workspace:*",
+    "astro": "4.1.0"
+  }
+}

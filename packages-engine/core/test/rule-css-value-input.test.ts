@@ -14,8 +14,8 @@ it('rule-css-value-input', async () => {
   const { css } = await uno.generate('static-rule')
   expect(css).toMatchInlineSnapshot(`
     "/* layer: default */
+    css raw string
     .static-rule{background-color:blue;}
-    .static-rule{color:red;}
-    css raw string"
+    .static-rule{color:red;}"
   `)
 })

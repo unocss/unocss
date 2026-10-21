@@ -450,16 +450,16 @@ class UnoGeneratorInternal<Theme extends object = object> {
       let css = Array.from(sheet)
         .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0))
           || (leftToRight ? parentDepth(a[0]) - parentDepth(b[0]) : 0)
-          || a[0]?.localeCompare(b[0] || '') || 0)
+          || (a[0] || '').localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
               return a[0] - b[0] // rule index
                 || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-                || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-                || a[1]?.localeCompare(b[1] || '') // selector
-                || a[2]?.localeCompare(b[2] || '') // body
+                || (a[5]?.currentSelector ?? '').localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                || (a[1] || '').localeCompare(b[1] || '') // selector
+                || (a[2] || '').localeCompare(b[2] || '') // body
                 || 0
             })
             .map(([, selector, body, , meta, , variantNoMerge]) => {

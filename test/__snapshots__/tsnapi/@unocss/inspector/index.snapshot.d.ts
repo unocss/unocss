@@ -22,7 +22,15 @@ export type InspectorServerFunctions = ReturnType<typeof createRpcFunctions>;
 
 // #region Functions
 export declare function createInspectorDevframe(_: UnocssPluginContext): UnocssInspectorDevframe;
-export declare function createRpcFunctions(_: UnocssPluginContext): readonly [import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-project-info", "query", [], Promise<ProjectInfo>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-module-info", "query", [string], Promise<ModuleInfo | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"generate-repl", "query", [input: string, includeSafelist: boolean], Promise<ReplResult>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-overview", "query", [], Promise<OverviewInfo>, undefined, undefined, undefined>];
+export declare function createRpcFunctions(_: UnocssPluginContext): readonly [import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-project-info", "query", [], Promise<ProjectInfo>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-module-info", "query", [string], Promise<ModuleInfo | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"generate-repl", "query", [input: string, includeSafelist: boolean], Promise<ReplResult>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-autocomplete-suggestions", "query", [content: string, cursor: number], Promise<{
+  from: number;
+  options: {
+    label: string;
+    apply: string;
+    type: string;
+    boost: number;
+  }[];
+} | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-generated-css", "query", [token: string], Promise<string | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-overview", "query", [], Promise<OverviewInfo>, undefined, undefined, undefined>];
 export declare function createStandaloneInspectorDevframe(_?: StandaloneInspectorOptions): Promise<UnocssInspectorDevframe>;
 // #endregion
 

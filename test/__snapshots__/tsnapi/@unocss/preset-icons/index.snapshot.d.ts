@@ -4,7 +4,7 @@
 // #region Interfaces
 export interface IconsAPI {
   encodeSvgForCss: typeof encodeSvgForCss;
-  parseIconWithLoader: typeof parseIconWithLoader;
+  parseIcon: (_: string, _?: IconifyLoaderOptions) => ReturnType<typeof parseIconWithLoader>;
   createNodeLoader?: () => Promise<UniversalIconLoader | undefined>;
 }
 export interface IconsOptions {

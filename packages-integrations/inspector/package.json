@@ -1,7 +1,7 @@
 {
   "name": "@unocss/inspector",
   "type": "module",
-  "version": "66.10.5",
+  "version": "66.11.0",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -48,6 +48,7 @@
     "update-post": "vite build"
   },
   "dependencies": {
+    "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@iconify-json/catppuccin": "catalog:icons",
     "shiki": "catalog:docs",
+    "vue-clamp": "catalog:vue",
     "vue-flow-layout": "catalog:vue"
   }
 }
