@@ -1,6 +1,7 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
+import { Buffer } from 'node:buffer'
 import { isAbsolute, resolve } from 'node:path'
 import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
 import MagicString from 'magic-string'
@@ -13,7 +14,8 @@ import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
   const { ready, extract, tokens, filter, getConfig, tasks, flushTasks } = ctx
-  const vfsLayers = new Map<string, string>()
+  const vfsLayers = new Map<string, Map<string, string>>()
+  const inlineModules = new Map<string, { id: string, layer: string }>()
   const resolveContexts = new Map<string, Rollup.PluginContext>()
   const unocssImporters = new Set<string>()
   let viteConfig: ResolvedConfig
@@ -64,6 +66,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       enforce: 'pre',
       async buildStart() {
         vfsLayers.clear()
+        inlineModules.clear()
+        resolveContexts.clear()
         cssContentCache.clear()
         tasks.length = 0
         lastTokenSize = 0
@@ -95,12 +99,18 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           if (layer) {
             if (importer)
               unocssImporters.add(importer)
-            if (vfsLayers.has(layer)) {
-              this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(vfsLayers.get(layer))}`)
-              return vfsLayers.get(layer)
+            let modules = vfsLayers.get(layer)
+            if (!modules)
+              vfsLayers.set(layer, modules = new Map())
+            const query = entry.slice(getPath(entry).length)
+            if (modules.has(query)) {
+              this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(modules.get(query))}`)
+              return modules.get(query)
             }
-            vfsLayers.set(layer, entry)
-            resolveContexts.set(layer, this)
+            modules.set(query, entry)
+            resolveContexts.set(entry, this)
+            if (/[?&]inline\b/.test(entry))
+              inlineModules.set(Buffer.from(entry).toString('base64url'), { id: entry, layer })
           }
           return entry
         }
@@ -111,8 +121,10 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           if (!vfsLayers.has(layer)) {
             this.error(`[unocss] layer ${JSON.stringify(id)} is imported but not being resolved before, it might be an internal bug of UnoCSS`)
           }
+          // Keep the module identity after Vite embeds its placeholder in JS.
+          const placeholder = /[?&]inline\b/.test(id) ? Buffer.from(id).toString('base64url') : layer
           return {
-            code: getLayerPlaceholder(layer),
+            code: getLayerPlaceholder(placeholder),
             map: null,
             moduleSideEffects: true,
           }
@@ -186,79 +198,90 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     {
       name: 'unocss:global:build:generate',
       apply: 'build',
-      async renderChunk(code, chunk, options) {
-        const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
-        const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(getPath(id)))
-        // `?inline` bakes the layer placeholder into JS before css-post can replace it (#4884)
-        const hasLayerPlaceholder = code.includes('#--unocss--')
-        if (!entryModules.length && !hasLayerPlaceholder)
-          return null
+      renderChunk: {
+        // Inline CSS can introduce asset placeholders that vite:asset must see.
+        order: 'pre',
+        async handler(code, chunk, options) {
+          const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
+          const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(getPath(id)))
+          // `?inline` bakes the layer placeholder into JS before css-post can replace it (#4884)
+          const hasLayerPlaceholder = code.includes('#--unocss--')
+          if (!entryModules.length && !hasLayerPlaceholder)
+            return null
 
-        const result = await generateAll()
-        const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
-        const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
+          const result = await generateAll()
+          const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
+          const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
 
-        await Promise.all(preflightLayers.map(i => result.setLayer(i!, async (layerContent) => {
-          const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
-          const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
-          const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
-          return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
-        })))
+          await Promise.all(preflightLayers.map(i => result.setLayer(i!, async (layerContent) => {
+            const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
+            const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
+            const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
+            return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
+          })))
 
-        if (entryModules.length) {
-          const cssPost = cssPostPlugins.get(options.dir)
-          if (!cssPost) {
-            this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
-          }
-          else {
-            const cssPostTransformHandler = 'handler' in cssPost.transform!
-              ? cssPost.transform.handler
-              : cssPost.transform!
-
-            for (const mod of entryModules) {
-              const layer = RESOLVED_ID_RE.exec(getPath(mod))?.[1] || LAYER_MARK_ALL
-
+          const processedCss = new Map<string, string>()
+          const getCss = async (id: string, layer: string) => {
+            if (!processedCss.has(id)) {
               const layerContent = layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
                 : result.getLayer(layer) || ''
-
-              const css = await applyCssTransform(
+              processedCss.set(id, await applyCssTransform(
                 layerContent,
-                mod,
+                id,
                 options.dir,
-                // .emitFile in Rollup has different FileEmitter instance in load/transform hooks and renderChunk hooks
-                // here we need to store the resolveId context to use it in the vite:css transform hook
-                resolveContexts.get(layer) || this,
-              )
+                // CSS asset emission needs the resolve hook's FileEmitter.
+                resolveContexts.get(id) || this,
+              ))
+            }
+            return processedCss.get(id)!
+          }
 
-              // Fool the vite:css-post plugin to replace the CSS content
-              await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
+          if (entryModules.length) {
+            const cssPost = cssPostPlugins.get(options.dir)
+            if (!cssPost) {
+              this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
+            }
+            else {
+              const cssPostTransformHandler = 'handler' in cssPost.transform!
+                ? cssPost.transform.handler
+                : cssPost.transform!
+
+              for (const mod of entryModules) {
+                const layer = RESOLVED_ID_RE.exec(getPath(mod))?.[1] || LAYER_MARK_ALL
+
+                const css = await getCss(mod, layer)
+
+                // Fool the vite:css-post plugin to replace the CSS content
+                await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
+              }
             }
           }
-        }
 
-        if (!hasLayerPlaceholder)
-          return null
+          if (!hasLayerPlaceholder)
+            return null
 
-        const s = new MagicString(code)
-        LAYER_PLACEHOLDER_RE.lastIndex = 0
-        for (const match of code.matchAll(LAYER_PLACEHOLDER_RE)) {
-          const [full, layer, escapeView] = match
-          const layerName = layer.trim()
-          const layerContent = layerName === LAYER_MARK_ALL
-            ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
-            : result.getLayer(layerName) || ''
-          const css = getCssEscaperForJsContent((escapeView || '').trim())(layerContent)
-          s.overwrite(match.index!, match.index! + full.length, css)
-        }
+          const s = new MagicString(code)
+          LAYER_PLACEHOLDER_RE.lastIndex = 0
+          for (const match of code.matchAll(LAYER_PLACEHOLDER_RE)) {
+            const [full, layer, escapeView] = match
+            const key = layer.trim()
+            const inline = inlineModules.get(key)
+            const layerName = inline?.layer || key
+            const id = inline?.id || vfsLayers.get(layerName)?.values().next().value || fakeCssId
+            const layerContent = await getCss(id, layerName)
+            const css = getCssEscaperForJsContent((escapeView || '').trim())(layerContent)
+            s.overwrite(match.index!, match.index! + full.length, css)
+          }
 
-        if (!s.hasChanged())
-          return null
+          if (!s.hasChanged())
+            return null
 
-        return {
-          code: s.toString(),
-          map: s.generateMap({ hires: true }),
-        }
+          return {
+            code: s.toString(),
+            map: s.generateMap({ hires: true }),
+          }
+        },
       },
       async buildEnd() {
         if (!vfsLayers.size) {
