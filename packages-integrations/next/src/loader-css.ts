@@ -61,7 +61,8 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
 
     const tokens = new Set<string>()
 
-    await Promise.all(files.map(async (file) => {
+    const BATCH_SIZE = 50
+    await boundedAsyncMap(BATCH_SIZE, files, async (file) => {
       if (file === id)
         return
 
@@ -69,8 +70,10 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
       try {
         mtime = (await fs.stat(file)).mtimeMs
       }
-      catch {
-        return // removed between glob and stat
+      catch (e: any) {
+        if (e?.code === 'ENOENT')
+          return // removed file
+        throw e
       }
 
       const cached = extracted.get(file)
@@ -84,8 +87,10 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
       try {
         raw = await fs.readFile(file, 'utf-8')
       }
-      catch {
-        return // removed between stat and read
+      catch (e: any) {
+        if (e?.code === 'ENOENT')
+          return // removed file
+        throw e
       }
 
       const fileTokens = new Set<string>()
@@ -97,7 +102,7 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
       extracted.set(file, { mtime, revision, tokens: fileTokens })
       for (const token of fileTokens)
         tokens.add(token)
-    }))
+    })
 
     await Promise.all((config.content?.inline ?? []).map(async (c, idx) => {
       if (typeof c === 'function')
@@ -113,6 +118,15 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
     const emitted: string[] = []
     callback(null, code.replace(DIRECTIVE_RE, (_: string, arg?: string) => selectLayers(result, arg?.trim(), emitted)))
   })().catch(callback)
+}
+
+async function boundedAsyncMap<T>(limit: number, items: T[], fn: (item: T) => Promise<void>) {
+  let next = 0
+  const worker = async () => {
+    while (next < items.length)
+      await fn(items[next++])
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker))
 }
 
 function watchRoots(root: string, globs: string[]) {
