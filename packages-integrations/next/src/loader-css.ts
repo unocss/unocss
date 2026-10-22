@@ -32,7 +32,7 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
     if (code.search(DIRECTIVE_RE) === -1)
       return callback(null, code, transformed?.map)
 
-    const config = await ctx.getConfig()
+    const config = ctx.uno.config
 
     // Extraction is based on content.filesystem, same as `@unocss/postcss`
     const globs = toArray(config.content?.filesystem ?? defaultFilesystemGlobs)
