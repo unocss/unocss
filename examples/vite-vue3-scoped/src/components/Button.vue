@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 defineOptions({
   inheritAttrs: false,
 })
+
+const count = ref(7)
 </script>
 
 <template>
-  <div flex justify-center>
+  <div mx-auto>
     <!--    https://vuejs.org/api/sfc-css-features.html#child-component-root-elements -->
-    <div aspect-square w-100px b-1 flex flex-col justify-center items-center shadow-lg :class="$attrs.class">
-      cube
-    </div>
+    <button text-red b-1 px-4 py-1 :class="$attrs.class" @click="count++">
+      No.{{ count }}
+    </button>
   </div>
 </template>

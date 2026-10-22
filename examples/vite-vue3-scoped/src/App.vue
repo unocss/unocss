@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Cube from './components/Cube.vue'
+import Button from './components/Button.vue'
 import HelloUnoCSS from './components/HelloUnoCSS.vue'
 </script>
 
@@ -10,7 +10,7 @@ import HelloUnoCSS from './components/HelloUnoCSS.vue'
     <p text-green>
       mode: vue-scoped
     </p>
-    <Cube class="cube bg-teal" />
+    <Button class="cube bg-teal" />
   </div>
 </template>
 

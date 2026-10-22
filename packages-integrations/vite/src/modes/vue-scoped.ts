@@ -11,6 +11,12 @@ const GLOBAL_LAYER_ORDER_ID = 'virtual:unocss-vue-scoped-layers.css'
 const GLOBAL_LAYER_ORDER_RESOLVED_ID = `\0${GLOBAL_LAYER_ORDER_ID}`
 const DEV_GLOBAL_STYLES_ID = 'virtual:unocss-vue-scoped-global.css'
 const DEV_GLOBAL_STYLES_RESOLVED_ID = `\0${DEV_GLOBAL_STYLES_ID}`
+const SCOPED_STYLE_PREFIX = 'virtual:unocss-vue-scoped-sfc/'
+
+interface ScopedStyleEntry {
+  css: string
+  hash: string
+}
 
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   let filter = createFilter([/\.vue$/], defaultPipelineExclude)
@@ -20,15 +26,23 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   let isServe = false
 
   const servers: ViteDevServer[] = []
-  let devGlobalStylesLoaded = false
-  let devGlobalStylesHash = ''
-  let devUpdateTimer: ReturnType<typeof setTimeout> | undefined
+  let globalStylesLoaded = false
+  let globalStylesHash = ''
+  let globalUpdateTimer: ReturnType<typeof setTimeout> | undefined
+
+  const scopedStyles = new Map<string, ScopedStyleEntry>()
+  const pendingScopedStyleUpdates = new Set<string>()
+  let scopedStyleUpdateTimer: ReturnType<typeof setTimeout> | undefined
+
+  function sortLayerNames(names: string[]) {
+    const { layers, sortLayers } = ctx.uno.config
+    return sortLayers(names.sort((a, b) => (layers[a] ?? 0) - (layers[b] ?? 0) || a.localeCompare(b)))
+  }
 
   function resolveGlobalLayers() {
-    const { layers, preflights, sortLayers } = ctx.uno.config
-    return sortLayers([...new Set((preflights ?? [])
-      .map(p => p.layer ?? LAYER_PREFLIGHTS))]
-      .sort((a, b) => (layers[a] ?? 0) - (layers[b] ?? 0) || a.localeCompare(b)))
+    const { preflights } = ctx.uno.config
+    return sortLayerNames([...new Set((preflights ?? [])
+      .map(p => p.layer ?? LAYER_PREFLIGHTS))])
   }
 
   // Declare the full layer order up front. Each generated SFC otherwise emits
@@ -36,12 +50,10 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   // first component that happens to use `default` would register it before
   // `shortcuts` and reverse the order configured by the project.
   function resolveLayerOrder() {
-    const { layers, outputToCssLayers, sortLayers } = ctx.uno.config
+    const { layers, outputToCssLayers } = ctx.uno.config
     if (!outputToCssLayers)
       return ''
-    const layerNames = sortLayers(Object.keys(layers)
-      .sort((a, b) => (layers[a] ?? 0) - (layers[b] ?? 0) || a.localeCompare(b)))
-    const aliases = layerNames
+    const aliases = sortLayerNames(Object.keys(layers))
       .map((layer) => {
         const alias = typeof outputToCssLayers === 'object'
           ? outputToCssLayers.cssLayerName?.(layer)
@@ -55,12 +67,13 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   }
 
   async function generateGlobalStyles() {
+    const layerOrder = resolveLayerOrder()
+    if (!globalLayers.length)
+      return layerOrder
+
     await ctx.flushTasks()
     const { getLayers } = await ctx.uno.generate(ctx.tokens)
-    return [
-      resolveLayerOrder(),
-      globalLayers.length ? getLayers(globalLayers) : '',
-    ].filter(Boolean).join('\n')
+    return [layerOrder, getLayers(globalLayers)].filter(Boolean).join('\n')
   }
 
   function sendDevUpdate(server: ViteDevServer, module: ModuleNode) {
@@ -77,16 +90,16 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     })
   }
 
-  async function updateDevGlobalStyles() {
-    if (!isServe || !devGlobalStylesLoaded)
+  async function updateGlobalStyles() {
+    if (!isServe || !globalStylesLoaded)
       return
 
     const css = await generateGlobalStyles()
     const hash = getHash(css)
-    if (hash === devGlobalStylesHash)
+    if (hash === globalStylesHash)
       return
 
-    devGlobalStylesHash = hash
+    globalStylesHash = hash
     for (const server of servers) {
       const module = server.moduleGraph.getModuleById(DEV_GLOBAL_STYLES_RESOLVED_ID)
       if (!module)
@@ -96,14 +109,39 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     }
   }
 
+  function scheduleScopedStyleUpdate(styleId: string) {
+    pendingScopedStyleUpdates.add(styleId)
+    if (scopedStyleUpdateTimer)
+      return
+    scopedStyleUpdateTimer = setTimeout(() => {
+      scopedStyleUpdateTimer = undefined
+      const styleIds = [...pendingScopedStyleUpdates]
+      pendingScopedStyleUpdates.clear()
+      for (const styleId of styleIds)
+        updateScopedStyleModules(styleId)
+    }, 10)
+  }
+
+  function updateScopedStyleModules(styleId: string) {
+    const marker = `\0${styleId}`
+    for (const server of servers) {
+      for (const [id, module] of server.moduleGraph.idToModuleMap) {
+        if (!id.startsWith(marker) || !id.includes('type=style'))
+          continue
+        server.moduleGraph.invalidateModule(module)
+        sendDevUpdate(server, module)
+      }
+    }
+  }
+
   // All global layers are served as a single virtual CSS module in dev, so an
   // HMR update only fetches one stylesheet instead of one per layer.
   ctx.onInvalidate(() => {
-    if (!isServe || !devGlobalStylesLoaded)
+    if (!isServe || !globalStylesLoaded)
       return
-    clearTimeout(devUpdateTimer)
-    devUpdateTimer = setTimeout(() => {
-      void updateDevGlobalStyles()
+    clearTimeout(globalUpdateTimer)
+    globalUpdateTimer = setTimeout(() => {
+      void updateGlobalStyles()
     }, 10)
   })
 
@@ -117,10 +155,18 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     // (e.g. on-demand theme variables) can be generated from every SFC.
     ctx.tasks.push(ctx.extract(code, id))
     const { getLayers } = await ctx.uno.generate(code)
-    const scopedStyles = getLayers(undefined, globalLayers)
-    if (!scopedStyles)
-      return null
-    const styleBlock = `<style scoped>${scopedStyles}</style>`
+    const styleId = `${SCOPED_STYLE_PREFIX}${getHash(id, 12)}.css`
+    const css = getLayers(undefined, globalLayers)
+    const hash = getHash(css)
+    const previous = scopedStyles.get(styleId)
+    scopedStyles.set(styleId, { css, hash })
+
+    if (isServe && previous && previous.hash !== hash)
+      scheduleScopedStyleUpdate(styleId)
+
+    // Keep the style block itself stable: its content lives in the virtual
+    // module above, so editing an SFC never changes the block's content.
+    const styleBlock = `<style scoped src="${styleId}"></style>`
     return styleOrder === 'before'
       ? `${styleBlock}\n${code}`
       : `${code}\n${styleBlock}`
@@ -181,6 +227,8 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
       },
     },
     resolveId(id) {
+      if (id.startsWith(SCOPED_STYLE_PREFIX))
+        return `\0${id}`
       if (id === DEV_GLOBAL_STYLES_ID)
         return DEV_GLOBAL_STYLES_RESOLVED_ID
       if (id === GLOBAL_LAYER_ORDER_ID) {
@@ -191,11 +239,15 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
         globalStylesInjected = true
     },
     async load(id) {
+      if (id.startsWith(`\0${SCOPED_STYLE_PREFIX}`)) {
+        const styleId = id.slice(1).split('?')[0]
+        return scopedStyles.get(styleId)?.css ?? ''
+      }
       if (id === DEV_GLOBAL_STYLES_RESOLVED_ID) {
         await ctx.ready
         const css = await generateGlobalStyles()
-        devGlobalStylesLoaded = true
-        devGlobalStylesHash = getHash(css)
+        globalStylesLoaded = true
+        globalStylesHash = getHash(css)
         return css
       }
       if (id === GLOBAL_LAYER_ORDER_RESOLVED_ID) {
@@ -209,7 +261,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
         // Library/SSR builds have no HTML entry (or don't load the imports
         // injected by `transformIndexHtml`), so prepend the global preflight
         // layers to the emitted CSS instead.
-        if (globalStylesInjected || (!globalLayers.length && !resolveLayerOrder()))
+        if (globalStylesInjected)
           return
 
         const styles = await generateGlobalStyles()

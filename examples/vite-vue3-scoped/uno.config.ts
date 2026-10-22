@@ -22,5 +22,5 @@ export default defineConfig({
       },
     }),
   ],
-  outputToCssLayers: true,
+  outputToCssLayers: false,
 })
