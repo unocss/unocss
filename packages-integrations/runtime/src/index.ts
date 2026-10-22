@@ -282,7 +282,10 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
           const el = node as Element
           if (inspector && !inspector(el))
             return
-          await extract(el.outerHTML)
+          // `outerHTML` re-encodes `&` in attribute values, so feed the decoded
+          // form too, the same way `extractAll` does.
+          const outerHTML = el.outerHTML
+          await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
           removeCloak(el)
         })
       }

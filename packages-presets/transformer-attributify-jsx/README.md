@@ -109,6 +109,22 @@ Will be compiled to:
 <div text-red text-center text-5xl animate-bounce="">unocss</div>
 ```
 
+## Resolver
+
+By default, the transformer uses the Oxc resolver and falls back to the regex resolver when Oxc cannot parse a file.
+You can select a resolver for individual files directly in `include`:
+
+```js
+transformerAttributifyJsx({
+  include: [
+    { pattern: /\.mdx$/, resolver: 'regex' },
+    { pattern: /\.[jt]sx$/, resolver: 'oxc' },
+  ],
+})
+```
+
+The first matching pattern is used. A rule with an explicit resolver does not fall back to another resolver when it fails.
+
 ## License
 
 MIT License &copy; 2022-PRESENT [Anthony Fu](https://github.com/antfu)

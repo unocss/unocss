@@ -2,7 +2,7 @@ import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, Va
 import type { ParsedColorValue } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor, resolveBreakpoints as resolveBreakpointsShared } from '@unocss/rule-utils'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
 import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
@@ -273,28 +273,12 @@ export function hasParseableColor(color: string | undefined, theme: Theme, key: 
   return color != null && !!parseColor(color, theme, key)?.color
 }
 
-const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
-
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
-  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
-
-  if (!breakpoints)
-    return undefined
-
-  if (resolvedBreakpoints.has(theme))
-    return resolvedBreakpoints.get(theme)
-
-  const resolved = Object.entries(breakpoints)
-    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
-    .map(([point, size]) => ({ point, size }))
-
-  resolvedBreakpoints.set(theme, resolved)
-  return resolved
+  return resolveBreakpointsShared({ theme, generator }, key)
 }
 
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
-  return resolveBreakpoints(context, 'verticalBreakpoints')
+  return resolveBreakpointsShared(context, 'verticalBreakpoints')
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
@@ -306,7 +290,7 @@ export function isCSSMathFn(value: string | undefined) {
 }
 
 export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
+  if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }

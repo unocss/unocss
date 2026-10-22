@@ -1,5 +1,5 @@
 import { createGenerator, toEscapedSelector as e } from '@unocss/core'
-import { autocompleteExtractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
+import { autocompleteExtractorAttributify, extractorAttributify, presetAttributify, variantAttributify } from '@unocss/preset-attributify'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
@@ -242,5 +242,21 @@ describe('attributify', async () => {
       />
     `, { preflights: false })
     expect(css3).toMatchSnapshot()
+  })
+
+  it('#4818: extracts an attribute when a nearby line has an unbalanced backtick', async () => {
+    // The JSX template-literal lines and the stray quote in `>"something"` used
+    // to make the backtick alternative in `elementRE` span multiple lines,
+    // swallowing the `c="red"` attribute in between.
+    const tpl = (name: string) => `<div id={\`$\{${name}}\`}></div>`
+    const code = [
+      tpl('a'),
+      '<div style="display:none">"something"</div>',
+      '<div c="red">only works if one of the surrounding lines is removed</div>',
+      tpl('b'),
+    ].join('\n')
+
+    const extracted = await extractorAttributify().extract!({ code } as any)
+    expect(Array.from(extracted ?? [])).toContain('[c~="red"]')
   })
 })

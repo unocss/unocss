@@ -31,6 +31,7 @@ export const presetLegacyCompat = definePreset((options: LegacyCompatOptions = {
 
   return {
     name: '@unocss/preset-legacy-compat',
+    docs: 'https://unocss.dev/presets/legacy-compat',
     postprocess: (util) => {
       util.entries.forEach((i) => {
         let value = i[1]

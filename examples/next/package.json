@@ -13,11 +13,11 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
-    "@types/node": "^22.13.10",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/node": "^25.9.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@unocss/next": "link:../../packages-integrations/next",
-    "typescript": "^5.8.2",
+    "typescript": "^6.0.3",
     "unocss": "link:../../packages-presets/unocss"
   },
   "stackblitz": {

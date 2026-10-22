@@ -108,11 +108,12 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
         && unoConfig.transformers?.some(t => t.name === '@unocss/transformer-directives' && t.enforce !== 'pre')
       ) {
         const preset = nuxt.options.postcss.plugins.cssnano.preset
+        const presetOptions = Array.isArray(preset) ? preset : undefined
         nuxt.options.postcss.plugins.cssnano = {
-          preset: [preset?.[0] || 'default', Object.assign(
+          preset: [presetOptions?.[0] || 'default', Object.assign(
             // Following optimizations result in invalid CSS if the directives not transformed yet
             { mergeRules: false, normalizeWhitespace: false, discardComments: false },
-            preset?.[1],
+            presetOptions?.[1],
           )],
         }
       }

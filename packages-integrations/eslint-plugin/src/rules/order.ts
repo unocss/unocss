@@ -1,7 +1,7 @@
-import type { TSESTree } from '@typescript-eslint/types'
+import type { TSESTree } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
+import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
@@ -50,6 +50,13 @@ export default createRule({
     const unoVariablesRegexes = unoVariables.map(regex => new RegExp(regex, 'i'))
     function isUnoVariable(name: string) {
       return unoVariablesRegexes.some(reg => reg.test(name))
+    }
+
+    function unwrapTsExpression(node: TSESTree.Expression): TSESTree.Expression {
+      let current = node
+      while (current.type === 'TSAsExpression' || current.type === 'TSSatisfiesExpression')
+        current = current.expression
+      return current
     }
 
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
@@ -275,12 +282,10 @@ export default createRule({
         if (node.id.type !== 'Identifier' || !node.init || !isUnoVariable(node.id.name))
           return
 
-        if (isPossibleLiteral(node.init)) {
-          return checkPossibleLiteral(node.init)
-        }
+        const init = unwrapTsExpression(node.init)
 
-        if (node.init.type === 'TSAsExpression' && isPossibleLiteral(node.init.expression)) {
-          return checkPossibleLiteral(node.init.expression)
+        if (isPossibleLiteral(init)) {
+          return checkPossibleLiteral(init)
         }
 
         function handleObjectExpression(node: TSESTree.ObjectExpression) {
@@ -297,11 +302,8 @@ export default createRule({
             }
           })
         }
-        if (node.init.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init)
-        }
-        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init.expression)
+        if (init.type === 'ObjectExpression') {
+          return handleObjectExpression(init)
         }
       },
     }

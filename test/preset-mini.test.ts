@@ -220,6 +220,15 @@ describe('preset-mini', () => {
     expect(css).toEqual('')
   })
 
+  it('does not let values break out of the declaration (#5300)', async () => {
+    const uno = await createGenerator({
+      presets: [presetMini()],
+      theme: { colors: { custom: 'red;}body{background:red}' as any } },
+    })
+    const { css } = await uno.generate(['text-custom', 'w-[1px;}body{background:red}]'], { preflights: false })
+    expect(css).not.toContain('body{background:red}')
+  })
+
   it('fontSize theme', async () => {
     const uno = await createGenerator({
       presets: [
@@ -357,6 +366,37 @@ describe('preset-mini', () => {
       @media (min-width: 48rem) and (max-width: calc(64rem - 0.1px)){
       .\\~md\\:text-base{font-size:1rem;line-height:1.5rem;}
       }"
+    `)
+  })
+
+  it('h-screen-* uses verticalBreakpoints', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetMini(),
+      ],
+      theme: {
+        breakpoints: {
+          sm: '640px',
+          md: '768px',
+        },
+        verticalBreakpoints: {
+          sm: '400px',
+          md: '500px',
+        },
+      },
+    })
+
+    const { css } = await uno.generate([
+      'h-screen-sm',
+      'h-screen-md',
+      'w-screen-sm',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .h-screen-md{height:500px;}
+      .h-screen-sm{height:400px;}
+      .w-screen-sm{width:640px;}"
     `)
   })
 

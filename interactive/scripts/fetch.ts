@@ -1,7 +1,7 @@
 import type { DocItem } from '../app/types'
+import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import fs from 'fs-extra'
 import { $fetch } from 'ofetch'
 import pLimit from 'p-limit'
 
@@ -26,6 +26,6 @@ await Promise.all(
   })),
 )
 
-await fs.writeJSON(path.join(__dirname, '../app/data/mdn-index.json'), searchIndex, { spaces: 2 })
+await writeFile(path.join(__dirname, '../app/data/mdn-index.json'), JSON.stringify(searchIndex, null, 2))
 
 export {}

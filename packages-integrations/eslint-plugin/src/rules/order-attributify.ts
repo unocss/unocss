@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/types'
+import type { TSESTree } from '@typescript-eslint/utils'
 import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import MagicString from 'magic-string'
 import { createRule, syncAction } from './_'

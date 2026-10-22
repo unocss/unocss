@@ -6,15 +6,12 @@ import { toArray } from '@unocss/core'
 import { hasIconFn, hasThemeFn } from '@unocss/rule-utils'
 import { parse, walk } from 'css-tree'
 import { handleApply } from './apply'
-import { handleFunction } from './functions'
+import { handleAtrulePrelude, handleFunction } from './functions'
 import { handleScreen } from './screen'
 
 export function resolveApplyVariables(options: TransformerDirectivesOptions) {
   let { applyVariable } = options
-  const varStyle = options.varStyle
   if (applyVariable === undefined) {
-    if (varStyle !== undefined)
-      applyVariable = varStyle ? [`${varStyle}apply`] : []
     applyVariable = ['--at-apply', '--uno-apply', '--uno']
   }
   return toArray(applyVariable || [])
@@ -65,6 +62,8 @@ export async function transformDirectives(
   const processNode = async (node: CssNode, _item: ListItem<CssNode>, _list: List<CssNode>) => {
     if (hasScreen && node.type === 'Atrule' && node.name === 'screen')
       handleScreen(ctx, node)
+    else if (hasFn && node.type === 'Atrule')
+      handleAtrulePrelude(ctx, node)
     else if (node.type === 'Function')
       await handleFunction(ctx, node)
     else if (hasApply && node.type === 'Rule')
@@ -86,6 +85,6 @@ export async function transformDirectives(
     })
 
     if (newCode !== oldCode)
-      code.update(0, code.original.length, newCode)
+      code.overwrite(0, code.original.length, newCode)
   }
 }

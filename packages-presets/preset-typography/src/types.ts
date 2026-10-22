@@ -52,7 +52,7 @@ export interface TypographyOptions<T extends TypographyTheme = TypographyTheme> 
    *
    * @default undefined
    */
-  cssExtend?: Record<string, CSSObject> | ((theme: T) => Record<string, CSSObject>)
+  cssExtend?: TypographyCSSObject | ((theme: T) => TypographyCSSObject)
 
   /**
    * Compatibility option. Notice that it will affect some features.

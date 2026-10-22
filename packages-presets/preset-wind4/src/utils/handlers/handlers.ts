@@ -310,7 +310,13 @@ export function cssvar(str: string) {
 
   const match = str.match(/^(?:\$|--)([^\s'"`;{}]+)$/)
   if (match) {
-    const [name, defaultValue] = match[1].split(',')
+    // Only the first comma separates the name from the fallback. Splitting on
+    // every comma dropped the rest of a fallback that contains its own, such
+    // as `$foo,rgba(0,0,0,.5)`, which emitted an unbalanced `var(--foo, rgba(0`.
+    const body = match[1]
+    const separator = body.indexOf(',')
+    const name = separator === -1 ? body : body.slice(0, separator)
+    const defaultValue = separator === -1 ? '' : body.slice(separator + 1)
     return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
   }
 }

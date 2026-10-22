@@ -562,6 +562,11 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Processors to transform generated CSS layers before they are exposed.
+   */
+  processors?: CSSProcessor<Theme>[]
 }
 
 export interface OutputCssLayersOptions {
@@ -662,6 +667,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Custom metadata for the preset
    */
   meta?: Record<string, any>
+
+  /**
+   * Documentation URL for the preset
+   */
+  docs?: string
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
@@ -803,6 +813,10 @@ export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 export interface SourceCodeTransformer {
   name: string
   /**
+   * Documentation URL for the transformer
+   */
+  docs?: string
+  /**
    * The order of transformer
    */
   enforce?: SourceCodeTransformerEnforce
@@ -824,6 +838,29 @@ export interface SourceCodeTransformer {
     id: string,
     ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
+}
+
+export interface CSSProcessorContext<Theme extends object = object> {
+  /**
+   * The current CSS layer being processed.
+   */
+  layer: string
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * Environment mode
+   *
+   * @default 'build'
+   */
+  envMode: 'dev' | 'build'
+}
+
+export interface CSSProcessor<Theme extends object = object> {
+  name: string
+  order?: number
+  process: (css: string, context: CSSProcessorContext<Theme>) => Awaitable<string>
 }
 
 export interface ContentOptions {

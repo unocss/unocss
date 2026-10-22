@@ -1,4 +1,4 @@
-import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSProcessorContext, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
@@ -72,9 +72,16 @@ class TokenProcessor<Theme extends object> {
   }
 
   isBlocked(raw: string, blocklist: BlocklistRule[]) {
-    return !raw || blocklist
-      .map(e => Array.isArray(e) ? e[0] : e)
-      .some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    if (!raw)
+      return true
+
+    for (const rule of blocklist) {
+      const value = Array.isArray(rule) ? rule[0] : rule
+      if (typeof value === 'function' ? value(raw) : isString(value) ? value === raw : value.test(raw))
+        return true
+    }
+
+    return false
   }
 
   getBlocked(raw: string, blocklist: BlocklistRule[]) {
@@ -322,9 +329,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const tokenList = Array.from(tokens)
     for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
-      await Promise.all(tokenList
-        .slice(offset, offset + TOKEN_PARSE_BATCH_SIZE)
-        .map(async (raw) => {
+      const batchSize = Math.min(TOKEN_PARSE_BATCH_SIZE, tokenList.length - offset)
+      const tokenPromises: Promise<void>[] = []
+      for (let index = 0; index < batchSize; index++) {
+        const raw = tokenList[offset + index]
+        tokenPromises[index] = (async () => {
           if (matched.has(raw))
             return
 
@@ -351,7 +360,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
             if (layer)
               layerSet.add(layer)
           }
-        }))
+        })()
+      }
+      await Promise.all(tokenPromises)
     }
     await (async () => {
       if (!preflights)
@@ -387,7 +398,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const sortLayers = (layers: string[]) => this.config.sortLayers(layers.sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
     const layers = sortLayers(Array.from(layerSet))
-    const layerCache: Record<string, string> = {}
+    const rawLayerCache: Record<string, string> = {}
+    const processedLayerCache: Record<string, string> = {}
     const outputCssLayers = this.config.outputToCssLayers
     const getLayerAlias = (layer: string) => {
       let alias: string | undefined | null = layer
@@ -397,22 +409,21 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
-    const getLayer = (layer: string = LAYER_DEFAULT) => {
-      if (layerCache[layer])
-        return layerCache[layer]
+    const getRawLayer = (layer: string = LAYER_DEFAULT) => {
+      if (rawLayerCache[layer] != null)
+        return rawLayerCache[layer]
 
       let css = Array.from(sheet)
-        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
+        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || (a[0] || '').localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
-          const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
               return a[0] - b[0] // rule index
                 || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-                || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-                || a[1]?.localeCompare(b[1] || '') // selector
-                || a[2]?.localeCompare(b[2] || '') // body
+                || (a[5]?.currentSelector ?? '').localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                || (a[1] || '').localeCompare(b[1] || '') // selector
+                || (a[2] || '').localeCompare(b[2] || '') // body
                 || 0
             })
             .map(([, selector, body, , meta, , variantNoMerge]) => {
@@ -425,20 +436,36 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
           if (!sorted.length)
             return undefined
-          const ruleLines = sorted
-            .reverse()
-            .map(([selectorSortPair, body, noMerge], idx) => {
-              if (!noMerge && this.config.mergeSelectors) {
-                // search for rules that has exact same body, and merge them
-                for (let i = idx + 1; i < size; i++) {
-                  const current = sorted[i]
-                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
-                    if (selectorSortPair && current[0])
-                      current[0].push(...selectorSortPair)
-                    return null
-                  }
-                }
+          sorted.reverse()
+
+          const mergedRules = new Set<PreparedRule>()
+          if (this.config.mergeSelectors) {
+            const mergeIndex = new Map<string, [PreparedRule | undefined, PreparedRule | undefined]>()
+            for (let i = sorted.length - 1; i >= 0; i--) {
+              const rule = sorted[i]
+              const [selectorSortPair, body, noMerge] = rule
+              if (noMerge)
+                continue
+
+              const selectorIndex = selectorSortPair ? 1 : 0
+              const candidates = mergeIndex.get(body) || [undefined, undefined]
+              const candidate = candidates[selectorIndex]
+              if (candidate) {
+                if (selectorSortPair && candidate[0])
+                  candidate[0].push(...selectorSortPair)
+                mergedRules.add(rule)
               }
+              else {
+                candidates[selectorIndex] = rule
+                mergeIndex.set(body, candidates)
+              }
+            }
+          }
+
+          const ruleLines = sorted
+            .map(([selectorSortPair, body], idx) => {
+              if (mergedRules.has(sorted[idx]))
+                return null
 
               const selectors = selectorSortPair
                 ? uniq(selectorSortPair
@@ -453,15 +480,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
             .filter(Boolean)
 
-          const rules = Array.from(new Set(ruleLines))
+          const css = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
           if (!parent)
-            return rules
+            return css
 
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
+          return wrapWithParent(parent, css, nl)
         })
         .filter(Boolean)
         .join(nl)
@@ -472,8 +498,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
           .join(nl)
       }
 
+      if (!css)
+        return rawLayerCache[layer] = ''
+
       let alias
-      if (outputCssLayers && css) {
+      if (outputCssLayers) {
         alias = getLayerAlias(layer)
         if (alias !== null) {
           css = `@layer ${alias}{${nl}${css}${nl}}`
@@ -481,12 +510,31 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
-      return layerCache[layer] = css ? layerMark + css : ''
+      css = layerMark + css
+
+      return rawLayerCache[layer] = css
+    }
+
+    const processors = this.config.processors?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)) ?? []
+    const processLayer = async (css: string, layer: string) => {
+      let processed = css
+      const context: CSSProcessorContext<Theme> = {
+        layer,
+        theme: this.config.theme,
+        envMode: this.config.envMode || 'build',
+      }
+      for (const processor of processors)
+        processed = await processor.process(processed, context)
+      return processed
+    }
+
+    const getLayer = (layer: string = LAYER_DEFAULT) => {
+      return processedLayerCache[layer] ?? getRawLayer(layer)
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      const css = layers.map(getLayer).filter(Boolean)
+      const css = layers.map(layer => getLayer(layer)).filter(Boolean)
 
       if (outputCssLayers) {
         let layerNames = layers
@@ -500,10 +548,17 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
-      const content = await callback(getLayer(layer))
-      layerCache[layer] = content
-      return content
+      const raw = await callback(getRawLayer(layer))
+      const processed = await processLayer(raw, layer)
+      rawLayerCache[layer] = raw
+      processedLayerCache[layer] = processed
+      return processed
     }
+
+    await Promise.all(layers.map(async (layer) => {
+      const raw = getRawLayer(layer)
+      processedLayerCache[layer] = raw ? await processLayer(raw, layer) : raw
+    }))
 
     return {
       get css() { return getLayers() },
@@ -672,10 +727,15 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     return this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
       .map(({ selector, entries, parent }) => {
-        const cssBody = `${selector}{${entriesToCss(entries)}}`
-        if (parent)
-          return `${parent}{${cssBody}}`
-        return cssBody
+        // Rules that return their CSS as a raw string bypass the scope
+        // placeholder expansion applied to normal utilities at render time,
+        // so expand the `$$` slots left by prefix- and parent-based variants
+        // here.
+        const css = `${applyScope(selector)}{${entriesToCss(entries)}}`
+        if (parent) {
+          return wrapWithParent(parent, css)
+        }
+        return css
       })
       .join('')
   }
@@ -950,7 +1010,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
         if (raw !== inputWithoutVariant) {
           const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
           if (expanded) {
-            stringResult = expanded[0].filter(isString).map(item => raw.replace(inputWithoutVariant, item))
+            // the matcher is always the last occurrence, the variants may contain
+            // it as well (e.g. `[&_.btn]:btn`), so the earlier ones have to be kept
+            const matcherIndex = raw.lastIndexOf(inputWithoutVariant)
+            stringResult = expanded[0].filter(isString).map(item => matcherIndex === -1
+              ? raw
+              : raw.slice(0, matcherIndex) + item + raw.slice(matcherIndex + inputWithoutVariant.length))
             inlineResult = (expanded[0].filter(i => !isString(i)) as ShortcutInlineValue[]).map((item) => {
               return { handles: [...item.handles, ...handles], value: item.value }
             })
@@ -1084,6 +1149,11 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
+}
+
+function wrapWithParent(parent: string, css: string, nl = '') {
+  const parents = parent.split(' $$ ')
+  return `${parents.join('{')}{${nl}${css}${nl}${'}'.repeat(parents.length)}`
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/

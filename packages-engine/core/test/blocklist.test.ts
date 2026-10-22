@@ -3,6 +3,28 @@ import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 
 describe('blocklist', () => {
+  it('matches each rule type, including metadata tuples', async () => {
+    const uno = await createGenerator({
+      blocklist: [
+        'string-rule',
+        /^regexp-/,
+        token => token === 'function-rule',
+        ['tuple-string', { message: 'string metadata' }],
+        [/^tuple-regexp-/, { message: 'regexp metadata' }],
+        [token => token === 'tuple-function', { message: 'function metadata' }],
+      ],
+    })
+
+    expect(uno.isBlocked('')).toBe(true)
+    expect(uno.isBlocked('string-rule')).toBe(true)
+    expect(uno.isBlocked('regexp-rule')).toBe(true)
+    expect(uno.isBlocked('function-rule')).toBe(true)
+    expect(uno.isBlocked('tuple-string')).toBe(true)
+    expect(uno.isBlocked('tuple-regexp-rule')).toBe(true)
+    expect(uno.isBlocked('tuple-function')).toBe(true)
+    expect(uno.isBlocked('allowed-rule')).toBe(false)
+  })
+
   it('basic', async () => {
     const uno = await createGenerator({
       presets: [

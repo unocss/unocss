@@ -39,6 +39,7 @@ export const presetWind3 = definePreset((options: PresetWind3Options = {}) => {
   return {
     ...presetMini(options),
     name: '@unocss/preset-wind3',
+    docs: 'https://unocss.dev/presets/wind3',
     theme,
     rules,
     shortcuts,

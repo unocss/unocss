@@ -19,7 +19,6 @@ export default defineConfig([
     format: ['esm', 'cjs'],
     deps: {
       neverBundle: [
-        '@typescript-eslint/types',
         'eslint',
       ],
     },

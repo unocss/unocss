@@ -1,26 +1,24 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path, { basename, parse } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { objectMap } from '@antfu/utils'
-import fs from 'fs-extra'
-import YAML from 'js-yaml'
 import { genArrayFromRaw, genObjectFromRaw } from 'knitwork'
 import { globSync } from 'tinyglobby'
+import { parse as parseYaml } from 'yaml'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const { writeFileSync } = fs
-
-await fs.ensureDir(path.join(__dirname, '../app/guides/vendor/'))
-await fs.ensureDir(path.join(__dirname, '../app/data/'))
+mkdirSync(path.join(__dirname, '../app/guides/vendor/'), { recursive: true })
+mkdirSync(path.join(__dirname, '../app/data/'), { recursive: true })
 
 const code = genArrayFromRaw(
   globSync([path.join(__dirname, '../app/guides/**/*.{md,vue}')], { expandDirectories: false })
     .map((file) => {
       const ext = parse(file).ext
       const yml = `${file.slice(0, -ext.length)}.yml`
-      const data: any = fs.existsSync(yml)
-        ? YAML.load(fs.readFileSync(yml, 'utf-8'))
+      const data: any = existsSync(yml)
+        ? parseYaml(readFileSync(yml, 'utf-8'))
         : {}
       return genObjectFromRaw({
         ...objectMap({

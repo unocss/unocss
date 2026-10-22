@@ -38,7 +38,7 @@ export const animations: Rule<Theme>[] = [
   [/^animate-ease(?:-(.+))?$/, ([, d], { theme }) => ({ 'animation-timing-function': theme.easing?.[d || 'DEFAULT'] ?? h.bracket.cssvar(d) }), { autocomplete: ['animate-ease', 'animate-ease-$easing'] }],
 
   // fill mode
-  [/^animate-(fill-mode-|fill-|mode-)?(.+)$/, ([, t, d]) => ['none', 'forwards', 'backwards', 'both', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-fill-mode': d } : undefined, {
+  [/^animate-(fill-mode-|fill-|mode-)?(.+)$/, ([, t, d]) => ['none', 'forwards', 'backwards', 'both', ...(t ? globalKeywords : [])].includes(d) ? { 'animation-fill-mode': d } : undefined, {
     autocomplete: [
       'animate-(fill|mode|fill-mode)',
       'animate-(fill|mode|fill-mode)-(none|forwards|backwards|both|inherit|initial|revert|revert-layer|unset)',
@@ -47,7 +47,7 @@ export const animations: Rule<Theme>[] = [
   }],
 
   // direction
-  [/^animate-(direction-)?(.+)$/, ([, t, d]) => ['normal', 'reverse', 'alternate', 'alternate-reverse', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-direction': d } : undefined, {
+  [/^animate-(direction-)?(.+)$/, ([, t, d]) => ['normal', 'reverse', 'alternate', 'alternate-reverse', ...(t ? globalKeywords : [])].includes(d) ? { 'animation-direction': d } : undefined, {
     autocomplete: [
       'animate-direction',
       'animate-direction-(normal|reverse|alternate|alternate-reverse|inherit|initial|revert|revert-layer|unset)',
@@ -57,7 +57,7 @@ export const animations: Rule<Theme>[] = [
 
   // others
   [/^animate-(?:iteration-count-|iteration-|count-)(.+)$/, ([, d]) => ({ 'animation-iteration-count': h.bracket.cssvar(d) ?? d.replace(/-/g, ',') }), { autocomplete: ['animate-(iteration|count|iteration-count)', 'animate-(iteration|count|iteration-count)-<num>'] }],
-  [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ['paused', 'running', ...[t ? globalKeywords : []]].includes(d) ? { 'animation-play-state': d } : undefined, {
+  [/^animate-(play-state-|play-|state-)?(.+)$/, ([, t, d]) => ['paused', 'running', ...(t ? globalKeywords : [])].includes(d) ? { 'animation-play-state': d } : undefined, {
     autocomplete: [
       'animate-(play|state|play-state)',
       'animate-(play|state|play-state)-(paused|running|inherit|initial|revert|revert-layer|unset)',

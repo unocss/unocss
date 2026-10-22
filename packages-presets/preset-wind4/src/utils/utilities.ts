@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { escapeSelector, symbols, toArray } from '@unocss/core'
-import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor } from '@unocss/rule-utils'
+import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor, resolveBreakpoints as resolveBreakpointsShared } from '@unocss/rule-utils'
 import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
@@ -100,7 +100,8 @@ export function splitShorthand(body: string, type: string) {
  */
 export function parseColor(body: string, theme: Theme) {
   let split
-  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3) ?? []
+  // Group by brackets so a `[color:...]` type hint is not split on its own colon.
+  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3, '[', ']') ?? []
 
   if (front != null) {
     const match = (front.match(bracketTypeRe) ?? [])[1]
@@ -352,28 +353,12 @@ export function hasParseableColor(color: string | undefined, theme: Theme) {
 // #endregion
 
 // #region resolve breakpoints
-const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
-
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoint' | 'verticalBreakpoint' = 'breakpoint') {
-  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
-
-  if (!breakpoints)
-    return undefined
-
-  if (resolvedBreakpoints.has(theme))
-    return resolvedBreakpoints.get(theme)
-
-  const resolved = Object.entries(breakpoints)
-    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
-    .map(([point, size]) => ({ point, size }))
-
-  resolvedBreakpoints.set(theme, resolved)
-  return resolved
+  return resolveBreakpointsShared({ theme, generator }, key)
 }
 
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
-  return resolveBreakpoints(context, 'verticalBreakpoint')
+  return resolveBreakpointsShared(context, 'verticalBreakpoint')
 }
 // #endregion
 
@@ -415,12 +400,8 @@ export function defineProperty(
 // #endregion
 
 // #region Basic util functions
-export function isCSSMathFn(value: string | undefined) {
-  return value != null && cssMathFnRE.test(value)
-}
-
 export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
+  if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }

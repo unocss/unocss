@@ -33,6 +33,8 @@ jobs:
           git config --global core.eol lf
 
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6

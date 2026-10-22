@@ -26,6 +26,7 @@ export default function transformerVariantGroup(
 
   return {
     name: '@unocss/transformer-variant-group',
+    docs: 'https://unocss.dev/transformers/variant-group',
     enforce: 'pre',
     codeFilter: code => separators.some(separator => code.includes(`${separator}(`)),
     transform(s) {

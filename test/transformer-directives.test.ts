@@ -554,6 +554,47 @@ describe('wind3', () => {
         `)
       })
 
+      it('at-rule prelude', async () => {
+        const result = await transform(
+          `@media (min-width: theme('breakpoints.sm')) {
+          .btn { color: theme('colors.blue.500'); }
+        }
+        @container (min-width: theme('breakpoints.md')) {
+          .card { padding: theme('spacing.sm'); }
+        }
+        @supports (width: theme('spacing.sm')) {
+          .box { width: theme('spacing.sm'); }
+        }
+        @screen md {
+          .col { color: theme('colors.blue.500'); }
+        }`,
+        )
+        expect(result)
+          .toMatchInlineSnapshot(`
+            "@media (min-width: 640px) {
+              .btn {
+                color: #3b82f6;
+              }
+            }
+            @container (min-width: 768px) {
+              .card {
+                padding: 0.875rem;
+              }
+            }
+            @supports (width: 0.875rem) {
+              .box {
+                width: 0.875rem;
+              }
+            }
+            @media (min-width: 768px) {
+              .col {
+                color: #3b82f6;
+              }
+            }
+            "
+          `)
+      })
+
       it('non-exist', async () => {
         await expect(async () => await transform(
           `.btn {

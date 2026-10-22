@@ -7,10 +7,10 @@ if (!currentPath)
   throw new Error('Usage: benchmark-summary.mjs <current-result> [base-result]')
 
 function collectBenchmarks(result) {
-  return new Map(result.files.flatMap(file => file.groups.flatMap(group => group.benchmarks.map(benchmark => [
-    `${group.fullName} > ${benchmark.name}`,
-    benchmark.median,
-  ]))))
+  return new Map(result.testResults.flatMap(file => file.assertionResults.flatMap(test => test.benchmarks.flatMap(benchmark => benchmark.tasks.map(task => [
+    `${test.fullName} > ${task.name}`,
+    task.latency.p50,
+  ])))))
 }
 
 function formatMilliseconds(milliseconds) {

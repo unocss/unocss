@@ -38,6 +38,12 @@
 | [@unocss/extractor-svelte](/extractors/svelte)                         | Extractor for Svelte                                  |
 | [@unocss/extractor-arbitrary-variants](/extractors/arbitrary-variants) | Extractor to support arbitrary variants for utilities |
 
+## Processors
+
+| Package                                                    | Description                                         |
+| ---------------------------------------------------------- | --------------------------------------------------- |
+| [@unocss/processor-lightningcss](/processors/lightningcss) | Process generated CSS with Lightning CSS in Node.js |
+
 ## Community
 
 <p align="center">

@@ -1,5 +1,5 @@
 import type { PseudoVariantUtilities } from '../src/pseudo'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, symbols } from '@unocss/core'
 import { h } from '@unocss/preset-wind4/utils'
 import { expect, it } from 'vitest'
 import {
@@ -8,7 +8,7 @@ import {
   createPseudoClassFunctions,
   createTaggedPseudoClasses,
 } from '../src/pseudo'
-import { variantGetBracket } from '../src/variants'
+import { variantGetBracket, variantMatcher } from '../src/variants'
 
 // Create utilities similar to what presets use
 const utils: PseudoVariantUtilities = {
@@ -135,6 +135,91 @@ it('nested named groups containing hyphens', async () => {
   `)
 })
 
+it('arbitrary tagged pseudo variant order', async () => {
+  const uno = await createGenerator({
+    variants: [
+      ...createTaggedPseudoClasses({}, utils),
+    ],
+    rules: [
+      [/^foo-(\d)$/, ([_, a]) => ({ text: `foo-${a}` })],
+    ],
+  })
+
+  const css = await uno.generate([
+    'foo-1',
+    'group-hover:foo-2',
+    'group-[.on]:foo-3',
+    'group-not-[.off]:foo-4',
+    'peer-[.on]:foo-5',
+  ]).then(r => r.css)
+
+  expect(css.indexOf('foo-1')).toBeLessThan(css.indexOf('foo-3'))
+  expect(css.indexOf('foo-1')).toBeLessThan(css.indexOf('foo-4'))
+  expect(css.indexOf('foo-1')).toBeLessThan(css.indexOf('foo-5'))
+  expect(css.indexOf('foo-5')).toBeLessThan(css.indexOf('foo-2'))
+  expect(css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .foo-1{text:foo-1;}
+      .group:not(.off) .group-not-\\[\\.off\\]\\:foo-4{text:foo-4;}
+      .group.on .group-\\[\\.on\\]\\:foo-3{text:foo-3;}
+      .peer.on~.peer-\\[\\.on\\]\\:foo-5{text:foo-5;}
+      .group:hover .group-hover\\:foo-2{text:foo-2;}"
+    `)
+})
+
+it('arbitrary tagged pseudo variant keeps the rule sort', async () => {
+  const uno = await createGenerator({
+    variants: [
+      ...createTaggedPseudoClasses({}, utils),
+    ],
+    rules: [
+      // the declared sorts are the reverse of the alphabetical order of the tokens,
+      // so only a rule sort that survives the variant can produce `foo-b` first
+      [/^foo-(\w)$/, ([_, a]) => ({ [symbols.sort]: a === 'a' ? 20 : 10, color: `foo-${a}` })],
+    ],
+  })
+
+  const css = await uno.generate([
+    'group-[.on]:foo-a',
+    'group-[.on]:foo-b',
+  ]).then(r => r.css)
+
+  expect(css.indexOf('foo-b')).toBeLessThan(css.indexOf('foo-a'))
+  expect(css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .group.on .group-\\[\\.on\\]\\:foo-b{color:foo-b;}
+      .group.on .group-\\[\\.on\\]\\:foo-a{color:foo-a;}"
+    `)
+})
+
+it('colon-only pseudo class sorts by its own index', async () => {
+  const uno = await createGenerator({
+    variants: [
+      ...createPseudoClassesAndElements(utils),
+    ],
+    rules: [
+      [/^foo-(\w)$/, ([_, a]) => ({ [symbols.sort]: a === 'a' ? 20 : 10, color: `foo-${a}` })],
+    ],
+  })
+
+  const css = await uno.generate([
+    'backdrop:foo-a',
+    'backdrop:foo-b',
+  ]).then(r => r.css)
+
+  // `backdrop` lives only in `PseudoClassesColon`, so finding its index there is what
+  // keeps the pseudo order in charge instead of the rule sort
+  expect(css.indexOf('foo-a')).toBeLessThan(css.indexOf('foo-b'))
+  expect(css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .backdrop\\:foo-a::backdrop{color:foo-a;}
+      .backdrop\\:foo-b::backdrop{color:foo-b;}"
+    `)
+})
+
 it('pseudo class functions', async () => {
   const uno = await createGenerator({
     variants: [
@@ -237,6 +322,35 @@ it('part classes', async () => {
       "/* layer: default */
       .part-\\[button\\]\\:foo-1::part(button){color:foo-1;}
       .part-\\[slider-thumb\\]\\:foo-2::part(slider-thumb){color:foo-2;}"
+    `)
+})
+
+it('part classes after another variant', async () => {
+  const uno = await createGenerator({
+    variants: [
+      createPartClasses(),
+      variantMatcher('dark', input => ({ prefix: `.dark $$ ${input.prefix}` })),
+    ],
+    rules: [
+      [/^foo-(\d)$/, ([_, a]) => ({ color: `foo-${a}` })],
+    ],
+  })
+
+  const result = await uno.generate([
+    'dark:part-[button]:foo-1',
+  ])
+
+  expect(result.matched)
+    .toMatchInlineSnapshot(`
+      Set {
+        "dark:part-[button]:foo-1",
+      }
+    `)
+
+  expect(result.css)
+    .toMatchInlineSnapshot(`
+      "/* layer: default */
+      .dark .dark\\:part-\\[button\\]\\:foo-1::part(button){color:foo-1;}"
     `)
 })
 

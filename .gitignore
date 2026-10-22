@@ -8,6 +8,7 @@
 *.local
 *.log
 *.vsix
+*.astro
 _temp
 bench/source/gen*.js
 coverage
@@ -22,8 +23,14 @@ interactive/app/data/guides.ts
 interactive/public/play
 interactive/public/shiki
 .svelte-kit
+.turbo
 .eslintcache
 vite.config.ts.timestamp-*
+
 test/assets/fonts
+test/**/vite-environments/dist-?*?
+test/**/vite-environments-isolated/dist-?*?
+
 examples/**/public/assets/fonts
 playground/public/assets/fonts
+

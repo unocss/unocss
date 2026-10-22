@@ -2,12 +2,12 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, Update, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
-import { notNull } from '@unocss/core'
 import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
+import { toViteClientPath, toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
@@ -69,19 +69,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     for (const server of servers) {
       server.ws.send({
         type: 'update',
-        updates: Array.from(ids)
-          .map((id) => {
-            const mod = server.moduleGraph.getModuleById(id)
-            if (!mod)
-              return null
-            return {
-              acceptedPath: mod.url,
-              path: mod.url,
-              timestamp: lastServedTime,
-              type: 'js-update',
-            } as Update
-          })
-          .filter(notNull),
+        updates: Array.from(ids).flatMap((id) => {
+          const mod = server.moduleGraph.getModuleById(id)
+          if (!mod)
+            return []
+          // Vite < 8.3 keys the client module registry by the wrapped
+          // `/@id/__x00__` form, >= 8.3 by the raw module URL (vitejs/vite#23172).
+          // Send both; the client silently ignores paths it doesn't know.
+          return [...new Set([mod.url, toViteClientPath(mod.url)])].map(path => ({
+            acceptedPath: path,
+            path,
+            timestamp: lastServedTime,
+            type: 'js-update',
+          } as Update))
+        }),
       })
     }
   }
@@ -162,8 +163,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          entries.add(entry)
-          return entry
+          const virtualId = toViteVirtualId(entry)
+          entries.add(virtualId)
+          return virtualId
         }
       },
       async load(id) {

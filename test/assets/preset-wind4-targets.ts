@@ -12,6 +12,13 @@ export const presetWind4Targets: string[] = [
   'text-red/$op-variable', // When the color components length = 2, the second variable is used as opacity
   'text-red/$op-variable/$method-variable',
 
+  // `color:` type hint
+  'bg-[color:#000]',
+  'ring-[color:red]',
+  'outline-[color:red]',
+  'decoration-[color:red]',
+  'fill-[color:red]',
+
   // font family
   'font-sans',
   'font-[custom-family-name]',
@@ -55,6 +62,10 @@ export const presetWind4Targets: string[] = [
   'animate-fill-backwards',
   'animate-reverse',
   'animate-direction-alternate-reverse',
+  'animate-fill-mode-inherit',
+  'animate-mode-unset',
+  'animate-direction-revert',
+  'animate-play-state-initial',
   'animate-count-2.4',
   'animate-iteration-2',
   'animate-iteration-count-2',
@@ -280,6 +291,22 @@ export const presetWind4Targets: string[] = [
   'line-clamp-unset',
 
   // scrolls
+  'scrollbar-auto',
+  'scrollbar-thin',
+  'scrollbar-none',
+  'scrollbar-thumb-red-500',
+  'scrollbar-thumb-red-500/50',
+  'scrollbar-thumb-op-50',
+  'scrollbar-track-[#0088cc]',
+  'scrollbar-track-transparent',
+  'scrollbar-track-opacity-30',
+  'scrollbar-w-2px',
+  'scrollbar-w-4',
+  'scrollbar-h-[3rem]',
+  'scrollbar-radius-sm',
+  'scrollbar-radius-full',
+  'scrollbar-thumb-radius-4px',
+  'scrollbar-track-radius-2px',
   'snap-y',
   'snap-both',
   'snap-mandatory',
@@ -493,6 +520,8 @@ export const presetWind4Targets: string[] = [
   'data-[foo=x]:text-green-600',
   'data-[foo=x]:data-[bar=y]:text-green-600',
   'data-dropdown:ring-green',
+  'not-data-[state=collapsed]:flex',
+  'not-data-[invalid~=grammar]:underline-green-600',
 
   // view-transition
   'view-transition-foo',
@@ -648,6 +677,7 @@ export const presetWind4Targets: string[] = [
   'in-[div]:bg-red-400',
   'in-[a>button:hover]:font-bold',
   'in-data-[state=closed]:border-5',
+  'in-not-data-[state=closed]:border-5',
   'in-aria-[hidden=false]:font-21',
 
   // inert
@@ -664,6 +694,11 @@ export const presetWind4Targets: string[] = [
   'zoom-50',
   'zoom-[1.1]',
   'zoom-[var(--zoom)]',
+
+  // flex-basis container sizes
+  'basis-xs',
+  'basis-2xl',
+  'flex-basis-7xl',
 
   /* gap rules */
 

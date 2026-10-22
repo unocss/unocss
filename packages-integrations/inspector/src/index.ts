@@ -1,149 +1,157 @@
 import type { UnocssPluginContext } from '@unocss/core'
-import type {} from '@vitejs/devtools-kit'
-import type { Plugin, ViteDevServer } from 'vite'
-import type { ModuleInfo, OverviewInfo, ProjectInfo } from '../types'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { BetterMap, CountableSet } from '@unocss/core'
-import gzipSize from 'gzip-size'
-import sirv from 'sirv'
-import { SKIP_COMMENT_RE } from '#integration/constants'
-import { analyzer } from './analyzer'
+import type { DevframeDefinition } from 'devframe'
+import type { DevframeInstance } from 'devframe/initiate'
+import type { Server } from 'node:http'
+import type { Plugin } from 'vite'
+import { initDevframe } from 'devframe/initiate'
+import { serveStaticNodeMiddleware } from 'devframe/utils/serve-static'
+import { createInspectorDevframe } from './devframe'
 
-const _dirname = typeof __dirname !== 'undefined'
-  ? __dirname
-  : dirname(fileURLToPath(import.meta.url))
+export * from './devframe'
 
-export default function UnocssInspector(ctx: UnocssPluginContext): Plugin {
-  const baseUrl = '__unocss'
+const BASE_URL = '/__unocss/'
+const DEVTOOLS_DOCK_BASE_URL = '/__unocss-devtools/'
+const VITE_DEVTOOLS_URL = '/__devtools/'
 
-  async function configureServer(server: ViteDevServer) {
-    await ctx.ready
+/**
+ * Structural stand-in for the slice of `@vitejs/devtools-kit`'s node context
+ * the dock mount uses (`ctx.install`), so the kit stays out of the dependency
+ * tree — `@vitejs/devtools` provides the real implementation when installed.
+ */
+interface DevtoolsDockContext {
+  install: (definition: DevframeDefinition, options?: { base?: string }) => Promise<void>
+}
 
-    // TODO: migrate to Vite DevTools and use it's RPC layer
-    server.middlewares.use(`/${baseUrl}`, sirv(resolve(_dirname, '../dist/client'), {
-      single: true,
-      dev: true,
-    }))
+export default function UnocssInspector(ctx: UnocssPluginContext): Plugin[] {
+  const inspector = createInspectorDevframe(ctx)
 
-    server.middlewares.use(`/${baseUrl}_api`, async (req, res, next) => {
-      if (!req.url)
-        return next()
-      if (req.url === '/') {
-        const info: ProjectInfo = {
-          version: ctx.uno.version,
-          // use the resolved config from the dev server
-          root: server.config.root,
-          modules: Array.from(ctx.modules.keys()),
-          config: ctx.uno.config,
-          configSources: (await ctx.ready).sources,
-        }
-        res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(info, getCircularReplacer(), 2))
-        res.end()
-        return
-      }
+  // Flipped when the Vite DevTools host mounts the inspector dock
+  let devtoolsActive = false
 
-      if (req.url.startsWith('/module')) {
-        const query = new URLSearchParams(req.url.slice(8))
-        const id = query.get('id') || ''
-        const code = ctx.modules.get(id)
+  let invalidateTimer: ReturnType<typeof setTimeout> | undefined
+  ctx.onInvalidate(() => {
+    clearTimeout(invalidateTimer)
+    invalidateTimer = setTimeout(() => inspector.notifyInvalidated(), 200)
+  })
+  ctx.onReload(() => inspector.notifyConfigChanged())
 
-        if (code == null) {
-          res.statusCode = 404
+  const events: Plugin = {
+    name: 'unocss:inspector',
+    apply: 'serve',
+    async configureServer(server) {
+      await ctx.ready
+
+      server.middlewares.use((req, res, next) => {
+        const url = req.url?.split('?')[0]
+
+        // The SPA is built with a relative base — normalize the visit
+        // to a trailing slash so relative assets resolve
+        if (url === BASE_URL.slice(0, -1)) {
+          res.statusCode = 302
+          res.setHeader('Location', BASE_URL)
           res.end()
           return
         }
 
-        const tokens = new CountableSet<string>()
-        await ctx.uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)
-
-        const result = await ctx.uno.generate(tokens, { id, extendedInfo: true, preflights: false })
-        const analyzed = await analyzer(new BetterMap([[id, code]]), ctx)
-        const mod: ModuleInfo = {
-          ...result,
-          ...analyzed,
-          layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
-          gzipSize: await gzipSize(result.css),
-          code,
-          id,
+        // The standalone inspector URL is deprecated in favor of the Vite
+        // DevTools dock — when the DevTools host is active, top-level visits
+        // are redirected to it. Iframe embeds (Vite DevTools dock, Nuxt
+        // DevTools tab) and older browsers without `Sec-Fetch-Dest` keep
+        // being served the standalone SPA.
+        if (
+          devtoolsActive
+          && (url === BASE_URL || url === `${BASE_URL}index.html`)
+          && req.headers['sec-fetch-dest'] === 'document'
+        ) {
+          res.statusCode = 302
+          res.setHeader('Location', VITE_DEVTOOLS_URL)
+          res.end()
+          return
         }
-
-        res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(mod, null, 2))
-        res.end()
-        return
-      }
-
-      if (req.url.startsWith('/repl')) {
-        const query = new URLSearchParams(req.url.slice(5))
-        const token = query.get('token') || ''
-        const includeSafelist = JSON.parse(query.get('safelist') ?? 'false')
-
-        const result = await ctx.uno.generate(token, { preflights: false, safelist: includeSafelist })
-        const mod = {
-          ...result,
-          matched: Array.from(result.matched),
-        }
-        res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(mod, null, 2))
-        res.end()
-        return
-      }
-
-      if (req.url.startsWith('/overview')) {
-        const result = await ctx.uno.generate(ctx.tokens, { preflights: false })
-        const analyzed = await analyzer(ctx.modules, ctx)
-
-        const mod: OverviewInfo = {
-          ...result,
-          ...analyzed,
-          gzipSize: await gzipSize(result.css),
-          layers: result.layers.map(name => ({ name, css: result.getLayer(name)! })),
-        }
-        res.setHeader('Content-Type', 'application/json')
-        res.write(JSON.stringify(mod, null, 2))
-        res.end()
-        return
-      }
-
-      next()
-    })
+        next()
+      })
+    },
+    handleHotUpdate(hmrCtx) {
+      inspector.notifyModuleUpdated({ path: hmrCtx.file })
+    },
   }
 
-  return {
-    name: 'unocss:inspector',
+  // The standalone SPA at /__unocss/ (deprecated surface). Mounted
+  // before the bridge: it serves files (SPA fallback only for
+  // extensionless misses) and falls through to the bridge for the RPC
+  // endpoints (`__connection.json`), which the bridge's handler answers
+  // (and 404s anything else under the base).
+  const spa: Plugin = {
+    name: 'unocss:inspector:spa',
     apply: 'serve',
-    configureServer,
-    devtools: {
-      setup(ctx: any) {
-        ctx.docks.register({
-          id: 'unocss',
-          title: 'UnoCSS',
-          icon: 'https://unocss.dev/logo.svg',
-          type: 'iframe',
-          url: `/${baseUrl}`,
+    configureServer(server) {
+      const clientDist = inspector.definition.clientAssets
+      if (typeof clientDist === 'string')
+        server.middlewares.use(BASE_URL, serveStaticNodeMiddleware(clientDist))
+    },
+  }
+
+  // RPC + WebSocket backend, bridged into Vite's own HTTP server, gated by
+  // devframe's OTP auth. `allowedOrigins: false` because the endpoint is served
+  // same-origin by this dev server (the OTP gate is the trust boundary) — so it
+  // still connects when the server is reached at a non-loopback origin
+  // (`vite --host`, containers, tunnels), which the loopback-only default refuses.
+  let instance: DevframeInstance | undefined
+  const bridge: Plugin = {
+    name: 'unocss:inspector:rpc',
+    apply: 'serve',
+    async configureServer(server) {
+      await instance?.close().catch(() => {})
+      instance = undefined
+      try {
+        const created = initDevframe(inspector.definition, {
+          base: BASE_URL,
+          // The SPA plugin above owns the client assets
+          distDir: false,
+          // Share Vite's HTTP server for the WebSocket upgrade; middleware-mode
+          // hosts (no `httpServer`, e.g. Nuxt) get a side-car socket instead.
+          // Vite's union includes https/http2 servers — devframe only binds an
+          // `upgrade` listener, which all of them emit, so narrow the type.
+          ...(server.httpServer ? { server: server.httpServer as Server } : { ws: { sidecar: true } }),
+          allowedOrigins: false,
         })
+        server.middlewares.use(created.nodeMiddleware)
+        await created.ready
+        instance = created
+      }
+      catch (e) {
+        console.warn('[unocss:inspector] failed to start the inspector RPC backend:', e)
+        return
+      }
+      server.httpServer?.once('close', () => {
+        instance?.close().catch(() => {})
+      })
+    },
+    async closeBundle() {
+      await instance?.close().catch(() => {})
+      instance = undefined
+    },
+  }
+
+  // The Vite DevTools dock (mounted only when @vitejs/devtools is installed
+  // and enabled), on its own base to keep the two hosts apart. The `devtools`
+  // slot is the kit's plugin contract: inert under plain Vite, picked up by
+  // the DevTools host, which serves the SPA, registers the iframe dock entry
+  // and runs the definition's `setup` through `ctx.install`.
+  const devtoolsDock: Plugin & { devtools: { setup: (ctx: DevtoolsDockContext) => Promise<void> } } = {
+    name: 'unocss:inspector:devtools',
+    devtools: {
+      async setup(ctx) {
+        await ctx.install(inspector.definition, { base: DEVTOOLS_DOCK_BASE_URL })
+        devtoolsActive = true
       },
     },
-  } as Plugin
-}
-
-function getCircularReplacer() {
-  const ancestors: any = []
-  return function (this: any, key: any, value: any) {
-    if (typeof value !== 'object' || value === null)
-      return value
-
-    // `this` is the object that value is contained in,
-    // i.e., its direct parent.
-    while (ancestors.length > 0 && ancestors.at(-1) !== this)
-      ancestors.pop()
-
-    if (ancestors.includes(value))
-      return '[Circular]'
-
-    ancestors.push(value)
-    return value
   }
+
+  return [
+    events,
+    spa,
+    bridge,
+    devtoolsDock,
+  ]
 }

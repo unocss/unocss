@@ -32,9 +32,9 @@
     "@unocss/preset-web-fonts": "link:../../packages-presets/preset-web-fonts",
     "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
     "concurrently": "^9.1.2",
-    "typescript": "^5.8.2",
+    "typescript": "^6.0.3",
     "unocss": "link:../../packages-presets/unocss",
-    "vite": "^6.2.1",
+    "vite": "^8.3.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "stackblitz": {

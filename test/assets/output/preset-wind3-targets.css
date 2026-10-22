@@ -65,8 +65,11 @@
 .animate-ease-linear{animation-timing-function:linear;}
 .animate-fill-backwards{animation-fill-mode:backwards;}
 .animate-fill-mode-both{animation-fill-mode:both;}
+.animate-fill-mode-inherit{animation-fill-mode:inherit;}
 .animate-mode-none{animation-fill-mode:none;}
+.animate-mode-unset{animation-fill-mode:unset;}
 .animate-direction-alternate-reverse{animation-direction:alternate-reverse;}
+.animate-direction-revert{animation-direction:revert;}
 .animate-normal{animation-direction:normal;}
 .animate-reverse{animation-direction:reverse;}
 .animate-count-2\.4{animation-iteration-count:2.4;}
@@ -77,6 +80,7 @@
 .animate-iteration-count-\$variable{animation-iteration-count:var(--variable);}
 .animate-paused,
 .animate-play-paused{animation-play-state:paused;}
+.animate-play-state-initial{animation-play-state:initial;}
 .animate-play-state-running,
 .animate-state-running{animation-play-state:running;}
 .animate-none{animation:none;}
@@ -296,11 +300,11 @@
 .bg-blend-color-burn{background-blend-mode:color-burn;}
 .bg-blend-luminosity{background-blend-mode:luminosity;}
 .bg-blend-normal{background-blend-mode:normal;}
-.bg-blend-unset{background-blend:unset;}
+.bg-blend-unset{background-blend-mode:unset;}
 .mix-blend-hard-light{mix-blend-mode:hard-light;}
 .mix-blend-plus-lighter{mix-blend-mode:plus-lighter;}
 .mix-blend-normal{mix-blend-mode:normal;}
-.mix-blend-revert{mix-blend:revert;}
+.mix-blend-revert{mix-blend-mode:revert;}
 .data-dropdown\:ring-green[data-data-bs-toggle="dropdown"]{--un-ring-opacity:1;--un-ring-color:rgb(74 222 128 / var(--un-ring-opacity));}
 .image-render-pixel{-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;}
 .backdrop-blur{--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}

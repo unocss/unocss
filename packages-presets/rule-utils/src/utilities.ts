@@ -1,4 +1,5 @@
 import { isString } from '@unocss/core'
+import { calcMaxWidthBySize } from './directive'
 
 export function getBracket(str: string, open: string, close: string) {
   if (str === '')
@@ -94,4 +95,67 @@ export function getStringComponents(str: string, separators: string | string[], 
   }
   if (components.length > 0)
     return components
+}
+
+export type BreakpointsThemeKey = 'breakpoint' | 'breakpoints' | 'verticalBreakpoint' | 'verticalBreakpoints'
+
+type BreakpointsTheme = Partial<Record<BreakpointsThemeKey, Record<string, string>>>
+
+export interface BreakpointsContext {
+  theme: object
+  generator?: { userConfig?: { theme?: object } }
+}
+
+const reLetters = /[a-z]+/gi
+const resolvedBreakpointsCache = new WeakMap<Record<string, string>, { point: string, size: string }[]>()
+
+export function resolveBreakpoints({ theme, generator }: BreakpointsContext, themeKey?: BreakpointsThemeKey) {
+  const resolvedTheme = theme as BreakpointsTheme
+  const userTheme = generator?.userConfig?.theme as BreakpointsTheme | undefined
+  // Directives detect the key from the theme, while presets select their own key.
+  const selectedKey = themeKey ?? (resolvedTheme.breakpoint != null ? 'breakpoint' : 'breakpoints')
+  const breakpoints = userTheme?.[selectedKey] || resolvedTheme[selectedKey]
+
+  if (!breakpoints)
+    return undefined
+
+  // User configuration and the merged theme can contain different breakpoint maps.
+  const cached = resolvedBreakpointsCache.get(breakpoints)
+  if (cached)
+    return cached
+
+  const resolved = Object.entries(breakpoints)
+    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
+    .map(([point, size]) => ({ point, size }))
+
+  resolvedBreakpointsCache.set(breakpoints, resolved)
+  return resolved
+}
+
+export function resolveVerticalBreakpoints(context: BreakpointsContext) {
+  const theme = context.theme as BreakpointsTheme
+  return resolveBreakpoints(context, theme.verticalBreakpoint != null ? 'verticalBreakpoint' : 'verticalBreakpoints')
+}
+
+export function generateBreakpointMediaQuery(size: string, prefix?: 'lt' | 'at', nextSize?: string) {
+  if (prefix === 'lt')
+    return `(max-width: ${calcMaxWidthBySize(size)})`
+  if (prefix === 'at' && nextSize != null)
+    return `(min-width: ${size}) and (max-width: ${calcMaxWidthBySize(nextSize)})`
+  return `(min-width: ${size})`
+}
+
+const screenValueRE = /^(?:(lt|at)-)?(\w+)$/
+
+export function resolveScreenMediaQuery(theme: object, value: string) {
+  const match = value.match(screenValueRE)
+  const prefix = match?.[1] as 'lt' | 'at' | undefined
+  const breakpoint = match?.[2] ?? value
+
+  const entries = resolveBreakpoints({ theme }) ?? []
+  const index = entries.findIndex(({ point }) => point === breakpoint)
+  if (index === -1)
+    throw new Error(`breakpoint ${breakpoint} not found`)
+
+  return generateBreakpointMediaQuery(entries[index].size, prefix, entries[index + 1]?.size)
 }
