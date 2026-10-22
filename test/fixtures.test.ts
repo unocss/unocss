@@ -1,6 +1,9 @@
+import { execFile } from 'node:child_process'
 import { readFile, rm } from 'node:fs/promises'
-import { join, resolve } from 'node:path'
+import { createRequire } from 'node:module'
+import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
+import { promisify } from 'node:util'
 import presetUno from '@unocss/preset-uno'
 import { glob } from 'tinyglobby'
 import { build, createBuilder } from 'vite'
@@ -8,6 +11,7 @@ import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 import UnoCSS from '../packages-integrations/vite/src/index'
 
+const execFileAsync = promisify(execFile)
 const isWindows = process.platform === 'win32'
 const isRolldownVite = 'rolldownVersion' in vite
 
@@ -15,6 +19,16 @@ async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
     .then(r => Promise.all(r.map(f => readFile(f, 'utf8'))))
     .then(r => r.join('\n'))
+}
+
+async function getHtmlCss(root: string, file: string) {
+  const html = await readFile(join(root, file), 'utf-8')
+  const hrefs = [...html.matchAll(/<link[^>]+href="\/([^"]+\.css)"[^>]*>/g)]
+    .map(match => match[1])
+  const styles = [...html.matchAll(/<style[^>]*>(.*?)<\/style>/gs)]
+    .map(match => match[1])
+  const linkedCss = await Promise.all(hrefs.map(href => readFile(join(root, href), 'utf-8')))
+  return [...styles, ...linkedCss].join('\n')
 }
 
 describe.concurrent('fixtures', () => {
@@ -54,6 +68,51 @@ describe.concurrent('fixtures', () => {
     expect(css).contains('--at-apply')
     expect(css).not.contains('gap:.5rem')
     expect(css).not.contains('.text-teal')
+  })
+
+  it('vite dist-chunk', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-dist-chunk')
+    await rm(join(root, 'dist'), { recursive: true, force: true })
+    await build({ root, logLevel: 'warn' })
+
+    // Assumes base '/' and a single generated stylesheet link per entry.
+    const cssHref = (html: string) => /href="\/([^"]+\.css)"/.exec(html)?.[1]
+    const aHtml = await readFile(join(root, 'dist/a.html'), 'utf-8')
+    const bHtml = await readFile(join(root, 'dist/b.html'), 'utf-8')
+    const aCss = await readFile(join(root, 'dist', cssHref(aHtml)!), 'utf-8')
+    const bCss = await readFile(join(root, 'dist', cssHref(bHtml)!), 'utf-8')
+
+    expect(aCss).contains('.text-red')
+    expect(aCss).not.contains('.c-red')
+    expect(bCss).contains('.c-red')
+    expect(bCss).not.contains('.text-red')
+  })
+
+  // this test relies on old Astro version which requires old Vite version
+  // ecosystem-ci uses the latest Vite version and this test fails
+  it.skipIf(isWindows || process.env.ECOSYSTEM_CI)('astro dist-chunk', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/astro-dist-chunk')
+    await rm(join(root, 'dist'), { recursive: true, force: true })
+
+    const require = createRequire(join(root, 'package.json'))
+    const astroCli = resolve(dirname(require.resolve('astro')), '../../astro.js')
+    await execFileAsync(process.execPath, [astroCli, 'build', '--root', root], {
+      cwd: root,
+      env: {
+        ...process.env,
+        ASTRO_TELEMETRY_DISABLED: '1',
+      },
+    })
+
+    const aCss = await getHtmlCss(root, 'dist/a.html')
+    const bCss = await getHtmlCss(root, 'dist/b.html')
+
+    expect(aCss).contains('box-sizing:border-box')
+    expect(aCss).contains('.text-xl')
+    expect(aCss).not.contains('.c-red')
+    expect(bCss).contains('box-sizing:border-box')
+    expect(bCss).contains('.c-red')
+    expect(bCss).not.contains('.text-xl')
   })
 
   it.skipIf(isWindows || isRolldownVite)('vite legacy', async () => {

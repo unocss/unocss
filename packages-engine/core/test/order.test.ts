@@ -181,4 +181,20 @@ describe('order', () => {
     expect(css).toMatchSnapshot()
     expect(css).toEqual(css2)
   })
+
+  it('is independent of token order', async () => {
+    const uno = await createGenerator({
+      rules: [
+        [/^anim-(.+)$/, ([, name]) => [`@keyframes ${name}{}`, { animation: name }]],
+      ],
+      shortcuts: {
+        'anim-beat': 'anim-beat',
+      },
+      presets: [],
+    })
+    const tokens = ['anim-spin', 'anim-pulse', 'anim-beat']
+    const { css } = await uno.generate(new Set(tokens), { preflights: false })
+    const { css: reversed } = await uno.generate(new Set(tokens.toReversed()), { preflights: false })
+    expect(reversed).toEqual(css)
+  })
 })
