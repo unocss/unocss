@@ -61,6 +61,7 @@
     "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "css-tree": "catalog:css",
     "magic-string": "catalog:utils",
     "pathe": "catalog:utils",
     "tinyglobby": "catalog:utils",

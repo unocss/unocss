@@ -1282,6 +1282,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      css-tree:
+        specifier: catalog:css
+        version: 3.2.1
       magic-string:
         specifier: catalog:utils
         version: 1.4.3

@@ -33,25 +33,17 @@ export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
   }
 }
 
-/**
- * Resolve one `@unocss <params>` directive to CSS, for the integrations that splice
- * layers into a stylesheet rather than serving them as a virtual module.
- *
- * `emitted` accumulates the layer names earlier directives in the same file consumed,
- * so that a later bare directive picks up whatever is left. Pass `directive` when the
- * name is configurable, as it is in `@unocss/postcss`.
- */
-export function selectLayers(
+export function getDirectiveLayers(
   result: GenerateResult,
   params: string | undefined,
   emitted: string[],
-  directive = 'unocss',
 ): string {
-  if (!params)
-    return result.getLayers(undefined, emitted) || ''
+  if (!params) {
+    return result.getLayers(undefined, emitted)
+  }
 
-  const include: string[] = []
-  const exclude: string[] = []
+  const includes: string[] = []
+  const excludes: string[] = []
 
   for (const raw of params.split(',')) {
     const name = raw.trim()
@@ -59,32 +51,24 @@ export function selectLayers(
       continue
 
     if (name.startsWith('!')) {
-      if (name.length > 1)
-        exclude.push(name.slice(1))
+      if (name.length > 1) {
+        excludes.push(name.slice(1))
+      }
     }
     else {
-      include.push(name)
+      includes.push(name)
     }
   }
 
-  if (include.length && exclude.length)
-    console.warn(`Warning: Mixing normal and negated layer names in "@${directive} ${params}" is not recommended.`)
-
-  if (include.length) {
-    emitted.push(...include)
-    return include
-      .map(name => (name === 'all' ? result.getLayers() : result.getLayer(name)) || '')
-      .filter(Boolean)
-      .join('\n')
+  if (!includes.length && !excludes.length) {
+    // invalid syntax
+    return ''
   }
 
-  if (exclude.length) {
-    emitted.push(...exclude)
-    return result.getLayers(undefined, exclude) || ''
-  }
+  const layers = ((!includes.length || includes.includes('all')) ? result.layers : includes).filter(name => !excludes.includes(name))
+  emitted.push(...layers)
 
-  // invalid syntax emits nothing
-  return ''
+  return layers.map(name => result.getLayer(name)).filter(Boolean).join('\n')
 }
 
 /**

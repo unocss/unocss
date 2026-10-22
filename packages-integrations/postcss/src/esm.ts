@@ -12,7 +12,7 @@ import { hasThemeFn } from '@unocss/rule-utils'
 import postcss from 'postcss'
 import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '#integration/defaults'
-import { selectLayers } from '#integration/layers'
+import { getDirectiveLayers } from '#integration/layers'
 import { parseApply } from './apply'
 import { parseScreen } from './screen'
 import { parseTheme } from './theme'
@@ -169,10 +169,10 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     }
     const c = await uno.generate(classes)
     classes.clear()
-    const excludes: string[] = []
+    const emitted: string[] = []
     root.walkAtRules(directiveMap.unocss, (rule) => {
       const source = rule.source
-      const css = postcss.parse(selectLayers(c, rule.params, excludes, directiveMap.unocss))
+      const css = postcss.parse(getDirectiveLayers(c, rule.params, emitted))
       css.walkDecls((declaration) => {
         declaration.source = source
       })

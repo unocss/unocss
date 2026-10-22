@@ -1,15 +1,14 @@
 import type { LoaderContext } from './types'
 import fs from 'node:fs/promises'
 import { toArray } from '@unocss/core'
+import { parse, walk } from 'css-tree'
+import MagicString from 'magic-string'
 import { dirname, resolve } from 'pathe'
 import { glob } from 'tinyglobby'
 import { IGNORE_COMMENT, SKIP_COMMENT_RE } from '#integration/constants'
 import { defaultFilesystemGlobs } from '#integration/defaults'
-import { selectLayers } from '#integration/layers'
+import { getDirectiveLayers } from '#integration/layers'
 import { getContext, transformAll } from './context'
-
-// Can't anchor to top of file: `transformerDirectives` hoists `@property` rules
-const DIRECTIVE_RE = /@unocss(?:[ \t]([^;]*))?;/g
 
 // cached generated tokens per file, invalid if edited (mtime) or config changes (revision)
 const extracted = new Map<string, { mtime: number, revision: number, tokens: Set<string> }>()
@@ -29,13 +28,14 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
     const transformed = await transformAll(ctx, source, id)
     const code = transformed?.code ?? source
 
-    if (code.search(DIRECTIVE_RE) === -1)
+    const directives = findDirectives(code, id)
+    if (!directives.length)
       return callback(null, code, transformed?.map)
 
-    const config = ctx.uno.config
+    const resolvedConfig = ctx.uno.config
 
     // Extraction is based on content.filesystem, same as `@unocss/postcss`
-    const globs = toArray(config.content?.filesystem ?? defaultFilesystemGlobs)
+    const globs = toArray(resolvedConfig.content?.filesystem ?? defaultFilesystemGlobs)
     const includesNodeModules = globs.some(i => i.includes('node_modules'))
 
     // context dependency tracks nested changes, so only need to watch roots
@@ -104,7 +104,7 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
         tokens.add(token)
     })
 
-    await Promise.all((config.content?.inline ?? []).map(async (c, idx) => {
+    await Promise.all((resolvedConfig.content?.inline ?? []).map(async (c, idx) => {
       if (typeof c === 'function')
         c = await c()
       if (typeof c === 'string')
@@ -113,11 +113,52 @@ export default function unocssCssLoader(this: LoaderContext, source: string): vo
     }))
 
     // files are scanned in parallel, so sort for theme vars emitted in first-seen order
-    const result = await ctx.uno.generate([...tokens].sort(), { minify: config.envMode === 'build' })
+    const result = await ctx.uno.generate([...tokens].sort(), { minify: resolvedConfig.envMode === 'build' })
 
+    const s = new MagicString(code)
     const emitted: string[] = []
-    callback(null, code.replace(DIRECTIVE_RE, (_: string, arg?: string) => selectLayers(result, arg?.trim(), emitted)))
+    for (const { start, end, params } of directives)
+      s.overwrite(start, end, getDirectiveLayers(result, params, emitted))
+
+    callback(null, s.toString())
   })().catch(callback)
+}
+
+interface Directive {
+  start: number
+  end: number
+  params?: string
+}
+
+function findDirectives(code: string, filename: string): Directive[] {
+  if (!code.includes('@unocss'))
+    return []
+
+  const directives: Directive[] = []
+  const ast = parse(code, {
+    filename,
+    positions: true,
+    parseAtrulePrelude: false,
+    parseRulePrelude: false,
+    parseValue: false,
+    parseCustomProperty: false,
+  })
+
+  walk(ast, {
+    visit: 'Atrule',
+    enter(node) {
+      if (node.name !== 'unocss' || !node.loc)
+        return
+      directives.push({
+        start: node.loc.start.offset,
+        end: node.loc.end.offset,
+        params: node.prelude?.type === 'Raw' ? node.prelude.value.trim() : undefined,
+      })
+      return walk.skip
+    },
+  })
+
+  return directives
 }
 
 async function boundedAsyncMap<T>(limit: number, items: T[], fn: (item: T) => Promise<void>) {
