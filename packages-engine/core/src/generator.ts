@@ -1,18 +1,141 @@
-import type { BlocklistMeta, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSObject, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
+import type { BlocklistMeta, BlocklistRule, BlocklistValue, ControlSymbols, ControlSymbolsEntry, CSSEntries, CSSEntriesInput, CSSEntry, CSSObject, CSSProcessorContext, CSSValueInput, ExtendedTokenInfo, ExtractorContext, GenerateOptions, GenerateResult, ParsedUtil, PreflightContext, PreparedRule, RawUtil, ResolvedConfig, Rule, RuleContext, RuleMeta, SafeListContext, Shortcut, ShortcutInlineValue, ShortcutValue, StringifiedUtil, UserConfig, UserConfigDefaults, UtilObject, Variant, VariantContext, VariantHandlerContext, VariantMatchedResult } from './types'
 import { version } from '../package.json'
 import { resolveConfig } from './config'
 import { LAYER_DEFAULT, LAYER_PREFLIGHTS } from './constants'
-import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, warnOnce } from './utils'
+import { BetterMap, CountableSet, e, entriesToCss, expandVariantGroup, isCountableSet, isRawUtil, isStaticShortcut, isString, noop, normalizeCSSEntries, normalizeCSSValues, notNull, toArray, TwoKeyMap, uniq, VirtualKey, warnOnce } from './utils'
 import { createNanoEvents } from './utils/events'
 
 export const symbols: ControlSymbols = {
   shortcutsNoMerge: '$$symbol-shortcut-no-merge' as unknown as ControlSymbols['shortcutsNoMerge'],
   noMerge: '$$symbol-no-merge' as unknown as ControlSymbols['noMerge'],
+  noScope: '$$symbol-no-scope' as unknown as ControlSymbols['noScope'],
   variants: '$$symbol-variants' as unknown as ControlSymbols['variants'],
   parent: '$$symbol-parent' as unknown as ControlSymbols['parent'],
   selector: '$$symbol-selector' as unknown as ControlSymbols['selector'],
   layer: '$$symbol-layer' as unknown as ControlSymbols['layer'],
   sort: '$$symbol-sort' as unknown as ControlSymbols['sort'],
+  body: '$$symbol-body' as unknown as ControlSymbols['body'],
+}
+
+// Chosen from benchmarks on a 24k-token project: 4096 retained most of the
+// benefit of smaller batches, outperformed 8192, and keeps smaller generations
+// on the existing single-batch path. This limits event-loop pressure rather
+// than CPU parallelism, so it is intentionally not based on the CPU count.
+const TOKEN_PARSE_BATCH_SIZE = 4096
+
+class TokenProcessor<Theme extends object> {
+  private cache = new Map<string, StringifiedUtil<Theme>[] | null>()
+  private blocked = new Set<string>()
+  private parentOrders = new Map<string, number>()
+  private activatedRules = new Set<Rule<Theme>>()
+
+  async parse(
+    generator: UnoGeneratorInternal<Theme>,
+    raw: string,
+    alias?: string,
+  ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
+    if (this.blocked.has(raw))
+      return
+
+    const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
+    if (this.cache.has(cacheKey))
+      return this.cache.get(cacheKey)
+
+    const current = generator.config.preprocess.reduce((acc, p) => p(acc) ?? acc, raw)
+    if (generator.isBlocked(current)) {
+      this.blocked.add(raw)
+      this.cache.set(cacheKey, null)
+      return
+    }
+
+    const variantResults = await generator.matchVariants(raw, current)
+    if (variantResults.every(i => !i || generator.isBlocked(i[1]))) {
+      this.blocked.add(raw)
+      this.cache.set(cacheKey, null)
+      return
+    }
+
+    const data = (await Promise.all(variantResults.map(async (matched) => {
+      const context = generator.makeContext(raw, [alias || matched[0], matched[1], matched[2], matched[3]])
+
+      if (generator.config.details)
+        context.variants = [...matched[3]]
+
+      const expanded = await generator.expandShortcut(context.currentSelector, context, 5, true)
+      return expanded
+        ? await generator.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
+        : (await generator.parseUtil(context.variantMatch, context))?.flatMap(i => generator.stringifyUtil(i, context)).filter(notNull)
+    }))).flat().filter(notNull)
+
+    this.cache.set(cacheKey, data.length ? data : null)
+    return data.length ? data : undefined
+  }
+
+  isBlocked(raw: string, blocklist: BlocklistRule[]) {
+    if (!raw)
+      return true
+
+    for (const rule of blocklist) {
+      const value = Array.isArray(rule) ? rule[0] : rule
+      if (typeof value === 'function' ? value(raw) : isString(value) ? value === raw : value.test(raw))
+        return true
+    }
+
+    return false
+  }
+
+  getBlocked(raw: string, blocklist: BlocklistRule[]) {
+    const rule = blocklist.find((e) => {
+      const value = Array.isArray(e) ? e[0] : e
+      return typeof value === 'function' ? value(raw) : isString(value) ? value === raw : value.test(raw)
+    })
+    return rule
+      ? (Array.isArray(rule) ? rule : [rule, undefined]) as [BlocklistValue, BlocklistMeta | undefined]
+      : undefined
+  }
+
+  setParentOrder(parent: string, order: number) {
+    this.parentOrders.set(parent, order)
+  }
+
+  getParentOrder(parent: string) {
+    return this.parentOrders.get(parent)
+  }
+
+  activateRule(rule: Rule<Theme>) {
+    this.activatedRules.add(rule)
+  }
+
+  getActivatedRules(): ReadonlySet<Rule<Theme>> {
+    return this.activatedRules
+  }
+
+  getCachedTokens(input: string) {
+    return Array.from(this.cache)
+      .filter(([token, result]) => result && token.startsWith(input))
+      .map(([token]) => token)
+  }
+
+  getCachedAliases(token: string) {
+    const target = this.cache.get(token)
+    if (!target)
+      return
+
+    return Array.from(this.cache)
+      .filter(([, utilities]) => utilities?.length === target.length
+        && utilities.every((utility, index) => utility[2] === target[index][2]))
+      .map(([alias]) => alias)
+  }
+
+  block(tokens: Iterable<string>) {
+    for (const token of tokens)
+      this.blocked.add(token)
+  }
+
+  invalidate(token: string) {
+    this.cache.delete(token)
+    this.blocked.delete(token)
+  }
 }
 
 class UnoGeneratorInternal<Theme extends object = object> {
@@ -22,10 +145,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
   }>()
 
   public config: ResolvedConfig<Theme> = undefined!
-  public cache = new Map<string, StringifiedUtil<Theme>[] | null>()
-  public blocked = new Set<string>()
-  public parentOrders = new Map<string, number>()
-  public activatedRules = new Set<Rule<Theme>>()
+  private tokenProcessor = new TokenProcessor<Theme>()
 
   protected constructor(
     public userConfig: UserConfig<Theme> = {},
@@ -51,11 +171,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
     if (defaults)
       this.defaults = defaults
     this.userConfig = userConfig
-    this.blocked.clear()
-    this.parentOrders.clear()
-    this.activatedRules.clear()
-    this.cache.clear()
     this.config = await resolveConfig(userConfig, this.defaults)
+    this.resetTokenProcessing()
     this.events.emit('config', this.config)
   }
 
@@ -115,59 +232,40 @@ class UnoGeneratorInternal<Theme extends object = object> {
     return context
   }
 
+  /** @internal */
+  resetTokenProcessing() {
+    this.tokenProcessor = new TokenProcessor<Theme>()
+  }
+
+  getParentOrder(parent: string) {
+    return this.tokenProcessor.getParentOrder(parent)
+  }
+
+  getActivatedRules(): ReadonlySet<Rule<Theme>> {
+    return new Set(this.tokenProcessor.getActivatedRules())
+  }
+
+  getCachedTokens(input: string) {
+    return this.tokenProcessor.getCachedTokens(input)
+  }
+
+  getCachedAliases(token: string) {
+    return this.tokenProcessor.getCachedAliases(token)
+  }
+
+  blockTokens(tokens: Iterable<string>) {
+    this.tokenProcessor.block(tokens)
+  }
+
+  invalidateToken(token: string) {
+    this.tokenProcessor.invalidate(token)
+  }
+
   async parseToken(
     raw: string,
     alias?: string,
   ): Promise<StringifiedUtil<Theme>[] | undefined | null> {
-    if (this.blocked.has(raw))
-      return
-
-    const cacheKey = `${raw}${alias ? ` ${alias}` : ''}`
-
-    // use caches if possible
-    if (this.cache.has(cacheKey))
-      return this.cache.get(cacheKey)
-
-    const current = this.config.preprocess.reduce((acc, p) => p(acc) ?? acc, raw)
-
-    if (this.isBlocked(current)) {
-      this.blocked.add(raw)
-      this.cache.set(cacheKey, null)
-      return
-    }
-
-    const variantResults = await this.matchVariants(raw, current)
-
-    if (variantResults.every(i => !i || this.isBlocked(i[1]))) {
-      this.blocked.add(raw)
-      this.cache.set(cacheKey, null)
-      return
-    }
-
-    const handleVariantResult = async (matched: VariantMatchedResult<Theme>) => {
-      const context = this.makeContext(raw, [alias || matched[0], matched[1], matched[2], matched[3]])
-
-      if (this.config.details)
-        context.variants = [...matched[3]]
-
-      // expand shortcuts
-      const expanded = await this.expandShortcut(context.currentSelector, context)
-      const utils = expanded
-        ? await this.stringifyShortcuts(context.variantMatch, context, expanded[0], expanded[1])
-        // no shortcuts
-        : (await this.parseUtil(context.variantMatch, context))?.map(i => this.stringifyUtil(i, context)).filter(notNull)
-
-      return utils
-    }
-
-    const result = (await Promise.all(variantResults.map(i => handleVariantResult(i)))).flat().filter(x => !!x)
-    if (result?.length) {
-      this.cache.set(cacheKey, result)
-      return result
-    }
-
-    // set null cache for unmatched result
-    this.cache.set(cacheKey, null)
+    return this.tokenProcessor.parse(this, raw, alias)
   }
 
   generate(
@@ -213,9 +311,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
         .flatMap(s => typeof s === 'function' ? s(safelistContext) : s)
         .forEach((s) => {
           // We don't want to increment count if token is already in the set
-          const trimedS = s.trim()
-          if (trimedS && !tokens.has(trimedS))
-            tokens.add(trimedS)
+          const trimmedS = s.trim()
+          if (trimmedS && !tokens.has(trimmedS))
+            tokens.add(trimmedS)
         })
     }
 
@@ -229,36 +327,43 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const sheet = new Map<string, StringifiedUtil<Theme>[]>()
     let preflightsMap: Record<string, string> = {}
 
-    const tokenPromises = Array.from(tokens).map(async (raw) => {
-      if (matched.has(raw))
-        return
+    const tokenList = Array.from(tokens)
+    for (let offset = 0; offset < tokenList.length; offset += TOKEN_PARSE_BATCH_SIZE) {
+      const batchSize = Math.min(TOKEN_PARSE_BATCH_SIZE, tokenList.length - offset)
+      const tokenPromises: Promise<void>[] = []
+      for (let index = 0; index < batchSize; index++) {
+        const raw = tokenList[offset + index]
+        tokenPromises[index] = (async () => {
+          if (matched.has(raw))
+            return
 
-      const payload = await this.parseToken(raw)
-      if (payload == null)
-        return
+          const payload = await this.parseToken(raw)
+          if (payload == null)
+            return
 
-      if (matched instanceof Map) {
-        matched.set(raw, {
-          data: payload,
-          count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
-        })
+          if (matched instanceof Map) {
+            matched.set(raw, {
+              data: payload,
+              count: isCountableSet(tokens) ? tokens.getCount(raw) : -1,
+            })
+          }
+          else {
+            matched.add(raw)
+          }
+
+          for (const item of payload) {
+            const parent = item[3] || ''
+            const layer = item[4]?.layer
+            if (!sheet.has(parent))
+              sheet.set(parent, [])
+            sheet.get(parent)!.push(item)
+            if (layer)
+              layerSet.add(layer)
+          }
+        })()
       }
-      else {
-        matched.add(raw)
-      }
-
-      for (const item of payload) {
-        const parent = item[3] || ''
-        const layer = item[4]?.layer
-        if (!sheet.has(parent))
-          sheet.set(parent, [])
-        sheet.get(parent)!.push(item)
-        if (layer)
-          layerSet.add(layer)
-      }
-    })
-
-    await Promise.all(tokenPromises)
+      await Promise.all(tokenPromises)
+    }
     await (async () => {
       if (!preflights)
         return
@@ -291,11 +396,10 @@ class UnoGeneratorInternal<Theme extends object = object> {
       )
     })()
 
-    const layers = this.config.sortLayers(Array
-      .from(layerSet)
-      .sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
-
-    const layerCache: Record<string, string> = {}
+    const sortLayers = (layers: string[]) => this.config.sortLayers(layers.sort((a, b) => ((this.config.layers[a] ?? 0) - (this.config.layers[b] ?? 0)) || a.localeCompare(b)))
+    const layers = sortLayers(Array.from(layerSet))
+    const rawLayerCache: Record<string, string> = {}
+    const processedLayerCache: Record<string, string> = {}
     const outputCssLayers = this.config.outputToCssLayers
     const getLayerAlias = (layer: string) => {
       let alias: string | undefined | null = layer
@@ -305,26 +409,25 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
-    const getLayer = (layer: string = LAYER_DEFAULT) => {
-      if (layerCache[layer])
-        return layerCache[layer]
+    const getRawLayer = (layer: string = LAYER_DEFAULT) => {
+      if (rawLayerCache[layer] != null)
+        return rawLayerCache[layer]
 
       let css = Array.from(sheet)
-        .sort((a, b) => ((this.parentOrders.get(a[0]) ?? 0) - (this.parentOrders.get(b[0]) ?? 0)) || a[0]?.localeCompare(b[0] || '') || 0)
+        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || (a[0] || '').localeCompare(b[0] || '') || 0)
         .map(([parent, items]) => {
-          const size = items.length
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
               return a[0] - b[0] // rule index
                 || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
-                || a[5]?.currentSelector?.localeCompare(b[5]?.currentSelector ?? '') // shortcuts
-                || a[1]?.localeCompare(b[1] || '') // selector
-                || a[2]?.localeCompare(b[2] || '') // body
+                || (a[5]?.currentSelector ?? '').localeCompare(b[5]?.currentSelector ?? '') // shortcuts
+                || (a[1] || '').localeCompare(b[1] || '') // selector
+                || (a[2] || '').localeCompare(b[2] || '') // body
                 || 0
             })
             .map(([, selector, body, , meta, , variantNoMerge]) => {
-              const scopedSelector = selector ? applyScope(selector, scope) : selector
+              const scopedSelector = (selector && !meta?.noScope) ? applyScope(selector, scope) : selector
               return [
                 [[scopedSelector ?? '', meta?.sort ?? 0]],
                 body,
@@ -333,20 +436,36 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
           if (!sorted.length)
             return undefined
-          const ruleLines = sorted
-            .reverse()
-            .map(([selectorSortPair, body, noMerge], idx) => {
-              if (!noMerge && this.config.mergeSelectors) {
-                // search for rules that has exact same body, and merge them
-                for (let i = idx + 1; i < size; i++) {
-                  const current = sorted[i]
-                  if (current && !current[2] && ((selectorSortPair && current[0]) || (selectorSortPair == null && current[0] == null)) && current[1] === body) {
-                    if (selectorSortPair && current[0])
-                      current[0].push(...selectorSortPair)
-                    return null
-                  }
-                }
+          sorted.reverse()
+
+          const mergedRules = new Set<PreparedRule>()
+          if (this.config.mergeSelectors) {
+            const mergeIndex = new Map<string, [PreparedRule | undefined, PreparedRule | undefined]>()
+            for (let i = sorted.length - 1; i >= 0; i--) {
+              const rule = sorted[i]
+              const [selectorSortPair, body, noMerge] = rule
+              if (noMerge)
+                continue
+
+              const selectorIndex = selectorSortPair ? 1 : 0
+              const candidates = mergeIndex.get(body) || [undefined, undefined]
+              const candidate = candidates[selectorIndex]
+              if (candidate) {
+                if (selectorSortPair && candidate[0])
+                  candidate[0].push(...selectorSortPair)
+                mergedRules.add(rule)
               }
+              else {
+                candidates[selectorIndex] = rule
+                mergeIndex.set(body, candidates)
+              }
+            }
+          }
+
+          const ruleLines = sorted
+            .map(([selectorSortPair, body], idx) => {
+              if (mergedRules.has(sorted[idx]))
+                return null
 
               const selectors = selectorSortPair
                 ? uniq(selectorSortPair
@@ -361,15 +480,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
             })
             .filter(Boolean)
 
-          const rules = Array.from(new Set(ruleLines))
+          const css = Array.from(new Set(ruleLines))
             .reverse()
             .join(nl)
 
           if (!parent)
-            return rules
+            return css
 
-          const parents = parent.split(' $$ ')
-          return `${parents.join('{')}{${nl}${rules}${nl}${'}'.repeat(parents.length)}`
+          return wrapWithParent(parent, css, nl)
         })
         .filter(Boolean)
         .join(nl)
@@ -380,8 +498,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
           .join(nl)
       }
 
+      if (!css)
+        return rawLayerCache[layer] = ''
+
       let alias
-      if (outputCssLayers && css) {
+      if (outputCssLayers) {
         alias = getLayerAlias(layer)
         if (alias !== null) {
           css = `@layer ${alias}{${nl}${css}${nl}}`
@@ -389,22 +510,55 @@ class UnoGeneratorInternal<Theme extends object = object> {
       }
 
       const layerMark = minify ? '' : `/* layer: ${layer}${alias && alias !== layer ? `, alias: ${alias}` : ''} */${nl}`
-      return layerCache[layer] = css ? layerMark + css : ''
+      css = layerMark + css
+
+      return rawLayerCache[layer] = css
+    }
+
+    const processors = this.config.processors?.slice().sort((a, b) => (a.order || 0) - (b.order || 0)) ?? []
+    const processLayer = async (css: string, layer: string) => {
+      let processed = css
+      const context: CSSProcessorContext<Theme> = {
+        layer,
+        theme: this.config.theme,
+        envMode: this.config.envMode || 'build',
+      }
+      for (const processor of processors)
+        processed = await processor.process(processed, context)
+      return processed
+    }
+
+    const getLayer = (layer: string = LAYER_DEFAULT) => {
+      return processedLayerCache[layer] ?? getRawLayer(layer)
     }
 
     const getLayers = (includes = layers, excludes?: string[]) => {
       const layers = includes.filter(i => !excludes?.includes(i))
-      return [
-        outputCssLayers && layers.length > 0 ? `@layer ${layers.map(getLayerAlias).filter(notNull).join(', ')};` : undefined,
-        ...layers.map(i => getLayer(i) || ''),
-      ].filter(Boolean).join(nl)
+      const css = layers.map(layer => getLayer(layer)).filter(Boolean)
+
+      if (outputCssLayers) {
+        let layerNames = layers
+        if (typeof outputCssLayers === 'object' && outputCssLayers.allLayers) {
+          layerNames = sortLayers(Object.keys(this.config.layers))
+        }
+        if (layerNames.length > 0)
+          css.unshift(`@layer ${layerNames.map(getLayerAlias).filter(notNull).join(', ')};`)
+      }
+      return css.join(nl)
     }
 
     const setLayer = async (layer: string, callback: (content: string) => Promise<string>) => {
-      const content = await callback(getLayer(layer))
-      layerCache[layer] = content
-      return content
+      const raw = await callback(getRawLayer(layer))
+      const processed = await processLayer(raw, layer)
+      rawLayerCache[layer] = raw
+      processedLayerCache[layer] = processed
+      return processed
     }
+
+    await Promise.all(layers.map(async (layer) => {
+      const raw = getRawLayer(layer)
+      processedLayerCache[layer] = raw ? await processLayer(raw, layer) : raw
+    }))
 
     return {
       get css() { return getLayers() },
@@ -495,7 +649,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
     parsed: ParsedUtil,
     variantHandlers = parsed[4],
     raw = parsed[1],
-  ): UtilObject {
+  ): UtilObject[] {
     const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reduceRight(
@@ -529,7 +683,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
     const { parent, parentOrder } = variantContextResult
     if (parent != null && parentOrder != null)
-      this.parentOrders.set(parent, parentOrder)
+      this.tokenProcessor.setParentOrder(parent, parentOrder)
 
     const obj: UtilObject = {
       selector: [
@@ -544,10 +698,22 @@ class UnoGeneratorInternal<Theme extends object = object> {
       noMerge: variantContextResult.noMerge,
     }
 
-    for (const p of this.config.postprocess)
-      p(obj)
-
-    return obj
+    return this.config.postprocess.reduce<UtilObject[]>(
+      (utilities, p) => {
+        const result: UtilObject[] = []
+        for (const util of utilities) {
+          const processed = p(util)
+          if (Array.isArray(processed)) {
+            result.push(...processed.filter(notNull))
+          }
+          else {
+            result.push(processed || util)
+          }
+        }
+        return result
+      },
+      [obj],
+    )
   }
 
   constructCustomCSS(
@@ -559,11 +725,19 @@ class UnoGeneratorInternal<Theme extends object = object> {
     if (isString(normalizedBody))
       return normalizedBody
 
-    const { selector, entries, parent } = this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
-    const cssBody = `${selector}{${entriesToCss(entries)}}`
-    if (parent)
-      return `${parent}{${cssBody}}`
-    return cssBody
+    return this.applyVariants([0, overrideSelector || context.rawSelector, normalizedBody, undefined, context.variantHandlers])
+      .map(({ selector, entries, parent }) => {
+        // Rules that return their CSS as a raw string bypass the scope
+        // placeholder expansion applied to normal utilities at render time,
+        // so expand the `$$` slots left by prefix- and parent-based variants
+        // here.
+        const css = `${applyScope(selector)}{${entriesToCss(entries)}}`
+        if (parent) {
+          return wrapWithParent(parent, css)
+        }
+        return css
+      })
+      .join('')
   }
 
   async parseUtil(
@@ -596,8 +770,14 @@ class UnoGeneratorInternal<Theme extends object = object> {
         }
       }
 
+      const dynamicRuleFilter = this.config.rulesDynamicFilter
+      const dynamicRules = dynamicRuleFilter?.filters.length
+        && !dynamicRuleFilter.filters.some(filter => filter.test(processed))
+        ? dynamicRuleFilter.fallback
+        : this.config.rulesDynamic
+
       // match rules
-      for (const rule of this.config.rulesDynamic) {
+      for (const rule of dynamicRules) {
         const [matcher, handler, meta] = rule
         // ignore internal rules
         if (meta?.internal && !internal)
@@ -670,62 +850,63 @@ class UnoGeneratorInternal<Theme extends object = object> {
       if (this.config.details) {
         context.rules!.push(rule)
       }
-      context.generator.activatedRules.add(rule)
-      const index = context.generator.config.rules.indexOf(rule)
+      this.tokenProcessor.activateRule(rule)
       const meta = rule[2]
 
       return entries.map((css): ParsedUtil | RawUtil => {
         if (isString(css))
-          return [index, css, meta]
+          return [meta!.__index!, css, meta]
 
         // Extract variants from special symbols
         let variants = context.variantHandlers
         let entryMeta = meta
+        const setVariant = (variant: (typeof variants)[number]) => {
+          variants = [variant, ...variants]
+        }
+        const setMeta = (partial: Partial<RuleMeta>) => {
+          entryMeta = {
+            ...entryMeta,
+            ...partial,
+          }
+        }
         for (const entry of css) {
-          if (entry[0] === symbols.variants) {
-            if (typeof entry[1] === 'function') {
-              variants = entry[1](variants) || variants
-            }
-            else {
-              variants = [
-                ...toArray(entry[1]),
-                ...variants,
-              ]
-            }
-          }
-          else if (entry[0] === symbols.parent) {
-            variants = [
-              { parent: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.selector) {
-            variants = [
-              { selector: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.layer) {
-            variants = [
-              { layer: entry[1] },
-              ...variants,
-            ]
-          }
-          else if (entry[0] === symbols.sort) {
-            entryMeta = {
-              ...entryMeta,
-              sort: entry[1],
-            }
-          }
-          else if (entry[0] === symbols.noMerge) {
-            entryMeta = {
-              ...entryMeta,
-              noMerge: entry[1],
-            }
+          switch (entry[0]) {
+            case symbols.variants:
+              if (typeof entry[1] === 'function') {
+                variants = entry[1](variants) || variants
+              }
+              else {
+                variants = [
+                  ...toArray(entry[1]),
+                  ...variants,
+                ]
+              }
+              break
+            case symbols.parent:
+              setVariant({ parent: entry[1] })
+              break
+            case symbols.selector:
+              setVariant({ selector: entry[1] })
+              break
+            case symbols.layer:
+              setVariant({ layer: entry[1] })
+              break
+            case symbols.sort:
+              setMeta({ sort: entry[1] })
+              break
+            case symbols.noMerge:
+              setMeta({ noMerge: entry[1] })
+              break
+            case symbols.noScope:
+              setMeta({ noScope: entry[1] })
+              break
+            case symbols.body:
+              (entry as unknown as CSSEntry)[0] = VirtualKey
+              break
           }
         }
 
-        return [index, raw, css as CSSEntries, entryMeta, variants]
+        return [meta!.__index!, raw, css as CSSEntries, entryMeta, variants]
       })
     }
   }
@@ -733,38 +914,44 @@ class UnoGeneratorInternal<Theme extends object = object> {
   stringifyUtil(
     parsed?: ParsedUtil | RawUtil,
     context?: RuleContext<Theme>,
-  ): StringifiedUtil<Theme> | undefined {
+  ): StringifiedUtil<Theme>[] | undefined {
     if (!parsed)
       return
     if (isRawUtil(parsed))
-      return [parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]
+      return [[parsed[0], undefined, parsed[1], undefined, parsed[2], this.config.details ? context : undefined, undefined]]
 
-    const {
-      selector,
-      entries,
-      parent,
-      layer: variantLayer,
-      sort: variantSort,
-      noMerge,
-    } = this.applyVariants(parsed)
-    const body = entriesToCss(entries)
+    const utilities = this.applyVariants(parsed)
+    const result: StringifiedUtil<Theme>[] = []
+    for (const util of utilities) {
+      const {
+        selector,
+        entries,
+        parent,
+        layer: variantLayer,
+        sort: variantSort,
+        noMerge,
+      } = util
+      const body = entriesToCss(entries)
 
-    if (!body)
-      return
+      if (!body)
+        continue
 
-    const { layer: metaLayer, sort: metaSort, ...meta } = parsed[3] ?? {}
-    const ruleMeta = {
-      ...meta,
-      layer: variantLayer ?? metaLayer,
-      sort: variantSort ?? metaSort,
+      const { layer: metaLayer, sort: metaSort, ...meta } = parsed[3] ?? {}
+      const ruleMeta = {
+        ...meta,
+        layer: variantLayer ?? metaLayer,
+        sort: variantSort ?? metaSort,
+      }
+      result.push([parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge])
     }
-    return [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
+    return result
   }
 
   async expandShortcut(
     input: string,
     context: RuleContext<Theme>,
     depth = 5,
+    skipVariantMatch = false,
   ): Promise<[(string | ShortcutInlineValue)[], RuleMeta | undefined] | undefined> {
     if (depth === 0)
       return
@@ -816,14 +1003,19 @@ class UnoGeneratorInternal<Theme extends object = object> {
     }
 
     // expand nested shortcuts with variants
-    if (!result) {
+    if (!result && !skipVariantMatch) {
       const matched = isString(input) ? await this.matchVariants(input) : [input]
       for (const match of matched) {
         const [raw, inputWithoutVariant, handles] = match
         if (raw !== inputWithoutVariant) {
           const expanded = await this.expandShortcut(inputWithoutVariant, context, depth - 1)
           if (expanded) {
-            stringResult = expanded[0].filter(isString).map(item => raw.replace(inputWithoutVariant, item))
+            // the matcher is always the last occurrence, the variants may contain
+            // it as well (e.g. `[&_.btn]:btn`), so the earlier ones have to be kept
+            const matcherIndex = raw.lastIndexOf(inputWithoutVariant)
+            stringResult = expanded[0].filter(isString).map(item => matcherIndex === -1
+              ? raw
+              : raw.slice(0, matcherIndex) + item + raw.slice(matcherIndex + inputWithoutVariant.length))
             inlineResult = (expanded[0].filter(i => !isString(i)) as ShortcutInlineValue[]).map((item) => {
               return { handles: [...item.handles, ...handles], value: item.value }
             })
@@ -876,14 +1068,17 @@ class UnoGeneratorInternal<Theme extends object = object> {
         rawStringifiedUtil.push([item[0], undefined, item[1], undefined, item[2], context, undefined])
         continue
       }
-      const { selector, entries, parent, sort, noMerge, layer } = this.applyVariants(item, [...item[4], ...parentVariants], raw)
 
-      // find existing layer and merge
-      const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
-      // find existing selector/mediaQuery pair and merge
-      const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
-      // add entries
-      mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
+      const isNoMerge = Object.fromEntries(item[2])[symbols.shortcutsNoMerge]
+      const variants = [...item[4], ...(!isNoMerge ? parentVariants : [])]
+      for (const { selector, entries, parent, sort, noMerge, layer } of this.applyVariants(item, variants, raw)) {
+        // find existing layer and merge
+        const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
+        // find existing selector/mediaQuery pair and merge
+        const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
+        // add entries
+        mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
+      }
     }
     return rawStringifiedUtil.concat(layerMap
       .flatMap((selectorMap, layer) =>
@@ -916,19 +1111,11 @@ class UnoGeneratorInternal<Theme extends object = object> {
   }
 
   isBlocked(raw: string): boolean {
-    return !raw || this.config.blocklist
-      .map(e => Array.isArray(e) ? e[0] : e)
-      .some(e => typeof e === 'function' ? e(raw) : isString(e) ? e === raw : e.test(raw))
+    return this.tokenProcessor.isBlocked(raw, this.config.blocklist)
   }
 
   getBlocked(raw: string): [BlocklistValue, BlocklistMeta | undefined] | undefined {
-    const rule = this.config.blocklist
-      .find((e) => {
-        const v = Array.isArray(e) ? e[0] : e
-        return typeof v === 'function' ? v(raw) : isString(v) ? v === raw : v.test(raw)
-      })
-
-    return rule ? (Array.isArray(rule) ? rule : [rule, undefined]) : undefined
+    return this.tokenProcessor.getBlocked(raw, this.config.blocklist)
   }
 }
 
@@ -962,6 +1149,11 @@ function applyScope(css: string, scope?: string) {
     return css.replace(regexScopePlaceholder, scope ? ` ${scope} ` : ' ')
   else
     return scope ? `${scope} ${css}` : css
+}
+
+function wrapWithParent(parent: string, css: string, nl = '') {
+  const parents = parent.split(' $$ ')
+  return `${parents.join('{')}{${nl}${css}${nl}${'}'.repeat(parents.length)}`
 }
 
 const attributifyRe = /^\[(.+?)(~?=)"(.*)"\]$/

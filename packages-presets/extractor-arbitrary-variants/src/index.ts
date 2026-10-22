@@ -1,10 +1,10 @@
 import type { Extractor } from '@unocss/core'
-import { restoreSkipCode, transformSkipCode } from '#integration/utils'
 import { defaultSplitRE, isValidSelector } from '@unocss/core'
+import { restoreSkipCode, transformSkipCode } from '#integration/utils'
 import { removeSourceMap } from './source-map'
 
 export const quotedArbitraryValuesRE
-  = /(?:[\w&:[\]-]|\[\S{1,64}=\S{1,64}\]){1,64}\[\\?['"]?\S{1,64}?['"]\]\]?[\w:-]{0,64}/g
+  = /(?:[\w&:[\].(-]|\[\S{1,64}=\S{1,64}\]){1,64}\[\\?['"]?\S{1,64}?['"]\](?:\)?\])?[\w:-]{0,64}/g
 
 export const arbitraryPropertyRE
   = /\[(\\\W|[\w-]){1,64}:[^\s:]{0,64}?("\S{1,64}?"|'\S{1,64}?'|`\S{1,64}?`|[^\s:]{1,64}?)[^\s:]{0,64}?\)?\]/g

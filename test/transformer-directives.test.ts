@@ -5,11 +5,26 @@ import { createGenerator, mergeDeep } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
+import transformerDirectives from '@unocss/transformer-directives'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
 import { transformDirectives } from '../packages-presets/transformer-directives/src/transform'
+
+describe('source filter', () => {
+  it('detects supported directives', () => {
+    const transformer = transformerDirectives()
+    expect(transformer.codeFilter?.('.button { color: red }', 'fixture.css')).toBe(false)
+    expect(transformer.codeFilter?.('.button { @apply text-red; }', 'fixture.css')).toBe(true)
+    expect(transformer.codeFilter?.('.button { color: theme("colors.red"); }', 'fixture.css')).toBe(true)
+  })
+
+  it('detects custom apply variables', () => {
+    const transformer = transformerDirectives({ applyVariable: '--custom-apply' })
+    expect(transformer.codeFilter?.('.button { --custom-apply: text-red; }', 'fixture.css')).toBe(true)
+  })
+})
 
 describe('wind3', () => {
   describe('transformer-directives', async () => {
@@ -69,17 +84,18 @@ describe('wind3', () => {
         @apply 'font-mono';
       }`,
       )
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          ".btn {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('basic #4606', async () => {
@@ -88,7 +104,7 @@ describe('wind3', () => {
     @apply sm:lg:md:xs:w-[40em];
   }`,
       )
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
           "@media (min-width: 640px) {
             @media (min-width: 1024px) {
@@ -502,7 +518,7 @@ describe('wind3', () => {
 
     it('@screen with compression', async () => {
       const result = await transform(`@screen md{#__page{--uno:px-4}}`)
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
         "@media (min-width: 768px) {
           #__page {
@@ -536,6 +552,47 @@ describe('wind3', () => {
           }
           "
         `)
+      })
+
+      it('at-rule prelude', async () => {
+        const result = await transform(
+          `@media (min-width: theme('breakpoints.sm')) {
+          .btn { color: theme('colors.blue.500'); }
+        }
+        @container (min-width: theme('breakpoints.md')) {
+          .card { padding: theme('spacing.sm'); }
+        }
+        @supports (width: theme('spacing.sm')) {
+          .box { width: theme('spacing.sm'); }
+        }
+        @screen md {
+          .col { color: theme('colors.blue.500'); }
+        }`,
+        )
+        expect(result)
+          .toMatchInlineSnapshot(`
+            "@media (min-width: 640px) {
+              .btn {
+                color: #3b82f6;
+              }
+            }
+            @container (min-width: 768px) {
+              .card {
+                padding: 0.875rem;
+              }
+            }
+            @supports (width: 0.875rem) {
+              .box {
+                width: 0.875rem;
+              }
+            }
+            @media (min-width: 768px) {
+              .col {
+                color: #3b82f6;
+              }
+            }
+            "
+          `)
       })
 
       it('non-exist', async () => {
@@ -624,15 +681,16 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        ".btn {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          ".btn {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('@apply animate- scoped', async () => {
@@ -785,19 +843,20 @@ div {
       }`,
       )
 
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
-        "#app :is(.btn) {
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        #app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-        }
-        "
-      `)
+          "#app :is(.btn) {
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          #app :is(.btn) {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+          }
+          "
+        `)
     })
 
     it('breakpoints', async () => {
@@ -875,17 +934,21 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        "#app :is(.btn, .box:focus),
-        #app :is(.btn, .box:focus) {
-          border-width: 1px;
-        }
-        #app :is(.btn, .box),
-        #app :is(.btn, .box) {
-          padding-left: 0.75rem;
-          padding-right: 0.75rem;
-        }
-        "
-      `)
+          "#app :is(.btn:focus),
+          #app :is(.btn:focus),
+          #app :is(.box:focus),
+          #app :is(.box:focus) {
+            border-width: 1px;
+          }
+          #app :is(.btn),
+          #app :is(.btn),
+          #app :is(.box),
+          #app :is(.box) {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+          }
+          "
+        `)
     })
 
     it('two class selector', async () => {
@@ -1280,15 +1343,16 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        "#app :is(.btn) {
-          border-radius: 0.25rem;
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        }
-        "
-      `)
+          "#app :is(.btn) {
+            border-radius: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-family:
+              ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+              "Courier New", monospace;
+          }
+          "
+        `)
     })
 
     it('@apply animate- scoped', async () => {
@@ -1346,40 +1410,28 @@ div {
       )
       expect(result)
         .toMatchInlineSnapshot(`
-        ".v-popper--theme-dropdown .v-popper__inner,
-        .v-popper--theme-tooltip .v-popper__inner {
-          box-shadow: 0 6px 30px #0000001a;
-        }
-        #app
-          :is(
-            .v-popper--theme-dropdown .v-popper__inner,
-            .v-popper--theme-tooltip .v-popper__inner
-          ),
-        #app
-          :is(
-            .v-popper--theme-dropdown .v-popper__inner,
-            .v-popper--theme-tooltip .v-popper__inner
-          ) {
-          --un-text-opacity: 1;
-          color: rgb(74 222 128 / var(--un-text-opacity));
-        }
-        @media (prefers-color-scheme: dark) {
-          #app
-            :is(
-              .v-popper--theme-dropdown .v-popper__inner,
-              .v-popper--theme-tooltip .v-popper__inner
-            ),
-          #app
-            :is(
-              .v-popper--theme-dropdown .v-popper__inner,
-              .v-popper--theme-tooltip .v-popper__inner
-            ) {
-            --un-text-opacity: 1;
-            color: rgb(248 113 113 / var(--un-text-opacity));
+          ".v-popper--theme-dropdown .v-popper__inner,
+          .v-popper--theme-tooltip .v-popper__inner {
+            box-shadow: 0 6px 30px #0000001a;
           }
-        }
-        "
-      `)
+          #app :is(.v-popper--theme-dropdown .v-popper__inner),
+          #app :is(.v-popper--theme-dropdown .v-popper__inner),
+          #app :is(.v-popper--theme-tooltip .v-popper__inner),
+          #app :is(.v-popper--theme-tooltip .v-popper__inner) {
+            --un-text-opacity: 1;
+            color: rgb(74 222 128 / var(--un-text-opacity));
+          }
+          @media (prefers-color-scheme: dark) {
+            #app :is(.v-popper--theme-dropdown .v-popper__inner),
+            #app :is(.v-popper--theme-dropdown .v-popper__inner),
+            #app :is(.v-popper--theme-tooltip .v-popper__inner),
+            #app :is(.v-popper--theme-tooltip .v-popper__inner) {
+              --un-text-opacity: 1;
+              color: rgb(248 113 113 / var(--un-text-opacity));
+            }
+          }
+          "
+        `)
     })
   })
 
@@ -1480,13 +1532,35 @@ describe('wind4', () => {
           @apply 'font-mono';
         }`,
       )
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
           ".btn {
             font-size: var(--text-lg-fontSize);
             line-height: var(--un-leading, var(--text-lg-lineHeight));
             border-radius: var(--radius-DEFAULT);
             font-family: var(--font-mono);
+          }
+          "
+        `)
+    })
+
+    it('grouping selectors', async () => {
+      const result = await transform(
+        `.btn:focus-visible, .btn:hover {
+          @apply outline;
+        }`,
+      )
+      expect(result)
+        .toMatchInlineSnapshot(`
+          "@property --un-outline-style {
+            syntax: "*";
+            inherits: false;
+            initial-value: solid;
+          }
+          .btn:focus-visible,
+          .btn:hover {
+            outline-style: var(--un-outline-style);
+            outline-width: 1px;
           }
           "
         `)
@@ -1499,7 +1573,7 @@ describe('wind4', () => {
         }`,
       )
 
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
           ".btn {
             color: oklch(63.7% 0.237 25.331);
@@ -1516,7 +1590,7 @@ describe('wind4', () => {
         }`,
       )
 
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
           ".btn {
             color: #fff;
@@ -1537,9 +1611,19 @@ describe('wind4', () => {
         }`,
       )
 
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
-          ".btn {
+          "@property --un-border-opacity {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 100%;
+          }
+          @property --un-text-opacity {
+            syntax: "<percentage>";
+            inherits: false;
+            initial-value: 100%;
+          }
+          .btn {
             color: color-mix(
               in srgb,
               var(--colors-red-500) var(--un-text-opacity),
@@ -1550,11 +1634,6 @@ describe('wind4', () => {
               var(--colors-red-500) var(--un-border-opacity),
               transparent
             );
-          }
-          @property --un-text-opacity {
-            syntax: "<percentage>";
-            inherits: false;
-            initial-value: 100%;
           }
           @supports (color: color-mix(in lab, red, red)) {
             .btn {
@@ -1570,13 +1649,181 @@ describe('wind4', () => {
               );
             }
           }
-          @property --un-border-opacity {
-            syntax: "<percentage>";
-            inherits: false;
-            initial-value: 100%;
-          }
           "
         `)
+    })
+
+    it('implicitly :where() selector in apply', async () => {
+      const result = await transform(`.foo { @apply space-y-reverse divide-dotted; }`)
+
+      expect(result).toMatchInlineSnapshot(`
+        "@property --un-space-y-reverse {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0;
+        }
+        @property --un-space-y-reverse {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0;
+        }
+        .foo {
+          :where(& > :not(:last-child)) {
+            --un-space-y-reverse: 1;
+            border-style: dotted;
+          }
+        }
+        "
+      `)
+    })
+
+    it('mutiple class selectors', async () => {
+      const result = await transform(`.foo,.bar { @apply text-red dark:text-blue }`)
+
+      expect(result).toMatchInlineSnapshot(`
+        "@property --un-text-opacity {
+          syntax: "<percentage>";
+          inherits: false;
+          initial-value: 100%;
+        }
+        .foo,
+        .bar {
+          color: color-mix(
+            in srgb,
+            var(--colors-red-DEFAULT) var(--un-text-opacity),
+            transparent
+          );
+        }
+        @supports (color: color-mix(in lab, red, red)) {
+          .foo,
+          .bar {
+            color: color-mix(
+              in oklab,
+              var(--colors-red-DEFAULT) var(--un-text-opacity),
+              transparent
+            );
+          }
+        }
+        .dark .foo,
+        .dark .bar {
+          color: color-mix(
+            in srgb,
+            var(--colors-blue-DEFAULT) var(--un-text-opacity),
+            transparent
+          );
+        }
+        @supports (color: color-mix(in lab, red, red)) {
+          .dark .foo,
+          .dark .bar {
+            color: color-mix(
+              in oklab,
+              var(--colors-blue-DEFAULT) var(--un-text-opacity),
+              transparent
+            );
+          }
+        }
+        "
+      `)
+    })
+
+    it('nested class with pseudo', async () => {
+      const result2 = await transform(`
+        a {
+          outline: none;
+
+          &:hover {
+            @apply ring ring-red-500;
+          }
+        }
+      `)
+
+      expect(result2).toMatchInlineSnapshot(`
+        "@property --un-inset-ring-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-inset-ring-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-inset-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-inset-shadow-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-inset {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-offset-color {
+          syntax: "*";
+          inherits: false;
+        }
+        @property --un-ring-offset-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-ring-offset-width {
+          syntax: "<length>";
+          inherits: false;
+          initial-value: 0px;
+        }
+        @property --un-ring-opacity {
+          syntax: "<percentage>";
+          inherits: false;
+          initial-value: 100%;
+        }
+        @property --un-ring-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-shadow {
+          syntax: "*";
+          inherits: false;
+          initial-value: 0 0 #0000;
+        }
+        @property --un-shadow-color {
+          syntax: "*";
+          inherits: false;
+        }
+        a {
+          outline: none;
+
+          &:hover {
+            --un-ring-shadow: var(--un-ring-inset,) 0 0 0
+              calc(1px + var(--un-ring-offset-width)) var(--un-ring-color, currentColor);
+            box-shadow:
+              var(--un-inset-shadow), var(--un-inset-ring-shadow),
+              var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
+            --un-ring-color: color-mix(
+              in srgb,
+              var(--colors-red-500) var(--un-ring-opacity),
+              transparent
+            );
+          }
+          @supports (color: color-mix(in lab, red, red)) {
+            &:hover {
+              --un-ring-color: color-mix(
+                in oklab,
+                var(--colors-red-500) var(--un-ring-opacity),
+                transparent
+              );
+            }
+          }
+        }
+        "
+      `)
     })
   })
 
@@ -1614,7 +1861,7 @@ describe('wind4', () => {
   }
 }
 `)
-      await expect(result)
+      expect(result)
         .toMatchInlineSnapshot(`
           "@media (min-width: 40rem) {
             .grid {

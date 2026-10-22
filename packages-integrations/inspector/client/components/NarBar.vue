@@ -19,7 +19,6 @@ function toggleDark(event?: MouseEvent) {
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y),
   )
-  // @ts-expect-error: Transition API
   const transition = document.startViewTransition(async () => {
     isDark.value = !isDark.value
     await nextTick()
@@ -38,12 +37,13 @@ function toggleDark(event?: MouseEvent) {
       {
         duration: 400,
         easing: 'ease-in',
+        fill: 'forwards',
         pseudoElement: isDark.value
           ? '::view-transition-old(root)'
           : '::view-transition-new(root)',
       },
     )
-  })
+  }).catch(() => undefined)
 }
 </script>
 
@@ -65,7 +65,7 @@ function toggleDark(event?: MouseEvent) {
       >
       <div of-hidden>
         Inspector
-        <sup text-teal5 bg-teal5:10 p="x1.5 y0.5" rounded italic>beta</sup>
+        <!-- <sup text-teal5 bg-teal5:10 p="x1.5 y0.5" rounded italic>beta</sup> -->
       </div>
     </div>
     <button text-lg i-carbon-sun dark:i-carbon-moon @click="toggleDark" />

@@ -1,0 +1,39 @@
+<div class="text-center space-y-6 p-8">
+  <img
+    src="./logo.svg"
+    alt="Marko Logo"
+    class="w-24 h-24 mx-auto animate-bounce-alt animate-duration-2s">
+
+  <h1 class="text-5xl font-bold text-white">
+    Hello Marko!
+  </h1>
+
+  <p class="text-white text-xl">
+    Styled with UnoCSS
+  </p>
+
+  <div class="space-y-4">
+    <let/count=0>
+    <div class="text-white text-2xl font-mono color-amber-300">
+      Count: ${count}
+    </div>
+
+    <button
+      class="border-0 bg-amber-300 text-gray-700 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-50 hover:scale-105 active:scale-95"
+      onClick() {
+        count++;
+      }>
+      Click me!
+    </button>
+  </div>
+
+  <p class="text-white text-sm mt-8">
+    Edit <code class="bg-white bg-opacity-20 px-2 py-1 rounded">
+      src/routes/+page.marko
+    </code> to get started
+  </p>
+
+  <p class="text-white text-sm mt-4">
+    Learn more about <a-external href="https://markojs.com" class="text-red-400">Marko</a-external> and <a-external href="https://unocss.dev" class="text-blue-400">UnoCSS</a-external>
+  </p>
+</div>

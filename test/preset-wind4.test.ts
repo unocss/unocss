@@ -27,7 +27,7 @@ describe('preset-wind4', () => {
         unmatched.push(i)
     }
 
-    await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
+    await expect(`${css}\n`).toMatchFileSnapshot('./assets/output/preset-wind4-targets.css')
 
     // The following is a list of safe differences, the expected behavior of `preset-wind4` is inconsistent with `preset-wind3`.
     expect(unmatched).toMatchInlineSnapshot(`
@@ -46,9 +46,6 @@ describe('preset-wind4', () => {
         "color-bluegray-400/10",
         "color-bluegray/10",
         "text-red2",
-        "text-[color:--variable]",
-        "text-[color:var(--color)]",
-        "text-[color:var(--color-x)]:[trick]",
         "ring-red2",
         "ring-red2/5",
         "ring-width-px",
@@ -68,7 +65,6 @@ describe('preset-wind4', () => {
         "m-inline-none",
         "pxy",
         "p-xy",
-        "p-is",
         "mxy",
         "m-xy",
         "-m-md",
@@ -111,7 +107,6 @@ describe('preset-wind4', () => {
         "border-spacing-none",
         "divide-inline-$variable",
         "uno-layer-_pre:contrast-less:bg-gray-3",
-        "-space-x-4",
         "data-dropdown:ring-green",
         "mask-tb",
       ]
@@ -128,6 +123,118 @@ describe('preset-wind4', () => {
 
     const { css } = await uno.generate('')
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-reset.css')
+  })
+
+  it('blend mode global keywords', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('bg-blend-inherit bg-blend-unset mix-blend-revert mix-blend-unset', { preflights: false })
+
+    expect(css).toContain('background-blend-mode:inherit')
+    expect(css).toContain('background-blend-mode:unset')
+    expect(css).toContain('mix-blend-mode:revert')
+    expect(css).toContain('mix-blend-mode:unset')
+  })
+
+  it('scrollbar gutter utilities', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('scrollbar-gutter-auto scrollbar-gutter-stable scrollbar-gutter-both md:scrollbar-gutter-stable', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .scrollbar-gutter-auto{scrollbar-gutter:auto;}
+      .scrollbar-gutter-stable{scrollbar-gutter:stable;}
+      .scrollbar-gutter-both{scrollbar-gutter:stable both-edges;}
+      @media (min-width: 48rem){
+      .md\\:scrollbar-gutter-stable{scrollbar-gutter:stable;}
+      }"
+    `)
+  })
+
+  it('scrollbar width and color utilities', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('scrollbar-thin scrollbar-none scrollbar-thumb-current scrollbar-track-[#0088cc]')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-scrollbar-thumb:#0000;--un-scrollbar-track:#0000;--un-scrollbar-track-opacity:100%;}}
+      @property --un-scrollbar-thumb{syntax:"<color>";inherits:false;initial-value:#0000;}
+      @property --un-scrollbar-track{syntax:"<color>";inherits:false;initial-value:#0000;}
+      @property --un-scrollbar-track-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .scrollbar-thumb-current{--un-scrollbar-thumb:currentColor;scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
+      .scrollbar-track-\\[\\#0088cc\\]{--un-scrollbar-track:color-mix(in oklab, #0088cc var(--un-scrollbar-track-opacity), transparent);scrollbar-color:var(--un-scrollbar-thumb) var(--un-scrollbar-track);}
+      .scrollbar-thin{scrollbar-width:thin;}
+      .scrollbar-none{scrollbar-width:none;}"
+    `)
+  })
+
+  it('scrollbar size utilities', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false, theme: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('scrollbar-w-2px scrollbar-w-4 scrollbar-h-[3rem] scrollbar-radius-sm scrollbar-radius-full scrollbar-thumb-radius-4px scrollbar-track-radius-$my-radius md:scrollbar-w-4')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .scrollbar-h-\\[3rem\\]::-webkit-scrollbar{height:3rem;}
+      .scrollbar-w-2px::-webkit-scrollbar{width:2px;}
+      .scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
+      .scrollbar-radius-full::-webkit-scrollbar-thumb{border-radius:calc(infinity * 1px);}
+      .scrollbar-radius-full::-webkit-scrollbar-track{border-radius:calc(infinity * 1px);}
+      .scrollbar-radius-sm::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}
+      .scrollbar-radius-sm::-webkit-scrollbar-track{border-radius:var(--radius-sm);}
+      .scrollbar-thumb-radius-4px::-webkit-scrollbar-thumb{border-radius:4px;}
+      .scrollbar-track-radius-\\$my-radius::-webkit-scrollbar-track{border-radius:var(--my-radius);}
+      @media (min-width: 48rem){
+      .md\\:scrollbar-w-4::-webkit-scrollbar{width:calc(var(--spacing) * 4);}
+      }"
+    `)
+  })
+
+  it('scrollbar size utilities compose with variants and shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [presetWind4({ preflights: { reset: false, theme: false } })],
+      shortcuts: { 'scrollbar-rounded': 'scrollbar-w-4 scrollbar-radius-sm' },
+    })
+
+    const { css } = await uno.generate([
+      'hover:scrollbar-w-4',
+      'focus:scrollbar-radius-sm',
+      'children:scrollbar-w-4',
+      '[&>div]:scrollbar-thumb-radius-4px',
+      'scrollbar-w-4!',
+      'hover:scrollbar-rounded',
+    ], { preflights: false })
+
+    expect(css).toContain('.hover\\:scrollbar-w-4:hover::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.focus\\:scrollbar-radius-sm:focus::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.focus\\:scrollbar-radius-sm:focus::-webkit-scrollbar-track{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.children\\:scrollbar-w-4>*::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.\\[\\&\\>div\\]\\:scrollbar-thumb-radius-4px>div::-webkit-scrollbar-thumb{border-radius:4px;}')
+    expect(css).toContain('.scrollbar-w-4\\!::-webkit-scrollbar{width:calc(var(--spacing) * 4) !important;}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar{width:calc(var(--spacing) * 4);}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar-thumb{border-radius:var(--radius-sm);}')
+    expect(css).toContain('.hover\\:scrollbar-rounded:hover::-webkit-scrollbar-track{border-radius:var(--radius-sm);}')
   })
 
   it('fully theme prefight', async () => {
@@ -155,33 +262,31 @@ describe('preset-wind4', () => {
       ],
       theme: {
         colors: {
-          foo: 'var(--colors-bar)',
-          bar: 'var(--colors-baz-bcd, #000)',
-          baz: {
-            bcd: 'var(--colors-test, #fff)',
-          },
-          test: '#fff',
+          // foo: 'var(--colors-bar)',
+          // bar: 'var(--colors-baz-bcd, #000)',
+          // baz: {
+          //   bcd: 'var(--colors-test, #fff)',
+          // },
+          // ^^^ don't do this
+
+          // issue #4994: Chaining CSS variables within a theme is strongly discouraged,
+          // as it can cause browsers to fail to resolve variables to the correct values promptly during evaluation (or recalculation).
+          // Furthermore, Uno does not perform in-depth analysis of the source of these references.
+          primary: `var(--custom-css-variable, #123456)`,
+          secondary: `calc(var(--another-css-variable, 10%) + 5%)`,
         },
       },
     })
 
-    const { css } = await uno.generate('c-foo')
+    const { css } = await uno.generate('c-primary c-primary/50 c-secondary')
     expect(css).toMatchInlineSnapshot(`
       "/* layer: properties */
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
-      /* layer: theme */
-      :root, :host {
-      --colors-foo: var(--colors-bar);
-      --colors-bar: var(--colors-baz-bcd, #000);
-      --colors-baz-bcd: var(--colors-test, #fff);
-      --colors-test: #fff;
-      }
       /* layer: default */
-      .c-foo{color:color-mix(in srgb, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      @supports (color: color-mix(in lab, red, red)){
-      .c-foo{color:color-mix(in oklab, var(--colors-foo) var(--un-text-opacity), transparent) /* var(--colors-bar) */;}
-      }"
+      .c-primary{color:color-mix(in srgb, var(--custom-css-variable, #123456) var(--un-text-opacity), transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-primary\\/50{color:color-mix(in srgb, var(--custom-css-variable, #123456) 50%, transparent) /* var(--custom-css-variable, #123456) */;}
+      .c-secondary{color:color-mix(in srgb, calc(var(--another-css-variable, 10%) + 5%) var(--un-text-opacity), transparent) /* calc(var(--another-css-variable, 10%) + 5%) */;}"
     `)
   })
 
@@ -426,7 +531,7 @@ describe('preset-wind4', () => {
       'md:has-aria-[hidden=false]:peer-data-[dialog=open]:group-data-[vv=w]/accordion:b-4',
     ])
 
-    const prettified = prettier.format(css, {
+    const prettified = await prettier.format(css, {
       parser: 'css',
       plugins: [parserCSS],
     })
@@ -466,6 +571,190 @@ describe('preset-wind4', () => {
         }
       }
       "
+    `)
+  })
+
+  it('negated data variants', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'not-data-[state=collapsed]:flex',
+      'group-not-data-[state=collapsed]/sidebar:flex',
+      'peer-not-data-[state=collapsed]/sidebar:flex',
+      'group-not-data-[state=open]:b-1',
+      'peer-not-data-[state=open]:b-2',
+      'has-not-data-[state=open]:b-3',
+      'in-not-data-[state=open]:b-4',
+      'parent-not-data-[state=open]:b-5',
+      'previous-not-data-[state=open]:b-6',
+    ])
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .not-data-\\[state\\=collapsed\\]\\:flex:not([data-state="collapsed"]) {
+        display: flex;
+      }
+      .group-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.group\\/sidebar):not([data-state="collapsed"]) *) {
+          display: flex;
+        }
+      }
+      .group-not-data-\\[state\\=open\\]\\:b-1 {
+        &:is(:where(.group):not([data-state="open"]) *) {
+          border-width: 1px;
+        }
+      }
+      .has-not-data-\\[state\\=open\\]\\:b-3 {
+        &:has(*:not([data-state="open"])) {
+          border-width: 3px;
+        }
+      }
+      .in-not-data-\\[state\\=open\\]\\:b-4 {
+        :where(*:not([data-state="open"])) & {
+          border-width: 4px;
+        }
+      }
+      .parent-not-data-\\[state\\=open\\]\\:b-5 {
+        :where(*:not([data-state="open"]) > &) {
+          border-width: 5px;
+        }
+      }
+      .peer-not-data-\\[state\\=collapsed\\]\\/sidebar\\:flex {
+        &:is(:where(.peer\\/sidebar):not([data-state="collapsed"]) ~ *) {
+          display: flex;
+        }
+      }
+      .peer-not-data-\\[state\\=open\\]\\:b-2 {
+        &:is(:where(.peer):not([data-state="open"]) ~ *) {
+          border-width: 2px;
+        }
+      }
+      .previous-not-data-\\[state\\=open\\]\\:b-6 {
+        :where(*:not([data-state="open"]) + &) {
+          border-width: 6px;
+        }
+      }
+      "
+    `)
+  })
+
+  it('basic variable prefix', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          variablePrefix: 'foo-',
+          preflights: {
+            reset: false,
+            theme: false,
+            property: true,
+          },
+        }),
+      ],
+    })
+    const { css } = await uno.generate('bg-white')
+    expect(css).toMatchInlineSnapshot(`
+    "/* layer: properties */
+    @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--foo-bg-opacity:100%;}}
+    @property --foo-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+    /* layer: default */
+    .bg-white{background-color:color-mix(in srgb, var(--colors-white) var(--foo-bg-opacity), transparent);}
+    @supports (color: color-mix(in lab, red, red)){
+    .bg-white{background-color:color-mix(in oklab, var(--colors-white) var(--foo-bg-opacity), transparent);}
+    }"
+  `)
+  })
+
+  it('keeps media parents outside divide and space child selectors', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          dark: 'media',
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('dark:divide-gray-700 dark:space-y-4', { preflights: false })
+
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:divide-gray-700{\n:where(&>:not(:last-child)){border-color:')
+    expect(css).toContain('@media (prefers-color-scheme: dark){.dark\\:space-y-4{\n:where(&>:not(:last-child)){--un-space-y-reverse:0;')
+    expect(css).not.toContain('.dark\\:divide-gray-700{@media')
+    expect(css).not.toContain('.dark\\:space-y-4{@media')
+  })
+
+  it('in-* resolves pseudo-class names against the ancestor', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('in-focus:block in-odd:block in-open:block in-div:block in-[.card]:block', { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .in-\\[\\.card\\]\\:block{
+      :where(*:is(.card)) &{display:block;}
+      }
+      .in-div\\:block{
+      :where(*:is(div)) &{display:block;}
+      }
+      .in-focus\\:block{
+      :where(*:is(:focus)) &{display:block;}
+      }
+      .in-odd\\:block{
+      :where(*:is(:nth-child(odd))) &{display:block;}
+      }
+      .in-open\\:block{
+      :where(*:is(:is([open],:popover-open,:open))) &{display:block;}
+      }"
+    `)
+
+    const { css: skipped } = await uno.generate('in-before:block in-nth:block', { preflights: false })
+    expect(skipped).toContain(':where(*:is(before)) &')
+    expect(skipped).toContain(':where(*:is(nth)) &')
+  })
+
+  it('h-screen-* uses verticalBreakpoint', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false },
+        }),
+      ],
+      theme: {
+        breakpoint: {
+          sm: '640px',
+          md: '768px',
+        },
+        verticalBreakpoint: {
+          sm: '400px',
+          md: '500px',
+        },
+      },
+    })
+
+    const { getLayer } = await uno.generate([
+      'h-screen-sm',
+      'h-screen-md',
+      'w-screen-sm',
+    ])
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .h-screen-md{height:500px;}
+      .h-screen-sm{height:400px;}
+      .w-screen-sm{width:640px;}"
     `)
   })
 })
@@ -509,5 +798,215 @@ describe('important', () => {
     ].join(' '), { preflights: false })
 
     await expect(css).toMatchFileSnapshot('./assets/output/preset-wind4-important-string.css')
+  })
+
+  it('shadow with opacity', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'shadow',
+      'shadow/50',
+      'shadow-sm',
+      'shadow-sm/50',
+      'shadow-red-300',
+      'shadow-red-300/30',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-inset-ring-color{syntax:"*";inherits:false;}
+      @property --un-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
+      @property --un-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
+      @property --un-inset-shadow-color{syntax:"*";inherits:false;}
+      @property --un-ring-color{syntax:"*";inherits:false;}
+      @property --un-ring-inset{syntax:"*";inherits:false;}
+      @property --un-ring-offset-color{syntax:"*";inherits:false;}
+      @property --un-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
+      @property --un-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0px;}
+      @property --un-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
+      @property --un-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000;}
+      @property --un-shadow-color{syntax:"*";inherits:false;}
+      @property --un-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .shadow,
+      .shadow-sm{--un-shadow:0 1px 3px 0 var(--un-shadow-color, rgb(0 0 0 / 0.1)),0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+      .shadow-red-300{--un-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-shadow-opacity), transparent);}
+      .shadow-red-300\\/30{--un-shadow-color:color-mix(in srgb, var(--colors-red-300) 30%, transparent);}
+      .shadow-sm\\/50,
+      .shadow\\/50{--un-shadow-opacity:50%;--un-shadow:0 1px 3px 0 var(--un-shadow-color, oklab(from rgb(0 0 0 / 0.1) l a b / 50%)),0 1px 2px -1px var(--un-shadow-color, oklab(from rgb(0 0 0 / 0.1) l a b / 50%));box-shadow:var(--un-inset-shadow), var(--un-inset-ring-shadow), var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}
+      @supports (color: color-mix(in lab, red, red)){
+      .shadow-red-300{--un-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-shadow-opacity), transparent);}
+      .shadow-red-300\\/30{--un-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-shadow-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('text-shadow with opacity', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'text-shadow-sm',
+      'text-shadow-sm/50',
+      'text-shadow-red-300',
+      'text-shadow-red-300/30',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-text-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .text-shadow-red-300{--un-text-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-text-shadow-opacity), transparent);}
+      .text-shadow-red-300\\/30{--un-text-shadow-color:color-mix(in srgb, var(--colors-red-300) 30%, transparent);}
+      .text-shadow-sm{--un-text-shadow:0 1px 0 var(--un-text-shadow-color, rgb(0 0 0 / 0.075)),0 1px 1px var(--un-text-shadow-color, rgb(0 0 0 / 0.075)),0 2px 2px var(--un-text-shadow-color, rgb(0 0 0 / 0.075));text-shadow:var(--un-text-shadow);}
+      .text-shadow-sm\\/50{--un-text-shadow-opacity:50%;--un-text-shadow:0 1px 0 var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%)),0 1px 1px var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%)),0 2px 2px var(--un-text-shadow-color, oklab(from rgb(0 0 0 / 0.075) l a b / 50%));text-shadow:var(--un-text-shadow);}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-shadow-red-300{--un-text-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-text-shadow-opacity), transparent);}
+      .text-shadow-red-300\\/30{--un-text-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-text-shadow-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('drop-shadow with opacity', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4(),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'drop-shadow',
+      'drop-shadow/50',
+      'drop-shadow-sm',
+      'drop-shadow-sm/50',
+      'drop-shadow-red-300',
+      'drop-shadow-red-300/30',
+    ].join(' '), { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-blur{syntax:"*";inherits:false;}
+      @property --un-brightness{syntax:"*";inherits:false;}
+      @property --un-contrast{syntax:"*";inherits:false;}
+      @property --un-drop-shadow{syntax:"*";inherits:false;}
+      @property --un-drop-shadow-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      @property --un-grayscale{syntax:"*";inherits:false;}
+      @property --un-hue-rotate{syntax:"*";inherits:false;}
+      @property --un-invert{syntax:"*";inherits:false;}
+      @property --un-saturate{syntax:"*";inherits:false;}
+      @property --un-sepia{syntax:"*";inherits:false;}
+      /* layer: default */
+      .drop-shadow{--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, rgb(0 0 0 / 0.1))) drop-shadow(0 1px 1px var(--un-drop-shadow-color, rgb(0 0 0 / 0.06)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in srgb, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
+      .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in srgb, var(--colors-red-300) 30%, transparent);}
+      .drop-shadow-sm{--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, rgb(0 0 0 / 0.15)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow-sm\\/50{--un-drop-shadow-opacity:50%;--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.15) l a b / 50%)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      .drop-shadow\\/50{--un-drop-shadow-opacity:50%;--un-drop-shadow:drop-shadow(0 1px 2px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.1) l a b / 50%))) drop-shadow(0 1px 1px var(--un-drop-shadow-color, oklab(from rgb(0 0 0 / 0.06) l a b / 50%)));filter:var(--un-blur,) var(--un-brightness,) var(--un-contrast,) var(--un-grayscale,) var(--un-hue-rotate,) var(--un-invert,) var(--un-saturate,) var(--un-sepia,) var(--un-drop-shadow,);}
+      @supports (color: color-mix(in lab, red, red)){
+      .drop-shadow-red-300{--un-drop-shadow-color:color-mix(in oklab, var(--colors-red-300) var(--un-drop-shadow-opacity), transparent);}
+      .drop-shadow-red-300\\/30{--un-drop-shadow-color:color-mix(in oklab, color-mix(in oklab, var(--colors-red-300) 30%, transparent) var(--un-drop-shadow-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('custom properties', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: {
+            reset: false,
+            property: {
+              parent: false,
+              selector: ':host',
+            },
+          },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate('text-red')
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      :host{--un-text-opacity:100%;}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); }
+      /* layer: default */
+      .text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('with no-merge shortcuts', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      shortcuts: [
+        ['btn', 'text-red dark:text-blue'],
+      ],
+    })
+
+    const { css } = await uno.generate('hover:btn')
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: theme */
+      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      /* layer: shortcuts */
+      .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      @supports (color: color-mix(in lab, red, red)){
+      .dark .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
+      .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
+      }"
+    `)
+  })
+
+  it('h.bracket new syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const cases = [
+      'm-[--spacing]',
+      'm-[--spacing(2)]',
+      'px-[--spacing.sm(2.5)]',
+      'text-[--colors.blue,#000]',
+      'text-[--colors.red.200,#fff]',
+      '[--foo:--bar(8)]',
+      `w-[calc(var(--sidebar-width-icon)+--spacing(8))]`,
+      `w-[--sidebar-width-icon+--spacing(8)+2px)+var(--foo)+theme(spacing.sm)]`,
+    ]
+
+    const { getLayer } = await uno.generate(cases)
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
+      .m-\\[--spacing\\]{margin:var(--spacing);}
+      .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
+      .w-\\[--sidebar-width-icon\\+--spacing\\(8\\)\\+2px\\)\\+var\\(--foo\\)\\+theme\\(spacing\\.sm\\)\\]{width:var(--sidebar-width-icon)+calc(var(--spacing) * 8) + 2px) + var(--foo) + 0.875rem;}
+      .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
+      .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
+    `)
   })
 })

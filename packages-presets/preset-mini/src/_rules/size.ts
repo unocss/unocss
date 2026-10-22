@@ -1,6 +1,7 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, resolveBreakpoints } from '../utils'
+import { resolveBreakpoints } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 const sizeMapping: Record<string, string> = {
   h: 'height',
@@ -26,6 +27,8 @@ function getSizeValue(minmax: string, hw: string, theme: Theme, prop: string) {
     case 'max':
     case 'min':
       return `${prop}-content`
+    case 'stretch':
+      return 'stretch'
   }
 
   return h.bracket.cssvar.global.auto.fraction.rem(prop)

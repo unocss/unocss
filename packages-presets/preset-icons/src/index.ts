@@ -2,8 +2,9 @@ import type { UniversalIconLoader } from '@iconify/utils'
 import type { IconsAPI, IconsOptions } from './core'
 import { loadIcon } from '@iconify/utils'
 import { definePreset } from '@unocss/core'
+import { getEnvFlags } from '#integration/env'
 import { createCDNLoader } from './cdn'
-import { combineLoaders, createPresetIcons, getEnvFlags } from './core'
+import { combineLoaders, createPresetIcons } from './core'
 
 export * from './core'
 

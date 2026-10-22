@@ -1,13 +1,14 @@
-import UnoCSS from '@unocss/vite'
 import Vue from '@vitejs/plugin-vue'
-import SimpleGit from 'simple-git'
+import { simpleGit } from 'simple-git'
+import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 import { alias } from '../alias'
+import { importMapPlugin } from './vite-plugin-import-map'
 
-const git = SimpleGit()
+const git = simpleGit()
 
 const SHA = await git.revparse(['HEAD'])
 const LASTEST_TAG = (await git.raw(['describe', '--tags', '--abbrev=0'])).trim()
@@ -49,6 +50,7 @@ export default defineConfig({
       vueTemplate: true,
       dts: 'src/auto-imports.d.ts',
     }),
+    importMapPlugin(),
   ],
   optimizeDeps: {
     exclude: [
@@ -56,6 +58,7 @@ export default defineConfig({
       '@iconify/utils/lib/loader/install-pkg',
       '@iconify/utils/lib/loader/node-loader',
       '@iconify/utils/lib/loader/node-loaders',
+      'oxc-parser',
     ],
   },
   build: {

@@ -8,29 +8,29 @@
   const underline = Math.random() > 0.5;
 </script>
 
-<p class={["usp-pije4y"]} />
+<p class={["usp-pije4y"]}></p>
 
-<p class={["usp-pije4y", true ? "usp-133qwa" : "usp-ha5pjs"]} />
+<p class={["usp-pije4y", true ? "usp-133qwa" : "usp-ha5pjs"]}></p>
 
-<p class={{ "usp-pije4y": true, "usp-133qwa": underline }} />
+<p class={{ "usp-pije4y": true, "usp-133qwa": underline }}></p>
 
-<p class={clsx("usp-u85pcr", "usp-ti35zw")} />
+<p class={clsx("usp-u85pcr", "usp-ti35zw")}></p>
 
 <p
   class={clsx(
     "usp-u85pcr",
     true && "usp-ti35zw",
-    false ? "usp-pxwt0y" : "usp-133qwa"
+    false ? "usp-pxwt0y" : "usp-133qwa",
   )}
-/>
+></p>
 
 <p
   class={wrapped(
     "usp-u85pcr",
     true && "usp-ti35zw",
-    false ? "usp-pxwt0y" : "usp-133qwa"
+    false ? "usp-pxwt0y" : "usp-133qwa",
   )}
-/>
+></p>
 
 <style>
   :global(.usp-pxwt0y) {

@@ -12,7 +12,7 @@ import { textDecorations } from './decoration'
 import { divides } from './divide'
 import { filters } from './filters'
 import { flex } from './flex'
-import { gaps } from './gap'
+import { gapRules, gaps } from './gap'
 import { grids } from './grid'
 import { overflows } from './layout'
 import { lineClamps } from './line-clamp'
@@ -129,6 +129,9 @@ export const rules: Rule<Theme>[] = [
   spaces,
   divides,
   fieldSizing,
+
+  // experimental rules, may be updated in the future
+  gapRules,
 
   // should be the last
   questionMark,

@@ -12,7 +12,7 @@ export function preflights(options: PresetMiniOptions): Preflight<Theme>[] | und
           if (theme.preflightBase) {
             let entries = Object.entries(theme.preflightBase)
             if (options.preflight === 'on-demand') {
-              const keys = new Set(Array.from(generator.activatedRules).map(r => r[2]?.custom?.preflightKeys).filter(Boolean).flat())
+              const keys = new Set(Array.from(generator.getActivatedRules()).map(r => r[2]?.custom?.preflightKeys).filter(Boolean).flat())
               entries = entries.filter(([k]) => keys.has(k))
             }
 

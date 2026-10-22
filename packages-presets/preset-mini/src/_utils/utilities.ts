@@ -2,10 +2,10 @@ import type { CSSEntries, CSSObject, DynamicMatcher, RuleContext, StaticRule, Va
 import type { ParsedColorValue } from '@unocss/rule-utils'
 import type { Theme } from '../theme'
 import { toArray } from '@unocss/core'
-import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor } from '@unocss/rule-utils'
+import { colorOpacityToString, colorToString, getStringComponent, getStringComponents, parseCssColor, resolveBreakpoints as resolveBreakpointsShared } from '@unocss/rule-utils'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE, splitComma } from './handlers/regex'
-import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
+import { cssMathFnRE, directionMap, globalKeywords, xyzArray, xyzMap } from './mappings'
 
 export const CONTROL_MINI_NO_NEGATIVE = '$$mini-no-negative'
 
@@ -34,25 +34,31 @@ export function directionSize(propertyPrefix: string): DynamicMatcher {
 type ThemeColorKeys = 'colors' | 'borderColor' | 'backgroundColor' | 'textColor' | 'shadowColor' | 'accentColor'
 
 function getThemeColorForKey(theme: Theme, colors: string[], key: ThemeColorKeys = 'colors') {
-  let obj = theme[key] as Theme['colors'] | string
-  let index = -1
+  const obj = theme[key] as Theme['colors'] | string
 
-  for (const c of colors) {
-    index += 1
-    if (obj && typeof obj !== 'string') {
-      const camel = colors.slice(index).join('-').replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
-      if (obj[camel])
-        return obj[camel]
+  function deepGet(current: any, path: string[]): any {
+    if (path.length === 0)
+      return current
+    if (!current || typeof current !== 'object')
+      return undefined
 
-      if (obj[c]) {
-        obj = obj[c]
-        continue
+    // Try progressively shorter flat keys (e.g., 'dark-blue-foo', 'dark-blue', 'dark')
+    for (let i = path.length; i > 0; i--) {
+      const flatKey = path.slice(0, i).join('-')
+      const camelKey = flatKey.replace(/(-[a-z])/g, n => n.slice(1).toUpperCase())
+
+      // Try camelCase first, then dashed
+      const value = current[camelKey] ?? current[flatKey]
+      if (value != null) {
+        if (i === path.length)
+          return value
+        return deepGet(value, path.slice(i))
       }
     }
     return undefined
   }
 
-  return obj
+  return deepGet(obj, colors)
 }
 
 /**
@@ -252,7 +258,7 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
       if (color)
         colorVarValue = `, ${colorToString(color)}`
     }
-    else if (lastComp && cssVarFnRE.test(lastComp)) {
+    else if (lastComp && lastComp.startsWith('var(')) {
       const color = components.pop()!
       colorVarValue = `, ${color}`
     }
@@ -267,28 +273,12 @@ export function hasParseableColor(color: string | undefined, theme: Theme, key: 
   return color != null && !!parseColor(color, theme, key)?.color
 }
 
-const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
-
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoints' | 'verticalBreakpoints' = 'breakpoints') {
-  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
-
-  if (!breakpoints)
-    return undefined
-
-  if (resolvedBreakpoints.has(theme))
-    return resolvedBreakpoints.get(theme)
-
-  const resolved = Object.entries(breakpoints)
-    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
-    .map(([point, size]) => ({ point, size }))
-
-  resolvedBreakpoints.set(theme, resolved)
-  return resolved
+  return resolveBreakpointsShared({ theme, generator }, key)
 }
 
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
-  return resolveBreakpoints(context, 'verticalBreakpoints')
+  return resolveBreakpointsShared(context, 'verticalBreakpoints')
 }
 
 export function makeGlobalStaticRules(prefix: string, property?: string): StaticRule[] {
@@ -300,7 +290,7 @@ export function isCSSMathFn(value: string | undefined) {
 }
 
 export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
+  if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }

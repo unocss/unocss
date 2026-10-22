@@ -1,6 +1,7 @@
 import type { VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, variantGetParameter } from '../utils'
+import { variantGetParameter } from '@unocss/rule-utils'
+import { h } from '../utils'
 
 export const variantContainerQuery: VariantObject<Theme> = {
   name: '@',
@@ -11,7 +12,7 @@ export const variantContainerQuery: VariantObject<Theme> = {
     const variant = variantGetParameter('@', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest, label] = variant
-      const unbracket = h.bracket(match)
+      const unbracket = h.bracket(match, ctx.theme)
       let container: string | undefined
       if (unbracket) {
         container = h.numberWithUnit(unbracket)

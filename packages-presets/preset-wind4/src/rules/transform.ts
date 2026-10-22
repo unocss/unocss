@@ -1,4 +1,4 @@
-import type { CSSValueInput, CSSValues, Rule } from '@unocss/core'
+import type { CSSValueInput, CSSValues, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { CONTROL_NO_NEGATIVE, defineProperty, generateThemeVariable, h, makeGlobalStaticRules, numberResolver, positionMap, themeTracking, xyzArray, xyzMap } from '../utils'
 import { splitComma } from '../utils/handlers/regex'
@@ -40,31 +40,38 @@ export const transforms: Rule<Theme>[] = [
   // origins
   [
     /^(?:transform-)?origin-(.+)$/,
-    ([, s]) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s) }),
+    ([, s], { theme }) => ({ 'transform-origin': positionMap[s] ?? h.bracket.cssvar(s, theme) }),
     { autocomplete: [`transform-origin-(${Object.keys(positionMap).join('|')})`, `origin-(${Object.keys(positionMap).join('|')})`] },
   ],
 
   // perspectives
-  [/^(?:transform-)?perspect(?:ive)?-(.+)$/, ([, s], { theme }) => {
+  [/^(transform-)?perspect(?:ive)?-(.+)$/, ([, t, s], { theme }) => {
     let v
     if (theme.perspective?.[s]) {
       themeTracking(`perspective`, s)
       v = generateThemeVariable('perspective', s)
     }
     else {
-      v = h.bracket.cssvar.px.numberWithUnit(s)
+      v = h.bracket.cssvar.px.numberWithUnit(s, theme)
     }
 
     if (v != null) {
+      if (t) {
+        return {
+          '--un-perspective': `perspective(${v})`,
+          'transform': `var(--un-perspective) ${transform}`,
+        }
+      }
+
       return {
         perspective: v,
       }
     }
-  }, { autocomplete: [`transform-perspective-<num>`, `perspective-<num>`, `perspective-$perspective`] }],
+  }, { autocomplete: [`perspective-<num>`, `perspective-$perspective`] }],
 
   // skip 1 & 2 letters shortcut
-  [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s]) => {
-    const v = h.bracket.cssvar(s) ?? (s.length >= 3 ? positionMap[s] : undefined)
+  [/^(?:transform-)?perspect(?:ive)?-origin-(.+)$/, ([, s], { theme }) => {
+    const v = h.bracket.cssvar(s, theme) ?? (s.length >= 3 ? positionMap[s] : undefined)
     if (v != null) {
       return {
         'perspective-origin': v,
@@ -95,10 +102,13 @@ export const transforms: Rule<Theme>[] = [
   ['transform-gpu', { transform: transformGpu }],
   ['transform-none', { transform: 'none' }],
   ...makeGlobalStaticRules('transform'),
+
+  // zoom
+  [/^zoom-(.+)$/, ([, v], { theme }) => ({ zoom: h.bracket.percent.cssvar(v, theme) }), { autocomplete: 'zoom-<percent>' }],
 ]
 
-function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = numberResolver(b) ?? h.bracket.cssvar.none.fraction.rem(b)
+function handleTranslate([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined {
+  const v = numberResolver(b) ?? h.bracket.cssvar.none.fraction.rem(b, theme)
 
   if (v != null) {
     if (v === 'none') {
@@ -118,8 +128,8 @@ function handleTranslate([, d, b]: string[]): CSSValues | (CSSValueInput | strin
   }
 }
 
-function handleScale([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = h.bracket.cssvar.none.fraction.percent(b)
+function handleScale([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined {
+  const v = h.bracket.cssvar.none.fraction.percent(b, theme)
 
   if (v != null) {
     if (v === 'none') {
@@ -138,8 +148,8 @@ function handleScale([, d, b]: string[]): CSSValues | (CSSValueInput | string)[]
   }
 }
 
-function handleRotate([, d = '', b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = h.bracket.cssvar.none.degree(b)
+function handleRotate([, d = '', b]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined {
+  const v = h.bracket.cssvar.none.degree(b, theme)
   if (v != null) {
     if (v === 'none') {
       return {
@@ -159,14 +169,14 @@ function handleRotate([, d = '', b]: string[]): CSSValues | (CSSValueInput | str
     }
     else {
       return {
-        rotate: h.bracket.cssvar.degree(b),
+        rotate: h.bracket.cssvar.degree(b, theme),
       }
     }
   }
 }
 
-function handleSkew([, d, b]: string[]): CSSValues | (CSSValueInput | string)[] | undefined {
-  const v = h.bracket.cssvar.degree(b)
+function handleSkew([, d, b]: string[], { theme }: RuleContext<Theme>): CSSValues | (CSSValueInput | string)[] | undefined {
+  const v = h.bracket.cssvar.degree(b, theme)
   const ds = xyzMap[d]
   if (v != null && ds) {
     return [

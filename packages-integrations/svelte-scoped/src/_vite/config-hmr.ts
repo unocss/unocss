@@ -1,7 +1,7 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
-import type { SvelteScopedContext } from '../preprocess'
 
-export function ConfigHMRPlugin({ ready }: SvelteScopedContext): Plugin {
+export function ConfigHMRPlugin({ ready }: UnocssPluginContext): Plugin {
   return {
     name: 'unocss:svelte-scoped:config',
     async configureServer(server) {

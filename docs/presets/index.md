@@ -38,10 +38,16 @@
 | [@unocss/extractor-svelte](/extractors/svelte)                         | Extractor for Svelte                                  |
 | [@unocss/extractor-arbitrary-variants](/extractors/arbitrary-variants) | Extractor to support arbitrary variants for utilities |
 
-# Community
+## Processors
+
+| Package                                                    | Description                                         |
+| ---------------------------------------------------------- | --------------------------------------------------- |
+| [@unocss/processor-lightningcss](/processors/lightningcss) | Process generated CSS with Lightning CSS in Node.js |
+
+## Community
 
 <p align="center">
-  <img src="https://avatars.githubusercontent.com/unocss-community" width='150' />
+  <img src="https://avatars.githubusercontent.com/unocss-community" width='150' alt="UnoCSS Community Logo" />
 </p>
 
 We warmly welcome everyone to join and help build the [UnoCSS community](https://github.com/unocss-community). You can use and share UnoCSS-related resources in [Awesome UnoCSS](https://github.com/unocss-community/awesome-unocss).

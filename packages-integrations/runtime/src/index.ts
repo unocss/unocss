@@ -164,7 +164,14 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
   runtimeOptions.configResolved?.(userConfig, userConfigDefaults)
   const uno = await createGenerator(userConfig, userConfigDefaults)
-  const inject = (styleElement: HTMLStyleElement) => runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  const inject = (styleElement: HTMLStyleElement) => {
+    const rootElement = inlineConfig.rootElement?.()
+    if (rootElement) {
+      rootElement.appendChild(styleElement)
+      return
+    }
+    runtimeOptions.inject ? runtimeOptions.inject(styleElement) : html().prepend(styleElement)
+  }
   const rootElement = () => runtimeOptions.rootElement ? runtimeOptions.rootElement() : defaultDocument.body
   const styleElements = new Map<string, HTMLStyleElement>()
 
@@ -275,7 +282,10 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
           const el = node as Element
           if (inspector && !inspector(el))
             return
-          await extract(el.outerHTML)
+          // `outerHTML` re-encodes `&` in attribute values, so feed the decoded
+          // form too, the same way `extractAll` does.
+          const outerHTML = el.outerHTML
+          await extract(`${outerHTML} ${decodeHtml(outerHTML)}`)
           removeCloak(el)
         })
       }
@@ -312,7 +322,7 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
   function execute() {
     if (runtimeOptions.bypassDefined)
-      getDefinedCssSelectors(uno.blocked)
+      uno.blockTokens(getDefinedCssSelectors())
     extractAll()
     observe()
   }

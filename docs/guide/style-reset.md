@@ -63,8 +63,18 @@ import '@unocss/reset/eric-meyer.css'
 
 ### Tailwind
 
+Based on older [Preflight](https://github.com/tailwindlabs/tailwindcss/blob/v3.4.18/src/css/preflight.css), with select recent changes
+
 ```ts
 import '@unocss/reset/tailwind.css'
+```
+
+### Tailwind v4
+
+Based on [Preflight](https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/preflight.css)
+
+```ts
+import '@unocss/reset/tailwind-v4.css'
 ```
 
 ### Tailwind compat

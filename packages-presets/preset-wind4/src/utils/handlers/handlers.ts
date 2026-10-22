@@ -1,6 +1,10 @@
+import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
+import { transformThemeFn } from '@unocss/rule-utils'
 import { globalKeywords } from '../mappings'
-import { bracketTypeRe, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
+import { themeTracking } from '../track'
+import { getThemeByKey } from '../utilities'
+import { bracketTypeRe, cssVarsRE, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
 // Not all, but covers most high frequency attributes
 const cssProps = [
@@ -13,6 +17,9 @@ const cssProps = [
   'flex-grow',
   'flex',
   'flex-shrink',
+  'grid',
+  'grid-template-columns',
+  'grid-template-rows',
   'caret-color',
   'font',
   'gap',
@@ -147,7 +154,33 @@ export function fraction(str: string) {
   }
 }
 
-function bracketWithType(str: string, requiredType?: string) {
+/**
+ * Process a theme variable reference and retrieve its value and corresponding CSS variable key.
+ *
+ * @example theme => Theme object
+ * @example themeKey => 'colors
+ * @example themeKeyPaths => ['blue', '500']
+ * @example varPaths => 'colors.blue.500'
+ *
+ * @returns An object containing the resolved value from the theme and the corresponding CSS variable key.
+ */
+function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: string[], varPaths: string) {
+  const valOrObj = getThemeByKey(theme, themeKey as keyof Theme, themeKeyPaths)
+  const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
+
+  if (hasDefault)
+    themeKeyPaths.push('DEFAULT')
+
+  const val = hasDefault ? valOrObj.DEFAULT : valOrObj
+  const varKey = hasDefault && themeKey !== 'spacing' ? `${varPaths}.DEFAULT` : varPaths
+
+  if (val != null)
+    themeTracking(themeKey, themeKeyPaths.length ? themeKeyPaths : undefined)
+
+  return { val, varKey }
+}
+
+function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
     let hintedType: string | undefined
@@ -174,9 +207,34 @@ function bracketWithType(str: string, requiredType?: string) {
     if (base === '=""')
       return
 
-    if (base.startsWith('--')) {
-      const [name, defaultValue] = base.slice(2).split(',')
-      base = `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
+    if (theme) {
+      base = transformThemeFn(base, theme)
+    }
+
+    const matches = Array.from(base.matchAll(cssVarsRE))
+    for (const match of matches) {
+      const [full, varPaths, _value] = match
+
+      if (theme) {
+        const [key, ...paths] = varPaths.split('.')
+        const { val, varKey } = processThemeVariable(theme, key, paths, varPaths)
+
+        if (val != null) {
+          const cssVar = `--${varKey.replaceAll('.', '-')}`
+          // use theme value with multiplier
+          if (_value && !_value.startsWith(',')) {
+            base = base.replace(full, `calc(var(${cssVar}) * ${_value.slice(1, -1)})`)
+          }
+          // default value
+          else {
+            const fallback = _value?.slice(1)
+            base = base.replace(full, `var(${cssVar}${fallback ? `, ${fallback}` : ''})`)
+          }
+          continue
+        }
+      }
+
+      base = base.replace(full, `var(${full})`)
     }
 
     let curly = 0
@@ -222,28 +280,28 @@ function bracketWithType(str: string, requiredType?: string) {
   }
 }
 
-export function bracket(str: string) {
-  return bracketWithType(str)
+export function bracket(str: string, theme?: Theme) {
+  return bracketWithType(str, undefined, theme)
 }
 
-export function bracketOfColor(str: string) {
-  return bracketWithType(str, 'color')
+export function bracketOfColor(str: string, theme?: Theme) {
+  return bracketWithType(str, 'color', theme)
 }
 
-export function bracketOfLength(str: string) {
-  return bracketWithType(str, 'length') || bracketWithType(str, 'size')
+export function bracketOfLength(str: string, theme?: Theme) {
+  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme) || bracketWithType(str, 'width', theme)
 }
 
-export function bracketOfPosition(str: string) {
-  return bracketWithType(str, 'position')
+export function bracketOfPosition(str: string, theme?: Theme) {
+  return bracketWithType(str, 'position', theme)
 }
 
-export function bracketOfFamily(str: string) {
-  return bracketWithType(str, 'family')
+export function bracketOfFamily(str: string, theme?: Theme) {
+  return bracketWithType(str, 'family', theme)
 }
 
-export function bracketOfNumber(str: string) {
-  return bracketWithType(str, 'number')
+export function bracketOfNumber(str: string, theme?: Theme) {
+  return bracketWithType(str, 'number', theme)
 }
 
 export function cssvar(str: string) {
@@ -252,7 +310,13 @@ export function cssvar(str: string) {
 
   const match = str.match(/^(?:\$|--)([^\s'"`;{}]+)$/)
   if (match) {
-    const [name, defaultValue] = match[1].split(',')
+    // Only the first comma separates the name from the fallback. Splitting on
+    // every comma dropped the rest of a fallback that contains its own, such
+    // as `$foo,rgba(0,0,0,.5)`, which emitted an unbalanced `var(--foo, rgba(0`.
+    const body = match[1]
+    const separator = body.indexOf(',')
+    const name = separator === -1 ? body : body.slice(0, separator)
+    const defaultValue = separator === -1 ? '' : body.slice(separator + 1)
     return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
   }
 }
@@ -278,7 +342,7 @@ export function degree(str: string) {
   const num = Number.parseFloat(n)
   if (!Number.isNaN(num)) {
     if (num === 0)
-      return '0'
+      return '0deg'
     return unit ? `${round(num)}${unit}` : `${round(num)}deg`
   }
 }

@@ -46,6 +46,10 @@ export const targets = [
   'animate-fill-backwards',
   'animate-reverse',
   'animate-direction-alternate-reverse',
+  'animate-fill-mode-inherit',
+  'animate-mode-unset',
+  'animate-direction-revert',
+  'animate-play-state-initial',
   'animate-count-2.4',
   'animate-iteration-2',
   'animate-iteration-count-2',
@@ -170,7 +174,8 @@ export const targets = [
   'columns-[3_auto]',
   'columns-[auto_13em]',
   'columns-[auto_auto]',
-  'columns-unset',
+  'columns-sm',
+  'columns-$variable',
   'break-before-avoid-page',
   'break-inside-avoid-column',
   'break-after-column',
@@ -386,8 +391,15 @@ export const targets = [
   // variants combinators
   'svg:fill-red',
 
-  // variants supports: grid
+  // variants supports
   'supports-grid:block',
+  'supports-[display:grid]:grid',
+  'supports-[backdrop-filter]:backdrop-blur',
+  'supports-[not(display:grid)]:block',
+  'supports-[not(container-type:inline-size)]:md:grid-cols-2',
+  'supports-[(display:grid)_and_(display:flex)]:grid',
+  'supports-[(display:grid)or(display:flex)]:grid',
+  'supports-[(container-type:inline-size)and(not(display:grid))]:block',
 
   // variants media: contrasts, motions, orientations
   'contrast-more:bg-black',

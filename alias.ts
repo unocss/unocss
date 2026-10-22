@@ -19,6 +19,7 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/eslint-config': r('./packages-integrations/eslint-config/src/'),
   '@unocss/eslint-plugin': r('./packages-integrations/eslint-plugin/src/'),
   '@unocss/inspector': r('./packages-integrations/inspector/src/'),
+  '@unocss/language-server': r('./packages-integrations/language-server/src/'),
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
@@ -38,7 +39,9 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/constants': r('./virtual-shared/integration/src/constants.ts'),
   '#integration/content': r('./virtual-shared/integration/src/content.ts'),
   '#integration/context': r('./virtual-shared/integration/src/context.ts'),
+  '#integration/defaults-ide': r('./virtual-shared/integration/src/defaults-ide.ts'),
   '#integration/defaults': r('./virtual-shared/integration/src/defaults.ts'),
+  '#integration/env': r('./virtual-shared/integration/src/env.ts'),
   '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),
   '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
   '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
@@ -77,9 +80,9 @@ export const aliasDeprecated: Record<string, string> = {
 }
 
 export const alias: Record<string, string> = {
-  ...aliasEngine,
-  ...aliasIntegrations,
+  // ...aliasEngine,
+  // ...aliasIntegrations,
   ...aliasVirtual,
-  ...aliasPresets,
-  ...aliasDeprecated,
+  // ...aliasPresets,
+  // ...aliasDeprecated,
 }

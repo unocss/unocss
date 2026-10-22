@@ -1,5 +1,5 @@
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
-import type { UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import type { FilterPattern, UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { BetterMap, createGenerator } from '@unocss/core'
@@ -50,13 +50,11 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     rawConfig = result.config
     configFileList = result.sources
     await uno.setConfig(rawConfig)
-    uno.config.envMode = 'dev'
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
-      : createFilter(
+      : createPipelineFilter(
           rawConfig.content?.pipeline?.include || defaultPipelineInclude,
           rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
-          { resolve: typeof configOrPath === 'string' ? configOrPath : root },
         )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
@@ -64,6 +62,36 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     dispatchReload()
 
     return result
+  }
+
+  /**
+   * Create a filter for the pipeline `include`/`exclude` patterns.
+   *
+   * The patterns are resolved against the context root, which is updated from the
+   * build tool's root directory. In some setups that directory is not the one the
+   * patterns are written relative to — Nuxt, for example, reports `srcDir` as the
+   * Vite root, so `app/composables/**` would be resolved to `<root>/app/app/...`
+   * and never match. Resolving against `process.cwd()` as well keeps those
+   * patterns working.
+   *
+   * `include` is a union across the bases (matching either one is enough), while
+   * `exclude` stays an intersection (being excluded by either one is enough).
+   * Taking the union of the complete filters instead would let a file that one
+   * base excludes slip through whenever another base does not match it.
+   */
+  function createPipelineFilter(
+    include: FilterPattern,
+    exclude: FilterPattern,
+  ) {
+    const bases = [...new Set([
+      typeof configOrPath === 'string' ? configOrPath : root,
+      process.cwd(),
+    ])]
+    const includeFilters = bases.map(base => createFilter(include, [], { resolve: base }))
+    const excludeFilters = bases.map(base => createFilter(exclude, [], { resolve: base }))
+    return (id: unknown) =>
+      includeFilters.some(filter => filter(id))
+      && !excludeFilters.some(filter => filter(id))
   }
 
   async function updateRoot(newRoot: string) {
@@ -110,6 +138,28 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       tasks.splice(0, _tasks.length)
   }
 
+  /**
+   * Get regexes to match virtual module ids
+   */
+  const vmpCache = new Map<string, { prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>()
+  async function getVMPRegexes(): Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }> {
+    const config = await getConfig()
+    const prefix = config.virtualModulePrefix || '__uno'
+
+    if (vmpCache.has(prefix))
+      return vmpCache.get(prefix)!
+
+    const RESOLVED_ID_WITH_QUERY_RE = new RegExp(`[/\\\\]${prefix}(_.*?)?\\.css(\\?.*)?$`)
+    const RESOLVED_ID_RE = new RegExp(`[/\\\\]${prefix}(?:_(.*?))?\.css$`)
+    const regexes = {
+      prefix,
+      RESOLVED_ID_WITH_QUERY_RE,
+      RESOLVED_ID_RE,
+    }
+    vmpCache.set(prefix, regexes)
+    return regexes
+  }
+
   return {
     get ready() {
       return ready
@@ -140,5 +190,6 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     },
     updateRoot,
     getConfigFileList: () => configFileList,
+    getVMPRegexes,
   }
 }

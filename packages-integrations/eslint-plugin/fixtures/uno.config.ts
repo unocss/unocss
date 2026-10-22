@@ -1,14 +1,13 @@
-// eslint-disable-next-line no-restricted-imports
-import { defineConfig, presetUno, transformerVariantGroup } from 'unocss'
+import { defineConfig, presetWind3, transformerVariantGroup } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
   ],
   transformers: [
     transformerVariantGroup(),
   ],
   blocklist: [
-    [(i) => i.includes('blocked'), { message: 'use non-blocked-rule' }]
-  ]
+    [i => i.includes('blocked'), { message: 'use non-blocked-rule' }],
+  ],
 })

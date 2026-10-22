@@ -1,19 +1,20 @@
 <script setup lang="ts">
-// @ts-expect-error missing types
 import { Pane, Splitpanes } from 'splitpanes'
 </script>
 
 <template>
-  <div h-full w-full of-hidden>
-    <Splitpanes>
-      <Pane size="20" :push-other-panes="false">
-        <Sidebar />
-      </Pane>
-      <Pane size="80">
-        <div h-full of-hidden>
-          <RouterView />
-        </div>
-      </Pane>
-    </Splitpanes>
+  <div h-full w-full of-hidden bg-light-100 dark:bg-dark-800>
+    <AuthGate>
+      <Splitpanes>
+        <Pane size="20" :push-other-panes="false">
+          <Sidebar />
+        </Pane>
+        <Pane size="80">
+          <div h-full of-hidden>
+            <RouterView />
+          </div>
+        </Pane>
+      </Splitpanes>
+    </AuthGate>
   </div>
 </template>

@@ -126,7 +126,6 @@ The `@screen` directive that allows you to create media queries that reference y
   }
 }
 /* ... */
-...;
 ```
 
 Will be transformed to:
@@ -256,6 +255,16 @@ Will be compiled to:
 ```css
 .btn-blue {
   background-color: #3b82f6;
+}
+```
+
+It also works in at-rule conditions:
+
+```css
+@media (min-width: theme('breakpoints.md')) {
+  .btn-blue {
+    background-color: theme('colors.blue.500');
+  }
 }
 ```
 

@@ -11,6 +11,3 @@ export const VIRTUAL_ENTRY_ALIAS = [
   /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
 ]
 export const LAYER_MARK_ALL = '__ALL__'
-
-export const RESOLVED_ID_WITH_QUERY_RE = /[/\\]__uno(_.*?)?\.css(\?.*)?$/
-export const RESOLVED_ID_RE = /[/\\]__uno(?:_(.*?))?\.css$/

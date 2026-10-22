@@ -12,6 +12,13 @@ export const presetWind4Targets: string[] = [
   'text-red/$op-variable', // When the color components length = 2, the second variable is used as opacity
   'text-red/$op-variable/$method-variable',
 
+  // `color:` type hint
+  'bg-[color:#000]',
+  'ring-[color:red]',
+  'outline-[color:red]',
+  'decoration-[color:red]',
+  'fill-[color:red]',
+
   // font family
   'font-sans',
   'font-[custom-family-name]',
@@ -55,6 +62,10 @@ export const presetWind4Targets: string[] = [
   'animate-fill-backwards',
   'animate-reverse',
   'animate-direction-alternate-reverse',
+  'animate-fill-mode-inherit',
+  'animate-mode-unset',
+  'animate-direction-revert',
+  'animate-play-state-initial',
   'animate-count-2.4',
   'animate-iteration-2',
   'animate-iteration-count-2',
@@ -97,6 +108,8 @@ export const presetWind4Targets: string[] = [
   'bg-repeat-revert',
   'bg-right-bottom',
   'bg-scroll',
+  'bg-current',
+  'bg-current/10',
 
   // bg gradient
   'from-current',
@@ -138,6 +151,7 @@ export const presetWind4Targets: string[] = [
   'bg-conic',
   'bg-conic-120',
   'bg-repeating-conic',
+  'bg-gradient-to-r',
 
   // behaviors
   'list-none',
@@ -177,7 +191,8 @@ export const presetWind4Targets: string[] = [
   'columns-[3_auto]',
   'columns-[auto_13em]',
   'columns-[auto_auto]',
-  'columns-unset',
+  'columns-sm',
+  'columns-$variable',
   'break-before-avoid-page',
   'break-inside-avoid-column',
   'break-after-column',
@@ -226,7 +241,11 @@ export const presetWind4Targets: string[] = [
   'drop-shadow-[0_4px_3px_#000]',
   'drop-shadow-none',
   'drop-shadow-sm',
+  'drop-shadow-sm/50',
+  'drop-shadow-red-300',
+  'drop-shadow-red-300/30',
   'drop-shadow-color-red-300',
+  'drop-shadow-op-30',
   'drop-shadow-color-op-30',
   'grayscale',
   'grayscale-90',
@@ -272,6 +291,22 @@ export const presetWind4Targets: string[] = [
   'line-clamp-unset',
 
   // scrolls
+  'scrollbar-auto',
+  'scrollbar-thin',
+  'scrollbar-none',
+  'scrollbar-thumb-red-500',
+  'scrollbar-thumb-red-500/50',
+  'scrollbar-thumb-op-50',
+  'scrollbar-track-[#0088cc]',
+  'scrollbar-track-transparent',
+  'scrollbar-track-opacity-30',
+  'scrollbar-w-2px',
+  'scrollbar-w-4',
+  'scrollbar-h-[3rem]',
+  'scrollbar-radius-sm',
+  'scrollbar-radius-full',
+  'scrollbar-thumb-radius-4px',
+  'scrollbar-track-radius-2px',
   'snap-y',
   'snap-both',
   'snap-mandatory',
@@ -297,6 +332,9 @@ export const presetWind4Targets: string[] = [
 
   // shadow, spacing
   'shadow-2xs',
+  'shadow-2xs/50',
+  'shadow-red',
+  'shadow-green-500/50',
   'inset-shadow-none',
   'mix-blend-normal',
   'mix-blend-hard-light',
@@ -397,7 +435,9 @@ export const presetWind4Targets: string[] = [
 
   // text-shadow
   'text-shadow-lg',
+  'text-shadow-lg/50',
   'text-shadow-sky-300',
+  'text-shadow-sky-300/30',
   'text-shadow-color-sky-300',
   'text-shadow-op-50',
   'text-shadow-color-op-50',
@@ -416,8 +456,15 @@ export const presetWind4Targets: string[] = [
   'scripting-initial-only:text-red-500',
   'script-enabled:text-red-500',
 
-  // variants supports: grid
+  // variants supports
   'supports-grid:block',
+  'supports-[display:grid]:grid',
+  'supports-[backdrop-filter]:backdrop-blur',
+  'supports-[not(display:grid)]:block',
+  'supports-[not(container-type:inline-size)]:md:grid-cols-2',
+  'supports-[(display:grid)_and_(display:flex)]:grid',
+  'supports-[(display:grid)or(display:flex)]:grid',
+  'supports-[(container-type:inline-size)and(not(display:grid))]:block',
 
   // variants media: contrasts, motions, orientations
   'contrast-more:bg-black',
@@ -473,6 +520,8 @@ export const presetWind4Targets: string[] = [
   'data-[foo=x]:text-green-600',
   'data-[foo=x]:data-[bar=y]:text-green-600',
   'data-dropdown:ring-green',
+  'not-data-[state=collapsed]:flex',
+  'not-data-[invalid~=grammar]:underline-green-600',
 
   // view-transition
   'view-transition-foo',
@@ -628,10 +677,69 @@ export const presetWind4Targets: string[] = [
   'in-[div]:bg-red-400',
   'in-[a>button:hover]:font-bold',
   'in-data-[state=closed]:border-5',
+  'in-not-data-[state=closed]:border-5',
   'in-aria-[hidden=false]:font-21',
 
   // inert
   'inert:opacity-25',
+
+  // #5188
+  'border-[color:red]',
+  'border-[color:#000]',
+  'border-[color:var(--color)]',
+  'border-[length:2px]',
+  'border-[width:2px]',
+
+  // zoom
+  'zoom-50',
+  'zoom-[1.1]',
+  'zoom-[var(--zoom)]',
+
+  // flex-basis container sizes
+  'basis-xs',
+  'basis-2xl',
+  'flex-basis-7xl',
+
+  /* gap rules */
+
+  // rule style
+  'rule-dashed',
+  'rule-x-solid',
+  'rule-col-dotted',
+
+  // rule color
+  'rule-red-500',
+  'rule-y-teal-500',
+  'rule-y-op-50',
+  'rule-opacity-50',
+  'rule-col-blue-500',
+  'rule-row-style-dotted',
+  'rule-color-$variable',
+  'rule-row-color-[blue,teal-300,#eee8,$bar]',
+
+  // rule width
+  'rule-2',
+  'rule-x-4',
+  'rule-y-6rem',
+  'rule-col-8px',
+  'rule-row-width-3',
+  'rule-width-$variable',
+  'rule-col-width-[1px,3em,$foo,5]',
+
+  // rule style + color + width
+  'rule-[1px_solid_#fff]',
+  'rule-row-[1_solid_red-500]',
+  'rule-col-[1px_solid_#fff]',
+  'rule-$variable',
+
+  // rule others
+  'rule-inset-4',
+  'rule-inset-cap-start-[2px]',
+  'rule-break-intersection',
+  'rule-col-break-normal',
+  'rule-visibility-around',
+  'rule-overlap-column',
+  'rule-row-visibility-between',
 ]
 
 export const presetWindNonTargets: string[] = [

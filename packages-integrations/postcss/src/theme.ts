@@ -6,4 +6,7 @@ export async function parseTheme(root: Root, uno: UnoGenerator) {
   root.walkDecls((decl) => {
     decl.value = transformThemeFn(decl.value, uno.config.theme)
   })
+  root.walkAtRules((rule) => {
+    rule.params = transformThemeFn(rule.params, uno.config.theme)
+  })
 }

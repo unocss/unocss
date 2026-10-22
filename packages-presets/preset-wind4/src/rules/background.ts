@@ -67,7 +67,7 @@ function bgGradientColorResolver() {
       }
     }
     else {
-      css[`--un-gradient-${position}`] = h.bracket.cssvar(body)
+      css[`--un-gradient-${position}`] = h.bracket.cssvar(body, theme)
     }
 
     if (css[`--un-gradient-${position}`]) {
@@ -104,9 +104,9 @@ function bgGradientColorResolver() {
 }
 
 function bgGradientPositionResolver() {
-  return function* ([, mode, body]: string[]) {
+  return function* ([, mode, body]: string[], { theme }: RuleContext<Theme>) {
     yield {
-      [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body)}`,
+      [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body, theme)}`,
     }
     for (const p of Object.values(properties))
       yield p
@@ -115,14 +115,14 @@ function bgGradientPositionResolver() {
 
 export const backgroundStyles: Rule<Theme>[] = [
   // gradients
-  [/^bg-(linear|radial|conic)-([^/]+)(?:\/(.+))?$/, ([, m, d, s]) => {
+  [/^bg-(linear|radial|conic)-([^/]+)(?:\/(.+))?$/, ([, m, d, s], { theme }) => {
     let v
 
     if (h.number(d) != null) {
       v = `from ${h.number(d)}deg ${resolveModifier(s)};`
     }
     else {
-      v = h.bracket(d)
+      v = h.bracket(d, theme)
     }
 
     if (v) {
@@ -136,19 +136,24 @@ export const backgroundStyles: Rule<Theme>[] = [
   }],
 
   [/^(from|via|to|stops)-(.+)$/, bgGradientColorResolver()],
-  [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity]) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity) })],
+  [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity], { theme }) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity, theme) })],
   [/^(from|via|to)-([\d.]+%)$/, bgGradientPositionResolver()],
   // images
   [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
     'background-image': `${s}-gradient(var(--un-gradient, var(--un-gradient-stops, rgb(255 255 255 / 0))))`,
   }), { autocomplete: ['bg-gradient-repeating', 'bg-gradient-(linear|radial|conic)', 'bg-gradient-repeating-(linear|radial|conic)'] }],
-  // ignore any center position
-  [/^bg-(linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
+  [/^bg-(gradient|linear|radial|conic)(?:-to-([rltb]{1,2}))?(?:\/(.+))?$/, ([, m, d, s]) => {
     return {
       '--un-gradient-position': `${d in positionMap ? `to ${positionMap[d]} ` : ' '}${resolveModifier(s)}`,
-      'background-image': `${m}-gradient(var(--un-gradient-stops))`,
+      'background-image': `${m === 'gradient' ? 'linear' : m}-gradient(var(--un-gradient-stops))`,
     }
-  }, { autocomplete: `bg-gradient-to-(${Object.keys(positionMap).filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c))).join('|')})` }],
+  }, {
+    autocomplete: ['gradient', 'linear', 'radial', 'conic'].map((i) => {
+      return `bg-${i}-to-(${Object.keys(positionMap)
+        .filter(k => k.length <= 2 && Array.from(k).every(c => 'rltb'.includes(c)))
+        .join('|')})`
+    }),
+  }],
   ['bg-none', { 'background-image': 'none' }],
 
   ['box-decoration-slice', { 'box-decoration-break': 'slice' }],
@@ -159,7 +164,7 @@ export const backgroundStyles: Rule<Theme>[] = [
   ['bg-auto', { 'background-size': 'auto' }],
   ['bg-cover', { 'background-size': 'cover' }],
   ['bg-contain', { 'background-size': 'contain' }],
-  [/^bg-size-(.+)$/, ([, v]) => ({ 'background-size': h.bracket.cssvar(v) })],
+  [/^bg-size-(.+)$/, ([, v], { theme }) => ({ 'background-size': h.bracket.cssvar(v, theme) })],
 
   // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],

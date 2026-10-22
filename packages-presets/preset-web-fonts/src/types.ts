@@ -1,6 +1,6 @@
 import type { Arrayable, Awaitable } from '@unocss/core'
 
-export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'none' | Provider
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none' | Provider
 
 export interface WebFontMeta {
   /**
@@ -19,6 +19,12 @@ export interface WebFontMeta {
    * Use italic style
    */
   italic?: boolean // ital axis
+
+  /**
+   * Font width(s) to include, and respect the width order
+   * @example [62.5, 125]
+   */
+  widths?: (string | number)[] // wdth axis
 
   /**
    * Variable font settings
@@ -57,7 +63,7 @@ export interface WebFontProcessor {
     getCSSDefault: (
       fonts: ResolvedWebFontMeta[],
       providers: Provider[],
-    ) => Awaitable<string>
+    ) => Awaitable<string>,
   ) => Awaitable<string | undefined>
   transformCSS?: (css: string) => Promise<string | undefined>
 }

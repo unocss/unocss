@@ -90,6 +90,12 @@ theme: {
 }
 ```
 
+::: tip
+In `presetWind4` the key was changed to `breakpoint`.
+
+For the `presetWind4` theme docs see the [`presetWind4` theme section](/presets/wind4#theme).
+:::
+
 If you want to inherit the `original` theme breakpoints, you can use the `extendTheme`:
 
 ```ts

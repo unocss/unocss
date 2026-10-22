@@ -1,0 +1,13 @@
+export interface Input extends Marko.HTML.A {}
+
+<a
+  ...input
+  target="_blank"
+  rel="noopener noreferrer"
+  class=[
+    input.class,
+    "inline-flex items-center gap-1 underline underline-offset-2 transition-opacity hover:opacity-75",
+  ]>
+  <${input.content}/>
+  <span class="i-carbon-launch inline-block w-3.5 h-3.5" aria-hidden="true"/>
+</a>

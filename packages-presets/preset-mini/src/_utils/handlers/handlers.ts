@@ -13,6 +13,9 @@ const cssProps = [
   'flex-grow',
   'flex',
   'flex-shrink',
+  'grid',
+  'grid-template-columns',
+  'grid-template-rows',
   'caret-color',
   'font',
   'gap',
@@ -233,7 +236,13 @@ export function bracketOfPosition(str: string) {
 
 export function cssvar(str: string) {
   if (/^\$[^\s'"`;{}]/.test(str)) {
-    const [name, defaultValue] = str.slice(1).split(',')
+    // Only the first comma separates the name from the fallback. Splitting on
+    // every comma dropped the rest of a fallback that contains its own, such
+    // as `$foo,rgba(0,0,0,.5)`, which emitted an unbalanced `var(--foo, rgba(0`.
+    const body = str.slice(1)
+    const separator = body.indexOf(',')
+    const name = separator === -1 ? body : body.slice(0, separator)
+    const defaultValue = separator === -1 ? '' : body.slice(separator + 1)
     return `var(--${escapeSelector(name)}${defaultValue ? `, ${defaultValue}` : ''})`
   }
 }
@@ -259,7 +268,7 @@ export function degree(str: string) {
   const num = Number.parseFloat(n)
   if (!Number.isNaN(num)) {
     if (num === 0)
-      return '0'
+      return '0deg'
     return unit ? `${round(num)}${unit}` : `${round(num)}deg`
   }
 }

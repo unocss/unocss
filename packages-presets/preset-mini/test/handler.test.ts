@@ -15,6 +15,17 @@ describe('value handler', () => {
     expect(h.bracket('[calc(var(--min-width)_-_2_*_var(--col-gap))]')).eql('calc(var(--min-width) - 2 * var(--col-gap))')
   })
 
+  it('cssvar fallback keeps its own commas', () => {
+    expect(h.cssvar('$foo')).eql('var(--foo)')
+    expect(h.cssvar('$foo,blue')).eql('var(--foo, blue)')
+    // A fallback may itself contain commas, so only the first one separates
+    // the name from the fallback. Splitting on all of them truncated the
+    // value and left an unbalanced paren.
+    expect(h.cssvar('$foo,rgba(0,0,0,.5)')).eql('var(--foo, rgba(0,0,0,.5))')
+    expect(h.cssvar('$foo,var(--bar,blue)')).eql('var(--foo, var(--bar,blue))')
+    expect(h.cssvar('$a,b,c')).eql('var(--a, b,c)')
+  })
+
   it('bracket curly', () => {
     expect(h.bracket('[foo][bar]')).eql(undefined)
     expect(h.bracket('[[]]')).eql('[]')
@@ -155,7 +166,7 @@ describe('value handler', () => {
     expect(h.degree('10 deg')).eql(undefined)
     expect(h.degree('10deg')).eql('10deg')
     expect(h.degree('10.0deg')).eql('10deg')
-    expect(h.degree('0deg')).eql('0')
+    expect(h.degree('0deg')).eql('0deg')
     expect(h.degree('.1deg')).eql('0.1deg')
     expect(h.degree('.20deg')).eql('0.2deg')
     expect(h.degree('00.30deg')).eql('0.3deg')

@@ -41,13 +41,12 @@ html.dark {
     rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y))
     scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y))
     scaleZ(var(--un-scale-z));
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hover-transform:hover {
   --un-translate-y: -1px;
@@ -60,17 +59,18 @@ html.dark {
 }
 
 .basic-transition {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cursor-pen {
-  cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
+  cursor:
+    url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18,
+    auto;
 }
 
 .select-dark {
@@ -95,8 +95,8 @@ html.dark {
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
-  box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow);
+  box-shadow:
+    var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
   --un-ring-opacity: 1;
   --un-ring-color: rgb(31 41 55 / var(--un-ring-opacity));
   --un-ring-opacity: 0.75;
@@ -119,13 +119,12 @@ html.dark {
   font-size: 1.5rem;
   line-height: 2rem;
   opacity: 0.75;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 200ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .icon-btn:hover {
   opacity: 1;
@@ -143,16 +142,6 @@ html.dark {
   --un-text-opacity: 1;
   color: rgb(255 255 255 / var(--un-text-opacity));
   --un-backdrop-blur: blur(16px);
-  -webkit-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
-    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
-    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
-    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
-    var(--un-backdrop-sepia);
-  backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
-    var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
-    var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
-    var(--un-backdrop-opacity) var(--un-backdrop-saturate)
-    var(--un-backdrop-sepia);
   -webkit-backdrop-filter: var(--un-backdrop-blur) var(--un-backdrop-brightness)
     var(--un-backdrop-contrast) var(--un-backdrop-grayscale)
     var(--un-backdrop-hue-rotate) var(--un-backdrop-invert)
@@ -205,8 +194,8 @@ input:focus {
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
-  box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow);
+  box-shadow:
+    var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
 }
 
 .btn {
@@ -236,6 +225,6 @@ input:focus {
   --un-ring-shadow: var(--un-ring-inset) 0 0 0
     calc(var(--un-ring-width) + var(--un-ring-offset-width))
     var(--un-ring-color);
-  box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-    var(--un-shadow);
+  box-shadow:
+    var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
 }

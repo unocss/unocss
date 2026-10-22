@@ -19,16 +19,6 @@ export interface TransformerDirectivesOptions {
    * @default ['--at-apply', '--uno-apply', '--uno']
    */
   applyVariable?: false | string | string[]
-
-  /**
-   * Treat CSS custom properties as directives for CSS syntax compatibility.
-   *
-   * Pass `false` to disable, or a string to use as a prefix.
-   *
-   * @deprecated use `applyVariable` to specify the full var name instead.
-   * @default '--at-'
-   */
-  varStyle?: false | string
 }
 
 export interface TransformerDirectivesContext {

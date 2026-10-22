@@ -1,12 +1,12 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup, Update, ViteDevServer } from 'vite'
+import { notNull } from '@unocss/core'
+import { createFilter } from 'unplugin-utils'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { notNull } from '@unocss/core'
-import { createFilter } from 'unplugin-utils'
 
 const virtualModuleCSS = 'uno.css'
 const HASH_LENGTH = 6

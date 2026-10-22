@@ -1,0 +1,58 @@
+import { defineConfig } from 'tsdown'
+
+export default defineConfig([
+  {
+    name: 'Dual',
+    entry: [
+      'src/webpack.ts',
+      'src/postcss.ts',
+    ],
+    clean: true,
+    dts: true,
+    deps: {
+      neverBundle: [
+        'webpack',
+      ],
+    },
+    format: ['esm', 'cjs'],
+    exports: true,
+    cjsDefault: false,
+  },
+  {
+    name: 'ESM only',
+    entry: [
+      'src/index.ts',
+      'src/vite.ts',
+      'src/astro.ts',
+      'src/preset-uno.ts',
+      'src/preset-icons.ts',
+      'src/preset-attributify.ts',
+      'src/preset-tagify.ts',
+      'src/preset-web-fonts.ts',
+      'src/preset-typography.ts',
+      'src/preset-wind.ts',
+      'src/preset-mini.ts',
+      'src/preset-wind3.ts',
+      'src/preset-wind4.ts',
+      'src/rolldown.ts',
+      'src/rollup.ts',
+    ],
+    clean: false,
+    dts: true,
+    deps: {
+      neverBundle: [
+        'astro',
+        'rolldown',
+        'rollup',
+        'vite',
+      ],
+    },
+    exports: true,
+    failOnWarn: true,
+    publint: 'ci-only',
+    attw: {
+      enabled: 'ci-only',
+      ignoreRules: ['cjs-resolves-to-esm'],
+    },
+  },
+])

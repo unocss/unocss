@@ -6,9 +6,11 @@ import { loadIcon } from '@iconify/utils/lib/loader/loader'
 import { searchForIcon } from '@iconify/utils/lib/loader/modern'
 import { encodeSvgForCss } from '@iconify/utils/lib/svg/encode-svg-for-css'
 import { definePreset, warnOnce } from '@unocss/core'
+import { getEnvFlags } from '#integration/env'
 import icons from './collections'
 
 const COLLECTION_NAME_PARTS_MAX = 3
+const numberWithUnitRE = /^(-?\d*(?:\.\d+)?)(px|pt|pc|%|r?(?:em|ex|lh|cap|ch|ic)|(?:[sld]?v|cq)(?:[whib]|min|max)|in|cm|mm|rpx)?$/i
 
 export { IconsOptions }
 export { icons }
@@ -18,7 +20,8 @@ export { icons }
  */
 export interface IconsAPI {
   encodeSvgForCss: typeof encodeSvgForCss
-  parseIconWithLoader: typeof parseIconWithLoader
+  /** Parse an icon using this preset's loader and options. */
+  parseIcon: (body: string, options?: IconifyLoaderOptions) => ReturnType<typeof parseIconWithLoader>
   /**
    * This API only available for preset-icons created on Node.js environment
    */
@@ -70,30 +73,67 @@ export function createPresetIcons(lookupIconLoader: (options: IconsOptions) => P
     }
 
     let iconLoader: UniversalIconLoader
+    const parsedIcons = new Map<string, ReturnType<typeof parseIconWithLoader>>()
+
+    function parseWithPresetOptions(body: string, overrides?: IconifyLoaderOptions) {
+      if (!overrides && parsedIcons.has(body))
+        return parsedIcons.get(body)!
+
+      const parsed = (async () => {
+        iconLoader = iconLoader || await lookupIconLoader(options)
+        return parseIconWithLoader(
+          body,
+          iconLoader,
+          overrides
+            ? {
+                ...loaderOptions,
+                ...overrides,
+                customizations: {
+                  ...loaderOptions.customizations,
+                  ...overrides.customizations,
+                },
+              }
+            : loaderOptions,
+          iconifyCollectionsNames,
+        )
+      })()
+
+      if (!overrides) {
+        parsedIcons.set(body, parsed)
+        void parsed.then((result) => {
+          if (!result)
+            parsedIcons.delete(body)
+        }, () => parsedIcons.delete(body))
+      }
+      return parsed
+    }
 
     return {
       name: '@unocss/preset-icons',
+      docs: 'https://unocss.dev/presets/icons',
       enforce: 'pre',
       options,
       layers: { icons: -30 },
       api: <IconsAPI>{
         encodeSvgForCss,
-        parseIconWithLoader,
+        parseIcon: parseWithPresetOptions,
       },
       rules: [[
         /^([\w:-]+)(?:\?(mask|bg|auto))?$/,
         async (matcher) => {
           let [full, body, _mode = mode] = matcher as [string, string, IconsOptions['mode']]
 
-          iconLoader = iconLoader || await lookupIconLoader(options)
+          const usedProps: Record<string, string> = {}
+          const parsed = await parseWithPresetOptions(body, { usedProps })
 
-          const usedProps = {}
-          const parsed = await parseIconWithLoader(
-            body,
-            iconLoader,
-            { ...loaderOptions, usedProps },
-            iconifyCollectionsNames,
-          )
+          const fallbackSize = `${scale}${unit ?? 'em'}`
+          for (const prop of ['width', 'height']) {
+            const value = usedProps[prop]
+            const match = value?.match(numberWithUnitRE)
+
+            if (!value || (match && !match[2]))
+              usedProps[prop] = fallbackSize
+          }
 
           if (!parsed) {
             if (warn && !flags.isESLint)
@@ -186,21 +226,6 @@ export function createCDNFetchLoader(
     }
 
     return result
-  }
-}
-
-export function getEnvFlags() {
-  // eslint-disable-next-line node/prefer-global/process
-  const isNode = typeof process !== 'undefined' && process.stdout
-  // eslint-disable-next-line node/prefer-global/process
-  const isVSCode = isNode && !!process.env.VSCODE_CWD
-  // eslint-disable-next-line node/prefer-global/process
-  const isESLint = isNode && !!process.env.ESLINT
-
-  return {
-    isNode,
-    isVSCode,
-    isESLint,
   }
 }
 

@@ -1,13 +1,14 @@
 {
   "name": "interactive",
   "type": "module",
-  "version": "66.4.1",
+  "version": "66.11.0",
   "private": true,
   "scripts": {
-    "build": "nuxi prepare && esno scripts/prepare.ts && nuxi generate",
-    "dev": "nuxi prepare && esno scripts/prepare.ts && nuxi dev",
+    "build": "nuxi prepare && pnpm run prepare && nuxi generate",
+    "dev": "nuxi prepare && pnpm run prepare && nuxi dev",
     "preview": "nuxi preview",
-    "fetch": "esno scripts/fetch.ts"
+    "fetch": "tsx scripts/fetch.ts",
+    "prepare": "tsx scripts/prepare.ts"
   },
   "devDependencies": {
     "@antfu/utils": "catalog:utils",
@@ -15,10 +16,7 @@
     "@unocss/autocomplete": "workspace:*",
     "@unocss/nuxt": "workspace:*",
     "@vueuse/nuxt": "catalog:vue",
-    "esno": "catalog:utils",
-    "fs-extra": "catalog:utils",
     "fuse.js": "catalog:utils",
-    "js-yaml": "catalog:utils",
     "knitwork": "catalog:utils",
     "markdown-it-link-attributes": "catalog:docs",
     "nuxt": "catalog:nuxt",
@@ -27,8 +25,10 @@
     "prettier": "catalog:utils",
     "shiki": "catalog:docs",
     "theme-vitesse": "catalog:docs",
+    "tsx": "catalog:typescript",
     "unplugin-vue-markdown": "catalog:vue",
     "vue": "catalog:vue",
-    "vue-virtual-scroller": "catalog:vue"
+    "vue-virtual-scroller": "catalog:vue",
+    "yaml": "catalog:utils"
   }
 }

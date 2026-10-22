@@ -28,6 +28,7 @@ UnoCSS is a monorepo that contains multiple packages. This page lists all the pa
 | [@unocss/transformer-attributify-jsx](/transformers/attributify-jsx) | Support valueless attributify in JSX/TSX          | ✅                   | No      |
 | [@unocss/extractor-pug](/extractors/pug)                             | Extractor for Pug                                 | No                   | -       |
 | [@unocss/extractor-svelte](/extractors/svelte)                       | Extractor for Svelte                              | No                   | -       |
+| [@unocss/processor-lightningcss](/processors/lightningcss)           | Process generated CSS with Lightning CSS          | No                   | No      |
 | [@unocss/autocomplete](/tools/autocomplete)                          | Utils for autocomplete                            | No                   | -       |
 | [@unocss/config](/guide/config-file)                                 | Configuration file loader                         | ✅                   | -       |
 | [@unocss/reset](/guide/style-reset)                                  | Collection of common CSS resets                   | ✅                   | No      |

@@ -2,12 +2,12 @@ import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig, Rollup } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import { isAbsolute, resolve } from 'node:path'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE } from '#integration/constants'
+import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
+import { LAYER_MARK_ALL } from '#integration/constants'
 import { setupContentExtractor } from '#integration/content'
 import { getLayerPlaceholder, resolveId, resolveLayer } from '#integration/layers'
 import { applyTransformers } from '#integration/transformers'
 import { getPath } from '#integration/utils'
-import { LAYER_IMPORTS, LAYER_PREFLIGHTS } from '@unocss/core'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>): Plugin[] {
@@ -38,7 +38,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     if (typeof result === 'string')
       css = result
     else if (result.code)
-      css = result.code
+      css = result.code.toString()
     css = css.replace(/[\n\r]/g, '')
     return css
   }
@@ -87,10 +87,10 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           tasks.push(extract(code, filename))
         },
       },
-      resolveId(id, importer) {
-        const entry = resolveId(id, importer)
+      async resolveId(id, importer) {
+        const entry = await resolveId(ctx, id, importer)
         if (entry) {
-          const layer = resolveLayer(entry)
+          const layer = await resolveLayer(ctx, entry)
           if (layer) {
             if (importer)
               unocssImporters.add(importer)
@@ -104,8 +104,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           return entry
         }
       },
-      load(id) {
-        const layer = resolveLayer(getPath(id))
+      async load(id) {
+        const layer = await resolveLayer(ctx, getPath(id))
         if (layer) {
           if (!vfsLayers.has(layer)) {
             this.error(`[unocss] layer ${JSON.stringify(id)} is imported but not being resolved before, it might be an internal bug of UnoCSS`)
@@ -146,14 +146,28 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           })
         }
 
+        // for Vite 8's Environment API, each environment may have its own build.outDir.
+        // configResolved may run once per environment config (each with its own
+        // vite:css/vite:css-post instances), so other environments' dirs must not
+        // override an entry already claimed by that environment's own config (#5329)
+        const envDirs: string[] = []
+        for (const env of Object.values(config.environments ?? {})) {
+          if (env?.build?.outDir)
+            envDirs.push(resolve(config.root, env.build.outDir))
+        }
+
         const cssPostPlugin = config.plugins.find(i => i.name === 'vite:css-post') as Plugin | undefined
         const cssPlugin = config.plugins.find(i => i.name === 'vite:css') as Plugin | undefined
 
-        if (cssPostPlugin)
+        if (cssPostPlugin) {
           distDirs.forEach(dir => cssPostPlugins.set(dir, cssPostPlugin))
+          envDirs.forEach(dir => cssPostPlugins.has(dir) || cssPostPlugins.set(dir, cssPostPlugin))
+        }
 
-        if (cssPlugin)
+        if (cssPlugin) {
           distDirs.forEach(dir => cssPlugins.set(dir, cssPlugin))
+          envDirs.forEach(dir => cssPlugins.has(dir) || cssPlugins.set(dir, cssPlugin))
+        }
 
         await ready
       },
@@ -171,7 +185,8 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
     {
       name: 'unocss:global:build:generate',
       apply: 'build',
-      async renderChunk(code, chunk, options) {
+      async renderChunk(_, chunk, options) {
+        const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
         const entryModules = Object.keys(chunk.modules).filter(id => RESOLVED_ID_RE.test(id))
         if (!entryModules.length)
           return null

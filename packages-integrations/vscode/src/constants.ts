@@ -21,5 +21,6 @@ export const defaultLanguageIds = [
   'stylus',
   'astro',
   'rust',
+  'marko',
 ]
 export const delimiters = ['-', ':', ' ', '"', '\'']

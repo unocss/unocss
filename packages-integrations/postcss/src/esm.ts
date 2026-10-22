@@ -6,12 +6,12 @@ import type { UnoPostcssPluginOptions } from './types'
 import { readFile, stat } from 'node:fs/promises'
 import { normalize } from 'node:path'
 import process from 'node:process'
-import { defaultFilesystemGlobs } from '#integration/defaults'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { createGenerator } from '@unocss/core'
 import { hasThemeFn } from '@unocss/rule-utils'
 import postcss from 'postcss'
 import { glob } from 'tinyglobby'
+import { defaultFilesystemGlobs } from '#integration/defaults'
 import { parseApply } from './apply'
 import { parseScreen } from './screen'
 import { parseTheme } from './theme'
@@ -115,7 +115,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)
-    await parseScreen(root, uno, directiveMap.screen)
+    parseScreen(root, uno, directiveMap.screen)
 
     promises.push(
       ...plainContent.map(async (c, idx) => {

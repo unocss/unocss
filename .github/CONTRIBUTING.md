@@ -14,7 +14,7 @@ To develop and test UnoCSS, follow these steps:
 
 2. Ensure you are using the latest Node.js LTS (>= 18.x).
 
-3. UnoCSS uses pnpm v9, if you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
+3. UnoCSS uses pnpm v11, if you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
 4. Install dependencies: run `pnpm install --frozen-lockfile` from UnoCSS's root folder.
 

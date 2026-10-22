@@ -6,6 +6,12 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     UnoCSS(),
-    svelte(),
+    svelte({
+      inspector: {
+        toggleKeyCombo: 'control-shift',
+        showToggleButton: 'always',
+        toggleButtonPos: 'bottom-right',
+      },
+    }),
   ],
 })

@@ -1,4 +1,4 @@
-import type { Rule, RuleContext } from '@unocss/core'
+import type { Rule, RuleContext, VariantHandler } from '@unocss/core'
 import type { Theme } from '../theme'
 import { defineProperty, directionMap, directionSize, h, numberResolver, themeTracking } from '../utils'
 
@@ -22,21 +22,28 @@ export const margins: Rule<Theme>[] = [
 
 export const spaces: Rule<Theme>[] = [
   [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ['space-(x|y)', 'space-(x|y)-reverse', 'space-(x|y)-$spacing'] }],
-  [/^space-([xy])-reverse$/, function* ([, d]: string[], { symbols }: RuleContext<Theme>) {
+  [/^space-([xy])-reverse$/, function* ([m, d]: string[], { symbols }: RuleContext<Theme>) {
     yield {
-      [symbols.selector]: notLastChildSelector,
+      [symbols.variants]: [notLastChildSelectorVariant(m)],
       [`--un-space-${d}-reverse`]: '1',
     }
     yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 })
   }],
 ]
 
-export function notLastChildSelector(s: string) {
-  const not = '>:not(:last-child)'
-  return s.includes(not) ? s : `${s}${not}`
+export function notLastChildSelectorVariant(s: string): VariantHandler {
+  return {
+    matcher: s,
+    order: 1,
+    handle: (input, next) => next({
+      ...input,
+      parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
+      selector: ':where(&>:not(:last-child))',
+    }),
+  }
 }
 
-function* handlerSpace([, d, s]: string[], { theme, symbols }: RuleContext<Theme>) {
+function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Theme>) {
   let v: string | undefined
   const num = numberResolver(s)
   if (num != null) {
@@ -44,19 +51,19 @@ function* handlerSpace([, d, s]: string[], { theme, symbols }: RuleContext<Theme
     v = `calc(var(--spacing) * ${num})`
   }
   else {
-    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1')
+    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1', theme)
   }
 
   if (v != null) {
     const results = directionMap[d === 'x' ? 'inline' : 'block'].map((item, index): [string, string] => {
       const key = `margin${item}`
-      const value = ` calc(${v} * ${index === 0 ? `var(--un-space-${d}-reverse)` : `calc(1 - var(--un-space-${d}-reverse))`})`
+      const value = `calc(${v} * ${index === 0 ? `var(--un-space-${d}-reverse)` : `calc(1 - var(--un-space-${d}-reverse))`})`
       return [key, value]
     })
 
     if (results) {
       yield {
-        [symbols.selector]: notLastChildSelector,
+        [symbols.variants]: [notLastChildSelectorVariant(m)],
         [`--un-space-${d}-reverse`]: '0',
         ...Object.fromEntries(results),
       }

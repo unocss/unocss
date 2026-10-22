@@ -1,4 +1,4 @@
-import type { ContentOptions, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
+import type { ContentOptions, DynamicRule, FilterPattern, Preset, PresetFactory, PresetFactoryAwaitable, PresetOrFactoryAwaitable, ResolvedConfig, Rule, Shortcut, ToArray, UserConfig, UserConfigDefaults, UserShortcuts } from './types'
 import { DEFAULT_LAYERS } from './constants'
 import { extractorSplit } from './extractors'
 import { clone, isStaticRule, mergeDeep, normalizeVariant, toArray, uniq, uniqueBy } from './utils'
@@ -9,6 +9,39 @@ export function resolveShortcuts<Theme extends object = object>(shortcuts: UserS
       return [s]
     return Object.entries(s)
   })
+}
+
+function createDynamicRuleFilters<Theme extends object>(rules: readonly DynamicRule<Theme>[]) {
+  const filterSources = new Map<string, string[]>()
+  const fallback: DynamicRule<Theme>[] = []
+
+  for (const rule of rules) {
+    const [matcher, , meta] = rule
+    // These patterns cannot be safely embedded into a larger alternation.
+    if (meta?.prefix || matcher.global || matcher.sticky || /\\(?:[1-9]|k<)|\(\?</.test(matcher.source)) {
+      fallback.push(rule)
+      continue
+    }
+    const sources = filterSources.get(matcher.flags) ?? []
+    sources.push(`(?:${matcher.source})`)
+    filterSources.set(matcher.flags, sources)
+  }
+
+  try {
+    return {
+      fallback,
+      filters: Array.from(
+        filterSources,
+        ([flags, sources]) => new RegExp(sources.join('|'), flags),
+      ),
+    }
+  }
+  catch {
+    return {
+      fallback: [...rules],
+      filters: [],
+    }
+  }
 }
 
 const __RESOLVED = '_uno_resolved'
@@ -139,7 +172,7 @@ export async function resolveConfig<Theme extends object = object>(
 
   const layers = Object.assign({}, DEFAULT_LAYERS, ...sources.map(i => i.layers))
 
-  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content' | 'transformers'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
+  function getMerged<T extends 'rules' | 'blocklist' | 'variants' | 'extractors' | 'shortcuts' | 'preflights' | 'preprocess' | 'postprocess' | 'extendTheme' | 'safelist' | 'separators' | 'content' | 'transformers' | 'processors'>(key: T): ToArray<Required<UserConfig<Theme>>[T]> {
     return uniq(sources.flatMap(p => toArray(p[key] || []) as any[])) as any
   }
 
@@ -155,22 +188,25 @@ export async function resolveConfig<Theme extends object = object>(
   extractors.sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const rules = getMerged('rules')
-  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
-
   const rulesSize = rules.length
+  const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
+  const rulesDynamic: ResolvedConfig<Theme>['rulesDynamic'] = []
 
-  const rulesDynamic = rules
-    .filter((rule) => {
-      if (!isStaticRule(rule))
-        return true
+  for (const [index, rule] of rules.entries()) {
+    const meta = rule[2] ?? (rule[2] = {})
+    meta.__index = index
+
+    if (isStaticRule(rule)) {
       // Put static rules into the map for faster lookup
-      const prefixes = toArray(rule[2]?.prefix || '')
+      const prefixes = toArray(meta.prefix ?? '')
       prefixes.forEach((prefix) => {
         rulesStaticMap[prefix + rule[0]] = rule
       })
-      return false
-    })
-    .reverse() as ResolvedConfig<Theme>['rulesDynamic']
+    }
+    else {
+      (rulesDynamic as DynamicRule<Theme>[]).unshift(rule)
+    }
+  }
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),
@@ -215,6 +251,7 @@ export async function resolveConfig<Theme extends object = object>(
     details: config.details ?? (config.envMode === 'dev'),
     content,
     transformers: uniqueBy(getMerged('transformers'), (a, b) => a.name === b.name),
+    processors: uniqueBy(getMerged('processors'), (a, b) => a.name === b.name),
   }
 
   const extendThemes = getMerged('extendTheme')
@@ -223,6 +260,8 @@ export async function resolveConfig<Theme extends object = object>(
 
   for (const p of sources)
     p?.configResolved?.(resolved)
+
+  resolved.rulesDynamicFilter = createDynamicRuleFilters(resolved.rulesDynamic)
 
   return resolved
 }

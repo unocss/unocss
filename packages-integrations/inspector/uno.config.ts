@@ -1,17 +1,15 @@
 import type { VitePluginConfig } from '@unocss/vite'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
-import presetUno from '@unocss/preset-uno'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import presetWind4 from '@unocss/preset-wind4'
+import { colorResolver } from '@unocss/preset-wind4/utils'
 
 export function createConfig(): VitePluginConfig {
   return {
     envMode: 'dev',
     details: true,
     theme: {
-      fontFamily: {
-        sans: '\'Inter\', sans-serif',
-        mono: '\'Fira Code\', monospace',
-      },
     },
     presets: [
       presetAttributify(),
@@ -23,11 +21,24 @@ export function createConfig(): VitePluginConfig {
           'vertical-align': 'text-bottom',
         },
       }),
-      presetUno(),
+      presetWind4(),
+      presetWebFonts({
+        provider: 'fontsource',
+        fonts: {
+          dm: 'DM Sans',
+        },
+      }),
+    ],
+    rules: [
+      [/^context-(.+)$/, colorResolver('--context-color', 'context-color')],
     ],
     shortcuts: {
       'border-main': 'border-gray:20',
       'bg-active': 'bg-gray:8',
+      // Keep the dark-tuned catppuccin file icons legible on a light surface —
+      // invert/rehue/dim under light, cancel back to native color under `.dark`.
+      // From @antfu/design's core tokens.
+      'icon-catppuccin': 'invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100',
     },
   }
 }

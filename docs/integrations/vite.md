@@ -4,6 +4,8 @@ description: The Vite plugin for UnoCSS (@unocss/vite).
 outline: deep
 ---
 
+<!-- @unocss-ignore -->
+
 <script setup lang="ts">
 import { examples } from '../.vitepress/content'
 
@@ -35,6 +37,10 @@ npm install -D unocss
 
 ```bash [bun]
 bun add -D unocss
+```
+
+```bash [deno]
+deno add -D unocss
 ```
 
 :::
@@ -141,7 +147,7 @@ export default {
 
 If you're using `@unocss/preset-attributify` you should remove `tsc` from the `build` script.
 
-If you are using `@vitejs/plugin-react` with `@unocss/preset-attributify`, you must add the plugin before `@vitejs/plugin-react`.
+If you are using `babel-plugin-react-compiler`, or `@vitejs/plugin-react` with `@unocss/preset-attributify`, you must add the plugin before `@vitejs/plugin-react`.
 
 ```ts [vite.config.ts]
 import React from '@vitejs/plugin-react'
@@ -246,6 +252,14 @@ export default defineConfig({
     sveltekit(),
   ],
 })
+```
+
+For the default global mode, SvelteKit has no `main.ts` entry. Import the generated stylesheet from the root layout:
+
+```svelte [src/routes/+layout.svelte]
+<script>
+  import 'virtual:uno.css'
+</script>
 ```
 
 <ContentExample :item="playgrounds['sveltekit']"  class="Link mb-4" integrations />
@@ -395,6 +409,25 @@ export default defineConfig({
 ```
 
 <ContentExample :item="playgrounds['vite-elm']"  class="Link" integrations />
+
+### Marko
+
+You need to add `@marko/vite` or `@marko/run/vite` before UnoCSS's plugin.
+
+```ts [vite.config.ts]
+import marko from '@marko/run/vite'
+import UnoCSS from 'unocss/vite'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [
+    marko(),
+    UnoCSS(),
+  ],
+})
+```
+
+<ContentExample :item="playgrounds['marko-run']"  class="Link" integrations />
 
 ## Legacy
 

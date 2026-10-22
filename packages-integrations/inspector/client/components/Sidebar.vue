@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { moduleTree } from '../composables/fetch'
+import type { TreeNode } from '../composables/fetch'
+import { ensureOverview, moduleTree } from '../composables/fetch'
+
+ensureOverview()
+
+// Show a group when it has nested folders or files directly at its root
+function hasNodes(node: TreeNode) {
+  return Object.keys(node.children).length > 0 || node.items.length > 0
+}
 </script>
 
 <template>
-  <div h-full border="r main">
-    <div of-hidden>
+  <div class="flex h-full min-h-0 flex-col" border="r main">
+    <div class="flex-none" of-hidden>
       <NarBar />
       <div
         pt="4"
@@ -25,25 +33,23 @@ import { moduleTree } from '../composables/fetch'
         <div border="b main" />
       </div>
     </div>
-    <div class="scrolls scrolls-sidebar">
-      <ModuleTreeNode
-        v-if="Object.keys(moduleTree.workspace.children).length"
-        :node="moduleTree.workspace"
-        p="l3 t4"
-        icon="i-carbon-portfolio"
-      />
-      <ModuleTreeNode
-        v-if="Object.keys(moduleTree.root.children).length"
-        :node="moduleTree.root"
-        p="l3 t4"
-        icon="i-carbon-vmdk-disk"
-      />
-      <ModuleTreeNode
-        v-if="Object.keys(moduleTree.nodeModules.children).length"
-        :node="moduleTree.nodeModules"
-        p="l3 t4"
-        icon="i-carbon-categories"
-      />
+    <div class="sidebar-tree min-h-0 flex-1 overflow-y-auto">
+      <div v-if="hasNodes(moduleTree.workspace)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.workspace" icon="i-catppuccin-folder-src" />
+      </div>
+      <div v-if="hasNodes(moduleTree.root)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.root" icon="i-catppuccin-folder-open" />
+      </div>
+      <div v-if="hasNodes(moduleTree.nodeModules)" class="px-3 py-4">
+        <ModuleTreeNode :node="moduleTree.nodeModules" icon="i-catppuccin-folder-node" />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.sidebar-tree {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cm-ttc-c-thumb) var(--cm-ttc-c-track);
+}
+</style>

@@ -1,6 +1,6 @@
 # @unocss/reset/tailwind.css
 
-Based on [Tailwind's preflight](https://tailwindcss.com/docs/preflight), in static forms.
+Based on [Tailwind's preflight](https://tailwindcss.com/docs/preflight), in static form.
 
 ## Changes
 

@@ -1,16 +1,20 @@
+import type { UnocssPluginContext } from '@unocss/core'
 import { resolve } from 'pathe'
-import { LAYER_MARK_ALL, RESOLVED_ID_RE, RESOLVED_ID_WITH_QUERY_RE, VIRTUAL_ENTRY_ALIAS } from './constants'
+import { LAYER_MARK_ALL, VIRTUAL_ENTRY_ALIAS } from './constants'
 
-export function resolveId(id: string, importer?: string) {
-  if (id.match(RESOLVED_ID_WITH_QUERY_RE))
+export async function resolveId(ctx: UnocssPluginContext, id: string, importer?: string) {
+  const { RESOLVED_ID_WITH_QUERY_RE, prefix } = await ctx.getVMPRegexes()
+
+  if (id.match(RESOLVED_ID_WITH_QUERY_RE)) {
     return id
+  }
 
   for (const alias of VIRTUAL_ENTRY_ALIAS) {
     const match = id.match(alias)
     if (match) {
       let virtual = match[1]
-        ? `__uno_${match[1]}.css`
-        : '__uno.css'
+        ? `${prefix}_${match[1]}.css`
+        : `${prefix}.css`
       virtual += match[2] || ''
       if (importer)
         virtual = resolve(importer, '..', virtual)
@@ -21,10 +25,12 @@ export function resolveId(id: string, importer?: string) {
   }
 }
 
-export function resolveLayer(id: string) {
+export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
+  const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
   const match = id.match(RESOLVED_ID_RE)
-  if (match)
+  if (match) {
     return match[1] || LAYER_MARK_ALL
+  }
 }
 
 /**

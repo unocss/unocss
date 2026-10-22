@@ -1,7 +1,7 @@
-import type { TSESTree } from '@typescript-eslint/types'
-import type { AnyRuleModule, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { TSESTree } from '@typescript-eslint/utils'
+import type { RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { SvelteAttribute, SvelteLiteral, SvelteMustacheTag } from 'svelte-eslint-parser/lib/ast/html'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/types'
+import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { AST_NODES_WITH_QUOTES, CLASS_FIELDS } from '../constants'
 import { createRule, syncAction } from './_'
 
@@ -29,15 +29,16 @@ export default createRule({
             items: { type: 'string' },
           },
         },
+        additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      {
+        unoFunctions: ['clsx', 'classnames'],
+        unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
       },
     ],
   },
-  defaultOptions: [
-    {
-      unoFunctions: ['clsx', 'classnames'],
-      unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
-    },
-  ],
   create(context) {
     let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
 
@@ -51,6 +52,13 @@ export default createRule({
       return unoVariablesRegexes.some(reg => reg.test(name))
     }
 
+    function unwrapTsExpression(node: TSESTree.Expression): TSESTree.Expression {
+      let current = node
+      while (current.type === 'TSAsExpression' || current.type === 'TSSatisfiesExpression')
+        current = current.expression
+      return current
+    }
+
     function checkLiteral(node: TSESTree.Literal | SvelteLiteral, addSpace?: 'before' | 'after' | undefined) {
       if (typeof node.value !== 'string' || !node.value.trim())
         return
@@ -59,6 +67,7 @@ export default createRule({
         context.settings.unocss?.configPath,
         'sort',
         input,
+        context.filename,
       ).trim()
 
       if (addSpace === 'before')
@@ -108,6 +117,7 @@ export default createRule({
         context.settings.unocss?.configPath,
         'sort',
         input,
+        context.filename,
       ).trim()
       if (/^\s/.test(input))
         sorted = ` ${sorted}`
@@ -234,10 +244,35 @@ export default createRule({
             return checkPossibleLiteral(arg.left, arg.right)
           }
 
-          // {"hello": true, "world": false}
-          if (arg.type === 'ObjectExpression') {
-            const keys = arg.properties.filter(p => p.type === 'Property').map(p => p.key)
+          function handleObjectExpression(node: TSESTree.ObjectExpression) {
+            node.properties.forEach((p) => {
+              if (p.type !== 'Property')
+                return
+
+              if (isPossibleLiteral(p.value)) {
+                return checkPossibleLiteral(p.value)
+              }
+
+              if (p.value.type === 'ObjectExpression') {
+                return handleObjectExpression(p.value)
+              }
+            })
+
+            // {"hello": true, "world": false}
+            const keys = node.properties.filter(p => p.type === 'Property').map(p => p.key)
             return checkPossibleLiteral(...keys)
+          }
+
+          if (arg.type === 'ObjectExpression') {
+            return handleObjectExpression(arg)
+          }
+
+          if (arg.type === 'ArrayExpression') {
+            return arg.elements.forEach((element) => {
+              if (element && isPossibleLiteral(element)) {
+                return checkPossibleLiteral(element)
+              }
+            })
           }
         })
       },
@@ -247,12 +282,10 @@ export default createRule({
         if (node.id.type !== 'Identifier' || !node.init || !isUnoVariable(node.id.name))
           return
 
-        if (isPossibleLiteral(node.init)) {
-          return checkPossibleLiteral(node.init)
-        }
+        const init = unwrapTsExpression(node.init)
 
-        if (node.init.type === 'TSAsExpression' && isPossibleLiteral(node.init.expression)) {
-          return checkPossibleLiteral(node.init.expression)
+        if (isPossibleLiteral(init)) {
+          return checkPossibleLiteral(init)
         }
 
         function handleObjectExpression(node: TSESTree.ObjectExpression) {
@@ -269,11 +302,8 @@ export default createRule({
             }
           })
         }
-        if (node.init.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init)
-        }
-        if (node.init.type === 'TSAsExpression' && node.init.expression.type === 'ObjectExpression') {
-          return handleObjectExpression(node.init.expression)
+        if (init.type === 'ObjectExpression') {
+          return handleObjectExpression(init)
         }
       },
     }
@@ -298,4 +328,4 @@ export default createRule({
       return parserServices?.defineTemplateBodyVisitor(templateBodyVisitor, scriptVisitor)
     }
   },
-}) as any as AnyRuleModule
+})

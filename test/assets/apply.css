@@ -35,7 +35,9 @@ html.dark {
 }
 
 .cursor-pen {
-  cursor: url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18, auto;
+  cursor:
+    url(https://api.iconify.design/mdi:lead-pencil.svg) 2 18,
+    auto;
 }
 
 .select-dark {

@@ -1,27 +1,28 @@
-export type ValueHandlerCallback = (str: string) => string | number | undefined
+export type ValueHandlerCallback<T extends object> = (str: string, theme?: T) => string | number | undefined
 
-export type ValueHandler<K extends string> = { [S in K]: ValueHandler<K> } & {
-  (str: string): string | undefined
+export type ValueHandler<K extends string, T extends object> = { [S in K]: ValueHandler<K, T> } & {
+  (str: string, theme?: T): string | undefined
   __options: {
     sequence: K[]
   }
 }
 
-export function createValueHandler<K extends string>(handlers: Record<K, ValueHandlerCallback>): ValueHandler<K> {
+export function createValueHandler<K extends string, T extends object>(handlers: Record<K, ValueHandlerCallback<T>>): ValueHandler<K, T> {
   const handler = function (
-    this: ValueHandler<K>,
+    this: ValueHandler<K, T>,
     str: string,
+    theme?: T,
   ): string | number | undefined {
     const s = this.__options?.sequence || []
     this.__options.sequence = []
     for (const n of s) {
-      const res = handlers[n](str)
+      const res = handlers[n](str, theme)
       if (res != null)
         return res
     }
-  } as unknown as ValueHandler<K>
+  } as unknown as ValueHandler<K, T>
 
-  function addProcessor(that: ValueHandler<K>, name: K) {
+  function addProcessor(that: ValueHandler<K, T>, name: K) {
     if (!that.__options) {
       that.__options = {
         sequence: [],

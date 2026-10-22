@@ -237,26 +237,6 @@ Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In S
 </head>
 ```
 
-If using SvelteKit, you also must add the following to the `transformPageChunk` hook in your `src/hooks.server.js` file:
-
-```js [src/hooks.server.js]
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-  const response = await resolve(event, {
-    transformPageChunk: ({ html }) =>
-      html.replace(
-        '%unocss-svelte-scoped.global%',
-        'unocss_svelte_scoped_global_styles'
-      ),
-  })
-  return response
-}
-```
-
-This transformation must be in a file whose [path includes `hooks` and `server`](https://github.com/unocss/unocss/blob/main/packages-integrations/svelte-scoped/src/_vite/global.ts#L12) (e.g. `src/hooks.server.js`, `src/hooks.server.ts`) as `svelte-scoped` will be looking in your server hooks file to replace `unocss_svelte_scoped_global_styles` with your global styles. Make sure to not import this transformation from another file, such as when using [sequence](https://kit.svelte.dev/docs/modules#sveltejs-kit-hooks-sequence) from `@sveltejs/kit/hooks`.
-
-_In a regular Svelte project, Vite's `transformIndexHtml` hook will do this automatically._
-
 ## Svelte Preprocessor
 
 Use utility styles to build a component library that is not dependent on including a companion CSS file by using a preprocessor to place generated styles directly into built components. Check out the [SvelteKit Library example](https://github.com/unocss/unocss/tree/main/examples/sveltekit-preprocess) in Stackblitz:
@@ -311,8 +291,10 @@ When using Svelte Scoped in a normal app, the Vite plugin will automatically det
 
 If you want this same behavior when using the preprocessor, you must manually set the the `combine` option based on environemnt. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
 
-```
-"dev": "cross-env NODE_ENV=development vite dev"
+```json
+{
+  "dev": "cross-env NODE_ENV=development vite dev"
+}
 ```
 
 Then adjust your svelte.config.js:
@@ -373,13 +355,13 @@ Extractors are not supported due to the differences in normal UnoCSS global usag
 
 Do to the nature of having a few necessary styles in a global stylesheet and everything else contained in each component where needed, presets need to be handled on a case-by-case basis:
 
-| Preset                                                                                                                                                                                                                                                                                                                                                                      | Supported | Notes                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ~~[@unocss/preset-uno](https://unocss.dev/presets/uno)~~, [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind3](https://unocss.dev/presets/wind3), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages-presets/preset-icons), [@unocss/web-fonts](https://github.com/unocss/unocss/tree/main/packages-presets/preset-icons) | ✅        | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work.                                                                                            |
-| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages-presets/preset-typography)                                                                                                                                                                                                                                                                  | ✅        | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. |
-| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages-presets/preset-rem-to-px)                                                                                                                                                                                                                                                                    | ✅        | This and all presets like it that only modify style output will work.                                                                                                                                                                                             |
-| [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages-presets/preset-attributify)                                                                                                                                                                                                                                                                | -         | Preset won't work. Instead use [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin (`attributifyToClass({ include: [/\.svelte$/]})`) before the Svelte Scoped Vite plugin                                      |
-| [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages-presets/preset-tagify)                                                                                                                                                                                                                                                                          | -         | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here.                                                                        |
+| Preset                                                                                                                                                                                                                                                                                                       | Supported | Notes                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ~~@unocss/preset-uno~~, [@unocss/preset-mini](https://unocss.dev/presets/mini), [@unocss/preset-wind3](https://unocss.dev/presets/wind3), [@unocss/preset-icons](https://github.com/unocss/unocss/tree/main/packages-presets/preset-icons), [@unocss/preset-web-fonts](https://unocss.dev/presets/web-fonts) | ✅        | These and all community plugins, e.g. [unocss-preset-forms](https://github.com/Julien-R44/unocss-preset-forms), that only rely on rules/variants/preflights will work.                                                                                                                                                                                                                                  |
+| [@unocss/preset-typography](https://github.com/unocss/unocss/tree/main/packages-presets/preset-typography)                                                                                                                                                                                                   | ✅        | Due to how this preset adds rulesets to your preflights you must add the `prose` class to your safelist when using this preset, otherwise the preflights will never be triggered. All other classes from this preset, e.g. `prose-pink`, can be component scoped. <hr/> After `v66.5.0`, `prose` styles refactored into a `rule`, which means you don't need to add the class to your safelist anymore. |
+| [@unocss/preset-rem-to-px](https://github.com/unocss/unocss/tree/main/packages-presets/preset-rem-to-px)                                                                                                                                                                                                     | ✅        | This and all presets like it that only modify style output will work.                                                                                                                                                                                                                                                                                                                                   |
+| [@unocss/preset-attributify](https://github.com/unocss/unocss/tree/main/packages-presets/preset-attributify)                                                                                                                                                                                                 | -         | Preset won't work. Instead use [unplugin-attributify-to-class](https://github.com/MellowCo/unplugin-attributify-to-class) Vite plugin (`attributifyToClass({ include: [/\.svelte$/]})`) before the Svelte Scoped Vite plugin                                                                                                                                                                            |
+| [@unocss/preset-tagify](https://github.com/unocss/unocss/tree/main/packages-presets/preset-tagify)                                                                                                                                                                                                           | -         | Presets that add custom extractors will not work. Create a preprocessor to convert `<text-red>Hi</text-red>` to `<span class="text-red">Hi</span>`, then create a PR to add the link here.                                                                                                                                                                                                              |
 
 For other presets, if they don't rely on traditional `class="..."` usage you will need to first preprocess those class names into the `class="..."` attribute. If they add presets like typography's `.prose` class then you will need to place the classes which trigger the preset additions into your safelist.
 

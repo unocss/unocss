@@ -2,10 +2,11 @@ import type { CompletionContext, CompletionResult } from '@codemirror/autocomple
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
 import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
 import type { GenerateResult, UserConfig } from 'unocss'
+import reset from '@unocss/reset/tailwind.css?raw'
+import MagicString from 'magic-string'
+import { createGenerator, noop } from 'unocss'
 import { evaluateUserConfig } from '#docs'
 import { unocssBundle } from '#docs/unocss-bundle'
-import MagicString from 'magic-string'
-import { createGenerator } from 'unocss'
 
 export const init = ref(false)
 export const customConfigError = ref<Error>()
@@ -59,6 +60,11 @@ export async function getHint(context: CompletionContext): Promise<CompletionRes
   }
 }
 
+export async function getGeneratedCss(token: string): Promise<string | null> {
+  const result = await (await __uno).generate(token, { preflights: false })
+  return result.css || null
+}
+
 debouncedWatch(
   [customConfigRaw, customCSS],
   async () => {
@@ -73,6 +79,13 @@ debouncedWatch(
           layer: customCSSLayerName,
           getCSS: () => cleanOutput(transformedCSS.value || ''),
         })
+        // @ts-expect-error ignore
+        if (!result.presets?.some(preset => preset.name === '@unocss/preset-wind4')) {
+          preflights.push({
+            layer: 'base',
+            getCSS: () => reset,
+          })
+        }
 
         result.preflights = preflights
         customConfig = result
@@ -114,7 +127,7 @@ function useTransformer() {
       return []
 
     const annotations = []
-    const fakePluginContext = { uno } as UnocssPluginContext
+    const fakePluginContext = { uno, invalidate: noop } as UnocssPluginContext
     for (const { idFilter, transform } of transformers) {
       if (idFilter && !idFilter(id))
         continue

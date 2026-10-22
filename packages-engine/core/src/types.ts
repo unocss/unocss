@@ -80,11 +80,13 @@ export interface RuleContext<Theme extends object = object> {
 
 declare const SymbolShortcutsNoMerge: unique symbol
 declare const SymbolNoMerge: unique symbol
+declare const SymbolNoScope: unique symbol
 declare const SymbolVariants: unique symbol
 declare const SymbolParent: unique symbol
 declare const SymbolSelector: unique symbol
 declare const SymbolLayer: unique symbol
 declare const SymbolSort: unique symbol
+declare const SymbolBody: unique symbol
 
 export interface ControlSymbols {
   /**
@@ -95,6 +97,10 @@ export interface ControlSymbols {
    * Prevent merging in rules
    */
   noMerge: typeof SymbolNoMerge
+  /**
+   * Prevent applying the `scope` option to this rule/selector
+   */
+  noScope: typeof SymbolNoScope
   /**
    * Additional variants applied to this rule
    */
@@ -115,16 +121,22 @@ export interface ControlSymbols {
    * Sort modifier
    */
   sort: typeof SymbolSort
+  /**
+   * Custom css body modifier
+   */
+  body: typeof SymbolBody
 }
 
 export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
   [SymbolNoMerge]: true
+  [SymbolNoScope]: true
   [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
   [SymbolSort]: number
+  [SymbolBody]: string
 }
 
 export type ObjectToEntry<T> = { [K in keyof T]: [K, T[K]] }[keyof T]
@@ -194,6 +206,12 @@ export interface RuleMeta {
   noMerge?: boolean
 
   /**
+   * Option to not apply scope to this selector.
+   * @default false
+   */
+  noScope?: boolean
+
+  /**
    * Fine tune sort
    */
   sort?: number
@@ -223,6 +241,13 @@ export interface RuleMeta {
   __hash?: string
 
   /**
+   * Internal index of the rulelist
+   * @internal
+   * @private
+   */
+  __index?: number
+
+  /**
    * Custom metadata
    */
   custom?: Record<string, any>
@@ -234,7 +259,7 @@ export type CSSValues = CSSValue | CSSValue[]
 export type DynamicMatcher<Theme extends object = object>
   = (
     match: RegExpMatchArray,
-    context: Readonly<RuleContext<Theme>>
+    context: Readonly<RuleContext<Theme>>,
   ) =>
     | Awaitable<CSSValueInput | string | (CSSValueInput | string)[] | undefined>
     | Generator<CSSValueInput | string | undefined>
@@ -377,7 +402,7 @@ export interface VariantObject<Theme extends object = object> {
 export type Variant<Theme extends object = object> = VariantFunction<Theme> | VariantObject<Theme>
 
 export type Preprocessor = (matcher: string) => string | undefined
-export type Postprocessor = (util: UtilObject) => void
+export type Postprocessor = (util: UtilObject) => void | UtilObject | (UtilObject | null | undefined)[]
 export type ThemeExtender<Theme extends object = object> = (theme: Theme, config: Readonly<ResolvedConfig<Theme>>) => Theme | void
 
 export interface ConfigBase<Theme extends object = object> {
@@ -537,6 +562,11 @@ export interface ConfigBase<Theme extends object = object> {
    * Custom transformers to the source code.
    */
   transformers?: SourceCodeTransformer[]
+
+  /**
+   * Processors to transform generated CSS layers before they are exposed.
+   */
+  processors?: CSSProcessor<Theme>[]
 }
 
 export interface OutputCssLayersOptions {
@@ -547,6 +577,13 @@ export interface OutputCssLayersOptions {
    * Return `null` to specify that the layer should not be output to any css layer.
    */
   cssLayerName?: (internalLayer: string) => string | undefined | null
+
+  /**
+   * Force output all css layers, even if they are not used.
+   *
+   * @example `@layer theme, preflights, [unused-layer], default;`
+   */
+  allLayers?: boolean
 }
 
 export type AutoCompleteTemplate = string
@@ -630,6 +667,11 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
    * Custom metadata for the preset
    */
   meta?: Record<string, any>
+
+  /**
+   * Documentation URL for the preset
+   */
+  docs?: string
 }
 
 export type PresetFactory<Theme extends object = object, PresetOptions extends object | undefined = undefined> = (options?: PresetOptions) => Preset<Theme>
@@ -675,12 +717,20 @@ export interface UserOnlyOptions<Theme extends object = object> {
    * @default 'build'
    */
   envMode?: 'dev' | 'build'
+
   /**
    * legacy.renderModernChunks need to be consistent with @vitejs/plugin-legacy
    */
   legacy?: {
     renderModernChunks: boolean
   }
+
+  /**
+   * Custom prefix for virtual modules
+   *
+   * @default '__uno'
+   */
+  virtualModulePrefix?: string
 }
 
 /**
@@ -736,6 +786,11 @@ export interface UnocssPluginContext<Config extends UserConfig = UserConfig> {
   root: string
   updateRoot: (root: string) => Promise<LoadConfigResult<Config>>
   getConfigFileList: () => string[]
+
+  /**
+   * Get regexes to match virtual module ids
+   */
+  getVMPRegexes: () => Promise<{ prefix: string, RESOLVED_ID_WITH_QUERY_RE: RegExp, RESOLVED_ID_RE: RegExp }>
 }
 
 export interface SourceMap {
@@ -758,6 +813,10 @@ export type SourceCodeTransformerEnforce = 'pre' | 'post' | 'default'
 export interface SourceCodeTransformer {
   name: string
   /**
+   * Documentation URL for the transformer
+   */
+  docs?: string
+  /**
    * The order of transformer
    */
   enforce?: SourceCodeTransformerEnforce
@@ -766,13 +825,42 @@ export interface SourceCodeTransformer {
    */
   idFilter?: (id: string) => boolean
   /**
+   * Cheap source filter evaluated before creating a MagicString instance.
+   *
+   * It must return true for every source the transformer may modify.
+   */
+  codeFilter?: (code: string, id: string) => boolean
+  /**
    * The transform function
    */
   transform: (
     code: MagicString,
     id: string,
-    ctx: UnocssPluginContext
+    ctx: UnocssPluginContext,
   ) => Awaitable<{ highlightAnnotations?: HighlightAnnotation[] } | void>
+}
+
+export interface CSSProcessorContext<Theme extends object = object> {
+  /**
+   * The current CSS layer being processed.
+   */
+  layer: string
+  /**
+   * The theme object
+   */
+  theme: Theme
+  /**
+   * Environment mode
+   *
+   * @default 'build'
+   */
+  envMode: 'dev' | 'build'
+}
+
+export interface CSSProcessor<Theme extends object = object> {
+  name: string
+  order?: number
+  process: (css: string, context: CSSProcessorContext<Theme>) => Awaitable<string>
 }
 
 export interface ContentOptions {
@@ -805,7 +893,7 @@ export interface ContentOptions {
      * By default, `.ts` and `.js` files are NOT extracted.
      *
      * @see https://www.npmjs.com/package/picomatch
-     * @default [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|html)($|\?)/]
+     * @default [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|marko|html)($|\?)/]
      */
     include?: FilterPattern
 
@@ -871,6 +959,14 @@ export interface ResolvedConfig<Theme extends object = object> extends Omit<
   rulesSize: number
   rules: readonly Rule<Theme>[]
   rulesDynamic: readonly DynamicRule<Theme>[]
+  /**
+   * Prefilter for dynamic rules.
+   * @internal
+   */
+  rulesDynamicFilter?: {
+    fallback: readonly DynamicRule<Theme>[]
+    filters: readonly RegExp[]
+  }
   rulesStaticMap: Record<string, StaticRule | undefined>
   autocomplete: {
     templates: (AutoCompleteFunction | AutoCompleteTemplate)[]
@@ -929,6 +1025,27 @@ export type PreparedRule = readonly [
 export interface CliEntryItem {
   patterns: string[]
   outFile: string
+  /**
+   * Whether to rewrite the transformed utilities.
+   *
+   * - For css: if rewrite is true, it will not generate a new file, but directly modify the original file content.
+   * - For other files: if rewrite is true, it replaces the original file with the transformed content.
+   *
+   * @default false
+   */
+  rewrite?: boolean
+
+  /**
+   * Whether to output CSS files scanned from patterns to outFile
+   *
+   * - false: Do not output CSS files
+   * - true: Transform and output scanned CSS file contents to outFile
+   * - 'multi': Output each CSS file separately with filename format `${originFile}-[hash]`
+   * - 'single': Merge multiple CSS files into one output file named `outFile-merged.css`
+   *
+   * @default true
+   */
+  splitCss?: boolean | 'multi' | 'single'
 }
 
 export interface UtilObject {

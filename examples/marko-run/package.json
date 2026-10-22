@@ -1,0 +1,28 @@
+{
+  "name": "marko-run-template",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marko Run app with UnoCSS and TypeScript",
+  "scripts": {
+    "dev": "marko-run",
+    "build": "marko-run build",
+    "preview": "marko-run preview",
+    "start": "node --enable-source-maps ./dist/index.mjs"
+  },
+  "dependencies": {
+    "marko": "^6.0.0"
+  },
+  "devDependencies": {
+    "@marko/run": "^0.9.3",
+    "@unocss/cli": "link:../../packages-engine/cli",
+    "@unocss/core": "link:../../packages-engine/core",
+    "@unocss/preset-web-fonts": "link:../../packages-presets/preset-web-fonts",
+    "@unocss/preset-wind3": "link:../../packages-presets/preset-wind3",
+    "unocss": "link:../../packages-presets/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
+  }
+}

@@ -2,6 +2,7 @@ import type { UserConfig } from '@unocss/core'
 import { escapeSelector } from '@unocss/core'
 import postcssPlugin from '@unocss/postcss'
 import presetWind from '@unocss/preset-wind'
+import presetWind4 from '@unocss/preset-wind4'
 import postcss from 'postcss'
 import { describe, expect, it } from 'vitest'
 import { targets } from './assets/preset-wind3-targets'
@@ -88,6 +89,18 @@ function pcssLite() {
   )
 }
 
+function pcssScreen(config: UserConfig, directiveName = 'screen') {
+  return postcss(
+    postcssPlugin({
+      directiveMap: { screen: directiveName },
+      configOrPath: {
+        content: { filesystem: [], inline: [] },
+        ...config,
+      },
+    }),
+  )
+}
+
 const file = 'style.css'
 const processOptions = { from: file, to: file }
 
@@ -146,6 +159,24 @@ describe('postcss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('theme() in at-rule prelude', async () => {
+    const { css } = await pcssLite().process(`@media (min-width: theme('breakpoints.md')) {
+      div{color:theme('colors.red.600')}
+    }
+    @container (min-width: theme('breakpoints.lg')) {
+      span{color:red}
+    }`, processOptions)
+
+    expect(css).toMatchInlineSnapshot(`
+      "@media (min-width: 768px) {
+            div{color:#dc2626}
+          }
+          @container (min-width: 1024px) {
+            span{color:red}
+          }"
+    `)
+  })
+
   it('@screen', async () => {
     const { css } = await pcssLite().process(`@screen at-md {
       div{@apply bg-red hover:text-white dark:hover:[&>:focus]:text-[20px];}
@@ -153,6 +184,44 @@ describe('postcss', () => {
     }`, processOptions)
 
     expect(css).toMatchSnapshot()
+  })
+
+  it('@screen rejects unknown breakpoints', async () => {
+    await expect(
+      pcssScreen({ presets: [presetWind()] }).process('@screen missing { .test { color: red } }', processOptions),
+    ).rejects.toThrow('breakpoint missing not found')
+  })
+
+  it('@screen preserves Wind3 breakpoint variants', async () => {
+    const { css } = await pcssScreen({ presets: [presetWind()] }).process(`
+      @screen sm { .sm { color: red } }
+      @screen lt-md { .lt { color: red } }
+      @screen at-md { .at { color: red } }
+    `, processOptions)
+
+    expect(css).toContain('@media (min-width: 640px)')
+    expect(css).toContain('@media (max-width: 767.9px)')
+    expect(css).toContain('@media (min-width: 768px) and (max-width: 1023.9px)')
+  })
+
+  it('@screen preserves configured directives and Wind4 breakpoints', async () => {
+    const { css } = await pcssScreen({ presets: [presetWind4()] }, 'custom-screen').process(`
+      @custom-screen sm { .sm { color: red } }
+      @custom-screen lt-md { .lt { color: red } }
+      @custom-screen at-md { .at { color: red } }
+    `, processOptions)
+
+    expect(css).toContain('@media (min-width: 40rem)')
+    expect(css).toContain('@media (max-width: calc(48rem - 0.1px))')
+    expect(css).toContain('@media (min-width: 48rem) and (max-width: calc(64rem - 0.1px))')
+  })
+
+  it('@screen resolves breakpoints from a renamed Wind4 preset', async () => {
+    const { css } = await pcssScreen({ presets: [{ ...presetWind4(), name: 'custom-wind4' }] }).process(`
+      @screen sm { .sm { color: red } }
+    `, processOptions)
+
+    expect(css).toContain('@media (min-width: 40rem)')
   })
 
   it('inline media node type', async () => {

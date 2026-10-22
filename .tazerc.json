@@ -1,15 +1,11 @@
 {
   "exclude": [
     "find-up",
-    "gzip-size",
     "@types/vscode",
     "codemirror",
     "@vue/cli-plugin-babel",
     "@vue/cli-service",
-    "msw",
-    "prettier",
-    "prettier-plugin-svelte",
-    "@types/prettier"
+    "msw"
   ],
   "packageMode": {
     "vue": "minor",

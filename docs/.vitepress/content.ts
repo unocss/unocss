@@ -27,6 +27,7 @@ export const integrations: Integration[] = [
   { name: 'CLI', link: '/integrations/cli', icon: 'i-carbon-terminal' },
   { name: 'PostCSS', link: '/integrations/postcss', icon: 'i-logos-postcss' },
   { name: 'ESLint', link: '/integrations/eslint', icon: 'i-logos-eslint' },
+  { name: 'Twoslash', link: '/integrations/twoslash', icon: 'i-carbon-code' },
   { name: 'VS Code', link: '/integrations/vscode', icon: 'i-logos-visual-studio-code' },
 ]
 
@@ -105,7 +106,7 @@ export const examples: Example[] = [
       'i-logos-vitejs',
       'i-ph-lightning text-yellow',
     ],
-    // lightingcss is not supported by stackblitz yet
+    // lightningcss is not supported by stackblitz yet
     // stackblitz: true,
   },
   {
@@ -202,6 +203,12 @@ export const examples: Example[] = [
       'i-logos-vitejs',
       'i-logos-angular-icon',
     ],
+    stackblitz: true,
+  },
+  {
+    name: 'marko-run',
+    path: 'examples/marko-run',
+    icon: 'i-logos-marko',
     stackblitz: true,
   },
 ]

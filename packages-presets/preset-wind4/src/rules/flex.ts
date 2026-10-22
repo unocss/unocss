@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { h, numberResolver, themeTracking } from '../utils'
+import { generateThemeVariable, h, numberResolver, themeTracking } from '../utils'
 
 export const flex: Rule<Theme>[] = [
   // display
@@ -9,23 +9,30 @@ export const flex: Rule<Theme>[] = [
   ['flex-inline', { display: 'inline-flex' }],
 
   // flex
-  [/^flex-(.*)$/, ([, d]) => ({ flex: h.bracket(d) != null ? h.bracket(d)!.split(' ').map(e => h.cssvar.fraction(e) ?? e).join(' ') : h.cssvar.fraction(d) })],
+  [/^flex-(.*)$/, ([, d], { theme }) => {
+    const value = h.bracket(d, theme)
+    return { flex: value != null ? value.split(' ').map(e => h.cssvar.fraction(e) ?? e).join(' ') : h.cssvar.fraction(d) }
+  }],
   ['flex-1', { flex: '1 1 0%' }],
   ['flex-auto', { flex: '1 1 auto' }],
   ['flex-initial', { flex: '0 1 auto' }],
   ['flex-none', { flex: 'none' }],
 
   // shrink/grow/basis
-  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = '']) => ({ 'flex-shrink': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
-  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = '']) => ({ 'flex-grow': h.bracket.cssvar.number(d) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
-  [/^(?:flex-)?basis-(.+)$/, ([, d]) => {
+  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = ''], { theme }) => ({ 'flex-shrink': h.bracket.cssvar.number(d, theme) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
+  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = ''], { theme }) => ({ 'flex-grow': h.bracket.cssvar.number(d, theme) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
+  [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => {
+    if (theme.container?.[d]) {
+      themeTracking('container', d)
+      return { 'flex-basis': generateThemeVariable('container', d) }
+    }
     const v = numberResolver(d)
     if (v != null) {
       themeTracking(`spacing`)
       return { 'flex-basis': `calc(var(--spacing) * ${v})` }
     }
-    return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d) }
-  }, { autocomplete: ['flex-basis-$spacing', 'basis-$spacing'] }],
+    return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d, theme) }
+  }, { autocomplete: ['flex-basis-$spacing', 'basis-$spacing', 'flex-basis-$container', 'basis-$container'] }],
 
   // directions
   ['flex-row', { 'flex-direction': 'row' }],

@@ -1,7 +1,7 @@
 {
   "name": "@unocss/inspector",
   "type": "module",
-  "version": "66.4.1",
+  "version": "66.11.0",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -22,31 +22,44 @@
   ],
   "sideEffects": false,
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+    ".": "./dist/index.mjs",
+    "./devframe": "./dist/devframe.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./dist/*.d.cts",
+        "./*"
+      ]
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown --config-loader unrun",
+    "prepack": "turbo build --filter=.",
     "build-post": "vite build",
-    "stub": "unbuild --stub",
-    "dev": "nr stub && vite",
-    "update-post": "vite build",
-    "test:attw": "attw --pack --config-path ../../.attw-esm-only.json"
+    "dev": "tsdown --config-loader unrun --watch",
+    "dev:client": "vite",
+    "update-post": "vite build"
   },
   "dependencies": {
+    "@unocss/autocomplete": "workspace:*",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "colorette": "catalog:utils",
-    "gzip-size": "catalog:build",
-    "sirv": "catalog:utils",
+    "devframe": "catalog:devtools",
+    "tinyglobby": "catalog:utils",
+    "unplugin-utils": "catalog:utils"
+  },
+  "devDependencies": {
+    "@iconify-json/catppuccin": "catalog:icons",
+    "shiki": "catalog:docs",
+    "vue-clamp": "catalog:vue",
     "vue-flow-layout": "catalog:vue"
   }
 }

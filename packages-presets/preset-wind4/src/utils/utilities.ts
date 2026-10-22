@@ -1,11 +1,11 @@
 import type { CSSEntries, CSSObject, CSSObjectInput, CSSValueInput, DynamicMatcher, RuleContext, StaticRule, VariantContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { symbols, toArray } from '@unocss/core'
-import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor } from '@unocss/rule-utils'
+import { escapeSelector, symbols, toArray } from '@unocss/core'
+import { colorToString, getStringComponent, getStringComponents, isInterpolatedMethod, parseCssColor, resolveBreakpoints as resolveBreakpointsShared } from '@unocss/rule-utils'
 import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
-import { cssMathFnRE, cssVarFnRE, directionMap, globalKeywords } from './mappings'
+import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
 import { detectThemeValue, generateThemeVariable, propertyTracking, themeTracking } from './track'
 
 // #region Number Resolver
@@ -36,7 +36,7 @@ export function directionSize(
   map: Record<string, string[]> = directionMap,
   formatter: (p: string, d: string) => string = (p, d) => `${p}${d}`,
 ): DynamicMatcher<Theme> {
-  return (([_, direction, size]: (string | undefined)[], { theme }): CSSEntries | undefined => {
+  return (([_, direction, size = '4']: (string | undefined)[], { theme }): CSSEntries | undefined => {
     if (size != null && direction != null) {
       let v: string | number | undefined
 
@@ -52,10 +52,10 @@ export function directionSize(
       }
       else if (theme.spacing && size in theme.spacing) {
         themeTracking('spacing', size)
-        return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--spacing-${size}) * -1)` : `var(--spacing-${size})`])
+        return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--${escapeSelector(`spacing-${size}`)}) * -1)` : `var(--${escapeSelector(`spacing-${size}`)})`])
       }
 
-      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size)
+      v = h.bracket.cssvar.global.auto.fraction.rem(isNegative ? `-${size}` : size, theme)
 
       if (v != null) {
         return map[direction].map(i => [formatter(property, i), v])
@@ -100,7 +100,8 @@ export function splitShorthand(body: string, type: string) {
  */
 export function parseColor(body: string, theme: Theme) {
   let split
-  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3) ?? []
+  // Group by brackets so a `[color:...]` type hint is not split on its own colon.
+  const [front, ...rest] = getStringComponents(body, ['/', ':'], 3, '[', ']') ?? []
 
   if (front != null) {
     const match = (front.match(bracketTypeRe) ?? [])[1]
@@ -116,7 +117,7 @@ export function parseColor(body: string, theme: Theme) {
   let opacity: string | undefined
   let [main, opacityOrModifier, modifier] = split as [string, string | undefined, string | undefined]
 
-  if (isInterpolatedMethod(opacityOrModifier) || isInterpolatedMethod(h.bracket(opacityOrModifier ?? ''))) {
+  if (isInterpolatedMethod(opacityOrModifier) || isInterpolatedMethod(h.bracket(opacityOrModifier ?? '', theme))) {
     modifier = opacityOrModifier
   }
   else {
@@ -147,7 +148,7 @@ export function parseColor(body: string, theme: Theme) {
   let { no, keys, color } = parsed ?? {}
 
   if (!color) {
-    const bracket = h.bracketOfColor(main)
+    const bracket = h.bracketOfColor(main, theme)
     const bracketOrMain = bracket || main
 
     if (h.numberWithUnit(bracketOrMain))
@@ -165,11 +166,11 @@ export function parseColor(body: string, theme: Theme) {
 
   return {
     opacity,
-    modifier: (modifier && h.bracket.cssvar(modifier)) || modifier,
+    modifier: (modifier && h.bracket.cssvar(modifier, theme)) || modifier,
     name,
     no,
     color: color ?? SpecialColorKey[name as keyof typeof SpecialColorKey],
-    alpha: h.bracket.cssvar.percent(opacity ?? ''),
+    alpha: h.bracket.cssvar.percent(opacity ?? '', theme),
     /**
      * Keys means the color is from theme object.
      */
@@ -213,10 +214,10 @@ export function parseThemeColor(theme: Theme, keys: string[]) {
 export function getThemeByKey(theme: Theme, themeKey: keyof Theme, keys: string[]) {
   const obj = theme[themeKey]
   function deepGet(current: any, path: string[]): any {
-    if (!current || typeof current !== 'object')
-      return undefined
     if (path.length === 0)
       return current
+    if (!current || typeof current !== 'object')
+      return undefined
     // First, check if the path is a flat key (e.g., foo-bar)
     for (let i = path.length; i > 0; i--) {
       const flatKey = path.slice(0, i).join('-')
@@ -252,29 +253,35 @@ export function colorCSSGenerator(
 
   if (color) {
     const result: [CSSObject, ...CSSValueInput[]] = [css]
+    const isCSSVar = color.includes('var(')
+    const isSpecial = Object.values(SpecialColorKey).includes(color)
 
-    if (Object.values(SpecialColorKey).includes(color)) {
+    if (isSpecial && !alpha) {
       css[property] = color
+      return result
     }
-    else {
-      const alphaKey = `--un-${varName}-opacity`
-      const value = keys ? generateThemeVariable('colors', keys) : color
-      let method = modifier ?? (keys ? 'in srgb' : 'in oklab')
-      if (!method.startsWith('in ') && !method.startsWith('var(')) {
-        method = `in ${method}`
-      }
 
-      css[property] = `color-mix(${method}, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
-      result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+    const alphaKey = `--un-${varName}-opacity`
+    const value = (keys && !isCSSVar && !isSpecial) ? generateThemeVariable('colors', keys) : color
+    let method = modifier ?? (keys ? 'in srgb' : 'in oklab')
+    if (!method.startsWith('in ') && !method.startsWith('var(')) {
+      method = `in ${method}`
+    }
 
-      if (keys) {
+    css[property] = `color-mix(${method}, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`
+    result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
+
+    if (!isSpecial) {
+      if (keys && !isCSSVar) {
         themeTracking(`colors`, keys)
         if (!modifier) {
+          const colorValue = ['shadow', 'inset-shadow', 'text-shadow', 'drop-shadow'].includes(varName)
+            ? `${alpha ? `color-mix(in oklab, ${value} ${alpha}, transparent)` : `${value}`} var(${alphaKey})`
+            : `${value} ${alpha ?? `var(${alphaKey})`}`
           result.push({
             [symbols.parent]: '@supports (color: color-mix(in lab, red, red))',
             [symbols.noMerge]: true,
-            [symbols.shortcutsNoMerge]: true,
-            [property]: `color-mix(in oklab, ${value} ${alpha ?? `var(${alphaKey})`}, transparent)${rawColorComment}`,
+            [property]: `color-mix(in oklab, ${colorValue}, transparent)${rawColorComment}`,
           })
         }
       }
@@ -299,7 +306,7 @@ export function colorResolver(property: string, varName: string) {
 
 // #endregion
 
-export function colorableShadows(shadows: string | string[], colorVar: string) {
+export function colorableShadows(shadows: string | string[], colorVar: string, alpha?: string) {
   const colored = []
   shadows = toArray(shadows)
   for (let i = 0; i < shadows.length; i++) {
@@ -320,19 +327,20 @@ export function colorableShadows(shadows: string | string[], colorVar: string) {
     if (parseCssColor(components.at(0))) {
       const color = parseCssColor(components.shift())
       if (color)
-        colorVarValue = `, ${colorToString(color)}`
+        colorVarValue = colorToString(color)
     }
     else if (parseCssColor(lastComp)) {
       const color = parseCssColor(components.pop())
       if (color)
-        colorVarValue = `, ${colorToString(color)}`
+        colorVarValue = colorToString(color)
     }
-    else if (lastComp && cssVarFnRE.test(lastComp)) {
-      const color = components.pop()!
-      colorVarValue = `, ${color}`
+    else if (lastComp && lastComp.startsWith('var(')) {
+      const color = components.pop()
+      if (color)
+        colorVarValue = color
     }
 
-    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}${colorVarValue})`)
+    colored.push(`${isInset ? 'inset ' : ''}${components.join(' ')} var(${colorVar}, ${alpha ? `oklab(from ${colorVarValue} l a b / ${alpha})` : colorVarValue})`)
   }
 
   return colored
@@ -345,28 +353,12 @@ export function hasParseableColor(color: string | undefined, theme: Theme) {
 // #endregion
 
 // #region resolve breakpoints
-const reLetters = /[a-z]+/gi
-const resolvedBreakpoints = new WeakMap<any, { point: string, size: string }[]>()
-
 export function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, key: 'breakpoint' | 'verticalBreakpoint' = 'breakpoint') {
-  const breakpoints: Record<string, string> | undefined = (generator?.userConfig?.theme as any)?.[key] || theme[key]
-
-  if (!breakpoints)
-    return undefined
-
-  if (resolvedBreakpoints.has(theme))
-    return resolvedBreakpoints.get(theme)
-
-  const resolved = Object.entries(breakpoints)
-    .sort((a, b) => Number.parseInt(a[1].replace(reLetters, '')) - Number.parseInt(b[1].replace(reLetters, '')))
-    .map(([point, size]) => ({ point, size }))
-
-  resolvedBreakpoints.set(theme, resolved)
-  return resolved
+  return resolveBreakpointsShared({ theme, generator }, key)
 }
 
 export function resolveVerticalBreakpoints(context: Readonly<VariantContext<Theme>>) {
-  return resolveBreakpoints(context, 'verticalBreakpoint')
+  return resolveBreakpointsShared(context, 'verticalBreakpoint')
 }
 // #endregion
 
@@ -388,6 +380,7 @@ export function defineProperty(
   const value: CSSObjectInput = {
     [symbols.shortcutsNoMerge]: true,
     [symbols.noMerge]: true,
+    [symbols.noScope]: true,
     [symbols.variants]: () => [
       {
         parent: '',
@@ -407,12 +400,8 @@ export function defineProperty(
 // #endregion
 
 // #region Basic util functions
-export function isCSSMathFn(value: string | undefined) {
-  return value != null && cssMathFnRE.test(value)
-}
-
 export function isSize(str: string) {
-  if (str[0] === '[' && str.slice(-1) === ']')
+  if (str[0] === '[' && str.endsWith(']'))
     str = str.slice(1, -1)
   return cssMathFnRE.test(str) || numberWithUnitRE.test(str)
 }

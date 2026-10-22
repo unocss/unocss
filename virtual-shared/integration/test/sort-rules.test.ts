@@ -34,10 +34,26 @@ describe('sort rules', async () => {
       .toMatchInlineSnapshot('"foo hover:(p-4 pt-2 text-red) hover:focus:(m1 mx2)"')
   })
 
+  it.each([
+    ['content-[\'a_b\']', 'hover:(p-2 content-[\'a_b\'])', 'hover:p-2 hover:content-[\'a_b\']'],
+    ['grid-cols-[1fr_2fr]', 'hover:(grid-cols-[1fr_2fr] p-2)', 'hover:grid-cols-[1fr_2fr] hover:p-2'],
+  ])('preserves spaces in %s', async (utility, grouped, expanded) => {
+    expect(await sort(`hover:(p-2 ${utility})`)).toBe(grouped)
+    expect(await sort(`hover:p-2 hover:${utility}`)).toBe(expanded)
+  })
+
   it('should not add extra space', async () => {
     expect(await sort('none-uno-class mr-1 ml-1'))
       .toMatchInlineSnapshot('"none-uno-class ml-1 mr-1"')
     expect(await sort(' none-uno-class mr-1 ml-1 '))
       .toMatchInlineSnapshot('"none-uno-class ml-1 mr-1"')
+  })
+
+  it('nested arbitrary value group before a sibling group', async () => {
+    // The sorted output is fed back into the source by the eslint autofixer,
+    // so an expansion that drops or reorders fragments rewrites valid markup
+    // into broken classes (issue: #4791).
+    expect(await sort('[&_p]:(text-(16px #9f4021) lh-18px mt-15px) [&_img]:(w-full h-auto)'))
+      .toMatchInlineSnapshot(`"[&_p]:(mt-15px text-16px text-#9f4021 lh-18px) [&_img]:(h-auto w-full)"`)
   })
 })

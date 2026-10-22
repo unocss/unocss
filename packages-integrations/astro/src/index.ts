@@ -1,14 +1,34 @@
-import type { UserConfigDefaults } from '@unocss/core'
-import type { VitePluginConfig } from '@unocss/vite'
+import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
+import type { UnocssVitePluginAPI, VitePluginConfig } from '@unocss/vite'
 import type { AstroIntegration } from 'astro'
 import type { Plugin } from 'vite'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { RESOLVED_ID_RE } from '#integration/constants'
 import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
 
 const UNO_INJECT_ID = 'uno-astro'
+const WIND3_RESET_CSS = '@unocss/reset/tailwind.css'
+const PAGE_SSR_ID = 'astro:scripts/page-ssr.js'
+const PAGE_SSR_CHUNK = 'unocss-astro-page-ssr'
+
+/**
+ * When presetWind4 is detected in the resolved config, remove the Wind 3 reset
+ * injection (`@unocss/reset/tailwind.css`) from the injects array, since Wind 4
+ * handles its own reset via the preflight system.
+ */
+async function reconcileResetInjects(
+  ctx: UnocssPluginContext<VitePluginConfig>,
+  injects: string[],
+) {
+  const config = await ctx.getConfig()
+  const hasWind4 = config.presets?.some((p: any) => p.name === '@unocss/preset-wind4')
+  if (hasWind4) {
+    const resetIndex = injects.findIndex(s => s.includes(WIND3_RESET_CSS))
+    if (resetIndex !== -1)
+      injects.splice(resetIndex, 1)
+  }
+}
 
 interface AstroVitePluginOptions {
   injects: string[]
@@ -17,14 +37,24 @@ interface AstroVitePluginOptions {
 function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   const { injects } = options
   let root: string
+  let ctx: UnocssPluginContext<VitePluginConfig>
 
   return {
     name: 'unocss:astro',
     enforce: 'pre',
-    configResolved(config) {
+    async configResolved(config) {
       root = config.root
+
+      const api = config.plugins.find(i => i.name === 'unocss:api')?.api as UnocssVitePluginAPI | undefined
+      if (!api) {
+        throw new Error('[@unocss/astro] Unable to find UnoCSS Vite plugin API.')
+      }
+      ctx = api.getContext()
+      await reconcileResetInjects(ctx, injects)
     },
     async resolveId(id, importer) {
+      const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
+
       if (RESOLVED_ID_RE.test(id)) {
         // https://github.com/withastro/astro/blob/087270c61fd5c91ddd37db5c8fd93a8a0ef41f94/packages/astro/src/core/util.ts#L91-L93
         // Align data-astro-dev-id with data-vite-dev-id to fix https://github.com/unocss/unocss/issues/2513
@@ -41,10 +71,32 @@ function AstroVitePlugin(options: AstroVitePluginOptions): Plugin {
   }
 }
 
+function AstroPageSSRChunkPlugin(): Plugin {
+  return {
+    name: 'unocss:astro-page-ssr-chunk',
+    apply: 'build',
+    enforce: 'post',
+    outputOptions(outputOptions) {
+      const { manualChunks } = outputOptions
+      outputOptions.manualChunks = function (...args) {
+        if (args[0] === PAGE_SSR_ID)
+          return PAGE_SSR_CHUNK
+        if (typeof manualChunks === 'function')
+          return manualChunks.apply(this, args)
+      }
+    },
+  }
+}
+
 export interface AstroIntegrationConfig<Theme extends object = object> extends VitePluginConfig<Theme> {
   /**
    * Include reset styles
    * When passing `true`, `@unocss/reset/tailwind.css` will be used
+   *
+   * Note: When using `presetWind4`, the reset is handled by the preset itself
+   * via `preflights.reset` (enabled by default). In this case, the old Wind 3
+   * reset (`@unocss/reset/tailwind.css`) will not be injected even if this
+   * option is `true`.
    * @default false
    */
   injectReset?: string | boolean
@@ -86,7 +138,7 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
         if (injectReset) {
           const resetPath = typeof injectReset === 'string'
             ? injectReset
-            : '@unocss/reset/tailwind.css'
+            : WIND3_RESET_CSS
           injects.push(`import ${JSON.stringify(resetPath)}`)
         }
         if (injectEntry) {
@@ -99,9 +151,13 @@ export default function UnoCSSAstroIntegration<Theme extends object>(
 
         updateConfig({
           vite: {
-            plugins: [AstroVitePlugin({
-              injects,
-            }), ...VitePlugin(options, defaults)],
+            plugins: [
+              AstroVitePlugin({
+                injects,
+              }) as any,
+              ...VitePlugin(options, defaults),
+              ...(options.mode === 'dist-chunk' && injects.length > 0 ? [AstroPageSSRChunkPlugin()] : []),
+            ],
           },
         })
 

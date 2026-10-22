@@ -4,9 +4,11 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "types": ["vite/client"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "skipLibCheck": true
   }
 }

@@ -152,11 +152,6 @@ describe('autocomplete', async () => {
       .toMatchSnapshot()
   })
 
-  it('should skip single-pass variants', async () => {
-    expect(await ac.suggest('dark:dar')).not.toContain('dark:')
-    expect(await ac.suggest('active:fir')).toContain('active:first:')
-  })
-
   it('should support extractors', async () => {
     const res = await ac.suggestInFile(fixture, 40)
 
@@ -205,6 +200,42 @@ describe('autocomplete', async () => {
           "bg-mode-normal",
         ]
       `)
+  })
+
+  it('error on invalid template', async () => {
+    const uno = await createGenerator({
+      theme: {
+        colors: {
+          red: '#f00',
+        },
+      },
+      autocomplete: {
+        shorthands: {
+          valid: `(foo|bar)`,
+        },
+        templates: [
+          'bg-<invalid>',
+          'bg-<valid>',
+          'bg-$colors',
+          'bg-$error',
+        ],
+      },
+    })
+
+    expect(() => createAutocomplete(uno as any)).toThrowErrorMatchingInlineSnapshot(`
+      [Error: ⚠️ [@unocss/autocomplete]: Unknown template shorthand: <invalid>. Template: bg-<invalid>.
+      ⚠️ [@unocss/autocomplete]: Invalid theme key: error. Template: bg-$error.]
+    `)
+
+    const ac = createAutocomplete(uno as any, { throwErrors: false })
+
+    expect(await ac.suggest('bg-')).toMatchInlineSnapshot(`
+      [
+        "bg-bar",
+        "bg-foo",
+        "bg-red",
+      ]
+    `)
   })
 })
 
