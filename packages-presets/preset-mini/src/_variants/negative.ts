@@ -40,6 +40,8 @@ export const variantNegative: Variant = {
 
     return {
       matcher: matcher.slice(1),
+      // negate the values after `theme()` substitution and before `!important`
+      order: -1,
       body: (body) => {
         if (body.some(v => v[0] === CONTROL_MINI_NO_NEGATIVE))
           return

@@ -168,6 +168,7 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     },
     preflights: preflights(options),
     variants: variants(options),
+    variantApplyOrder: 'left-to-right',
     prefix: options.prefix,
     postprocess: postprocessors(options),
     extractorDefault: options.arbitraryVariants === false
