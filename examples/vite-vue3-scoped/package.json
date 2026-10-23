@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue": "^6.0.10",
     "typescript": "^6.0.3",
     "unocss": "link:../../packages-presets/unocss",
     "vite": "^8.3.0"
