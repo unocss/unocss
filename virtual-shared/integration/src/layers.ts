@@ -1,6 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import { resolve } from 'pathe'
 import { LAYER_MARK_ALL, VIRTUAL_ENTRY_ALIAS } from './constants'
+import { getPath } from './utils'
 
 export async function resolveId(ctx: UnocssPluginContext, id: string, importer?: string) {
   const { RESOLVED_ID_WITH_QUERY_RE, prefix } = await ctx.getVMPRegexes()
@@ -27,7 +28,8 @@ export async function resolveId(ctx: UnocssPluginContext, id: string, importer?:
 
 export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
   const { RESOLVED_ID_RE } = await ctx.getVMPRegexes()
-  const match = id.match(RESOLVED_ID_RE)
+  // Query strings like `?inline` are not part of RESOLVED_ID_RE (#4884)
+  const match = getPath(id).match(RESOLVED_ID_RE)
   if (match) {
     return match[1] || LAYER_MARK_ALL
   }
@@ -60,7 +62,17 @@ export function getCssEscaperForJsContent(view: string) {
     prefix[char] = bs.replace(/\\\\/g, '\\')
     return ''
   })
-  return (css: string) => css.replace(/["'`\\]/g, (v) => {
+  const lineBreaks: Record<string, string> = {
+    '\n': 'n',
+    '\r': 'r',
+    '\u2028': 'u2028',
+    '\u2029': 'u2029',
+  }
+  return (css: string) => css.replace(/["'`\\\n\r\u2028\u2029]/g, (v) => {
+    if (lineBreaks[v] && prefix['\\']) {
+      // Each enclosing string doubles the backslashes in a line-break escape.
+      return '\\'.repeat((prefix['\\'].length + 1) / 2) + lineBreaks[v]
+    }
     return (prefix[v] || '') + v
   })
 }
