@@ -56,10 +56,10 @@ export default withUnoCSS(nextConfig)
 Create a `uno.config.ts` file:
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
-  // ...UnoCSS options
+  presets: [presetWind4()],
 })
 ```
 
@@ -77,7 +77,7 @@ Add `@unocss` to your global stylesheet. It will be replaced by the generated CS
 import './globals.css'
 ```
 
-:::tip
+::: tip
 If migrating from `@unocss/postcss`, add [`transformerDirectives`](/transformers/directives) to `uno.config.ts` to get
 `@apply`, `@screen` and `theme()` working in your own stylesheets.
 :::
@@ -102,7 +102,7 @@ Unlike Vite based setups, `content.pipeline` is not used for extracting classes,
 For Next.js 15 and older, or builds that still use webpack.
 
 ::: tip
-Directives like`@apply`, `@screen` and `theme()` work automatically, but transformers like [`transformerVariantGroup`](/transformers/variant-group) and [`transformerCompileClass`](/transformers/compile-class) are not supported at all.
+Directives like `@apply`, `@screen` and `theme()` work automatically, but transformers like [`transformerVariantGroup`](/transformers/variant-group) and [`transformerCompileClass`](/transformers/compile-class) are not supported at all.
 :::
 
 ### Installation
@@ -132,9 +132,7 @@ Create `postcss.config.mjs` at the root of your project.
 ```js [postcss.config.mjs]
 export default {
   plugins: {
-    '@unocss/postcss': {
-      content: ['./app/**/*.{html,js,ts,jsx,tsx}'],
-    },
+    '@unocss/postcss': {},
   },
 }
 ```
@@ -142,10 +140,10 @@ export default {
 Create a `uno.config.ts` file:
 
 ```ts [uno.config.ts]
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
-  // ...UnoCSS options
+  presets: [presetWind4()],
 })
 ```
 
