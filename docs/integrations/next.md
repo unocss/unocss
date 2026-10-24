@@ -7,7 +7,7 @@ description: Getting started with UnoCSS and Next.js.
 
 Getting Started with UnoCSS and Next.js. Check the [example](https://github.com/unocss/unocss/tree/main/examples/next).
 
-There are two setups, depending on your bundler:
+There are two setups, depending on if you use Webpack or Turbopack:
 
 | Setup                                       | Use it for                           | Transformers |
 | ------------------------------------------- | ------------------------------------ | ------------ |
@@ -82,20 +82,37 @@ If migrating from `@unocss/postcss`, add [`transformerDirectives`](/transformers
 `@apply`, `@screen` and `theme()` working in your own stylesheets.
 :::
 
-### Advanced configuration
+### Configuration
 
-If you need to customize which files are scanned for classes, set `content.filesystem` in `uno.config.ts`. The default is very relaxed.
+#### Monorepo
+
+By default, only files under the project root are scanned for classes. Set `content.filesystem` in `uno.config.ts` to replace the default paths.
 
 ```ts [uno.config.ts]
 export default defineConfig({
   content: {
     // Defaults to ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md,marko}']
-    filesystem: ['app/**/*.{html,js,ts,jsx,tsx,mdx,md}'],
+    filesystem: ['**/*.{html,ts,tsx,md,mdx}', '../../packages/ui/src/**/*.{ts,tsx}'],
   },
 })
 ```
 
-Unlike Vite based setups, `content.pipeline` is not used for extracting classes, but it can still control which files can be transformed by transformers.
+#### Transforming `.js` or `.ts` files
+
+You will need to set `content.pipeline.include` for transformers to run in `.js` or `.ts` files.
+
+```ts [uno.config.ts]
+export default defineConfig({
+  content: {
+    pipeline: {
+      // Defaults to [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|marko|html)($|\?)/]
+      include: [/\.(html|[jt]sx?|mdx?)$/]
+    }
+  },
+})
+```
+
+In Vite setups, `content.pipeline` limits the files that are transformed and extracted from. For the Turbopack setup, `content.filesystem` only controls class extraction and `content.pipeline` only controls transformers.
 
 ## PostCSS
 
