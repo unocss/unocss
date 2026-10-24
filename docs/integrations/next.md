@@ -7,68 +7,139 @@ description: Getting started with UnoCSS and Next.js.
 
 Getting Started with UnoCSS and Next.js. Check the [example](https://github.com/unocss/unocss/tree/main/examples/next).
 
-## Setup
+There are two setups, depending on if you use Webpack or Turbopack:
+
+| Setup                                       | Use it for                           | Transformers |
+| ------------------------------------------- | ------------------------------------ | ------------ |
+| [Turbopack](#turbopack) with `@unocss/next` | Next.js 16 or newer                  | Supported    |
+| [PostCSS](#postcss) with `@unocss/postcss`  | Next.js 15 and older, or `--webpack` | Unsupported  |
+
+## Turbopack
+
+For Next.js 16 or newer.
 
 ### Installation
 
 ::: code-group
 
 ```bash [pnpm]
-pnpm add -D unocss @unocss/postcss @unocss/reset
+pnpm add -D unocss @unocss/next
 ```
 
 ```bash [yarn]
-yarn add -D unocss @unocss/postcss @unocss/reset
+yarn add -D unocss @unocss/next
 ```
 
 ```bash [npm]
-npm install -D unocss @unocss/postcss @unocss/reset
+npm install -D unocss @unocss/next
 ```
 
 ```bash [bun]
-bun add -D unocss @unocss/postcss @unocss/reset
+bun add -D unocss @unocss/next
 ```
 
 :::
 
-### Configuration
+Add `withUnoCSS` to your Next.js config.
 
-Create `uno.config.ts` or `uno.config.js` at the root of your project.
+```ts [next.config.ts]
+import type { NextConfig } from 'next'
+import { withUnoCSS } from '@unocss/next'
 
-::: code-group
+const nextConfig: NextConfig = {
+  // your Next.js config
+}
+
+export default withUnoCSS(nextConfig)
+```
+
+Create a `uno.config.ts` file:
 
 ```ts [uno.config.ts]
-import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetWebFonts,
-  presetWind3
-} from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
-  presets: [
-    presetWind3(),
-    // ...
-  ],
+  presets: [presetWind4()],
 })
 ```
 
-```js [uno.config.js]
-import {
-  defineConfig,
-  presetAttributify,
-  presetIcons,
-  presetWebFonts,
-  presetWind3
-} from 'unocss'
+### Import stylesheets
 
+Add `@unocss` to your global stylesheet. It will be replaced by the generated CSS.
+
+```css [globals.css]
+@unocss;
+
+/* ... */
+```
+
+```tsx [layout.tsx]
+import './globals.css'
+```
+
+::: tip
+If migrating from `@unocss/postcss`, add [`transformerDirectives`](/transformers/directives) to `uno.config.ts` to get
+`@apply`, `@screen` and `theme()` working in your own stylesheets.
+:::
+
+### Configuration
+
+#### Monorepo
+
+By default, only files under the project root are scanned for classes. Set `content.filesystem` in `uno.config.ts` to replace the default paths.
+
+```ts [uno.config.ts]
 export default defineConfig({
-  presets: [
-    presetWind3(),
-    // ...
-  ],
+  content: {
+    // Defaults to ['**/*.{html,js,ts,jsx,tsx,vue,svelte,astro,elm,php,phtml,mdx,md,marko}']
+    filesystem: ['**/*.{html,ts,tsx,md,mdx}', '../../packages/ui/src/**/*.{ts,tsx}'],
+  },
 })
+```
+
+#### Transforming `.js` or `.ts` files
+
+You will need to set `content.pipeline.include` for transformers to run in `.js` or `.ts` files.
+
+```ts [uno.config.ts]
+export default defineConfig({
+  content: {
+    pipeline: {
+      // Defaults to [/\.(vue|svelte|[jt]sx|vine.ts|mdx?|astro|elm|php|phtml|marko|html)($|\?)/]
+      include: [/\.(html|[jt]sx?|mdx?)$/]
+    }
+  },
+})
+```
+
+In Vite setups, `content.pipeline` limits the files that are transformed and extracted from. For the Turbopack setup, `content.filesystem` only controls class extraction and `content.pipeline` only controls transformers.
+
+## PostCSS
+
+For Next.js 15 and older, or builds that still use webpack.
+
+::: tip
+Directives like `@apply`, `@screen` and `theme()` work automatically, but transformers like [`transformerVariantGroup`](/transformers/variant-group) and [`transformerCompileClass`](/transformers/compile-class) are not supported at all.
+:::
+
+### Installation
+
+::: code-group
+
+```bash [pnpm]
+pnpm add -D unocss @unocss/postcss
+```
+
+```bash [yarn]
+yarn add -D unocss @unocss/postcss
+```
+
+```bash [npm]
+npm install -D unocss @unocss/postcss
+```
+
+```bash [bun]
+bun add -D unocss @unocss/postcss
 ```
 
 :::
@@ -78,129 +149,34 @@ Create `postcss.config.mjs` at the root of your project.
 ```js [postcss.config.mjs]
 export default {
   plugins: {
-    '@unocss/postcss': {
-      content: ['./app/**/*.{html,js,ts,jsx,tsx}'],
-    },
+    '@unocss/postcss': {},
   },
 }
 ```
 
+Create a `uno.config.ts` file:
+
+```ts [uno.config.ts]
+import { defineConfig, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [presetWind4()],
+})
+```
+
 ### Import stylesheets
 
-Add `@unocss all;` in `globals.css`.
+Add `@unocss` in `globals.css`, then import it from your layout.
 
 ```css [globals.css]
-@unocss all;
+@unocss;
 
 /* ... */
 ```
 
-Then import `@unocss/reset/tailwind.css` in your layout file.
-
-::: code-group
-
 ```tsx [layout.tsx]
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import '@unocss/reset/tailwind.css'
 import './globals.css'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
-
-export const metadata: Metadata = {
-  title: 'Create Next App',
-  description: 'Generated by create next app',
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  )
-}
 ```
-
-```js [layout.js]
-import { Geist, Geist_Mono } from 'next/font/google'
-import '@unocss/reset/tailwind.css'
-import './globals.css'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
-
-export const metadata = {
-  title: 'Create Next App',
-  description: 'Generated by create next app',
-}
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
-    </html>
-  )
-}
-```
-
-:::
-
-## Usage
-
-Style your components with unocss!
-
-::: code-group
-
-```tsx [page.tsx]
-export default function Home() {
-  return (
-    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
-      <div className="i-carbon-car inline-block text-4xl" />
-      <button className="btn w-10rem">Button</button>
-    </main>
-  )
-}
-```
-
-```js [page.js]
-export default function Home() {
-  return (
-    <main className="py-20 px-12 text-center flex flex-col items-center gap-20px">
-      <span className="text-blue text-5xl text-hover:red cursor-default">Nextjs</span>
-      <div className="i-carbon-car inline-block text-4xl" />
-      <button className="btn w-10rem">Button</button>
-    </main>
-  )
-}
-```
-
-:::
 
 ## License
 
