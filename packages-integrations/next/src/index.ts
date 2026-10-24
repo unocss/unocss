@@ -13,22 +13,22 @@ export function withUnoCSS<T extends object>(nextConfig: T = {} as T) {
   return async (): Promise<T> => {
     const config = nextConfig as NextConfigLike
     const root = process.cwd()
-    const { config: uno } = await loadConfig(root)
+    const { config: rawConfig } = await loadConfig(root)
 
-    const { transformers } = await resolveConfig(uno)
+    const resolvedConfig = await resolveConfig(rawConfig)
 
     const cssLoader = require.resolve('@unocss/next/loader-css')
     const sourceLoader = require.resolve('@unocss/next/loader-source')
 
-    // loader for cscs type files for @unocss entry and directives transformer if exists
     const rules: unknown[] = [{
       condition: { all: [{ not: 'foreign' }, { path: cssIdRE }] },
       loaders: [cssLoader],
     }]
 
     // add source code loader only if any transformers exist
-    const pipeline = uno.content?.pipeline
-    if (pipeline !== false && transformers?.length) {
+    // use raw content.pipeline to match logic inside applyTransformers
+    const pipeline = rawConfig.content?.pipeline
+    if (pipeline !== false && resolvedConfig.transformers?.length) {
       const include = toConditions(pipeline?.include ?? defaultPipelineInclude, root)
       const exclude = toConditions(pipeline?.exclude ?? defaultPipelineExclude, root)
 
@@ -55,8 +55,6 @@ export function withUnoCSS<T extends object>(nextConfig: T = {} as T) {
         ...turbopack,
         rules: mergeRules(ours, turbopack.rules),
       },
-      // Only webpack reaches this, and webpack ignores `turbopack.rules` — so a
-      // build here would ship a stylesheet with no utilities.
       webpack(config: any, context: any) {
         console.warn(
           '\n[unocss] This build is using webpack, where `turbopack.rules` are ignored,\n'

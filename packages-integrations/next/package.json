@@ -1,8 +1,8 @@
 {
   "name": "@unocss/next",
   "type": "module",
-  "version": "66.7.5",
-  "description": "The Next.js plugin for UnoCSS",
+  "version": "66.11.0",
+  "description": "Next.js plugin for UnoCSS",
   "author": "Kyle Zheng <kylezheng73@gmail.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/antfu",
