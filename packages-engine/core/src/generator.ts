@@ -111,9 +111,12 @@ class TokenProcessor<Theme extends object> {
   }
 
   getCachedTokens(input: string) {
-    return Array.from(this.cache)
-      .filter(([token, result]) => result && token.startsWith(input))
-      .map(([token]) => token)
+    const tokens: string[] = []
+    for (const [token, result] of this.cache) {
+      if (result && token.startsWith(input))
+        tokens.push(token)
+    }
+    return tokens
   }
 
   getCachedAliases(token: string) {
@@ -121,10 +124,12 @@ class TokenProcessor<Theme extends object> {
     if (!target)
       return
 
-    return Array.from(this.cache)
-      .filter(([, utilities]) => utilities?.length === target.length
-        && utilities.every((utility, index) => utility[2] === target[index][2]))
-      .map(([alias]) => alias)
+    const aliases: string[] = []
+    for (const [alias, utilities] of this.cache) {
+      if (utilities?.length === target.length && utilities.every((utility, index) => utility[2] === target[index][2]))
+        aliases.push(alias)
+    }
+    return aliases
   }
 
   block(tokens: Iterable<string>) {
