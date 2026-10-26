@@ -974,6 +974,35 @@ describe('important', () => {
     `)
   })
 
+  it('tailwind v4 parentheses css variable syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const { css } = await uno.generate([
+      'text-(--primary)',
+      'bg-(--brand-color)',
+      'w-(--sidebar-width)',
+      'text-(--primary)/50',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      @property --un-bg-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .text-\\(--primary\\){color:color-mix(in oklab, var(--primary) var(--un-text-opacity), transparent);}
+      .text-\\(--primary\\)\\/50{color:color-mix(in oklab, var(--primary) 50%, transparent);}
+      .bg-\\(--brand-color\\){background-color:color-mix(in oklab, var(--brand-color) var(--un-bg-opacity), transparent);}
+      .w-\\(--sidebar-width\\){width:var(--sidebar-width);}"
+    `)
+  })
+
   it('h.bracket new syntax', async () => {
     const uno = await createGenerator({
       presets: [
