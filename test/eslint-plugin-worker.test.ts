@@ -1,10 +1,31 @@
 import { createGenerator } from '@unocss/core'
+import { presetAttributify } from '@unocss/preset-attributify'
 import { presetMini } from '@unocss/preset-mini'
 import { presetWind3 } from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { runAsync, setGenerator } from '../packages-integrations/eslint-plugin/src/worker'
 
 describe('worker', () => {
+  it('uses the default attributify prefix when the preset is absent', async () => {
+    setGenerator(await createGenerator())
+
+    expect(await runAsync(undefined, 'attributify-prefix')).toBe('un-')
+  })
+
+  it.each([undefined, 'uno-', ''])('reads the attributify prefix %s from resolved presets', async (prefix) => {
+    const uno = await createGenerator({
+      presets: [
+        async () => ({
+          name: 'nested',
+          presets: [presetAttributify({ prefix })],
+        }),
+      ],
+    })
+    setGenerator(uno)
+
+    expect(await runAsync(undefined, 'attributify-prefix')).toBe(prefix ?? 'un-')
+  })
+
   it('blocklist', async () => {
     const uno = await createGenerator({
       presets: [

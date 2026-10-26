@@ -28,6 +28,16 @@ run({
         <div class="m-class f-class"></div>
       </template>
     `,
+    html`
+      <template>
+        <div un-before="m1 mx1 mr-1"></div>
+      </template>
+    `,
+    html`
+      <template>
+        <div title="mx1 m1 mr-1"></div>
+      </template>
+    `,
   ],
   invalid: [
     {
@@ -45,6 +55,103 @@ run({
         {
           messageId: 'invalid-order',
         },
+      ],
+    },
+    {
+      code: html`
+        <template>
+          <div un-before="mx1 m1 mr-1"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div un-before="m1 mx1 mr-1"></div>
+        </template>"
+      `),
+      errors: [
+        {
+          messageId: 'invalid-order',
+        },
+      ],
+    },
+  ],
+})
+
+run({
+  name: 'order-attributify-prefix',
+  rule,
+  languageOptions: {
+    parser: vueParser,
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('../../../../test/fixtures/eslint-plugin/uno-attributify.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    html`
+      <template>
+        <div un-before="mx1 m1 mr-1" title="mx1 m1 mr-1"></div>
+      </template>
+    `,
+    html`
+      <template>
+        <div uno-before="m1 mx1 mr-1" uno-after :class="classes"></div>
+      </template>
+    `,
+  ],
+  invalid: [
+    {
+      code: html`
+        <template>
+          <div uno-before="mx1 m1 mr-1" uno-after="mx1 m1 mr-1"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div uno-before="m1 mx1 mr-1" uno-after="m1 mx1 mr-1"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+  ],
+})
+
+run({
+  name: 'order-attributify-empty-prefix',
+  rule,
+  languageOptions: {
+    parser: vueParser,
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('../../../../test/fixtures/eslint-plugin/uno-attributify-empty-prefix.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    html`
+      <template>
+        <div title="mx1 m1 mr-1" before="mx1 m1 mr-1" un-before="mx1 m1 mr-1"></div>
+      </template>
+    `,
+  ],
+  invalid: [
+    {
+      code: html`
+        <template>
+          <div class="mx1 m1 mr-1" title="mx1 m1 mr-1"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div class="m1 mx1 mr-1" title="mx1 m1 mr-1"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
       ],
     },
   ],

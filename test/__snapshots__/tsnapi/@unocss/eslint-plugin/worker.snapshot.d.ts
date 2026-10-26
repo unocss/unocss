@@ -4,8 +4,10 @@
 // #region Functions
 export declare function getGenerator(_?: string, _?: string): Promise<UnoGenerator<any>>;
 export declare function run(_: string | undefined, _: 'sort', _: string, _?: string): string;
+export declare function run(_: string | undefined, _: 'attributify-prefix', _?: string): string;
 export declare function run(_: string | undefined, _: 'blocklist', _: string, _?: string): [string, BlocklistMeta | undefined][];
 export declare function runAsync(_: string | undefined, _: 'sort', _: string, _?: string): Promise<string>;
+export declare function runAsync(_: string | undefined, _: 'attributify-prefix', _?: string): Promise<string>;
 export declare function runAsync(_: string | undefined, _: 'blocklist', _: string, _?: string): Promise<[string, BlocklistMeta | undefined][]>;
 export declare function setGenerator(_: Awaited<UnoGenerator<any>>, _?: string | undefined): void;
 // #endregion

@@ -40,7 +40,11 @@ export default createRule({
     ],
   },
   create(context) {
-    let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'] } = context.options[0] || {}
+    let {
+      unoFunctions = ['clsx', 'classnames'],
+      unoVariables = ['^cls', 'classNames?$'],
+    } = context.options[0] || {}
+    let attributifyPrefix: string | undefined
 
     unoFunctions = unoFunctions.map(name => name.toLowerCase())
     function isUnoFunction(name: string) {
@@ -333,10 +337,22 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
-        if (node.key.name === 'class') {
-          if (node.value.type === 'VLiteral')
-            checkLiteral(node.value)
-        }
+        if (node.value?.type !== 'VLiteral')
+          return
+
+        const name = node.key.name
+        if (name === 'class')
+          return checkLiteral(node.value)
+        if (typeof name !== 'string')
+          return
+
+        attributifyPrefix ??= syncAction(
+          context.settings.unocss?.configPath,
+          'attributify-prefix',
+          context.filename,
+        )
+        if (attributifyPrefix && name.startsWith(attributifyPrefix))
+          checkLiteral(node.value)
       },
     }
 
