@@ -1834,6 +1834,8 @@ importers:
 
   test/fixtures/vite-environments-isolated: {}
 
+  test/fixtures/vite-inline: {}
+
   test/fixtures/vite-legacy: {}
 
   test/fixtures/vite-legacy-chunks:
