@@ -13,7 +13,7 @@ const entry = resolve(root, 'inline-entry.js')
 const inlineImport = 'import css from "virtual:uno.css?inline"'
 const normalImport = 'import "virtual:uno.css"'
 
-async function buildInline(imports: string[], uno: VitePluginConfig = {}, css?: InlineConfig['css'], entryFile = entry) {
+async function buildInline(imports: string[], uno: VitePluginConfig = {}, css?: InlineConfig['css'], entryFile = entry, config: Pick<InlineConfig, 'build' | 'plugins'> = {}) {
   const result = await build({
     root,
     configFile: false,
@@ -22,6 +22,7 @@ async function buildInline(imports: string[], uno: VitePluginConfig = {}, css?: 
     base: '/inline-test/',
     css,
     plugins: [
+      ...config.plugins || [],
       {
         name: 'test:inline-entry',
         resolveId(id) {
@@ -52,6 +53,7 @@ async function buildInline(imports: string[], uno: VitePluginConfig = {}, css?: 
         preserveEntrySignatures: 'strict',
         output: { format: 'es' },
       },
+      ...config.build,
     },
   }) as Rollup.RollupOutput
 
@@ -82,6 +84,43 @@ function declarations(css: string, selector: string, property: string) {
 }
 
 describe('vite inline CSS', () => {
+  it.each([
+    { normal: false, placeholderOnly: false },
+    { normal: true, placeholderOnly: false },
+    { normal: false, placeholderOnly: true },
+  ])('applies CSS minification and browser targets (normal: $normal, placeholder only: $placeholderOnly)', async ({ normal, placeholderOnly }) => {
+    const result = await buildInline(normal ? [normalImport, inlineImport] : [inlineImport], {
+      rules: [['test-rule', { 'user-select': 'none' }]],
+      preflights: [{ getCSS: () => '.preflight { color: rgb(255, 0, 0); }' }],
+    }, undefined, entry, {
+      build: { cssMinify: true, cssTarget: 'safari12' },
+      plugins: placeholderOnly
+        ? [{
+            name: 'test:placeholder-only',
+            renderChunk: {
+              order: 'pre',
+              handler(code, chunk) {
+                expect(code).toContain('#--unocss--')
+                const ids = Object.keys(chunk.modules).filter(id => id.includes('__uno'))
+                expect(ids.length).toBeGreaterThan(0)
+                for (const id of ids)
+                  delete chunk.modules[id]
+              },
+            },
+          }]
+        : [],
+    })
+
+    expect(declarations(result.inline, '.test-rule', '-webkit-user-select')).toEqual(['none'])
+    expect(declarations(result.inline, '.test-rule', 'user-select')).toEqual(['none'])
+    expect(result.inline).toContain('.preflight{color:red}')
+    expect(result.stylesheets).toHaveLength(normal ? 1 : 0)
+    if (normal) {
+      expect(declarations(result.css, '.test-rule', '-webkit-user-select')).toEqual(['none'])
+      expect(result.inline).toBe(result.css.trim())
+    }
+  })
+
   it('supports importer paths containing apostrophes', async () => {
     const result = await buildInline([inlineImport], {}, {
       postcss: { plugins: [{ postcssPlugin: 'test:parse' }] },
@@ -113,30 +152,40 @@ describe('vite inline CSS', () => {
     expect(declarations(result.css, '.test-rule', 'color')).toEqual(['red'])
   })
 
-  it.each([false, true])('runs inline CSS through PostCSS (normal import: %s)', async (normal) => {
+  it.each([
+    { normal: false, cssMinify: false },
+    { normal: true, cssMinify: false },
+    { normal: false, cssMinify: true },
+    { normal: true, cssMinify: true },
+  ])('runs inline CSS through PostCSS (normal import: $normal, minify: $cssMinify)', async ({ normal, cssMinify }) => {
     const result = await buildInline(normal ? [inlineImport, normalImport] : [inlineImport], {}, {
       postcss: {
         plugins: [{
-          postcssPlugin: 'test:red-to-blue',
+          postcssPlugin: 'test:red-to-green',
           Declaration(decl) {
             if (decl.prop === 'color' && decl.value === 'red')
-              decl.value = 'blue'
+              decl.value = 'green'
           },
         }],
       },
-    })
+    }, entry, { build: { cssMinify } })
 
-    expect(declarations(result.inline, '.test-rule', 'color')).toEqual(['blue'])
+    expect(declarations(result.inline, '.test-rule', 'color')).toEqual(['green'])
     expect(result.stylesheets).toHaveLength(normal ? 1 : 0)
     if (normal)
-      expect(declarations(result.css, '.test-rule', 'color')).toEqual(['blue'])
+      expect(declarations(result.css, '.test-rule', 'color')).toEqual(['green'])
   })
 
-  it.each([false, true])('resolves and emits inline CSS assets (normal import: %s)', async (normal) => {
+  it.each([
+    { normal: false, cssMinify: false },
+    { normal: true, cssMinify: false },
+    { normal: false, cssMinify: true },
+    { normal: true, cssMinify: true },
+  ])('resolves and emits inline CSS assets (normal import: $normal, minify: $cssMinify)', async ({ normal, cssMinify }) => {
     const result = await buildInline(normal ? [inlineImport, normalImport] : [inlineImport], {
       rules: [['test-image', { 'background-image': 'url(./uno.svg)' }]],
       safelist: ['test-image'],
-    })
+    }, undefined, entry, { build: { cssMinify } })
 
     const images = result.assets.filter(asset => asset.fileName.endsWith('.svg'))
     expect(images).toHaveLength(1)

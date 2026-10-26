@@ -220,42 +220,43 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
           })))
 
+          const cssPost = cssPostPlugins.get(options.dir)
+          if (!cssPost)
+            this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
+          const cssPostTransformHandler = cssPost?.transform && ('handler' in cssPost.transform
+            ? cssPost.transform.handler
+            : cssPost.transform)
           const processedCss = new Map<string, string>()
           const getCss = async (id: string, layer: string) => {
             if (!processedCss.has(id)) {
               const layerContent = layer === LAYER_MARK_ALL
                 ? result.getLayers(undefined, [LAYER_IMPORTS, ...vfsLayers.keys()])
                 : result.getLayer(layer) || ''
-              processedCss.set(id, await applyCssTransform(
+              let css = await applyCssTransform(
                 layerContent,
                 id,
                 options.dir,
                 // CSS asset emission needs the resolve hook's FileEmitter.
                 resolveContexts.get(id) || this,
-              ))
+              )
+              if (cssPostTransformHandler) {
+                const transformed = await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, id)
+                if (/[?&]inline\b/.test(id)) {
+                  const code = typeof transformed === 'string' ? transformed : transformed?.code?.toString()
+                  const exported = code && this.parse(code).body.find(node => node.type === 'ExportDefaultDeclaration')
+                  if (!exported || exported.declaration.type !== 'Literal' || typeof exported.declaration.value !== 'string')
+                    this.error('[unocss] vite:css-post did not return an inline CSS string')
+                  css = exported.declaration.value
+                }
+              }
+              processedCss.set(id, css)
             }
             return processedCss.get(id)!
           }
 
-          if (entryModules.length) {
-            const cssPost = cssPostPlugins.get(options.dir)
-            if (!cssPost) {
-              this.warn('[unocss] failed to find vite:css-post plugin. It might be an internal bug of UnoCSS')
-            }
-            else {
-              const cssPostTransformHandler = 'handler' in cssPost.transform!
-                ? cssPost.transform.handler
-                : cssPost.transform!
-
-              for (const mod of entryModules) {
-                const layer = RESOLVED_ID_RE.exec(getPath(mod))?.[1] || LAYER_MARK_ALL
-
-                const css = await getCss(mod, layer)
-
-                // Fool the vite:css-post plugin to replace the CSS content
-                await cssPostTransformHandler.call(this as Rollup.TransformPluginContext, css, mod)
-              }
-            }
+          for (const mod of entryModules) {
+            const layer = RESOLVED_ID_RE.exec(getPath(mod))?.[1] || LAYER_MARK_ALL
+            await getCss(mod, layer)
           }
 
           if (!hasLayerPlaceholder)
