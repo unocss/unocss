@@ -1,5 +1,5 @@
 import Vue from '@vitejs/plugin-vue'
-import SimpleGit from 'simple-git'
+import { simpleGit } from 'simple-git'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -8,7 +8,7 @@ import Inspect from 'vite-plugin-inspect'
 import { alias } from '../alias'
 import { importMapPlugin } from './vite-plugin-import-map'
 
-const git = SimpleGit()
+const git = simpleGit()
 
 const SHA = await git.revparse(['HEAD'])
 const LASTEST_TAG = (await git.raw(['describe', '--tags', '--abbrev=0'])).trim()

@@ -234,7 +234,7 @@ catalogs:
     '@codemirror/lang-xml':
       specifier: ^6.1.0
       version: 6.1.0
-    '@oxc-parser/binding-wasm32-wasi':
+    '@oxc-parser/binding-wasm32-wasip1':
       specifier: ^0.153.0
       version: 0.153.0
     '@shikijs/markdown-it':
@@ -643,7 +643,7 @@ importers:
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:eslint
-        version: 9.5.1(@typescript-eslint/typescript-estree@8.71.1)(@typescript-eslint/utils@8.71.1)(@unocss/eslint-plugin@66.10.5)(@vue/compiler-sfc@3.5.43)(eslint-plugin-format@2.0.1)(eslint@10.12.0)(supports-color@10.2.2)(svelte-eslint-parser@1.9.0)(typescript@6.0.3)(vitest@5.0.3)
+        version: 9.5.1(@typescript-eslint/typescript-estree@8.71.1)(@typescript-eslint/utils@8.71.1)(@unocss/eslint-plugin@66.11.0)(@vue/compiler-sfc@3.5.43)(eslint-plugin-format@2.0.1)(eslint@10.12.0)(supports-color@10.2.2)(svelte-eslint-parser@1.9.0)(typescript@6.0.3)(vitest@5.0.3)
       '@antfu/ni':
         specifier: catalog:utils
         version: 30.6.0
@@ -695,7 +695,7 @@ importers:
       '@iconify-json/uim':
         specifier: catalog:icons
         version: 1.2.3
-      '@oxc-parser/binding-wasm32-wasi':
+      '@oxc-parser/binding-wasm32-wasip1':
         specifier: catalog:docs
         version: 0.153.0
       '@shikijs/vitepress-twoslash':
@@ -1211,9 +1211,6 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-      '@unocss/language-server':
-        specifier: workspace:*
-        version: link:../language-server
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../../packages-presets/rule-utils
@@ -4329,8 +4326,8 @@ packages:
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxc-parser/binding-wasm32-wasi@0.153.0':
-    resolution: {integrity: sha512-7elVTIUjz/IIHjYqFP9UmxEaEcOp9GWBSxih4Wlc8nSgGFh/RByqU8Z0cf/XYsOysoOwuYH7JEIZZkJcHQcvrA==}
+  '@oxc-parser/binding-wasm32-wasip1@0.153.0':
+    resolution: {integrity: sha512-drOABa4GV/ewLkhYVQY+yxdViPrP6fsgoEtzox2h7zS3cJlDpyyPUSFvMP6g3LGLnNEVHqAFH0z6jxIK4QlpBA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
 
   '@oxc-parser/binding-win32-arm64-msvc@0.147.0':
@@ -5697,17 +5694,17 @@ packages:
       webpack:
         optional: true
 
-  '@unocss/config@66.10.5':
-    resolution: {integrity: sha512-ddmmmsJ+Vjg9oS4c5ElP8vR1oftID9dqG0yASDWLsLNY4uKo295EuCQXIBVbkyRnBZcdjpnOUfo71iwElaCeyA==}
+  '@unocss/config@66.11.0':
+    resolution: {integrity: sha512-ohpkpfN4GAY7itfDJmeKH+KFbAUoKOVRa3ChJLvUgMPFcpnwjxhDB0ePREqTe60K6kL6AblrcfSW2Vs46z9bGQ==}
 
-  '@unocss/core@66.10.5':
-    resolution: {integrity: sha512-fukv4bL32z/kWIiKgDy5ih452Jzf7S76p8RnP4N+3utqMFeqWayEApiqRidGv5b6NwPguTsKXaLsy+mbK9aMfA==}
+  '@unocss/core@66.11.0':
+    resolution: {integrity: sha512-eDMgNWF0LnpNQJXiBEofsAbh2EusQjkVDefBC526U5vOqRwMmqNuYs32rvUwYxf4O/ryIEgFJQAvDv+JpwfSKg==}
 
-  '@unocss/eslint-plugin@66.10.5':
-    resolution: {integrity: sha512-+cXycZEs/DXE3+8f2v0wl7ruR3On/ag6Mi2M6ORRTfnSJL1IYPY+hvVO7fV+lDjLW5OMvksYKdUSDHxTDiqjBw==}
+  '@unocss/eslint-plugin@66.11.0':
+    resolution: {integrity: sha512-gEaKAGqnpWIfhllG5dyAJPrHG+nIVisRcTrQOk5NBfj69suSVf/rQcKUv3ePIa250x/ol8ssSiMdzDiHcXAxYA==}
 
-  '@unocss/rule-utils@66.10.5':
-    resolution: {integrity: sha512-ePcz9fJfEVN4VXJgx2bPdGSZ/ujdyUhiJOnMTwIWRxlUdZ2Wgc5aT6zTb9W9AjOB0eWxO2Iyb0HGhA9GGuIY8g==}
+  '@unocss/rule-utils@66.11.0':
+    resolution: {integrity: sha512-QW7B4whiR9x6m7FHEdsDuObFY9lbuoZunVoTvmZZDNSN/GNmdDNzMNmeCSLq1+QeEvz1ac5LnxRXdQzcrQ2MVg==}
 
   '@vercel/nft@1.11.0':
     resolution: {integrity: sha512-m1QFg+U+3yPOnP1xSYJ73UIRxLOXdts1JOhiOiyPYqEsALgrXFFINvgUaD6R6iNvaBFAjHllBCbkfx4FuOdpaA==}
@@ -11426,7 +11423,7 @@ snapshots:
 
   '@andrewbranch/untar.js@1.0.4': {}
 
-  '@antfu/eslint-config@9.5.1(@typescript-eslint/typescript-estree@8.71.1)(@typescript-eslint/utils@8.71.1)(@unocss/eslint-plugin@66.10.5)(@vue/compiler-sfc@3.5.43)(eslint-plugin-format@2.0.1)(eslint@10.12.0)(supports-color@10.2.2)(svelte-eslint-parser@1.9.0)(typescript@6.0.3)(vitest@5.0.3)':
+  '@antfu/eslint-config@9.5.1(@typescript-eslint/typescript-estree@8.71.1)(@typescript-eslint/utils@8.71.1)(@unocss/eslint-plugin@66.11.0)(@vue/compiler-sfc@3.5.43)(eslint-plugin-format@2.0.1)(eslint@10.12.0)(supports-color@10.2.2)(svelte-eslint-parser@1.9.0)(typescript@6.0.3)(vitest@5.0.3)':
     dependencies:
       '@antfu/install-pkg': 2.1.0
       '@clack/prompts': 1.8.1
@@ -11466,7 +11463,7 @@ snapshots:
       vue-eslint-parser: 10.4.1(eslint@10.12.0)(supports-color@10.2.2)
       yaml-eslint-parser: 2.1.0
     optionalDependencies:
-      '@unocss/eslint-plugin': 66.10.5(eslint@10.12.0)(supports-color@10.2.2)(typescript@6.0.3)
+      '@unocss/eslint-plugin': 66.11.0(eslint@10.12.0)(supports-color@10.2.2)(typescript@6.0.3)
       eslint-plugin-format: 2.0.1(eslint@10.12.0)
       svelte-eslint-parser: 1.9.0(svelte@5.57.2)
     transitivePeerDependencies:
@@ -14109,7 +14106,7 @@ snapshots:
   '@oxc-parser/binding-openharmony-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-wasm32-wasi@0.153.0':
+  '@oxc-parser/binding-wasm32-wasip1@0.153.0':
     dependencies:
       '@emnapi/core': 2.0.0-alpha.3
       '@emnapi/runtime': 2.0.0-alpha.3
@@ -15159,34 +15156,34 @@ snapshots:
       - rollup
       - unloader
 
-  '@unocss/config@66.10.5':
+  '@unocss/config@66.11.0':
     dependencies:
-      '@unocss/core': 66.10.5
+      '@unocss/core': 66.11.0
       colorette: 2.0.20
       consola: 3.4.2
       unconfig: 7.5.0
     optional: true
 
-  '@unocss/core@66.10.5':
+  '@unocss/core@66.11.0':
     optional: true
 
-  '@unocss/eslint-plugin@66.10.5(eslint@10.12.0)(supports-color@10.2.2)(typescript@6.0.3)':
+  '@unocss/eslint-plugin@66.11.0(eslint@10.12.0)(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/utils': 8.71.1(eslint@10.12.0)(supports-color@10.2.2)(typescript@6.0.3)
-      '@unocss/config': 66.10.5
-      '@unocss/core': 66.10.5
-      '@unocss/rule-utils': 66.10.5
+      '@unocss/config': 66.11.0
+      '@unocss/core': 66.11.0
+      '@unocss/rule-utils': 66.11.0
       magic-string: 1.4.3
-      synckit: 0.11.13
+      synckit: 0.12.3
     transitivePeerDependencies:
       - eslint
       - supports-color
       - typescript
     optional: true
 
-  '@unocss/rule-utils@66.10.5':
+  '@unocss/rule-utils@66.11.0':
     dependencies:
-      '@unocss/core': 66.10.5
+      '@unocss/core': 66.11.0
       magic-string: 1.4.3
     optional: true
 
