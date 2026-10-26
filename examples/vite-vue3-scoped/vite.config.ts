@@ -7,7 +7,12 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     Vue(),
-    UnoCSS({ mode: 'vue-scoped' }),
+    UnoCSS({
+      mode: 'vue-scoped',
+      vueScoped: {
+        styleOrder: 'after',
+      },
+    }),
     // legacy(),
   ],
 })

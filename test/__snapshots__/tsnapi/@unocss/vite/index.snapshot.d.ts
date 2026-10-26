@@ -9,11 +9,15 @@ export interface UnocssVitePluginAPI {
 export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
   inspector?: boolean;
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom';
+  vueScoped?: VueScopedOptions;
   transformCSS?: boolean | 'pre' | 'post';
   postcss?: boolean;
   hmrTopLevelAwait?: boolean;
   fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin';
   checkImport?: boolean;
+}
+export interface VueScopedOptions {
+  styleOrder?: 'before' | 'after';
 }
 // #endregion
 
