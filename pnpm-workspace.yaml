@@ -171,7 +171,7 @@ catalogs:
     p-limit: ^7.3.3
     pathe: ^2.0.3
     perfect-debounce: ^2.1.0
-    pnpm: 12.11.2
+    pnpm: 12.15.0
     premove: ^4.0.0
     prettier: ^3.9.10
     publint: ^0.3.25
