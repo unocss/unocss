@@ -28,9 +28,6 @@ export default createRule({
             type: 'array',
             items: { type: 'string' },
           },
-          attributifyPrefix: {
-            type: 'string',
-          },
         },
         additionalProperties: false,
       },
@@ -39,12 +36,15 @@ export default createRule({
       {
         unoFunctions: ['clsx', 'classnames'],
         unoVariables: ['^cls', 'classNames?$'], // for example `clsButton = ''` or `buttonClassNames = {}`
-        attributifyPrefix: 'un-',
       },
     ],
   },
   create(context) {
-    let { unoFunctions = ['clsx', 'classnames'], unoVariables = ['^cls', 'classNames?$'], attributifyPrefix = 'un-' } = context.options[0] || {}
+    let {
+      unoFunctions = ['clsx', 'classnames'],
+      unoVariables = ['^cls', 'classNames?$'],
+    } = context.options[0] || {}
+    let attributifyPrefix: string | undefined
 
     unoFunctions = unoFunctions.map(name => name.toLowerCase())
     function isUnoFunction(name: string) {
@@ -314,11 +314,22 @@ export default createRule({
 
     const templateBodyVisitor: RuleListener = {
       VAttribute(node: any) {
+        if (node.value?.type !== 'VLiteral')
+          return
+
         const name = node.key.name
-        if (name === 'class' || (typeof name === 'string' && name.startsWith(attributifyPrefix))) {
-          if (node.value?.type === 'VLiteral')
-            checkLiteral(node.value)
-        }
+        if (name === 'class')
+          return checkLiteral(node.value)
+        if (typeof name !== 'string')
+          return
+
+        attributifyPrefix ??= syncAction(
+          context.settings.unocss?.configPath,
+          'attributify-prefix',
+          context.filename,
+        )
+        if (attributifyPrefix && name.startsWith(attributifyPrefix))
+          checkLiteral(node.value)
       },
     }
 

@@ -76,6 +76,12 @@ async function actionSort(configPath: string | undefined, classes: string, id?: 
   return await sortRules(classes, await getGenerator(configPath, id))
 }
 
+async function actionAttributifyPrefix(configPath: string | undefined, id?: string): Promise<string> {
+  const uno = await getGenerator(configPath, id)
+  const preset = uno.config.presets.find(p => p.name === '@unocss/preset-attributify')
+  return preset?.options?.prefix ?? 'un-'
+}
+
 async function actionBlocklist(configPath: string | undefined, classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]> {
   const uno = await getGenerator(configPath, id)
   const blocked = new Map<string, BlocklistMeta | undefined>()
@@ -118,12 +124,15 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
 }
 
 export function runAsync(configPath: string | undefined, action: 'sort', classes: string, id?: string): Promise<string>
+export function runAsync(configPath: string | undefined, action: 'attributify-prefix', id?: string): Promise<string>
 export function runAsync(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]>
 export async function runAsync(configPath: string | undefined, action: string, ...args: any[]): Promise<any> {
   switch (action) {
     case 'sort':
       // @ts-expect-error cast
       return actionSort(configPath, ...args)
+    case 'attributify-prefix':
+      return actionAttributifyPrefix(configPath, ...args)
     case 'blocklist':
       // @ts-expect-error cast
       return actionBlocklist(configPath, ...args)
@@ -131,6 +140,7 @@ export async function runAsync(configPath: string | undefined, action: string, .
 }
 
 export function run(configPath: string | undefined, action: 'sort', classes: string, id?: string): string
+export function run(configPath: string | undefined, action: 'attributify-prefix', id?: string): string
 export function run(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(configPath: string | undefined, action: string, ...args: any[]): any {
   // @ts-expect-error cast

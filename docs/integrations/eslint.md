@@ -64,7 +64,7 @@ Available rules:
 - `blocklist` - Disallow specific class selectors [Optional].
 - `enforce-class-compile` - Enforce class compile [Optional].
 
-`order-attributify` orders attributify attributes themselves. The utilities inside the value of prefixed attributes, such as `un-before="text-center font-sans color-gray"`, are sorted by `order`. Other attributify values are not sorted yet.
+`order-attributify` orders attributify attributes themselves. The utilities inside the value of prefixed attributes, such as `un-before="text-center font-sans color-gray"`, are sorted by `order`. The prefix is read from the `prefix` option of `presetAttributify` in your UnoCSS configuration, defaulting to `un-`. An empty prefix disables sorting of attribute values other than `class`. Other attributify values are not sorted yet.
 
 ### Rule options
 
@@ -72,7 +72,6 @@ Available rules:
 
 - `unoFunctions` (string[]) - mark function calls of matched names to enforce this rule. These are plain names, not patterns, case insensitive. Default: `['clsx', 'classnames']`.
 - `unoVariables` (string[]) - mark variable declarations of matched names to enforce this rule. These are regex patterns with flags `i`. Default: `['^cls', 'classNames?$']`. for example will match variable names `clsButton` and `buttonClassNames`.
-- `attributifyPrefix` (string) - prefix of the attributify attributes whose values are sorted. It should match the `prefix` option of `presetAttributify`. Default: `'un-'`.
 
 ### Optional rules
 
