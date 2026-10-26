@@ -4,23 +4,24 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start"
   },
   "dependencies": {
-    "next": "16.1.2",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "next": "^16.3.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.142",
+    "@iconify-json/logos": "^1.2.4",
     "@types/node": "^25.9.9",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@unocss/postcss": "latest",
-    "eslint": "^10.12.0",
-    "eslint-config-next": "16.1.2",
+    "@unocss/next": "link:../../packages-integrations/next",
     "typescript": "^6.0.3",
-    "unocss": "latest"
+    "unocss": "link:../../packages-presets/unocss"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
   }
 }

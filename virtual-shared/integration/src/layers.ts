@@ -1,4 +1,4 @@
-import type { UnocssPluginContext } from '@unocss/core'
+import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
 import { resolve } from 'pathe'
 import { LAYER_MARK_ALL, VIRTUAL_ENTRY_ALIAS } from './constants'
 
@@ -31,6 +31,44 @@ export async function resolveLayer(ctx: UnocssPluginContext, id: string) {
   if (match) {
     return match[1] || LAYER_MARK_ALL
   }
+}
+
+export function getDirectiveLayers(
+  result: GenerateResult,
+  params: string | undefined,
+  emitted: string[],
+): string {
+  if (!params) {
+    return result.getLayers(undefined, emitted)
+  }
+
+  const includes: string[] = []
+  const excludes: string[] = []
+
+  for (const raw of params.split(',')) {
+    const name = raw.trim()
+    if (!name)
+      continue
+
+    if (name.startsWith('!')) {
+      if (name.length > 1) {
+        excludes.push(name.slice(1))
+      }
+    }
+    else {
+      includes.push(name)
+    }
+  }
+
+  if (!includes.length && !excludes.length) {
+    // invalid syntax
+    return ''
+  }
+
+  const layers = ((!includes.length || includes.includes('all')) ? result.layers : includes).filter(name => !excludes.includes(name))
+  emitted.push(...layers)
+
+  return layers.map(name => result.getLayer(name)).filter(Boolean).join('\n')
 }
 
 /**
