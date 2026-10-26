@@ -1,7 +1,59 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeValueHandlerKeys } from './api-snapshot-utils'
+import { normalizeRuntimeChunkHashes, normalizeValueHandlerKeys } from './api-snapshot-utils'
 
 const canonicalKeys = '"auto" | "bracket" | "bracketOfColor" | "bracketOfLength" | "bracketOfPosition" | "cssvar" | "degree" | "fraction" | "global" | "number" | "numberWithUnit" | "percent" | "position" | "properties" | "px" | "rem" | "time"'
+
+describe('normalizeRuntimeChunkHashes', () => {
+  it.each([
+    ['CFK9WC_B', 'DrAY5B7v'],
+    ['CzKmRlKa', 'CaSPAImY'],
+    ['K9rl2fgR', 'BGKI-Ine'],
+  ])('ignores chunk hash changes from %s to %s', (before, after) => {
+    const reExport = (hash: string) => `export { t as colors } from "./colors-${hash}.mjs";`
+    const expected = 'export { t as colors } from "./colors-[hash].mjs";'
+
+    expect(normalizeRuntimeChunkHashes(reExport(before))).toBe(expected)
+    expect(normalizeRuntimeChunkHashes(reExport(after))).toBe(expected)
+  })
+
+  it.each([
+    ['export * from "../chunks/shared-CFK9WC_B.js";', 'export * from "../chunks/shared-[hash].js";'],
+    ['export * as utils from \'./utils-BGKI-Ine.cjs\'', 'export * as utils from \'./utils-[hash].cjs\''],
+  ])('normalizes relative re-export sources: %s', (source, expected) => {
+    expect(normalizeRuntimeChunkHashes(source)).toBe(expected)
+  })
+
+  it('keeps changes to exports and chunk names detectable', () => {
+    const original = normalizeRuntimeChunkHashes('export { t as colors, n as theme } from "./colors-CFK9WC_B.mjs";')
+    const changed = [
+      'export { t as colors } from "./colors-DrAY5B7v.mjs";',
+      'export { t as palette, n as theme } from "./colors-DrAY5B7v.mjs";',
+      'export { t as colors, n as theme, r as rules } from "./colors-DrAY5B7v.mjs";',
+      'export { t as colors, n as theme } from "./theme-DrAY5B7v.mjs";',
+    ]
+
+    for (const source of changed)
+      expect(normalizeRuntimeChunkHashes(source)).not.toBe(original)
+  })
+
+  it.each([
+    'export * from "@unocss/rule-utils";',
+    'export * from "some-package/colors-CFK9WC_B.mjs";',
+    'export * from "https://example.com/colors-CFK9WC_B.mjs";',
+    'export { t as colors } from "./colors.mjs";',
+    'export { t as colors } from "./colors-CFK9WC_B.d.mts";',
+    'export { t as colors } from "./colors-short.mjs";',
+    'export const example = \'export { t as colors } from "./colors-CFK9WC_B.mjs";\';',
+  ])('leaves unrelated text unchanged: %s', (source) => {
+    expect(normalizeRuntimeChunkHashes(source)).toBe(source)
+  })
+
+  it('only rewrites the source, preserving quoted export names', () => {
+    const source = 'export { t as "./colors-CFK9WC_B.mjs" } from "./utils-BGKI-Ine.mjs";'
+
+    expect(normalizeRuntimeChunkHashes(source)).toBe('export { t as "./colors-CFK9WC_B.mjs" } from "./utils-[hash].mjs";')
+  })
+})
 
 describe('normalizeValueHandlerKeys', () => {
   it('normalizes the macOS and Windows CI orders identically', () => {

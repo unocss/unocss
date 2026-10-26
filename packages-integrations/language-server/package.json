@@ -59,7 +59,7 @@
     "@jridgewell/sourcemap-codec": "1.6.0",
     "destr": "2.0.5",
     "import-meta-resolve": "4.2.0",
-    "magic-string": "1.4.3",
+    "magic-string": "1.4.4",
     "node-fetch-native": "1.6.7",
     "ofetch": "1.5.1",
     "package-manager-detector": "1.8.0",
