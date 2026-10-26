@@ -86,6 +86,12 @@ describe.concurrent('fixtures', () => {
     expect(aCss).not.contains('.c-red')
     expect(bCss).contains('.c-red')
     expect(bCss).not.contains('.text-red')
+
+    // `import 'uno.css'` (needed in dev) resolves on build without emitting an extra stylesheet, #3986
+    expect(aHtml.match(/rel="stylesheet"/g)).toHaveLength(1)
+    // classes from the html are injected into <head>, not after </html>
+    expect(aHtml).toMatch(/<head>[\s\S]*<style>[\s\S]*\.font-bold[\s\S]*<\/style>[\s\S]*<\/head>/)
+    expect(aHtml.trimEnd()).toMatch(/<\/html>$/)
   })
 
   // this test relies on old Astro version which requires old Vite version
