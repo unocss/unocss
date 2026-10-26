@@ -325,6 +325,54 @@ describe('preset-wind4', () => {
     `)
   })
 
+  // https://github.com/unocss/unocss/issues/5370
+  // Arbitrary var() values are complete colors and must not be wrapped in
+  // color-mix(). This matches preset-mini/preset-wind3 and Tailwind v4, where
+  // bg-[var(--x)] emits background-color: var(--x).
+  it('arbitrary css variables are not wrapped in color-mix', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'bg-[var(--h-btn-bg,color-mix(in_oklab,var(--h-info)_100%,transparent))]',
+      'bg-[var(--some-var)]',
+      'text-[var(--some-var)]',
+      'bg-[var(--some-var)]/50',
+    ].join(' '), { preflights: false })
+
+    expect(css).toContain('background-color:var(--h-btn-bg,color-mix(in oklab,var(--h-info) 100%,transparent));')
+    expect(css).toContain('background-color:var(--some-var);')
+    expect(css).toContain('color:var(--some-var);')
+    expect(css).not.toContain('color-mix(in oklab, var(--h-btn-bg')
+    // an opacity modifier still has to use color-mix()
+    expect(css).toContain('background-color:color-mix(in oklab, var(--some-var) 50%, transparent)')
+  })
+
+  // Passing a var() through must not drop the on-demand theme dependency,
+  // otherwise the utility references --colors-* while nothing defines it.
+  it('keeps the theme dependency for arbitrary css variable colors', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [presetWind4()],
+      theme: {
+        colors: {
+          brand: { 500: '#123456' },
+        },
+      },
+    })
+
+    const { css } = await uno.generate('bg-[var(--colors-brand-500)] bg-$colors-brand-500', { preflights: true })
+
+    expect(css).toContain('--colors-brand-500: #123456;')
+    expect(css).toContain('background-color:var(--colors-brand-500);')
+  })
+
   it('unit resolve rem to px', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
@@ -974,6 +1022,34 @@ describe('important', () => {
     `)
   })
 
+  it('tailwind v4 parentheses css variable syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const { css } = await uno.generate([
+      'text-(--primary)',
+      'bg-(--brand-color)',
+      'w-(--sidebar-width)',
+      'text-(--primary)/50',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .text-\\(--primary\\){color:var(--primary);}
+      .text-\\(--primary\\)\\/50{color:color-mix(in oklab, var(--primary) 50%, transparent);}
+      .bg-\\(--brand-color\\){background-color:var(--brand-color);}
+      .w-\\(--sidebar-width\\){width:var(--sidebar-width);}"
+    `)
+  })
+
   it('h.bracket new syntax', async () => {
     const uno = await createGenerator({
       presets: [
@@ -999,8 +1075,8 @@ describe('important', () => {
 
     expect(getLayer('default')).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
-      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:var(--colors-blue-DEFAULT, #000);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:var(--colors-red-200, #fff);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}

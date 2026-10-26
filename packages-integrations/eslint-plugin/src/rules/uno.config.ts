@@ -1,11 +1,11 @@
 // This file is for testing
 
 // eslint-disable-next-line no-restricted-imports
-import { defineConfig, presetUno } from 'unocss'
+import { defineConfig, presetWind3 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUno(),
+    presetWind3(),
   ],
   blocklist: [
     'border',

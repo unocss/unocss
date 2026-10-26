@@ -181,6 +181,10 @@ function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: str
 }
 
 function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
+  // Tailwind v4 shorthand: `(--foo)` is an alias of `[--foo]`
+  if (str && /^\(--[^()]+\)$/.test(str))
+    str = `[${str.slice(1, -1)}]`
+
   if (str && str.startsWith('[') && str.endsWith(']')) {
     let base: string | undefined
     let hintedType: string | undefined

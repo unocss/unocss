@@ -1,5 +1,8 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
+import { resolveId } from '#integration/layers'
+
+const EMPTY_ENTRY_ID = '\0unocss:chunk-empty-entry'
 
 export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
   const files: Record<string, string> = {}
@@ -8,6 +11,17 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
     name: 'unocss:chunk',
     apply: 'build',
     enforce: 'pre',
+    // `import 'uno.css'` is required in dev (served by the global mode plugin),
+    // but on build the CSS is emitted per chunk, so the entry resolves to an empty JS module
+    // instead of an empty stylesheet (#3986)
+    async resolveId(id, importer) {
+      if (await resolveId(ctx, id, importer))
+        return EMPTY_ENTRY_ID
+    },
+    load(id) {
+      if (id === EMPTY_ENTRY_ID)
+        return `export default ''`
+    },
     async transform(code, id) {
       await ctx.ready
       if (!ctx.filter(code, id))
@@ -45,7 +59,7 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
       const { css } = await ctx.uno.generate(code)
 
       if (css)
-        return `${code}<style>${css}</style>`
+        return [{ tag: 'style', children: css, injectTo: 'head' }]
     },
   }
 }
