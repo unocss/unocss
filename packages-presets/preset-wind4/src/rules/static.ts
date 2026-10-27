@@ -40,11 +40,12 @@ export const contains: Rule<Theme>[] = [
       }
     }
 
-    return containValues.includes(d)
+    const key = d === 'inline-size' ? 'size' : d
+    return containValues.includes(key)
       ? [
           {
-            '--un-contain-size': d,
-            'contain': containValues.map(i => `var(--un-contain-${i})`).join(' '),
+            [`--un-contain-${key}`]: d,
+            contain: containValues.map(i => `var(--un-contain-${i}, )`).join(' '),
           },
           ...containValues.map(i => defineProperty(`--un-contain-${i}`)),
         ]
