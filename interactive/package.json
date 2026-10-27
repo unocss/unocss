@@ -21,6 +21,7 @@
     "@unocss/nuxt": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@vueuse/core": "catalog:vue",
+    "@vueuse/math": "catalog:vue",
     "@vueuse/nuxt": "catalog:vue",
     "fuse.js": "catalog:utils",
     "knitwork": "catalog:utils",
