@@ -137,4 +137,16 @@ describe('runtime dom manipulation', async () => {
     expect(cssOnFirstScan).toContain('.\\[\\&_th\\]\\:sticky th{position:sticky;}')
     expect(cssForLateElement).toBe(cssOnFirstScan)
   })
+
+  it('runtime skips regenerating when only known tokens are extracted again', async () => {
+    const runtime = await initRuntime()
+
+    await runtime?.extract('m-1 my-custom-class')
+    await runtime?.update()
+
+    const generate = vi.spyOn(runtime!.uno, 'generate')
+    await runtime?.extract('m-1 my-custom-class')
+
+    expect(generate).not.toHaveBeenCalled()
+  })
 })
