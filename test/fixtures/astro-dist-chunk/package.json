@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@unocss/astro": "workspace:*",
+    "@unocss/reset": "workspace:*",
     "astro": "4.1.0"
   }
 }

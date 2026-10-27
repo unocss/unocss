@@ -1936,6 +1936,9 @@ importers:
       '@unocss/astro':
         specifier: workspace:*
         version: link:../../../packages-integrations/astro
+      '@unocss/reset':
+        specifier: workspace:*
+        version: link:../../../packages-presets/reset
       astro:
         specifier: 4.1.0
         version: 4.1.0(@types/node@26.6.5)(lightningcss@1.33.0)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)
