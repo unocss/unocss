@@ -51,6 +51,7 @@
     "vscode-languageserver-textdocument": "catalog:vscode"
   },
   "devDependencies": {
+    "unocss": "workspace:*",
     "vscode-languageserver-types": "catalog:vscode"
   },
   "inlinedDependencies": {

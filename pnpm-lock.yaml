@@ -1328,6 +1328,9 @@ importers:
         specifier: catalog:vscode
         version: 1.0.16
     devDependencies:
+      unocss:
+        specifier: workspace:*
+        version: link:../../packages-presets/unocss
       vscode-languageserver-types:
         specifier: catalog:vscode
         version: 3.18.4
