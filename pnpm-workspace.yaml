@@ -27,6 +27,9 @@ packages:
   - test/fixtures/*
 
 overrides:
+  # 1.2.6 assumes the newer @emnapi/core plugin API while
+  # @oxc-parser/binding-wasm32-wasip1 still pins 2.0.0-alpha.3
+  '@napi-rs/wasm-runtime': 1.2.5
   fflate: 0.8.2
   is-arguments: npm:@nolyfill/is-arguments@^1.0.44
   is-core-module: npm:@nolyfill/is-core-module@^1.0.39
