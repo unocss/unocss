@@ -51,6 +51,7 @@
     "vscode-languageserver-textdocument": "catalog:vscode"
   },
   "devDependencies": {
+    "@unocss/preset-wind4": "workspace:*",
     "unocss": "workspace:*",
     "vscode-languageserver-types": "catalog:vscode"
   },

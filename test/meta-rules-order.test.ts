@@ -1,6 +1,6 @@
+import { rules as rulesMini } from '@unocss/preset-mini/rules'
+import { rules as rulesWind } from '@unocss/preset-wind3/rules'
 import { expect, it } from 'vitest'
-import { rules as rulesMini } from '../packages-presets/preset-mini/src/_rules/default'
-import { rules as rulesWind } from '../packages-presets/preset-wind3/src/rules/default'
 
 it('should rules in preset-wind should have same order as preset-mini', () => {
   let lastFoundIndex = -1

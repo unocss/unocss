@@ -1,7 +1,7 @@
 import type { SourceCodeTransformer } from '@unocss/core'
 import { describe, expect, it, vi } from 'vitest'
-import { createContext } from '../src/context'
-import { applyTransformers } from '../src/transformers'
+import { createContext } from '#integration/context'
+import { applyTransformers } from '#integration/transformers'
 
 describe('applyTransformers', () => {
   it('preserves transformer order and source maps', async () => {

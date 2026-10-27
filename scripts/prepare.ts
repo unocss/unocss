@@ -92,31 +92,48 @@ async function updateTsconfig() {
     return path
   }
 
-  // Virtual aliases are shared by the build and the editor.
+  // The root config is used by builds and by package sources, so workspace
+  // packages resolve through their declared dependencies. Only the test
+  // project maps them to source.
   const virtualPaths = Object.fromEntries(
     Object.entries(alias).map(([key, value]) => [key, [toPath(value)]]),
   )
-
-  // `tsconfig.check.json` resolves workspace packages from source, matching the
-  // aliases used by vitest. Subpath imports need a wildcard entry as well.
-  const sourcePaths: Record<string, string[]> = { ...virtualPaths }
+  const testPaths: Record<string, string[]> = { ...virtualPaths }
   for (const [key, value] of Object.entries(aliasSource)) {
     const path = toPath(value)
-    sourcePaths[key] = [path]
+    testPaths[key] = [path]
     if (path.endsWith('/'))
-      sourcePaths[`${key}/*`] = [`${path}*`]
+      testPaths[`${key}/*`] = [`${path}*`]
   }
 
   const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
-  tsconfig.compilerOptions.paths = virtualPaths
+  tsconfig.compilerOptions.paths = Object.fromEntries(
+    Object.entries(virtualPaths).sort(([a], [b]) => a.localeCompare(b)),
+  )
   await writeFile('./tsconfig.json', `${JSON.stringify(tsconfig, null, 2)}\n`, 'utf-8')
 
-  const sortedSourcePaths = Object.fromEntries(
-    Object.entries(sourcePaths).sort(([a], [b]) => a.localeCompare(b)),
-  )
-  await writeFile('./tsconfig.check.json', `${JSON.stringify({
+  await writeFile('./tsconfig.test.json', `${JSON.stringify({
     extends: './tsconfig.json',
-    compilerOptions: { paths: sortedSourcePaths },
+    compilerOptions: {
+      lib: ['esnext', 'dom'],
+      paths: Object.fromEntries(
+        Object.entries(testPaths).sort(([a], [b]) => a.localeCompare(b)),
+      ),
+    },
+    include: [
+      'test/**/*.ts',
+      'packages-*/**/test/**/*.ts',
+      'packages-*/**/src/**/*.test.ts',
+      'virtual-shared/**/test/**/*.ts',
+    ],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/__snapshots__/**',
+      '**/test/dts/**',
+      '**/fixtures/**',
+      'packages-integrations/eslint-plugin/**',
+    ],
   }, null, 2)}\n`, 'utf-8')
 }
 

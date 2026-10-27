@@ -1,6 +1,12 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "target": "es2022",
+    "jsx": "preserve",
+    "lib": [
+      "esnext"
+    ],
+    "module": "esnext",
+    "moduleResolution": "Bundler",
     "paths": {
       "#docs": [
         "./virtual-shared/docs/src/"
@@ -20,11 +26,11 @@
       "#integration/context": [
         "./virtual-shared/integration/src/context.ts"
       ],
-      "#integration/defaults-ide": [
-        "./virtual-shared/integration/src/defaults-ide.ts"
-      ],
       "#integration/defaults": [
         "./virtual-shared/integration/src/defaults.ts"
+      ],
+      "#integration/defaults-ide": [
+        "./virtual-shared/integration/src/defaults-ide.ts"
       ],
       "#integration/env": [
         "./virtual-shared/integration/src/env.ts"
@@ -50,7 +56,19 @@
       "#integration/utils": [
         "./virtual-shared/integration/src/utils.ts"
       ]
-    }
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "vite/client",
+      "vitest/importMeta"
+    ],
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "**/dist/**",
@@ -62,6 +80,9 @@
     "**/interactive/**",
     "**/test/dts/**",
     "**/__snapshots__/tsnapi/**",
-    "packages-integrations/eslint-plugin/**"
+    "packages-integrations/eslint-plugin/**",
+    "test/**",
+    "**/test/**",
+    "**/*.test.ts"
   ]
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createContext } from '../src/context'
+import { createContext } from '#integration/context'
 
 describe('createContext', () => {
   it('resolves pipeline.include patterns against the root and process.cwd()', async () => {

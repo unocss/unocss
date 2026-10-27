@@ -1329,6 +1329,9 @@ importers:
         specifier: catalog:vscode
         version: 1.0.16
     devDependencies:
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       unocss:
         specifier: workspace:*
         version: link:../../packages-presets/unocss
@@ -1794,6 +1797,10 @@ importers:
       magic-string:
         specifier: catalog:utils
         version: 1.4.4
+    devDependencies:
+      '@unocss/preset-icons':
+        specifier: workspace:*
+        version: link:../preset-icons
 
   packages-presets/transformer-variant-group:
     dependencies:

@@ -38,5 +38,7 @@
     "css-tree": "catalog:css",
     "magic-string": "catalog:utils"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@unocss/preset-icons": "workspace:*"
+  }
 }

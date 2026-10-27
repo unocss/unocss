@@ -1,11 +1,9 @@
-import type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../packages-integrations/inspector/types'
+import type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '@unocss/inspector/devframe'
+import { analyzer, createInspectorDevframe, createRpcFunctions } from '@unocss/inspector/devframe'
 import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
-import { analyzer } from '../packages-integrations/inspector/src/analyzer'
-import { createInspectorDevframe } from '../packages-integrations/inspector/src/devframe'
-import { createRpcFunctions } from '../packages-integrations/inspector/src/rpc'
 
 const MODULE_ID = '/root/playground/App.vue'
 const MODULE_CODE = '<div class="text-red m-4 hover:op50">Hello</div>'

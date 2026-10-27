@@ -12,6 +12,8 @@ import { createContext } from '#integration/context'
 import { version } from '../package.json'
 import { createRpcFunctions, INSPECTOR_RPC_SCOPE } from './rpc'
 
+export type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+export { analyzer } from './analyzer'
 export * from './rpc'
 
 const _dirname = typeof __dirname !== 'undefined'

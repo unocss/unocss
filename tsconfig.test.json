@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "paths": {
       "@unocss/astro": [
         "./packages-integrations/astro/src/"
@@ -309,5 +313,19 @@
         "./packages-presets/unocss/src/vite.ts"
       ]
     }
-  }
+  },
+  "include": [
+    "test/**/*.ts",
+    "packages-*/**/test/**/*.ts",
+    "packages-*/**/src/**/*.test.ts",
+    "virtual-shared/**/test/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/__snapshots__/**",
+    "**/test/dts/**",
+    "**/fixtures/**",
+    "packages-integrations/eslint-plugin/**"
+  ]
 }
