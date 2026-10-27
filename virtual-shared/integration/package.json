@@ -8,9 +8,6 @@
     "@unocss/core": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
     "chokidar": "catalog:utils",
-    "magic-string": "catalog:utils",
-    "pathe": "catalog:utils",
-    "tinyglobby": "catalog:utils",
     "unocss": "workspace:*",
     "unplugin-utils": "catalog:utils"
   }

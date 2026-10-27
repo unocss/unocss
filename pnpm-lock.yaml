@@ -2091,9 +2091,6 @@ importers:
       ofetch:
         specifier: catalog:utils
         version: 1.5.1
-      prettier:
-        specifier: catalog:utils
-        version: 3.9.10
       unocss:
         specifier: workspace:*
         version: link:../../packages-presets/unocss
@@ -2118,15 +2115,6 @@ importers:
       chokidar:
         specifier: catalog:utils
         version: 5.0.0
-      magic-string:
-        specifier: catalog:utils
-        version: 1.4.4
-      pathe:
-        specifier: catalog:utils
-        version: 2.0.3
-      tinyglobby:
-        specifier: catalog:utils
-        version: 0.2.17
       unocss:
         specifier: workspace:*
         version: link:../../packages-presets/unocss
