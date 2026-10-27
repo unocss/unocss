@@ -83,18 +83,41 @@ async function preparePackagesBundle() {
 
 async function updateTsconfig() {
   const root = fileURLToPath(new URL('..', import.meta.url))
-  const alias = await import('../alias').then(r => r.alias)
-  const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
-  tsconfig.compilerOptions.paths = Object.fromEntries(
-    Object.entries(alias).flatMap(([k, v]) => {
-      let path = `./${relative(root, v)}`
-      if (!/\.\w+$/.test(path) && !path.endsWith('/'))
-        path = `${path}/`
+  const { alias, aliasSource } = await import('../alias')
 
-      return [[k, [path]]]
-    }),
+  function toPath(value: string) {
+    let path = `./${relative(root, value)}`
+    if (!/\.\w+$/.test(path) && !path.endsWith('/'))
+      path = `${path}/`
+    return path
+  }
+
+  // Virtual aliases are shared by the build and the editor.
+  const virtualPaths = Object.fromEntries(
+    Object.entries(alias).map(([key, value]) => [key, [toPath(value)]]),
   )
+
+  // `tsconfig.check.json` resolves workspace packages from source, matching the
+  // aliases used by vitest. Subpath imports need a wildcard entry as well.
+  const sourcePaths: Record<string, string[]> = { ...virtualPaths }
+  for (const [key, value] of Object.entries(aliasSource)) {
+    const path = toPath(value)
+    sourcePaths[key] = [path]
+    if (path.endsWith('/'))
+      sourcePaths[`${key}/*`] = [`${path}*`]
+  }
+
+  const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
+  tsconfig.compilerOptions.paths = virtualPaths
   await writeFile('./tsconfig.json', `${JSON.stringify(tsconfig, null, 2)}\n`, 'utf-8')
+
+  const sortedSourcePaths = Object.fromEntries(
+    Object.entries(sourcePaths).sort(([a], [b]) => a.localeCompare(b)),
+  )
+  await writeFile('./tsconfig.check.json', `${JSON.stringify({
+    extends: './tsconfig.json',
+    compilerOptions: { paths: sortedSourcePaths },
+  }, null, 2)}\n`, 'utf-8')
 }
 
 async function prepare() {

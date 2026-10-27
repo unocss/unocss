@@ -1,0 +1,313 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@unocss/astro": [
+        "./packages-integrations/astro/src/"
+      ],
+      "@unocss/astro/*": [
+        "./packages-integrations/astro/src/*"
+      ],
+      "@unocss/autocomplete": [
+        "./packages-engine/autocomplete/src/"
+      ],
+      "@unocss/autocomplete/*": [
+        "./packages-engine/autocomplete/src/*"
+      ],
+      "@unocss/cli": [
+        "./packages-engine/cli/src/"
+      ],
+      "@unocss/cli/*": [
+        "./packages-engine/cli/src/*"
+      ],
+      "@unocss/config": [
+        "./packages-engine/config/src/"
+      ],
+      "@unocss/config/*": [
+        "./packages-engine/config/src/*"
+      ],
+      "@unocss/core": [
+        "./packages-engine/core/src/"
+      ],
+      "@unocss/core/*": [
+        "./packages-engine/core/src/*"
+      ],
+      "@unocss/eslint-config": [
+        "./packages-integrations/eslint-config/src/"
+      ],
+      "@unocss/eslint-config/*": [
+        "./packages-integrations/eslint-config/src/*"
+      ],
+      "@unocss/eslint-plugin": [
+        "./packages-integrations/eslint-plugin/src/"
+      ],
+      "@unocss/eslint-plugin/*": [
+        "./packages-integrations/eslint-plugin/src/*"
+      ],
+      "@unocss/extractor-arbitrary-variants": [
+        "./packages-presets/extractor-arbitrary-variants/src/"
+      ],
+      "@unocss/extractor-arbitrary-variants/*": [
+        "./packages-presets/extractor-arbitrary-variants/src/*"
+      ],
+      "@unocss/extractor-mdc": [
+        "./packages-presets/extractor-mdc/src/"
+      ],
+      "@unocss/extractor-mdc/*": [
+        "./packages-presets/extractor-mdc/src/*"
+      ],
+      "@unocss/extractor-pug": [
+        "./packages-presets/extractor-pug/src/"
+      ],
+      "@unocss/extractor-pug/*": [
+        "./packages-presets/extractor-pug/src/*"
+      ],
+      "@unocss/extractor-svelte": [
+        "./packages-presets/extractor-svelte/src/"
+      ],
+      "@unocss/extractor-svelte/*": [
+        "./packages-presets/extractor-svelte/src/*"
+      ],
+      "@unocss/inspector": [
+        "./packages-integrations/inspector/src/"
+      ],
+      "@unocss/inspector/*": [
+        "./packages-integrations/inspector/src/*"
+      ],
+      "@unocss/language-server": [
+        "./packages-integrations/language-server/src/"
+      ],
+      "@unocss/language-server/*": [
+        "./packages-integrations/language-server/src/*"
+      ],
+      "@unocss/nuxt": [
+        "./packages-integrations/nuxt/src/"
+      ],
+      "@unocss/nuxt/*": [
+        "./packages-integrations/nuxt/src/*"
+      ],
+      "@unocss/postcss": [
+        "./packages-integrations/postcss/src/"
+      ],
+      "@unocss/postcss/*": [
+        "./packages-integrations/postcss/src/*"
+      ],
+      "@unocss/postcss/esm": [
+        "./packages-integrations/postcss/src/esm.ts"
+      ],
+      "@unocss/preset-attributify": [
+        "./packages-presets/preset-attributify/src/"
+      ],
+      "@unocss/preset-attributify/*": [
+        "./packages-presets/preset-attributify/src/*"
+      ],
+      "@unocss/preset-icons": [
+        "./packages-presets/preset-icons/src/"
+      ],
+      "@unocss/preset-icons/*": [
+        "./packages-presets/preset-icons/src/*"
+      ],
+      "@unocss/preset-legacy-compat": [
+        "./packages-presets/preset-legacy-compat/src/"
+      ],
+      "@unocss/preset-legacy-compat/*": [
+        "./packages-presets/preset-legacy-compat/src/*"
+      ],
+      "@unocss/preset-mini": [
+        "./packages-presets/preset-mini/src/"
+      ],
+      "@unocss/preset-mini/*": [
+        "./packages-presets/preset-mini/src/*"
+      ],
+      "@unocss/preset-rem-to-px": [
+        "./packages-presets/preset-rem-to-px/src/"
+      ],
+      "@unocss/preset-rem-to-px/*": [
+        "./packages-presets/preset-rem-to-px/src/*"
+      ],
+      "@unocss/preset-tagify": [
+        "./packages-presets/preset-tagify/src/"
+      ],
+      "@unocss/preset-tagify/*": [
+        "./packages-presets/preset-tagify/src/*"
+      ],
+      "@unocss/preset-typography": [
+        "./packages-presets/preset-typography/src/"
+      ],
+      "@unocss/preset-typography/*": [
+        "./packages-presets/preset-typography/src/*"
+      ],
+      "@unocss/preset-uno": [
+        "./packages-deprecated/preset-uno/src/"
+      ],
+      "@unocss/preset-uno/*": [
+        "./packages-deprecated/preset-uno/src/*"
+      ],
+      "@unocss/preset-web-fonts": [
+        "./packages-presets/preset-web-fonts/src/"
+      ],
+      "@unocss/preset-web-fonts/*": [
+        "./packages-presets/preset-web-fonts/src/*"
+      ],
+      "@unocss/preset-wind": [
+        "./packages-deprecated/preset-wind/src/"
+      ],
+      "@unocss/preset-wind/*": [
+        "./packages-deprecated/preset-wind/src/*"
+      ],
+      "@unocss/preset-wind3": [
+        "./packages-presets/preset-wind3/src/"
+      ],
+      "@unocss/preset-wind3/*": [
+        "./packages-presets/preset-wind3/src/*"
+      ],
+      "@unocss/preset-wind4": [
+        "./packages-presets/preset-wind4/src/"
+      ],
+      "@unocss/preset-wind4/*": [
+        "./packages-presets/preset-wind4/src/*"
+      ],
+      "@unocss/processor-lightningcss": [
+        "./packages-presets/processor-lightningcss/src/"
+      ],
+      "@unocss/processor-lightningcss/*": [
+        "./packages-presets/processor-lightningcss/src/*"
+      ],
+      "@unocss/rollup": [
+        "./packages-integrations/rollup/src/"
+      ],
+      "@unocss/rollup/*": [
+        "./packages-integrations/rollup/src/*"
+      ],
+      "@unocss/rule-utils": [
+        "./packages-presets/rule-utils/src/"
+      ],
+      "@unocss/rule-utils/*": [
+        "./packages-presets/rule-utils/src/*"
+      ],
+      "@unocss/runtime": [
+        "./packages-integrations/runtime/src/"
+      ],
+      "@unocss/runtime/*": [
+        "./packages-integrations/runtime/src/*"
+      ],
+      "@unocss/scope": [
+        "./packages-integrations/scope/src/"
+      ],
+      "@unocss/scope/*": [
+        "./packages-integrations/scope/src/*"
+      ],
+      "@unocss/svelte-scoped": [
+        "./packages-integrations/svelte-scoped/src/"
+      ],
+      "@unocss/svelte-scoped/*": [
+        "./packages-integrations/svelte-scoped/src/*"
+      ],
+      "@unocss/transformer-attributify-jsx": [
+        "./packages-presets/transformer-attributify-jsx/src/"
+      ],
+      "@unocss/transformer-attributify-jsx/*": [
+        "./packages-presets/transformer-attributify-jsx/src/*"
+      ],
+      "@unocss/transformer-compile-class": [
+        "./packages-presets/transformer-compile-class/src/"
+      ],
+      "@unocss/transformer-compile-class/*": [
+        "./packages-presets/transformer-compile-class/src/*"
+      ],
+      "@unocss/transformer-directives": [
+        "./packages-presets/transformer-directives/src/"
+      ],
+      "@unocss/transformer-directives/*": [
+        "./packages-presets/transformer-directives/src/*"
+      ],
+      "@unocss/transformer-variant-group": [
+        "./packages-presets/transformer-variant-group/src/"
+      ],
+      "@unocss/transformer-variant-group/*": [
+        "./packages-presets/transformer-variant-group/src/*"
+      ],
+      "@unocss/twoslash": [
+        "./packages-integrations/twoslash/src/"
+      ],
+      "@unocss/twoslash/*": [
+        "./packages-integrations/twoslash/src/*"
+      ],
+      "@unocss/vite": [
+        "./packages-integrations/vite/src/"
+      ],
+      "@unocss/vite/*": [
+        "./packages-integrations/vite/src/*"
+      ],
+      "@unocss/vscode": [
+        "./packages-integrations/vscode/src/"
+      ],
+      "@unocss/vscode/*": [
+        "./packages-integrations/vscode/src/*"
+      ],
+      "@unocss/webpack": [
+        "./packages-integrations/webpack/src/"
+      ],
+      "@unocss/webpack/*": [
+        "./packages-integrations/webpack/src/*"
+      ],
+      "#docs": [
+        "./virtual-shared/docs/src/"
+      ],
+      "#docs/packages": [
+        "./virtual-shared/docs/src/packages.ts"
+      ],
+      "#docs/unocss-bundle": [
+        "./virtual-shared/docs/src/unocss-bundle.ts"
+      ],
+      "#integration/constants": [
+        "./virtual-shared/integration/src/constants.ts"
+      ],
+      "#integration/content": [
+        "./virtual-shared/integration/src/content.ts"
+      ],
+      "#integration/context": [
+        "./virtual-shared/integration/src/context.ts"
+      ],
+      "#integration/defaults": [
+        "./virtual-shared/integration/src/defaults.ts"
+      ],
+      "#integration/defaults-ide": [
+        "./virtual-shared/integration/src/defaults-ide.ts"
+      ],
+      "#integration/env": [
+        "./virtual-shared/integration/src/env.ts"
+      ],
+      "#integration/hash": [
+        "./virtual-shared/integration/src/hash.ts"
+      ],
+      "#integration/layers": [
+        "./virtual-shared/integration/src/layers.ts"
+      ],
+      "#integration/match-positions": [
+        "./virtual-shared/integration/src/match-positions.ts"
+      ],
+      "#integration/nuxt-options": [
+        "./virtual-shared/integration/src/nuxt-options.ts"
+      ],
+      "#integration/sort-rules": [
+        "./virtual-shared/integration/src/sort-rules.ts"
+      ],
+      "#integration/transformers": [
+        "./virtual-shared/integration/src/transformers.ts"
+      ],
+      "#integration/utils": [
+        "./virtual-shared/integration/src/utils.ts"
+      ],
+      "unocss": [
+        "./packages-presets/unocss/src/"
+      ],
+      "unocss/*": [
+        "./packages-presets/unocss/src/*"
+      ],
+      "unocss/vite": [
+        "./packages-presets/unocss/src/vite.ts"
+      ]
+    }
+  }
+}

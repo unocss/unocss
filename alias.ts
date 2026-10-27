@@ -23,9 +23,11 @@ export const aliasIntegrations: Record<string, string> = {
   '@unocss/nuxt': r('./packages-integrations/nuxt/src/'),
   '@unocss/postcss': r('./packages-integrations/postcss/src/'),
   '@unocss/postcss/esm': r('./packages-integrations/postcss/src/esm.ts'),
+  '@unocss/rollup': r('./packages-integrations/rollup/src/'),
   '@unocss/runtime': r('./packages-integrations/runtime/src/'),
   '@unocss/scope': r('./packages-integrations/scope/src/'),
   '@unocss/svelte-scoped': r('./packages-integrations/svelte-scoped/src/'),
+  '@unocss/twoslash': r('./packages-integrations/twoslash/src/'),
   '@unocss/vite': r('./packages-integrations/vite/src/'),
   '@unocss/vscode': r('./packages-integrations/vscode/src/'),
   '@unocss/webpack': r('./packages-integrations/webpack/src/'),
@@ -45,6 +47,7 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),
   '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
   '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
+  '#integration/nuxt-options': r('./virtual-shared/integration/src/nuxt-options.ts'),
   '#integration/sort-rules': r('./virtual-shared/integration/src/sort-rules.ts'),
   '#integration/transformers': r('./virtual-shared/integration/src/transformers.ts'),
   '#integration/utils': r('./virtual-shared/integration/src/utils.ts'),
@@ -58,6 +61,7 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/extractor-svelte': r('./packages-presets/extractor-svelte/src/'),
   '@unocss/preset-attributify': r('./packages-presets/preset-attributify/src/'),
   '@unocss/preset-icons': r('./packages-presets/preset-icons/src/'),
+  '@unocss/preset-legacy-compat': r('./packages-presets/preset-legacy-compat/src/'),
   '@unocss/preset-mini': r('./packages-presets/preset-mini/src/'),
   '@unocss/preset-rem-to-px': r('./packages-presets/preset-rem-to-px/src/'),
   '@unocss/preset-tagify': r('./packages-presets/preset-tagify/src/'),
@@ -65,6 +69,7 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/preset-web-fonts': r('./packages-presets/preset-web-fonts/src/'),
   '@unocss/preset-wind3': r('./packages-presets/preset-wind3/src/'),
   '@unocss/preset-wind4': r('./packages-presets/preset-wind4/src/'),
+  '@unocss/processor-lightningcss': r('./packages-presets/processor-lightningcss/src/'),
   '@unocss/rule-utils': r('./packages-presets/rule-utils/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages-presets/transformer-attributify-jsx/src/'),
   '@unocss/transformer-compile-class': r('./packages-presets/transformer-compile-class/src/'),
@@ -86,3 +91,18 @@ export const alias: Record<string, string> = {
   // ...aliasPresets,
   // ...aliasDeprecated,
 }
+
+/**
+ * Resolve workspace packages directly from source. Used by tests and the
+ * typecheck config so no workspace package needs to be installed at the root.
+ * Longer keys come first so subpath aliases (`unocss/vite`) win over the
+ * package root (`unocss`).
+ */
+export const aliasSource: Record<string, string> = Object.fromEntries(
+  Object.entries({
+    ...aliasDeprecated,
+    ...aliasEngine,
+    ...aliasIntegrations,
+    ...aliasPresets,
+  }).sort(([a], [b]) => b.length - a.length),
+)

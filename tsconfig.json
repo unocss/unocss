@@ -1,12 +1,6 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2022",
-    "jsx": "preserve",
-    "lib": [
-      "esnext"
-    ],
-    "module": "esnext",
-    "moduleResolution": "Bundler",
     "paths": {
       "#docs": [
         "./virtual-shared/docs/src/"
@@ -44,6 +38,9 @@
       "#integration/match-positions": [
         "./virtual-shared/integration/src/match-positions.ts"
       ],
+      "#integration/nuxt-options": [
+        "./virtual-shared/integration/src/nuxt-options.ts"
+      ],
       "#integration/sort-rules": [
         "./virtual-shared/integration/src/sort-rules.ts"
       ],
@@ -53,18 +50,7 @@
       "#integration/utils": [
         "./virtual-shared/integration/src/utils.ts"
       ]
-    },
-    "resolveJsonModule": true,
-    "types": [
-      "node",
-      "vite/client",
-      "vitest/importMeta"
-    ],
-    "strict": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    }
   },
   "exclude": [
     "**/dist/**",
