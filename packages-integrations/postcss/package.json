@@ -55,5 +55,6 @@
     "css-tree": "catalog:css",
     "postcss": "catalog:css",
     "tinyglobby": "catalog:utils"
-  }
+  },
+  "devDependencies": {}
 }

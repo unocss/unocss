@@ -11,6 +11,8 @@
     "vue": "^3.4.31"
   },
   "devDependencies": {
+    "@unocss/preset-uno": "workspace:*",
+    "@unocss/vite": "workspace:*",
     "@vitejs/plugin-legacy": "catalog:vite",
     "@vitejs/plugin-vue": "catalog:vite"
   }

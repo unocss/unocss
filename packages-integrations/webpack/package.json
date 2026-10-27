@@ -65,7 +65,5 @@
     "unplugin-utils": "catalog:utils",
     "webpack-sources": "catalog:build"
   },
-  "devDependencies": {
-    "webpack": "catalog:build"
-  }
+  "devDependencies": {}
 }

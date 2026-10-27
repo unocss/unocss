@@ -5,8 +5,16 @@
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@vue/reactivity": "catalog:vue",
+    "@unocss/rule-utils": "workspace:*",
+    "@unocss/transformer-attributify-jsx": "workspace:*",
+    "@unocss/transformer-compile-class": "workspace:*",
+    "@unocss/transformer-directives": "workspace:*",
+    "@unocss/transformer-variant-group": "workspace:*",
+    "@vueuse/core": "catalog:vue",
     "fuse.js": "catalog:utils",
-    "prettier": "catalog:utils"
+    "ofetch": "catalog:utils",
+    "prettier": "catalog:utils",
+    "unocss": "workspace:*",
+    "vue": "catalog:vue"
   }
 }

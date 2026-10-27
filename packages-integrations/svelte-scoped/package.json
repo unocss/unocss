@@ -62,9 +62,7 @@
     "zimmerframe": "catalog:utils"
   },
   "devDependencies": {
-    "prettier-plugin-svelte": "catalog:svelte",
-    "svelte": "catalog:svelte",
-    "vite": "catalog:vite"
+    "svelte": "catalog:svelte"
   },
   "inlinedDependencies": {
     "picomatch": "4.0.7",

@@ -10,6 +10,25 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "simple-git": "catalog:utils"
+    "@codemirror/autocomplete": "catalog:docs",
+    "@iconify-json/carbon": "catalog:icons",
+    "@iconify-json/la": "catalog:icons",
+    "@iconify-json/ri": "catalog:icons",
+    "@unocss/autocomplete": "workspace:*",
+    "@unocss/preset-web-fonts": "workspace:*",
+    "@unocss/reset": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "@vueuse/core": "catalog:vue",
+    "@vueuse/math": "catalog:vue",
+    "floating-vue": "catalog:vue",
+    "lz-string-es": "catalog:utils",
+    "simple-git": "catalog:utils",
+    "splitpanes": "catalog:utils",
+    "unocss": "workspace:*",
+    "unplugin-auto-import": "catalog:utils",
+    "unplugin-vue-components": "catalog:vue",
+    "vite-plugin-inspect": "catalog:vite",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
   }
 }

@@ -2,5 +2,11 @@
   "name": "vite-vue-scoped",
   "type": "module",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@unocss/preset-wind4": "workspace:*",
+    "@unocss/vite": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "vue": "catalog:vue"
+  }
 }

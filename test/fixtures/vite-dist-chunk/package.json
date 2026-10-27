@@ -4,5 +4,9 @@
   "private": true,
   "scripts": {
     "build": "vite build"
+  },
+  "devDependencies": {
+    "@unocss/vite": "workspace:*",
+    "unocss": "workspace:*"
   }
 }

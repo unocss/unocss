@@ -35,10 +35,9 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*",
+    "magic-string": "catalog:utils",
     "oxc-parser": "catalog:oxc",
     "oxc-walker": "catalog:oxc"
   },
-  "devDependencies": {
-    "magic-string": "catalog:utils"
-  }
+  "devDependencies": {}
 }
