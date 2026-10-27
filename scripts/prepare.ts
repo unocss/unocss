@@ -98,19 +98,22 @@ async function updateTsconfig() {
   const virtualPaths = Object.fromEntries(
     Object.entries(alias).map(([key, value]) => [key, [toPath(value)]]),
   )
-  const testPaths: Record<string, string[]> = { ...virtualPaths }
-  for (const [key, value] of Object.entries(aliasSource)) {
-    const path = toPath(value)
-    testPaths[key] = [path]
-    if (path.endsWith('/'))
-      testPaths[`${key}/*`] = [`${path}*`]
-  }
-
   const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
   tsconfig.compilerOptions.paths = Object.fromEntries(
     Object.entries(virtualPaths).sort(([a], [b]) => a.localeCompare(b)),
   )
   await writeFile('./tsconfig.json', `${JSON.stringify(tsconfig, null, 2)}\n`, 'utf-8')
+
+  // TypeScript replaces paths instead of merging them across extends, so the
+  // generated test config merges the root paths explicitly.
+  const sourcePaths: Record<string, string[]> = {}
+  for (const [key, value] of Object.entries(aliasSource)) {
+    const path = toPath(value)
+    sourcePaths[key] = [path]
+    if (path.endsWith('/'))
+      sourcePaths[`${key}/*`] = [`${path}*`]
+  }
+  const testPaths = { ...tsconfig.compilerOptions.paths, ...sourcePaths }
 
   await writeFile('./tsconfig.test.json', `${JSON.stringify({
     extends: './tsconfig.json',
