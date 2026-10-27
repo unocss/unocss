@@ -3,7 +3,7 @@ import UnoCSS from '@unocss/svelte-scoped/vite'
 
 import transformerDirectives from '@unocss/transformer-directives'
 import { defineConfig } from 'vite'
-import { getAllConfigFiles } from './getAllConfigFiles'
+import { getAllConfigFiles } from './getAllConfigFiles.ts'
 
 export default defineConfig({
   plugins: [
