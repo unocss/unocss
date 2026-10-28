@@ -83,7 +83,6 @@
     "**/interactive/**",
     "**/test/dts/**",
     "**/__snapshots__/tsnapi/**",
-    "packages-integrations/eslint-plugin/**",
     "test/**",
     "**/test/**",
     "**/*.test.ts"

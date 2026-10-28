@@ -23,7 +23,7 @@
     "lint:fix": "nr lint --fix",
     "release": "bumpp -r --excute=\"pnpm i\"",
     "size": "tsx scripts/size.ts",
-    "typecheck": "tsgo --noEmit && tsgo --noEmit -p tsconfig.test.json && pnpm -C packages-integrations/eslint-plugin run typecheck && pnpm run typecheck:vue",
+    "typecheck": "tsgo --noEmit && tsgo --noEmit -p tsconfig.test.json && pnpm run typecheck:vue",
     "test": "vitest",
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
