@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@unocss/webpack": "workspace:*",
     "unocss": "workspace:*"
   }
 }

@@ -1985,33 +1985,27 @@ importers:
       astro:
         specifier: 4.1.0
         version: 4.1.0(@types/node@26.6.5)(lightningcss@1.33.0)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)
+      unocss:
+        specifier: workspace:*
+        version: link:../../../packages-presets/unocss
 
   test/fixtures/vite:
     devDependencies:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../../packages-presets/reset
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
 
   test/fixtures/vite-dist-chunk:
     devDependencies:
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
 
   test/fixtures/vite-environments:
     devDependencies:
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
@@ -2020,9 +2014,6 @@ importers:
 
   test/fixtures/vite-inline:
     devDependencies:
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
@@ -2032,9 +2023,6 @@ importers:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../../packages-presets/reset
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       '@vitejs/plugin-legacy':
         specifier: catalog:vite
         version: 8.2.3(supports-color@10.2.2)(terser@5.51.2)(vite@8.3.5)
@@ -2066,9 +2054,6 @@ importers:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../../packages-presets/reset
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
@@ -2078,9 +2063,6 @@ importers:
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../../packages-presets/reset
-      '@unocss/vite':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/vite
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss
@@ -2102,9 +2084,6 @@ importers:
 
   test/fixtures/webpack-assets:
     devDependencies:
-      '@unocss/webpack':
-        specifier: workspace:*
-        version: link:../../../packages-integrations/webpack
       unocss:
         specifier: workspace:*
         version: link:../../../packages-presets/unocss

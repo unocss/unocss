@@ -1,7 +1,7 @@
 import type { Configuration } from 'webpack'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import UnoCSS, { type WebpackPluginOptions } from '@unocss/webpack'
+import UnoCSS, { type WebpackPluginOptions } from 'unocss/webpack'
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
 

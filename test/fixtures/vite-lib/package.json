@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "@unocss/reset": "workspace:*",
-    "@unocss/vite": "workspace:*",
     "unocss": "workspace:*"
   }
 }
