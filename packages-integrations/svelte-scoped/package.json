@@ -50,6 +50,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",

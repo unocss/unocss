@@ -1176,9 +1176,6 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
-      '@unocss/rule-utils':
-        specifier: workspace:*
-        version: link:../../packages-presets/rule-utils
       magic-string:
         specifier: catalog:utils
         version: 1.4.4
@@ -1506,6 +1503,9 @@ importers:
 
   packages-integrations/svelte-scoped:
     dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
       '@unocss/config':
         specifier: workspace:*
         version: link:../../packages-engine/config

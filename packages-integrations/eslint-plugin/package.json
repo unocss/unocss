@@ -52,7 +52,6 @@
     "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/rule-utils": "workspace:*",
     "magic-string": "catalog:utils",
     "synckit": "catalog:utils"
   },
