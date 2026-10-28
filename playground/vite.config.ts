@@ -41,6 +41,7 @@ export default defineConfig({
     AutoImport({
       imports: [
         'vue',
+        'vue-router',
         '@vueuse/core',
         '@vueuse/math',
       ],

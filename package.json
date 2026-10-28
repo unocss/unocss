@@ -23,14 +23,15 @@
     "lint:fix": "nr lint --fix",
     "release": "bumpp -r --excute=\"pnpm i\"",
     "size": "tsx scripts/size.ts",
-    "typecheck": "tsgo --noEmit && tsgo --noEmit -p tsconfig.test.json && pnpm -C packages-integrations/eslint-plugin run typecheck",
+    "typecheck": "tsgo --noEmit && tsgo --noEmit -p tsconfig.test.json && pnpm -C packages-integrations/eslint-plugin run typecheck && pnpm run typecheck:vue",
     "test": "vitest",
     "test:update": "vitest -u",
     "test:integration": "pnpm -F svelte-scoped test:integration",
     "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
     "check:attw": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm",
     "check:publint": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec publint --strict",
-    "update:iconify-collections": "tsx scripts/update-iconify-collections.ts"
+    "update:iconify-collections": "tsx scripts/update-iconify-collections.ts",
+    "typecheck:vue": "vue-tsc --noEmit -p playground/tsconfig.json && vue-tsc --noEmit -p packages-integrations/inspector/tsconfig.vue.json && vue-tsc --noEmit -p test/fixtures/vite-legacy-chunks/tsconfig.json && vue-tsc --noEmit -p test/fixtures/vite-vue-scoped/tsconfig.json"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:eslint",
@@ -78,7 +79,8 @@
     "typescript": "catalog:typescript",
     "unrun": "catalog:utils",
     "vite": "catalog:vite",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "vue-tsc": "catalog:vue"
   },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:typescript",

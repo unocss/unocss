@@ -24,6 +24,7 @@ packages:
   - packages-presets/*
   - packages-deprecated/*
   - virtual-shared/*
+  - test/dts
   - test/fixtures/*
 
 overrides:
@@ -125,7 +126,11 @@ catalogs:
   oxc:
     oxc-parser: ^0.153.0
     oxc-walker: ^1.1.1
+  react:
+    '@types/react': ^19.0.0
+    react: ^19.0.0
   svelte:
+    '@sveltejs/kit': ^2.0.0
     prettier-plugin-svelte: ^4.1.1
     svelte: ^5.57.2
   testing:
@@ -213,4 +218,5 @@ catalogs:
     vue-eslint-parser: ^10.4.1
     vue-flow-layout: ^0.2.0
     vue-router: ^5.4.0
+    vue-tsc: ^3.3.13
     vue-virtual-scroller: ^3.0.5
