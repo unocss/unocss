@@ -85,7 +85,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('../../../../test/fixtures/eslint-plugin/uno-attributify.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno-attributify.config.ts', import.meta.url)),
     },
   },
   valid: [
@@ -128,7 +128,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('../../../../test/fixtures/eslint-plugin/uno-attributify-empty-prefix.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno-attributify-empty-prefix.config.ts', import.meta.url)),
     },
   },
   valid: [
