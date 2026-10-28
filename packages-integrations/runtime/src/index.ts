@@ -179,6 +179,8 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
   const tokens = new Set<string>()
   // Tokens that generated no CSS, so extracting them again doesn't trigger an update
   const unmatchedTokens = new Set<string>()
+  // A new config may add rules for them, so give them another chance
+  uno.events.on('config', () => unmatchedTokens.clear())
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
