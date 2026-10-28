@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "typecheck:vue": "vue-tsc --noEmit"
+  },
   "devDependencies": {
     "@unocss/preset-wind4": "workspace:*",
     "@unocss/vite": "workspace:*",

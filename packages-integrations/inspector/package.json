@@ -45,7 +45,8 @@
     "build-post": "vite build",
     "dev": "tsdown --config-loader unrun --watch",
     "dev:client": "vite",
-    "update-post": "vite build"
+    "update-post": "vite build",
+    "typecheck:vue": "vue-tsc --noEmit -p tsconfig.vue.json"
   },
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",

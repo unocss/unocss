@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "typecheck:vue": "vue-tsc --noEmit"
   },
   "dependencies": {
     "vue": "^3.4.31"

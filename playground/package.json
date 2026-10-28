@@ -7,7 +7,8 @@
     "dev": "vite --open",
     "build": "vite build",
     "update-post": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "typecheck:vue": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "@codemirror/autocomplete": "catalog:docs",

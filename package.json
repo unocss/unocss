@@ -31,7 +31,7 @@
     "check:attw": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm",
     "check:publint": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec publint --strict",
     "update:iconify-collections": "tsx scripts/update-iconify-collections.ts",
-    "typecheck:vue": "vue-tsc --noEmit -p playground/tsconfig.json && vue-tsc --noEmit -p packages-integrations/inspector/tsconfig.vue.json && vue-tsc --noEmit -p test/fixtures/vite-legacy-chunks/tsconfig.json && vue-tsc --noEmit -p test/fixtures/vite-vue-scoped/tsconfig.json"
+    "typecheck:vue": "pnpm -r run typecheck:vue"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:eslint",
