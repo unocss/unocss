@@ -470,9 +470,6 @@ catalogs:
     local-pkg:
       specifier: ^1.2.1
       version: 1.2.1
-    lru-cache:
-      specifier: ^11.5.3
-      version: 11.5.3
     lz-string-es:
       specifier: ^1.0.0
       version: 1.0.0
@@ -1064,9 +1061,6 @@ importers:
       fzf:
         specifier: catalog:utils
         version: 0.5.2
-      lru-cache:
-        specifier: catalog:utils
-        version: 11.5.3
     devDependencies:
       '@unocss/core':
         specifier: workspace:*
