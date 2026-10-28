@@ -3,7 +3,7 @@ import { $ as html, run } from 'eslint-vitest-rule-tester'
 import svelteParser from 'svelte-eslint-parser'
 import { expect } from 'vitest'
 import * as vueParser from 'vue-eslint-parser'
-import rule from './order'
+import rule from '../../src/rules/order'
 
 run({
   name: 'order',

@@ -1,5 +1,5 @@
 // import { defineConfig } from 'eslint/config'
-// import unocss from '../src'
+// import unocss from '../../../src'
 //
 // export default defineConfig([
 //   unocss.configs.flat,
@@ -11,7 +11,7 @@
 // ])
 
 import antfu from '@antfu/eslint-config'
-import unocss from '../src'
+import unocss from '../../../src'
 
 export default antfu(
   {

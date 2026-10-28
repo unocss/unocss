@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { $ as html, run } from 'eslint-vitest-rule-tester'
 import * as vueParser from 'vue-eslint-parser'
-import rule from './enforce-class-compile'
+import rule from '../../src/rules/enforce-class-compile'
 
 run({
   name: 'enforce-class-compile',

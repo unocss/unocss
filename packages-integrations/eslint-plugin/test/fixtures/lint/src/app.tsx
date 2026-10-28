@@ -1,6 +1,6 @@
 export default function App() {
   return (
-    <h1 className="text-3xl hover:text-red m1 font-bold underline">
+    <h1 className="m1 text-3xl font-bold underline hover:text-red">
       Hello world!
     </h1>
   )

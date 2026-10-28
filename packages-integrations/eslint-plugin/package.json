@@ -46,7 +46,7 @@
     "build": "tsdown --config-loader unrun",
     "prepack": "turbo build --filter=.",
     "typecheck": "tsgo --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src"
+    "lint": "nr build && cd ./test/fixtures/lint && eslint ./src"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",

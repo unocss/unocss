@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import { $ as html, run } from 'eslint-vitest-rule-tester'
 import * as vueParser from 'vue-eslint-parser'
-import rule from './blocklist'
+import rule from '../../src/rules/blocklist'
 
 run({
   name: 'blocklist',

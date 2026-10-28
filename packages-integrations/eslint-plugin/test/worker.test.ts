@@ -1,9 +1,9 @@
 import { createGenerator } from '@unocss/core'
-import { runAsync, setGenerator } from '@unocss/eslint-plugin/worker'
 import { presetAttributify } from '@unocss/preset-attributify'
 import { presetMini } from '@unocss/preset-mini'
 import { presetWind3 } from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
+import { runAsync, setGenerator } from '../src/worker'
 
 describe('worker', () => {
   it('uses the default attributify prefix when the preset is absent', async () => {
