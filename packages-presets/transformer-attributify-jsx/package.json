@@ -38,6 +38,5 @@
     "magic-string": "catalog:utils",
     "oxc-parser": "catalog:oxc",
     "oxc-walker": "catalog:oxc"
-  },
-  "devDependencies": {}
+  }
 }

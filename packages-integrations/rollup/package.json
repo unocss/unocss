@@ -63,6 +63,5 @@
     "pathe": "catalog:utils",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
-  },
-  "devDependencies": {}
+  }
 }
