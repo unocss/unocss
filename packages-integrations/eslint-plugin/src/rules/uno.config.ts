@@ -1,9 +1,9 @@
 // This file is for testing
 
-// eslint-disable-next-line no-restricted-imports
-import { defineConfig, presetWind3 } from 'unocss'
+import type { UserConfig } from '@unocss/core'
+import presetWind3 from '@unocss/preset-wind3'
 
-export default defineConfig({
+export default {
   presets: [
     presetWind3(),
   ],
@@ -13,4 +13,4 @@ export default defineConfig({
     [i => i.startsWith('text-'), { message: 'Use color-* instead' }],
     [i => i.endsWith('-auto'), { message: s => `Use ${s.replace(/-auto$/, '-a')} instead` }],
   ],
-})
+} satisfies UserConfig

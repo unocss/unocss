@@ -57,6 +57,7 @@
     "synckit": "catalog:utils"
   },
   "devDependencies": {
+    "@unocss/preset-wind3": "workspace:*",
     "svelte-eslint-parser": "catalog:eslint",
     "unocss": "workspace:*",
     "vue-eslint-parser": "catalog:vue"

@@ -1,12 +1,12 @@
 import type { UserConfig } from '@unocss/core'
+import type { AttributifyOptions } from '@unocss/preset-attributify'
+import type { IconsOptions } from '@unocss/preset-icons'
+import type { TagifyOptions } from '@unocss/preset-tagify'
+import type { TypographyOptions } from '@unocss/preset-typography'
+import type { WebFontsOptions } from '@unocss/preset-web-fonts'
+import type { PresetWind3Options } from '@unocss/preset-wind3'
+import type { PresetWind4Options } from '@unocss/preset-wind4'
 import type { VitePluginConfig } from '@unocss/vite'
-import type { AttributifyOptions } from 'unocss/preset-attributify'
-import type { IconsOptions } from 'unocss/preset-icons'
-import type { TagifyOptions } from 'unocss/preset-tagify'
-import type { TypographyOptions } from 'unocss/preset-typography'
-import type { WebFontsOptions } from 'unocss/preset-web-fonts'
-import type { PresetWind3Options } from 'unocss/preset-wind3'
-import type { PresetWind4Options } from 'unocss/preset-wind4'
 
 export interface UnocssNuxtOptions extends UserConfig {
   /**

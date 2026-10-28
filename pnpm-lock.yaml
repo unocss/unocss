@@ -1186,6 +1186,9 @@ importers:
         specifier: catalog:utils
         version: 0.12.3
     devDependencies:
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
       svelte-eslint-parser:
         specifier: catalog:eslint
         version: 1.10.0(svelte@5.57.3)
@@ -1332,6 +1335,21 @@ importers:
         specifier: catalog:vscode
         version: 1.0.16
     devDependencies:
+      '@unocss/preset-attributify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-attributify
+      '@unocss/preset-icons':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-icons
+      '@unocss/preset-tagify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-tagify
+      '@unocss/preset-typography':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-typography
+      '@unocss/preset-web-fonts':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-web-fonts
       '@unocss/preset-wind4':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind4
@@ -1353,6 +1371,27 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      '@unocss/preset-attributify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-attributify
+      '@unocss/preset-icons':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-icons
+      '@unocss/preset-tagify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-tagify
+      '@unocss/preset-typography':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-typography
+      '@unocss/preset-web-fonts':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-web-fonts
+      '@unocss/preset-wind3':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       '@unocss/reset':
         specifier: workspace:*
         version: link:../../packages-presets/reset
@@ -1362,9 +1401,6 @@ importers:
       '@unocss/webpack':
         specifier: workspace:*
         version: link:../webpack
-      unocss:
-        specifier: workspace:*
-        version: link:../../packages-presets/unocss
     devDependencies:
       '@nuxt/schema':
         specifier: catalog:nuxt
@@ -2126,15 +2162,30 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      '@unocss/preset-attributify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-attributify
+      '@unocss/preset-icons':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-icons
+      '@unocss/preset-tagify':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-tagify
+      '@unocss/preset-typography':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-typography
+      '@unocss/preset-web-fonts':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-web-fonts
       '@unocss/preset-wind3':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind3
+      '@unocss/preset-wind4':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-wind4
       chokidar:
         specifier: catalog:utils
         version: 5.0.0
-      unocss:
-        specifier: workspace:*
-        version: link:../../packages-presets/unocss
       unplugin-utils:
         specifier: catalog:utils
         version: 0.3.2
