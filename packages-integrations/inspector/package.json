@@ -71,7 +71,6 @@
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
-    "@unocss/preset-wind3": "workspace:*",
     "@unocss/preset-wind4": "workspace:*",
     "@vitejs/plugin-vue": "catalog:vite",
     "@vueuse/core": "catalog:vue",
