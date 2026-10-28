@@ -14,8 +14,9 @@ export interface AttributifyOptions extends PresetOptions {
 // #endregion
 
 // #region Types
-export type AttributifyNames<Prefix extends string = ''> = `${Prefix}${BasicAttributes}` | `${Prefix}${PseudoPrefix}:${BasicAttributes}`;
+export type AttributifyNames<Prefix extends string = ''> = `${Prefix}${BasicAttributes}` | `${Prefix}${BasicAttributes}${number}` | `${Prefix}${BasicAttributes}${number}${LengthUnit}` | `${Prefix}${PseudoPrefix}:${BasicAttributes}`;
 export type BasicAttributes = SpecialSingleWord | TwoStringsComposition | SeparateEnabled;
+export type LengthUnit = 'px' | 'rem' | 'em' | 'ex' | 'ch' | 'vw' | 'vh' | 'vmin' | 'vmax' | '%' | 'pt' | 'pc' | 'in' | 'cm' | 'mm' | 'q' | 's' | 'ms' | 'deg';
 export type PseudoPrefix = 'active' | 'before' | 'after' | 'dark' | 'light' | 'first' | 'last' | 'focus' | 'hover' | 'link' | 'print' | 'root' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'enabled' | 'disabled' | 'all' | 'children';
 export type SeparateEnabled = 'align' | 'animate' | 'backdrop' | 'bg' | 'blend' | 'border' | 'box' | 'container' | 'content' | 'cursor' | 'display' | 'divide' | 'filter' | 'flex' | 'font' | 'fw' | 'gap' | 'gradient' | 'grid' | 'h' | 'icon' | 'items' | 'justify' | 'list' | 'm' | 'op' | 'opacity' | 'order' | 'outline' | 'overflow' | 'p' | 'place' | 'pos' | 'position' | 'ring' | 'select' | 'shadow' | 'size' | 'space' | 'table' | 'text' | 'transform' | 'transition' | 'underline' | 'w' | 'z' | PseudoPrefix;
 export type SpecialSingleWord = 'container' | 'flex' | 'block' | 'inline' | 'table' | 'isolate' | 'absolute' | 'relative' | 'fixed' | 'sticky' | 'static' | 'visible' | 'invisible' | 'grow' | 'shrink' | 'antialiased' | 'italic' | 'ordinal' | 'overline' | 'underline' | 'uppercase' | 'lowercase' | 'capitalize' | 'truncate' | 'border' | 'rounded' | 'outline' | 'ring' | 'shadow' | 'blur' | 'grayscale' | 'invert' | 'sepia' | 'transition' | 'resize' | 'transform' | 'filter';
