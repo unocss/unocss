@@ -57,7 +57,6 @@
     "@unocss/preset-typography": "workspace:*",
     "@unocss/preset-web-fonts": "workspace:*",
     "@unocss/preset-wind4": "workspace:*",
-    "unocss": "workspace:*",
     "vscode-languageserver-types": "catalog:vscode"
   },
   "inlinedDependencies": {

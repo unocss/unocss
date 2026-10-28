@@ -1350,9 +1350,6 @@ importers:
       '@unocss/preset-wind4':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind4
-      unocss:
-        specifier: workspace:*
-        version: link:../../packages-presets/unocss
       vscode-languageserver-types:
         specifier: catalog:vscode
         version: 3.18.4

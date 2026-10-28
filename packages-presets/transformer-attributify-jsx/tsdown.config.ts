@@ -8,9 +8,6 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
-  deps: {
-    neverBundle: ['magic-string'],
-  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',
