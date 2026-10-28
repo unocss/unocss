@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { removeOuterQuotes } from './removeOuterQuotes'
+import { removeOuterQuotes } from '../../../src/_common/transformApply/removeOuterQuotes'
 
 describe('removeOuterQuotes', () => {
   it('removes single quotes', () => {

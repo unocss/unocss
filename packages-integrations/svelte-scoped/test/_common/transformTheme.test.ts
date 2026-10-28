@@ -1,6 +1,6 @@
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
-import { getThemeValue, transformTheme } from './transformTheme'
+import { getThemeValue, transformTheme } from '../../src/_common/transformTheme'
 
 const theme = {
   colors: {

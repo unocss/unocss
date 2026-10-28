@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { generateClassName } from './generateClassName'
+import { generateClassName } from '../../../src/_common/transformClasses/generateClassName'
 
 describe('generateClassName', () => {
   const filename = 'Foo.svelte'

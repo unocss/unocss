@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { wrapSelectorsWithGlobal } from './wrapGlobal'
+import { wrapSelectorsWithGlobal } from '../../src/_preprocess/wrapGlobal'
 
 describe('wrapSelectorsWithGlobal', () => {
   it('wraps multiple selectors with :global()', () => {

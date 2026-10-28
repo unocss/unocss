@@ -1,7 +1,7 @@
 import { createGenerator, warnOnce } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getUtils } from './getUtils'
+import { getUtils } from '../../../src/_common/transformApply/getUtils'
 
 vi.mock('@unocss/core', async () => {
   const actual = await vi.importActual<typeof import('@unocss/core')>('@unocss/core')

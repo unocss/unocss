@@ -1,7 +1,7 @@
 import type { SelectorList } from 'css-tree'
 import { parse, walk } from 'css-tree'
 import { describe, expect, it } from 'vitest'
-import { generateUpdatedSelector, surroundAllButOriginalSelectorWithGlobal } from './writeUtilStyles'
+import { generateUpdatedSelector, surroundAllButOriginalSelectorWithGlobal } from '../../../src/_common/transformApply/writeUtilStyles'
 
 describe('generateUpdatedSelector', () => {
   const css = 'button {}'

@@ -5,7 +5,7 @@ import presetWind3 from '@unocss/preset-wind3'
 import { format as prettier } from 'prettier'
 import prettierSvelte from 'prettier-plugin-svelte'
 import { describe, expect, it } from 'vitest'
-import { UnocssSveltePreprocess } from '.'
+import { UnocssSveltePreprocess } from '../../src/_preprocess'
 
 describe('transform', async () => {
   const safelistClassToSkip = 'mr-7'

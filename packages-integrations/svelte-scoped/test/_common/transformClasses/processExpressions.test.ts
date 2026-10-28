@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { processExpressions } from './processExpressions'
-import { shortcutName, unoMock } from './unoMock'
+import { processExpressions } from '../../../src/_common/transformClasses/processExpressions'
+import { shortcutName, unoMock } from '../../../src/_common/transformClasses/unoMock'
 
 describe('processExpressions', () => {
   describe('everything', () => {

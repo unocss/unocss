@@ -5,7 +5,7 @@ import MagicString from 'magic-string'
 import { format as prettier } from 'prettier'
 import parserCSS from 'prettier/parser-postcss'
 import { describe, expect, it } from 'vitest'
-import { transformApply } from '.'
+import { transformApply } from '../../../src/_common/transformApply'
 
 describe('transformApply', async () => {
   const uno = await createGenerator({

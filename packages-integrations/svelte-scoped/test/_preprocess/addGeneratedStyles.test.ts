@@ -1,6 +1,6 @@
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
-import { addGeneratedStylesIntoStyleBlock } from './addGeneratedStyles'
+import { addGeneratedStylesIntoStyleBlock } from '../../src/_preprocess/addGeneratedStyles'
 
 describe('addGeneratedStylesIntoStyleBlock', () => {
   function transform(code: string, styles: string) {

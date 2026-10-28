@@ -1,8 +1,8 @@
-import type { FoundClass } from './findClasses'
-import type { ProcessResult } from './processClasses'
+import type { FoundClass } from '../../../src/_common/transformClasses/findClasses'
+import type { ProcessResult } from '../../../src/_common/transformClasses/processClasses'
 import { describe, expect, it } from 'vitest'
-import { processClsx } from './processClsx'
-import { shortcutName, unoMock } from './unoMock'
+import { processClsx } from '../../../src/_common/transformClasses/processClsx'
+import { shortcutName, unoMock } from '../../../src/_common/transformClasses/unoMock'
 
 describe(processClsx, () => {
   it('ignores non-utility', async () => {

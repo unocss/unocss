@@ -1,6 +1,6 @@
-import type { FoundClass } from './findClasses'
+import type { FoundClass } from '../../../src/_common/transformClasses/findClasses'
 import { describe, expect, it } from 'vitest'
-import { findClasses } from './findClasses'
+import { findClasses } from '../../../src/_common/transformClasses/findClasses'
 
 describe(findClasses, () => {
   it('returns body, start, and end for basic class', () => {

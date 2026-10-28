@@ -1,8 +1,8 @@
-import type { TransformClassesOptions } from '../../types'
-import type { ProcessResult } from './processClasses'
+import type { ProcessResult } from '../../../src/_common/transformClasses/processClasses'
+import type { TransformClassesOptions } from '../../../src/types'
 import { describe, expect, it } from 'vitest'
-import { processClassBody } from './processClassBody'
-import { shortcutName, unoMock } from './unoMock'
+import { processClassBody } from '../../../src/_common/transformClasses/processClassBody'
+import { shortcutName, unoMock } from '../../../src/_common/transformClasses/unoMock'
 
 describe('processClassBody', () => {
   function process(body: string, options: TransformClassesOptions = {}) {
