@@ -78,8 +78,7 @@
     "typescript": "catalog:typescript",
     "unrun": "catalog:utils",
     "vite": "catalog:vite",
-    "vitest": "catalog:testing",
-    "webpack": "catalog:build"
+    "vitest": "catalog:testing"
   },
   "resolutions": {
     "@typescript-eslint/utils": "catalog:typescript",
