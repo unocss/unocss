@@ -52,6 +52,7 @@ export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' 
 
 // #region Functions
 export declare function createGoogleProvider(_: WebFontsProviders, _: string): Provider;
+export declare function createWebFontPreset(_: (_: string) => Promise<any>): (_?: WebFontsOptions) => Preset<any>;
 export declare function normalizedFontMeta(_: WebFontMeta | string, _: WebFontsProviders): ResolvedWebFontMeta;
 // #endregion
 

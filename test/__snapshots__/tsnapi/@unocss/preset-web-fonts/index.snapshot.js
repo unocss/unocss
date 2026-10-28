@@ -3,6 +3,7 @@
  */
 // #region Functions
 export function createGoogleProvider(_, _) {}
+export function createWebFontPreset(_) {}
 export function normalizedFontMeta(_, _) {}
 // #endregion
 

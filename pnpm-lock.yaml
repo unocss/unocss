@@ -1207,6 +1207,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      '@unocss/preset-mini':
+        specifier: workspace:*
+        version: link:../../packages-presets/preset-mini
       '@unocss/rule-utils':
         specifier: workspace:*
         version: link:../../packages-presets/rule-utils
@@ -2120,6 +2123,9 @@ importers:
       ofetch:
         specifier: catalog:utils
         version: 1.5.1
+      prettier:
+        specifier: catalog:utils
+        version: 3.9.10
       unocss:
         specifier: workspace:*
         version: link:../../packages-presets/unocss

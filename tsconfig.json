@@ -11,6 +11,9 @@
       "#docs": [
         "./virtual-shared/docs/src/"
       ],
+      "#docs/composables/usePrettify": [
+        "./virtual-shared/docs/src/composables/usePrettify.ts"
+      ],
       "#docs/packages": [
         "./virtual-shared/docs/src/packages.ts"
       ],

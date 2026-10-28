@@ -1,5 +1,5 @@
 import type { MatchedColor, MatchedSelector } from '../../types'
-import { parseColor } from '../../../../packages-presets/preset-mini/src/utils'
+import { parseColor } from '@unocss/preset-mini'
 
 const ignoredColors = new Set([
   'transparent',

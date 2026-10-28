@@ -36,6 +36,7 @@ export const aliasIntegrations: Record<string, string> = {
 // @keep-sorted
 export const aliasVirtual: Record<string, string> = {
   '#docs': r('./virtual-shared/docs/src/'),
+  '#docs/composables/usePrettify': r('./virtual-shared/docs/src/composables/usePrettify.ts'),
   '#docs/packages': r('./virtual-shared/docs/src/packages.ts'),
   '#docs/unocss-bundle': r('./virtual-shared/docs/src/unocss-bundle.ts'),
   '#integration/constants': r('./virtual-shared/integration/src/constants.ts'),

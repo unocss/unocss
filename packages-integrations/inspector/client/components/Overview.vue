@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch } from 'vue'
+import { useCSSPrettify } from '#docs/composables/usePrettify'
 import { ensureOverview, info, overview } from '../composables/fetch'
-import { useCSSPrettify } from '../composables/usePrettify'
 import { useScrollStyle } from '../composables/useScrollStyle'
 import Analyzer from './Analyzer.vue'
 

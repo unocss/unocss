@@ -13,6 +13,7 @@
     "@vueuse/core": "catalog:vue",
     "fuse.js": "catalog:utils",
     "ofetch": "catalog:utils",
+    "prettier": "catalog:utils",
     "unocss": "workspace:*",
     "vue": "catalog:vue"
   }
