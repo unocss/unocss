@@ -10,33 +10,23 @@ export * from "@unocss/core";
 // #endregion
 
 // #region Other
-export { AttributifyOptions }
-export { IconsOptions }
 export { presetAttributify }
 export { presetIcons }
 export { presetMini }
-export { PresetMiniOptions }
 export { PresetMiniTheme }
 export { presetTagify }
 export { presetTypography }
 export { presetUno }
-export { PresetUnoOptions }
 export { PresetUnoTheme }
 export { presetWebFonts }
 export { presetWind }
 export { presetWind3 }
-export { PresetWind3Options }
 export { PresetWind3Theme }
 export { presetWind4 }
-export { PresetWind4Options }
 export { PresetWind4Theme }
-export { PresetWindOptions }
 export { PresetWindTheme }
-export { TagifyOptions }
 export { transformerAttributifyJsx }
 export { transformerCompileClass }
 export { transformerDirectives }
 export { transformerVariantGroup }
-export { TypographyOptions }
-export { WebFontsOptions }
 // #endregion
