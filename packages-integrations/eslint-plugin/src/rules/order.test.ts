@@ -13,7 +13,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
 
@@ -171,7 +171,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
   valid: [
@@ -255,7 +255,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
   valid: [
@@ -310,7 +310,7 @@ run({
   rule,
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
   valid: [
@@ -516,7 +516,7 @@ run({
   rule,
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
   valid: [
@@ -630,7 +630,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
   valid: [

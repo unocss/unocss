@@ -11,7 +11,7 @@ run({
   },
   settings: {
     unocss: {
-      configPath: fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
+      configPath: fileURLToPath(new URL('./fixtures/uno.config.ts', import.meta.url)),
     },
   },
 

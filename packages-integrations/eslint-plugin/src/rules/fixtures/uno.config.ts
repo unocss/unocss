@@ -1,9 +1,6 @@
-// This file is for testing
+import { defineConfig, presetWind3 } from 'unocss'
 
-import type { UserConfig } from '@unocss/core'
-import presetWind3 from '@unocss/preset-wind3'
-
-export default {
+export default defineConfig({
   presets: [
     presetWind3(),
   ],
@@ -13,4 +10,4 @@ export default {
     [i => i.startsWith('text-'), { message: 'Use color-* instead' }],
     [i => i.endsWith('-auto'), { message: s => `Use ${s.replace(/-auto$/, '-a')} instead` }],
   ],
-} satisfies UserConfig
+})

@@ -1183,9 +1183,6 @@ importers:
         specifier: catalog:utils
         version: 0.12.3
     devDependencies:
-      '@unocss/preset-wind3':
-        specifier: workspace:*
-        version: link:../../packages-presets/preset-wind3
       svelte-eslint-parser:
         specifier: catalog:eslint
         version: 1.10.0(svelte@5.57.3)
