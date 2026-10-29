@@ -1357,6 +1357,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind4
+      tsdown:
+        specifier: catalog:build
+        version: 0.23.2(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.28)(@vue/language-core@3.3.13)(publint@0.3.25)(tsx@4.23.15)(typescript@6.0.3)(unrun@0.3.1)(vue-tsc@3.3.13)
       vscode-languageserver-types:
         specifier: catalog:vscode
         version: 3.18.4
