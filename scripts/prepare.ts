@@ -142,7 +142,6 @@ async function updateTsconfig() {
 
 async function prepare() {
   await Promise.all([
-    x('pnpm', ['run', 'update:iconify-collections'], { throwOnError: true }),
     fixVSCodePackage(),
     preparePackagesBundle(),
     updateTsconfig(),

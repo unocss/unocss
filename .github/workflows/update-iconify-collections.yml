@@ -1,0 +1,70 @@
+name: Update Iconify collections
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-iconify-collections
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'unocss/unocss' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Update collections
+        run: pnpm update:iconify-collections
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Validate collections
+        run: |
+          pnpm exec eslint --no-ignore packages-presets/preset-icons/src/collections.ts
+          pnpm exec vitest run test/update-iconify-collections.test.ts test/preset-icons.test.ts
+          git diff --check
+
+      - name: Open or update collection PR
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          branch: chore/update-iconify-collections
+          base: main
+          add-paths: packages-presets/preset-icons/src/collections.ts
+          commit-message: 'chore(preset-icons): update Iconify collections'
+          title: 'chore(preset-icons): update Iconify collections'
+          body: |
+            Updates the Iconify collection list only.
+
+            Validation before publication:
+            - ESLint for the generated collection list.
+            - Update script tests and preset-icons tests.
+            - `git diff --check`.
+
+            This PR uses `GITHUB_TOKEN`, so it does not trigger the normal PR workflows.
+            Review the [update workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) before merging.

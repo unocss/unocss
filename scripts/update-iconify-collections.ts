@@ -8,29 +8,21 @@ const __dirname = path.dirname(__filename)
 
 const ICONIFY_COLLECTION = path.resolve(__dirname, '../packages-presets/preset-icons/src/collections.ts')
 
-async function update() {
-  try {
-    const collections: string[] = []
-    const res = await fetch('https://api.github.com/repos/iconify/icon-sets/contents/json')
-    const data: Array<{ name: string, type: 'file' | 'dir' }> = await res.json()
+const { stdout } = await x('gh', [
+  'api',
+  'repos/iconify/icon-sets/contents/json',
+  '--jq',
+  '[.[] | select(.type == "file" and (.name | endswith(".json"))) | .name | rtrimstr(".json")]',
+], { throwOnError: true })
 
-    for (const item of data) {
-      if (item.type === 'file' && item.name.endsWith('.json')) {
-        collections.push(item.name.replace(/\.json$/, ''))
-      }
-    }
+const collections: unknown = JSON.parse(stdout)
+if (!Array.isArray(collections) || collections.length === 0 || collections.some(name => typeof name !== 'string' || !name))
+  throw new Error('Expected a non-empty list of Iconify collection names')
 
-    await writeFile(
-      ICONIFY_COLLECTION,
-      `export default ${JSON.stringify(collections)}`,
-      'utf-8',
-    )
+await writeFile(
+  ICONIFY_COLLECTION,
+  `export default ${JSON.stringify(collections)}`,
+  'utf-8',
+)
 
-    await x('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION], { throwOnError: true })
-  }
-  catch (err) {
-    console.log(err)
-  }
-}
-
-update()
+await x('eslint', ['--fix', '--no-ignore', ICONIFY_COLLECTION], { throwOnError: true })

@@ -48,6 +48,23 @@ git commit -m "feat: my new feature"
 git push origin my-new-branch-or-feature
 ```
 
+## Update Iconify collections
+
+Normal installs and pre-commit hooks do not refresh the Iconify collection list. Keep collection updates in a separate PR.
+
+To update the list explicitly, install [GitHub CLI](https://cli.github.com/) and authenticate with `gh auth login`. Then run:
+
+```shell
+pnpm update:iconify-collections
+pnpm exec vitest run test/update-iconify-collections.test.ts test/preset-icons.test.ts
+```
+
+Review the diff in `packages-presets/preset-icons/src/collections.ts` before committing it.
+
+The **Update Iconify collections** workflow runs weekly. Maintainers can also run it manually from `main`. It updates one stable PR branch and commits only the collection list. It does not run in forks.
+
+The repository must allow GitHub Actions to create pull requests under **Settings > Actions > General > Workflow permissions**. The workflow uses `GITHUB_TOKEN` and needs no additional secret. PRs created with this token do not trigger normal PR workflows. The update workflow runs ESLint and the focused tests before it publishes the PR. Review its run before merging. If branch protection requires the normal PR checks, a maintainer must close and reopen the PR to trigger them.
+
 ## Documentation
 
 UnoCSS documentation is built using [VitePress](https://vitepress.vuejs.org/),you can find the documentation in the `docs` folder: the documentation is written in Markdown and Vue components.
