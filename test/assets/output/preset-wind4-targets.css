@@ -1029,7 +1029,7 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .cursor-pointer{cursor:pointer;}
 .contain-\[size_layout_paint\]{contain:size layout paint;}
 .contain-\[size_layout\]{contain:size layout;}
-.contain-layout{--un-contain-size:layout;contain:var(--un-contain-size) var(--un-contain-layout) var(--un-contain-paint) var(--un-contain-style);}
+.contain-layout{--un-contain-layout:layout;contain:var(--un-contain-size, ) var(--un-contain-layout, ) var(--un-contain-paint, ) var(--un-contain-style, );}
 .pointer-events-auto{pointer-events:auto;}
 .pointer-events-none{pointer-events:none;}
 .pointer-events-unset{pointer-events:unset;}
