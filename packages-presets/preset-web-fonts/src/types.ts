@@ -1,8 +1,8 @@
 import type { Arrayable, Awaitable } from '@unocss/core'
 
-export type BuiltinWebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none'
+export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none' | Provider
 
-export type WebFontsProviders = BuiltinWebFontsProviders | Provider
+export type BuiltinWebFontsProviders = Exclude<WebFontsProviders, Provider>
 
 export interface WebFontMeta {
   /**
