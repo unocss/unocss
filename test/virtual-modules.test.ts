@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import UnoCSS, { toViteClientPath } from '@unocss/vite'
+import UnoCSS, { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '@unocss/vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
 
@@ -28,7 +28,18 @@ describe('vite virtual module ids', () => {
     }
   })
 
-  it('converts internal ids to public client paths', () => {
+  it('converts ids to and from virtual ids', () => {
+    expect(toViteVirtualId('/src/main.ts'))
+      .toBe('\0/src/main.ts')
+    expect(toViteVirtualId('\0/src/main.ts'))
+      .toBe('\0/src/main.ts')
+    expect(fromViteVirtualId('\0/src/main.ts'))
+      .toBe('/src/main.ts')
+    expect(fromViteVirtualId('/src/main.ts'))
+      .toBe('/src/main.ts')
+  })
+
+  it('wraps virtual ids into browser paths', () => {
     expect(toViteClientPath('\0/__uno.css'))
       .toBe('/@id/__x00__/__uno.css')
     expect(toViteClientPath('/src/main.ts'))
