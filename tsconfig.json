@@ -11,6 +11,9 @@
       "#docs": [
         "./virtual-shared/docs/src/"
       ],
+      "#docs/composables/usePrettify": [
+        "./virtual-shared/docs/src/composables/usePrettify.ts"
+      ],
       "#docs/packages": [
         "./virtual-shared/docs/src/packages.ts"
       ],
@@ -26,11 +29,11 @@
       "#integration/context": [
         "./virtual-shared/integration/src/context.ts"
       ],
-      "#integration/defaults-ide": [
-        "./virtual-shared/integration/src/defaults-ide.ts"
-      ],
       "#integration/defaults": [
         "./virtual-shared/integration/src/defaults.ts"
+      ],
+      "#integration/defaults-ide": [
+        "./virtual-shared/integration/src/defaults-ide.ts"
       ],
       "#integration/env": [
         "./virtual-shared/integration/src/env.ts"
@@ -43,6 +46,9 @@
       ],
       "#integration/match-positions": [
         "./virtual-shared/integration/src/match-positions.ts"
+      ],
+      "#integration/nuxt-options": [
+        "./virtual-shared/integration/src/nuxt-options.ts"
       ],
       "#integration/sort-rules": [
         "./virtual-shared/integration/src/sort-rules.ts"
@@ -60,6 +66,7 @@
       "vite/client",
       "vitest/importMeta"
     ],
+    "allowImportingTsExtensions": true,
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
@@ -76,6 +83,8 @@
     "**/interactive/**",
     "**/test/dts/**",
     "**/__snapshots__/tsnapi/**",
-    "packages-integrations/eslint-plugin/**"
+    "test/**",
+    "**/test/**",
+    "**/*.test.ts"
   ]
 }

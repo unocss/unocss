@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import attributifyPreset from '@unocss/preset-attributify'
 import { Pane, Splitpanes } from 'splitpanes'
+import { useCSSPrettify } from '#docs/composables/usePrettify'
 import { getGeneratedCss } from '../composables/autocomplete'
 import { fetchModule } from '../composables/fetch'
-import { useCSSPrettify } from '../composables/usePrettify'
 import { useScrollStyle } from '../composables/useScrollStyle'
 
 const props = defineProps<{ id: string }>()

@@ -5,5 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build"
+  },
+  "devDependencies": {
+    "@unocss/reset": "workspace:*",
+    "unocss": "workspace:*"
   }
 }

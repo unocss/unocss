@@ -9,7 +9,6 @@ export default defineConfig({
   deps: {
     neverBundle: [
       'unconfig',
-      'magic-string',
     ],
   },
   exports: true,

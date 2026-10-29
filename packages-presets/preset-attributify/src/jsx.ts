@@ -127,10 +127,33 @@ export type SeparateEnabled
     | 'z'
     | PseudoPrefix
 
+export type LengthUnit
+  = | 'px'
+    | 'rem'
+    | 'em'
+    | 'ex'
+    | 'ch'
+    | 'vw'
+    | 'vh'
+    | 'vmin'
+    | 'vmax'
+    | '%'
+    | 'pt'
+    | 'pc'
+    | 'in'
+    | 'cm'
+    | 'mm'
+    | 'q'
+    | 's'
+    | 'ms'
+    | 'deg'
+
 export type BasicAttributes = SpecialSingleWord | TwoStringsComposition | SeparateEnabled
 
 export type AttributifyNames<Prefix extends string = ''>
   = | `${Prefix}${BasicAttributes}`
+    | `${Prefix}${BasicAttributes}${number}`
+    | `${Prefix}${BasicAttributes}${number}${LengthUnit}`
     | `${Prefix}${PseudoPrefix}:${BasicAttributes}`
 
 export interface AttributifyAttributes extends Partial<Record<AttributifyNames, string | boolean>> {}

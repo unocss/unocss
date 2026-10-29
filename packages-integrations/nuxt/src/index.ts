@@ -6,7 +6,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxtMajorVersion } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
-import { resolveOptions } from './options'
+import { resolveNuxtOptions } from '#integration/nuxt-options'
 
 export { UnocssNuxtOptions }
 
@@ -34,7 +34,7 @@ export default defineNuxtModule<UnocssNuxtOptions>({
   },
   async setup(options, nuxt) {
     // preset shortcuts
-    resolveOptions(options)
+    resolveNuxtOptions(options)
 
     const loadConfig = createRecoveryConfigLoader<UserConfig>()
 

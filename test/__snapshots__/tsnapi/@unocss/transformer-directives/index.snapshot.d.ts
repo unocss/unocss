@@ -17,6 +17,10 @@ export interface TransformerDirectivesOptions {
 }
 // #endregion
 
+// #region Functions
+export declare function transformDirectives(_: MagicString, _: UnoGenerator, _: TransformerDirectivesOptions, _?: string, _?: string, _?: number): Promise<void>;
+// #endregion
+
 // #region Default Export
 export default function transformerDirectives(_?: TransformerDirectivesOptions): SourceCodeTransformer;
 // #endregion

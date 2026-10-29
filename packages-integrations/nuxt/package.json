@@ -54,7 +54,9 @@
     "@unocss/preset-wind4": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
-    "@unocss/webpack": "workspace:*",
-    "unocss": "workspace:*"
+    "@unocss/webpack": "workspace:*"
+  },
+  "devDependencies": {
+    "@nuxt/schema": "catalog:nuxt"
   }
 }

@@ -28,6 +28,8 @@ export declare function GlobalModeBuildPlugin(_: UnocssPluginContext<VitePluginC
 export declare function GlobalModeDevPlugin(_: UnocssPluginContext): Plugin[];
 export declare function GlobalModePlugin(_: UnocssPluginContext): import("vite").Plugin<any>[];
 export declare function PerModuleModePlugin(_: UnocssPluginContext): Plugin[];
+export declare function toViteClientPath(_: string): string;
+export declare function toViteVirtualId(_: string): string;
 export declare function VueScopedPlugin(_: UnocssPluginContext): Plugin;
 // #endregion
 

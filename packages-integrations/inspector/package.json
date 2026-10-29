@@ -45,21 +45,46 @@
     "build-post": "vite build",
     "dev": "tsdown --config-loader unrun --watch",
     "dev:client": "vite",
-    "update-post": "vite build"
+    "update-post": "vite build",
+    "typecheck:vue": "vue-tsc --noEmit -p tsconfig.vue.json"
   },
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
+    "@unocss/preset-mini": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "devframe": "catalog:devtools",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
+    "@codemirror/autocomplete": "catalog:docs",
+    "@codemirror/lang-css": "catalog:css",
+    "@codemirror/lang-html": "catalog:docs",
+    "@codemirror/lang-javascript": "catalog:docs",
+    "@codemirror/lang-xml": "catalog:docs",
+    "@codemirror/language": "catalog:docs",
+    "@codemirror/state": "catalog:docs",
+    "@codemirror/view": "catalog:docs",
     "@iconify-json/catppuccin": "catalog:icons",
+    "@lezer/highlight": "catalog:docs",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-web-fonts": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:vite",
+    "@vueuse/core": "catalog:vue",
+    "codemirror": "catalog:docs",
+    "floating-vue": "catalog:vue",
     "shiki": "catalog:docs",
+    "splitpanes": "catalog:utils",
+    "unplugin-auto-import": "catalog:utils",
+    "unplugin-vue-components": "catalog:vue",
+    "vite-plugin-pages": "catalog:vite",
+    "vue": "catalog:vue",
     "vue-clamp": "catalog:vue",
-    "vue-flow-layout": "catalog:vue"
+    "vue-flow-layout": "catalog:vue",
+    "vue-router": "catalog:vue"
   }
 }

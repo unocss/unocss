@@ -1,9 +1,10 @@
 import { definePreset } from '@unocss/core'
 import { createWebFontPreset, normalizedFontMeta } from './preset'
 
+export { createWebFontPreset } from './preset'
 export { createGoogleCompatibleProvider as createGoogleProvider } from './providers/google'
-export { ZeoSevenFontsProvider } from './providers/zeoseven'
 export { normalizedFontMeta }
+export { ZeoSevenFontsProvider } from './providers/zeoseven'
 export * from './types'
 
 const userAgentWoff2 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'

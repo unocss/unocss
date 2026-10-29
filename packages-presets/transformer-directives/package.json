@@ -35,9 +35,10 @@
   "dependencies": {
     "@unocss/core": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
-    "css-tree": "catalog:css"
+    "css-tree": "catalog:css",
+    "magic-string": "catalog:utils"
   },
   "devDependencies": {
-    "magic-string": "catalog:utils"
+    "@unocss/preset-icons": "workspace:*"
   }
 }

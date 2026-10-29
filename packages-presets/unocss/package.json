@@ -112,6 +112,7 @@
   "devDependencies": {
     "@unocss/astro": "workspace:*",
     "@unocss/postcss": "workspace:*",
-    "@unocss/webpack": "workspace:*"
+    "@unocss/webpack": "workspace:*",
+    "webpack": "catalog:build"
   }
 }

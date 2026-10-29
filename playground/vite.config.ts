@@ -5,8 +5,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
-import { alias } from '../alias'
-import { importMapPlugin } from './vite-plugin-import-map'
+import { alias } from '../alias.ts'
+import { importMapPlugin } from './vite-plugin-import-map.ts'
 
 const git = simpleGit()
 
@@ -41,6 +41,7 @@ export default defineConfig({
     AutoImport({
       imports: [
         'vue',
+        'vue-router',
         '@vueuse/core',
         '@vueuse/math',
       ],

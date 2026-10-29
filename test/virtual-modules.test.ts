@@ -1,8 +1,7 @@
 import { resolve } from 'node:path'
+import UnoCSS, { toViteClientPath } from '@unocss/vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
-import { toViteClientPath } from '../packages-integrations/vite/src/virtual'
 
 describe('vite virtual module ids', () => {
   async function createServer(mode: 'global' | 'per-module') {

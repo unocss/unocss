@@ -50,6 +50,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-uno": "workspace:*",
@@ -62,9 +63,8 @@
     "zimmerframe": "catalog:utils"
   },
   "devDependencies": {
-    "prettier-plugin-svelte": "catalog:svelte",
-    "svelte": "catalog:svelte",
-    "vite": "catalog:vite"
+    "@sveltejs/kit": "catalog:svelte",
+    "svelte": "catalog:svelte"
   },
   "inlinedDependencies": {
     "picomatch": "4.0.7",
