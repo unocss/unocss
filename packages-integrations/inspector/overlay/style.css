@@ -1,0 +1,31 @@
+:host {
+  all: initial;
+  color-scheme: dark;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ccc;
+  --colors-inspect-margin: oklch(82% 0.15 60);
+  --colors-inspect-padding: oklch(78% 0.14 140);
+  --colors-inspect-content: oklch(75% 0.12 240);
+  --colors-inspect-border: oklch(72.2% 0.177 305.5);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+.uno-inspect-controls,
+.uno-inspect-element-info {
+  pointer-events: auto;
+}

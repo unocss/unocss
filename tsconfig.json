@@ -77,6 +77,7 @@
     "**/dist/**",
     "**/node_modules/**",
     "**/client/**",
+    "**/overlay/**",
     "**/playground/**",
     "**/examples/**",
     "**/fixtures/**",

@@ -1,6 +1,7 @@
 import type { DevframeConnectionStatus, DevframeRpcClient } from 'devframe/client'
 import type { InspectorChanges } from '../../types'
 import { connectDevframe } from 'devframe/client'
+import { ref } from 'vue'
 
 export const connectionStatus = ref<DevframeConnectionStatus>('connecting')
 export const isTrusted = ref(false)

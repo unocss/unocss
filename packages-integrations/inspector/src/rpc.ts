@@ -7,6 +7,7 @@ import { BetterMap, CountableSet, toArray } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { analyzer } from './analyzer'
+import { getInspectorSettings } from './settings'
 
 export const INSPECTOR_RPC_SCOPE = 'unocss'
 
@@ -173,6 +174,13 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     }),
   })
 
+  const getSettings = defineRpcFunction({
+    name: 'get-settings',
+    type: 'query',
+    snapshot: true,
+    setup: () => ({ handler: () => getInspectorSettings(ctx) }),
+  })
+
   return [
     getProjectInfo,
     getModuleInfo,
@@ -180,6 +188,7 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     getAutocompleteSuggestions,
     getGeneratedCss,
     getOverview,
+    getSettings,
   ] as const
 }
 

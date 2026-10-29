@@ -3,11 +3,14 @@ import type { DevframeDefinition } from 'devframe'
 import type { DevframeInstance } from 'devframe/initiate'
 import type { Server } from 'node:http'
 import type { Plugin } from 'vite'
+import type { InspectorOptions } from './overlay'
 import { initDevframe } from 'devframe/initiate'
 import { serveStaticNodeMiddleware } from 'devframe/utils/serve-static'
 import { createInspectorDevframe } from './devframe'
+import { createOverlayPlugin } from './overlay'
 
 export * from './devframe'
+export type { InspectorOptions } from './overlay'
 
 const BASE_URL = '/__unocss/'
 const DEVTOOLS_DOCK_BASE_URL = '/__unocss-devtools/'
@@ -22,7 +25,7 @@ interface DevtoolsDockContext {
   install: (definition: DevframeDefinition, options?: { base?: string }) => Promise<void>
 }
 
-export default function UnocssInspector(ctx: UnocssPluginContext): Plugin[] {
+export default function UnocssInspector(ctx: UnocssPluginContext, options: InspectorOptions = {}): Plugin[] {
   const inspector = createInspectorDevframe(ctx)
 
   // Flipped when the Vite DevTools host mounts the inspector dock
@@ -153,5 +156,6 @@ export default function UnocssInspector(ctx: UnocssPluginContext): Plugin[] {
     spa,
     bridge,
     devtoolsDock,
+    ...(options.overlay ? [createOverlayPlugin()] : []),
   ]
 }

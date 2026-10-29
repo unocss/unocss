@@ -29,6 +29,7 @@ export default defineConfig({
     Vue(),
     UnoCSS({
       // hmrTopLevelAwait: false, // Related to #2066
+      inspector: { overlay: true },
     }),
     Inspect(),
     Components({

@@ -60,7 +60,7 @@ export default function UnocssPlugin<Theme extends object>(
   ]
 
   if (inlineConfig.inspector !== false)
-    plugins.push(...UnocssInspector(ctx) as any[])
+    plugins.push(...UnocssInspector(ctx, typeof inlineConfig.inspector === 'object' ? inlineConfig.inspector : {}) as any[])
 
   if (mode === 'per-module') {
     plugins.push(...PerModuleModePlugin(ctx))

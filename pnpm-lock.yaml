@@ -312,6 +312,9 @@ catalogs:
     '@iconify-json/catppuccin':
       specifier: ^1.2.17
       version: 1.2.17
+    '@iconify-json/hugeicons':
+      specifier: ^1.2.27
+      version: 1.2.35
     '@iconify-json/la':
       specifier: ^1.2.1
       version: 1.2.1
@@ -1260,6 +1263,12 @@ importers:
       '@iconify-json/catppuccin':
         specifier: catalog:icons
         version: 1.2.17
+      '@iconify-json/hugeicons':
+        specifier: catalog:icons
+        version: 1.2.35
+      '@iconify/utils':
+        specifier: catalog:icons
+        version: 3.1.7
       '@lezer/highlight':
         specifier: catalog:docs
         version: 1.2.5
@@ -1287,6 +1296,9 @@ importers:
       floating-vue:
         specifier: catalog:vue
         version: 5.4.0(@nuxt/kit@4.6.3)(vue@3.5.44)
+      prettier:
+        specifier: catalog:utils
+        version: 3.9.10
       shiki:
         specifier: catalog:docs
         version: 4.5.0
@@ -3745,6 +3757,9 @@ packages:
 
   '@iconify-json/catppuccin@1.2.17':
     resolution: {integrity: sha512-l1pFOADEUlw+j7V+yfFzBowdE4deeMuI4amqfKaN+7uTI9B0Ho24C86DitQk5zb62NkEM9poOyfuG7WS2bw6jg==}
+
+  '@iconify-json/hugeicons@1.2.35':
+    resolution: {integrity: sha512-c06tY90JZnKhOLBAKoQ1z2pqXMRdATuYXslTKwaaIAjLzKsTIsE+GGknY6+qo/SP0U/NG9xQjr4N+zfDqOeQiQ==}
 
   '@iconify-json/la@1.2.1':
     resolution: {integrity: sha512-7VUpZ+E7PfBpCXmAzLEGRR0LqCyFQRJiJTriO/vIZtQ1BLJ4xiDlIQ8gCCQvyTnKPG4IrvencwAxXpJGhk4pYg==}
@@ -12562,6 +12577,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/catppuccin@1.2.17':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/hugeicons@1.2.35':
     dependencies:
       '@iconify/types': 2.0.0
 

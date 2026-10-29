@@ -3,9 +3,11 @@ import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
+import UnoCSS from '../../vite/src/index'
 import { analyzer } from '../src/analyzer'
 import { createInspectorDevframe } from '../src/devframe'
 import { createRpcFunctions } from '../src/rpc'
+import { serializeSettingsValue } from '../src/settings'
 
 const MODULE_ID = '/root/playground/App.vue'
 const MODULE_CODE = '<div class="text-red m-4 hover:op50">Hello</div>'
@@ -40,6 +42,35 @@ describe('inspector rpc', () => {
     // Must survive strict JSON serialization (sent over the wire and
     // baked into static dumps)
     expect(() => JSON.stringify(info)).not.toThrow()
+  })
+
+  it('get-settings preserves dynamic matchers and serializes custom configuration', async () => {
+    const ctx = createContext({
+      presets: [presetWind3()],
+      rules: [[/^custom-(\d+)$/, ([, n]) => ({ width: `${n}px` })]],
+      shortcuts: { button: 'px-4 text-red' },
+      safelist: [() => ['p-1']],
+      blocklist: [/^blocked-/],
+    })
+    const definition = createRpcFunctions(ctx).find(fn => fn.name === 'get-settings')!
+    const handler = await resolveHandler(definition)
+    const settings = await handler()
+    expect(settings.config.rulesDynamic).toContain('/^custom-(\\d+)$/')
+    expect(settings.config.shortcuts).toContainEqual({ matcher: 'button', body: 'px-4 text-red' })
+    expect(settings.config.blocklist).toContain('/^blocked-/')
+    expect(settings.config.safelist.some((entry: string) => entry.includes('p-1'))).toBe(true)
+    expect(() => JSON.stringify(settings)).not.toThrow()
+  })
+
+  it('serializes repeated values and circular theme references without losing matchers', () => {
+    const shared = { matcher: /^custom-/ }
+    const theme: any = { first: shared, second: shared }
+    theme.self = theme
+    expect(JSON.parse(serializeSettingsValue(theme))).toEqual({
+      first: { matcher: '/^custom-/' },
+      second: { matcher: '/^custom-/' },
+      self: '[Circular]',
+    })
   })
 
   it('get-module-info analyzes a single module', async () => {
@@ -205,6 +236,7 @@ describe('inspector devframe', () => {
       'get-autocomplete-suggestions',
       'get-generated-css',
       'get-overview',
+      'get-settings',
     ])
   })
 
@@ -242,5 +274,20 @@ describe('inspector devframe', () => {
     expect(mutations.map(m => m.revision)).toEqual([1, 2, 3])
     expect(mutations[0].module).toBe(MODULE_ID)
     expect(mutations[1].module).toBe('')
+  })
+})
+
+describe('vite inspector options', () => {
+  it.each([
+    [undefined, false, true],
+    [true, false, true],
+    [false, false, false],
+    [{ overlay: true }, true, true],
+    [{ overlay: false }, false, true],
+  ] as const)('supports inspector option %j', async (inspector, overlay, backend) => {
+    const plugins = UnoCSS({ configFile: false, presets: [presetWind3()], inspector })
+    await plugins.find(plugin => plugin.name === 'unocss:api')!.api.getContext().ready
+    expect(plugins.some(plugin => plugin.name === 'unocss:inspector:overlay')).toBe(overlay)
+    expect(plugins.some(plugin => plugin.name === 'unocss:inspector:rpc')).toBe(backend)
   })
 })
