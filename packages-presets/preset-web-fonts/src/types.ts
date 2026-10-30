@@ -2,6 +2,8 @@ import type { Arrayable, Awaitable } from '@unocss/core'
 
 export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none' | Provider
 
+export type BuiltinWebFontsProviders = Exclude<WebFontsProviders, Provider>
+
 export interface WebFontMeta {
   /**
    * The name of the font family
@@ -83,6 +85,19 @@ export interface WebFontsOptions {
    * The fonts
    */
   fonts?: Record<string, WebFontMeta | string | (WebFontMeta | string)[]>
+
+  /**
+   * Fonts grouped by provider, each font uses the provider it is listed under
+   *
+   * @example
+   * ```ts
+   * providers: {
+   *   google: { fonts: { sans: 'Inter' } },
+   *   fontshare: { fonts: { display: 'Satoshi' } },
+   * }
+   * ```
+   */
+  providers?: Partial<Record<BuiltinWebFontsProviders, { fonts: WebFontsOptions['fonts'] }>>
 
   /**
    * Extend fonts to the theme object
