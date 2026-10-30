@@ -12,7 +12,6 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
   vueScoped?: VueScopedOptions;
   transformCSS?: boolean | 'pre' | 'post';
   postcss?: boolean;
-  hmrTopLevelAwait?: boolean;
   fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin';
   checkImport?: boolean;
 }
