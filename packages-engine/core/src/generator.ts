@@ -414,15 +414,53 @@ class UnoGeneratorInternal<Theme extends object = object> {
       return alias === null ? null : alias ?? layer
     }
 
+    // Callbacks can mutate rule metadata or parent order between layers.
+    // Keep the live path when such callbacks are present, and for later
+    // requests for layers that were not part of this generation.
+    const canGroupLayers = layers.length > 1
+      && !this.config.processors?.length
+      && !(typeof outputCssLayers === 'object' && outputCssLayers.cssLayerName)
+    let renderingLayers = true
+    let groupedLayers: Map<string, [string, StringifiedUtil<Theme>[]][]> | undefined
+    const sortParents = () => Array.from(sheet)
+      .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || (a[0] || '').localeCompare(b[0] || '') || 0)
+
     const getRawLayer = (layer: string = LAYER_DEFAULT) => {
       if (rawLayerCache[layer] != null)
         return rawLayerCache[layer]
 
-      let css = Array.from(sheet)
-        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || (a[0] || '').localeCompare(b[0] || '') || 0)
+      let parentGroups: [string, StringifiedUtil<Theme>[]][]
+      if (canGroupLayers && renderingLayers) {
+        if (!groupedLayers) {
+          groupedLayers = new Map()
+          for (const [parent, items] of sortParents()) {
+            const parentLayers = new Map<string, StringifiedUtil<Theme>[]>()
+            for (const item of items) {
+              const itemLayer = item[4]?.layer || LAYER_DEFAULT
+              let group = parentLayers.get(itemLayer)
+              if (!group) {
+                group = []
+                parentLayers.set(itemLayer, group)
+                let groups = groupedLayers.get(itemLayer)
+                if (!groups) {
+                  groups = []
+                  groupedLayers.set(itemLayer, groups)
+                }
+                groups.push([parent, group])
+              }
+              group.push(item)
+            }
+          }
+        }
+        parentGroups = groupedLayers.get(layer) || []
+      }
+      else {
+        parentGroups = sortParents().map(([parent, items]) => [parent, items.filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)])
+      }
+
+      let css = parentGroups
         .map(([parent, items]) => {
           const sorted: PreparedRule[] = items
-            .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
             .sort((a, b) => {
               return a[0] - b[0] // rule index
                 || (a[4]?.sort || 0) - (b[4]?.sort || 0) // sort context
@@ -564,6 +602,8 @@ class UnoGeneratorInternal<Theme extends object = object> {
       const raw = getRawLayer(layer)
       processedLayerCache[layer] = raw ? await processLayer(raw, layer) : raw
     }))
+    renderingLayers = false
+    groupedLayers = undefined
 
     return {
       get css() { return getLayers() },
