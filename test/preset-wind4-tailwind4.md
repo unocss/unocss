@@ -23,7 +23,7 @@ Source anchors identify assertion blocks. They do not measure assertion quality 
 The upstream groups include directional forms, compound variants, sorting, and configuration cases.
 Related groups can share a parameterized assertion block. No group is omitted because Wind4 does not support it.
 Skipped Wind4 tests retain their assertions. Their Tailwind reference checks remain active.
-The focused suite has 734 passing tests and 46 skipped Wind4 contracts.
+The focused suite has 741 passing tests and 46 skipped Wind4 contracts.
 
 ## Coverage matrix
 
@@ -45,8 +45,10 @@ Background cases cover an angular linear gradient, radial mode, and an angular c
 These cases do not cover every background utility or gradient modifier.
 
 Selector assertions replace the candidate class with `&` before testing conditions, so escaped class text cannot satisfy the condition.
-Arbitrary group assertions require the group ancestor relationship. Marker and selection assertions require both own-element and descendant targets.
-The tests reject 14 deliberate selector mutations across both compilers.
+Arbitrary group and group-hover assertions require a group ancestor. Arbitrary peer assertions require a preceding sibling with both the peer marker and condition.
+The in-focus assertion requires a focused ancestor. Responsive focus assertions require both the media condition and the utility's focus pseudo-class.
+Marker and selection assertions require both own-element and descendant targets.
+The tests reject 28 deliberate selector and media mutations across both compilers.
 The `matchVariant` test creates a fresh compiler for each input order and compares the selected engine's output.
 
 ## Known skipped Wind4 contracts

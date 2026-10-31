@@ -5,6 +5,8 @@ import { utilityGaps, variantContracts, variantGaps } from './assets/wind4-tailw
 
 import { declarationPaths, declarations, generate } from './utils/wind4-tailwind4'
 
+const groupHoverContract: [string, RegExp] = ['group-hover:flex', /^(?:\.group:hover &|@media \(hover: hover\) &:is\(:where\(\.group\):hover \*\))$/]
+
 function assertVariantCondition(root: Awaited<ReturnType<typeof generate>>['wind'], candidate: string, condition: RegExp) {
   const paths = declarationPaths(root, 'display', 'flex')
   expect(paths).toHaveLength(1)
@@ -14,22 +16,31 @@ function assertVariantCondition(root: Awaited<ReturnType<typeof generate>>['wind
 }
 
 describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
-  it.each(['tailwind', 'wind'] as const)('%s arbitrary group assertion rejects omitted conditions', async (engine) => {
-    const candidate = 'group-[.ready]:flex'
-    const contract = variantContracts.find(([token]) => token === candidate)
-    if (!contract)
-      throw new Error('Missing arbitrary group contract')
-    const output = await generate(candidate)
-    assertVariantCondition(output[engine], candidate, contract[1])
-    const selector = `.${escapeSelector(candidate)}`
-    for (const replacement of [selector, `.ready ${selector}`, `.group.ready${selector}`]) {
-      const mutated = output[engine].clone()
-      mutated.walkRules((rule) => {
-        if (rule.selector.includes(selector))
-          rule.selector = replacement
-      })
-      expect(() => assertVariantCondition(mutated, candidate, contract[1])).toThrow()
-    }
+  describe.each([
+    ['group-[.ready]:flex', ['&', '.ready &', '.group.ready&']],
+    ['peer-[.ready]:flex', ['.ready ~ &', '& ~ .peer.ready', '&.ready ~ .unrelated']],
+    ['in-focus:flex', ['&:focus']],
+    ['group-hover:flex', ['.group:hover&']],
+  ])('%s relationship assertion', (candidate, replacements) => {
+    it.each(['tailwind', 'wind'] as const)('%s rejects incorrect relationships', async (engine) => {
+      const contract = [...variantContracts, groupHoverContract].find(([token]) => token === candidate)
+      if (!contract)
+        throw new Error(`Missing variant contract: ${candidate}`)
+      const output = await generate(candidate)
+      assertVariantCondition(output[engine], candidate, contract[1])
+      const selector = `.${escapeSelector(candidate)}`
+      for (const replacement of replacements) {
+        const mutated = output[engine].clone()
+        mutated.walkRules((rule) => {
+          if (rule.selector.includes(selector)) {
+            rule.removeAll()
+            rule.append({ prop: 'display', value: 'flex' })
+            rule.selector = replacement.replaceAll('&', selector)
+          }
+        })
+        expect(() => assertVariantCondition(mutated, candidate, contract[1]), replacement).toThrow()
+      }
+    })
   })
   describe.each([
     ...utilityContracts,
@@ -107,7 +118,7 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
     ['has-[input]:flex', /:has\((?:input|:is\(input\))\)/],
     ['aria-checked:flex', /\[aria-checked=["']?true["']?\]/],
     ['data-[state=open]:flex', /\[data-state=["']?open["']?\]/],
-    ['group-hover:flex', /\.group.*:hover/],
+    groupHoverContract,
     ['peer-checked:flex', /\.peer.*:checked.*~/],
     ['[&>span]:flex', />\s*span/],
     ['motion-reduce:flex', /@media.*prefers-reduced-motion:\s*reduce/],

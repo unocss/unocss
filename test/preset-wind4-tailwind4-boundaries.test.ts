@@ -5,6 +5,14 @@ import { compile } from 'tailwindcss'
 import { describe, expect, it } from 'vitest'
 import { declarationPaths, declarations, generate, tailwindTheme } from './utils/wind4-tailwind4'
 
+function assertResponsiveFocus(root: ReturnType<typeof parse>) {
+  const paths = declarationPaths(root, 'display', 'flex')
+  expect(paths).toHaveLength(1)
+  const selector = `.${escapeSelector('md:focus:flex')}`
+  expect(paths[0]).toContain(selector)
+  expect(paths[0].replaceAll(selector, '&')).toMatch(/^@media \((?:width >= 48rem|min-width: 48rem)\) &:focus$/)
+}
+
 function assertPseudoTargets(root: ReturnType<typeof parse>, candidate: string, pseudo: string) {
   const selectors: string[] = []
   root.walkRules((rule) => {
@@ -198,14 +206,27 @@ describe('wind4 / Tailwind explicit capability boundaries', () => {
     expect(declarationPaths(wind, 'display', 'flex')).toEqual(['.only-child\\:flex:only-child'])
   })
 
-  it('responsive focus stacking retains both conditions', async () => {
-    const { wind, tailwind } = await generate('md:focus:flex')
-    for (const root of [wind, tailwind]) {
-      const paths = declarationPaths(root, 'display', 'flex')
-      expect(paths).toHaveLength(1)
-      expect(paths[0]).toMatch(/(?:width >= 48rem|min-width: 48rem)/)
-      expect(paths[0]).toContain(':focus')
-    }
+  describe('responsive focus stacking retains both conditions', () => {
+    it.each(['tailwind', 'wind'] as const)('%s rejects omitted focus or media conditions', async (engine) => {
+      const candidate = 'md:focus:flex'
+      const output = await generate(candidate)
+      assertResponsiveFocus(output[engine])
+      for (const condition of ['focus', 'media']) {
+        const mutated = output[engine].clone()
+        if (condition === 'focus') {
+          mutated.walkRules((rule) => {
+            if (rule.selector.includes(escapeSelector(candidate)))
+              rule.selector = `.${escapeSelector(candidate)}`
+          })
+        }
+        else {
+          mutated.walkAtRules('media', (rule) => {
+            rule.replaceWith(rule.nodes)
+          })
+        }
+        expect(() => assertResponsiveFocus(mutated), condition).toThrow()
+      }
+    })
   })
 
   it('margin sort order is independent of input order', async () => {
