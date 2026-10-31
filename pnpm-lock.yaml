@@ -386,6 +386,9 @@ catalogs:
     msw:
       specifier: ^2.7.0
       version: 2.15.0
+    tailwindcss:
+      specifier: 4.3.3
+      version: 4.3.3
     vitest:
       specifier: ^5.0.5
       version: 5.0.5
@@ -742,6 +745,9 @@ importers:
       svelte-eslint-parser:
         specifier: catalog:eslint
         version: 1.10.0(svelte@5.57.3)
+      tailwindcss:
+        specifier: catalog:testing
+        version: 4.3.3
       taze:
         specifier: catalog:utils
         version: 21.3.0

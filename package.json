@@ -69,6 +69,7 @@
     "rollup": "catalog:build",
     "simple-git-hooks": "catalog:utils",
     "svelte-eslint-parser": "catalog:eslint",
+    "tailwindcss": "catalog:testing",
     "taze": "catalog:utils",
     "tinyexec": "catalog:utils",
     "tinyglobby": "catalog:utils",
