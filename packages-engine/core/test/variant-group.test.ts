@@ -1,4 +1,4 @@
-import { collapseVariantGroup, expandVariantGroup } from '@unocss/core'
+import { collapseVariantGroup, expandVariantGroup, parseVariantGroup } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 
@@ -141,6 +141,23 @@ describe('variant-group', () => {
     expect(expandVariantGroup('a:(b-[c] d-[e])')).toEqual('a:b-[c] a:d-[e]')
     expect(expandVariantGroup('a:(b-[c]=d)')).toEqual('a:(b-[c]=d)')
     expect(expandVariantGroup('a:(b-[c]=d e[f])')).toEqual('a:(b-[c]=d e[f])')
+  })
+
+  it.each(Object.entries(expanders))('keeps tailwind v4 css variable shorthand (%s)', (_, expand) => {
+    expect(expand('bg-(--primary)')).toEqual('bg-(--primary)')
+    expect(expand('w-30 bg-(--brand-color) text-(--primary)/50')).toEqual('w-30 bg-(--brand-color) text-(--primary)/50')
+    expect(expand('hover:bg-(--primary)')).toEqual('hover:bg-(--primary)')
+    expect(expand('hover:(bg-(--primary) text-red)')).toEqual('hover:bg-(--primary) hover:text-red')
+    expect(expand('hover:(text-(--primary)/50 !bg-(--x))')).toEqual('hover:text-(--primary)/50 !hover:bg-(--x)')
+    expect(expand('dark:(hover:(bg-(--primary)))')).toEqual('dark:hover:bg-(--primary)')
+    expect(expand('a-(--b c)')).toEqual('a---b a-c')
+  })
+
+  it('does not touch a standalone css variable shorthand', () => {
+    const s = new MagicString('w-30 bg-(--primary)')
+    const result = parseVariantGroup(s)
+    expect(s.hasChanged()).toBe(false)
+    expect(result.groupsByOffset.size).toBe(0)
   })
 })
 
