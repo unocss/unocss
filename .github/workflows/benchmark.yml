@@ -7,6 +7,8 @@ on:
     paths: &core-paths
       - packages-engine/core/**
       - scripts/benchmark-summary.mjs
+      - scripts/comment-core-benchmark.mjs
+      - scripts/check-benchmark-comment.mjs
       - vitest.config.ts
       - package.json
       - pnpm-lock.yaml
@@ -24,9 +26,12 @@ permissions:
 jobs:
   benchmark:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - uses: pnpm/action-setup@v6
 
@@ -35,7 +40,10 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check benchmark reporting
+        run: node --test scripts/check-benchmark-comment.mjs
 
       - name: Build core
         run: pnpm --filter @unocss/core build
@@ -57,6 +65,7 @@ jobs:
 
       - name: Download base benchmark
         if: steps.base.outputs.run-id != ''
+        continue-on-error: true
         uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
@@ -77,3 +86,37 @@ jobs:
         with:
           name: core-benchmark-${{ github.sha }}
           path: .bench/current/core-bench.json
+          include-hidden-files: true
+
+      - name: Save PR benchmark data
+        if: github.event_name == 'pull_request'
+        run: |
+          node --input-type=module <<'NODE'
+          import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
+          const { pull_request: pr } = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, 'utf8'))
+          await mkdir('.bench/comment', { recursive: true })
+          await writeFile('.bench/comment/pr.json', JSON.stringify({
+            number: pr.number,
+            headSha: pr.head.sha,
+            baseSha: pr.base.sha,
+            repository: process.env.GITHUB_REPOSITORY,
+            runId: Number(process.env.GITHUB_RUN_ID),
+          }))
+          await copyFile('.bench/current/core-bench.json', '.bench/comment/current.json')
+          try {
+            await copyFile('.bench/base/core-bench.json', '.bench/comment/base.json')
+          }
+          catch (error) {
+            if (error.code !== 'ENOENT') throw error
+          }
+          NODE
+
+      - name: Upload PR benchmark data
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v6
+        with:
+          name: core-benchmark-comment
+          path: .bench/comment/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
