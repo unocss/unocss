@@ -1,9 +1,16 @@
-import { createApp } from 'vue'
-import Inspector from './Inspector.vue'
+import { startInspector } from './bootstrap'
 import './style.css'
 import 'uno.css'
 
-function mount() {
+async function mount() {
+  if (document.getElementById('unocss-inspector-root'))
+    return
+
+  // Load the UI and its eager RPC transport only in the top-level page.
+  const [{ createApp }, { default: Inspector }] = await Promise.all([
+    import('vue'),
+    import('./Inspector.vue'),
+  ])
   if (document.getElementById('unocss-inspector-root'))
     return
 
@@ -31,7 +38,4 @@ function mount() {
   })
 }
 
-if (document.readyState === 'loading')
-  document.addEventListener('DOMContentLoaded', mount, { once: true })
-else
-  mount()
+startInspector(mount)
