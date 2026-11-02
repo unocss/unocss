@@ -1,5 +1,4 @@
 import type { AutoCompleteFunction, SuggestResult } from '@unocss/core'
-import type { LRUCache } from 'lru-cache'
 import type { AutocompleteParseError } from './parse'
 
 export type AutoCompleteMatchType = 'prefix' | 'fuzzy'
@@ -32,11 +31,22 @@ export interface ParsedAutocompleteTemplate {
   errors: AutocompleteParseError[]
 }
 
+/**
+ * Cache used by the autocomplete engine to store suggestion results.
+ */
+export interface AutocompleteCache<T> {
+  readonly size: number
+  has: (key: string) => boolean
+  get: (key: string) => T | undefined
+  set: (key: string, value: T) => void
+  clear: () => void
+}
+
 export interface UnocssAutocomplete {
   suggest: (input: string, allowsEmptyInput?: boolean) => Promise<string[]>
   suggestInFile: (content: string, cursor: number) => Promise<SuggestResult | undefined>
   templates: (string | AutoCompleteFunction)[]
-  cache: LRUCache<string, string[]>
+  cache: AutocompleteCache<string[]>
   errorCache: Map<string, AutocompleteParseError[]>
   reset: () => void
   enumerate: () => Promise<Set<string>>

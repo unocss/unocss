@@ -10,10 +10,11 @@
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.4",
+    "@types/canvas-confetti": "^1.9.0",
     "@unocss/astro": "link:../../packages-integrations/astro",
     "@unocss/reset": "link:../../packages-presets/reset",
-    "astro": "^7.1.0",
-    "canvas-confetti": "^1.9.3",
+    "astro": "^7.4.2",
+    "canvas-confetti": "^1.9.4",
     "unocss": "link:../../packages-presets/unocss"
   },
   "stackblitz": {

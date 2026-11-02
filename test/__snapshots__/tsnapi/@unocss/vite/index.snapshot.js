@@ -4,6 +4,7 @@
 // #region Functions
 export function ChunkModeBuildPlugin(_) {}
 export function defineConfig(_) {}
+export function fromViteVirtualId(_) {}
 export function GlobalModeBuildPlugin(_) {}
 export function GlobalModeDevPlugin(_) {}
 export function GlobalModePlugin(_) {}
