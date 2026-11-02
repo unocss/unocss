@@ -42,8 +42,7 @@ jobs:
         with:
           app-id: ${{ vars.UNOCSS_BOT_APP_ID }}
           private-key: ${{ secrets.UNOCSS_BOT_APP_PRIVATE_KEY }}
-          permission-issues: write
-          permission-pull-requests: read
+          permission-pull-requests: write
 
       - name: Update benchmark comment
         uses: actions/github-script@v8

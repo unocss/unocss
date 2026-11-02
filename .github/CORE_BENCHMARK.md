@@ -14,8 +14,8 @@ Configure these values in **this repository's** Actions settings:
 - Variable `UNOCSS_BOT_APP_ID`: `5283403` for the existing `unocss-bot` App.
 - Secret `UNOCSS_BOT_APP_PRIVATE_KEY`: the App's private key in PEM format.
 
-Install the App on this repository with **Issues: Read and write** and
-**Pull requests: Read** permissions. Worker secrets and secrets configured in the
+Install the App on this repository with **Pull requests: Read and write**
+permissions. Worker secrets and secrets configured in the
 bot's own repository are separate from these Actions secrets.
 
 Merge both workflows into the default branch before checking automatic comments;
