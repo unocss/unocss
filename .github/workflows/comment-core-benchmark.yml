@@ -17,7 +17,7 @@ jobs:
   comment:
     if: >-
       github.event.workflow_run.event == 'pull_request'
-      && github.event.workflow_run.conclusion == 'success'
+      && contains(fromJSON('["success", "failure", "timed_out"]'), github.event.workflow_run.conclusion)
       && github.event.workflow_run.path == '.github/workflows/benchmark.yml'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -30,6 +30,7 @@ jobs:
           persist-credentials: false
 
       - uses: actions/download-artifact@v7
+        continue-on-error: true
         with:
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}

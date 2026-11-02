@@ -62,4 +62,5 @@ jobs:
         run: pnpm test
 
       - name: Typecheck
+        if: runner.os == 'Linux' && matrix.node_version == 22
         run: pnpm typecheck

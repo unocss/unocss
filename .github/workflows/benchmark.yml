@@ -6,117 +6,141 @@ on:
       - main
     paths: &core-paths
       - packages-engine/core/**
-      - scripts/benchmark-summary.mjs
-      - scripts/comment-core-benchmark.mjs
-      - scripts/check-benchmark-comment.mjs
+      - scripts/*benchmark*.mjs
+      - alias.ts
       - vitest.config.ts
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
       - .github/workflows/benchmark.yml
+      - .github/workflows/comment-core-benchmark.yml
   pull_request:
     branches:
       - main
     paths: *core-paths
 
 permissions:
-  actions: read
   contents: read
+
+concurrency:
+  group: core-benchmark-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   benchmark:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      BENCHMARK_REPORT_DIR: ${{ runner.temp }}/core-benchmark-report
 
     steps:
+      - name: Save benchmark metadata
+        run: |
+          node --input-type=module <<'NODE'
+          import { mkdir, readFile, writeFile } from 'node:fs/promises'
+          const directory = process.env.BENCHMARK_REPORT_DIR
+          await mkdir(directory, { recursive: true })
+          const { pull_request: pr } = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, 'utf8'))
+          if (pr) {
+            await writeFile(`${directory}/pr.json`, JSON.stringify({
+              number: pr.number,
+              headSha: pr.head.sha,
+              baseSha: pr.base.sha,
+              repository: process.env.GITHUB_REPOSITORY,
+              runId: Number(process.env.GITHUB_RUN_ID),
+              runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT),
+            }))
+          }
+          NODE
+
       - uses: actions/checkout@v6
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: current
+          persist-credentials: false
+
+      - name: Check out exact PR base
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
           persist-credentials: false
 
       - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: current/package.json
 
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: '**/pnpm-lock.yaml'
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install PR dependencies
+        id: install_current
+        working-directory: current
+        run: pnpm install --frozen-lockfile
+
+      - name: Install base dependencies
+        id: install_base
+        if: github.event_name == 'pull_request'
+        working-directory: base
+        run: pnpm install --frozen-lockfile
 
       - name: Check benchmark reporting
+        working-directory: current
         run: node --test scripts/check-benchmark-comment.mjs
 
-      - name: Build core
+      - name: Build PR core
+        id: build_current
+        working-directory: current
         run: pnpm --filter @unocss/core build
 
-      - name: Run core benchmarks
-        run: |
-          mkdir -p .bench/current
-          pnpm exec vitest bench packages-engine/core/test --run --reporter=json --outputFile .bench/current/core-bench.json
-
-      - name: Locate base benchmark
-        id: base
+      - name: Build base core
+        id: build_base
         if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: |
-          run_id="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${BASE_SHA}&status=success&per_page=100" --jq '.workflow_runs[] | select(.name == "Core benchmark") | .id' | head -n 1 || true)"
-          echo "run-id=${run_id}" >> "$GITHUB_OUTPUT"
+        working-directory: base
+        run: pnpm --filter @unocss/core build
 
-      - name: Download base benchmark
-        if: steps.base.outputs.run-id != ''
-        continue-on-error: true
-        uses: actions/download-artifact@v7
-        with:
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ steps.base.outputs.run-id }}
-          name: core-benchmark-${{ github.event.pull_request.base.sha }}
-          path: .bench/base
+      - name: Measure base and PR on the same runner
+        id: measure
+        env:
+          BENCHMARK_BASE_DIR: ${{ github.event_name == 'pull_request' && format('{0}/base', github.workspace) || '' }}
+        run: node current/scripts/run-core-benchmarks.mjs
 
       - name: Write benchmark summary
+        id: summary
+        env:
+          HAS_BASE: ${{ github.event_name == 'pull_request' }}
         run: |
-          if [ -f .bench/base/core-bench.json ]; then
-            node scripts/benchmark-summary.mjs .bench/current/core-bench.json .bench/base/core-bench.json
+          if [ "$HAS_BASE" = "true" ]; then
+            node current/scripts/benchmark-summary.mjs "$BENCHMARK_REPORT_DIR/current.json" "$BENCHMARK_REPORT_DIR/base.json" "$BENCHMARK_REPORT_DIR/pr.json"
           else
-            node scripts/benchmark-summary.mjs .bench/current/core-bench.json
+            node current/scripts/benchmark-summary.mjs "$BENCHMARK_REPORT_DIR/current.json"
           fi
 
-      - uses: actions/upload-artifact@v6
-        with:
-          name: core-benchmark-${{ github.sha }}
-          path: .bench/current/core-bench.json
-          include-hidden-files: true
-
-      - name: Save PR benchmark data
-        if: github.event_name == 'pull_request'
+      - name: Record failed step
+        if: always() && github.event_name == 'pull_request'
+        env:
+          STEP_RESULTS: ${{ toJSON(steps) }}
         run: |
           node --input-type=module <<'NODE'
-          import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
-          const { pull_request: pr } = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH, 'utf8'))
-          await mkdir('.bench/comment', { recursive: true })
-          await writeFile('.bench/comment/pr.json', JSON.stringify({
-            number: pr.number,
-            headSha: pr.head.sha,
-            baseSha: pr.base.sha,
-            repository: process.env.GITHUB_REPOSITORY,
-            runId: Number(process.env.GITHUB_RUN_ID),
-          }))
-          await copyFile('.bench/current/core-bench.json', '.bench/comment/current.json')
-          try {
-            await copyFile('.bench/base/core-bench.json', '.bench/comment/base.json')
-          }
-          catch (error) {
-            if (error.code !== 'ENOENT') throw error
-          }
+          import { readFile, writeFile } from 'node:fs/promises'
+          const file = `${process.env.BENCHMARK_REPORT_DIR}/pr.json`
+          const metadata = JSON.parse(await readFile(file, 'utf8'))
+          metadata.failedStep = Object.entries(JSON.parse(process.env.STEP_RESULTS))
+            .find(([, step]) => step.outcome === 'failure')?.[0]
+          await writeFile(file, JSON.stringify(metadata))
           NODE
 
-      - name: Upload PR benchmark data
-        if: github.event_name == 'pull_request'
+      - name: Upload benchmark reports even on failure
+        if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: core-benchmark-comment
-          path: .bench/comment/
-          include-hidden-files: true
+          name: ${{ github.event_name == 'pull_request' && 'core-benchmark-comment' || format('core-benchmark-{0}', github.sha) }}
+          path: ${{ env.BENCHMARK_REPORT_DIR }}/
           if-no-files-found: error
           retention-days: 7
+          overwrite: true
