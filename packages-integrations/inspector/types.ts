@@ -57,6 +57,11 @@ export interface MatchedSelector {
   variants?: string[]
   modules: string[]
   body: string
+  /**
+   * CSS declarations the utility generates, independent of its selector and variants.
+   * Utilities with equal declarations are aliases of each other.
+   */
+  declarations?: string
   alias?: Record<string, number>
 }
 
