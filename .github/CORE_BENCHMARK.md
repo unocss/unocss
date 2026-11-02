@@ -1,7 +1,8 @@
 # Core benchmark PR comments
 
 `benchmark.yml` measures the exact PR head and base commits on the same Ubuntu
-24.04 runner with Node 22, read-only permissions, and no GitHub App secrets. It
+24.04 runner with the latest Node LTS (minimum Node 24), read-only permissions,
+and no GitHub App secrets. It
 installs and builds separate worktrees, then runs three measurement rounds for
 each commit in alternating order: base/PR, PR/base, base/PR. Baseline results are
 computed for each PR and do not depend on historical artifacts. Main-branch runs
@@ -48,8 +49,11 @@ Cloudflare Sandbox, Containers, Queues, and a local Docker installation are not
 needed for these benchmarks.
 
 The main CI matrix still builds and tests on all existing OS/Node combinations.
-Typechecking runs once in its Ubuntu/Node 22 job, reusing that job's build and
-preserving the existing required check names.
+The minimum supported development/CI Node version is 24. Typechecking runs once
+in the Ubuntu/latest-LTS job selected by an explicit matrix flag, reusing that
+job's build and preserving the existing required check names. Ubuntu also tests
+Node 24 to cover the supported minimum. Benchmark run logs record the actual
+Node version used for both base and PR measurements.
 
 Run the report/comment and runner orchestration checks with:
 

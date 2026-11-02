@@ -18,8 +18,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [22, lts/*]
+        node_version: [24, lts/*]
         include:
+          - os: ubuntu-latest
+            node_version: lts/*
+            typecheck: true
           - os: macos-latest
             node_version: lts/*
           - os: windows-latest
@@ -62,5 +65,5 @@ jobs:
         run: pnpm test
 
       - name: Typecheck
-        if: runner.os == 'Linux' && matrix.node_version == 22
+        if: matrix.typecheck
         run: pnpm typecheck
