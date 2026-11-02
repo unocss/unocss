@@ -88,10 +88,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       process.cwd(),
     ])]
     const includeFilters = bases.map(base => createFilter(include, [], { resolve: base }))
-    const excludeFilters = bases.map(base => createFilter(exclude, [], { resolve: base }))
+    const excludeFilters = bases.map(base => createFilter([], exclude, { resolve: base }))
     return (id: unknown) =>
       includeFilters.some(filter => filter(id))
-      && !excludeFilters.some(filter => filter(id))
+      && excludeFilters.every(filter => filter(id))
   }
 
   async function updateRoot(newRoot: string) {
