@@ -53,6 +53,7 @@ export interface MatchedSelector {
   count: number
   ruleMeta?: RuleMeta
   baseSelector?: string
+  collection?: string
   variants?: string[]
   modules: string[]
   body: string

@@ -1,6 +1,6 @@
 import type { Variant } from '@unocss/core'
 import type { Theme } from '../theme'
-import { getBracket, hasThemeFn, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '@unocss/rule-utils'
+import { getBracket, hasThemeFn, PseudoClasses, PseudoClassesKeys, transformThemeFn, variantGetBracket, variantGetParameter, variantMatcher } from '@unocss/rule-utils'
 import { h } from '../utils'
 
 export const variantSelector: Variant<Theme> = {
@@ -152,7 +152,9 @@ export const variantImplicitGroup: Variant<Theme> = {
     const variant = variantGetParameter('in-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const group = h.bracket(match, ctx.theme) ?? match
+      // `in-focus` means a focused ancestor, not a `<focus>` element; a bare `nth-*` has no index to fill in
+      const pseudo = PseudoClassesKeys.includes(match) && !match.startsWith('nth') ? PseudoClasses[match] : undefined
+      const group = h.bracket(match, ctx.theme) ?? (pseudo && !pseudo.startsWith('::') ? pseudo : match)
       if (group) {
         return {
           matcher: rest,

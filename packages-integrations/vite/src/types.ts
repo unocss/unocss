@@ -1,5 +1,19 @@
 import type { UserConfig } from '@unocss/core'
 
+export interface VueScopedOptions {
+  /**
+   * Where to inject the generated scoped CSS relative to the SFC's own `<style>` blocks.
+   *
+   * - `'after'`: generated CSS comes after the SFC styles, so utilities win
+   *   against equally specific rules from the SFC.
+   * - `'before'`: generated CSS comes before the SFC styles, so the SFC styles
+   *   win against equally specific utilities.
+   *
+   * @default 'after'
+   */
+  styleOrder?: 'before' | 'after'
+}
+
 export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
   /**
    * Enable UnoCSS inspector
@@ -20,6 +34,11 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    * @default 'global'
    */
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom'
+
+  /**
+   * Options for the `vue-scoped` mode.
+   */
+  vueScoped?: VueScopedOptions
 
   /**
    * Transform CSS for `@apply` directive

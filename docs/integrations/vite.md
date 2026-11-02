@@ -90,6 +90,20 @@ The generated `css` will be a global stylesheet injected on the `index.html`.
 
 This mode will inject generated CSS to Vue SFCs `<style scoped>` for isolation.
 
+By default, the generated CSS is injected after the SFC's own `<style>` blocks, so equally specific utilities win. Use the `vueScoped.styleOrder` option to control the order:
+
+```ts
+UnoCSS({
+  mode: 'vue-scoped',
+  vueScoped: {
+    // `before`: generated CSS comes before the SFC's own styles,
+    // so the SFC's styles win on equal specificity.
+    // `after` (default): generated CSS comes after the SFC's styles.
+    styleOrder: 'before',
+  },
+})
+```
+
 ### `svelte-scoped`
 
 `svelte-scoped` mode has been moved to its own package, see [@unocss/svelte-scoped/vite](/integrations/svelte-scoped).

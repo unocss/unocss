@@ -1,7 +1,7 @@
 {
   "name": "@unocss/nuxt",
   "type": "module",
-  "version": "66.10.5",
+  "version": "66.12.0",
   "description": "Nuxt module for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -54,7 +54,9 @@
     "@unocss/preset-wind4": "workspace:*",
     "@unocss/reset": "workspace:*",
     "@unocss/vite": "workspace:*",
-    "@unocss/webpack": "workspace:*",
-    "unocss": "workspace:*"
+    "@unocss/webpack": "workspace:*"
+  },
+  "devDependencies": {
+    "@nuxt/schema": "catalog:nuxt"
   }
 }

@@ -1,4 +1,4 @@
-import { prettify, useCSSPrettify } from '../../../packages-integrations/inspector/client/composables/usePrettify'
+import { prettify, useCSSPrettify } from '#docs/composables/usePrettify'
 
 export async function formatHTML() {
   inputHTML.value = await prettify(toValue(options.value.transformHtml ? transformedHTML : inputHTML), 'html')

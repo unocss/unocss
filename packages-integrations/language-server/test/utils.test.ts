@@ -1,6 +1,6 @@
 import { createGenerator } from '@unocss/core'
+import { presetWind4 } from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
-import { presetWind4 } from '../../../packages-presets/preset-wind4'
 import { addRemToPxComment, getColorString, getCssVariables, parseColorToRGBA, shouldProvideAutocomplete } from '../src/index'
 
 describe('getColorString', () => {

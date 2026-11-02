@@ -3,8 +3,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Pages from 'vite-plugin-pages'
-import { alias } from '../../alias'
-import UnoCSS from '../../packages-presets/unocss/src/vite'
+import { alias } from '../../alias.ts'
+import UnoCSS from '../../packages-presets/unocss/src/vite.ts'
 
 /** Base the dev-only devframe RPC backend is mounted at (see `startDevBackend`). */
 const DEV_RPC_BASE = '/__unocss/'

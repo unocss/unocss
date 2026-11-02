@@ -1,4 +1,5 @@
-import type { MaybeElementRef, MaybeRef } from '@vueuse/core'
+import type { MaybeElementRef } from '@vueuse/core'
+import type { MaybeRef } from 'vue'
 import { clamp, createEventHook, tryOnScopeDispose, unrefElement, useEventListener } from '@vueuse/core'
 import { computed, nextTick, reactive, ref, unref, watch } from 'vue'
 

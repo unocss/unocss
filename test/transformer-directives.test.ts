@@ -5,12 +5,11 @@ import { createGenerator, mergeDeep } from '@unocss/core'
 import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
-import transformerDirectives from '@unocss/transformer-directives'
+import transformerDirectives, { transformDirectives } from '@unocss/transformer-directives'
 import MagicString from 'magic-string'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
 import { describe, expect, it } from 'vitest'
-import { transformDirectives } from '../packages-presets/transformer-directives/src/transform'
 
 describe('source filter', () => {
   it('detects supported directives', () => {

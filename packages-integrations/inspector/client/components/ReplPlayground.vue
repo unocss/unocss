@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getAutocompleteHint, getGeneratedCss } from '../composables/autocomplete'
 import { fetchRepl } from '../composables/fetch'
 import { useScrollStyle } from '../composables/useScrollStyle'
 
@@ -36,6 +37,8 @@ const { data: result } = fetchRepl(input, isSafelistIncluded)
       <CodeMirror
         v-model="input"
         mode="html"
+        :get-hint="getAutocompleteHint"
+        :get-css="getGeneratedCss"
         :matched="result?.matched || []"
         class="scrolls repl-scrolls"
         :style="style"

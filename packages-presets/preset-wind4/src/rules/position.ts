@@ -53,8 +53,8 @@ export const justifies: StaticRule[] = [
 
 export const orders: Rule<Theme>[] = [
   [/^order-(.+)$/, ([, v], { theme }) => ({ order: h.bracket.cssvar.number(v, theme) })],
-  ['order-first', { order: 'calc(-infinity)' }],
-  ['order-last', { order: 'calc(infinity)' }],
+  ['order-first', { order: '-9999' }],
+  ['order-last', { order: '9999' }],
   ['order-none', { order: '0' }],
 ]
 

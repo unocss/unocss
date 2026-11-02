@@ -1,7 +1,7 @@
 {
   "name": "@unocss/core",
   "type": "module",
-  "version": "66.10.5",
+  "version": "66.12.0",
   "description": "The instant on-demand Atomic CSS engine.",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -38,8 +38,10 @@
     "prepack": "turbo build --filter=.",
     "dev": "tsdown --watch"
   },
+  "dependencies": {
+    "magic-string": "catalog:utils"
+  },
   "devDependencies": {
-    "magic-string": "catalog:utils",
     "unconfig": "catalog:utils"
   }
 }

@@ -1,4 +1,4 @@
-import UnoCSS from '@unocss/vite'
+import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 // simulates a framework (e.g. Nuxt) that builds a named environment into an

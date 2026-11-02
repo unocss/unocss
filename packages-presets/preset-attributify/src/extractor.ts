@@ -27,15 +27,15 @@ export function extractorAttributify(options?: AttributifyOptions): Extractor {
         .flatMap(([, name, ...contents]) => {
           const content = contents.filter(Boolean).join('')
 
-          if (ignoreAttributes.includes(name))
-            return []
-
           for (const prefix of strippedPrefixes) {
             if (name.startsWith(prefix)) {
               name = name.slice(prefix.length)
               break
             }
           }
+
+          if (ignoreAttributes.includes(name))
+            return []
 
           if (!content) {
             if (isValidSelector(name) && nonValuedAttribute !== false) {

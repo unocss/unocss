@@ -190,7 +190,7 @@ export async function resolveConfig<Theme extends object = object>(
   const rules = getMerged('rules')
   const rulesSize = rules.length
   const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
-  const rulesDynamic: ResolvedConfig<Theme>['rulesDynamic'] = []
+  const rulesDynamic: DynamicRule<Theme>[] = []
 
   for (const [index, rule] of rules.entries()) {
     const meta = rule[2] ?? (rule[2] = {})
@@ -204,9 +204,11 @@ export async function resolveConfig<Theme extends object = object>(
       })
     }
     else {
-      (rulesDynamic as DynamicRule<Theme>[]).unshift(rule)
+      rulesDynamic.push(rule)
     }
   }
+
+  rulesDynamic.reverse()
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),

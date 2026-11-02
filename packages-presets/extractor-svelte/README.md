@@ -1,6 +1,6 @@
 # @unocss/extractor-svelte
 
-Supports extracting classes from `class:` directive.
+Supports extracting classes from `class:` directives and static unquoted `class` attributes in `.svelte` files.
 
 ## Documentation
 

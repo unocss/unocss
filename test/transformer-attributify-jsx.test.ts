@@ -62,6 +62,16 @@ const tagCouldBeAttrCode = `
 </div>
 `.trim()
 
+const tagRepeatsAttributesCode = `
+<div>
+  <flex flex></flex>
+  <my-flex flex></my-flex>
+  <x-grid grid></x-grid>
+  <div components={<my-flex flex></my-flex>}></div>
+  <div components={() => <x-grid grid></x-grid>}></div>
+</div>
+`.trim()
+
 describe('transformerAttributifyJsx', async () => {
   const uno = await createGenerator({
     presets: [
@@ -227,6 +237,21 @@ describe('transformerAttributifyJsx', async () => {
       </div>"
     `)
   })
+  it('regex resolver does not rewrite a tag whose name repeats the attributes', async () => {
+    const code = new MagicString(tagRepeatsAttributesCode)
+    await transformerAttributifyJsx({ include: [{ pattern: /\.tsx$/, resolver: 'regex' }] })
+      .transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`
+      "<div>
+        <flex flex=""></flex>
+        <my-flex flex=""></my-flex>
+        <x-grid grid=""></x-grid>
+        <div components={<my-flex flex=""></my-flex>}></div>
+        <div components={() => <x-grid grid=""></x-grid>}></div>
+      </div>"
+    `)
+  })
   // #3923
   it('svg test', async () => {
     const svg = `<Icon
@@ -282,5 +307,26 @@ describe('transformerAttributifyJsx', async () => {
               )}
             />"
     `)
+  })
+
+  // #3867
+  it('with default prefix attributify', async () => {
+    const code = new MagicString(`<div un-hidden un-text-red></div>`)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`"<div un-hidden="" un-text-red=""></div>"`)
+  })
+
+  it('with custom prefix attributify', async () => {
+    const unoWithPrefix = await createGenerator({
+      presets: [
+        presetWind3(),
+        presetAttributify({ prefix: 'uno-' }),
+      ],
+    })
+    const code = new MagicString(`<div uno-hidden uno-text-red></div>`)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno: unoWithPrefix, tokens: new Set() } as any)
+
+    expect(code.toString()).toMatchInlineSnapshot(`"<div uno-hidden="" uno-text-red=""></div>"`)
   })
 })

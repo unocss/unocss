@@ -1,4 +1,4 @@
-import type { UserConfig } from '@unocss/core'
+import type { UserConfig } from 'unocss'
 import { evaluateUserConfig } from '#docs'
 import { bundlePackages } from '#docs/packages'
 import { unocssBundle } from '#docs/unocss-bundle'

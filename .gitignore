@@ -34,3 +34,4 @@ test/**/vite-environments-isolated/dist-?*?
 examples/**/public/assets/fonts
 playground/public/assets/fonts
 
+/test/fixtures/vite-vue-scoped/dist-?*?

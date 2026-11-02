@@ -10,6 +10,7 @@ import {
   workloads,
 } from './performance-fixtures'
 
+// Reuse generators so extraction and warm-token benchmarks exclude setup costs.
 const defaultGenerator = await createGenerator(defaultProfile)
 const variantGenerator = await createGenerator(variantProfile)
 await defaultGenerator.parseToken('matched-1')

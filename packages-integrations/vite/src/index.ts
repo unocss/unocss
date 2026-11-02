@@ -7,7 +7,7 @@ import { createContext } from '#integration/context'
 import { ConfigHMRPlugin } from './config-hmr'
 import { createDevtoolsPlugin } from './devtool'
 import { ChunkModeBuildPlugin } from './modes/chunk-build'
-import { GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
+import { GlobalModeBuildPlugin, GlobalModeDevPlugin, GlobalModePlugin } from './modes/global'
 import { PerModuleModePlugin } from './modes/per-module'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { VueScopedPlugin } from './modes/vue-scoped'
@@ -18,6 +18,7 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 export * from './types'
+export * from './virtual'
 
 export function defineConfig<Theme extends object>(config: VitePluginConfig<Theme>) {
   return config
@@ -65,7 +66,9 @@ export default function UnocssPlugin<Theme extends object>(
     plugins.push(...PerModuleModePlugin(ctx))
   }
   else if (mode === 'vue-scoped') {
-    plugins.push(VueScopedPlugin(ctx))
+    // Generated utilities are scoped to each SFC, while preflight layers
+    // (CSS variables, reset styles, `@property`, ...) need to stay global.
+    plugins.push(VueScopedPlugin(ctx), ...GlobalModeBuildPlugin(ctx))
   }
   // @ts-expect-error alerts users who were already using this mode before it became its own package
   else if (mode === 'svelte-scoped') {

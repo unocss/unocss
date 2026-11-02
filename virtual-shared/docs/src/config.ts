@@ -1,4 +1,5 @@
 import type { UserConfig } from '@unocss/core'
+import { $fetch } from 'ofetch'
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 

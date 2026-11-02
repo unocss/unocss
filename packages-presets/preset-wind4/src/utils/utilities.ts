@@ -261,6 +261,20 @@ export function colorCSSGenerator(
       return result
     }
 
+    // Arbitrary `var()` values are already complete colors: pass them through
+    // unless an opacity is applied. Wrapping them in `color-mix()` is
+    // unnecessary and nests another `color-mix()` when the fallback contains
+    // one. This mirrors `preset-mini`/`preset-wind3` and Tailwind v4, where
+    // `bg-[var(--x)]` emits `background-color: var(--x)`.
+    if (isCSSVar && !keys && !alpha && !modifier) {
+      // Keep the theme dependency: with on-demand preflights the definition of
+      // the referenced `--colors-*` variable is only emitted when it is tracked.
+      if (ctx?.theme)
+        detectThemeValue(color, ctx.theme)
+      css[property] = color
+      return result
+    }
+
     const alphaKey = `--un-${varName}-opacity`
     const value = (keys && !isCSSVar && !isSpecial) ? generateThemeVariable('colors', keys) : color
     let method = modifier ?? (keys ? 'in srgb' : 'in oklab')

@@ -173,6 +173,11 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (!layer)
           return null
 
+        // Integrations (e.g. `@unocss/astro`) may resolve the entry to a plain
+        // path id instead of the virtual id returned from `resolveId`, so track
+        // every id that is actually served for HMR invalidation.
+        entries.add(id)
+
         const { hash, css } = await generateCSS(layer)
         return {
           // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated

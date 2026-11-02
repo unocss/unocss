@@ -1,4 +1,5 @@
 import type { Extractor } from '@unocss/core'
+import { extractUnquotedClasses } from './extract-unquoted-classes'
 
 const rightTrimRe = /=$/
 
@@ -6,7 +7,7 @@ function extractorSvelte(): Extractor {
   return {
     name: 'svelte',
     order: 100,
-    extract({ id, extracted }) {
+    extract({ code, id, extracted }) {
       if (id && id.endsWith('.svelte')) {
         const items = Array.from(extracted)
         items.forEach((r) => {
@@ -15,6 +16,8 @@ function extractorSvelte(): Extractor {
             extracted.delete(r)
           }
         })
+        for (const value of extractUnquotedClasses(code))
+          extracted.add(value)
       }
     },
   }

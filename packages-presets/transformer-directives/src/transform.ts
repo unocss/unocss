@@ -85,6 +85,6 @@ export async function transformDirectives(
     })
 
     if (newCode !== oldCode)
-      code.update(0, code.original.length, newCode)
+      code.overwrite(0, code.original.length, newCode)
   }
 }

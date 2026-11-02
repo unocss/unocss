@@ -16,16 +16,7 @@ export interface UnocssInspectorDevframe {
 }
 // #endregion
 
-// #region Types
-export type InspectorServerFunctions = ReturnType<typeof createRpcFunctions>;
-// #endregion
-
 // #region Functions
 export declare function createInspectorDevframe(_: UnocssPluginContext): UnocssInspectorDevframe;
-export declare function createRpcFunctions(_: UnocssPluginContext): readonly [import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-project-info", "query", [], Promise<ProjectInfo>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-module-info", "query", [string], Promise<ModuleInfo | null> | null, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"generate-repl", "query", [input: string, includeSafelist: boolean], Promise<ReplResult>, undefined, undefined, undefined>, import("devframe/rpc").RpcFunctionDefinitionWithoutSchemas<"get-overview", "query", [], Promise<OverviewInfo>, undefined, undefined, undefined>];
 export declare function createStandaloneInspectorDevframe(_?: StandaloneInspectorOptions): Promise<UnocssInspectorDevframe>;
-// #endregion
-
-// #region Variables
-export declare const INSPECTOR_RPC_SCOPE: string;
 // #endregion

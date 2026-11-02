@@ -10,5 +10,10 @@ export default defineConfig({
   dts: true,
   exports: true,
   alias: aliasVirtual,
+  attw: {
+    ignoreRules: ['cjs-resolves-to-esm'],
+    enabled: 'ci-only',
+  },
+  publint: 'ci-only',
 },
 )

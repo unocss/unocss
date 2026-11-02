@@ -2,7 +2,8 @@ import type { UnocssPluginContext } from '@unocss/core'
 import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
 import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
 import { gzipSync } from 'node:zlib'
-import { BetterMap, CountableSet } from '@unocss/core'
+import { createAutocomplete } from '@unocss/autocomplete'
+import { BetterMap, CountableSet, toArray } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { analyzer } from './analyzer'
@@ -15,6 +16,24 @@ export const INSPECTOR_RPC_SCOPE = 'unocss'
  * host that mounts the inspector.
  */
 export function createRpcFunctions(ctx: UnocssPluginContext) {
+  let autocomplete: ReturnType<typeof createAutocomplete> | undefined
+  let autocompleteConfig: UnocssPluginContext['uno']['config'] | undefined
+  const generatedCssCache = new Map<string, string>()
+
+  function getAutocomplete() {
+    if (!autocomplete || autocompleteConfig !== ctx.uno.config) {
+      autocomplete = createAutocomplete(ctx.uno)
+      autocompleteConfig = ctx.uno.config
+    }
+    return autocomplete
+  }
+
+  ctx.onReload(() => {
+    autocomplete = undefined
+    autocompleteConfig = undefined
+    generatedCssCache.clear()
+  })
+
   const getProjectInfo = defineRpcFunction({
     name: 'get-project-info',
     type: 'query',
@@ -90,6 +109,50 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     },
   })
 
+  const getAutocompleteSuggestions = defineRpcFunction({
+    name: 'get-autocomplete-suggestions',
+    type: 'query',
+    setup: () => ({
+      handler: async (content: string, cursor: number) => {
+        await ctx.ready
+        const result = await getAutocomplete().suggestInFile(content, cursor)
+        if (!result?.suggestions.length)
+          return null
+
+        const resolved = result.resolveReplacement(result.suggestions[0][0])
+        return {
+          from: resolved.start,
+          options: result.suggestions.map(([value, label]) => ({
+            label,
+            apply: value,
+            type: 'text',
+            boost: 99,
+          })),
+        }
+      },
+    }),
+    dump: { fallback: null },
+  })
+
+  const getGeneratedCss = defineRpcFunction({
+    name: 'get-generated-css',
+    type: 'query',
+    setup: () => ({
+      handler: async (token: string): Promise<string | null> => {
+        await ctx.ready
+        const cached = generatedCssCache.get(token)
+        if (cached)
+          return cached
+
+        const { css } = await ctx.uno.generate(new Set(toArray(token)), { preflights: false, safelist: false })
+        if (css)
+          generatedCssCache.set(token, css)
+        return css || null
+      },
+    }),
+    dump: { fallback: null },
+  })
+
   const getOverview = defineRpcFunction({
     name: 'get-overview',
     type: 'query',
@@ -114,6 +177,8 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     getProjectInfo,
     getModuleInfo,
     generateRepl,
+    getAutocompleteSuggestions,
+    getGeneratedCss,
     getOverview,
   ] as const
 }

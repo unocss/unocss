@@ -59,12 +59,12 @@ The rule prefix depends on the ESLint configuration style:
 
 Available rules:
 
-- `order` - Enforce a specific order for class selectors.
+- `order` - Enforce a specific order for class selectors, including the values of prefixed attributify attributes (e.g. `un-before="..."`).
 - `order-attributify` - Enforce a specific order for attributify selectors.
 - `blocklist` - Disallow specific class selectors [Optional].
 - `enforce-class-compile` - Enforce class compile [Optional].
 
-`order-attributify` orders attributify attributes themselves. It does not sort utilities inside attributify values such as `un-before="text-center font-sans color-gray"`.
+`order-attributify` orders attributify attributes themselves. The utilities inside the value of prefixed attributes, such as `un-before="text-center font-sans color-gray"`, are sorted by `order`. The prefix is read from the `prefix` option of `presetAttributify` in your UnoCSS configuration, defaulting to `un-`. An empty prefix disables sorting of attribute values other than `class`. Other attributify values are not sorted yet.
 
 ### Rule options
 

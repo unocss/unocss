@@ -3,12 +3,7 @@
  */
 // #region Functions
 export function createInspectorDevframe(_) {}
-export function createRpcFunctions(_) {}
 export async function createStandaloneInspectorDevframe(_) {}
-// #endregion
-
-// #region Variables
-export var INSPECTOR_RPC_SCOPE /* const */
 // #endregion
 
 // #region Default Export
