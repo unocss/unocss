@@ -1,8 +1,9 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { resolveId } from '#integration/layers'
+import { toViteVirtualId } from '../virtual'
 
-const EMPTY_ENTRY_ID = '\0unocss:chunk-empty-entry'
+const EMPTY_ENTRY_ID = toViteVirtualId('unocss:chunk-empty-entry')
 
 export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
   const files: Record<string, string> = {}

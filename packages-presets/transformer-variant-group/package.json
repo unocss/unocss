@@ -35,8 +35,5 @@
   },
   "dependencies": {
     "@unocss/core": "workspace:*"
-  },
-  "devDependencies": {
-    "magic-string": "catalog:utils"
   }
 }

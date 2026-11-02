@@ -83,18 +83,61 @@ async function preparePackagesBundle() {
 
 async function updateTsconfig() {
   const root = fileURLToPath(new URL('..', import.meta.url))
-  const alias = await import('../alias').then(r => r.alias)
+  const { alias, aliasSource } = await import('../alias')
+
+  function toPath(value: string) {
+    let path = `./${relative(root, value)}`
+    if (!/\.\w+$/.test(path) && !path.endsWith('/'))
+      path = `${path}/`
+    return path
+  }
+
+  // The root config is used by builds and by package sources, so workspace
+  // packages resolve through their declared dependencies. Only the test
+  // project maps them to source.
+  const virtualPaths = Object.fromEntries(
+    Object.entries(alias).map(([key, value]) => [key, [toPath(value)]]),
+  )
   const tsconfig = JSON.parse(await readFile('./tsconfig.json', 'utf-8'))
   tsconfig.compilerOptions.paths = Object.fromEntries(
-    Object.entries(alias).flatMap(([k, v]) => {
-      let path = `./${relative(root, v)}`
-      if (!/\.\w+$/.test(path) && !path.endsWith('/'))
-        path = `${path}/`
-
-      return [[k, [path]]]
-    }),
+    Object.entries(virtualPaths).sort(([a], [b]) => a.localeCompare(b)),
   )
   await writeFile('./tsconfig.json', `${JSON.stringify(tsconfig, null, 2)}\n`, 'utf-8')
+
+  // TypeScript replaces paths instead of merging them across extends, so the
+  // generated test config merges the root paths explicitly.
+  const sourcePaths: Record<string, string[]> = {}
+  for (const [key, value] of Object.entries(aliasSource)) {
+    const path = toPath(value)
+    sourcePaths[key] = [path]
+    if (path.endsWith('/'))
+      sourcePaths[`${key}/*`] = [`${path}*`]
+  }
+  const testPaths = { ...tsconfig.compilerOptions.paths, ...sourcePaths }
+
+  await writeFile('./tsconfig.test.json', `${JSON.stringify({
+    extends: './tsconfig.json',
+    compilerOptions: {
+      lib: ['esnext', 'dom'],
+      paths: Object.fromEntries(
+        Object.entries(testPaths).sort(([a], [b]) => a.localeCompare(b)),
+      ),
+    },
+    include: [
+      'test/**/*.ts',
+      'packages-*/**/test/**/*.ts',
+      'packages-*/**/src/**/*.test.ts',
+      'virtual-shared/**/test/**/*.ts',
+    ],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/__snapshots__/**',
+      '**/test/dts/**',
+      '**/fixtures/**',
+      'packages-integrations/eslint-plugin/**',
+    ],
+  }, null, 2)}\n`, 'utf-8')
 }
 
 async function prepare() {

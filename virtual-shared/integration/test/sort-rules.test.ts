@@ -1,7 +1,7 @@
 import { createGenerator } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import { describe, expect, it } from 'vitest'
-import { sortRules } from '../src/sort-rules'
+import { sortRules } from '#integration/sort-rules'
 
 describe('sort rules', async () => {
   const uno = await createGenerator({

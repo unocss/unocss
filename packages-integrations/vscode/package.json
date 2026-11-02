@@ -156,7 +156,6 @@
   "devDependencies": {
     "@types/vscode": "^1.96.0",
     "@unocss/language-server": "workspace:*",
-    "tsx": "catalog:typescript",
     "vscode-ext-gen": "catalog:vscode",
     "vscode-languageclient": "catalog:vscode"
   }

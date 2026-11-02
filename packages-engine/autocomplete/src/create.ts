@@ -3,13 +3,13 @@ import type { AutocompleteParseError } from './parse'
 import type { AutocompleteOptions, ParsedAutocompleteTemplate, UnocssAutocomplete } from './types'
 import { escapeRegExp, toArray, uniq } from '@unocss/core'
 import { byLengthAsc, byStartAsc, Fzf } from 'fzf'
-import { LRUCache } from 'lru-cache'
+import { LRUCache } from './cache'
 import { parseAutocomplete } from './parse'
 import { searchAttrKey, searchUsageBoundary } from './utils'
 
 export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptions = {}): UnocssAutocomplete {
   const templateCache = new Map<string, ParsedAutocompleteTemplate>()
-  const cache = new LRUCache<string, string[]>({ max: 5000 })
+  const cache = new LRUCache<string[]>(5000)
   const errorCache = new Map<string, AutocompleteParseError[]>()
 
   // Pre-compile the collator for better performance on sorting
@@ -67,8 +67,9 @@ export function createAutocomplete(uno: UnoGenerator, options: AutocompleteOptio
   async function suggest(input: string, allowsEmptyInput = false) {
     if (!allowsEmptyInput && input.length < 1)
       return []
-    if (cache.has(input))
-      return cache.get(input)!
+    const cached = cache.get(input)
+    if (cached)
+      return cached
 
     const attributify = uno.config.presets.find(i => i.name === '@unocss/preset-attributify')
     const attributifyPrefix = attributify?.options?.prefix

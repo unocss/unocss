@@ -3,8 +3,17 @@
   "version": "66.12.0",
   "private": true,
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
+    "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/scope": "workspace:*",
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-tagify": "workspace:*",
+    "@unocss/preset-typography": "workspace:*",
+    "@unocss/preset-web-fonts": "workspace:*",
+    "@unocss/preset-wind3": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
+    "chokidar": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   }
 }

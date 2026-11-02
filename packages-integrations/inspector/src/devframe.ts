@@ -12,8 +12,6 @@ import { createContext } from '#integration/context'
 import { version } from '../package.json'
 import { createRpcFunctions, INSPECTOR_RPC_SCOPE } from './rpc'
 
-export * from './rpc'
-
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
   : dirname(fileURLToPath(import.meta.url))

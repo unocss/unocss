@@ -282,6 +282,17 @@ const SidebarConfig: DefaultTheme.SidebarItem[] = [
 
 export default defineConfig({
   lang: 'en-US',
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+    },
+    en: {
+      label: 'Русский',
+      lang: 'ru',
+      link: 'https://dragomano.github.io/unocss-russian/',
+    },
+  },
   title,
   titleTemplate: title,
   description,

@@ -1,12 +1,12 @@
+import type { VitePluginConfig } from '@unocss/vite'
 import type { InlineConfig, Rollup } from 'vite'
-import type { VitePluginConfig } from '../packages-integrations/vite/src/index'
 import { Buffer } from 'node:buffer'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import UnoCSS from '@unocss/vite'
 import postcss from 'postcss'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
 
 const root = resolve(import.meta.dirname, 'fixtures/vite-legacy/src')
 const entry = resolve(root, 'inline-entry.js')

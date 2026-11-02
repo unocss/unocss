@@ -1,11 +1,11 @@
 import { readFile, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import presetWind4 from '@unocss/preset-wind4'
+import UnoCSS from '@unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import { glob } from 'tinyglobby'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })

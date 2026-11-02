@@ -45,20 +45,18 @@
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "prepack": "turbo build --filter=.",
-    "typecheck": "tsgo --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src"
+    "lint": "nr build && cd ./test/fixtures/lint && eslint ./src"
   },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/rule-utils": "workspace:*",
     "magic-string": "catalog:utils",
     "synckit": "catalog:utils"
   },
   "devDependencies": {
-    "@typescript/native-preview": "catalog:typescript",
     "svelte-eslint-parser": "catalog:eslint",
+    "unocss": "workspace:*",
     "vue-eslint-parser": "catalog:vue"
   }
 }

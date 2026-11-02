@@ -58,6 +58,6 @@
     "unplugin-utils": "catalog:utils"
   },
   "devDependencies": {
-    "vite": "catalog:vite"
+    "@types/connect": "catalog:types"
   }
 }

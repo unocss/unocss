@@ -15,5 +15,5 @@
     "esModuleInterop": true
   },
   "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "client", "test"]
 }

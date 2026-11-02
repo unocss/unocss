@@ -4,16 +4,16 @@ import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { promisify } from 'node:util'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
+import UnoCSS from '@unocss/vite'
 import { glob } from 'tinyglobby'
-import { build, createBuilder } from 'vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
 
 const execFileAsync = promisify(execFile)
 const isWindows = process.platform === 'win32'
 const isRolldownVite = 'rolldownVersion' in vite
+const { build, createBuilder } = vite
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
@@ -293,7 +293,7 @@ describe.concurrent('fixtures', () => {
       plugins: [
         UnoCSS({
           configFile: false,
-          presets: [presetUno()],
+          presets: [presetWind3()],
         }),
       ],
     })

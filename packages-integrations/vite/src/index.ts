@@ -18,6 +18,7 @@ export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 export * from './types'
+export * from './virtual'
 
 export function defineConfig<Theme extends object>(config: VitePluginConfig<Theme>) {
   return config

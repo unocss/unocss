@@ -1,11 +1,11 @@
-import type { VitePluginConfig } from '@unocss/vite'
+import type { UserConfig } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind4 from '@unocss/preset-wind4'
 import { colorResolver } from '@unocss/preset-wind4/utils'
 
-export function createConfig(): VitePluginConfig {
+export function createConfig(): UserConfig {
   return {
     envMode: 'dev',
     details: true,

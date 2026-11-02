@@ -51,7 +51,13 @@
     "vscode-languageserver-textdocument": "catalog:vscode"
   },
   "devDependencies": {
-    "tsdown": "catalog:build"
+    "@unocss/preset-attributify": "workspace:*",
+    "@unocss/preset-icons": "workspace:*",
+    "@unocss/preset-tagify": "workspace:*",
+    "@unocss/preset-typography": "workspace:*",
+    "@unocss/preset-web-fonts": "workspace:*",
+    "@unocss/preset-wind4": "workspace:*",
+    "vscode-languageserver-types": "catalog:vscode"
   },
   "inlinedDependencies": {
     "@antfu/install-pkg": "2.1.0",
@@ -62,7 +68,7 @@
     "magic-string": "1.4.4",
     "node-fetch-native": "1.6.7",
     "ofetch": "1.5.1",
-    "package-manager-detector": "1.8.0",
+    "package-manager-detector": "1.9.0",
     "pathe": "2.0.3",
     "picomatch": "4.0.7",
     "tinyexec": "1.3.1",

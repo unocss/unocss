@@ -25,6 +25,14 @@
     "./worker": "./dist/worker.mjs",
     "./package.json": "./package.json"
   },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.mts",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],

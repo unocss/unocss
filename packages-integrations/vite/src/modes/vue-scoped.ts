@@ -5,13 +5,14 @@ import { LAYER_PREFLIGHTS } from '@unocss/core'
 import { createFilter } from 'unplugin-utils'
 import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
-import { toViteClientPath } from '../virtual'
+import { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '../virtual'
 
 const GLOBAL_LAYER_ORDER_ID = 'virtual:unocss-vue-scoped-layers.css'
-const GLOBAL_LAYER_ORDER_RESOLVED_ID = `\0${GLOBAL_LAYER_ORDER_ID}`
+const GLOBAL_LAYER_ORDER_RESOLVED_ID = toViteVirtualId(GLOBAL_LAYER_ORDER_ID)
 const DEV_GLOBAL_STYLES_ID = 'virtual:unocss-vue-scoped-global.css'
-const DEV_GLOBAL_STYLES_RESOLVED_ID = `\0${DEV_GLOBAL_STYLES_ID}`
+const DEV_GLOBAL_STYLES_RESOLVED_ID = toViteVirtualId(DEV_GLOBAL_STYLES_ID)
 const SCOPED_STYLE_PREFIX = 'virtual:unocss-vue-scoped-sfc/'
+const SCOPED_STYLE_RESOLVED_PREFIX = toViteVirtualId(SCOPED_STYLE_PREFIX)
 
 interface ScopedStyleEntry {
   css: string
@@ -123,7 +124,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
   }
 
   function updateScopedStyleModules(styleId: string) {
-    const marker = `\0${styleId}`
+    const marker = toViteVirtualId(styleId)
     for (const server of servers) {
       for (const [id, module] of server.moduleGraph.idToModuleMap) {
         if (!id.startsWith(marker) || !id.includes('type=style'))
@@ -228,7 +229,7 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
     },
     resolveId(id) {
       if (id.startsWith(SCOPED_STYLE_PREFIX))
-        return `\0${id}`
+        return toViteVirtualId(id)
       if (id === DEV_GLOBAL_STYLES_ID)
         return DEV_GLOBAL_STYLES_RESOLVED_ID
       if (id === GLOBAL_LAYER_ORDER_ID) {
@@ -239,8 +240,8 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
         globalStylesInjected = true
     },
     async load(id) {
-      if (id.startsWith(`\0${SCOPED_STYLE_PREFIX}`)) {
-        const styleId = id.slice(1).split('?')[0]
+      if (id.startsWith(SCOPED_STYLE_RESOLVED_PREFIX)) {
+        const styleId = fromViteVirtualId(id).split('?')[0]
         return scopedStyles.get(styleId)?.css ?? ''
       }
       if (id === DEV_GLOBAL_STYLES_RESOLVED_ID) {

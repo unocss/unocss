@@ -38,8 +38,10 @@
     "prepack": "turbo build --filter=.",
     "dev": "tsdown --watch"
   },
+  "dependencies": {
+    "magic-string": "catalog:utils"
+  },
   "devDependencies": {
-    "magic-string": "catalog:utils",
     "unconfig": "catalog:utils"
   }
 }

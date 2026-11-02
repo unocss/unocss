@@ -1,7 +1,6 @@
 import type { CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import type { UnocssAutocomplete } from '@unocss/autocomplete'
-import type { HighlightAnnotation, UnocssPluginContext } from '@unocss/core'
-import type { GenerateResult, UserConfig } from 'unocss'
+import type { GenerateResult, HighlightAnnotation, UnocssPluginContext, UserConfig } from 'unocss'
 import reset from '@unocss/reset/tailwind.css?raw'
 import MagicString from 'magic-string'
 import { createGenerator, noop } from 'unocss'

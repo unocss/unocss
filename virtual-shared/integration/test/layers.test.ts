@@ -1,7 +1,7 @@
 import { runInNewContext } from 'node:vm'
 import { describe, expect, it } from 'vitest'
-import { LAYER_MARK_ALL } from '../src/constants'
-import { getCssEscaperForJsContent, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveLayer } from '../src/layers'
+import { LAYER_MARK_ALL } from '#integration/constants'
+import { getCssEscaperForJsContent, getLayerPlaceholder, LAYER_PLACEHOLDER_RE, resolveLayer } from '#integration/layers'
 
 describe('resolveLayer', () => {
   it('matches virtual CSS ids with query strings', async () => {
