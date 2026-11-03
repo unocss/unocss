@@ -34,9 +34,7 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@unocss/core": "workspace:*",
     "fzf": "catalog:utils"
-  },
-  "devDependencies": {
-    "@unocss/core": "workspace:*"
   }
 }
