@@ -42,11 +42,12 @@
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "prepack": "turbo build --filter=.",
-    "build-post": "vite build",
+    "build-post": "vite build && vite build --config vite.overlay.config.ts",
     "dev": "tsdown --config-loader unrun --watch",
     "dev:client": "vite",
-    "update-post": "vite build",
-    "typecheck:vue": "vue-tsc --noEmit -p tsconfig.vue.json"
+    "update-post": "vite build && vite build --config vite.overlay.config.ts",
+    "typecheck:vue": "vue-tsc --noEmit -p tsconfig.vue.json",
+    "dev:overlay": "vite build --config vite.overlay.config.ts --watch"
   },
   "dependencies": {
     "@unocss/autocomplete": "workspace:*",
@@ -68,6 +69,8 @@
     "@codemirror/state": "catalog:docs",
     "@codemirror/view": "catalog:docs",
     "@iconify-json/catppuccin": "catalog:icons",
+    "@iconify-json/hugeicons": "catalog:icons",
+    "@iconify/utils": "catalog:icons",
     "@lezer/highlight": "catalog:docs",
     "@unocss/preset-attributify": "workspace:*",
     "@unocss/preset-icons": "workspace:*",
@@ -77,6 +80,7 @@
     "@vueuse/core": "catalog:vue",
     "codemirror": "catalog:docs",
     "floating-vue": "catalog:vue",
+    "prettier": "catalog:utils",
     "shiki": "catalog:docs",
     "splitpanes": "catalog:utils",
     "unplugin-auto-import": "catalog:utils",

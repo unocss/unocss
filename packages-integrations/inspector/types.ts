@@ -76,3 +76,25 @@ export interface SuggestedShortcut {
   count: number
   modules: string[]
 }
+
+export interface SerializedUnoCSSSettings {
+  version: string
+  context: {
+    root?: string
+    configFile?: string
+    sources: string[]
+  }
+  config: {
+    envMode?: string
+    presets: Array<{ name: string }>
+    rulesStatic: string[]
+    rulesDynamic: string[]
+    shortcuts: Array<{ matcher: string, body: string }>
+    variants: Array<{ name: string }>
+    safelist: string[]
+    blocklist: string[]
+    layers: Record<string, number>
+    transformers: Array<{ name: string }>
+    theme: unknown
+  }
+}

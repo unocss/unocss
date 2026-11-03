@@ -3,7 +3,9 @@
   "include": [
     "client/**/*.ts",
     "client/**/*.d.ts",
-    "client/**/*.vue"
+    "client/**/*.vue",
+    "overlay/**/*.ts",
+    "overlay/**/*.vue"
   ],
   "exclude": [
     "dist",

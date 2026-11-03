@@ -7,6 +7,6 @@ export async function createStandaloneInspectorDevframe(_) {}
 // #endregion
 
 // #region Default Export
-function _default(_) {}
+function _default(_, _) {}
 export default _default
 // #endregion

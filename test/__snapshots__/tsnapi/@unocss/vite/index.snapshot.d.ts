@@ -7,7 +7,7 @@ export interface UnocssVitePluginAPI {
   getMode: () => VitePluginConfig['mode'];
 }
 export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
-  inspector?: boolean;
+  inspector?: boolean | InspectorOptions;
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom';
   vueScoped?: VueScopedOptions;
   transformCSS?: boolean | 'pre' | 'post';

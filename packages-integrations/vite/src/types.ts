@@ -1,4 +1,5 @@
 import type { UserConfig } from '@unocss/core'
+import type { InspectorOptions } from '@unocss/inspector'
 
 export interface VueScopedOptions {
   /**
@@ -20,7 +21,7 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    *
    * @default true
    */
-  inspector?: boolean
+  inspector?: boolean | InspectorOptions
 
   /**
    * CSS Generation mode
