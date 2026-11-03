@@ -1,4 +1,7 @@
 import type { UserConfig } from '@unocss/core'
+import type { Plugin } from 'vite'
+
+export type UnoCSSVitePlugin = Plugin[]
 
 export interface VueScopedOptions {
   /**
