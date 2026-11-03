@@ -1546,6 +1546,18 @@ importers:
         specifier: catalog:svelte
         version: 5.57.3(@typescript-eslint/types@8.72.1)
 
+  packages-integrations/svelte-scoped/test/fixtures/vite:
+    devDependencies:
+      '@sveltejs/kit':
+        specifier: catalog:svelte
+        version: 2.70.3(@sveltejs/vite-plugin-svelte@7.3.1)(svelte@5.57.3)(typescript@6.0.3)(vite@8.3.5)
+      '@unocss/svelte-scoped':
+        specifier: workspace:*
+        version: link:../../..
+      '@unocss/transformer-directives':
+        specifier: workspace:*
+        version: link:../../../../../packages-presets/transformer-directives
+
   packages-integrations/twoslash:
     dependencies:
       '@unocss/config':
