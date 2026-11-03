@@ -4,6 +4,18 @@ export function getPath(id: string) {
   return id.replace(/\?.*$/, '')
 }
 
+/**
+ * Split a virtual entry id into its file name and query
+ * (`\0/@unocss/entry.css?inline` -> `{ filename: 'entry.css', query: '?inline' }`).
+ */
+export function splitEntryId(id: string) {
+  const [pathname, ...query] = id.split('?')
+  return {
+    filename: pathname.split(/[/\\]/).pop() || '',
+    query: query.length ? `?${query.join('?')}` : '',
+  }
+}
+
 export function isCssId(id: string) {
   return cssIdRE.test(id)
 }
