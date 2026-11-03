@@ -14,14 +14,33 @@ describe('vite virtual module ids', () => {
     })
   }
 
-  it('uses internal ids for global CSS', async () => {
+  it('serves global CSS through a path id', async () => {
     const server = await createServer('global')
 
     try {
-      expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
-        .toBe('\0/__uno.css?inline')
+      expect((await server.pluginContainer.resolveId('uno.css'))?.id)
+        .toBe('/__uno.css')
       expect((await server.pluginContainer.resolveId('virtual:uno.css'))?.id)
-        .toBe('\0/__uno.css')
+        .toBe('/__uno.css')
+      expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
+        .toBe('/__uno.css?inline')
+      expect((await server.pluginContainer.resolveId('uno:icons.css'))?.id)
+        .toBe('/__uno_icons.css')
+
+      // Frameworks may resolve `uno.css` through a srcDir and hand back an
+      // absolute file path.
+      expect((await server.pluginContainer.resolveId('D:/tmp/app/__uno.css'))?.id)
+        .toBe('/__uno.css')
+
+      // Vite keys its dev style by this id; Nuxt writes the same url into
+      // `<link>`, so the de-duplication selector matches (#5406).
+      const wrapper = await server.transformRequest('/__uno.css')
+      expect(/(?:const|let|var) __vite__id = "([^"]+)"/.exec(wrapper?.code ?? '')?.[1])
+        .toBe('/__uno.css')
+
+      // HMR invalidates the module by the id stored in `entries`.
+      expect(server.moduleGraph.getModuleById('/__uno.css')?.url)
+        .toBe('/__uno.css')
     }
     finally {
       await server.close()
