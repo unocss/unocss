@@ -169,6 +169,37 @@ describe('inspector rpc', () => {
     expect(result.icons[0].count).toBe(3)
     expect(result.icons[0].modules).toEqual([MODULE_ID, secondModule])
   })
+
+  it('does not count safelisted tokens once per module', async () => {
+    const ctx = createContext({ presets: [presetWind3()], safelist: ['p-2', 'mb-4'] })
+    const secondModule = '/root/playground/Other.vue'
+    await ctx.ready
+    await ctx.extract('<div class="p-2 m-4" />', MODULE_ID)
+    await ctx.extract('<div class="m-4" />', secondModule)
+    await ctx.flushTasks()
+
+    const result = await analyzer(ctx.modules, ctx)
+    const p2 = result.matched.find(item => item.name === 'p-2')
+    expect(p2?.count).toBe(1)
+    expect(p2?.modules).toEqual([MODULE_ID])
+    expect(result.matched.find(item => item.name === 'mb-4')).toBeUndefined()
+  })
+
+  it('exposes declarations that tell aliases apart from utilities sharing a value', async () => {
+    const ctx = createContext({ presets: [presetWind3()] })
+    await ctx.ready
+    await ctx.extract('<div class="z-2 mb-2 md:mb-2 m-b-2 hover:mb-2" />', MODULE_ID)
+    await ctx.flushTasks()
+
+    const result = await analyzer(ctx.modules, ctx)
+    const declarationsOf = (name: string) => result.matched.find(item => item.name === name)?.declarations
+
+    expect(declarationsOf('z-2')).toBeTruthy()
+    expect(declarationsOf('z-2')).not.toBe(declarationsOf('mb-2'))
+    expect(declarationsOf('md:mb-2')).toBe(declarationsOf('mb-2'))
+    expect(declarationsOf('m-b-2')).toBe(declarationsOf('mb-2'))
+    expect(declarationsOf('hover:mb-2')).toBe(declarationsOf('mb-2'))
+  })
 })
 
 describe('inspector devframe', () => {
