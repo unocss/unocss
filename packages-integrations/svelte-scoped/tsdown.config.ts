@@ -10,8 +10,6 @@ export default defineConfig({
   dts: true,
   deps: {
     neverBundle: [
-      '@jridgewell/remapping',
-      'prettier-plugin-svelte',
       'svelte',
       'vite',
     ],

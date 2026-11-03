@@ -41,8 +41,6 @@ export default defineConfig([
     dts: true,
     deps: {
       neverBundle: [
-        'astro',
-        'rolldown',
         'rollup',
         'vite',
       ],
