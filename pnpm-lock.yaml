@@ -1066,13 +1066,12 @@ importers:
 
   packages-engine/autocomplete:
     dependencies:
-      fzf:
-        specifier: catalog:utils
-        version: 0.5.2
-    devDependencies:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      fzf:
+        specifier: catalog:utils
+        version: 0.5.2
 
   packages-engine/cli:
     dependencies:

@@ -8,11 +8,6 @@ export default defineConfig({
   alias: aliasVirtual,
   clean: true,
   dts: true,
-  deps: {
-    neverBundle: [
-      '@unocss/core',
-    ],
-  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',
