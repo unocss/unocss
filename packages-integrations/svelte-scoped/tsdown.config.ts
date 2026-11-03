@@ -11,6 +11,7 @@ export default defineConfig({
   deps: {
     neverBundle: [
       'svelte',
+      'svelte/compiler',
       'vite',
     ],
   },
