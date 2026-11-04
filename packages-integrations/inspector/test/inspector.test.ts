@@ -1,10 +1,12 @@
-import type { InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import type { DocsItem, DocsSearchItem, InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
 import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
+import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
 import { analyzer } from '../src/analyzer'
 import { createInspectorDevframe } from '../src/devframe'
+import { createDocsEngine, extractColors, extractProperties } from '../src/docs'
 import { createRpcFunctions } from '../src/rpc'
 
 const MODULE_ID = '/root/playground/App.vue'
@@ -202,6 +204,116 @@ describe('inspector rpc', () => {
   })
 })
 
+describe('inspector docs', () => {
+  async function prepareDocsContext(details?: boolean) {
+    const ctx = createContext({
+      details,
+      presets: [
+        presetWind3(),
+      ],
+      rules: [
+        [/^brand-(\d+)$/, ([, d]) => ({ 'letter-spacing': `${d}px` })],
+      ],
+      shortcuts: {
+        'btn-primary': 'px-4 py-2 rounded bg-blue-500 text-white',
+      },
+    })
+    await ctx.ready
+    return ctx
+  }
+
+  it('searches utilities against the project config', async () => {
+    const ctx = await prepareDocsContext()
+    const searchDocs = createRpcFunctions(ctx).find(fn => fn.name === 'search-docs')!
+    const handler = await resolveHandler(searchDocs)
+
+    const shortcut: DocsSearchItem[] = await handler('btn-primary')
+    expect(shortcut[0]).toMatchObject({ class: 'btn-primary', kind: 'shortcut' })
+
+    const custom: DocsSearchItem[] = await handler('brand-4')
+    expect(custom[0]).toMatchObject({ class: 'brand-4', kind: 'dynamic', body: 'letter-spacing: 4px;' })
+
+    const byBody: DocsSearchItem[] = await handler('display: flex')
+    expect(byBody.map(i => i.class)).toContain('flex')
+
+    expect(await handler('  ')).toEqual([])
+    expect(() => JSON.stringify(shortcut)).not.toThrow()
+  })
+
+  it('describes the rules, presets and variants behind a utility', async () => {
+    const ctx = await prepareDocsContext()
+    const getDocsItem = createRpcFunctions(ctx).find(fn => fn.name === 'get-docs-item')!
+    const handler = await resolveHandler(getDocsItem)
+
+    const custom: DocsItem = await handler('brand-4')
+    expect(custom.rules).toEqual([{ matcher: '/^brand-(\\d+)$/', static: false, preset: undefined }])
+    expect(custom.properties).toEqual(['letter-spacing'])
+
+    const preset: DocsItem = await handler('text-red-500')
+    expect(preset.rules[0].preset).toBe('@unocss/preset-wind3')
+    expect(preset.colors.length).toBeGreaterThan(0)
+    expect(preset.css).toContain('.text-red-500')
+
+    const variant: DocsItem = await handler('hover:p-2')
+    expect(variant.kind).toBe('variant')
+    expect(variant.variants.map(i => i.result)).toEqual(['hover:p-2', 'p-2'])
+
+    const shortcut: DocsItem = await handler('btn-primary')
+    expect(shortcut.shortcuts).toEqual([{ from: 'btn-primary', to: 'px-4 py-2 rounded bg-blue-500 text-white' }])
+
+    // Aliases come from utilities the engine has already seen
+    await handler('m-b-2')
+    const margin: DocsItem = await handler('mb-2')
+    expect(margin.aliases).toContain('m-b-2')
+    expect(margin.sameRule.length).toBeGreaterThan(0)
+
+    expect(await handler('not-a-utility')).toBeNull()
+    expect(() => JSON.stringify(preset)).not.toThrow()
+  })
+
+  it('keeps provenance when the project disables details', async () => {
+    const ctx = await prepareDocsContext(false)
+    expect(ctx.uno.config.details).toBe(false)
+
+    const item = await createDocsEngine(ctx.uno).getItem('brand-4')
+    expect(item?.rules.length).toBe(1)
+    expect(ctx.uno.config.details).toBe(false)
+  })
+
+  it('extracts swatch colors and properties from declarations only', () => {
+    const css = [
+      '.text-\\[\\#fff\\]{--un-text-opacity:1;color:rgb(255 255 255 / var(--un-text-opacity));}',
+      '.c:hover{border-color:#abc;background:color-mix(in oklch, red 50%, var(--un-c, blue))}',
+    ].join('\n')
+    expect(extractColors(css)).toEqual(['rgb(255 255 255 / 1)', '#abc', 'color-mix(in oklch, red 50%, blue)'])
+    expect(extractProperties(css)).toEqual(['color', 'border-color', 'background'])
+
+    // Unknown variables leave nothing to paint
+    expect(extractColors('.a{color:rgb(var(--unknown));}')).toEqual([])
+  })
+
+  it('resolves theme variables and skips @property descriptors', async () => {
+    const ctx = createContext({
+      presets: [presetWind4()],
+      shortcuts: { tinted: 'bg-red-500/8' },
+    })
+    await ctx.ready
+    const docs = createDocsEngine(ctx.uno)
+
+    const item = await docs.getItem('text-red-500')
+    expect(item?.css).toContain('@property')
+    expect(item?.properties).toEqual(['color'])
+    expect(item?.colors.length).toBeGreaterThan(0)
+    expect(item?.colors.every(color => !color.includes('var('))).toBe(true)
+    // `/* oklch(...) */` hints are comments, not applied colors
+    expect(item?.colors.every(color => color.startsWith('color-mix('))).toBe(true)
+
+    const shortcut = await docs.getItem('tinted')
+    expect(shortcut?.kind).toBe('shortcut')
+    expect(shortcut?.body).toContain('background-color')
+  })
+})
+
 describe('inspector devframe', () => {
   it('registers the rpc functions under the unocss scope', async () => {
     const ctx = await prepareContext()
@@ -236,6 +348,8 @@ describe('inspector devframe', () => {
       'get-autocomplete-suggestions',
       'get-generated-css',
       'get-overview',
+      'search-docs',
+      'get-docs-item',
     ])
   })
 

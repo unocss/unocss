@@ -1,5 +1,5 @@
 import type { Ref, ShallowRef } from 'vue'
-import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../../types'
+import type { DocsItem, DocsSearchItem, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../../types'
 import { shallowRef, unref } from 'vue'
 import { changeRevision, rpcCall } from './rpc'
 
@@ -164,4 +164,23 @@ function toTree(modules: ModuleDest[], name: string) {
   Object.values(node.children).forEach(flat)
 
   return node
+}
+
+export function fetchDocsSearch(input: Ref<string>) {
+  const debounced = useDebounce(input, 300)
+  const result = createQuery<DocsSearchItem[]>(() => rpcCall('search-docs', debounced.value))
+
+  watch(debounced, () => result.execute())
+  watch(changeRevision, () => result.execute())
+
+  return result
+}
+
+export function fetchDocsItem(token: Ref<string>) {
+  const result = createQuery<DocsItem | null>(async () => token.value ? rpcCall('get-docs-item', token.value) : null)
+
+  watch(token, () => result.execute())
+  watch(changeRevision, () => result.execute())
+
+  return result
 }
