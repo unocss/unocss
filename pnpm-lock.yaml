@@ -1181,6 +1181,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      eslint:
+        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        version: 10.13.0(jiti@2.7.0)(supports-color@10.2.2)
       magic-string:
         specifier: catalog:utils
         version: 1.4.4
@@ -1224,6 +1227,9 @@ importers:
       unplugin-utils:
         specifier: catalog:utils
         version: 0.3.2
+      vite:
+        specifier: ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
+        version: 8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
     devDependencies:
       '@codemirror/autocomplete':
         specifier: catalog:docs
