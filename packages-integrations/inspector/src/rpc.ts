@@ -191,13 +191,14 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     name: 'search-docs',
     type: 'query',
     setup: () => ({
-      handler: async (input: string): Promise<DocsSearchItem[]> => {
+      handler: async (input: string): Promise<DocsSearchItem[] | null> => {
         await ctx.ready
         return await getDocs().search(input)
       },
     }),
-    // Searching needs the live generator — degrade to no results
-    dump: { fallback: [] as unknown as Promise<DocsSearchItem[]> },
+    // Searching needs the live generator. A live server always answers with a
+    // list, so `null` tells the client it is reading a static dump
+    dump: { fallback: null },
   })
 
   const getDocsItem = defineRpcFunction({

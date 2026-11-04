@@ -15,6 +15,9 @@ interface DocsEntry {
  */
 const PREPARE_LIMIT = 500
 
+/** Utilities generated on demand that stay cached, beyond the prepared ones. */
+const CACHE_LIMIT = 1000
+
 const AZ = Array.from('abcdefghijklmnopqrstuvwxyz')
 const AZ09 = [...AZ, ...Array.from('0123456789')]
 
@@ -36,23 +39,53 @@ export function createDocsEngine(uno: UnoGenerator<any>) {
     : createGenerator({ ...uno.userConfig, details: true }, uno.defaults)
 
   let autocomplete: ReturnType<typeof createAutocomplete> | undefined
-  const entries = new Map<string, Promise<DocsEntry | undefined>>()
+  // Least recently used first; the prepared corpus is kept apart so eviction
+  // never shrinks what searching by CSS body can find
+  const cache = new Map<string, Promise<DocsEntry | undefined>>()
+  const corpus = new Map<string, DocsEntry>()
   let preparePromise: Promise<void> | undefined
+  // Theme variables emitted as preflights (e.g. preset-wind4's `--colors-*`),
+  // collected in batches so each utility does not regenerate the preflights
+  const themeVariables = new Map<string, string>()
 
   async function getAutocomplete() {
     return autocomplete ??= createAutocomplete(await generatorPromise)
   }
 
-  function getEntry(token: string) {
-    let entry = entries.get(token)
-    if (!entry) {
-      entry = generateEntry(token).catch(() => undefined)
-      entries.set(token, entry)
+  /**
+   * @param token the utility to generate
+   * @param themeLoaded the caller already loaded the token's theme variables
+   * with `loadThemeVariables`, so no per-token preflight pass is needed
+   */
+  function getEntry(token: string, themeLoaded = false): Promise<DocsEntry | undefined> {
+    const prepared = corpus.get(token)
+    if (prepared)
+      return Promise.resolve(prepared)
+    let entry = cache.get(token)
+    if (entry) {
+      cache.delete(token)
     }
+    else {
+      entry = generateEntry(token, themeLoaded).catch(() => undefined)
+      if (cache.size >= CACHE_LIMIT)
+        cache.delete(cache.keys().next().value!)
+    }
+    cache.set(token, entry)
     return entry
   }
 
-  async function generateEntry(token: string): Promise<DocsEntry | undefined> {
+  async function loadThemeVariables(tokens: string[]) {
+    if (!tokens.length)
+      return
+    const generator = await generatorPromise
+    const { css } = await generator.generate(new Set(tokens), { preflights: true, safelist: false })
+    for (const [name, value] of collectVariables(css)) {
+      if (!themeVariables.has(name))
+        themeVariables.set(name, value)
+    }
+  }
+
+  async function generateEntry(token: string, themeLoaded: boolean): Promise<DocsEntry | undefined> {
     const generator = await generatorPromise
     const utils = await generator.parseToken(token)
     if (!utils?.length)
@@ -70,16 +103,9 @@ export function createDocsEngine(uno: UnoGenerator<any>) {
     const shortcuts = getShortcutSources(context?.shortcuts)
     const variants = getVariantSteps(generator, token, context?.variants, context?.variantHandlers)
 
-    // Colors may reference theme variables emitted as preflights (e.g.
-    // preset-wind4's `--colors-*`) — resolve them against those preflights
-    const vars = collectVariables(result.css)
-    if (result.css.includes('var(--')) {
-      const withPreflights = await generator.generate(new Set([token]), { preflights: true, safelist: false })
-      for (const [name, value] of collectVariables(withPreflights.css)) {
-        if (!vars.has(name))
-          vars.set(name, value)
-      }
-    }
+    if (!themeLoaded && hasUnresolvedVariables(result.css, getVariables(result.css)))
+      await loadThemeVariables([token])
+    const vars = getVariables(result.css)
 
     const item: DocsItem = {
       class: token,
@@ -100,6 +126,16 @@ export function createDocsEngine(uno: UnoGenerator<any>) {
     return { item, rules }
   }
 
+  /** The utility's own variables, then the theme's. */
+  function getVariables(css: string) {
+    const vars = collectVariables(css)
+    for (const [name, value] of themeVariables) {
+      if (!vars.has(name))
+        vars.set(name, value)
+    }
+    return vars
+  }
+
   async function enumerate() {
     const ac = await getAutocomplete()
     const keys = AZ.flatMap(i => [i, ...[...AZ, '-'].map(j => `${i}${j}`)])
@@ -108,19 +144,28 @@ export function createDocsEngine(uno: UnoGenerator<any>) {
   }
 
   function prepare() {
-    return preparePromise ??= enumerate()
-      .then(tokens => Promise.all(tokens.slice(0, PREPARE_LIMIT).map(getEntry)))
-      .then(() => {})
+    return preparePromise ??= (async () => {
+      const tokens = (await enumerate()).slice(0, PREPARE_LIMIT)
+      await loadThemeVariables(tokens)
+      for (const entry of await Promise.all(tokens.map(token => getEntry(token, true)))) {
+        if (entry)
+          corpus.set(entry.item.class, entry)
+      }
+    })().catch((error) => {
+      // Let the next search retry instead of failing until the config reloads
+      preparePromise = undefined
+      throw error
+    })
   }
 
   async function getKnownEntries() {
-    return (await Promise.all(entries.values())).filter(notNull)
+    return uniq([...corpus.values(), ...(await Promise.all(cache.values())).filter(notNull)])
   }
 
   /**
    * Search utilities by class name or by the CSS they generate. Tokens that
-   * match directly come first, then autocomplete expansions, then entries
-   * whose class or CSS body contains the query.
+   * match directly come first, then the prepared corpus and the query's
+   * autocomplete expansions, ranked by how closely they match.
    */
   async function search(input: string, limit = 50): Promise<DocsSearchItem[]> {
     input = input.trim()
@@ -131,16 +176,18 @@ export function createDocsEngine(uno: UnoGenerator<any>) {
     const ac = await getAutocomplete()
     const parts = uniq(input.split(/\s+/g).filter(Boolean))
 
-    const exact = (await Promise.all(parts.map(getEntry))).filter(notNull)
-
     const suggested = uniq((await Promise.all([
       ...parts,
       ...parts.map(i => `${i}-`),
       ...parts.flatMap(i => AZ09.map(a => `${i}-${a}`)),
-    ].map(i => ac.suggest(i)))).flat())
-    await Promise.all(suggested.slice(0, limit * 4).map(getEntry))
+    ].map(i => ac.suggest(i)))).flat()).slice(0, limit * 4)
 
-    const ranked = (await getKnownEntries())
+    // Only utilities not generated yet still need their theme variables
+    await loadThemeVariables([...parts, ...suggested].filter(token => !cache.has(token) && !corpus.has(token)))
+    const exact = (await Promise.all(parts.map(part => getEntry(part, true)))).filter(notNull)
+    const expanded = (await Promise.all(suggested.map(token => getEntry(token, true)))).filter(notNull)
+
+    const ranked = uniq([...corpus.values(), ...expanded])
       .map(entry => ({ entry, score: rank(entry.item, parts) }))
       .filter(i => i.score < Number.POSITIVE_INFINITY)
       .sort((a, b) => a.score - b.score || a.entry.item.class.length - b.entry.item.class.length || a.entry.item.class.localeCompare(b.entry.item.class))
@@ -298,8 +345,17 @@ const VARIABLE_DECLARATION_RE = /(?:^|[{;])\s*(--[\w-]+):([^;{}]+)(?=[;}])/gm
 // declarations but are not CSS properties
 const AT_PROPERTY_RE = /@property\s+(--[\w-]+)\s*\{([^}]*)\}/g
 const COMMENT_RE = /\/\*.*?\*\//gs
-const VAR_RE = /var\((--[\w-]+)(?:,([^()]*))?\)/g
 const COLOR_RE = /(?:rgba?|hsla?|hwb|oklch|oklab|lab|lch|color-mix|color)\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)|#[\da-f]{3,8}\b/gi
+// Substitution passes before a `var()` chain is treated as a cycle
+const MAX_VARIABLE_PASSES = 32
+
+/**
+ * The CSS a utility applies, without `@property` registrations or comments
+ * (which carry hints like an `oklch(...)` value that is not applied).
+ */
+function stripNonDeclarations(css: string) {
+  return css.replace(AT_PROPERTY_RE, '').replace(COMMENT_RE, '')
+}
 
 /**
  * Custom property values a stylesheet defines, with `@property` initial
@@ -318,36 +374,61 @@ export function collectVariables(css: string): Map<string, string> {
 }
 
 /**
- * Substitute `var()` references, following chains a few levels deep.
- * Returns `undefined` when a reference has neither a value nor a fallback.
+ * Substitute `var()` references outermost first, following chains and
+ * fallbacks of any nesting (`var(--a, rgb(0 0 0 / var(--b)))`). Returns
+ * `undefined` when a reference has neither a value nor a fallback.
  */
 export function resolveVariables(value: string, vars: Map<string, string>): string | undefined {
-  let unresolved = false
-  for (let depth = 0; depth < 8 && value.includes('var(--'); depth++) {
-    const next = value.replace(VAR_RE, (_, name: string, fallback?: string) => {
-      const resolved = vars.get(name) ?? fallback?.trim()
-      if (resolved == null)
-        unresolved = true
-      return resolved ?? ''
-    })
-    if (unresolved)
+  for (let pass = 0; pass < MAX_VARIABLE_PASSES; pass++) {
+    const start = value.indexOf('var(')
+    if (start < 0)
+      return value
+
+    let depth = 0
+    let comma = -1
+    let end = -1
+    for (let i = start + 3; i < value.length && end < 0; i++) {
+      const char = value[i]
+      if (char === '(')
+        depth++
+      else if (char === ')' && --depth === 0)
+        end = i
+      else if (char === ',' && depth === 1 && comma < 0)
+        comma = i
+    }
+    if (end < 0)
       return
-    if (next === value)
-      break
-    value = next
+
+    const name = value.slice(start + 4, comma < 0 ? end : comma).trim()
+    const resolved = vars.get(name) ?? (comma < 0 ? undefined : value.slice(comma + 1, end).trim())
+    if (resolved == null)
+      return
+    value = value.slice(0, start) + resolved + value.slice(end + 1)
   }
-  return value.includes('var(--') ? undefined : value
+}
+
+function getDeclarationValues(css: string) {
+  const stripped = stripNonDeclarations(css)
+  return [...stripped.matchAll(DECLARATION_RE), ...stripped.matchAll(VARIABLE_DECLARATION_RE)].map(i => i[2])
+}
+
+/**
+ * Whether a declaration references a variable `vars` cannot resolve.
+ */
+function hasUnresolvedVariables(css: string, vars: Map<string, string>): boolean {
+  return getDeclarationValues(css).some(value => resolveVariables(value, vars) === undefined)
 }
 
 /**
  * Colors found in declaration values, with variables resolved so the client
- * can paint a swatch. Colors that still depend on unknown variables are
- * dropped rather than rendered wrong.
+ * can paint a swatch. Standard properties come first, then custom ones (the
+ * only place utilities like gradient stops and ring colors set theirs).
+ * Colors that still depend on unknown variables are dropped rather than
+ * rendered wrong.
  */
 export function extractColors(css: string, vars: Map<string, string> = collectVariables(css)): string[] {
   const colors: string[] = []
-  // Comments carry hints like `/* oklch(...) */` that are not applied colors
-  for (const [, , raw] of css.replace(AT_PROPERTY_RE, '').replace(COMMENT_RE, '').matchAll(DECLARATION_RE)) {
+  for (const raw of getDeclarationValues(css)) {
     const value = resolveVariables(raw, vars)
     if (!value)
       continue
@@ -362,5 +443,5 @@ export function extractColors(css: string, vars: Map<string, string> = collectVa
  * descriptors excluded), used to link each one to its MDN reference.
  */
 export function extractProperties(css: string): string[] {
-  return uniq([...css.replace(AT_PROPERTY_RE, '').replace(COMMENT_RE, '').matchAll(DECLARATION_RE)].map(i => i[1]))
+  return uniq([...stripNonDeclarations(css).matchAll(DECLARATION_RE)].map(i => i[1]))
 }

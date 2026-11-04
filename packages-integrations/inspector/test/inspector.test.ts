@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
 import { analyzer } from '../src/analyzer'
 import { createInspectorDevframe } from '../src/devframe'
-import { createDocsEngine, extractColors, extractProperties } from '../src/docs'
+import { createDocsEngine, extractColors, extractProperties, resolveVariables } from '../src/docs'
 import { createRpcFunctions } from '../src/rpc'
 
 const MODULE_ID = '/root/playground/App.vue'
@@ -238,6 +238,9 @@ describe('inspector docs', () => {
 
     expect(await handler('  ')).toEqual([])
     expect(() => JSON.stringify(shortcut)).not.toThrow()
+
+    // A static dump answers `null`, so the client can tell it from no results
+    expect((searchDocs as any).dump.fallback).toBeNull()
   })
 
   it('describes the rules, presets and variants behind a utility', async () => {
@@ -290,6 +293,15 @@ describe('inspector docs', () => {
 
     // Unknown variables leave nothing to paint
     expect(extractColors('.a{color:rgb(var(--unknown));}')).toEqual([])
+
+    // Custom properties carry the colors of gradient stops and rings
+    expect(extractColors('.a{--un-gradient-from:rgb(1 2 3);}')).toEqual(['rgb(1 2 3)'])
+    // Fallbacks may nest parentheses and further variables
+    expect(extractColors('.a{color:var(--x, rgb(0 0 0));}')).toEqual(['rgb(0 0 0)'])
+    expect(resolveVariables('rgb(0 0 0 / var(--a, var(--b, calc(1 - .5))))', new Map())).toBe('rgb(0 0 0 / calc(1 - .5))')
+    expect(resolveVariables('var(--a, red)', new Map([['--a', 'blue']]))).toBe('blue')
+    // A cycle never resolves
+    expect(resolveVariables('var(--a)', new Map([['--a', 'var(--a)']]))).toBeUndefined()
   })
 
   it('resolves theme variables and skips @property descriptors', async () => {
@@ -307,6 +319,9 @@ describe('inspector docs', () => {
     expect(item?.colors.every(color => !color.includes('var('))).toBe(true)
     // `/* oklch(...) */` hints are comments, not applied colors
     expect(item?.colors.every(color => color.startsWith('color-mix('))).toBe(true)
+
+    for (const token of ['from-red-500', 'ring-red-500'])
+      expect((await docs.getItem(token))?.colors.length, token).toBeGreaterThan(0)
 
     const shortcut = await docs.getItem('tinted')
     expect(shortcut?.kind).toBe('shortcut')

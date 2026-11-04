@@ -168,7 +168,8 @@ function toTree(modules: ModuleDest[], name: string) {
 
 export function fetchDocsSearch(input: Ref<string>) {
   const debounced = useDebounce(input, 300)
-  const result = createQuery<DocsSearchItem[]>(() => rpcCall('search-docs', debounced.value))
+  // `null` means a static dump, which cannot search
+  const result = createQuery<DocsSearchItem[] | null>(() => rpcCall('search-docs', debounced.value))
 
   watch(debounced, () => result.execute())
   watch(changeRevision, () => result.execute())

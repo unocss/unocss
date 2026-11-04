@@ -7,11 +7,24 @@ const router = useRouter()
 const input = ref(String(route.query.s || ''))
 const selectIndex = ref(0)
 
-const { data: results, isFetching } = fetchDocsSearch(input)
+const { data: results, isFetching, error } = fetchDocsSearch(input)
 const selected = computed(() => results.value?.[selectIndex.value]?.class ?? '')
 const { data: item } = fetchDocsItem(selected)
 
-watch(results, () => selectIndex.value = 0)
+// A live server answers every query, even an empty one, with a list; a
+// static dump has no generator to search and answers `null`
+const isStatic = computed(() => !isFetching.value && !error.value && results.value === null)
+
+// A new query starts at the first result; a refetch of the same query (a
+// file or config change) keeps the selected utility when it is still listed
+let resultsQuery = input.value
+watch(results, (next, prev) => {
+  const previous = prev?.[selectIndex.value]?.class
+  const sameQuery = resultsQuery === input.value
+  resultsQuery = input.value
+  const index = sameQuery && previous ? (next?.findIndex(r => r.class === previous) ?? -1) : -1
+  selectIndex.value = Math.max(index, 0)
+})
 
 // Keep the query in the URL, so a search can be shared or linked to
 watch(input, (s) => {
@@ -101,6 +114,12 @@ watch(selectIndex, async (idx) => {
               <span font-mono text-xs op-50 truncate>{ {{ r.body }} }</span>
             </span>
           </button>
+        </div>
+        <div v-else-if="isStatic" p-5 op-50 text-sm>
+          Docs search the live UnoCSS generator, so they need a running dev server — this is a static snapshot.
+        </div>
+        <div v-else-if="error && !isFetching" p-5 text-sm text-red>
+          Search failed: {{ error }}
         </div>
         <div v-else-if="input && !isFetching" p-5 op-50 italic text-sm>
           No utility found
