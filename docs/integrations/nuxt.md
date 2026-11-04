@@ -94,6 +94,21 @@ export default mergeConfigs([config, {
 }])
 ```
 
+### Inline CSS
+
+By default the generated CSS is served as a stylesheet linked from the page. To inline it into a `<style>` tag in the HTML head instead, which saves a request before the first paint, enable the `inlineCss` option:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  // ...
+  unocss: {
+    inlineCss: true,
+  },
+})
+```
+
+This only works with Vite and the default `global` mode, and only affects production builds. Your other styles keep following Nuxt's [`features.inlineStyles`](https://nuxt.com/docs/4.x/api/nuxt-config#inlinestyles).
+
 ## License
 
 - MIT License &copy; 2021-PRESENT [Anthony Fu](https://github.com/antfu)

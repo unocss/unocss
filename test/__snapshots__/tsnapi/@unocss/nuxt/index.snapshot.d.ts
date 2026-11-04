@@ -7,6 +7,7 @@ export interface UnocssNuxtOptions extends UserConfig {
   autoImport?: boolean;
   preflight?: boolean;
   disableNuxtInlineStyle?: boolean;
+  inlineCss?: boolean;
   nuxtLayers?: boolean;
   injectPosition?: 'first' | 'last' | number | {
     after?: string;

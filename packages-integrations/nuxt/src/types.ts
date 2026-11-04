@@ -38,6 +38,17 @@ export interface UnocssNuxtOptions extends UserConfig {
   disableNuxtInlineStyle?: boolean
 
   /**
+   * Inline the generated CSS into a `<style>` tag in the HTML head instead of linking
+   * to a stylesheet, which avoids a render-blocking request. Only works with Vite and `mode: 'global'`.
+   *
+   * Only the UnoCSS styles are forced inline; the rest of your styles keep following Nuxt's `features.inlineStyles`.
+   * Takes precedence over `disableNuxtInlineStyle`.
+   *
+   * @default false
+   */
+  inlineCss?: boolean
+
+  /**
    * Automatically merge UnoCSS configs from Nuxt layers.
    *
    * @default false

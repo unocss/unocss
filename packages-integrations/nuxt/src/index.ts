@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { addComponentsDir, addPluginTemplate, addTemplate, defineNuxtModule, extendViteConfig, extendWebpackConfig, findPath, isNuxtMajorVersion } from '@nuxt/kit'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { resolveNuxtOptions } from '#integration/nuxt-options'
+import { withInlineUnoCss } from './inline'
 
 export { UnocssNuxtOptions }
 
@@ -41,7 +42,10 @@ export default defineNuxtModule<UnocssNuxtOptions>({
     options.mode ??= 'global'
     const InjectModes: VitePluginConfig['mode'][] = ['global', 'dist-chunk']
 
-    if (options.disableNuxtInlineStyle) {
+    if (options.inlineCss && options.mode !== 'global')
+      console.warn('[unocss/nuxt] option `inlineCss` only works with `mode: \'global\'`.')
+
+    if (options.disableNuxtInlineStyle && !options.inlineCss) {
       nuxt.options.features ||= {} as any
       nuxt.options.features.inlineStyles = false
     }
@@ -116,6 +120,11 @@ export default mergeConfigs([${configPaths.map((_, index) => `cfg${index}`).join
             presetOptions?.[1],
           )],
         }
+      }
+
+      if (options.inlineCss) {
+        nuxt.options.features ||= {} as any
+        nuxt.options.features.inlineStyles = withInlineUnoCss(nuxt.options.features.inlineStyles, unoConfig.virtualModulePrefix)
       }
 
       await nuxt.callHook('unocss:config', unoConfig)
