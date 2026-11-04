@@ -12,6 +12,7 @@ export interface AutocompleteCache<T> {
 export interface AutocompleteOptions {
   matchType?: AutoCompleteMatchType;
   throwErrors?: boolean;
+  classAttributes?: string[];
 }
 export interface AutocompleteTemplateGroup {
   type: 'group';
@@ -59,7 +60,7 @@ export declare function cartesian<T>(_: T[][]): T[][];
 export declare function createAutocomplete(_: UnoGenerator, _?: AutocompleteOptions): UnocssAutocomplete;
 export declare function parseAutocomplete(_: string, _?: any, _?: Record<string, string>): ParsedAutocompleteTemplate;
 export declare function searchAttrKey(_: string, _: number): string | undefined;
-export declare function searchUsageBoundary(_: string, _: number, _?: boolean): {
+export declare function searchUsageBoundary(_: string, _: number, _?: boolean, _?: string[]): {
   content: string;
   start: number;
   end: number;

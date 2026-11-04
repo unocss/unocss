@@ -427,3 +427,24 @@ describe('use uno cache', async () => {
       `)
   })
 })
+
+describe('autocomplete classAttributes', async () => {
+  const uno = await createGenerator({ presets: [presetWind3()] })
+  const code = '<Box classes="text-red-'
+
+  it('ignores unknown attributes by default', async () => {
+    const ac = createAutocomplete(uno)
+    expect(await ac.suggestInFile(code, code.length)).toBeUndefined()
+  })
+
+  it('suggests inside configured attributes', async () => {
+    const ac = createAutocomplete(uno, { classAttributes: ['classes'] })
+    const res = await ac.suggestInFile(code, code.length)
+    expect(res?.suggestions.map(i => i[0])).toContain('text-red-500')
+    expect(res?.resolveReplacement('text-red-500')).toEqual({
+      start: code.indexOf('text-red-'),
+      end: code.length,
+      replacement: 'text-red-500',
+    })
+  })
+})
