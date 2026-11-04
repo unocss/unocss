@@ -47,6 +47,9 @@
     "prepack": "turbo build --filter=.",
     "lint": "nr build && cd ./test/fixtures/lint && eslint ./src"
   },
+  "peerDependencies": {
+    "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0"
+  },
   "dependencies": {
     "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",

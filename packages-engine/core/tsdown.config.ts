@@ -6,11 +6,6 @@ export default defineConfig({
   ],
   clean: true,
   dts: true,
-  deps: {
-    neverBundle: [
-      'unconfig',
-    ],
-  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',
