@@ -1,5 +1,6 @@
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import type { FilterPattern, UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import { resolve } from 'node:path'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { BetterMap, createGenerator } from '@unocss/core'
@@ -100,10 +101,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   }
 
   async function updateRoot(newRoot: string) {
-    if (newRoot !== root) {
-      root = newRoot
+    const rootChanged = resolve(newRoot) !== resolve(root)
+    root = newRoot
+    if (rootChanged)
       ready = reloadConfig()
-    }
     return await ready
   }
 

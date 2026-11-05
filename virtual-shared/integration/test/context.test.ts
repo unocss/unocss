@@ -271,4 +271,26 @@ describe('createContext', () => {
       await rm(dir, { recursive: true, force: true })
     }
   })
+
+  it('does not reload the config when the root is only spelled differently', async () => {
+    const cwd = process.cwd()
+    const ctx = createContext({})
+    await ctx.ready
+
+    let reloads = 0
+    ctx.onReload(() => reloads++)
+
+    // Build tools report their root with forward slashes, while `process.cwd()`
+    // keeps the platform separator on Windows.
+    await ctx.updateRoot(`${cwd}/`)
+    expect(reloads).toBe(0)
+
+    if (process.platform === 'win32') {
+      await ctx.updateRoot(cwd.replace(/\\/g, '/'))
+      expect(reloads).toBe(0)
+    }
+
+    await ctx.updateRoot(`${cwd}/sub`)
+    expect(reloads).toBe(1)
+  })
 })
