@@ -54,10 +54,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       uno = r
       return r
     })
-  let rollupFilter = createFilter(
+  let rollupFilter = createPipelineFilter(
     defaultPipelineInclude,
     defaultPipelineExclude,
-    { resolve: typeof configOrPath === 'string' ? configOrPath : root },
+    [root, process.cwd()],
   )
 
   const invalidations: Array<() => void> = []
@@ -89,10 +89,7 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       : createPipelineFilter(
           rawConfig.content?.pipeline?.include || defaultPipelineInclude,
           rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
-          [
-            typeof configOrPath === 'string' ? configOrPath : root,
-            process.cwd(),
-          ],
+          [root, process.cwd()],
         )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))

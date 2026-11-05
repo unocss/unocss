@@ -1,4 +1,7 @@
 import type { FilterPattern } from '@unocss/core'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { mergeConfigs } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
 import { createContext, createPipelineFilter } from '#integration/context'
@@ -227,5 +230,45 @@ describe('createContext', () => {
     expect(ctx.filter('code', `${cwd}/app/composables/useFoo.ts?macro=true`)).toBe(false)
     // The explicit include replaces the defaults, so `.vue` is not a target.
     expect(ctx.filter('code', `${cwd}/app/pages/index.vue`)).toBe(false)
+  })
+
+  it('resolves string patterns against the build root when the config is passed as a path', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'unocss-config-'))
+    try {
+      const configFile = join(dir, 'uno.config.mjs')
+      await writeFile(configFile, `export default ${JSON.stringify({ content: { pipeline: { include: ['src/**/*.ts'] } } })}\n`)
+
+      const ctx = createContext(configFile)
+      await ctx.ready
+      await ctx.updateRoot(dir)
+
+      // Patterns are relative to the build root, not to the config file itself.
+      expect(ctx.filter('code', `${dir}/src/foo.ts`)).toBe(true)
+      expect(ctx.filter('code', `${dir}/other/foo.ts`)).toBe(false)
+    }
+    finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('resolves string patterns for a config directory after the root is updated', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'unocss-config-dir-'))
+    try {
+      const configFile = join(dir, 'uno.config.mjs')
+      await writeFile(configFile, `export default ${JSON.stringify({ content: { pipeline: { include: ['src/**/*.ts'] } } })}\n`)
+
+      // The language server passes the workspace directory, then updates the
+      // root to it. Point the initial load at the same file so the test does not
+      // depend on a config living in `process.cwd()`.
+      const ctx = createContext(dir, {}, [{ files: configFile, extensions: [] }])
+      await ctx.ready
+      await ctx.updateRoot(dir)
+
+      expect(ctx.filter('code', `${dir}/src/foo.ts`)).toBe(true)
+      expect(ctx.filter('code', `${dir}/other/foo.ts`)).toBe(false)
+    }
+    finally {
+      await rm(dir, { recursive: true, force: true })
+    }
   })
 })
