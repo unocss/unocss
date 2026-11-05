@@ -18,7 +18,7 @@ Usages of utilities that come from different sources will be merged together and
 
 ### Extracting from Build Tools Pipeline
 
-This is supported in the [Vite](/integrations/vite) and [Webpack](/integrations/webpack) integrations.
+This is supported in the [Vite](/integrations/vite) (all modes), [Webpack](/integrations/webpack) and [Rollup](/integrations/rollup) integrations, as well as the language server.
 
 UnoCSS will read the content that goes through your build tools pipeline and extract the utilities usages from it. This is the most efficient and accurate way to extract, as we only extract the usages that are actually used in your app, smartly, with no additional file I/O made during the extraction.
 
@@ -42,6 +42,45 @@ export default defineConfig({
   },
 })
 ```
+
+`include` and `exclude` are matched against both `process.cwd()` and the directory reported as the build tool root (usually the project root), so they keep working when an integration reports a sub directory as its root — for example Nuxt, which reports `srcDir`.
+
+An explicitly empty list means "no constraint": `include: []` extracts from every module in the pipeline, while `exclude: []` excludes nothing. This also holds after configs are merged with `mergeConfigs()`.
+
+When configs are merged with `mergeConfigs()`, an option that none of them declares falls back to its default instead of becoming an empty list. If you relied on merged configs scanning every module, set `include: []` explicitly.
+
+#### Pattern semantics
+
+Writing a list **replaces** the default of that option instead of extending it, and an empty list removes that side of the filter:
+
+| Configuration              | Behavior                                                                                                           |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `pipeline` omitted         | default `include` and default `exclude` (`cssIdRE`)                                                                |
+| `include: ['src/**/*.ts']` | replaces the default `include`: only `.ts` files are scanned, `.vue` is no longer scanned                          |
+| `exclude: [/\.spec\.ts$/]` | replaces the default `exclude`: CSS files are no longer excluded by default, but they still do not match `include` |
+| `include: []`              | no `include` constraint (every module is a candidate), the default `exclude` still applies                         |
+| `exclude: []`              | nothing is excluded, but a file still has to match `include` to be scanned                                         |
+| `include: [], exclude: []` | every module is scanned (virtual `\0` ids excepted)                                                                |
+| `pipeline: false`          | disables pipeline extraction; `content.inline` and magic-comment files are still extracted                         |
+| multiple configs           | `include`/`exclude` are merged as unions; any `pipeline: false` wins                                               |
+
+Given the default patterns, files under `src/` behave like this:
+
+| Configuration                   | `.vue` | `.ts` | `.css` | `.spec.ts` | virtual |
+| ------------------------------- | :----: | :---: | :----: | :--------: | :-----: |
+| default                         |   ✓    |   ✗   |   ✗    |     ✗      |    ✗    |
+| `include: []`                   |   ✓    |   ✓   |   ✗    |     ✓      |    ✗    |
+| `include: [], exclude: []`      |   ✓    |   ✓   |   ✓    |     ✓      |    ✗    |
+| `include: ['src/**/*.ts']`      |   ✗    |   ✓   |   ✗    |     ✓      |    ✗    |
+| above + `exclude: []`           |   ✗    |   ✓   |   ✗    |     ✓      |    ✗    |
+| `exclude: [/\.spec\.ts$/]`      |   ✓    |   ✗   |   ✗    |     ✗      |    ✗    |
+| `include: [/\.vue$/, /\.css$/]` |   ✓    |   ✗   |   ✗    |     ✗      |    ✗    |
+| above + `exclude: []`           |   ✓    |   ✗   |   ✓    |     ✗      |    ✗    |
+| `pipeline: false`               |   ✗    |   ✗   |   ✗    |     ✗      |    ✗    |
+
+`include: []` does not mean "scan nothing": it removes the include constraint, leaving the default exclude in charge. `exclude: []` does not add files on its own: it only removes the default CSS exclusion, so a file still has to match `include`.
+
+`pipeline: false` only turns off the pipeline filter itself: `content.inline` is always extracted, and files containing `@unocss-include` still opt in. `content.filesystem` is a separate source — integrations that scan it directly, such as PostCSS, ignore `pipeline: false`, while the Vite, Webpack and Rollup extractors route each matched file through the pipeline filter. The table rows above assume no magic comment.
 
 You can also add `@unocss-include` magic comment, on a per-file basis, anywhere in the file that you want UnoCSS to scan. If you need to scan `*.js` or `*.ts` files, add them in the configuration to include all js/ts files as scan targets.
 

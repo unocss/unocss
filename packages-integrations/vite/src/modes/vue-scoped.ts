@@ -195,8 +195,10 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
       filter = config.content?.pipeline === false
         ? () => false
         : createPipelineFilter(
-            config.content?.pipeline?.include ?? [/\.vue$/],
-            config.content?.pipeline?.exclude ?? defaultPipelineExclude,
+            // Same fallback rule as `createContext`: only a real pattern list
+            // replaces the default; an empty list is a real list.
+            config.content?.pipeline?.include || [/\.vue$/],
+            config.content?.pipeline?.exclude || defaultPipelineExclude,
             [viteConfig.root, process.cwd()],
           )
     },

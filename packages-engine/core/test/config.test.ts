@@ -365,7 +365,6 @@ describe('mergeConfigs', () => {
         {
           "content": {
             "pipeline": {
-              "exclude": [],
               "include": [
                 "string",
                 /regex/,
@@ -376,6 +375,80 @@ describe('mergeConfigs', () => {
           },
         }
       `)
+
+    // Exclude patterns are merged as a union as well.
+    expect(mergeConfigs([
+      { content: { pipeline: { exclude: ['a/**'] } } },
+      { content: { pipeline: { exclude: [/b/] } } },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "pipeline": {
+          "exclude": [
+            "a/**",
+            /b/,
+          ],
+        },
+      }
+    `)
+
+    // Keys that no config declared are omitted, so integrations fall back to their
+    // defaults instead of treating an empty list as an all-matching filter.
+    expect(mergeConfigs([
+      { content: { filesystem: ['slides.md'] } },
+      { content: { inline: ['<div class="p-4" />'] } },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "filesystem": [
+          "slides.md",
+        ],
+        "inline": [
+          "<div class="p-4" />",
+        ],
+      }
+    `)
+
+    // An explicitly empty list still means "no constraint" and is preserved, the
+    // same way it is when passed to the integration directly.
+    expect(mergeConfigs([
+      { content: { pipeline: { include: [], exclude: [] } } },
+      { content: {} },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "pipeline": {
+          "exclude": [],
+          "include": [],
+        },
+      }
+    `)
+
+    expect(mergeConfigs([
+      { content: { pipeline: { exclude: [] } } },
+      { content: {} },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "pipeline": {
+          "exclude": [],
+        },
+      }
+    `)
+
+    // Falsy values are treated as undeclared, matching the fallback a directly
+    // passed config gets from the integrations.
+    expect(mergeConfigs([
+      { content: { pipeline: { include: '' } } },
+      { content: {} },
+    ]).content).toMatchInlineSnapshot(`{}`)
+
+    expect(mergeConfigs([
+      { content: { pipeline: { include: '' } } },
+      { content: { pipeline: { exclude: [] } } },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "pipeline": {
+          "exclude": [],
+        },
+      }
+    `)
 
     expect(mergeConfigs([
       {
@@ -403,6 +476,25 @@ describe('mergeConfigs', () => {
       `)
   })
 
+  it('keeps content sources when pipeline is disabled', () => {
+    expect(mergeConfigs([
+      { content: { pipeline: false, filesystem: ['a.md'], inline: ['<div class="p-1" />'] } },
+      { content: { filesystem: ['b.vue'], inline: ['<div class="p-2" />'] } },
+    ]).content).toMatchInlineSnapshot(`
+      {
+        "filesystem": [
+          "a.md",
+          "b.vue",
+        ],
+        "inline": [
+          "<div class="p-1" />",
+          "<div class="p-2" />",
+        ],
+        "pipeline": false,
+      }
+    `)
+  })
+
   it('content', async () => {
     const uno = await createGenerator({
       presets: [{
@@ -417,12 +509,18 @@ describe('mergeConfigs', () => {
       },
     })
 
-    expect(uno.config.content).toMatchObject({
-      filesystem: ['foo/bar.css', 'foo.js'],
-      inline: ['bg-blue-1'],
-    })
+    expect(uno.config.content).toMatchInlineSnapshot(`
+      {
+        "filesystem": [
+          "foo/bar.css",
+          "foo.js",
+        ],
+        "inline": [
+          "bg-blue-1",
+        ],
+      }
+    `)
   })
-
   it('merge transformers', async () => {
     const uno = await createGenerator({
       presets: [

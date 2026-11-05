@@ -84,7 +84,8 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
       // An explicitly empty list is meaningful ("no constraint") and has to be
-      // passed through; only an absent key falls back to the defaults.
+      // passed through; an absent or falsy non-pattern value falls back to the
+      // defaults.
       : createPipelineFilter(
           rawConfig.content?.pipeline?.include || defaultPipelineInclude,
           rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
