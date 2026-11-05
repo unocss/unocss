@@ -41,7 +41,7 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "prepack": "turbo build --filter=.",
+    "prepack": "turbo build-post --filter=.",
     "build-post": "vite build",
     "dev": "tsdown --config-loader unrun --watch",
     "dev:client": "vite",
