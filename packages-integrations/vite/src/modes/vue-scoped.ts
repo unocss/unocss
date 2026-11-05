@@ -1,8 +1,9 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { ModuleNode, Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../types'
+import process from 'node:process'
 import { LAYER_PREFLIGHTS } from '@unocss/core'
-import { createFilter } from 'unplugin-utils'
+import { createPipelineFilter } from '#integration/context'
 import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
 import { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '../virtual'
@@ -20,7 +21,8 @@ interface ScopedStyleEntry {
 }
 
 export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
-  let filter = createFilter([/\.vue$/], defaultPipelineExclude)
+  // Set in `configResolved()`, which Vite calls before any transform.
+  let filter: (id: unknown) => boolean = () => false
   let globalLayers: string[] = []
   let globalStylesInjected = false
   let styleOrder: 'before' | 'after' = 'after'
@@ -192,9 +194,10 @@ export function VueScopedPlugin(ctx: UnocssPluginContext): Plugin {
 
       filter = config.content?.pipeline === false
         ? () => false
-        : createFilter(
+        : createPipelineFilter(
             config.content?.pipeline?.include ?? [/\.vue$/],
             config.content?.pipeline?.exclude ?? defaultPipelineExclude,
+            [viteConfig.root, process.cwd()],
           )
     },
     transformIndexHtml: {

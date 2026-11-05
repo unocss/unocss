@@ -1,6 +1,6 @@
 import type { FilterPattern } from '@unocss/core'
 import { describe, expect, it } from 'vitest'
-import { createContext } from '#integration/context'
+import { createContext, createPipelineFilter } from '#integration/context'
 
 describe('createContext', () => {
   it.each<{ name: string, include?: FilterPattern, filename: string }>([
@@ -70,7 +70,7 @@ describe('createContext', () => {
     expect(ctx.filter('code', `${cwd}/src/src/foo.spec.ts`)).toBe(false)
   })
 
-  it('returns false for every id when pipeline is disabled', async () => {
+  it('returns false for regular ids when pipeline is disabled', async () => {
     const cwd = process.cwd()
     const ctx = createContext({ content: { pipeline: false } })
 
@@ -78,5 +78,31 @@ describe('createContext', () => {
     await ctx.updateRoot(`${cwd}/src`)
 
     expect(ctx.filter('code', `${cwd}/src/foo.ts`)).toBe(false)
+  })
+
+  it('still honours magic comments when pipeline is disabled', async () => {
+    const cwd = process.cwd()
+    const ctx = createContext({ content: { pipeline: false } })
+
+    await ctx.ready
+
+    // The magic comments are explicit opt-ins, so they bypass `pipeline: false`.
+    expect(ctx.filter('@unocss-include flex', `${cwd}/src/foo.vue`)).toBe(true)
+    expect(ctx.filter('@unocss-ignore @unocss-include flex', `${cwd}/src/foo.vue`)).toBe(false)
+    expect(ctx.filter('@unocss-placeholder', `${cwd}/src/foo.css`)).toBe(true)
+  })
+  it('createPipelineFilter unions include and intersects exclude across bases', () => {
+    const cwd = process.cwd()
+    // Same order as the vue-scoped mode: build tool root first, project root last.
+    const filter = createPipelineFilter(
+      ['app/**/*.ts'],
+      ['app/**/*.spec.ts'],
+      [`${cwd}/app`, cwd],
+    )
+
+    expect(filter(`${cwd}/app/useFoo.ts`)).toBe(true)
+    expect(filter(`${cwd}/app/useFoo.spec.ts`)).toBe(false)
+    expect(filter(`${cwd}/other/useFoo.ts`)).toBe(false)
+    expect(filter('\0virtual:foo.ts')).toBe(false)
   })
 })
