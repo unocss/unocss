@@ -12,6 +12,10 @@ type UnocssOrder = [] | [{
 }]
 
 export interface UnoCSSEslintPlugin {
+  meta: {
+    name: string
+    version: string
+  }
   rules: Record<string, LooseRuleDefinition>
 }
 
