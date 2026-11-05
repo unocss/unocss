@@ -62,6 +62,11 @@ export interface CompileClassOptions {
    * The layer name of generated rules
    */
   layer?: string
+
+  /**
+   * List of class names to be excluded from compilation
+   */
+  ignoreList?: (string | RegExp)[]
 }
 
 export default function transformerCompileClass(options: CompileClassOptions = {}): SourceCodeTransformer {
@@ -71,6 +76,7 @@ export default function transformerCompileClass(options: CompileClassOptions = {
     hashFn = hash,
     keepUnknown = true,
     alwaysHash = false,
+    ignoreList = [],
   } = options
   // #2866
   const compiledClass = new Map<string, string>()
@@ -100,12 +106,23 @@ export default function transformerCompileClass(options: CompileClassOptions = {
         const start = match.index!
         const replacements = []
 
+        let classTokens = body.split(/\s+/).filter(Boolean)
+        if (ignoreList && ignoreList.length) {
+          const isIgnored = (i: string) => ignoreList.some(item => typeof item === 'string' ? item === i : item.test(i))
+          const ignored = classTokens.filter(isIgnored)
+          classTokens = classTokens.filter(i => !isIgnored(i))
+          replacements.push(...ignored)
+        }
+
         if (keepUnknown) {
-          const result = await Promise.all(body.split(/\s+/).filter(Boolean).map(async i => [i, !!await uno.parseToken(i)] as const))
+          const result = await Promise.all(classTokens.map(async i => [i, !!await uno.parseToken(i)] as const))
           const known = result.filter(([, matched]) => matched).map(([i]) => i)
           const unknown = result.filter(([, matched]) => !matched).map(([i]) => i)
           replacements.push(...unknown)
           body = known.join(' ')
+        }
+        else {
+          body = classTokens.join(' ')
         }
 
         if (body) {

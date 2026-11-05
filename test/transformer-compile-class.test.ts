@@ -186,4 +186,35 @@ bg-red text-blue
     `)
     expect(invalidateFn).toHaveBeenCalledTimes(2)
   })
+
+  it('ignoreList with string and RegExp', async () => {
+    const uno = await createUno({
+      ignoreList: ['do-not-compile', /^keep-/],
+    })
+
+    const result = await transform(
+      '<div class=":uno: bg-red-500 text-xl do-not-compile keep-this other-unknown">',
+      uno,
+    )
+
+    expect(result.code.trim()).toBe('<div class="uno-trmz0g do-not-compile keep-this other-unknown">')
+    expect(result.css).toMatchInlineSnapshot(`
+      "/* layer: shortcuts */
+      .uno-trmz0g{--un-bg-opacity:1;background-color:rgb(239 68 68 / var(--un-bg-opacity));font-size:1.25rem;line-height:1.75rem;}"
+    `)
+  })
+
+  it('ignoreList when all classes are ignored', async () => {
+    const uno = await createUno({
+      ignoreList: ['ignore-me', 'also-ignore'],
+    })
+
+    const result = await transform(
+      '<div class=":uno: ignore-me also-ignore">',
+      uno,
+    )
+
+    expect(result.code.trim()).toBe('<div class="ignore-me also-ignore">')
+    expect(result.css).toBe('')
+  })
 })

@@ -9,6 +9,7 @@ export interface CompileClassOptions {
   alwaysHash?: boolean;
   keepUnknown?: boolean;
   layer?: string;
+  ignoreList?: (string | RegExp)[];
 }
 // #endregion
 
