@@ -51,6 +51,7 @@
     "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0"
   },
   "dependencies": {
+    "@typescript-eslint/types": "catalog:typescript",
     "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
