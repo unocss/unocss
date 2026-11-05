@@ -521,6 +521,30 @@ describe('mergeConfigs', () => {
       }
     `)
   })
+
+  it('keeps filesystem globs as written when merging content', async () => {
+    // Normalization is a filesystem concern and happens in the integrations that
+    // actually resolve the globs, so the merged config stays verbatim.
+    const uno = await createGenerator({
+      presets: [{
+        name: 'test',
+        content: {
+          filesystem: ['shared/**/*.md'],
+        },
+      }],
+      content: {
+        filesystem: ['./shared/**/*.md'],
+      },
+    })
+
+    expect(uno.config.content?.filesystem).toMatchInlineSnapshot(`
+      [
+        "shared/**/*.md",
+        "./shared/**/*.md",
+      ]
+    `)
+  })
+
   it('merge transformers', async () => {
     const uno = await createGenerator({
       presets: [

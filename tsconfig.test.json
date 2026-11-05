@@ -285,6 +285,9 @@
       "#integration/env": [
         "./virtual-shared/integration/src/env.ts"
       ],
+      "#integration/glob": [
+        "./virtual-shared/integration/src/glob.ts"
+      ],
       "#integration/hash": [
         "./virtual-shared/integration/src/hash.ts"
       ],

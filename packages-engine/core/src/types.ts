@@ -867,6 +867,9 @@ export interface ContentOptions {
   /**
    * Glob patterns to extract from the file system, in addition to other content sources.
    *
+   * Resolved against both the project root and the build tool root; backslashes
+   * (for example from `path.join()`) are normalized to `/`.
+   *
    * In dev mode, the files will be watched and trigger HMR.
    *
    * @default []
@@ -882,6 +885,9 @@ export interface ContentOptions {
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
    *
    * Used by the Vite (all modes), Webpack and Rollup integrations and the language server.
+   *
+   * Undeclared `include`/`exclude` options fall back to their defaults, also
+   * after configs are merged with `mergeConfigs()`.
    *
    * Set `false` to disable.
    */

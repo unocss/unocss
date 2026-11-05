@@ -126,6 +126,8 @@ export default defineConfig({
 
 The files matched will be read directly from the filesystem and watched for changes at dev mode.
 
+Patterns are resolved against `process.cwd()` as well as the directory reported as the build tool root (usually the project root). Prefer forward slashes: on Windows backslashes — for example from `path.join()` — are normalized to `/`, while on other platforms a backslash is treated as an escape character.
+
 ### Extracting from Inline Text
 
 Additionally, you can also extract utility usages from inline text that you might retrieve from elsewhere.
