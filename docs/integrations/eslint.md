@@ -164,13 +164,12 @@ Then enable the rules in your Oxlint config. The rule prefix is `unocss/`:
   "jsPlugins": ["@unocss/eslint-plugin"],
   "rules": {
     "unocss/order": "warn",
-    "unocss/order-attributify": "warn",
     "unocss/blocklist": "error"
   }
 }
 ```
 
-To use a custom UnoCSS config path, set it in `settings`:
+To use a custom UnoCSS config path, set it in `settings`. The path is resolved from the directory where Oxlint runs, not from the config file:
 
 ```json [.oxlintrc.json]
 {
@@ -184,7 +183,16 @@ To use a custom UnoCSS config path, set it in `settings`:
 ```
 
 ::: warning
-JS plugins in Oxlint are still experimental. The rules work in JS, TS, JSX and TSX files, and autofix with `oxlint --fix` is supported. Vue and Svelte templates are not linted yet, because Oxlint doesn't support custom parsers ([oxc#15761](https://github.com/oxc-project/oxc/issues/15761)).
+JS plugins in Oxlint are still experimental. Autofix with `oxlint --fix` is supported.
+
+Only script code is linted: JS, TS, JSX and TSX files, plus `<script>` blocks in Vue and Svelte files and Astro frontmatter. Vue, Svelte and Astro templates are not linted yet, because Oxlint doesn't support custom parsers ([oxc#15761](https://github.com/oxc-project/oxc/issues/15761)).
+
+Rule coverage in script code:
+
+- `unocss/order`: class attributes, `clsx()`-like calls, template literals and variables named `cls*`
+- `unocss/blocklist`: string literals in JSX `class` and `className` attributes only
+- `unocss/order-attributify` and `unocss/enforce-class-compile`: not supported, they only work in Vue templates
+
 :::
 
 ## Prior Arts
