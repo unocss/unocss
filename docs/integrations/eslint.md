@@ -193,7 +193,7 @@ Only script code is linted: JS, TS, JSX and TSX files, plus `<script>` blocks in
 
 Rule coverage in script code:
 
-- `unocss/order`: class attributes, `clsx()`-like calls, and strings or template literals in `cls*` and `*className(s)` variables (configurable through `unoVariables`)
+- `unocss/order`: class attributes, `clsx()`-like calls, and `cls*` and `*className(s)` variables (configurable through `unoVariables`). In those variables, strings and template literals are checked, including object values, function return values and call arguments, but not ternaries
 - `unocss/blocklist`: string literals in JSX `class` and `className` attributes only
 - `unocss/order-attributify` and `unocss/enforce-class-compile`: not supported, they only work in Vue templates
 
