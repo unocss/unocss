@@ -2,6 +2,7 @@ export function searchUsageBoundary(
   line: string,
   index: number,
   attributify = true,
+  classAttributes: string[] = [],
 ) {
   let start = index
   let end = index
@@ -19,7 +20,7 @@ export function searchUsageBoundary(
   }
 
   let temp = start - 1
-  // match class="" or className="" or @apply
+  // match class="" or className="" or @apply, or any of `classAttributes`
   const matchClassText = 'class'
   const matchClassNameText = 'className'
   const applyText = '@apply'
@@ -38,6 +39,16 @@ export function searchUsageBoundary(
   }
   if (line[temp] !== '=')
     return
+  if (classAttributes.length) {
+    const attrName = line.slice(0, temp).match(/[^\s"'`=<>]*$/)![0]
+    if (classAttributes.includes(attrName)) {
+      return {
+        content: line.slice(start, end),
+        start,
+        end,
+      }
+    }
+  }
   if (temp > matchClassNameText.length) {
     const data = line.slice(temp - matchClassNameText.length, temp)
     if (data === matchClassNameText) {

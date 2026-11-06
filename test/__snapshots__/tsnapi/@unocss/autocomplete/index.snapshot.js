@@ -14,7 +14,7 @@ export function cartesian(_) {}
 export function createAutocomplete(_, _) {}
 export function parseAutocomplete(_, _, _) {}
 export function searchAttrKey(_, _) {}
-export function searchUsageBoundary(_, _, _) {}
+export function searchUsageBoundary(_, _, _, _) {}
 // #endregion
 
 // #region Variables
