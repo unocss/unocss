@@ -30,6 +30,12 @@ function hasNodes(node: TreeNode) {
             REPL
           </span>
         </RouterLink>
+        <RouterLink block to="/docs" text-sm m="l-3.7">
+          <div i-carbon-book />
+          <span>
+            Docs
+          </span>
+        </RouterLink>
         <div border="b main" />
       </div>
     </div>

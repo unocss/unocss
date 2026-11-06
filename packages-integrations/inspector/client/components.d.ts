@@ -17,6 +17,8 @@ declare module 'vue' {
     CheckBox: typeof import('./components/CheckBox.vue')['default']
     CodeMirror: typeof import('./components/CodeMirror.vue')['default']
     Copy: typeof import('./components/Copy.vue')['default']
+    DocsDetail: typeof import('./components/DocsDetail.vue')['default']
+    DocsKindBadge: typeof import('./components/DocsKindBadge.vue')['default']
     FileIcon: typeof import('./components/FileIcon.vue')['default']
     InlineText: typeof import('./components/InlineText.vue')['default']
     ModuleId: typeof import('./components/ModuleId.vue')['default']
