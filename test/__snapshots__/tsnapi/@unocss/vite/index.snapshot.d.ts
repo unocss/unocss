@@ -21,6 +21,10 @@ export interface VueScopedOptions {
 }
 // #endregion
 
+// #region Types
+export type UnoCSSVitePlugin = Plugin[];
+// #endregion
+
 // #region Functions
 export declare function ChunkModeBuildPlugin(_: UnocssPluginContext): Plugin;
 export declare function defineConfig<Theme extends object>(_: VitePluginConfig<Theme>): VitePluginConfig<Theme>;
@@ -35,5 +39,5 @@ export declare function VueScopedPlugin(_: UnocssPluginContext): Plugin;
 // #endregion
 
 // #region Default Export
-export default function UnocssPlugin<Theme extends object>(_?: VitePluginConfig<Theme> | string, _?: UserConfigDefaults): Plugin[];
+export default function UnocssPlugin<Theme extends object>(_?: VitePluginConfig<Theme> | string, _?: UserConfigDefaults): UnoCSSVitePlugin;
 // #endregion

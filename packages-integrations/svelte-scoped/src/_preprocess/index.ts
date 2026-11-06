@@ -1,5 +1,5 @@
 import type { UnocssPluginContext, UnoGenerator, UserConfigDefaults } from '@unocss/core'
-import type { PreprocessorGroup } from 'svelte/types/compiler/preprocess'
+import type { PreprocessorGroup } from 'svelte/compiler'
 import type { UnocssSveltePreprocessOptions } from './types'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'

@@ -50,11 +50,9 @@
     "dev": "tsdown --config-loader unrun --watch"
   },
   "dependencies": {
+    "@iconify/types": "catalog:icons",
     "@iconify/utils": "catalog:icons",
     "@unocss/core": "workspace:*",
     "ofetch": "catalog:utils"
-  },
-  "devDependencies": {
-    "@iconify/types": "catalog:icons"
   }
 }

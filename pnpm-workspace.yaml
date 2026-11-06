@@ -26,6 +26,7 @@ packages:
   - virtual-shared/*
   - test/dts
   - test/fixtures/*
+  - packages-integrations/svelte-scoped/test/fixtures/*
 
 overrides:
   # 1.2.6 assumes the newer @emnapi/core plugin API while
