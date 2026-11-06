@@ -11,6 +11,7 @@ import { GlobalModeBuildPlugin, GlobalModeDevPlugin, GlobalModePlugin } from './
 import { PerModuleModePlugin } from './modes/per-module'
 import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { VueScopedPlugin } from './modes/vue-scoped'
+import { SvelteKitCompatPlugin } from './sveltekit'
 import { createTransformerPlugins } from './transformers'
 
 export * from './modes/chunk-build'
@@ -89,6 +90,8 @@ export default function UnocssPlugin<Theme extends object>(
   else {
     throw new Error(`[unocss] unknown mode "${mode}"`)
   }
+
+  plugins.push(SvelteKitCompatPlugin(plugins))
 
   return plugins.filter(Boolean) as Plugin[]
 }
