@@ -416,6 +416,9 @@ catalogs:
     '@typescript-eslint/rule-tester':
       specifier: ^8.72.0
       version: 8.72.1
+    '@typescript-eslint/types':
+      specifier: ^8.72.0
+      version: 8.72.1
     '@typescript-eslint/utils':
       specifier: ^8.72.0
       version: 8.72.1
@@ -1172,6 +1175,9 @@ importers:
 
   packages-integrations/eslint-plugin:
     dependencies:
+      '@typescript-eslint/types':
+        specifier: catalog:typescript
+        version: 8.72.1
       '@typescript-eslint/utils':
         specifier: catalog:typescript
         version: 8.72.1(eslint@10.13.0)(supports-color@10.2.2)(typescript@6.0.3)

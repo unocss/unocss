@@ -133,6 +133,68 @@ Options:
 
 **Note**: currently only Vue supported. _Contribute a PR_ if you want this in JSX. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
 
+## Usage with Oxlint
+
+The plugin can also run in [Oxlint](https://oxc.rs/docs/guide/usage/linter) through its [JS plugins](https://oxc.rs/docs/guide/usage/linter/js-plugins) support. Install `@unocss/eslint-plugin` directly:
+
+::: code-group
+
+```bash [pnpm]
+pnpm add -D oxlint @unocss/eslint-plugin
+```
+
+```bash [yarn]
+yarn add -D oxlint @unocss/eslint-plugin
+```
+
+```bash [npm]
+npm install -D oxlint @unocss/eslint-plugin
+```
+
+```bash [bun]
+bun add -D oxlint @unocss/eslint-plugin
+```
+
+:::
+
+Then enable the rules in your Oxlint config. The rule prefix is `unocss/`:
+
+```json [.oxlintrc.json]
+{
+  "jsPlugins": ["@unocss/eslint-plugin"],
+  "rules": {
+    "unocss/order": "warn",
+    "unocss/blocklist": "error"
+  }
+}
+```
+
+To use a custom UnoCSS config path, set it in `settings`. The path is resolved from the directory where Oxlint runs, not from the config file:
+
+```json [.oxlintrc.json]
+{
+  "jsPlugins": ["@unocss/eslint-plugin"],
+  "settings": {
+    "unocss": {
+      "configPath": "./config/uno.config.ts"
+    }
+  }
+}
+```
+
+::: warning
+JS plugins in Oxlint are still experimental. Autofix with `oxlint --fix` is supported.
+
+Only script code is linted: JS, TS, JSX and TSX files, plus `<script>` blocks in Vue and Svelte files and Astro frontmatter. Vue, Svelte and Astro templates are not linted yet, because Oxlint doesn't support custom parsers ([oxc#15761](https://github.com/oxc-project/oxc/issues/15761)).
+
+Rule coverage in script code:
+
+- `unocss/order`: class attributes, `clsx()`-like calls, template literals and variables named `cls*`
+- `unocss/blocklist`: string literals in JSX `class` and `className` attributes only
+- `unocss/order-attributify` and `unocss/enforce-class-compile`: not supported, they only work in Vue templates
+
+:::
+
 ## Prior Arts
 
 Thanks to [eslint-plugin-unocss](https://github.com/devunt/eslint-plugin-unocss) by [@devunt](https://github.com/devunt).
