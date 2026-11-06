@@ -157,6 +157,10 @@ bun add -D oxlint @unocss/eslint-plugin
 
 :::
 
+::: tip
+With Yarn Berry, set `nodeLinker: node-modules` in `.yarnrc.yml`. Oxlint can't load JS plugins under Yarn Plug'n'Play.
+:::
+
 Then enable the rules in your Oxlint config. The rule prefix is `unocss/`:
 
 ```json [.oxlintrc.json]
@@ -189,7 +193,7 @@ Only script code is linted: JS, TS, JSX and TSX files, plus `<script>` blocks in
 
 Rule coverage in script code:
 
-- `unocss/order`: class attributes, `clsx()`-like calls, template literals and variables named `cls*`
+- `unocss/order`: class attributes, `clsx()`-like calls, and strings or template literals in `cls*` and `*className(s)` variables (configurable through `unoVariables`)
 - `unocss/blocklist`: string literals in JSX `class` and `className` attributes only
 - `unocss/order-attributify` and `unocss/enforce-class-compile`: not supported, they only work in Vue templates
 
