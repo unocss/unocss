@@ -49,7 +49,6 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
   '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
   '#integration/nuxt-options': r('./virtual-shared/integration/src/nuxt-options.ts'),
-  '#integration/sort-rules': r('./virtual-shared/integration/src/sort-rules.ts'),
   '#integration/transformers': r('./virtual-shared/integration/src/transformers.ts'),
   '#integration/utils': r('./virtual-shared/integration/src/utils.ts'),
 }

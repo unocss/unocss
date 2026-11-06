@@ -465,6 +465,7 @@ export declare function resolveConfig<Theme extends object = object>(_?: UserCon
 export declare function resolvePreset<Theme extends object = object>(_: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>>;
 export declare function resolvePresets<Theme extends object = object>(_: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>[]>;
 export declare function resolveShortcuts<Theme extends object = object>(_: UserShortcuts<Theme>): Shortcut<Theme>[];
+export declare function sortRules(_: string, _: UnoGenerator): Promise<string>;
 export declare function splitVariantGroupBody(_: string): {
   index: number;
   value: string;
