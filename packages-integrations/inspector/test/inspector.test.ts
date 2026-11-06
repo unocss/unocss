@@ -1,11 +1,15 @@
 import type { DocsItem, DocsSearchItem, InspectorChanges, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import presetIcons from '@unocss/preset-icons'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { describe, expect, it } from 'vitest'
 import { createContext } from '#integration/context'
 import { analyzer } from '../src/analyzer'
-import { createInspectorDevframe } from '../src/devframe'
+import { createInspectorDevframe, createStandaloneInspectorDevframe } from '../src/devframe'
 import { createDocsEngine, extractColors, extractProperties, resolveVariables } from '../src/docs'
 import { createRpcFunctions } from '../src/rpc'
 
@@ -330,6 +334,43 @@ describe('inspector docs', () => {
 })
 
 describe('inspector devframe', () => {
+  it('applies transformers before extracting in the standalone host', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'unocss-inspector-'))
+    try {
+      await writeFile(join(root, 'App.vue'), '<template><div class="m-4 lg:(mt-6 p-2)" /></template>')
+
+      const inspector = await createStandaloneInspectorDevframe({
+        root,
+        config: {
+          presets: [presetWind3()],
+          transformers: [transformerVariantGroup()],
+        },
+        patterns: ['*.vue'],
+      })
+
+      const functions = new Map<string, any>()
+      await inspector.definition.setup({
+        scope: () => ({
+          rpc: {
+            register: (fn: any) => functions.set(fn.name, fn),
+            sharedState: async () => ({ mutate: () => {}, value: () => ({}), on: () => {} }),
+          },
+        }),
+      } as any)
+
+      const project: ProjectInfo = await (await resolveHandler(functions.get('get-project-info')))()
+      const mod: ModuleInfo = await (await resolveHandler(functions.get('get-module-info')))(project.modules[0])
+
+      expect(mod.code).toContain('lg:mt-6 lg:p-2')
+      expect(mod.code).not.toContain('lg:(')
+      expect(mod.matched.map(i => i.rawSelector)).toEqual(expect.arrayContaining(['m-4', 'lg:mt-6', 'lg:p-2']))
+      expect(mod.css).toContain('.lg\\:mt-6')
+    }
+    finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
   it('registers the rpc functions under the unocss scope', async () => {
     const ctx = await prepareContext()
     const inspector = createInspectorDevframe(ctx)
