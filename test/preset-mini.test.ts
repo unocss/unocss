@@ -740,4 +740,24 @@ describe('preset-mini', () => {
       "
     `)
   })
+
+  it('variant combinator and pseudo order (#5043)', async () => {
+    const uno = await createGenerator({
+      presets: [presetMini({ preflight: false })],
+    })
+
+    const { css: css1 } = await uno.generate('*:last:p-2')
+    const { css: css2 } = await uno.generate('last:*:p-2')
+    const { css: css3 } = await uno.generate('*:hover:p-2')
+    const { css: css4 } = await uno.generate('hover:*:p-2')
+    const { css: css5 } = await uno.generate('dark:*:last:p-2')
+    const { css: css6 } = await uno.generate('dark:last:*:p-2')
+
+    expect(css1).toContain('.\\*\\:last\\:p-2 > *:last-child{padding:0.5rem;}')
+    expect(css2).toContain('.last\\:\\*\\:p-2:last-child > *{padding:0.5rem;}')
+    expect(css3).toContain('.\\*\\:hover\\:p-2 > *:hover{padding:0.5rem;}')
+    expect(css4).toContain('.hover\\:\\*\\:p-2:hover > *{padding:0.5rem;}')
+    expect(css5).toContain('.dark\\:\\*\\:last\\:p-2 > *:last-child{padding:0.5rem;}')
+    expect(css6).toContain('.dark\\:last\\:\\*\\:p-2:last-child > *{padding:0.5rem;}')
+  })
 })
