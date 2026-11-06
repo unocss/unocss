@@ -1203,6 +1203,9 @@ importers:
 
   packages-integrations/inspector:
     dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
       '@unocss/autocomplete':
         specifier: workspace:*
         version: link:../../packages-engine/autocomplete
@@ -1221,6 +1224,9 @@ importers:
       devframe:
         specifier: catalog:devtools
         version: 1.2.6(cac@7.1.0)(srvx@1.0.7)
+      magic-string:
+        specifier: catalog:utils
+        version: 1.4.4
       tinyglobby:
         specifier: catalog:utils
         version: 0.2.17

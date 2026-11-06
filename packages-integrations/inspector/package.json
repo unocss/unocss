@@ -57,12 +57,14 @@
     }
   },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "devframe": "catalog:devtools",
+    "magic-string": "catalog:utils",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },
