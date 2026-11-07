@@ -117,6 +117,59 @@ it('web-fonts weight deduplicate', async () => {
   expect(importUrl).toMatchInlineSnapshot('"https://fonts.googleapis.com/css2?family=Fira+Mono:wght@200;1000&family=Lato:ital,wght@0,200;0,400;0,1000;1,200;1,400;1,1000&display=swap"')
 })
 
+it('web-fonts providers', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetMini({ preflight: false }),
+      presetWebFonts({
+        inlineImports: false,
+        providers: {
+          google: { fonts: { sans: 'Inter' } },
+          fontshare: { fonts: { display: 'Satoshi:400,700' } },
+        },
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate(new Set(['font-sans', 'font-display']))
+  const importUrls = [...css.matchAll(/@import url\('(.*)'\)/g)].map(i => i[1])
+  expect(importUrls).toMatchInlineSnapshot(`
+    [
+      "https://fonts.googleapis.com/css2?family=Inter&display=swap",
+      "https://api.fontshare.com/v2/css?f[]=satoshi@400,700&display=swap",
+    ]
+  `)
+  expect(css).toContain('.font-display{font-family:"Satoshi";}')
+  expect(css).toContain('.font-sans{font-family:"Inter",')
+})
+
+it('web-fonts providers merge fonts with the same key', async () => {
+  const uno = await createGenerator({
+    presets: [
+      presetMini({ preflight: false }),
+      presetWebFonts({
+        inlineImports: false,
+        provider: 'google',
+        fonts: { sans: 'Roboto' },
+        providers: {
+          bunny: { fonts: { sans: 'Inter' } },
+          none: { fonts: { sans: 'sans-serif' } },
+        },
+      }),
+    ],
+  })
+
+  const { css } = await uno.generate(new Set(['font-sans']))
+  const importUrls = [...css.matchAll(/@import url\('(.*)'\)/g)].map(i => i[1])
+  expect(importUrls).toMatchInlineSnapshot(`
+    [
+      "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+      "https://fonts.bunny.net/css?family=inter&display=swap",
+    ]
+  `)
+  expect(css).toContain('.font-sans{font-family:"Roboto","Inter",sans-serif,')
+})
+
 it('createLocalFontProcessor', async () => {
   const uno = await createGenerator({
     presets: [
