@@ -31,6 +31,8 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
   const selectorName = options.selectorName || 'prose'
   const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
   const important = options.important === true
+  // `not-prose` is built from `:where()` and `:not()`, so either flag drops it.
+  const disableNotUtility = options.compatibility?.noColonNot || options.compatibility?.noColonWhere
 
   let css = ''
 
@@ -40,7 +42,9 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
     }
     else {
       const [selectorOrGroup, pseudo] = selectorOrKey.split('::')
-      const _selector = `:where(${selectorOrGroup})${notProseSelector}${pseudo ? `::${pseudo}` : ''}`
+      const _selector = disableNotUtility
+        ? selectorOrKey
+        : `:where(${selectorOrGroup})${notProseSelector}${pseudo ? `::${pseudo}` : ''}`
       css += `${_selector} {`
       for (const [key, value] of Object.entries(cssObjectOrValue)) {
         css += `${key}:${value}${important ? ' !important' : ''};`
