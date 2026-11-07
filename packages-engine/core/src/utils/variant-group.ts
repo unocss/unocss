@@ -90,6 +90,9 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
   let content = str.toString()
   const prefixes = new Set<string>()
   const groupsByOffset = new Map<number, VariantGroup>()
+  // Offsets of `(--var)` shorthands that were masked but must not be expanded.
+  const literalOffsets = new Set<number>()
+  const source = content
 
   do {
     hasChanged = false
@@ -100,6 +103,16 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
           return from
 
         hasChanged = true
+
+        // `bg-(--primary)` is the Tailwind v4 shorthand for a CSS variable value,
+        // not a group: expanding it would produce `bg---primary`. Leave the source
+        // untouched and only mask it, so an outer group such as
+        // `hover:(bg-(--primary) text-red)` can still match and prefix it.
+        if (sep === '-' && /^--[^\s()]+$/.test(body)) {
+          literalOffsets.add(groupOffset)
+          return '$'.repeat(from.length)
+        }
+
         prefixes.add(pre + sep)
         const bodyOffset = groupOffset + pre.length + sep.length + 1
         const group: VariantGroup = { length: from.length, items: [] }
@@ -115,10 +128,15 @@ export function parseVariantGroup(str: string | MagicString, separators = ['-', 
             groupsByOffset.delete(itemOffset)
           }
           else {
+            // A masked `(--var)` shorthand shows up as `$` placeholders in `body`;
+            // restore it from the source, keeping any suffix such as `/50`.
+            const className = literalOffsets.has(itemOffset)
+              ? source.slice(itemOffset, itemOffset + itemMatch.value.length)
+              : itemMatch.value
             innerItems = [{
               offset: itemOffset,
               length: itemMatch.value.length,
-              className: itemMatch.value,
+              className,
             }]
           }
           for (const item of innerItems) {
