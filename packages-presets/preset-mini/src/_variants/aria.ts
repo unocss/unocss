@@ -54,7 +54,10 @@ function taggedAria(tagName: string, combinator: string, options: PresetMiniOpti
                 ].join('')
               }
               else {
-                const prefixGroupIndex = Math.max(input.prefix.indexOf(parent), 0)
+                // insert the new segment before the existing tag or at the start, in `left-to-right` mode append it
+                const prefixGroupIndex = ctx.generator.config.variantApplyOrder === 'left-to-right'
+                  ? input.prefix.length
+                  : Math.max(input.prefix.indexOf(parent), 0)
                 nextPrefix = [
                   input.prefix.slice(0, prefixGroupIndex),
                   parent,

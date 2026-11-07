@@ -30,6 +30,7 @@ export function variantGetBracket(_, _, _) {}
 export function variantGetParameter(_, _, _) {}
 export function variantMatcher(_, _, _) {}
 export function variantParentMatcher(_, _) {}
+export function variantPrefix(_, _, _) {}
 // #endregion
 
 // #region Variables
