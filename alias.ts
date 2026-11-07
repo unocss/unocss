@@ -45,6 +45,7 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/defaults-ide': r('./virtual-shared/integration/src/defaults-ide.ts'),
   '#integration/defaults': r('./virtual-shared/integration/src/defaults.ts'),
   '#integration/env': r('./virtual-shared/integration/src/env.ts'),
+  '#integration/glob': r('./virtual-shared/integration/src/glob.ts'),
   '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),
   '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
   '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
