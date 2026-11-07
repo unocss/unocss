@@ -64,6 +64,7 @@ export async function resolveConfig(_, _) {}
 export async function resolvePreset(_) {}
 export async function resolvePresets(_) {}
 export function resolveShortcuts(_) {}
+export async function sortRules(_, _) {}
 export function splitVariantGroupBody(_) {}
 export function toArray(_) {}
 export function toEscapedSelector(_) {}
