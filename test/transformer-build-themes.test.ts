@@ -13,11 +13,11 @@ import { describe, expect, it } from 'vitest'
 import { applyTransformers } from '#integration/transformers'
 
 const options: TransformerBuildThemesOptions = {
-  themes: {
+  facets: {
     client: ['acme', 'globex'],
-    scheme: ['day', 'night'],
+    edition: ['standard', 'premium'],
   },
-  active: { client: 'acme', scheme: 'night' },
+  active: { client: 'acme', edition: 'premium' },
 }
 
 async function transform(code: string, opts = options, uno?: UnoGenerator) {
@@ -29,33 +29,33 @@ async function transform(code: string, opts = options, uno?: UnoGenerator) {
 
 describe('transformer-build-themes', () => {
   describe('options', () => {
-    it('requires at least one group', () => {
-      expect(() => transformerBuildThemes({ themes: {}, active: {} })).toThrow('at least one group')
+    it('requires at least one facet', () => {
+      expect(() => transformerBuildThemes({ facets: {}, active: {} })).toThrow('at least one facet')
     })
 
-    it('requires an active theme for every group', () => {
-      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: {} }))
-        .toThrow('No active theme for group "client"')
+    it('requires an active value for every facet', () => {
+      expect(() => transformerBuildThemes({ facets: { client: ['acme'] }, active: {} }))
+        .toThrow('No active value for facet "client"')
     })
 
-    it('rejects an active theme that is not listed', () => {
-      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: { client: 'initech' } }))
-        .toThrow('"initech" is not listed in group "client"')
+    it('rejects an active value that is not listed', () => {
+      expect(() => transformerBuildThemes({ facets: { client: ['acme'] }, active: { client: 'initech' } }))
+        .toThrow('"initech" is not listed in facet "client"')
     })
 
-    it('rejects an active group that is not defined', () => {
-      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: { client: 'acme', region: 'eu' } }))
-        .toThrow('group "region"')
+    it('rejects an active facet that is not defined', () => {
+      expect(() => transformerBuildThemes({ facets: { client: ['acme'] }, active: { client: 'acme', region: 'eu' } }))
+        .toThrow('facet "region"')
     })
 
-    it('rejects names listed in two groups', () => {
-      expect(() => transformerBuildThemes({ themes: { a: ['acme'], b: ['acme'] }, active: { a: 'acme', b: 'acme' } }))
-        .toThrow('listed in both "a" and "b"')
+    it('rejects values listed in two facets', () => {
+      expect(() => transformerBuildThemes({ facets: { a: ['acme'], b: ['acme'] }, active: { a: 'acme', b: 'acme' } }))
+        .toThrow('listed in both facets "a" and "b"')
     })
 
-    it('rejects names that cannot be a variant', () => {
-      expect(() => transformerBuildThemes({ themes: { client: ['ac me'] }, active: { client: 'ac me' } }))
-        .toThrow('Invalid theme name')
+    it('rejects values that cannot be a variant', () => {
+      expect(() => transformerBuildThemes({ facets: { client: ['ac me'] }, active: { client: 'ac me' } }))
+        .toThrow('Invalid value')
     })
   })
 
@@ -70,11 +70,11 @@ describe('transformer-build-themes', () => {
     const cases = [
       'acme:c-red',
       'globex:c-blue',
-      'acme:night:bg-black',
-      'acme:day:bg-white',
-      'night:acme:bg-black',
+      'acme:premium:bg-black',
+      'acme:standard:bg-white',
+      'premium:acme:bg-black',
       'hover:acme:c-red',
-      'md:hover:night:c-red',
+      'md:hover:premium:c-red',
       'hover:globex:c-red',
       '!acme:c-red',
       '!globex:c-red',
@@ -93,11 +93,11 @@ describe('transformer-build-themes', () => {
       [
         "acme:c-red => "c-red"",
         "globex:c-blue => """,
-        "acme:night:bg-black => "bg-black"",
-        "acme:day:bg-white => """,
-        "night:acme:bg-black => "bg-black"",
+        "acme:premium:bg-black => "bg-black"",
+        "acme:standard:bg-white => """,
+        "premium:acme:bg-black => "bg-black"",
         "hover:acme:c-red => "hover:c-red"",
-        "md:hover:night:c-red => "md:hover:c-red"",
+        "md:hover:premium:c-red => "md:hover:c-red"",
         "hover:globex:c-red => """,
         "!acme:c-red => "!c-red"",
         "!globex:c-red => """,
@@ -119,10 +119,10 @@ describe('transformer-build-themes', () => {
     expect(await transform('<div class="p-2 globex:c-blue">')).toBe('<div class="p-2">')
     expect(await transform('<div class="globex:c-blue p-2">')).toBe('<div class="p-2">')
     expect(await transform('<div class="globex:c-blue">')).toBe('<div class="">')
-    expect(await transform('<div class="p-2 globex:a globex:b day:c">')).toBe('<div class="p-2">')
-    expect(await transform('<div class="p-2 acme:c-red globex:c-blue night:m-1">')).toBe('<div class="p-2 c-red m-1">')
+    expect(await transform('<div class="p-2 globex:a globex:b standard:c">')).toBe('<div class="p-2">')
+    expect(await transform('<div class="p-2 acme:c-red globex:c-blue premium:m-1">')).toBe('<div class="p-2 c-red m-1">')
     // Arbitrary values are removed with their class, not left behind.
-    expect(await transform('<div class="p-2 globex:lg:rows-[1fr_auto] day:bg-[url(/a.png)]">')).toBe('<div class="p-2">')
+    expect(await transform('<div class="p-2 globex:lg:rows-[1fr_auto] standard:bg-[url(/a.png)]">')).toBe('<div class="p-2">')
     expect(await transform('<div\n  class="\n    p-2\n    globex:c-blue\n    m-2\n  "\n>'))
       .toBe('<div\n  class="\n    p-2\n    m-2\n  "\n>')
   })
@@ -131,11 +131,11 @@ describe('transformer-build-themes', () => {
     expect(await transform('"acme:(c-red bg-blue) p-2"')).toBe('"c-red bg-blue p-2"')
     expect(await transform('"p-2 globex:(c-red bg-blue) m-2"')).toBe('"p-2 m-2"')
     expect(await transform('"hover:(acme:c-red globex:c-blue)"')).toBe('"hover:c-red"')
-    expect(await transform('"acme:(night:c-red day:c-blue)"')).toBe('"c-red"')
+    expect(await transform('"acme:(premium:c-red standard:c-blue)"')).toBe('"c-red"')
     expect(await transform('"!globex:(c-red bg-blue)"')).toBe('""')
-    expect(await transform('"p-2 day:c-red globex:(c-red bg-blue) globex:m-2"')).toBe('"p-2"')
-    expect(await transform('"p-2 acme:(c-red bg-blue) globex:(m-2) day:p-1"')).toBe('"p-2 c-red bg-blue"')
-    expect(await transform('"md:(acme:(c-red day:p-1) globex:c-blue)"')).toBe('"md:c-red"')
+    expect(await transform('"p-2 standard:c-red globex:(c-red bg-blue) globex:m-2"')).toBe('"p-2"')
+    expect(await transform('"p-2 acme:(c-red bg-blue) globex:(m-2) standard:p-1"')).toBe('"p-2 c-red bg-blue"')
+    expect(await transform('"md:(acme:(c-red standard:p-1) globex:c-blue)"')).toBe('"md:c-red"')
     // Groups with the `-` separator.
     expect(await transform('"p-2 globex:bg-(red-500 op-50) m-2"')).toBe('"p-2 m-2"')
     expect(await transform('"acme:bg-(red-500 op-50)"')).toBe('"bg-red-500 bg-op-50"')
@@ -171,11 +171,11 @@ describe('transformer-build-themes', () => {
       expect(await transform(code)).toBe(code)
   })
 
-  it('throws when a theme name collides with a variant', async () => {
+  it('throws when a facet value collides with a variant', async () => {
     const uno = await createGenerator({ presets: [presetMini()] })
-    await expect(transform('"dark:c-red"', { themes: { scheme: ['dark', 'night'] }, active: { scheme: 'night' } }, uno))
+    await expect(transform('"dark:c-red"', { facets: { edition: ['dark', 'premium'] }, active: { edition: 'premium' } }, uno))
       .rejects
-      .toThrow('Theme names collide with registered variants: "dark"')
+      .toThrow('Facet values collide with registered variants: "dark"')
   })
 
   it('does not count its own helper variants as collisions', async () => {
@@ -198,7 +198,7 @@ describe('transformer-build-themes', () => {
 
   it('emits no CSS and no markup for inactive themes', async () => {
     const uno = await createGenerator({ presets: [presetMini()] })
-    const source = '<div class="p-2 acme:c-red globex:c-blue night:bg-black day:bg-white">'
+    const source = '<div class="p-2 acme:c-red globex:c-blue premium:bg-black standard:bg-white">'
     const html = await transform(source, options, uno)
     expect(html).toBe('<div class="p-2 c-red bg-black">')
 
@@ -210,7 +210,7 @@ describe('transformer-build-themes', () => {
   })
 
   describe('syntax coverage', () => {
-    // [source, output with `acme` + `night` active]
+    // [source, output with `acme` + `premium` active]
     const cases: [string, string][] = [
       // Arbitrary variants, including escaped selectors and nested brackets.
       ['[&_a]:acme:(underline break-words)', '[&_a]:underline [&_a]:break-words'],
@@ -290,7 +290,7 @@ describe('transformer-build-themes', () => {
       const unbalanced = `${'['.repeat(200_000)} globex:c-blue acme:c-red`
       const startedAt = performance.now()
       expect(await transform(unbalanced)).toBe(`${'['.repeat(200_000)} c-red`)
-      const large = '<div class="p-2 acme:c-red globex:c-blue night:(m-1 p-1)"></div>\n'.repeat(20_000)
+      const large = '<div class="p-2 acme:c-red globex:c-blue premium:(m-1 p-1)"></div>\n'.repeat(20_000)
       expect((await transform(large)).includes('globex')).toBe(false)
       expect(performance.now() - startedAt).toBeLessThan(5_000)
     })
@@ -307,7 +307,7 @@ describe('transformer-build-themes', () => {
     }
 
     it('gives the same result before or after transformer-variant-group', async () => {
-      const source = '<div class="p-2 hover:(acme:c-red globex:c-blue) globex:bg-(red-500 op-50) acme:bg-(--accent) md:(night:p-1 day:p-2)">'
+      const source = '<div class="p-2 hover:(acme:c-red globex:c-blue) globex:bg-(red-500 op-50) acme:bg-(--accent) md:(premium:p-1 standard:p-2)">'
       const first = await pipeline(source, 'a.html', [transformerBuildThemes(options), transformerVariantGroup()])
       const second = await pipeline(source, 'a.html', [transformerVariantGroup(), transformerBuildThemes(options)])
       expect(first.code).toBe(second.code)
@@ -334,7 +334,7 @@ describe('transformer-build-themes', () => {
     })
 
     it('applies only active classes with transformer-directives', async () => {
-      const source = '.btn { @apply p-2 acme:c-red globex:c-blue; --at-apply: night:m-1 day:m-2; }'
+      const source = '.btn { @apply p-2 acme:c-red globex:c-blue; --at-apply: premium:m-1 standard:m-2; }'
       const { code } = await pipeline(source, 'a.css', [transformerBuildThemes(options), transformerDirectives()])
       expect(code).toContain('color:rgb(248 113 113')
       expect(code).toContain('margin:0.25rem')

@@ -12,8 +12,8 @@ export default defineConfig({
         if (process.env.THEMES !== 'runtime')
           return html
         const client = process.env.CLIENT ?? 'acme'
-        const scheme = process.env.SCHEME ?? 'day'
-        return html.replace('<html lang="en">', `<html lang="en" data-client="${client}" data-scheme="${scheme}">`)
+        const edition = process.env.EDITION ?? 'standard'
+        return html.replace('<html lang="en">', `<html lang="en" data-client="${client}" data-edition="${edition}">`)
       },
     },
   ],

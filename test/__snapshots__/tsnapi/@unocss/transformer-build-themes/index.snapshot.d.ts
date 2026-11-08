@@ -3,7 +3,7 @@
  */
 // #region Interfaces
 export interface TransformerBuildThemesOptions {
-  themes: Record<string, readonly string[]>;
+  facets: Record<string, readonly string[]>;
   active: Record<string, string>;
 }
 // #endregion

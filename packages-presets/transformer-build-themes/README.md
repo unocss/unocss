@@ -21,7 +21,7 @@ export default defineConfig({
   // ...
   transformers: [
     transformerBuildThemes({
-      themes: { client: ['acme', 'globex'] },
+      facets: { client: ['acme', 'globex'] },
       active: { client: process.env.CLIENT ?? 'acme' },
     }),
   ],

@@ -2,31 +2,31 @@ import type { Variant } from 'unocss'
 import process from 'node:process'
 import { defineConfig, presetWind3, transformerBuildThemes, variantBuildThemes } from 'unocss'
 
-export const themes = {
+export const facets = {
   client: ['acme', 'globex', 'initech'],
-  scheme: ['day', 'night'],
+  edition: ['standard', 'premium'],
 }
 
 const options = {
-  themes,
+  facets,
   active: {
     client: process.env.CLIENT ?? 'acme',
-    scheme: process.env.SCHEME ?? 'day',
+    edition: process.env.EDITION ?? 'standard',
   },
 }
 
 /**
  * `THEMES=runtime` builds the same page with runtime themes instead, for
- * comparison: every theme prefix becomes a `[data-<group>="<theme>"]` parent
+ * comparison: every facet value becomes a `[data-<facet>="<value>"]` parent
  * selector, so all themes ship and are switched with attributes on `<html>`.
  */
 const runtime = process.env.THEMES === 'runtime'
 
 function runtimeThemeVariants(): Variant[] {
-  return Object.entries(themes).flatMap(([group, names]) => names.map((name): Variant => ({
-    name: `runtime-theme:${name}`,
-    match: matcher => matcher.startsWith(`${name}:`)
-      ? { matcher: matcher.slice(name.length + 1), selector: s => `[data-${group}="${name}"] ${s}` }
+  return Object.entries(facets).flatMap(([facet, values]) => values.map((value): Variant => ({
+    name: `runtime-theme:${value}`,
+    match: matcher => matcher.startsWith(`${value}:`)
+      ? { matcher: matcher.slice(value.length + 1), selector: s => `[data-${facet}="${value}"] ${s}` }
       : undefined,
   })))
 }
@@ -37,7 +37,7 @@ export default defineConfig({
   ],
   variants: runtime
     ? runtimeThemeVariants()
-    // Lets editor tooling recognize theme prefixes. Builds never see them.
+    // Lets editor tooling recognize facet values. Builds never see them.
     : variantBuildThemes(options),
   transformers: runtime
     ? []

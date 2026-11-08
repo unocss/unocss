@@ -8,7 +8,7 @@ import process from 'node:process'
 import { gzipSync } from 'node:zlib'
 
 const clients = ['acme', 'globex', 'initech']
-const schemes = ['day', 'night']
+const editions = ['standard', 'premium']
 
 function build(label, env) {
   const outDir = join('dist', label)
@@ -35,8 +35,8 @@ function measure(dir) {
 
 const rows = [['runtime themes (all)', build('runtime', { THEMES: 'runtime' })]]
 for (const client of clients) {
-  for (const scheme of schemes)
-    rows.push([`build themes: ${client} + ${scheme}`, build(`${client}-${scheme}`, { CLIENT: client, SCHEME: scheme })])
+  for (const edition of editions)
+    rows.push([`build themes: ${client} + ${edition}`, build(`${client}-${edition}`, { CLIENT: client, EDITION: edition })])
 }
 
 const kb = n => `${(n / 1024).toFixed(2)} kB`

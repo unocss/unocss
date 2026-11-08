@@ -3,35 +3,40 @@ import { escapeRegExp, parseVariantGroup } from '@unocss/core'
 
 export interface TransformerBuildThemesOptions {
   /**
-   * Theme names, grouped by axis. Each group is independent: one theme per
-   * group is active in a build, and the others are removed.
+   * Theme facets: independent aspects of a theme, each listing its values.
+   * A build's theme is one value per facet. The values are the class prefixes
+   * (`acme:c-red`), and the facet names are yours to choose.
    *
    * @example
    * ```ts
    * {
    *   client: ['acme', 'globex'],
-   *   scheme: ['day', 'night'],
+   *   edition: ['standard', 'premium'],
    * }
    * ```
    */
-  themes: Record<string, readonly string[]>
+  facets: Record<string, readonly string[]>
 
   /**
-   * The active theme of every group in `themes`, resolved by the caller
-   * (for example from an environment variable in a CI build matrix).
+   * The active value of every facet, resolved by the caller (for example from
+   * an environment variable in a CI build matrix). Classes prefixed with any
+   * other value are removed.
    *
    * @example
    * ```ts
-   * { client: 'acme', scheme: 'night' }
+   * { client: 'acme', edition: 'premium' }
    * ```
    */
   active: Record<string, string>
 }
 
-interface ResolvedThemes {
+interface ResolvedFacets {
+  /** The active value of every facet. */
   active: Set<string>
+  /** Every other facet value. */
   inactive: Set<string>
-  all: string[]
+  /** All facet values, active and inactive. */
+  values: string[]
 }
 
 const NAME_RE = /^[a-z][\w-]*$/i
@@ -159,46 +164,46 @@ function* scanTokens(code: string): Generator<[start: number, end: number]> {
   }
 }
 
-function resolveThemes(options: TransformerBuildThemesOptions): ResolvedThemes {
-  const { themes, active } = options ?? {}
-  if (!themes || typeof themes !== 'object' || !Object.keys(themes).length)
-    throw new Error('[transformer-build-themes] `themes` must define at least one group.')
+function resolveFacets(options: TransformerBuildThemesOptions): ResolvedFacets {
+  const { facets, active } = options ?? {}
+  if (!facets || typeof facets !== 'object' || !Object.keys(facets).length)
+    throw new Error('[transformer-build-themes] `facets` must define at least one facet.')
   if (!active || typeof active !== 'object')
-    throw new Error('[transformer-build-themes] `active` must name the active theme of every group.')
+    throw new Error('[transformer-build-themes] `active` must name the active value of every facet.')
 
   const seen = new Map<string, string>()
   const activeSet = new Set<string>()
   const inactiveSet = new Set<string>()
 
-  for (const [group, names] of Object.entries(themes)) {
-    if (!Array.isArray(names) || !names.length)
-      throw new Error(`[transformer-build-themes] Group "${group}" must list at least one theme.`)
+  for (const [facet, values] of Object.entries(facets)) {
+    if (!Array.isArray(values) || !values.length)
+      throw new Error(`[transformer-build-themes] Facet "${facet}" must list at least one value.`)
 
-    for (const name of names) {
-      if (!NAME_RE.test(name))
-        throw new Error(`[transformer-build-themes] Invalid theme name "${name}" in group "${group}": use letters, digits, "-" or "_", starting with a letter.`)
-      const owner = seen.get(name)
+    for (const value of values) {
+      if (!NAME_RE.test(value))
+        throw new Error(`[transformer-build-themes] Invalid value "${value}" in facet "${facet}": use letters, digits, "-" or "_", starting with a letter.`)
+      const owner = seen.get(value)
       if (owner !== undefined)
-        throw new Error(`[transformer-build-themes] Theme "${name}" is listed in both "${owner}" and "${group}". Theme names must be unique across groups.`)
-      seen.set(name, group)
+        throw new Error(`[transformer-build-themes] Value "${value}" is listed in both facets "${owner}" and "${facet}". Values must be unique across facets.`)
+      seen.set(value, facet)
     }
 
-    const current = active[group]
+    const current = active[facet]
     if (current === undefined)
-      throw new Error(`[transformer-build-themes] No active theme for group "${group}". Expected one of: ${names.join(', ')}.`)
-    if (!names.includes(current))
-      throw new Error(`[transformer-build-themes] Active theme "${current}" is not listed in group "${group}". Expected one of: ${names.join(', ')}.`)
+      throw new Error(`[transformer-build-themes] No active value for facet "${facet}". Expected one of: ${values.join(', ')}.`)
+    if (!values.includes(current))
+      throw new Error(`[transformer-build-themes] Active value "${current}" is not listed in facet "${facet}". Expected one of: ${values.join(', ')}.`)
 
-    for (const name of names)
-      (name === current ? activeSet : inactiveSet).add(name)
+    for (const value of values)
+      (value === current ? activeSet : inactiveSet).add(value)
   }
 
-  for (const group of Object.keys(active)) {
-    if (!(group in themes))
-      throw new Error(`[transformer-build-themes] \`active\` names group "${group}", which is not defined in \`themes\`.`)
+  for (const facet of Object.keys(active)) {
+    if (!(facet in facets))
+      throw new Error(`[transformer-build-themes] \`active\` names facet "${facet}", which is not defined in \`facets\`.`)
   }
 
-  return { active: activeSet, inactive: inactiveSet, all: [...seen.keys()] }
+  return { active: activeSet, inactive: inactiveSet, values: [...seen.keys()] }
 }
 
 /**
@@ -261,12 +266,12 @@ function groupSeparator(group: string): string | undefined {
 }
 
 /**
- * Resolves one class against the build's themes.
+ * Resolves one class against the build's facet values.
  *
- * @returns the class with active theme prefixes removed, `null` when the class
- * belongs to an inactive theme, or `undefined` when the class is left as is.
+ * @returns the class with active prefixes removed, `null` when a prefix is an
+ * inactive value, or `undefined` when the class is left as is.
  */
-function resolveClass(token: string, themes: ResolvedThemes): string | null | undefined {
+function resolveClass(token: string, facets: ResolvedFacets): string | null | undefined {
   const important = token.startsWith('!') ? '!' : ''
   const segments = splitSegments(important ? token.slice(1) : token)
   if (segments.length < 2)
@@ -281,17 +286,17 @@ function resolveClass(token: string, themes: ResolvedThemes): string | null | un
   if (!utility || utility.startsWith('/') || utility.endsWith('=') || variants.some(v => !v))
     return undefined
 
-  let hasTheme = false
+  let hasActive = false
   for (const variant of variants) {
-    if (themes.inactive.has(variant))
+    if (facets.inactive.has(variant))
       return null
-    if (themes.active.has(variant))
-      hasTheme = true
+    if (facets.active.has(variant))
+      hasActive = true
   }
-  if (!hasTheme)
+  if (!hasActive)
     return undefined
 
-  return important + [...variants.filter(v => !themes.active.has(v)), utility].join(':')
+  return important + [...variants.filter(v => !facets.active.has(v)), utility].join(':')
 }
 
 /**
@@ -313,9 +318,9 @@ function removalRange(code: string, start: number, end: number): [number, number
 }
 
 /**
- * Build-time themes: keeps the classes of each group's active theme and
- * removes every other theme's classes from the source, before HTML and CSS
- * are compiled.
+ * Build-time themes: keeps the classes of the active value of each theme
+ * facet and removes the classes of every other value from the source, before
+ * HTML and CSS are compiled.
  *
  * `acme:c-red` becomes `c-red` when `acme` is active, and is removed from the
  * markup entirely when it is not.
@@ -323,29 +328,29 @@ function removalRange(code: string, start: number, end: number): [number, number
  * @see https://unocss.dev/transformers/build-themes
  */
 export default function transformerBuildThemes(options: TransformerBuildThemesOptions): SourceCodeTransformer {
-  const themes = resolveThemes(options)
-  const names = themes.all.map(escapeRegExp).join('|')
-  const themeRE = new RegExp(`(?:^|[^\\w-])(?:${names}):`)
+  const facets = resolveFacets(options)
+  const names = facets.values.map(escapeRegExp).join('|')
+  const prefixRE = new RegExp(`(?:^|[^\\w-])(?:${names}):`)
   const checked = new WeakSet<UnoGenerator<any>>()
 
   const transformer: SourceCodeTransformer = {
     name: TRANSFORMER_NAME,
     docs: 'https://unocss.dev/transformers/build-themes',
     enforce: 'pre',
-    codeFilter: code => themeRE.test(code),
+    codeFilter: code => prefixRE.test(code),
     async transform(s, _id, ctx) {
       const uno = ctx?.uno
       if (uno && !checked.has(uno)) {
         checked.add(uno)
         assertTransformerOrder(uno, transformer)
-        await assertNoVariantCollision(uno, themes.all)
+        await assertNoVariantCollision(uno, facets.values)
       }
 
       const code = s.original
       // `null` removes the range, a string replaces it.
       const edits: { start: number, end: number, value: string | null }[] = []
 
-      // Variant groups that mention a theme are expanded, so that each item is
+      // Variant groups that mention a facet value are expanded, so that each item is
       // resolved on its own: `hover:(acme:a globex:b)` -> `hover:a`. Both
       // separators of `transformerVariantGroup` are handled, so that
       // `globex:bg-(red blue)` is removed whole whichever transformer runs first.
@@ -355,7 +360,7 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
         for (const [offset, group] of [...groupsByOffset].sort(([a], [b]) => a - b)) {
           const end = offset + group.length
           const text = code.slice(offset, end)
-          if (!themeRE.test(code.slice(Math.max(0, offset - 1), end)))
+          if (!prefixRE.test(code.slice(Math.max(0, offset - 1), end)))
             continue
           // `acme:bg-(--accent)` is a CSS variable value, not a group. If
           // `transformerVariantGroup` runs later, it expands it the same way.
@@ -365,7 +370,7 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
 
           const kept: string[] = []
           for (const item of group.items) {
-            const resolved = resolveClass(item.className, themes)
+            const resolved = resolveClass(item.className, facets)
             if (resolved !== null)
               kept.push(resolved ?? item.className)
           }
@@ -382,10 +387,10 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
           continue
 
         const token = code.slice(start, end)
-        if (!themeRE.test(token))
+        if (!prefixRE.test(token))
           continue
 
-        const resolved = resolveClass(token, themes)
+        const resolved = resolveClass(token, facets)
         if (resolved !== undefined)
           edits.push({ start, end, value: resolved })
       }
@@ -450,20 +455,20 @@ async function assertNoVariantCollision(uno: UnoGenerator<any>, names: string[])
   }
   if (collisions.length) {
     throw new Error(
-      `[transformer-build-themes] Theme names collide with registered variants: ${collisions.join('; ')}. `
-      + 'The transformer would strip those variants from your classes. Rename the themes.',
+      `[transformer-build-themes] Facet values collide with registered variants: ${collisions.join('; ')}. `
+      + 'The transformer would strip those variants from your classes. Rename those values.',
     )
   }
 }
 
 /**
- * Registers every theme name as a no-op variant, so that editor tooling
+ * Registers every facet value as a no-op variant, so that editor tooling
  * (VS Code extension, `@unocss/eslint-plugin`) recognizes `acme:c-red` in
  * source. The transformer has already removed the prefixes by the time CSS
  * is generated in a build.
  */
 export function variantBuildThemes(options: TransformerBuildThemesOptions): Variant[] {
-  return resolveThemes(options).all.map((name): Variant => {
+  return resolveFacets(options).values.map((name): Variant => {
     const prefix = `${name}:`
     return {
       name: `${VARIANT_NAME_PREFIX}${name}`,

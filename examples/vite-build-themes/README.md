@@ -1,10 +1,10 @@
 # Build themes example
 
-One page, three clients (`acme`, `globex`, `initech`) and two colour schemes (`day`, `night`), written side by side in [`index.html`](./index.html).
+One page with two theme facets: three clients (`acme`, `globex`, `initech`) and two editions (`standard`, `premium`), written side by side in [`index.html`](./index.html).
 
 ```bash
-pnpm dev                          # acme + day
-CLIENT=globex SCHEME=night pnpm dev
+pnpm dev                          # acme + standard
+CLIENT=globex EDITION=premium pnpm dev
 pnpm build                        # one build per theme combination
 ```
 

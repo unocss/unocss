@@ -6,7 +6,7 @@
     <title>Build themes</title>
     <script type="module" src="/main.ts"></script>
   </head>
-  <body class="m-0 font-sans day:(bg-white text-gray-900) night:(bg-gray-950 text-gray-100)">
+  <body class="m-0 font-sans standard:(bg-white text-gray-900) premium:(bg-gray-950 text-gray-100)">
     <header
       class="flex items-center justify-between px-6 py-4 acme:(bg-red-600 text-white) globex:(bg-blue-700 text-white shadow-lg) initech:(bg-amber-300 text-gray-900 border-b-4 border-solid border-gray-900)"
     >
@@ -36,11 +36,11 @@
     <main class="mx-auto max-w-5xl px-6 py-12">
       <section class="py-12 text-center">
         <h1
-          class="m-0 text-4xl md:text-6xl acme:(font-black day:text-red-600 night:text-red-400) globex:(font-thin day:text-blue-700 night:text-blue-300) initech:(font-mono day:text-gray-900 night:text-amber-300)"
+          class="m-0 text-4xl md:text-6xl acme:(font-black standard:text-red-600 premium:text-red-400) globex:(font-thin standard:text-blue-700 premium:text-blue-300) initech:(font-mono standard:text-gray-900 premium:text-amber-300)"
         >
           One codebase, every customer
         </h1>
-        <p class="mx-auto mt-4 max-w-2xl text-lg day:text-gray-600 night:text-gray-400">
+        <p class="mx-auto mt-4 max-w-2xl text-lg standard:text-gray-600 premium:text-gray-400">
           Each build ships only its own theme's classes, in the HTML and in the CSS.
         </p>
         <button
@@ -52,32 +52,38 @@
 
       <section class="grid gap-6 md:grid-cols-3">
         <article
-          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) standard:bg-white premium:bg-gray-900"
         >
-          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+          <h2
+            class="mt-0 text-xl acme:text-red-600 globex:(standard:text-blue-700 premium:text-blue-300) initech:font-mono"
+          >
             Fast
           </h2>
-          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+          <p class="mb-0 standard:text-gray-600 premium:text-gray-400">
             No theme switching code and no unused rules in the stylesheet.
           </p>
         </article>
         <article
-          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) standard:bg-white premium:bg-gray-900"
         >
-          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+          <h2
+            class="mt-0 text-xl acme:text-red-600 globex:(standard:text-blue-700 premium:text-blue-300) initech:font-mono"
+          >
             Small
           </h2>
-          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+          <p class="mb-0 standard:text-gray-600 premium:text-gray-400">
             Classes of other themes are removed from the markup, not just from the CSS.
           </p>
         </article>
         <article
-          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) standard:bg-white premium:bg-gray-900"
         >
-          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+          <h2
+            class="mt-0 text-xl acme:text-red-600 globex:(standard:text-blue-700 premium:text-blue-300) initech:font-mono"
+          >
             Simple
           </h2>
-          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+          <p class="mb-0 standard:text-gray-600 premium:text-gray-400">
             Write every theme next to each other, in one template.
           </p>
         </article>
@@ -85,11 +91,11 @@
 
       <section class="mt-16 grid gap-6 md:grid-cols-3">
         <div
-          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+          class="flex flex-col p-6 acme:(standard:bg-red-50 premium:bg-red-950) globex:(rounded-2xl standard:bg-blue-50 premium:bg-blue-950) initech:(font-mono standard:bg-amber-50 premium:bg-gray-800)"
         >
           <h3 class="m-0 text-lg">Starter</h3>
           <p
-            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(standard:text-gray-900 premium:text-amber-300)"
           >
             $9
           </p>
@@ -100,11 +106,11 @@
           </button>
         </div>
         <div
-          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+          class="flex flex-col p-6 acme:(standard:bg-red-50 premium:bg-red-950) globex:(rounded-2xl standard:bg-blue-50 premium:bg-blue-950) initech:(font-mono standard:bg-amber-50 premium:bg-gray-800)"
         >
           <h3 class="m-0 text-lg">Team</h3>
           <p
-            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(standard:text-gray-900 premium:text-amber-300)"
           >
             $29
           </p>
@@ -115,11 +121,11 @@
           </button>
         </div>
         <div
-          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+          class="flex flex-col p-6 acme:(standard:bg-red-50 premium:bg-red-950) globex:(rounded-2xl standard:bg-blue-50 premium:bg-blue-950) initech:(font-mono standard:bg-amber-50 premium:bg-gray-800)"
         >
           <h3 class="m-0 text-lg">Enterprise</h3>
           <p
-            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(standard:text-gray-900 premium:text-amber-300)"
           >
             $99
           </p>

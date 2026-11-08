@@ -8,7 +8,7 @@ outline: deep
 
 <!-- @unocss-ignore -->
 
-Build-time themes for white-label products: one codebase, one build per customer. Each build keeps the classes of its active themes and removes every other theme's classes from the source, before HTML and CSS are compiled.
+Build-time themes for white-label products: one codebase, one build per customer. Each build keeps the classes of its active theme and removes every other theme's classes from the source, before HTML and CSS are compiled.
 
 ## HTML tree-shaking
 
@@ -48,7 +48,7 @@ export default defineConfig({
   // ...
   transformers: [
     transformerBuildThemes({
-      themes: { client: ['acme', 'globex'] },
+      facets: { client: ['acme', 'globex'] },
       active: { client: process.env.CLIENT ?? 'acme' },
     }),
   ],
@@ -66,7 +66,7 @@ import { transformerBuildThemes } from 'unocss'
 
 ## Usage
 
-Prefix a class with a theme name, the same way you would with a variant:
+Prefix a class with a facet value, the same way you would with a variant:
 
 ```html
 <button class="px-4 py-2 acme:(bg-red c-white) globex:(bg-blue rounded-full)" />
@@ -84,30 +84,34 @@ With `globex` active:
 <button class="px-4 py-2 bg-blue rounded-full" />
 ```
 
-### Theme groups
+### Theme facets
 
-`themes` takes several independent groups, for example client × colour scheme. One theme per group is active, and a class is kept only when every theme prefix on it is active.
+A theme is described by one or more facets: independent aspects such as the client, the product edition, the region or a seasonal campaign. Each facet lists its values, and a build picks one value per facet. The facet names are yours to choose.
+
+Facets multiply: adding a facet with two values doubles the themes you can build, without touching the classes you already have.
 
 ```ts
 transformerBuildThemes({
-  themes: {
+  facets: {
     client: ['acme', 'globex'],
-    scheme: ['day', 'night'],
+    edition: ['standard', 'premium'],
   },
-  active: { client: 'acme', scheme: 'night' },
+  active: { client: 'acme', edition: 'premium' },
 })
 ```
 
-| Source                                    | Output with `acme` + `night` active |
-| ----------------------------------------- | ----------------------------------- |
-| `acme:c-red`                              | `c-red`                             |
-| `globex:c-blue`                           | _(removed)_                         |
-| `acme:night:bg-black`                     | `bg-black`                          |
-| `acme:day:bg-white`                       | _(removed)_                         |
-| `hover:acme:c-red`                        | `hover:c-red`                       |
-| `!globex:c-red`, `globex:(c-red bg-blue)` | _(removed)_                         |
+A class is kept only when every facet value on it is active:
 
-Theme prefixes can appear anywhere in the variant chain, and work with [variant groups](/transformers/variant-group), `!important`, arbitrary values and [`@apply`](/transformers/directives):
+| Source                                    | Output with `acme` + `premium` active |
+| ----------------------------------------- | ------------------------------------- |
+| `acme:c-red`                              | `c-red`                               |
+| `globex:c-blue`                           | _(removed)_                           |
+| `acme:premium:bg-black`                   | `bg-black`                            |
+| `acme:standard:bg-white`                  | _(removed)_                           |
+| `hover:acme:c-red`                        | `hover:c-red`                         |
+| `!globex:c-red`, `globex:(c-red bg-blue)` | _(removed)_                           |
+
+Facet values can appear anywhere in the variant chain, and work with [variant groups](/transformers/variant-group), `!important`, arbitrary values and [`@apply`](/transformers/directives):
 
 ```css
 .btn {
@@ -115,11 +119,11 @@ Theme prefixes can appear anywhere in the variant chain, and work with [variant 
 }
 ```
 
-See the [`vite-build-themes` example](https://github.com/unocss/unocss/tree/main/examples/vite-build-themes) for a page with three clients and two colour schemes, and a script comparing its build sizes with runtime themes.
+See the [`vite-build-themes` example](https://github.com/unocss/unocss/tree/main/examples/vite-build-themes) for a page with two facets, three clients and two editions, and a script comparing its build sizes with runtime themes.
 
 ### Transformer order
 
-The transformer expands variant groups that contain a theme itself, so it gives the same result before or after `transformerVariantGroup`. It must run before the transformers that read classes, so that they only see the active themes:
+The transformer expands variant groups that contain a facet value itself, so it gives the same result before or after `transformerVariantGroup`. It must run before the transformers that read classes, so that they only see the active theme:
 
 ```ts [uno.config.ts]
 export default defineConfig({
@@ -137,30 +141,30 @@ export default defineConfig({
 
 ## Options
 
-### themes
+### facets
 
 - **Type:** `Record<string, string[]>`
 - **Required**
 
-Theme names, grouped by axis. Names must start with a letter, contain only letters, digits, `-` and `_`, and be unique across groups.
+The theme facets, each listing its values. Values are the class prefixes: they must start with a letter, contain only letters, digits, `-` and `_`, and be unique across facets.
 
 ### active
 
 - **Type:** `Record<string, string>`
 - **Required**
 
-The active theme of every group in `themes`. The transformer reads no environment variables: resolve the active themes in your config, for example from `process.env` in a CI build matrix.
+The active value of every facet. The transformer reads no environment variables: resolve the active values in your config, for example from `process.env` in a CI build matrix.
 
 ## Editor and ESLint support
 
-The transformer runs in your build, but editor tooling such as the [VS Code extension](/integrations/vscode) and the [ESLint plugin](/integrations/eslint) only read your config. Add `variantBuildThemes` to `variants` so they recognize theme prefixes in source:
+The transformer runs in your build, but editor tooling such as the [VS Code extension](/integrations/vscode) and the [ESLint plugin](/integrations/eslint) only read your config. Add `variantBuildThemes` to `variants` so they recognize facet values in source:
 
 ```ts [uno.config.ts]
 import transformerBuildThemes, { variantBuildThemes } from '@unocss/transformer-build-themes'
 import { defineConfig } from 'unocss'
 
 const options = {
-  themes: { client: ['acme', 'globex'] },
+  facets: { client: ['acme', 'globex'] },
   active: { client: process.env.CLIENT ?? 'acme' },
 }
 
@@ -174,30 +178,30 @@ export default defineConfig({
 })
 ```
 
-`variantBuildThemes` registers every theme name as a no-op variant. In a build, the prefixes are already gone by the time CSS is generated.
+`variantBuildThemes` registers every facet value as a no-op variant. In a build, the prefixes are already gone by the time CSS is generated.
 
 ::: warning
-UnoCSS also extracts classes from files it does not transform, such as files outside [`pipeline.include`](/config/#content) or listed in `content.filesystem`. Theme prefixes in those files stay, and with `variantBuildThemes` registered they generate CSS for every theme. Keep themed classes in transformed files.
+UnoCSS also extracts classes from files it does not transform, such as files outside [`pipeline.include`](/config/#content) or listed in `content.filesystem`. Facet values in those files stay, and with `variantBuildThemes` registered they generate CSS for every theme. Keep themed classes in transformed files.
 :::
 
 ## Name collisions
 
-A theme name must not match a variant your config already has. A theme called `dark` would otherwise strip the real `dark:` variant from every class. The transformer checks this the first time it runs and throws an error naming the colliding variant.
+A facet value must not match a variant your config already has. A value called `dark` would otherwise strip the real `dark:` variant from every class. The transformer checks this the first time it runs and throws an error naming the colliding variant.
 
 ## Caveats
 
-- A kept class is a plain class with no extra specificity. With runtime themes, `night:acme:c-blue` wins over `acme:c-red` because its selector is more specific. With build themes, both become `c-blue c-red` and CSS order decides. Write combinations that exclude each other instead:
+- A kept class is a plain class with no extra specificity. With runtime themes, `premium:acme:c-blue` wins over `acme:c-red` because its selector is more specific. With build themes, both become `c-blue c-red` and CSS order decides. Write combinations that exclude each other instead:
 
   ```html
-  <!-- acme + night may render red -->
-  <h1 class="acme:c-red night:acme:c-blue" />
+  <!-- acme + premium may render red -->
+  <h1 class="acme:c-red premium:acme:c-blue" />
   <!-- always correct -->
-  <h1 class="acme:(day:c-red night:c-blue)" />
+  <h1 class="acme:(standard:c-red premium:c-blue)" />
   ```
 
-- Only class names written in source are rewritten. A class assembled at runtime, such as `` `${theme}:c-red` ``, is not.
-- Theme prefixes use the `:` separator. `acme-c-red` is not a themed class.
-- The transformer rewrites class-like tokens anywhere in the files UnoCSS transforms: class attributes, strings in code, `@apply`, and text. Formatted code such as `{ acme: true }`, `cond ? acme : globex`, URLs and escaped CSS selectors (`.acme\:c-red`) are left alone, but an unformatted `{acme:true}`, or text such as `acme:value`, would be read as a class. For the same reason, do not name a theme after a CSS property (`color:red`).
+- Only class names written in source are rewritten. A class assembled at runtime, such as `` `${client}:c-red` ``, is not.
+- Facet values use the `:` separator. `acme-c-red` is not a themed class.
+- The transformer rewrites class-like tokens anywhere in the files UnoCSS transforms: class attributes, strings in code, `@apply`, and text. Formatted code such as `{ acme: true }`, `cond ? acme : globex`, URLs and escaped CSS selectors (`.acme\:c-red`) are left alone, but an unformatted `{acme:true}`, or text such as `acme:value`, would be read as a class. For the same reason, do not use a CSS property name as a facet value (`color:red`).
 - Valueless [attributify](/presets/attributify) attributes (`<div acme:c-red>`) are rewritten. Attributes with values (`acme:bg="red"`) and Svelte `class:` directives (`class:acme:c-red={on}`) are not: use class names for themed styles.
 - Removing a class inside a Vue `:class` object leaves an empty key, for example `{ '': isActive }`. Vue ignores it.
 
