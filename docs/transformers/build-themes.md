@@ -180,6 +180,8 @@ export default defineConfig({
 
 `variantBuildThemes` registers every facet value as a no-op variant. In a build, the prefixes are already gone by the time CSS is generated.
 
+It also keeps class order stable. The [`unocss/order`](/integrations/eslint#rules) rule sorts facet values like any other variant, so themed classes come after unprefixed ones. The helper registers every facet value whatever `active` is, so the order is the same for every build. Without it, themed classes are unknown to the sorter and stay at the front, in source order.
+
 ::: warning
 UnoCSS also extracts classes from files it does not transform, such as files outside [`pipeline.include`](/config/#content) or listed in `content.filesystem`. Facet values in those files stay, and with `variantBuildThemes` registered they generate CSS for every theme. Keep themed classes in transformed files.
 :::

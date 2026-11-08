@@ -111,11 +111,35 @@ function closeParen(code: string, start: number): number {
 }
 
 /**
+ * Tells, without scanning, when a bracket at `start` cannot close: there is no
+ * `]` before the next whitespace or backtick, or none within
+ * `MAX_VALUE_LENGTH`. Positions only move forward, so both lookups are cached
+ * and a run of unclosed brackets costs linear time in total.
+ */
+function createBracketCheck(code: string) {
+  let nextClose = -2
+  let nextBreak = -2
+  const breakRE = /[\s`]/g
+  return (start: number): boolean => {
+    if (nextClose === -2 || (nextClose !== -1 && nextClose < start))
+      nextClose = code.indexOf(']', start)
+    if (nextBreak === -2 || (nextBreak !== -1 && nextBreak < start)) {
+      breakRE.lastIndex = start
+      nextBreak = breakRE.exec(code)?.index ?? -1
+    }
+    return nextClose !== -1
+      && (nextBreak === -1 || nextClose < nextBreak)
+      && nextClose - start < MAX_VALUE_LENGTH
+  }
+}
+
+/**
  * Finds class-like tokens: runs of characters between terminators, with
  * bracketed arbitrary values (`[&_a]`, `content-['a b']`), parenthesized
  * values (`bg-(--accent)`) and escaped characters (`\:`) kept inside the token.
  */
 function* scanTokens(code: string): Generator<[start: number, end: number]> {
+  const canClose = createBracketCheck(code)
   let i = 0
   while (i < code.length) {
     const start = i
@@ -133,7 +157,7 @@ function* scanTokens(code: string): Generator<[start: number, end: number]> {
         // `['acme:a', x]` is an array of class strings, not an arbitrary variant.
         if (end === start && (code[end + 1] === '\'' || code[end + 1] === '"'))
           break
-        const close = closeBracket(code, end)
+        const close = canClose(end) ? closeBracket(code, end) : -1
         if (close < 0)
           break
         end = close

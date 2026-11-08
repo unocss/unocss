@@ -1,6 +1,6 @@
 import type { SourceCodeTransformer, UnocssPluginContext, UnoGenerator } from '@unocss/core'
 import type { TransformerBuildThemesOptions } from '@unocss/transformer-build-themes'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, sortRules } from '@unocss/core'
 import presetAttributify from '@unocss/preset-attributify'
 import presetMini from '@unocss/preset-mini'
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
@@ -186,6 +186,20 @@ describe('transformer-build-themes', () => {
     expect(await transform('"acme:c-red globex:c-blue"', options, uno)).toBe('"c-red"')
   })
 
+  it('variantBuildThemes gives unocss/order the same class order for every active value', async () => {
+    const classes = 'globex:flex p-4 acme:flex-col m-2 premium:acme:c-red standard:c-blue hover:acme:underline'
+    const [first, second] = await Promise.all([
+      { client: 'acme', edition: 'standard' },
+      { client: 'globex', edition: 'premium' },
+    ].map(async (active) => {
+      const uno = await createGenerator({ presets: [presetMini()], variants: variantBuildThemes({ ...options, active }) })
+      return sortRules(classes, uno)
+    }))
+    expect(first).toBe(second)
+    // Each facet value counts as a variant, so themed classes follow plain ones.
+    expect(first).toMatch(/^m-2 p-4 /)
+  })
+
   it('variantBuildThemes lets tooling generate CSS for any theme', async () => {
     const uno = await createGenerator({
       presets: [presetMini()],
@@ -286,13 +300,17 @@ describe('transformer-build-themes', () => {
         expect(await transform(code)).toBe(code)
     })
 
-    it('scans pathological input in linear time', async () => {
-      const unbalanced = `${'['.repeat(200_000)} globex:c-blue acme:c-red`
+    it('scans pathological input without quadratic time', async () => {
       const startedAt = performance.now()
-      expect(await transform(unbalanced)).toBe(`${'['.repeat(200_000)} c-red`)
+      // Brackets that never close, close once at the end, or nest deeply.
+      expect(await transform(`${'['.repeat(200_000)} globex:c-blue acme:c-red`)).toBe(`${'['.repeat(200_000)} c-red`)
+      expect(await transform(`${'['.repeat(200_000)}] globex:c-blue`)).toBe(`${'['.repeat(200_000)}]`)
+      expect(await transform(`${'['.repeat(5_000)}${']'.repeat(5_000)} globex:c-blue`)).toBe(`${'['.repeat(5_000)}${']'.repeat(5_000)}`)
+      expect(await transform(`${'a-('.repeat(100_000)} globex:c-blue`)).toBe(`${'a-('.repeat(100_000)}`)
       const large = '<div class="p-2 acme:c-red globex:c-blue premium:(m-1 p-1)"></div>\n'.repeat(20_000)
       expect((await transform(large)).includes('globex')).toBe(false)
-      expect(performance.now() - startedAt).toBeLessThan(5_000)
+      // About 0.3 s locally; the quadratic version took over 2.5 s for the first case alone.
+      expect(performance.now() - startedAt).toBeLessThan(2_500)
     })
   })
 
