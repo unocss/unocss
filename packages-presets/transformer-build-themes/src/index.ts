@@ -304,9 +304,9 @@ function resolveClass(token: string, facets: ResolvedFacets): string | null | un
   const utility = segments.at(-1)!
   const variants = segments.slice(0, -1)
 
-  // `acme: true`, `acme://host` and `a::b` are not classes. `acme:bg="red"` is
-  // an attributify attribute, which this transformer does not rewrite: removing
-  // the name would leave its value behind.
+  // `acme: true`, `acme://host` and `a::b` are not classes. A trailing `=` is an
+  // attribute name followed by something other than a quoted value, such as a
+  // Svelte `class:acme:c-red={on}` directive, which is left alone.
   if (!utility || utility.startsWith('/') || utility.endsWith('=') || variants.some(v => !v))
     return undefined
 
@@ -402,7 +402,11 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
       }
 
       let groupIndex = 0
+      // The end of an attribute removed whole; tokens in its value are skipped.
+      let skipUntil = 0
       for (const [start, end] of scanTokens(code)) {
+        if (start < skipUntil)
+          continue
         while (groupIndex < groupRanges.length && groupRanges[groupIndex][1] <= start)
           groupIndex++
         const group = groupRanges[groupIndex]
@@ -413,12 +417,33 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
         if (!prefixRE.test(token))
           continue
 
+        // An attributify attribute with facet values in its name, such as
+        // `acme:text="red"`: the active values leave the name, and an inactive
+        // one removes the attribute with its value.
+        const quote = code[end]
+        if (token.endsWith('=') && (quote === '"' || quote === '\'')) {
+          const close = code.indexOf(quote, end + 1)
+          const resolved = close < 0 ? undefined : resolveClass(token.slice(0, -1), facets)
+          if (resolved === null) {
+            edits.push({ start, end: close + 1, value: null })
+            skipUntil = close + 1
+          }
+          else if (resolved !== undefined) {
+            edits.push({ start, end: end - 1, value: resolved })
+          }
+          continue
+        }
+
         const resolved = resolveClass(token, facets)
         if (resolved !== undefined)
           edits.push({ start, end, value: resolved })
       }
 
-      removeEmptiedStatements(code, edits)
+      await removeEmptied(code, edits, async (name) => {
+        if (!uno?.config.presets.some(preset => preset.name === '@unocss/preset-attributify'))
+          return false
+        return !!(await uno.parseToken(name))
+      })
 
       // Applied in source order, so that consecutive removed classes form one
       // range and the last class of a list can take the space before the first.
@@ -448,43 +473,98 @@ interface Edit {
 }
 
 /**
- * `@apply` statements and custom property declarations such as
- * `--at-apply: ...`, up to their `;`, the closing `}` of the block, or the end
- * of the code. Group 1 is the class list.
+ * Places that hold a class list, with the list in the group named `body`:
+ *
+ * - quoted attribute values, only where an attribute can be: after whitespace,
+ *   and before whitespace, `/` or `>`. Unformatted code such as `x="...";`
+ *   does not match;
+ * - `@apply` statements and custom property declarations such as
+ *   `--at-apply: ...`, up to their `;`, the closing `}` of the block, or the
+ *   end of the code.
  */
-const STATEMENT_RE = /(?:@apply\b|--[\w-]+\s*:)([^;{}]*)(?:;|(?=\})|$)/dg
+const ATTRIBUTE_RE = /(?<=\s)(?<name>[^\s"'`=<>/{}()]+)=(?:"(?<double>[^"]*)"|'(?<single>[^']*)')(?=[\s/>]|$)/dg
+const STATEMENT_RE = /(?:@apply\b|--[\w-]+\s*:)(?<body>[^;{}]*)(?:;|(?=\})|$)/dg
+
+/** Attribute names that bind an expression or an event rather than a value. */
+const BINDING_RE = /^(?:[:@#]|v-bind:|v-on:)/
 
 /**
- * Replaces the edits of a statement whose classes are all removed with one
- * removal of the whole statement, so that no empty `@apply;` or
- * `--at-apply: "";` is left for `transformerDirectives` to pass through.
- * Statements that keep anything besides whitespace and quotes are left alone.
+ * Replaces the edits of a statement or attribute whose classes are all
+ * removed with one removal of the whole statement or attribute.
+ *
+ * An empty `@apply;` or `--at-apply: "";` would pass through
+ * `transformerDirectives`, so emptied statements are always removed. An empty
+ * attribute is only removed when `isUtilityAttribute` says attributify would
+ * read it as a utility (`border=""` is `border`): anywhere else, removing it
+ * could change meaning, as a component prop would fall back to its default.
+ * Containers that keep anything besides whitespace and quotes are left alone.
  */
-function removeEmptiedStatements(code: string, edits: Edit[]) {
+async function removeEmptied(code: string, edits: Edit[], isUtilityAttribute: (name: string) => Promise<boolean>) {
   if (!edits.some(edit => edit.value === null))
     return
-  for (const match of code.matchAll(STATEMENT_RE)) {
-    const [bodyStart, bodyEnd] = match.indices![1]!
-    const inside = edits.filter(edit => edit.start >= bodyStart && edit.end <= bodyEnd)
-    if (!inside.length || inside.some(edit => edit.value !== null))
-      continue
 
-    let remaining = ''
-    let at = bodyStart
-    for (const edit of [...inside].sort((a, b) => a.start - b.start)) {
-      remaining += code.slice(at, edit.start)
-      at = edit.end
+  // Edits never overlap, so sorted by start they are also sorted by end.
+  edits.sort((a, b) => a.start - b.start)
+  const editsWithin = (start: number, end: number): Edit[] => {
+    let low = 0
+    let high = edits.length
+    while (low < high) {
+      const middle = (low + high) >> 1
+      if (edits[middle].start < start)
+        low = middle + 1
+      else
+        high = middle
     }
-    remaining += code.slice(at, bodyEnd)
-    if (/[^\s"']/.test(remaining))
-      continue
-
-    for (const edit of inside)
-      edits.splice(edits.indexOf(edit), 1)
-    // Whitespace before a closing `}` is left to the removal range, so that a
-    // statement at the end of a block keeps the space before it.
-    edits.push({ start: match.index!, end: match.index! + match[0].trimEnd().length, value: null })
+    const within: Edit[] = []
+    for (let i = low; i < edits.length && edits[i].end <= end; i++)
+      within.push(edits[i])
+    return within
   }
+
+  const replaced = new Set<Edit>()
+  const removals: Edit[] = []
+  for (const re of [ATTRIBUTE_RE, STATEMENT_RE]) {
+    for (const match of code.matchAll(re)) {
+      const groups = match.indices!.groups!
+      const [bodyStart, bodyEnd] = (groups.double ?? groups.single ?? groups.body)!
+      const inside = editsWithin(bodyStart, bodyEnd)
+      if (!inside.length || inside.some(edit => edit.value !== null || replaced.has(edit)))
+        continue
+
+      let remaining = ''
+      let at = bodyStart
+      for (const edit of inside) {
+        remaining += code.slice(at, edit.start)
+        at = edit.end
+      }
+      remaining += code.slice(at, bodyEnd)
+      if (/[^\s"']/.test(remaining))
+        continue
+
+      const name = match.groups!.name
+      if (name !== undefined && (BINDING_RE.test(name) || !await isUtilityAttribute(name)))
+        continue
+
+      // Whitespace before a closing `}` is left to the removal range, so that
+      // a statement at the end of a block keeps the space before it.
+      const start = match.index!
+      const end = start + match[0].trimEnd().length
+      for (const edit of editsWithin(start, end))
+        replaced.add(edit)
+      removals.push({ start, end, value: null })
+    }
+  }
+
+  if (!removals.length)
+    return
+  let kept = 0
+  for (const edit of edits) {
+    if (!replaced.has(edit))
+      edits[kept++] = edit
+  }
+  edits.length = kept
+  for (const removal of removals)
+    edits.push(removal)
 }
 
 /**

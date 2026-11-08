@@ -121,6 +121,28 @@ Facet values can appear anywhere in the variant chain, and work with [variant gr
 
 An `@apply` statement or an `--at-apply` declaration whose classes all belong to inactive values is removed whole, so no empty `@apply;` reaches the CSS.
 
+### Attributify
+
+With [attributify mode](/presets/attributify), facet values go where variants go, in the value or in the attribute name:
+
+```html
+<div text="acme:red-300 globex:blue" />
+<div acme:text="red-300" globex:premium:text="hover:blue-200" />
+<div acme:c-red-300 globex:c-blue />
+```
+
+With `acme` + `premium` active, the build sees:
+
+```html
+<div text="red-300" />
+<div text="red-300" />
+<div c-red-300 />
+```
+
+An attribute with an inactive value in its name is removed with its value. An attribute whose value loses all its classes is removed when attributify would read the empty attribute as a utility, as `border=""` is `border`. Any other emptied attribute stays as `name=""`, so a component prop keeps an empty value instead of falling back to its default.
+
+A facet value on its own is not an attribute name: attributify reads `acme="c-red"` as `acme-c-red`. To theme several utilities at once, group them in a class: `class="acme:(c-red-300 hover:c-blue)"`.
+
 See the [`vite-build-themes` example](https://github.com/unocss/unocss/tree/main/examples/vite-build-themes) for a page with two facets, three clients and two editions, and a script comparing its build sizes with runtime themes.
 
 ### Transformer order
@@ -206,7 +228,7 @@ A facet value must not match a variant your config already has. A value called `
 - Only class names written in source are rewritten. A class assembled at runtime, such as `` `${client}:c-red` ``, is not.
 - Facet values use the `:` separator. `acme-c-red` is not a themed class.
 - The transformer rewrites class-like tokens anywhere in the files UnoCSS transforms: class attributes, strings in code, `@apply`, and text. Formatted code such as `{ acme: true }`, `cond ? acme : globex`, URLs and escaped CSS selectors (`.acme\:c-red`) are left alone, but an unformatted `{acme:true}`, or text such as `acme:value`, would be read as a class. For the same reason, do not use a CSS property name as a facet value (`color:red`).
-- Valueless [attributify](/presets/attributify) attributes (`<div acme:c-red>`) are rewritten. Attributes with values (`acme:bg="red"`) and Svelte `class:` directives (`class:acme:c-red={on}`) are not: use class names for themed styles.
+- Svelte `class:` directives (`class:acme:c-red={on}`) and dynamic bindings such as Vue `:acme:text="color"` are not rewritten: use class names for themed styles there.
 - Removing a class inside a Vue `:class` object leaves an empty key, for example `{ '': isActive }`. Vue ignores it.
 
 ## License

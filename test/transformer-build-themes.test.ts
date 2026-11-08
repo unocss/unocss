@@ -152,6 +152,30 @@ describe('transformer-build-themes', () => {
       .toBe('<div className={clsx(\'p-2 c-red\', on && \'\')} />')
   })
 
+  it('handles attributify attributes', async () => {
+    const uno = await createGenerator({ presets: [presetMini(), presetAttributify()], variants: variantBuildThemes(options) })
+    const run = (code: string) => transform(code, options, uno)
+    // Facet values in the value, like any variant.
+    expect(await run('<div text="acme:red-300 globex:blue">')).toBe('<div text="red-300">')
+    // Facet values in the name, like `hover:text="red"`.
+    expect(await run('<div acme:text="red-300" globex:text="blue">')).toBe('<div text="red-300">')
+    expect(await run('<div acme:premium:text="hover:blue-200" globex:standard:text="sm">')).toBe('<div text="hover:blue-200">')
+    expect(await run('<div acme:text=\'red\' />')).toBe('<div text=\'red\' />')
+    expect(await run('<div acme:text="globex:red p-1">')).toBe('<div text="p-1">')
+    // An emptied attribute that attributify reads as a utility is removed: `border=""` is `border`.
+    expect(await run('<div border="globex:2" p="2">')).toBe('<div p="2">')
+    expect(await run('<div p="2" border="globex:2">')).toBe('<div p="2">')
+    expect(await run('<div acme:border="globex:2">')).toBe('<div>')
+    // Any other emptied attribute stays, so a component prop keeps its value instead of its default.
+    expect(await run('<Form class-submit-button="globex:c-blue">')).toBe('<Form class-submit-button="">')
+    expect(await run('<div class="globex:c-blue" id="x">')).toBe('<div class="" id="x">')
+    expect(await run('<div :border="\'globex:2\'">')).toBe('<div :border="\'\'">')
+    // Without attributify, an empty attribute is not a utility.
+    expect(await transform('<div border="globex:2">')).toBe('<div border="">')
+    // Outside a tag, only the class is removed, not the assignment.
+    expect(await run('const x="globex:c-blue";')).toBe('const x="";')
+  })
+
   it('removes @apply statements that lose all their classes', async () => {
     expect(await transform('.a { @apply globex:c-blue; color: red; }')).toBe('.a { color: red; }')
     expect(await transform('.a { color: red; @apply globex:c-blue }')).toBe('.a { color: red; }')
@@ -179,8 +203,6 @@ describe('transformer-build-themes', () => {
       'acme',
       'globex::before',
       'hover:c-red',
-      // Attributify attributes are not rewritten.
-      '<div globex:bg="red" acme:text="sm">',
     ]
     for (const code of cases)
       expect(await transform(code)).toBe(code)
@@ -394,6 +416,19 @@ describe('transformer-build-themes', () => {
       const source = 'export default () => <div acme:text-red globex:text-blue p-2 />'
       const { code } = await pipeline(source, 'a.tsx', [transformerBuildThemes(options), transformerAttributifyJsx()], uno)
       expect(code).toBe('export default () => <div text-red="" p-2="" />')
+    })
+
+    it('generates only active attributify utilities', async () => {
+      const uno = await createGenerator({ presets: [presetMini(), presetAttributify()], variants: variantBuildThemes(options) })
+      const source = '<div p="2" border="globex:2" acme:text="red-300" globex:text="blue" bg="acme:premium:white globex:black">'
+      const { code } = await pipeline(source, 'a.vue', [transformerBuildThemes(options)], uno)
+      expect(code).toBe('<div p="2" text="red-300" bg="white">')
+      const { css } = await uno.generate(code, { preflights: false })
+      expect(css).toContain('[text~="red-300"]')
+      expect(css).toContain('[bg~="white"]')
+      expect(css).not.toContain('border')
+      expect(css).not.toContain('blue')
+      expect(css).not.toContain('black')
     })
 
     it('leaves @unocss-skip regions alone', async () => {
