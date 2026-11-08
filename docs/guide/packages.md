@@ -26,6 +26,7 @@ UnoCSS is a monorepo that contains multiple packages. This page lists all the pa
 | [@unocss/transformer-directives](/transformers/directives)           | Transformer for CSS directives like `@apply`      | ✅                   | No      |
 | [@unocss/transformer-compile-class](/transformers/compile-class)     | Compile group of classes into one class           | ✅                   | No      |
 | [@unocss/transformer-attributify-jsx](/transformers/attributify-jsx) | Support valueless attributify in JSX/TSX          | ✅                   | No      |
+| [@unocss/transformer-build-themes](/transformers/build-themes)       | Build-time themes that tree-shake HTML and CSS    | ✅                   | No      |
 | [@unocss/extractor-pug](/extractors/pug)                             | Extractor for Pug                                 | No                   | -       |
 | [@unocss/extractor-svelte](/extractors/svelte)                       | Extractor for Svelte                              | No                   | -       |
 | [@unocss/processor-lightningcss](/processors/lightningcss)           | Process generated CSS with Lightning CSS          | No                   | No      |

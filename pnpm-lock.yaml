@@ -925,6 +925,9 @@ importers:
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../packages-presets/transformer-attributify-jsx
+      '@unocss/transformer-build-themes':
+        specifier: workspace:*
+        version: link:../packages-presets/transformer-build-themes
       '@unocss/transformer-compile-class':
         specifier: workspace:*
         version: link:../packages-presets/transformer-compile-class
@@ -1854,6 +1857,12 @@ importers:
         specifier: catalog:oxc
         version: 1.1.1(@oxc-project/types@0.155.0)(oxc-parser@0.153.0)(rolldown@1.2.15)
 
+  packages-presets/transformer-build-themes:
+    dependencies:
+      '@unocss/core':
+        specifier: workspace:*
+        version: link:../../packages-engine/core
+
   packages-presets/transformer-compile-class:
     dependencies:
       '@unocss/core':
@@ -1929,6 +1938,9 @@ importers:
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../transformer-attributify-jsx
+      '@unocss/transformer-build-themes':
+        specifier: workspace:*
+        version: link:../transformer-build-themes
       '@unocss/transformer-compile-class':
         specifier: workspace:*
         version: link:../transformer-compile-class
@@ -2150,6 +2162,9 @@ importers:
       '@unocss/transformer-attributify-jsx':
         specifier: workspace:*
         version: link:../../packages-presets/transformer-attributify-jsx
+      '@unocss/transformer-build-themes':
+        specifier: workspace:*
+        version: link:../../packages-presets/transformer-build-themes
       '@unocss/transformer-compile-class':
         specifier: workspace:*
         version: link:../../packages-presets/transformer-compile-class

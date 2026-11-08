@@ -1,0 +1,368 @@
+import type { SourceCodeTransformer, UnocssPluginContext, UnoGenerator } from '@unocss/core'
+import type { TransformerBuildThemesOptions } from '@unocss/transformer-build-themes'
+import { createGenerator } from '@unocss/core'
+import presetAttributify from '@unocss/preset-attributify'
+import presetMini from '@unocss/preset-mini'
+import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
+import transformerBuildThemes, { variantBuildThemes } from '@unocss/transformer-build-themes'
+import transformerCompileClass from '@unocss/transformer-compile-class'
+import transformerDirectives from '@unocss/transformer-directives'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
+import MagicString from 'magic-string'
+import { describe, expect, it } from 'vitest'
+import { applyTransformers } from '#integration/transformers'
+
+const options: TransformerBuildThemesOptions = {
+  themes: {
+    client: ['acme', 'globex'],
+    scheme: ['day', 'night'],
+  },
+  active: { client: 'acme', scheme: 'night' },
+}
+
+async function transform(code: string, opts = options, uno?: UnoGenerator) {
+  const transformer = transformerBuildThemes(opts)
+  const s = new MagicString(code)
+  await transformer.transform(s, 'fixture.vue', { uno } as UnocssPluginContext)
+  return s.toString()
+}
+
+describe('transformer-build-themes', () => {
+  describe('options', () => {
+    it('requires at least one group', () => {
+      expect(() => transformerBuildThemes({ themes: {}, active: {} })).toThrow('at least one group')
+    })
+
+    it('requires an active theme for every group', () => {
+      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: {} }))
+        .toThrow('No active theme for group "client"')
+    })
+
+    it('rejects an active theme that is not listed', () => {
+      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: { client: 'initech' } }))
+        .toThrow('"initech" is not listed in group "client"')
+    })
+
+    it('rejects an active group that is not defined', () => {
+      expect(() => transformerBuildThemes({ themes: { client: ['acme'] }, active: { client: 'acme', region: 'eu' } }))
+        .toThrow('group "region"')
+    })
+
+    it('rejects names listed in two groups', () => {
+      expect(() => transformerBuildThemes({ themes: { a: ['acme'], b: ['acme'] }, active: { a: 'acme', b: 'acme' } }))
+        .toThrow('listed in both "a" and "b"')
+    })
+
+    it('rejects names that cannot be a variant', () => {
+      expect(() => transformerBuildThemes({ themes: { client: ['ac me'] }, active: { client: 'ac me' } }))
+        .toThrow('Invalid theme name')
+    })
+  })
+
+  it('filters code that mentions no theme', () => {
+    const transformer = transformerBuildThemes(options)
+    expect(transformer.codeFilter?.('<div class="hover:c-red">', 'a.vue')).toBe(false)
+    expect(transformer.codeFilter?.('<div class="acme:c-red">', 'a.vue')).toBe(true)
+    expect(transformer.codeFilter?.('<div class="xacme:c-red">', 'a.vue')).toBe(false)
+  })
+
+  it('keeps active and removes inactive classes', async () => {
+    const cases = [
+      'acme:c-red',
+      'globex:c-blue',
+      'acme:night:bg-black',
+      'acme:day:bg-white',
+      'night:acme:bg-black',
+      'hover:acme:c-red',
+      'md:hover:night:c-red',
+      'hover:globex:c-red',
+      '!acme:c-red',
+      '!globex:c-red',
+      'acme:!c-red',
+      'globex:!c-red',
+      'acme:c-red!',
+      'acme:w-1/2',
+      'acme:[&>*]:c-red',
+      '[&_.x]:acme:c-red',
+      'acme:bg-[url(/a.png)]',
+      'acme:grid-cols-[1fr,50%]',
+      'acme:-m-2',
+    ]
+    const results = await Promise.all(cases.map(async c => `${c} => ${await transform(`"${c}"`)}`))
+    expect(results).toMatchInlineSnapshot(`
+      [
+        "acme:c-red => "c-red"",
+        "globex:c-blue => """,
+        "acme:night:bg-black => "bg-black"",
+        "acme:day:bg-white => """,
+        "night:acme:bg-black => "bg-black"",
+        "hover:acme:c-red => "hover:c-red"",
+        "md:hover:night:c-red => "md:hover:c-red"",
+        "hover:globex:c-red => """,
+        "!acme:c-red => "!c-red"",
+        "!globex:c-red => """,
+        "acme:!c-red => "!c-red"",
+        "globex:!c-red => """,
+        "acme:c-red! => "c-red!"",
+        "acme:w-1/2 => "w-1/2"",
+        "acme:[&>*]:c-red => "[&>*]:c-red"",
+        "[&_.x]:acme:c-red => "[&_.x]:c-red"",
+        "acme:bg-[url(/a.png)] => "bg-[url(/a.png)]"",
+        "acme:grid-cols-[1fr,50%] => "grid-cols-[1fr,50%]"",
+        "acme:-m-2 => "-m-2"",
+      ]
+    `)
+  })
+
+  it('cleans up whitespace around removed classes', async () => {
+    expect(await transform('<div class="p-2 globex:c-blue m-2">')).toBe('<div class="p-2 m-2">')
+    expect(await transform('<div class="p-2 globex:c-blue">')).toBe('<div class="p-2">')
+    expect(await transform('<div class="globex:c-blue p-2">')).toBe('<div class="p-2">')
+    expect(await transform('<div class="globex:c-blue">')).toBe('<div class="">')
+    expect(await transform('<div class="p-2 globex:a globex:b day:c">')).toBe('<div class="p-2">')
+    expect(await transform('<div class="p-2 acme:c-red globex:c-blue night:m-1">')).toBe('<div class="p-2 c-red m-1">')
+    // Arbitrary values are removed with their class, not left behind.
+    expect(await transform('<div class="p-2 globex:lg:rows-[1fr_auto] day:bg-[url(/a.png)]">')).toBe('<div class="p-2">')
+    expect(await transform('<div\n  class="\n    p-2\n    globex:c-blue\n    m-2\n  "\n>'))
+      .toBe('<div\n  class="\n    p-2\n    m-2\n  "\n>')
+  })
+
+  it('handles variant groups', async () => {
+    expect(await transform('"acme:(c-red bg-blue) p-2"')).toBe('"c-red bg-blue p-2"')
+    expect(await transform('"p-2 globex:(c-red bg-blue) m-2"')).toBe('"p-2 m-2"')
+    expect(await transform('"hover:(acme:c-red globex:c-blue)"')).toBe('"hover:c-red"')
+    expect(await transform('"acme:(night:c-red day:c-blue)"')).toBe('"c-red"')
+    expect(await transform('"!globex:(c-red bg-blue)"')).toBe('""')
+    expect(await transform('"p-2 day:c-red globex:(c-red bg-blue) globex:m-2"')).toBe('"p-2"')
+    expect(await transform('"p-2 acme:(c-red bg-blue) globex:(m-2) day:p-1"')).toBe('"p-2 c-red bg-blue"')
+    expect(await transform('"md:(acme:(c-red day:p-1) globex:c-blue)"')).toBe('"md:c-red"')
+    // Groups with the `-` separator.
+    expect(await transform('"p-2 globex:bg-(red-500 op-50) m-2"')).toBe('"p-2 m-2"')
+    expect(await transform('"acme:bg-(red-500 op-50)"')).toBe('"bg-red-500 bg-op-50"')
+    expect(await transform('"globex:hover:text-(sm red)"')).toBe('""')
+    // Groups without a theme are left for transformer-variant-group.
+    expect(await transform('"hover:(c-red bg-blue) acme:p-2"')).toBe('"hover:(c-red bg-blue) p-2"')
+  })
+
+  it('works in @apply and other class contexts', async () => {
+    expect(await transform('.btn { @apply p-2 acme:c-red globex:c-blue; }')).toBe('.btn { @apply p-2 c-red; }')
+    expect(await transform('.btn { --at-apply: acme:c-red globex:c-blue; }')).toBe('.btn { --at-apply: c-red; }')
+    expect(await transform('const cls = [\'acme:c-red\', `globex:c-blue`]')).toBe('const cls = [\'c-red\', ``]')
+    expect(await transform('<div className={clsx(\'p-2 acme:c-red\', on && \'globex:c-blue\')} />'))
+      .toBe('<div className={clsx(\'p-2 c-red\', on && \'\')} />')
+  })
+
+  it('leaves code that is not a themed class alone', async () => {
+    const cases = [
+      'const url = "acme://host/path"',
+      'const map = { acme: true, globex: false }',
+      'switch (x) { case acme: break }',
+      'const a = cond ? acme : globex',
+      'a { color: red; }',
+      'xacme:c-red globexy:c-blue',
+      'acme-x:c-red',
+      'acme',
+      'globex::before',
+      'hover:c-red',
+      // Attributify attributes are not rewritten.
+      '<div globex:bg="red" acme:text="sm">',
+    ]
+    for (const code of cases)
+      expect(await transform(code)).toBe(code)
+  })
+
+  it('throws when a theme name collides with a variant', async () => {
+    const uno = await createGenerator({ presets: [presetMini()] })
+    await expect(transform('"dark:c-red"', { themes: { scheme: ['dark', 'night'] }, active: { scheme: 'night' } }, uno))
+      .rejects
+      .toThrow('Theme names collide with registered variants: "dark"')
+  })
+
+  it('does not count its own helper variants as collisions', async () => {
+    const uno = await createGenerator({
+      presets: [presetMini()],
+      variants: variantBuildThemes(options),
+    })
+    expect(await transform('"acme:c-red globex:c-blue"', options, uno)).toBe('"c-red"')
+  })
+
+  it('variantBuildThemes lets tooling generate CSS for any theme', async () => {
+    const uno = await createGenerator({
+      presets: [presetMini()],
+      variants: variantBuildThemes(options),
+    })
+    const { css } = await uno.generate('acme:c-red globex:hover:c-blue', { preflights: false })
+    expect(css).toContain('.acme\\:c-red{')
+    expect(css).toContain('.globex\\:hover\\:c-blue:hover{')
+  })
+
+  it('emits no CSS and no markup for inactive themes', async () => {
+    const uno = await createGenerator({ presets: [presetMini()] })
+    const source = '<div class="p-2 acme:c-red globex:c-blue night:bg-black day:bg-white">'
+    const html = await transform(source, options, uno)
+    expect(html).toBe('<div class="p-2 c-red bg-black">')
+
+    const { css } = await uno.generate(html, { preflights: false })
+    expect(css).toContain('.c-red{')
+    expect(css).toContain('.bg-black{')
+    expect(css).not.toContain('blue')
+    expect(css).not.toContain('white')
+  })
+
+  describe('syntax coverage', () => {
+    // [source, output with `acme` + `night` active]
+    const cases: [string, string][] = [
+      // Arbitrary variants, including escaped selectors and nested brackets.
+      ['[&_a]:acme:(underline break-words)', '[&_a]:underline [&_a]:break-words'],
+      ['acme:[&_a]:(underline break-words)', '[&_a]:underline [&_a]:break-words'],
+      ['p-2 globex:[&_table,&_th,&_td]:(b mx-a)', 'p-2'],
+      [String.raw`p-2 [.\<md\:text-center_&_ol]:<md:globex:mx-a`, 'p-2'],
+      [String.raw`[.\<md\:text-right_&_ol]:<md:acme:(mx-a mr-0)`, String.raw`[.\<md\:text-right_&_ol]:<md:mx-a [.\<md\:text-right_&_ol]:<md:mr-0`],
+      ['acme:[&:has([data-x])]:c-red', '[&:has([data-x])]:c-red'],
+      ['acme:[&:has([data-x=[y]])]:c-red', '[&:has([data-x=[y]])]:c-red'],
+      ['data-[state=open]:acme:c-red aria-[acme]:c-red', 'data-[state=open]:c-red aria-[acme]:c-red'],
+      // Arbitrary values: quotes, `]` inside quotes, `;` and `=` inside brackets.
+      ['p-2 globex:content-[\'a_b\']', 'p-2'],
+      ['acme:content-[\'a]b\']', 'content-[\'a]b\']'],
+      ['acme:[content:\'acme:x\']', '[content:\'acme:x\']'],
+      ['acme:bg-[url(data:image/svg+xml;base64,AAA=)]', 'bg-[url(data:image/svg+xml;base64,AAA=)]'],
+      ['globex:bg-[url(data:image/svg+xml;base64,AAA=)] p-2', 'p-2'],
+      ['acme:bg-[url(/a.png)] globex:bg-[url(/b.png)]', 'bg-[url(/a.png)]'],
+      // CSS variable values, with and without parentheses.
+      ['acme:bg-(--accent) globex:bg-(--other) p-2', 'bg-(--accent) p-2'],
+      ['acme:c-$accent globex:c-$other', 'c-$accent'],
+      ['acme:text-60% acme:p-0.5 acme:c-#fff', 'text-60% p-0.5 c-#fff'],
+      // Variant prefixes around the theme.
+      [
+        '@md:acme:p-2 acme:@container *:acme:c-red **:globex:c-blue ~md:acme:p-1 lt-md:globex:p-2 group-hover/acme:c-red peer-checked:acme:c-red',
+        '@md:p-2 @container *:c-red ~md:p-1 group-hover/acme:c-red peer-checked:c-red',
+      ],
+      ['!hover:acme:c-red !hover:globex:c-blue', '!hover:c-red'],
+      ['globex:c-red! acme:c-blue!', 'c-blue!'],
+      // compile-class triggers.
+      [':uno: acme:c-red globex:c-blue p-2', ':uno: c-red p-2'],
+      [':uno-card: globex:c-blue acme:p-2', ':uno-card: p-2'],
+    ]
+
+    it.each(cases)('%s', async (source, expected) => {
+      expect(await transform(`"${source}"`)).toBe(`"${expected}"`)
+    })
+
+    it('handles class strings in code', async () => {
+      // eslint-disable-next-line no-template-curly-in-string
+      expect(await transform('`p-2 ${on ? \'acme:c-red\' : \'globex:c-blue\'} acme:m-1`'))
+        // eslint-disable-next-line no-template-curly-in-string
+        .toBe('`p-2 ${on ? \'c-red\' : \'\'} m-1`')
+      expect(await transform(':class="{ \'acme:c-red\': a, \'globex:c-blue\': b }"'))
+        .toBe(':class="{ \'c-red\': a, \'\': b }"')
+      expect(await transform(':class="[\'acme:c-red\', x && \'globex:c-blue\']"'))
+        .toBe(':class="[\'c-red\', x && \'\']"')
+      expect(await transform('"p-2\r\n  globex:c-blue\r\n  m-2"')).toBe('"p-2\r\n  m-2"')
+      expect(await transform('"p-2\tglobex:c-blue\tm-2"')).toBe('"p-2\tm-2"')
+    })
+
+    it('handles valueless attributify attributes', async () => {
+      expect(await transform('<div acme:c-red globex:c-blue p-2>')).toBe('<div c-red p-2>')
+      expect(await transform('<Card acme:c-red/>')).toBe('<Card c-red/>')
+      expect(await transform('<Card p-2 globex:c-blue/>')).toBe('<Card p-2/>')
+    })
+
+    it('leaves code that only looks like a themed class alone', async () => {
+      const untouched = [
+        String.raw`.acme\:c-red { color: red }`,
+        String.raw`document.querySelector('.globex\:c-blue')`,
+        'const x = a?acme:globex',
+        'fetch("https://acme:8080/x")',
+        '@media (orientation:landscape) {}',
+        ':root{--acme:red;--globex:blue}',
+        '<p>acme: hello</p>',
+        'const time = \'10:30\'',
+        'acme:',
+        '"[acme:c-red] [&_.globex]:c-red content-[\'globex:x\']"',
+        '<button class:globex:c-blue={on}>',
+        '"hover:(c-red bg-blue)"',
+      ]
+      for (const code of untouched)
+        expect(await transform(code)).toBe(code)
+    })
+
+    it('scans pathological input in linear time', async () => {
+      const unbalanced = `${'['.repeat(200_000)} globex:c-blue acme:c-red`
+      const startedAt = performance.now()
+      expect(await transform(unbalanced)).toBe(`${'['.repeat(200_000)} c-red`)
+      const large = '<div class="p-2 acme:c-red globex:c-blue night:(m-1 p-1)"></div>\n'.repeat(20_000)
+      expect((await transform(large)).includes('globex')).toBe(false)
+      expect(performance.now() - startedAt).toBeLessThan(5_000)
+    })
+  })
+
+  describe('with other transformers', () => {
+    async function pipeline(code: string, id: string, transformers: SourceCodeTransformer[], uno?: UnoGenerator) {
+      uno ??= await createGenerator({ presets: [presetMini()], variants: variantBuildThemes(options) })
+      uno.config.transformers = transformers
+      const ctx = { uno, filter: () => true, tokens: new Set(), invalidate: () => {} } as unknown as UnocssPluginContext
+      for (const enforce of ['pre', 'default', 'post'] as const)
+        code = (await applyTransformers(ctx, code, id, enforce))?.code ?? code
+      return { code, uno }
+    }
+
+    it('gives the same result before or after transformer-variant-group', async () => {
+      const source = '<div class="p-2 hover:(acme:c-red globex:c-blue) globex:bg-(red-500 op-50) acme:bg-(--accent) md:(night:p-1 day:p-2)">'
+      const first = await pipeline(source, 'a.html', [transformerBuildThemes(options), transformerVariantGroup()])
+      const second = await pipeline(source, 'a.html', [transformerVariantGroup(), transformerBuildThemes(options)])
+      expect(first.code).toBe(second.code)
+      expect(first.code).toBe('<div class="p-2 hover:c-red bg---accent md:p-1">')
+    })
+
+    it('compiles only active classes with transformer-compile-class', async () => {
+      const source = [
+        'const classes = `:uno:',
+        '  [&_a]:(underline break-words)',
+        '  [&_a]:acme:c-red [&_a]:globex:c-blue',
+        String.raw`  [.\<md\:text-center_&_ol]:<md:globex:mx-a`,
+        '  [&_ol]:acme:(font-bold pl-6) [&_ol]:globex:(italic pl-8)',
+        '`',
+      ].join('\n')
+      const { code, uno } = await pipeline(source, 'a.ts', [transformerBuildThemes(options), transformerCompileClass()])
+      expect(code).toMatch(/^const classes = `uno-\w+`$/)
+      const { css } = await uno.generate(code, { preflights: false })
+      expect(css).toContain('color:rgb(248 113 113')
+      expect(css).toContain('font-weight:700')
+      expect(css).not.toContain('96 165 250')
+      expect(css).not.toContain('italic')
+      expect(css).not.toContain('margin-left:auto')
+    })
+
+    it('applies only active classes with transformer-directives', async () => {
+      const source = '.btn { @apply p-2 acme:c-red globex:c-blue; --at-apply: night:m-1 day:m-2; }'
+      const { code } = await pipeline(source, 'a.css', [transformerBuildThemes(options), transformerDirectives()])
+      expect(code).toContain('color:rgb(248 113 113')
+      expect(code).toContain('margin:0.25rem')
+      expect(code).not.toContain('96 165 250')
+      expect(code).not.toContain('margin:0.5rem')
+    })
+
+    it('resolves valueless attributes before transformer-attributify-jsx', async () => {
+      const uno = await createGenerator({ presets: [presetMini(), presetAttributify()], variants: variantBuildThemes(options) })
+      const source = 'export default () => <div acme:text-red globex:text-blue p-2 />'
+      const { code } = await pipeline(source, 'a.tsx', [transformerBuildThemes(options), transformerAttributifyJsx()], uno)
+      expect(code).toBe('export default () => <div text-red="" p-2="" />')
+    })
+
+    it('leaves @unocss-skip regions alone', async () => {
+      const source = '<p class="globex:c-blue acme:c-red"></p><!-- @unocss-skip-start --><p class="globex:c-blue"></p><!-- @unocss-skip-end -->'
+      const { code } = await pipeline(source, 'a.html', [transformerBuildThemes(options)])
+      expect(code).toBe('<p class="c-red"></p><!-- @unocss-skip-start --><p class="globex:c-blue"></p><!-- @unocss-skip-end -->')
+    })
+
+    it.each([
+      ['transformer-compile-class', transformerCompileClass()],
+      ['transformer-attributify-jsx', transformerAttributifyJsx()],
+      ['transformer-directives with enforce: pre', transformerDirectives({ enforce: 'pre' })],
+    ])('throws when %s runs first', async (_, other) => {
+      await expect(pipeline('"acme:c-red"', 'a.tsx', [other, transformerBuildThemes(options)]))
+        .rejects
+        .toThrow('must come after transformerBuildThemes()')
+    })
+  })
+})

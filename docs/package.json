@@ -40,6 +40,7 @@
     "@unocss/runtime": "workspace:*",
     "@unocss/svelte-scoped": "workspace:*",
     "@unocss/transformer-attributify-jsx": "workspace:*",
+    "@unocss/transformer-build-themes": "workspace:*",
     "@unocss/transformer-compile-class": "workspace:*",
     "@unocss/transformer-directives": "workspace:*",
     "@unocss/transformer-variant-group": "workspace:*",

@@ -17,6 +17,7 @@ Opinionated presets for UnoCSS. To serve as a good starting point for using UnoC
 | [@unocss/transformer-directives](./transformer-directives)             | Transformer for CSS directives like `@apply`        | ✅                   | No      |
 | [@unocss/transformer-compile-class](./transformer-compile-class)       | Compile group of classes into one class             | ✅                   | No      |
 | [@unocss/transformer-attributify-jsx](./transformer-attributify-jsx)   | Support valueless attributify in JSX/TSX            | ✅                   | No      |
+| [@unocss/transformer-build-themes](./transformer-build-themes)         | Build-time themes that tree-shake HTML and CSS      | ✅                   | No      |
 | [@unocss/extractor-pug](./extractor-pug)                               | Extractor for Pug                                   | No                   | -       |
 | [@unocss/extractor-svelte](./extractor-svelte)                         | Extractor for Svelte                                | No                   | -       |
 | [@unocss/extractor-mdc](./extractor-mdc)                               | Extractor for MDC                                   | No                   | -       |

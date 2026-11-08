@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build themes</title>
+    <script type="module" src="/main.ts"></script>
+  </head>
+  <body class="m-0 font-sans day:(bg-white text-gray-900) night:(bg-gray-950 text-gray-100)">
+    <header
+      class="flex items-center justify-between px-6 py-4 acme:(bg-red-600 text-white) globex:(bg-blue-700 text-white shadow-lg) initech:(bg-amber-300 text-gray-900 border-b-4 border-solid border-gray-900)"
+    >
+      <strong
+        class="text-xl acme:(font-black tracking-tight) globex:(font-light uppercase tracking-widest) initech:(font-mono)"
+        >Storefront</strong
+      >
+      <nav class="flex gap-4 text-sm">
+        <a
+          href="#"
+          class="no-underline text-inherit hover:underline acme:hover:text-red-100 globex:hover:text-blue-100 initech:hover:text-gray-700"
+          >Products</a
+        >
+        <a
+          href="#"
+          class="no-underline text-inherit hover:underline acme:hover:text-red-100 globex:hover:text-blue-100 initech:hover:text-gray-700"
+          >Pricing</a
+        >
+        <a
+          href="#"
+          class="no-underline text-inherit hover:underline acme:hover:text-red-100 globex:hover:text-blue-100 initech:hover:text-gray-700"
+          >Support</a
+        >
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-6 py-12">
+      <section class="py-12 text-center">
+        <h1
+          class="m-0 text-4xl md:text-6xl acme:(font-black day:text-red-600 night:text-red-400) globex:(font-thin day:text-blue-700 night:text-blue-300) initech:(font-mono day:text-gray-900 night:text-amber-300)"
+        >
+          One codebase, every customer
+        </h1>
+        <p class="mx-auto mt-4 max-w-2xl text-lg day:text-gray-600 night:text-gray-400">
+          Each build ships only its own theme's classes, in the HTML and in the CSS.
+        </p>
+        <button
+          class="mt-8 cursor-pointer px-6 py-3 text-base acme:(rounded-none bg-red-600 text-white font-bold hover:bg-red-700) globex:(rounded-full bg-blue-700 text-white hover:bg-blue-800 shadow-md) initech:(rounded bg-gray-900 text-amber-300 font-mono hover:bg-gray-700) border-0"
+        >
+          Get started
+        </button>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-3">
+        <article
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+        >
+          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+            Fast
+          </h2>
+          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+            No theme switching code and no unused rules in the stylesheet.
+          </p>
+        </article>
+        <article
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+        >
+          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+            Small
+          </h2>
+          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+            Classes of other themes are removed from the markup, not just from the CSS.
+          </p>
+        </article>
+        <article
+          class="p-6 acme:(border-2 border-solid border-red-600) globex:(rounded-2xl shadow-xl) initech:(border-4 border-dashed border-gray-900) day:bg-white night:bg-gray-900"
+        >
+          <h2 class="mt-0 text-xl acme:text-red-600 globex:(day:text-blue-700 night:text-blue-300) initech:font-mono">
+            Simple
+          </h2>
+          <p class="mb-0 day:text-gray-600 night:text-gray-400">
+            Write every theme next to each other, in one template.
+          </p>
+        </article>
+      </section>
+
+      <section class="mt-16 grid gap-6 md:grid-cols-3">
+        <div
+          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+        >
+          <h3 class="m-0 text-lg">Starter</h3>
+          <p
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+          >
+            $9
+          </p>
+          <button
+            class="mt-auto cursor-pointer border-0 px-4 py-2 acme:(rounded-none bg-red-600 text-white) globex:(rounded-full bg-blue-700 text-white) initech:(rounded bg-gray-900 text-amber-300)"
+          >
+            Choose
+          </button>
+        </div>
+        <div
+          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+        >
+          <h3 class="m-0 text-lg">Team</h3>
+          <p
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+          >
+            $29
+          </p>
+          <button
+            class="mt-auto cursor-pointer border-0 px-4 py-2 acme:(rounded-none bg-red-600 text-white) globex:(rounded-full bg-blue-700 text-white) initech:(rounded bg-gray-900 text-amber-300)"
+          >
+            Choose
+          </button>
+        </div>
+        <div
+          class="flex flex-col p-6 acme:(day:bg-red-50 night:bg-red-950) globex:(rounded-2xl day:bg-blue-50 night:bg-blue-950) initech:(font-mono day:bg-amber-50 night:bg-gray-800)"
+        >
+          <h3 class="m-0 text-lg">Enterprise</h3>
+          <p
+            class="my-4 text-3xl font-bold acme:text-red-600 globex:text-blue-700 initech:(day:text-gray-900 night:text-amber-300)"
+          >
+            $99
+          </p>
+          <button
+            class="mt-auto cursor-pointer border-0 px-4 py-2 acme:(rounded-none bg-red-600 text-white) globex:(rounded-full bg-blue-700 text-white) initech:(rounded bg-gray-900 text-amber-300)"
+          >
+            Choose
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="px-6 py-8 text-center text-sm acme:(bg-gray-900 text-red-200) globex:(bg-blue-950 text-blue-200) initech:(bg-amber-300 text-gray-900 font-mono)"
+    >
+      Built with UnoCSS build themes
+    </footer>
+  </body>
+</html>
