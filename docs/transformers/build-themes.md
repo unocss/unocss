@@ -119,6 +119,8 @@ Facet values can appear anywhere in the variant chain, and work with [variant gr
 }
 ```
 
+An `@apply` statement or an `--at-apply` declaration whose classes all belong to inactive values is removed whole, so no empty `@apply;` reaches the CSS.
+
 See the [`vite-build-themes` example](https://github.com/unocss/unocss/tree/main/examples/vite-build-themes) for a page with two facets, three clients and two editions, and a script comparing its build sizes with runtime themes.
 
 ### Transformer order

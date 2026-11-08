@@ -371,8 +371,7 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
       }
 
       const code = s.original
-      // `null` removes the range, a string replaces it.
-      const edits: { start: number, end: number, value: string | null }[] = []
+      const edits: Edit[] = []
 
       // Variant groups that mention a facet value are expanded, so that each item is
       // resolved on its own: `hover:(acme:a globex:b)` -> `hover:a`. Both
@@ -419,6 +418,8 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
           edits.push({ start, end, value: resolved })
       }
 
+      removeEmptiedStatements(code, edits)
+
       // Applied in source order, so that consecutive removed classes form one
       // range and the last class of a list can take the space before the first.
       edits.sort((a, b) => a.start - b.start)
@@ -437,6 +438,53 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
     },
   }
   return transformer
+}
+
+interface Edit {
+  start: number
+  end: number
+  /** `null` removes the range, a string replaces it. */
+  value: string | null
+}
+
+/**
+ * `@apply` statements and custom property declarations such as
+ * `--at-apply: ...`, up to their `;`, the closing `}` of the block, or the end
+ * of the code. Group 1 is the class list.
+ */
+const STATEMENT_RE = /(?:@apply\b|--[\w-]+\s*:)([^;{}]*)(?:;|(?=\})|$)/dg
+
+/**
+ * Replaces the edits of a statement whose classes are all removed with one
+ * removal of the whole statement, so that no empty `@apply;` or
+ * `--at-apply: "";` is left for `transformerDirectives` to pass through.
+ * Statements that keep anything besides whitespace and quotes are left alone.
+ */
+function removeEmptiedStatements(code: string, edits: Edit[]) {
+  if (!edits.some(edit => edit.value === null))
+    return
+  for (const match of code.matchAll(STATEMENT_RE)) {
+    const [bodyStart, bodyEnd] = match.indices![1]!
+    const inside = edits.filter(edit => edit.start >= bodyStart && edit.end <= bodyEnd)
+    if (!inside.length || inside.some(edit => edit.value !== null))
+      continue
+
+    let remaining = ''
+    let at = bodyStart
+    for (const edit of [...inside].sort((a, b) => a.start - b.start)) {
+      remaining += code.slice(at, edit.start)
+      at = edit.end
+    }
+    remaining += code.slice(at, bodyEnd)
+    if (/[^\s"']/.test(remaining))
+      continue
+
+    for (const edit of inside)
+      edits.splice(edits.indexOf(edit), 1)
+    // Whitespace before a closing `}` is left to the removal range, so that a
+    // statement at the end of a block keeps the space before it.
+    edits.push({ start: match.index!, end: match.index! + match[0].trimEnd().length, value: null })
+  }
 }
 
 /**

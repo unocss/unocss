@@ -152,6 +152,21 @@ describe('transformer-build-themes', () => {
       .toBe('<div className={clsx(\'p-2 c-red\', on && \'\')} />')
   })
 
+  it('removes @apply statements that lose all their classes', async () => {
+    expect(await transform('.a { @apply globex:c-blue; color: red; }')).toBe('.a { color: red; }')
+    expect(await transform('.a { color: red; @apply globex:c-blue }')).toBe('.a { color: red; }')
+    expect(await transform('.a {\n  @apply globex:c-blue standard:p-2;\n  color: red;\n}')).toBe('.a {\n  color: red;\n}')
+    expect(await transform('.a { @apply globex:(c-blue p-2); @apply standard:m-1; color: red; }')).toBe('.a { color: red; }')
+    expect(await transform('.a { --at-apply: globex:c-blue; color: red; }')).toBe('.a { color: red; }')
+    expect(await transform('.a { --uno: "globex:c-blue standard:p-2"; color: red; }')).toBe('.a { color: red; }')
+    expect(await transform('.a { --custom-apply: \'globex:c-blue\'; color: red; }')).toBe('.a { color: red; }')
+    // Statements that keep a class stay, with only the removed classes gone.
+    expect(await transform('.a { @apply p-1 globex:c-blue; }')).toBe('.a { @apply p-1; }')
+    expect(await transform('.a { --at-apply: "acme:c-red globex:c-blue"; }')).toBe('.a { --at-apply: "c-red"; }')
+    // A custom property inside a class attribute is not a statement.
+    expect(await transform('<div class="[--x:1] globex:c-blue">')).toBe('<div class="[--x:1]">')
+  })
+
   it('leaves code that is not a themed class alone', async () => {
     const cases = [
       'const url = "acme://host/path"',
@@ -358,6 +373,20 @@ describe('transformer-build-themes', () => {
       expect(code).toContain('margin:0.25rem')
       expect(code).not.toContain('96 165 250')
       expect(code).not.toContain('margin:0.5rem')
+    })
+
+    it.each([
+      ['groups', '.a { @apply acme:(c-red p-1) globex:(c-blue p-2); }', '.a { padding:0.25rem;--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity)); }'],
+      ['variants around the value', '.a { @apply hover:acme:c-red hover:globex:c-blue; }', '.a:hover{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}'],
+      ['arbitrary variants', '.a { @apply acme:[&>*]:c-red globex:[&>*]:c-blue; }', '.a>*{--un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity));}'],
+      ['important', '.a { @apply !acme:c-red !globex:c-blue; }', '.a { --un-text-opacity:1 !important;color:rgb(248 113 113 / var(--un-text-opacity)) !important; }'],
+      ['quoted --at-apply', '.a { --at-apply: "acme:c-red globex:c-blue"; }', '.a { --un-text-opacity:1;color:rgb(248 113 113 / var(--un-text-opacity)); }'],
+      ['an emptied @apply', '.a { @apply globex:c-blue; color: red; }', '.a { color: red; }'],
+      ['an emptied @apply in a nested rule', '.a { .b { @apply globex:(c-blue p-2); } color: red; }', '.a { .b { } color: red; }'],
+      ['an emptied --at-apply', '.a { --at-apply: "globex:c-blue"; color: red; }', '.a { color: red; }'],
+    ])('expands @apply with transformer-directives: %s', async (_, source, expected) => {
+      const { code } = await pipeline(source, 'a.css', [transformerVariantGroup(), transformerBuildThemes(options), transformerDirectives()])
+      expect(code).toBe(expected)
     })
 
     it('resolves valueless attributes before transformer-attributify-jsx', async () => {
