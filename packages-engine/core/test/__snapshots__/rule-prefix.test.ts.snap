@@ -31,24 +31,24 @@ exports[`prefix > multiple preset prefix 1`] = `
 @media (min-width: 1280px){
 .h-container{max-width:1280px;}
 }
+@media (min-width: 1536px){
+.\\32 xl\\:h-container{width:100%;}
+.h-container{max-width:1536px;}
+}
+@media (min-width: 640px){@media (min-width: 1536px){
+.\\32 xl\\:h-container{max-width:640px;}
+}}
+@media (min-width: 768px){@media (min-width: 1536px){
+.\\32 xl\\:h-container{max-width:768px;}
+}}
 @media (min-width: 1024px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1024px;}
 }}
 @media (min-width: 1280px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1280px;}
 }}
-@media (min-width: 1536px){
-.\\32 xl\\:h-container{width:100%;}
-.h-container{max-width:1536px;}
-}
 @media (min-width: 1536px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1536px;}
-}}
-@media (min-width: 640px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:640px;}
-}}
-@media (min-width: 768px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:768px;}
 }}"
 `;
 
@@ -76,24 +76,24 @@ exports[`prefix > preset prefix 1`] = `
 @media (min-width: 1280px){
 .h-container{max-width:1280px;}
 }
+@media (min-width: 1536px){
+.\\32 xl\\:h-container{width:100%;}
+.h-container{max-width:1536px;}
+}
+@media (min-width: 640px){@media (min-width: 1536px){
+.\\32 xl\\:h-container{max-width:640px;}
+}}
+@media (min-width: 768px){@media (min-width: 1536px){
+.\\32 xl\\:h-container{max-width:768px;}
+}}
 @media (min-width: 1024px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1024px;}
 }}
 @media (min-width: 1280px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1280px;}
 }}
-@media (min-width: 1536px){
-.\\32 xl\\:h-container{width:100%;}
-.h-container{max-width:1536px;}
-}
 @media (min-width: 1536px){@media (min-width: 1536px){
 .\\32 xl\\:h-container{max-width:1536px;}
-}}
-@media (min-width: 640px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:640px;}
-}}
-@media (min-width: 768px){@media (min-width: 1536px){
-.\\32 xl\\:h-container{max-width:768px;}
 }}"
 `;
 

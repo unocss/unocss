@@ -23,10 +23,13 @@ export const symbols: ControlSymbols = {
 // than CPU parallelism, so it is intentionally not based on the CPU count.
 const TOKEN_PARSE_BATCH_SIZE = 4096
 
+type ParentAncestry = (number | undefined)[]
+
 class TokenProcessor<Theme extends object> {
   private cache = new Map<string, StringifiedUtil<Theme>[] | null>()
   private blocked = new Set<string>()
   private parentOrders = new Map<string, number>()
+  private parentAncestries = new WeakMap<object, ParentAncestry[]>()
   private activatedRules = new Set<Rule<Theme>>()
 
   async parse(
@@ -100,6 +103,14 @@ class TokenProcessor<Theme extends object> {
 
   getParentOrder(parent: string) {
     return this.parentOrders.get(parent)
+  }
+
+  setParentAncestries(output: object, orders: ParentAncestry[]) {
+    this.parentAncestries.set(output, orders)
+  }
+
+  getParentAncestries(output: object) {
+    return this.parentAncestries.get(output) ?? [[]]
   }
 
   activateRule(rule: Rule<Theme>) {
@@ -418,8 +429,40 @@ class UnoGeneratorInternal<Theme extends object = object> {
       if (rawLayerCache[layer] != null)
         return rawLayerCache[layer]
 
+      const ancestries = new Map<string, ParentAncestry>()
+      const conflictingOrders = new Set<number>()
+      for (const [parent, items] of sheet) {
+        for (const item of items) {
+          for (const orders of this.tokenProcessor.getParentAncestries(item)) {
+            const previous = ancestries.get(parent)
+            if (!previous) {
+              // Merge into a copy so cached outputs keep their original metadata.
+              ancestries.set(parent, orders.slice())
+              continue
+            }
+            for (let i = 0; i < orders.length; i++) {
+              if (orders[i] == null)
+                continue
+              if (previous[i] != null && previous[i] !== orders[i])
+                conflictingOrders.add(this.tokenProcessor.getParentOrder(parent) ?? 0)
+              else
+                previous[i] = orders[i]
+            }
+          }
+        }
+      }
+
       let css = Array.from(sheet)
-        .sort((a, b) => ((this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)) || (a[0] || '').localeCompare(b[0] || '') || 0)
+        .sort((a, b) => {
+          const primary = (this.tokenProcessor.getParentOrder(a[0]) ?? 0) - (this.tokenProcessor.getParentOrder(b[0]) ?? 0)
+          if (primary)
+            return primary
+          // Falling back for the entire tied bucket keeps the comparator transitive.
+          const ancestry = conflictingOrders.has(this.tokenProcessor.getParentOrder(a[0]) ?? 0)
+            ? 0
+            : compareParentAncestries(ancestries.get(a[0])!, ancestries.get(b[0])!)
+          return ancestry || a[0].localeCompare(b[0])
+        })
         .map(([parent, items]) => {
           const sorted: PreparedRule[] = items
             .filter(i => (i[4]?.layer || LAYER_DEFAULT) === layer)
@@ -655,6 +698,12 @@ class UnoGeneratorInternal<Theme extends object = object> {
     variantHandlers = parsed[4],
     raw = parsed[1],
   ): UtilObject[] {
+    const parentOrders = new Map<string, number | undefined>()
+    const recordParent = (input: VariantHandlerContext) => {
+      if (input.parent != null)
+        parentOrders.set(input.parent, input.parentOrder)
+      return input
+    }
     const handler = variantHandlers.slice()
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .reduceRight(
@@ -666,7 +715,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
           const selector = v.selector?.(input.selector, entries)
 
-          return (v.handle ?? defaultVariantHandler)({
+          return (v.handle ?? defaultVariantHandler)(recordParent({
             ...input,
             entries,
             selector: selector || input.selector,
@@ -674,7 +723,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
             parentOrder: parents[1] || input.parentOrder,
             layer: v.layer || input.layer,
             sort: v.sort || input.sort,
-          }, previous)
+          }), input => previous(recordParent(input)))
         },
         (input: VariantHandlerContext) => input,
       )
@@ -689,6 +738,16 @@ class UnoGeneratorInternal<Theme extends object = object> {
     const { parent, parentOrder } = variantContextResult
     if (parent != null && parentOrder != null)
       this.tokenProcessor.setParentOrder(parent, parentOrder)
+    const ancestry: ParentAncestry = []
+    if (parent != null) {
+      let prefix = parent
+      let index = prefix.lastIndexOf(' $$ ')
+      while (index !== -1) {
+        prefix = prefix.slice(0, index)
+        ancestry.push(parentOrders.get(prefix))
+        index = prefix.lastIndexOf(' $$ ')
+      }
+    }
 
     const obj: UtilObject = {
       selector: [
@@ -703,7 +762,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
       noMerge: variantContextResult.noMerge,
     }
 
-    return this.config.postprocess.reduce<UtilObject[]>(
+    const utilities = this.config.postprocess.reduce<UtilObject[]>(
       (utilities, p) => {
         const result: UtilObject[] = []
         for (const util of utilities) {
@@ -719,6 +778,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
       },
       [obj],
     )
+    for (const util of utilities)
+      this.tokenProcessor.setParentAncestries(util, [util.parent === parent ? ancestry : []])
+    return utilities
   }
 
   constructCustomCSS(
@@ -947,7 +1009,9 @@ class UnoGeneratorInternal<Theme extends object = object> {
         layer: variantLayer ?? metaLayer,
         sort: variantSort ?? metaSort,
       }
-      result.push([parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge])
+      const output: StringifiedUtil<Theme> = [parsed[0], selector, body, parent, ruleMeta, this.config.details ? context : undefined, noMerge]
+      this.tokenProcessor.setParentAncestries(output, this.tokenProcessor.getParentAncestries(util))
+      result.push(output)
     }
     return result
   }
@@ -1076,11 +1140,16 @@ class UnoGeneratorInternal<Theme extends object = object> {
 
       const isNoMerge = Object.fromEntries(item[2])[symbols.shortcutsNoMerge]
       const variants = [...item[4], ...(!isNoMerge ? parentVariants : [])]
-      for (const { selector, entries, parent, sort, noMerge, layer } of this.applyVariants(item, variants, raw)) {
+      for (const util of this.applyVariants(item, variants, raw)) {
+        const { selector, entries, parent, sort, noMerge, layer } = util
         // find existing layer and merge
         const selectorMap = layerMap.getFallback(layer ?? meta.layer, new TwoKeyMap())
         // find existing selector/mediaQuery pair and merge
         const mapItem = selectorMap.getFallback(selector, parent, [[], item[0]])
+        this.tokenProcessor.setParentAncestries(mapItem, [
+          ...(mapItem[0].length ? this.tokenProcessor.getParentAncestries(mapItem) : []),
+          ...this.tokenProcessor.getParentAncestries(util),
+        ])
         // add entries
         mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
       }
@@ -1088,14 +1157,18 @@ class UnoGeneratorInternal<Theme extends object = object> {
     return rawStringifiedUtil.concat(layerMap
       .flatMap((selectorMap, layer) =>
         selectorMap
-          .map(([e, index], selector, joinedParents) => {
+          .map((item, selector, joinedParents) => {
+            const [e, index] = item
             const stringify = (flatten: boolean, noMerge: boolean, entrySortPair: [CSSEntries, number][]): (StringifiedUtil<Theme> | undefined)[] => {
               const maxSort = Math.max(...entrySortPair.map(e => e[1]))
               const entriesList = entrySortPair.map(e => e[0])
               return (flatten ? [entriesList.flat(1)] : entriesList).map((entries: CSSEntries): StringifiedUtil<Theme> | undefined => {
                 const body = entriesToCss(entries)
-                if (body)
-                  return [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort, layer }, context, undefined]
+                if (body) {
+                  const output: StringifiedUtil<Theme> = [index, selector, body, joinedParents, { ...meta, noMerge, sort: maxSort, layer }, context, undefined]
+                  this.tokenProcessor.setParentAncestries(output, this.tokenProcessor.getParentAncestries(item))
+                  return output
+                }
                 return undefined
               })
             }
@@ -1171,4 +1244,13 @@ export function toEscapedSelector(raw: string) {
 
 function defaultVariantHandler(input: VariantHandlerContext, next: (input: VariantHandlerContext) => VariantHandlerContext) {
   return next(input)
+}
+
+function compareParentAncestries(left: ParentAncestry, right: ParentAncestry) {
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const order = (left[i] ?? 0) - (right[i] ?? 0)
+    if (order)
+      return order
+  }
+  return 0
 }

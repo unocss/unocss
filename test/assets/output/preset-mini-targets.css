@@ -1209,9 +1209,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .lt-sm\:m1,
 .max-sm\:m1{margin:0.25rem;}
 }
-@media (max-width: 1023.9px){@media (min-width: 640px){
-.sm\:lt-lg\:p-10{padding:2.5rem;}
-}}
 @media (min-width: 640px){
 .sm\:m-1,
 .sm\:m1{margin:0.25rem;}
@@ -1221,6 +1218,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\~sm\:m1,
 .at-sm\:m1{margin:0.25rem;}
 }
+@media (max-width: 1023.9px){@media (min-width: 640px){
+.sm\:lt-lg\:p-10{padding:2.5rem;}
+}}
 @media (min-width: 768px){
 .md\:m-1{margin:0.25rem;}
 .md\:\!hidden{display:none !important;}
