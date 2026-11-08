@@ -173,6 +173,7 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
   layer?: string;
   api?: any;
   meta?: Record<string, any>;
+  resolveMeta?: (_: Record<string, any> | undefined) => Record<string, any>;
   docs?: string;
 }
 export interface Replacement {

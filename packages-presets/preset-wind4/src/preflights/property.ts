@@ -1,6 +1,7 @@
 import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
+import { getTrackingState } from '../utils/context'
 import { trackedProperties } from '../utils/track'
 
 export function property(options: PresetWind4Options): Preflight<Theme> | undefined {
@@ -21,11 +22,12 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
   const prefix = options.variablePrefix ?? 'un-'
 
   return {
-    getCSS: () => {
-      if (trackedProperties.size === 0)
+    getCSS: (ctx) => {
+      const properties = getTrackingState(ctx)?.propertyDeps ?? trackedProperties
+      if (properties.size === 0)
         return
 
-      const css = Array.from(trackedProperties.entries())
+      const css = Array.from(properties.entries())
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([property, value]) => `${property.replace(/^--un-/, `--${prefix}`)}:${value};`)
         .join('')

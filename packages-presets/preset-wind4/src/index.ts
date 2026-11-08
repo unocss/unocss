@@ -9,6 +9,8 @@ import { shortcuts } from './shortcuts'
 import { shorthands } from './shorthands'
 import { theme } from './theme'
 import { PRESET_NAME, trackedProperties, trackedTheme } from './utils'
+import { getConfigTrackingState, resolveTrackingMeta } from './utils/context'
+import { collectProperties } from './utils/property'
 import { variants } from './variants'
 
 export { postprocessors, preflights, rules, shortcuts, shorthands, theme, variants }
@@ -177,7 +179,11 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
       shorthands,
     },
     options,
-    configResolved() {
+    resolveMeta: resolveTrackingMeta,
+    configResolved(config) {
+      const state = getConfigTrackingState(config)
+      if (state)
+        config.postprocess.unshift(collectProperties(state.propertyDeps))
       trackedTheme.clear()
       trackedProperties.clear()
     },

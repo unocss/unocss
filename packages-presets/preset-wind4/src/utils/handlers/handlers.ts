@@ -1,6 +1,8 @@
 import type { Theme } from '../../theme'
+import type { ThemeInput } from '../context'
 import { escapeSelector } from '@unocss/core'
 import { transformThemeFn } from '@unocss/rule-utils'
+import { getTheme, isContext } from '../context'
 import { globalKeywords } from '../mappings'
 import { themeTracking } from '../track'
 import { getThemeByKey } from '../utilities'
@@ -164,8 +166,8 @@ export function fraction(str: string) {
  *
  * @returns An object containing the resolved value from the theme and the corresponding CSS variable key.
  */
-function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: string[], varPaths: string) {
-  const valOrObj = getThemeByKey(theme, themeKey as keyof Theme, themeKeyPaths)
+function processThemeVariable(input: ThemeInput, themeKey: string, themeKeyPaths: string[], varPaths: string) {
+  const valOrObj = getThemeByKey(getTheme(input), themeKey as keyof Theme, themeKeyPaths)
   const hasDefault = typeof valOrObj === 'object' && 'DEFAULT' in valOrObj
 
   if (hasDefault)
@@ -175,12 +177,12 @@ function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: str
   const varKey = hasDefault && themeKey !== 'spacing' ? `${varPaths}.DEFAULT` : varPaths
 
   if (val != null)
-    themeTracking(themeKey, themeKeyPaths.length ? themeKeyPaths : undefined)
+    themeTracking(themeKey, themeKeyPaths.length ? themeKeyPaths : undefined, isContext(input) ? input : undefined)
 
   return { val, varKey }
 }
 
-function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
+function bracketWithType(str: string, requiredType?: string, input?: ThemeInput) {
   // Tailwind v4 shorthand: `(--foo)` is an alias of `[--foo]`
   if (str && /^\(--[^()]+\)$/.test(str))
     str = `[${str.slice(1, -1)}]`
@@ -211,17 +213,17 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
     if (base === '=""')
       return
 
-    if (theme) {
-      base = transformThemeFn(base, theme)
+    if (input) {
+      base = transformThemeFn(base, getTheme(input))
     }
 
     const matches = Array.from(base.matchAll(cssVarsRE))
     for (const match of matches) {
       const [full, varPaths, _value] = match
 
-      if (theme) {
+      if (input) {
         const [key, ...paths] = varPaths.split('.')
-        const { val, varKey } = processThemeVariable(theme, key, paths, varPaths)
+        const { val, varKey } = processThemeVariable(input, key, paths, varPaths)
 
         if (val != null) {
           const cssVar = `--${varKey.replaceAll('.', '-')}`
@@ -284,28 +286,28 @@ function bracketWithType(str: string, requiredType?: string, theme?: Theme) {
   }
 }
 
-export function bracket(str: string, theme?: Theme) {
-  return bracketWithType(str, undefined, theme)
+export function bracket(str: string, input?: ThemeInput) {
+  return bracketWithType(str, undefined, input)
 }
 
-export function bracketOfColor(str: string, theme?: Theme) {
-  return bracketWithType(str, 'color', theme)
+export function bracketOfColor(str: string, input?: ThemeInput) {
+  return bracketWithType(str, 'color', input)
 }
 
-export function bracketOfLength(str: string, theme?: Theme) {
-  return bracketWithType(str, 'length', theme) || bracketWithType(str, 'size', theme) || bracketWithType(str, 'width', theme)
+export function bracketOfLength(str: string, input?: ThemeInput) {
+  return bracketWithType(str, 'length', input) || bracketWithType(str, 'size', input) || bracketWithType(str, 'width', input)
 }
 
-export function bracketOfPosition(str: string, theme?: Theme) {
-  return bracketWithType(str, 'position', theme)
+export function bracketOfPosition(str: string, input?: ThemeInput) {
+  return bracketWithType(str, 'position', input)
 }
 
-export function bracketOfFamily(str: string, theme?: Theme) {
-  return bracketWithType(str, 'family', theme)
+export function bracketOfFamily(str: string, input?: ThemeInput) {
+  return bracketWithType(str, 'family', input)
 }
 
-export function bracketOfNumber(str: string, theme?: Theme) {
-  return bracketWithType(str, 'number', theme)
+export function bracketOfNumber(str: string, input?: ThemeInput) {
+  return bracketWithType(str, 'number', input)
 }
 
 export function cssvar(str: string) {

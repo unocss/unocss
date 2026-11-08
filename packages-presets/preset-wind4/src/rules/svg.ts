@@ -5,19 +5,19 @@ import { colorResolver, h, isSize } from '../utils'
 export const svgUtilities: Rule<Theme>[] = [
   // fills
   [/^fill-(.+)$/, colorResolver('fill', 'fill'), { autocomplete: 'fill-$colors' }],
-  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-fill-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'fill-(op|opacity)-<percent>' }],
+  [/^fill-op(?:acity)?-?(.+)$/, ([, opacity], ctx) => ({ '--un-fill-opacity': h.bracket.percent.cssvar(opacity, ctx) }), { autocomplete: 'fill-(op|opacity)-<percent>' }],
   ['fill-none', { fill: 'none' }],
 
   // stroke size
   [/^stroke-(?:width-|size-)?(.+)$/, handleWidth],
 
   // stroke dash
-  [/^stroke-dash-(.+)$/, ([, s], { theme }) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s, theme) }), { autocomplete: 'stroke-dash-<num>' }],
-  [/^stroke-offset-(.+)$/, ([, s], { theme }) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s, theme) })],
+  [/^stroke-dash-(.+)$/, ([, s], ctx) => ({ 'stroke-dasharray': h.bracket.cssvar.number(s, ctx) }), { autocomplete: 'stroke-dash-<num>' }],
+  [/^stroke-offset-(.+)$/, ([, s], ctx) => ({ 'stroke-dashoffset': h.bracket.cssvar.px.numberWithUnit(s, ctx) })],
 
   // stroke colors
   [/^stroke-(.+)$/, handleColorOrWidth, { autocomplete: 'stroke-$colors' }],
-  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-stroke-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'stroke-(op|opacity)-<percent>' }],
+  [/^stroke-op(?:acity)?-?(.+)$/, ([, opacity], ctx) => ({ '--un-stroke-opacity': h.bracket.percent.cssvar(opacity, ctx) }), { autocomplete: 'stroke-(op|opacity)-<percent>' }],
 
   // line cap
   ['stroke-cap-square', { 'stroke-linecap': 'square' }],
@@ -35,8 +35,8 @@ export const svgUtilities: Rule<Theme>[] = [
   ['stroke-none', { stroke: 'none' }],
 ]
 
-function handleWidth([, b]: string[], { theme }: RuleContext<Theme>): CSSObject {
-  return { 'stroke-width': h.bracket.cssvar.fraction.px.number(b, theme) }
+function handleWidth([, b]: string[], ctx: RuleContext<Theme>): CSSObject {
+  return { 'stroke-width': h.bracket.cssvar.fraction.px.number(b, ctx) }
 }
 
 function handleColorOrWidth(match: RegExpMatchArray, ctx: RuleContext<Theme>): CSSObject | (CSSValueInput | string)[] | undefined {

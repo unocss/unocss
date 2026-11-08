@@ -9,8 +9,8 @@ export const flex: Rule<Theme>[] = [
   ['flex-inline', { display: 'inline-flex' }],
 
   // flex
-  [/^flex-(.*)$/, ([, d], { theme }) => {
-    const value = h.bracket(d, theme)
+  [/^flex-(.*)$/, ([, d], ctx) => {
+    const value = h.bracket(d, ctx)
     return { flex: value != null ? value.split(' ').map(e => h.cssvar.fraction(e) ?? e).join(' ') : h.cssvar.fraction(d) }
   }],
   ['flex-1', { flex: '1 1 0%' }],
@@ -19,19 +19,21 @@ export const flex: Rule<Theme>[] = [
   ['flex-none', { flex: 'none' }],
 
   // shrink/grow/basis
-  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = ''], { theme }) => ({ 'flex-shrink': h.bracket.cssvar.number(d, theme) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
-  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = ''], { theme }) => ({ 'flex-grow': h.bracket.cssvar.number(d, theme) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
-  [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => {
+  [/^(?:flex-)?shrink(?:-(.*))?$/, ([, d = ''], ctx) => ({ 'flex-shrink': h.bracket.cssvar.number(d, ctx) ?? 1 }), { autocomplete: ['flex-shrink-<num>', 'shrink-<num>'] }],
+  [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = ''], ctx) => ({ 'flex-grow': h.bracket.cssvar.number(d, ctx) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
+  [/^(?:flex-)?basis-(.+)$/, ([, d], ctx) => {
+    const { theme } = ctx
+
     if (theme.container?.[d]) {
-      themeTracking('container', d)
+      themeTracking('container', d, ctx)
       return { 'flex-basis': generateThemeVariable('container', d) }
     }
     const v = numberResolver(d)
     if (v != null) {
-      themeTracking(`spacing`)
+      themeTracking(`spacing`, undefined, ctx)
       return { 'flex-basis': `calc(var(--spacing) * ${v})` }
     }
-    return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d, theme) }
+    return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d, ctx) }
   }, { autocomplete: ['flex-basis-$spacing', 'basis-$spacing', 'flex-basis-$container', 'basis-$container'] }],
 
   // directions

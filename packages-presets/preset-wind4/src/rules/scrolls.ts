@@ -21,16 +21,16 @@ export const scrolls: Rule<Theme>[] = [
           'scrollbar-color': 'var(--un-scrollbar-thumb) var(--un-scrollbar-track)',
         }
         yield* rest
-        yield defineProperty('--un-scrollbar-thumb', { syntax: '<color>', initialValue: '#0000' })
-        yield defineProperty('--un-scrollbar-track', { syntax: '<color>', initialValue: '#0000' })
+        yield defineProperty('--un-scrollbar-thumb', { syntax: '<color>', initialValue: '#0000' }, ctx)
+        yield defineProperty('--un-scrollbar-track', { syntax: '<color>', initialValue: '#0000' }, ctx)
       }
     },
     { autocomplete: 'scrollbar-(thumb|track)-$colors' },
   ],
   [
     /^scrollbar-(thumb|track)-op(?:acity)?-?(.+)$/,
-    ([, part, opacity], { theme }) => ({
-      [`--un-scrollbar-${part}-opacity`]: h.bracket.percent(opacity, theme),
+    ([, part, opacity], ctx) => ({
+      [`--un-scrollbar-${part}-opacity`]: h.bracket.percent(opacity, ctx),
     }),
     {
       autocomplete: [
@@ -41,14 +41,16 @@ export const scrolls: Rule<Theme>[] = [
   ],
   [
     /^scrollbar-(w|h)-(.+)$/,
-    ([, w, v], { theme, symbols }) => {
+    ([, w, v], ctx) => {
+      const { symbols } = ctx
+
       let value: string | undefined
       if (h.number(v) != null) {
-        themeTracking('spacing')
+        themeTracking('spacing', undefined, ctx)
         value = `calc(var(--spacing) * ${h.number(v)})`
       }
       else {
-        value = h.bracket.cssvar.global.fraction.rem(v, theme)
+        value = h.bracket.cssvar.global.fraction.rem(v, ctx)
       }
       if (value != null) {
         return {
@@ -62,17 +64,19 @@ export const scrolls: Rule<Theme>[] = [
 
   [
     /^scrollbar-(?:(track|thumb)-)?radius-(.+)$/,
-    function* ([, part, v], { theme, symbols }) {
+    function* ([, part, v], ctx) {
+      const { theme, symbols } = ctx
+
       let value: string | undefined
       if (v === 'full') {
         value = 'calc(infinity * 1px)'
       }
       else if (theme.radius && v in theme.radius) {
-        themeTracking('radius', v)
+        themeTracking('radius', v, ctx)
         value = generateThemeVariable('radius', v)
       }
       else {
-        value = h.bracket.cssvar.global.fraction.rem(v, theme)
+        value = h.bracket.cssvar.global.fraction.rem(v, ctx)
       }
       if (value != null) {
         for (const target of part ? [part] : ['thumb', 'track']) {

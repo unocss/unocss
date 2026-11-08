@@ -1,5 +1,6 @@
 import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import type { Wind4Context } from '../utils/context'
 import { getStringComponents } from '@unocss/rule-utils'
 import { colorResolver, directionSize, h, hasParseableColor, isSize, parseColor } from '../utils'
 import { splitComma } from '../utils/handlers/regex'
@@ -145,19 +146,19 @@ function handlerRuleColor([, d = '', colorLabel, v]: string[], ctx: RuleContext<
 
   const values = splitRuleValues(bracketColor)
 
-  if (values.every(c => hasParseableColor(c, ctx.theme))) {
+  if (values.every(c => hasParseableColor(c, ctx))) {
     return {
-      [property]: values.map(c => parseColor(c, ctx.theme)!.color).join(','),
+      [property]: values.map(c => parseColor(c, ctx)!.color).join(','),
     }
   }
 }
 
-function handlerRuleSize([, d = '', widthLabel, s = '1']: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
+function handlerRuleSize([, d = '', widthLabel, s = '1']: string[], ctx: RuleContext<Theme>): CSSValueInput | undefined {
   const property = ruleProperty(d, 'width')
   if (!property)
     return
 
-  const v = h.bracket.cssvar.px(s, theme)
+  const v = h.bracket.cssvar.px(s, ctx)
 
   if (!v)
     return
@@ -174,10 +175,10 @@ function handlerRuleSize([, d = '', widthLabel, s = '1']: string[], { theme }: R
   }
 }
 
-function handlerRule([, d = '', v]: string[], { theme }: RuleContext<Theme>): CSSValueInput | undefined {
+function handlerRule([, d = '', v]: string[], ctx: RuleContext<Theme>): CSSValueInput | undefined {
   const property = ruleProperty(d)
-  const value = h.bracket.cssvar(v, theme)
-  const shorthand = value && resolveRuleShorthand(value, theme)
+  const value = h.bracket.cssvar(v, ctx)
+  const shorthand = value && resolveRuleShorthand(value, ctx)
 
   if (property && shorthand) {
     return {
@@ -205,7 +206,7 @@ function hasRuleCSSVariable(value: string) {
   return splitRuleValues(value).some(isRuleCSSVariable)
 }
 
-function resolveRuleShorthand(value: string, theme: Theme) {
+function resolveRuleShorthand(value: string, ctx: Wind4Context) {
   const components = getStringComponents(value, ' ', 3)
   if (!components)
     return
@@ -214,8 +215,8 @@ function resolveRuleShorthand(value: string, theme: Theme) {
     return
 
   return components.map((c) => {
-    if (hasParseableColor(c, theme)) {
-      return parseColor(c, theme)!.color
+    if (hasParseableColor(c, ctx)) {
+      return parseColor(c, ctx)!.color
     }
     return h.cssvar.px(c) ?? c
   }).join(' ')

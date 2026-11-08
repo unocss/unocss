@@ -1,5 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
+import type { Wind4Context } from '../utils/context'
 import { defineProperty, h, numberResolver, themeTracking } from '../utils'
 
 export const tables: Rule<Theme>[] = [
@@ -19,8 +20,8 @@ export const tables: Rule<Theme>[] = [
   ['border-collapse', { 'border-collapse': 'collapse' }],
   ['border-separate', { 'border-collapse': 'separate' }],
 
-  [/^border-spacing-(.+)$/, function* ([, s], { theme }) {
-    const v = resolveValue(s, theme)
+  [/^border-spacing-(.+)$/, function* ([, s], ctx) {
+    const v = resolveValue(s, ctx)
 
     if (v != null) {
       yield {
@@ -29,19 +30,19 @@ export const tables: Rule<Theme>[] = [
         'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
       for (const d of ['x', 'y'])
-        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })
+        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' }, ctx)
     }
   }, { autocomplete: ['border-spacing', 'border-spacing-$spacing'] }],
 
-  [/^border-spacing-([xy])-(.+)$/, function* ([, d, s], { theme }) {
-    const v = resolveValue(s, theme)
+  [/^border-spacing-([xy])-(.+)$/, function* ([, d, s], ctx) {
+    const v = resolveValue(s, ctx)
     if (v != null) {
       yield {
         [`--un-border-spacing-${d}`]: v,
         'border-spacing': 'var(--un-border-spacing-x) var(--un-border-spacing-y)',
       }
       for (const d of ['x', 'y'])
-        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' })
+        yield defineProperty(`--un-border-spacing-${d}`, { syntax: '<length>', initialValue: '0' }, ctx)
     }
   }, { autocomplete: ['border-spacing-(x|y)', 'border-spacing-(x|y)-$spacing'] }],
 
@@ -53,17 +54,19 @@ export const tables: Rule<Theme>[] = [
   ['table-empty-cells-hidden', { 'empty-cells': 'hide' }],
 ]
 
-function resolveValue(s: string, theme: Theme) {
+function resolveValue(s: string, ctx: Wind4Context) {
+  const { theme } = ctx
+
   let v = theme.spacing?.[s]
 
   if (!v) {
     const num = numberResolver(s)
     if (num != null) {
-      themeTracking(`spacing`)
+      themeTracking(`spacing`, undefined, ctx)
       v = `calc(var(--spacing) * ${num})`
     }
     else {
-      v = h.bracket.cssvar.global.auto.fraction.rem(s, theme)
+      v = h.bracket.cssvar.global.auto.fraction.rem(s, ctx)
     }
   }
 

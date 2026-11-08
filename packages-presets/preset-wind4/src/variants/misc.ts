@@ -9,7 +9,7 @@ export const variantSelector: Variant<Theme> = {
     const variant = variantGetBracket('selector-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const selector = h.bracket(match, ctx.theme)
+      const selector = h.bracket(match, ctx)
       if (selector) {
         return {
           matcher: rest,
@@ -26,7 +26,7 @@ export const variantCssLayer: Variant<Theme> = {
     const variant = variantGetParameter('layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const layer = h.bracket(match, ctx.theme) ?? match
+      const layer = h.bracket(match, ctx) ?? match
       if (layer) {
         return {
           matcher: rest,
@@ -46,7 +46,7 @@ export const variantInternalLayer: Variant<Theme> = {
     const variant = variantGetParameter('uno-layer-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const layer = h.bracket(match, ctx.theme) ?? match
+      const layer = h.bracket(match, ctx) ?? match
       if (layer) {
         return {
           matcher: rest,
@@ -63,7 +63,7 @@ export const variantScope: Variant<Theme> = {
     const variant = variantGetBracket('scope-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const scope = h.bracket(match, ctx.theme)
+      const scope = h.bracket(match, ctx)
       if (scope) {
         return {
           matcher: rest,
@@ -95,7 +95,7 @@ export const variantVariables: Variant<Theme> = {
     if (newMatcher == null)
       return
 
-    const variant = h.bracket(match, ctx.theme) ?? ''
+    const variant = h.bracket(match, ctx) ?? ''
     const useParent = variant.startsWith('@')
     if (!(useParent || variant.includes('&')))
       return
@@ -154,7 +154,7 @@ export const variantImplicitGroup: Variant<Theme> = {
       const [match, rest] = variant
       // `in-focus` means a focused ancestor, not a `<focus>` element; a bare `nth-*` has no index to fill in
       const pseudo = PseudoClassesKeys.includes(match) && !match.startsWith('nth') ? PseudoClasses[match] : undefined
-      const group = h.bracket(match, ctx.theme) ?? (pseudo && !pseudo.startsWith('::') ? pseudo : match)
+      const group = h.bracket(match, ctx) ?? (pseudo && !pseudo.startsWith('::') ? pseudo : match)
       if (group) {
         return {
           matcher: rest,

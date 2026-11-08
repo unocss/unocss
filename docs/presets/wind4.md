@@ -362,3 +362,47 @@ Refer to the [`process`](#process) option in Options.
 In `presetWind4`, we use the `oklch` color model to support better color contrast and color perception. Therefore, it is not compatible with `presetLegacyCompat` and is **not recommended** for use together.
 
 Please refer to the [Compatibility](#compatibility) section for more information.
+
+## Dependency metadata and custom producers
+
+Each resolved Wind4 configuration owns its live `meta.themeDeps` Set and
+`meta.propertyDeps` Map. Read them from `generator.config.presets`, including
+when built-in preflights are disabled. They accumulate usage across cache hits,
+`invalidateToken` and `resetTokenProcessing`; `setConfig` creates fresh
+collections. Reusing a raw or resolved preset in another generator does not
+share these collections. They are available before `configResolved` hooks run.
+
+The exported `trackedTheme` and `trackedProperties` collections, and metadata
+on raw preset objects, remain legacy global views. Built-in tracking still
+updates them and Wind4's resolution hook still clears them. Mutating these
+views does not affect a resolved configuration's collections.
+
+Custom producers can pass their rule or variant context to theme-bearing
+helpers instead of passing only `context.theme`. For example:
+
+```ts
+import { defineProperty, h, propertyTracking, themeTracking } from '@unocss/preset-wind4/utils'
+
+const rule = [/^custom$/, (_, context) => {
+  themeTracking('spacing', undefined, context)
+  propertyTracking('--custom-fallback', '1', context)
+  return [
+    { width: h.bracket('[--spacing(2)]', context) },
+    defineProperty('--custom', { initialValue: '0' }, context),
+  ]
+}]
+```
+
+Passing context records dependencies at helper-call time, including across
+asynchronous producers. Existing Theme-only and no-context calls still update
+legacy views. A no-context `defineProperty` acquires a resolved owner when its
+output is serialized; its owner-map first-write order can therefore differ
+from its legacy call-time order. An unscoped direct tracker call without a
+definition affects only the legacy view.
+
+Used shared definitions also acquire owner fallbacks when serialized. This
+restores previously missing fallback declarations for hoisted shadow/ring,
+filter, touch, numeric-font, outline, snap and gradient definitions. Ordinary
+registrations and property preflight options retain their behavior; disabling
+the property preflight suppresses fallbacks, while registrations and metadata
+remain available.
