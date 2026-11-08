@@ -85,7 +85,7 @@ jobs:
       - name: Set node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Install
@@ -99,7 +99,10 @@ jobs:
           pnpm add -Dw vite@${{ matrix.vite_version }} --ignore-scripts
           pnpm --filter @unocss/vite add -D vite@${{ matrix.vite_version }} --ignore-scripts
 
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
       - name: Test Vite ${{ matrix.vite_version }} compatibility
         run: |
           pnpm exec vite --version
-          VITE_COMPAT=true pnpm exec vitest run test/virtual-modules.test.ts --testNamePattern 'updates global CSS through Vite|refreshes CSS when a lazy transform'
+          VITE_COMPAT=true BROWSER_TESTS=true pnpm exec vitest run test/virtual-modules.test.ts test/vite-hmr.browser.test.ts

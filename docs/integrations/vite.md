@@ -17,7 +17,7 @@ const playgrounds = examples.reduce((acc, cur) => {
 
 # Vite Plugin
 
-The Vite plugin ships with the `unocss` package.
+The Vite plugin ships with the `unocss` package. It requires Vite 6 or newer.
 
 ## Installation
 
@@ -85,6 +85,8 @@ This is the default mode for the plugin: in this mode you need to add the import
 This mode enables a set of Vite plugins for `build` and for `dev` with `HMR` support.
 
 The generated `css` will be a global stylesheet injected on the `index.html`.
+
+During development, stylesheet updates preserve application state. An import such as `import css from 'uno.css?inline'` returns a CSS string instead of injecting a stylesheet. When a file change updates that string, Vite reloads the page unless the importer accepts the update with `import.meta.hot.accept`.
 
 ### `vue-scoped`
 

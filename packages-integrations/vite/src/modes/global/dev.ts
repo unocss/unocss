@@ -6,7 +6,7 @@ import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
-import { getPath } from '#integration/utils'
+import { getPath, splitEntryId } from '#integration/utils'
 import { consumeConfigSource, isConfigSource } from '../../config-hmr'
 import { toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
@@ -14,6 +14,7 @@ import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 const WARN_TIMEOUT = 20000
 const HASH_LENGTH = 6
 const REFRESH_EVENT = 'unocss:refresh'
+const READY_EVENT = 'unocss:ready'
 
 const REFRESH_SNIPPET = `
 if (import.meta.hot) {
@@ -26,15 +27,19 @@ if (import.meta.hot) {
       console.warn('[unocss-hmr]', e)
     }
   })
+  if (!import.meta.hot.data.unocssReady) {
+    import.meta.hot.data.unocssReady = true
+    import.meta.hot.send('${READY_EVENT}')
+  }
 }`
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, extract, filter, getConfig } = ctx
+  const { tokens, tasks, flushTasks, extract, filter, getConfig, onInvalidate } = ctx
   const entries = new Set<string>()
 
-  const lastServedHash = new Map<string, string>()
+  const lastUpdateHash = new Map<string, string>()
   let resolved = false
   let server: ViteDevServer | undefined
   let resolvedWarnTimer: TimeoutTimer
@@ -65,19 +70,13 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           )
         : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
-    lastServedHash.set(layer, hash)
     return { hash, css }
   }
 
-  /**
-   * Return the imported entries whose generated CSS differs from what the
-   * client holds, so that Vite can build the HMR update itself.
-   */
   async function regenerateChangedModules(moduleGraph: EnvironmentModuleGraph) {
     const changed: EnvironmentModuleNode[] = []
     const result = await generateResult()
     const generatedCSS = new Map<string, { hash: string }>()
-    const previousHashes = new Map(lastServedHash)
     for (const id of entries) {
       const mod = moduleGraph.getModuleById(id)
       if (!mod)
@@ -85,29 +84,28 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       const layer = await resolveLayer(ctx, getPath(id))
       if (!layer)
         continue
-      const previousHash = previousHashes.get(layer)
+      const previousHash = lastUpdateHash.get(id)
       let css = generatedCSS.get(layer)
       if (!css) {
         css = await generateCSS(layer, result)
         generatedCSS.set(layer, css)
       }
-      if (css.hash !== previousHash)
+      if (css.hash !== previousHash) {
         changed.push(mod)
+        lastUpdateHash.set(id, css.hash)
+      }
     }
     return changed
   }
 
-  /**
-   * A lazily imported module is transformed for the first time after the CSS
-   * module already loaded, so no file changed and `hotUpdate` does not run.
-   * Ask the browser to re-import the CSS module when new tokens change it.
-   */
   function scheduleRefresh() {
     clearTimeout(refreshTimer)
     refreshTimer = setTimeout(() => {
       void refresh()
     }, 10)
   }
+
+  onInvalidate(scheduleRefresh)
 
   async function refresh() {
     try {
@@ -161,23 +159,24 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     type,
   }: HotUpdateOptions) {
     if (type === 'delete') {
-      if (ctx.modules.delete(file))
+      let removed = false
+      for (const id of ctx.modules.keys()) {
+        if (getPath(id) === file) {
+          ctx.modules.delete(id)
+          removed = true
+        }
+      }
+      if (removed)
         await ctx.reloadConfig()
       return true
     }
 
-    // HTML is re-extracted by the transformIndexHtml hook. Returning here
-    // keeps Vite's page reload for HTML changes.
     if (file.endsWith('.html'))
       return false
 
-    // The config plugin already reloaded the config, so only the CSS has
-    // to be refreshed. Config files are not content sources.
     if (isConfigSource(ctx, file))
       return true
 
-    // Skip files that are neither modules nor potential content sources
-    // (for example assets), so that large binaries are never read.
     if (modules.length === 0 && !filter('', file))
       return false
 
@@ -201,21 +200,23 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       enforce: 'pre',
       configureServer(_server) {
         server = _server
+        const { hot, moduleGraph } = server.environments.client
+        hot.on(READY_EVENT, (_, client) => {
+          for (const id of entries) {
+            const module = moduleGraph.getModuleById(id)
+            if (module)
+              moduleGraph.invalidateModule(module)
+          }
+          client.send({ type: 'custom', event: REFRESH_EVENT })
+        })
       },
       buildStart() {
         // warm up for preflights
         ctx.uno.generate([], { preflights: true })
       },
       transform(code, id) {
-        if (filter(code, id)) {
-          const previousTokenCount = tokens.size
-          tasks.push(
-            extract(code, id).then(() => {
-              if (tokens.size > previousTokenCount)
-                scheduleRefresh()
-            }),
-          )
-        }
+        if (filter(code, id))
+          tasks.push(extract(code, id))
         return null
       },
       transformIndexHtml: {
@@ -244,9 +245,10 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          const virtualId = toViteVirtualId(entry)
-          entries.add(virtualId)
-          return virtualId
+          const { filename, query } = splitEntryId(entry)
+          const serveId = query ? toViteVirtualId(`/${filename}${query}`) : `/${filename}`
+          entries.add(serveId)
+          return serveId
         }
       },
       async load(id) {
@@ -254,12 +256,11 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (!layer)
           return null
 
-        // Integrations (e.g. `@unocss/astro`) may resolve the entry to a plain
-        // path id instead of the virtual id returned from `resolveId`, so track
-        // every id that is actually served for HMR invalidation.
         entries.add(id)
 
-        const { css } = await generateCSS(layer)
+        const { css, hash } = await generateCSS(layer)
+        if (!lastUpdateHash.has(id))
+          lastUpdateHash.set(id, hash)
         return {
           code: css ?? '',
           map: { mappings: '' },
@@ -280,7 +281,6 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         const layer = await resolveLayer(ctx, getPath(id))
         if (
           layer
-          && !/(?:\?|&)t=/.test(id)
           && code.includes('import.meta.hot')
         ) {
           const s = new MagicString(code)

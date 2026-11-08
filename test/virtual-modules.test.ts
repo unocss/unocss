@@ -110,14 +110,25 @@ describe('vite virtual modules', () => {
     }
   })
 
-  it('uses internal ids for global CSS', async () => {
+  it('serves the global stylesheet through a path id and query entries through virtual ids', async () => {
     const server = await createServer('global')
 
     try {
       expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
         .toBe('\0/__uno.css?inline')
       expect((await server.pluginContainer.resolveId('virtual:uno.css'))?.id)
-        .toBe('\0/__uno.css')
+        .toBe('/__uno.css')
+      expect((await server.pluginContainer.resolveId('uno.css'))?.id)
+        .toBe('/__uno.css')
+      expect((await server.pluginContainer.resolveId('uno:icons.css'))?.id)
+        .toBe('/__uno_icons.css')
+      expect((await server.pluginContainer.resolveId('D:/tmp/app/__uno.css'))?.id)
+        .toBe('/__uno.css')
+      const wrapper = await server.transformRequest('/__uno.css')
+      expect(/(?:const|let|var) __vite__id = "([^"]+)"/.exec(wrapper?.code ?? '')?.[1])
+        .toBe('/__uno.css')
+      expect(server.moduleGraph.getModuleById('/__uno.css')?.url)
+        .toBe('/__uno.css')
     }
     finally {
       await server.close()
@@ -199,7 +210,7 @@ describe('vite virtual modules', () => {
         '<template><div class="uno-hmr-probe" /></template>',
       )
 
-      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('\0/__uno.css')
+      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('/__uno.css')
     }
     finally {
       await server.close()
@@ -276,10 +287,31 @@ describe('vite virtual modules', () => {
 
     try {
       await registerEntry(server)
-      await runHotUpdate(server, source, '<template><div class="uno-hmr-probe" /></template>')
+      const changed = await runHotUpdate(server, source, '<template><div class="uno-hmr-probe" /></template>')
+      for (const mod of changed)
+        server.environments.client.moduleGraph.invalidateModule(mod)
+      await server.environments.client.transformRequest('/__uno.css')
       const result = await runHotUpdate(server, source, '', 'delete')
 
-      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('\0/__uno.css')
+      expect(result?.map((mod: vite.EnvironmentModuleNode) => mod.id)).toContain('/__uno.css')
+    }
+    finally {
+      await server.close()
+    }
+  })
+
+  it('removes query-suffixed content when its source file is deleted', async () => {
+    const server = await createServer('global')
+    const source = resolve(ROOT, 'src/Deleted.vue')
+
+    try {
+      const ctx = getContext(server)
+      await ctx.extract('uno-hmr-probe', `${source}?vue&type=template`)
+      await registerEntry(server)
+      await runHotUpdate(server, source, '', 'delete')
+
+      expect(ctx.modules.has(`${source}?vue&type=template`)).toBe(false)
+      expect(ctx.tokens.has('uno-hmr-probe')).toBe(false)
     }
     finally {
       await server.close()
@@ -336,7 +368,7 @@ describe('vite virtual modules', () => {
     try {
       await mkdir(resolve(root, 'src'))
       await registerEntry(server)
-      const registered = server.environments.client.moduleGraph.getModuleById('\0/__uno.css')!.url
+      const registered = server.environments.client.moduleGraph.getModuleById('/__uno.css')!.url
       const payloads = captureHotPayloads(server)
 
       await writeFile(probe, '<template><div class="uno-hmr-probe" /></template>')
