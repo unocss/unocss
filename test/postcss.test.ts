@@ -272,6 +272,8 @@ export default {
     const configFile = join(cwd, 'uno.config.ts')
     const from = join(cwd, 'style.css')
     await writeFile(configFile, configSource('red'))
+    const past = new Date(Date.now() - 60_000)
+    await utimes(configFile, past, past)
     await writeFile(join(cwd, 'index.html'), '<div class="probe"></div>')
     const globals = globalThis as { __unoPostcssConfigLoads?: number }
     delete globals.__unoPostcssConfigLoads
