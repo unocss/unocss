@@ -1,4 +1,6 @@
-import { resolve } from 'node:path'
+import { mkdtemp, realpath, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import UnoCSS, { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '@unocss/vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
@@ -63,6 +65,35 @@ describe('vite virtual module ids', () => {
       .toBe('/@id/__x00__/__uno.css')
     expect(toViteClientPath('/src/main.ts'))
       .toBe('/src/main.ts')
+  })
+
+  it('clears per-module CSS when a module loses its last utility', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-per-module-')))
+    const file = resolve(root, 'view.tsx')
+    await writeFile(file, 'export const className = "probe"')
+    const server = await vite.createServer({
+      root,
+      configFile: false,
+      logLevel: 'error',
+      server: { middlewareMode: true, ws: false },
+      plugins: [UnoCSS({ configFile: false, inspector: false, mode: 'per-module', rules: [['probe', { color: 'red' }]] })],
+    })
+
+    try {
+      const transformed = await server.transformRequest('/view.tsx')
+      const cssUrl = `/@unocss/${/\/@unocss\/(\w+\.css)/.exec(transformed?.code ?? '')?.[1]}`
+      expect((await server.transformRequest(cssUrl))?.code).toContain('.probe{color:red;}')
+
+      await writeFile(file, 'export const className = "plain"')
+      server.moduleGraph.invalidateModule((await server.moduleGraph.getModuleByUrl('/view.tsx'))!)
+      await server.transformRequest('/view.tsx')
+
+      expect((await server.transformRequest(cssUrl))?.code).not.toContain('.probe{color:red;}')
+    }
+    finally {
+      await server.close()
+      await rm(root, { recursive: true, force: true })
+    }
   })
 
   it('uses internal ids for per-module CSS', async () => {
