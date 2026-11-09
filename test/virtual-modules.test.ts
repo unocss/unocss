@@ -1,7 +1,9 @@
-import { resolve } from 'node:path'
+import { mkdtemp, realpath, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
 import UnoCSS, { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '@unocss/vite'
 import * as vite from 'vite'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 describe('vite virtual module ids', () => {
   async function createServer(mode: 'global' | 'per-module') {
@@ -63,6 +65,36 @@ describe('vite virtual module ids', () => {
       .toBe('/@id/__x00__/__uno.css')
     expect(toViteClientPath('/src/main.ts'))
       .toBe('/src/main.ts')
+  })
+
+  it('reloads a config discovered from a Vite root outside the cwd', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-config-root-')))
+    const configFile = resolve(root, 'uno.config.ts')
+    const source = (color: string) => `export default { rules: [['probe', { color: '${color}' }]] }`
+    await writeFile(configFile, source('red'))
+    const server = await vite.createServer({
+      root,
+      configFile: false,
+      logLevel: 'error',
+      server: { host: '127.0.0.1', port: 0, watch: { usePolling: true, interval: 20 } },
+      plugins: [UnoCSS({ inspector: false })],
+    })
+    await server.listen()
+    const ctx = server.config.plugins.find(plugin => plugin.name === 'unocss:api')!.api.getContext()
+
+    try {
+      await vi.waitFor(() => expect(Object.values(server.watcher.getWatched()).flat()).toContain('uno.config.ts'), { timeout: 5000 })
+      expect(ctx.getConfigFileList().map(vite.normalizePath)).toEqual([vite.normalizePath(configFile)])
+      await writeFile(configFile, source('blue'))
+
+      await vi.waitFor(async () => {
+        expect((await ctx.uno.generate('probe', { preflights: false })).css).toContain('color:blue')
+      }, { timeout: 5000 })
+    }
+    finally {
+      await server.close()
+      await rm(root, { recursive: true, force: true })
+    }
   })
 
   it('uses internal ids for per-module CSS', async () => {

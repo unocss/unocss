@@ -71,9 +71,16 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   const loadConfig = createRecoveryConfigLoader<Config>()
 
+  let lastReload: Promise<unknown> = Promise.resolve()
   let ready = reloadConfig()
 
-  async function reloadConfig() {
+  function reloadConfig() {
+    const reload = lastReload.catch(() => {}).then(performReload)
+    lastReload = reload
+    return reload
+  }
+
+  async function performReload() {
     await _uno
     const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)

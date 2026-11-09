@@ -1,9 +1,9 @@
 import type { FilterPattern } from '@unocss/core'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, realpath, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mergeConfigs } from '@unocss/core'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createContext, createPipelineFilter } from '#integration/context'
 
 describe('createContext', () => {
@@ -292,5 +292,39 @@ describe('createContext', () => {
 
     await ctx.updateRoot(`${cwd}/sub`)
     expect(reloads).toBe(1)
+  })
+})
+
+describe('config reload order', () => {
+  it('keeps the latest root when an earlier load finishes last', async () => {
+    const first = await realpath(await mkdtemp(join(tmpdir(), 'unocss-reload-first-')))
+    const second = await realpath(await mkdtemp(join(tmpdir(), 'unocss-reload-second-')))
+    const globals = globalThis as { __unoReloadFirstStarted?: boolean, __unoReloadSecond?: () => void, __unoReloadSecondLoaded?: Promise<void> }
+    globals.__unoReloadSecondLoaded = new Promise<void>(done => globals.__unoReloadSecond = done)
+    await writeFile(join(first, 'uno.config.ts'), `globalThis.__unoReloadFirstStarted = true
+await Promise.race([globalThis.__unoReloadSecondLoaded, new Promise(done => setTimeout(done, 200))])
+export default { rules: [['from-first', { color: 'red' }]] }`)
+    await writeFile(join(second, 'uno.config.ts'), `globalThis.__unoReloadSecond()
+export default { rules: [['from-second', { color: 'blue' }]] }`)
+    const cwd = vi.spyOn(process, 'cwd').mockReturnValue(first)
+
+    try {
+      const ctx = createContext()
+      const initialLoad = ctx.ready
+      await vi.waitFor(() => expect(globals.__unoReloadFirstStarted).toBe(true))
+      await Promise.all([ctx.updateRoot(second), initialLoad])
+
+      expect(ctx.getConfigFileList()).toEqual([join(second, 'uno.config.ts')])
+      expect((await ctx.uno.generate('from-first from-second', { preflights: false })).css).toContain('from-second')
+      expect((await ctx.uno.generate('from-first from-second', { preflights: false })).css).not.toContain('from-first')
+    }
+    finally {
+      cwd.mockRestore()
+      delete globals.__unoReloadFirstStarted
+      delete globals.__unoReloadSecond
+      delete globals.__unoReloadSecondLoaded
+      await rm(first, { recursive: true, force: true })
+      await rm(second, { recursive: true, force: true })
+    }
   })
 })
