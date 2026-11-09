@@ -50,6 +50,7 @@ let contextManager: ContextManager
 let hasWatchedFilesCapability = false
 let serverInitialized = false
 let watcherDisposable: Disposable | undefined
+let lastWatcherUpdate: Promise<void> = Promise.resolve()
 const workspaceContext: WorkspaceContextState = {
   folderPaths: [],
 }
@@ -115,7 +116,13 @@ function createContextManager() {
   })
 }
 
-async function updateConfigWatchers(): Promise<void> {
+function updateConfigWatchers(): Promise<void> {
+  const update = lastWatcherUpdate.catch(() => {}).then(registerConfigWatchers)
+  lastWatcherUpdate = update
+  return update
+}
+
+async function registerConfigWatchers(): Promise<void> {
   if (!hasWatchedFilesCapability || !serverInitialized || !contextManager)
     return
 
@@ -227,6 +234,7 @@ connection.onDidChangeConfiguration(async (change) => {
   if (unocssSettings) {
     mergeSettings(unocssSettings)
     await applyConfiguredRoots()
+    clearAllCache()
     await updateConfigWatchers()
     resetAutoCompleteCache()
   }
