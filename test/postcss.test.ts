@@ -1,4 +1,7 @@
 import type { UserConfig } from '@unocss/core'
+import { mkdtemp, realpath, rm, utimes, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { escapeSelector } from '@unocss/core'
 import postcssPlugin from '@unocss/postcss'
 import presetWind from '@unocss/preset-wind'
@@ -228,5 +231,41 @@ describe('postcss', () => {
     const { root, css } = await pcssLite().process(`.test { @apply bg-green [@media(hover:hover)]:bg-red; }`, processOptions)
     expect(css).toMatchSnapshot()
     expect(root.nodes.every(({ type }) => ['atrule', 'comment', 'decl', 'rule'].includes(type))).toBeTruthy()
+  })
+})
+
+describe('postcss config reload', () => {
+  const configSource = (color: string) => `globalThis.__unoPostcssConfigLoads = (globalThis.__unoPostcssConfigLoads ?? 0) + 1
+export default {
+  content: { filesystem: ['*.html'] },
+  rules: [['probe', { color: '${color}' }]],
+}
+`
+
+  it('reloads from the configured cwd only when the config changes', async () => {
+    const cwd = await realpath(await mkdtemp(join(tmpdir(), 'unocss-postcss-')))
+    const configFile = join(cwd, 'uno.config.ts')
+    const from = join(cwd, 'style.css')
+    await writeFile(configFile, configSource('red'))
+    await writeFile(join(cwd, 'index.html'), '<div class="probe"></div>')
+    const globals = globalThis as { __unoPostcssConfigLoads?: number }
+    delete globals.__unoPostcssConfigLoads
+    const processor = postcss(postcssPlugin({ cwd }))
+
+    try {
+      expect((await processor.process('@unocss;', { from })).css).toContain('.probe{color:red;}')
+      expect((await processor.process('@unocss;', { from })).css).toContain('.probe{color:red;}')
+      expect(globals.__unoPostcssConfigLoads).toBe(1)
+
+      await writeFile(configFile, configSource('blue'))
+      const future = new Date(Date.now() + 60_000)
+      await utimes(configFile, future, future)
+
+      expect((await processor.process('@unocss;', { from })).css).toContain('.probe{color:blue;}')
+    }
+    finally {
+      delete globals.__unoPostcssConfigLoads
+      await rm(cwd, { recursive: true, force: true })
+    }
   })
 })
