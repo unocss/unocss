@@ -27,10 +27,6 @@ if (import.meta.hot) {
       console.warn('[unocss-hmr]', e)
     }
   })
-  if (!import.meta.hot.data.unocssReady) {
-    import.meta.hot.data.unocssReady = true
-    import.meta.hot.send('${READY_EVENT}')
-  }
 }`
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
@@ -116,8 +112,12 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       if (!changed.length)
         return
 
-      for (const module of changed)
-        environment.moduleGraph.invalidateModule(module)
+      for (const module of changed) {
+        if (module.type === 'css' || module.isSelfAccepting === false)
+          await environment.reloadModule(module)
+        else
+          environment.moduleGraph.invalidateModule(module)
+      }
       environment.hot.send({ type: 'custom', event: REFRESH_EVENT })
     }
     catch (error) {
@@ -166,8 +166,12 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           removed = true
         }
       }
-      if (removed)
-        await ctx.reloadConfig()
+      if (removed) {
+        await flushTasks()
+        tokens.clear()
+        await Promise.all(ctx.modules.map((code, id) => extract(code, id)))
+        ctx.invalidate()
+      }
       return true
     }
 
@@ -200,14 +204,21 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       enforce: 'pre',
       configureServer(_server) {
         server = _server
-        const { hot, moduleGraph } = server.environments.client
-        hot.on(READY_EVENT, (_, client) => {
-          for (const id of entries) {
-            const module = moduleGraph.getModuleById(id)
-            if (module)
-              moduleGraph.invalidateModule(module)
+        const environment = server.environments.client
+        const { hot, moduleGraph } = environment
+        hot.on(READY_EVENT, async ({ id, hash }: { id: string, hash: string }, client) => {
+          const module = moduleGraph.getModuleById(id)
+          if (!module)
+            return
+          if (module.isSelfAccepting === false) {
+            const layer = await resolveLayer(ctx, getPath(id))
+            if (layer && (await generateCSS(layer)).hash !== hash)
+              await environment.reloadModule(module)
           }
-          client.send({ type: 'custom', event: REFRESH_EVENT })
+          else {
+            moduleGraph.invalidateModule(module)
+            client.send({ type: 'custom', event: REFRESH_EVENT })
+          }
         })
       },
       buildStart() {
@@ -264,6 +275,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         return {
           code: css ?? '',
           map: { mappings: '' },
+          meta: { unocssHash: hash },
         }
       },
       closeBundle() {
@@ -279,12 +291,18 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       enforce: 'post',
       async transform(code, id) {
         const layer = await resolveLayer(ctx, getPath(id))
-        if (
-          layer
-          && code.includes('import.meta.hot')
-        ) {
+        const hasRefreshListener = code.includes('import.meta.hot')
+        const inline = new URLSearchParams(splitEntryId(id).query).has('inline')
+        if (layer && (hasRefreshListener || inline)) {
           const s = new MagicString(code)
-          s.append(REFRESH_SNIPPET)
+          if (hasRefreshListener)
+            s.append(REFRESH_SNIPPET)
+          const hash = this.getModuleInfo(id)?.meta.unocssHash
+          s.append(`
+if (import.meta.hot && !import.meta.hot.data.unocssReady) {
+  import.meta.hot.data.unocssReady = true
+  import.meta.hot.send('${READY_EVENT}', ${JSON.stringify({ id, hash })})
+}`)
           return {
             code: s.toString(),
             map: s.generateMap() as any,

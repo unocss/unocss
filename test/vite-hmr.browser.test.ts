@@ -136,6 +136,96 @@ describe.runIf(process.env.BROWSER_TESTS === 'true')('global CSS in Chromium', (
     }
   })
 
+  it('recovers inline CSS before its accepting importer evaluates', async () => {
+    const app = await fixture({
+      html: `<div id="probe"></div><script type="module">
+import { createHotContext } from '/@vite/client';
+const hot = createHotContext('/observer');
+hot.on('unocss:refresh', () => window.refreshSeen = true);
+window.observerReady = true;
+</script>`,
+      main: `import css from "uno.css?inline"; import { className } from "./leaf.tsx"; import "./gate.ts";
+window.inlineCSS = css; window.className = className; window.appReady = true;
+if (import.meta.hot) import.meta.hot.accept("uno.css?inline", m => window.inlineCSS = m.default)`,
+      files: { 'leaf.tsx': 'export const className = "probe-blue"', 'gate.ts': 'export {}' },
+    })
+    const releaseLeaf = deferred()
+    const releaseGate = deferred()
+    try {
+      const leafRequested = deferred()
+      const gateRequested = deferred()
+      await app.page.route('**/leaf.tsx', async (route) => {
+        leafRequested.resolve()
+        await releaseLeaf.promise
+        await route.continue()
+      })
+      await app.page.route('**/gate.ts', async (route) => {
+        gateRequested.resolve()
+        await releaseGate.promise
+        await route.continue()
+      })
+      const cssLoaded = app.page.waitForResponse(response => response.url().includes('__uno.css'))
+      const navigation = app.page.goto(app.url, { waitUntil: 'commit' })
+      await Promise.all([leafRequested.promise, gateRequested.promise, cssLoaded])
+      await app.page.waitForFunction('window.observerReady')
+      releaseLeaf.resolve()
+      await app.page.waitForFunction('window.refreshSeen')
+      releaseGate.resolve()
+      await navigation
+      await expect.poll(() => app.page.evaluate('window.inlineCSS'), { timeout: 10_000 }).toContain('.probe-blue{color:blue;}')
+    }
+    finally {
+      releaseLeaf.resolve()
+      releaseGate.resolve()
+      await app.close()
+    }
+  })
+
+  it('updates a direct stylesheet link after public invalidation', async () => {
+    const app = await fixture({
+      html: '<link rel="stylesheet" href="/__uno.css"><div id="probe"></div>',
+      main: 'window.appReady = true',
+    })
+    try {
+      await app.page.goto(app.url)
+      await app.page.waitForFunction('window.appReady')
+      await app.page.evaluate('window.preserved = true; document.querySelector("#probe").className = "probe-blue"')
+      app.ctx.tokens.add('probe-blue')
+      app.ctx.invalidate()
+      await expectColor(app.page, 'rgb(0, 0, 255)')
+      expect(await app.page.evaluate('window.preserved')).toBe(true)
+    }
+    finally {
+      await app.close()
+    }
+  })
+
+  it('keeps compiled-class CSS when another extracted source is deleted', async () => {
+    const app = await fixture({
+      config: 'export default { rules: [["probe-blue", { color: "blue" }]] }',
+      main: 'import "uno.css"; import "./view.tsx"; window.appReady = true',
+      files: {
+        'view.tsx': 'document.querySelector("#probe").className = ":uno: probe-blue"',
+        'removed.tsx': 'export default "probe-blue"',
+      },
+    })
+    try {
+      await app.page.goto(app.url)
+      await app.page.waitForFunction('window.appReady')
+      await expectColor(app.page, 'rgb(0, 0, 255)')
+      await app.page.evaluate('import("/removed.tsx")')
+      await app.page.waitForFunction(() => [...document.querySelectorAll('style')].some(style => style.textContent?.includes('.probe-blue{color:blue;}')))
+      const cssUpdated = app.page.waitForResponse(response => response.url().includes('__uno.css') && new URL(response.url()).searchParams.has('t'))
+      await rm(resolve(app.root, 'removed.tsx'))
+      const response = await cssUpdated
+      await app.page.evaluate(`import(${JSON.stringify(response.url())})`)
+      await expectColor(app.page, 'rgb(0, 0, 255)')
+    }
+    finally {
+      await app.close()
+    }
+  })
+
   it('updates CSS after an HTML edit and page reload', async () => {
     const app = await fixture()
     try {
@@ -243,6 +333,47 @@ ${accept ? 'if (import.meta.hot) import.meta.hot.accept("uno.css?inline", m => w
       await writeFile(resolve(app.root, 'added.tsx'), 'export const className = "probe-blue"')
       await expect.poll(() => app.page.evaluate('window.inlineCSS'), { timeout: 10_000 }).toContain('.probe-blue{color:blue;}')
       expect(await app.page.evaluate('window.loads')).toBe(accept ? 1 : 2)
+    }
+    finally {
+      await app.close()
+    }
+  })
+
+  it.each([
+    { trigger: 'invalidation', accept: true },
+    { trigger: 'invalidation', accept: false },
+    { trigger: 'filesystem content', accept: true },
+    { trigger: 'filesystem content', accept: false },
+    { trigger: 'lazy extraction', accept: true },
+    { trigger: 'lazy extraction', accept: false },
+  ])('updates inline CSS after $trigger with an accepting importer set to $accept', async ({ trigger, accept }) => {
+    const app = await fixture({
+      filesystem: trigger === 'filesystem content',
+      main: `import css from "uno.css?inline";
+window.inlineCSS = css;
+window.appReady = true;
+window.loads = Number(sessionStorage.loads || 0) + 1;
+sessionStorage.loads = window.loads;
+${accept ? 'if (import.meta.hot) import.meta.hot.accept("uno.css?inline", m => window.inlineCSS = m.default)' : ''}`,
+      files: { 'lazy.tsx': 'export default "probe-blue"' },
+    })
+    try {
+      await app.page.goto(app.url)
+      await app.page.waitForFunction('window.appReady')
+      await app.page.evaluate('window.preserved = true')
+      if (trigger === 'invalidation') {
+        app.ctx.tokens.add('probe-blue')
+        app.ctx.invalidate()
+      }
+      else if (trigger === 'filesystem content') {
+        await writeFile(resolve(app.external, 'content.html'), '<div class="probe-blue"></div>')
+      }
+      else {
+        await app.page.evaluate('import("/lazy.tsx")')
+      }
+      await expect.poll(() => app.page.evaluate('window.inlineCSS'), { timeout: 10_000 }).toContain('.probe-blue{color:blue;}')
+      expect(await app.page.evaluate('window.loads')).toBe(accept ? 1 : 2)
+      expect(await app.page.evaluate('window.preserved')).toBe(accept ? true : undefined)
     }
     finally {
       await app.close()
