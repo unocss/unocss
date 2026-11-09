@@ -7,6 +7,73 @@ import { describe, expect, it } from 'vitest'
 import { presetWind4Targets } from './assets/preset-wind4-targets'
 
 describe('preset-wind4', () => {
+  it.each([
+    ['skew-y-6', '--un-skew-y:skewY(6deg)'],
+    ['rotate-x-45', '--un-rotate-x:rotateX(45deg)'],
+    ['-skew-y-6', '--un-skew-y:skewY(-6deg)'],
+    ['-skew-x-12', '--un-skew-x:skewX(-12deg)'],
+    ['-skew-6', '--un-skew-x:skewX(-6deg);--un-skew-y:skewY(-6deg)'],
+    ['-rotate-x-45', '--un-rotate-x:rotateX(-45deg)'],
+    ['-rotate-y-180', '--un-rotate-y:rotateY(-180deg)'],
+    ['-rotate-z-90', '--un-rotate-z:rotateZ(-90deg)'],
+    ['-skew-x-[10deg]', '--un-skew-x:skewX(-10deg)'],
+    ['-rotate-x-[30deg]', '--un-rotate-x:rotateX(-30deg)'],
+    ['-skew-y-0.5', '--un-skew-y:skewY(-0.5deg)'],
+    ['-rotate-z-1.5deg', '--un-rotate-z:rotateZ(-1.5deg)'],
+    ['-skew-x-[-6deg]', '--un-skew-x:skewX(6deg)'],
+    ['-rotate-x-[-45deg]', '--un-rotate-x:rotateX(45deg)'],
+    ['-transform-skew-x-6', '--un-skew-x:skewX(-6deg)'],
+    ['-transform-rotate-y-45', '--un-rotate-y:rotateY(-45deg)'],
+  ])('transform utility %s', async (utility, declaration) => {
+    const uno = await createGenerator({ presets: [presetWind4()] })
+    const { css } = await uno.generate(utility, { preflights: false })
+
+    expect(css).toContain(`.${escapeSelector(utility)}{${declaration};transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}`)
+  })
+
+  it.each([
+    ['hover:-skew-x-6', '--un-skew-x:skewX(-6deg)'],
+    ['hover:-rotate-x-[30deg]', '--un-rotate-x:rotateX(-30deg)'],
+  ])('negative transform with variant %s', async (utility, declaration) => {
+    const uno = await createGenerator({ presets: [presetWind4()] })
+    const { css } = await uno.generate(utility, { preflights: false })
+
+    expect(css).toContain(`.${escapeSelector(utility)}:hover{${declaration};transform:var(--un-rotate-x) var(--un-rotate-y) var(--un-rotate-z) var(--un-skew-x) var(--un-skew-y);}`)
+  })
+
+  it.each([
+    '"rotateX(10deg)"',
+    '"skewY(6deg)"',
+    '"hue-rotate(90deg)"',
+  ])('preserves string literals containing %s when negating a rule', async (content) => {
+    const uno = await createGenerator({
+      presets: [presetWind4()],
+      rules: [
+        ['shift-label', { 'margin-left': '1rem', content }],
+      ],
+    })
+    const { css } = await uno.generate('-shift-label', { preflights: false })
+
+    expect(css).toContain(`.-shift-label{margin-left:-1rem;content:${content};}`)
+  })
+
+  it.each([
+    ['_hue-rotate(30deg)', 'hue-rotate(-30deg)'],
+    ['_rotateX(45deg)', 'rotateX(-45deg)'],
+    ['_skewY(6deg)', 'skewY(-6deg)'],
+    ['/**/hue-rotate(30deg)', 'hue-rotate(-30deg)'],
+    ['/*angle*/hue-rotate(30deg)', 'hue-rotate(-30deg)'],
+    ['_/**/_/*angle*/_rotateX(45deg)', 'rotateX(-45deg)'],
+    ['/**/skewY(6deg)', 'skewY(-6deg)'],
+    ['/*rotateX(10deg)*/hue-rotate(30deg)', 'hue-rotate(-30deg)'],
+  ])('negates %s after leading whitespace or comments', async (value, expected) => {
+    const uno = await createGenerator({ presets: [presetWind4()] })
+    const utility = `-[--fx:${value}]`
+    const { css } = await uno.generate(utility, { preflights: false })
+
+    expect(css).toContain(`.${escapeSelector(utility)}{--fx:${expected};}`)
+  })
+
   it('targets', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
