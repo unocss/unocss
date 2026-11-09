@@ -35,11 +35,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
   const classes = new Set<string>()
   const targetCache = new Set<string>()
   const loadConfig = createRecoveryConfigLoader()
+  // The config path is unknown until it loads, so edits are detected from the load start.
+  let last_config_mtime = Date.now()
   const config = loadConfig(cwd, configOrPath)
 
   let uno: UnoGenerator
   let promises: Promise<void>[] = []
-  let last_config_mtime = 0
   const targetRE = new RegExp(Object.values(directiveMap).join('|'))
 
   return async function plugin(root: Root, result: Result) {
@@ -90,11 +91,9 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
       const cfg = await config
       if (!uno) {
         uno = await createGenerator(cfg.config)
-        if (cfg.sources.length)
-          last_config_mtime = (await stat(cfg.sources[0])).mtimeMs
       }
       else if (cfg.sources.length) {
-        const config_mtime = (await stat(cfg.sources[0])).mtimeMs
+        const config_mtime = Math.floor((await stat(cfg.sources[0])).mtimeMs)
         if (config_mtime > last_config_mtime) {
           uno = await createGenerator((await loadConfig(cwd, configOrPath)).config)
           last_config_mtime = config_mtime

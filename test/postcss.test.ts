@@ -7,7 +7,7 @@ import postcssPlugin from '@unocss/postcss'
 import presetWind from '@unocss/preset-wind'
 import presetWind4 from '@unocss/preset-wind4'
 import postcss from 'postcss'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { targets } from './assets/preset-wind3-targets'
 
 const config: UserConfig = {
@@ -241,6 +241,31 @@ export default {
   rules: [['probe', { color: '${color}' }]],
 }
 `
+
+  it('applies a config edit made before the first target file', async () => {
+    const cwd = await realpath(await mkdtemp(join(tmpdir(), 'unocss-postcss-')))
+    const configFile = join(cwd, 'uno.config.ts')
+    await writeFile(configFile, configSource('red'))
+    await writeFile(join(cwd, 'index.html'), '<div class="probe"></div>')
+    const globals = globalThis as { __unoPostcssConfigLoads?: number }
+    delete globals.__unoPostcssConfigLoads
+    const processor = postcss(postcssPlugin({ cwd }))
+
+    try {
+      await processor.process('a{color:black}', { from: join(cwd, 'plain.css') })
+      await vi.waitFor(() => expect(globals.__unoPostcssConfigLoads).toBe(1))
+      await writeFile(configFile, configSource('blue'))
+      const future = new Date(Date.now() + 60_000)
+      await utimes(configFile, future, future)
+
+      await processor.process('@unocss;', { from: join(cwd, 'style.css') })
+      expect((await processor.process('@unocss;', { from: join(cwd, 'style.css') })).css).toContain('.probe{color:blue;}')
+    }
+    finally {
+      delete globals.__unoPostcssConfigLoads
+      await rm(cwd, { recursive: true, force: true })
+    }
+  })
 
   it('reloads from the configured cwd only when the config changes', async () => {
     const cwd = await realpath(await mkdtemp(join(tmpdir(), 'unocss-postcss-')))
