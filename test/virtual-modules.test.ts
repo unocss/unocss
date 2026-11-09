@@ -115,7 +115,7 @@ describe('vite virtual module ids', () => {
       expect((await server.transformRequest(cssUrl))?.code).toContain('.probe{color:red;}')
 
       await writeFile(file, 'export const className = "plain"')
-      server.moduleGraph.invalidateModule(server.moduleGraph.getModuleById(file)!)
+      server.moduleGraph.invalidateModule((await server.moduleGraph.getModuleByUrl('/view.tsx'))!)
       await server.transformRequest('/view.tsx')
 
       expect((await server.transformRequest(cssUrl))?.code).not.toContain('.probe{color:red;}')
