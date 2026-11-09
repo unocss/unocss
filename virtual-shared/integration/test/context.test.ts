@@ -296,6 +296,34 @@ describe('createContext', () => {
 })
 
 describe('config reload order', () => {
+  it('runs a queued reload after an earlier reload fails', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-reload-failure-')))
+    const configFile = join(root, 'uno.config.ts')
+    await writeFile(configFile, `export default { rules: [['probe', { color: 'red' }]] }`)
+    let shouldFail = true
+    const resolveConfigResult = () => {
+      if (shouldFail) {
+        shouldFail = false
+        throw new Error('reload failed')
+      }
+    }
+
+    try {
+      const ctx = createContext(configFile, {}, [], resolveConfigResult)
+      const failed = expect(ctx.ready).rejects.toThrow('reload failed')
+      const queued = ctx.reloadConfig()
+
+      await failed
+      await queued
+
+      expect(ctx.getConfigFileList()).toEqual([configFile])
+      expect((await ctx.uno.generate('probe', { preflights: false })).css).toContain('.probe{color:red;}')
+    }
+    finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
   it('keeps the latest root when an earlier load finishes last', async () => {
     const first = await realpath(await mkdtemp(join(tmpdir(), 'unocss-reload-first-')))
     const second = await realpath(await mkdtemp(join(tmpdir(), 'unocss-reload-second-')))
