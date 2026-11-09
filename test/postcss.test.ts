@@ -258,7 +258,6 @@ export default {
       const future = new Date(Date.now() + 60_000)
       await utimes(configFile, future, future)
 
-      await processor.process('@unocss;', { from: join(cwd, 'style.css') })
       expect((await processor.process('@unocss;', { from: join(cwd, 'style.css') })).css).toContain('.probe{color:blue;}')
     }
     finally {
