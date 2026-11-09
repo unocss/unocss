@@ -1,5 +1,5 @@
 import type { SourceCodeTransformer, UnoGenerator, Variant } from '@unocss/core'
-import { escapeRegExp, parseVariantGroup } from '@unocss/core'
+import { cssIdRE, escapeRegExp, parseVariantGroup } from '@unocss/core'
 
 export interface TransformerBuildThemesOptions {
   /**
@@ -58,8 +58,23 @@ const TERMINATORS = new Set([' ', '\t', '\n', '\r', '\f', '\v', '"', '\'', '`', 
  */
 const MAX_VALUE_LENGTH = 4096
 
+/**
+ * The longest interpolation the scanner looks through after a class, such as
+ * `${size}` in `` `globex:text-${size}` `` or `{size}` in Svelte.
+ */
+const MAX_INTERPOLATION_LENGTH = 1024
+
 function isSpace(char: string | undefined) {
   return char === ' ' || char === '\t' || char === '\n' || char === '\r' || char === '\f' || char === '\v'
+}
+
+function isQuote(char: string | undefined) {
+  return char === '"' || char === '\'' || char === '`'
+}
+
+/** A closing tag ends a token: `<p>globex:c-blue</p>`. */
+function isClosingTag(code: string, index: number) {
+  return code[index] === '<' && code[index + 1] === '/'
 }
 
 /**
@@ -147,12 +162,16 @@ function* scanTokens(code: string): Generator<[start: number, end: number]> {
     while (end < code.length) {
       const char = code[end]
       if (char === '\\') {
-        if (end + 1 < code.length && !isSpace(code[end + 1])) {
+        // An escaped quote closes a string inside a string, as in
+        // `"<div class=\"acme:c-red\">"`, so it ends the token.
+        if (end + 1 < code.length && !isSpace(code[end + 1]) && !isQuote(code[end + 1])) {
           end += 2
           continue
         }
         break
       }
+      if (isClosingTag(code, end))
+        break
       if (char === '[') {
         // `['acme:a', x]` is an array of class strings, not an arbitrary variant.
         if (end === start && (code[end + 1] === '\'' || code[end + 1] === '"'))
@@ -185,6 +204,73 @@ function* scanTokens(code: string): Generator<[start: number, end: number]> {
       end--
     if (end > start)
       yield [start, end]
+  }
+}
+
+/**
+ * Returns the index after the brace that opens at `start`, or `-1` when it
+ * does not close within `MAX_INTERPOLATION_LENGTH`. Braces nest, and braces
+ * inside quoted strings are skipped.
+ */
+function closeBrace(code: string, start: number): number {
+  let depth = 0
+  let quote = ''
+  const limit = Math.min(code.length, start + MAX_INTERPOLATION_LENGTH)
+  for (let i = start; i < limit; i++) {
+    const char = code[i]
+    if (char === '\\') {
+      i++
+      continue
+    }
+    if (quote) {
+      if (char === quote)
+        quote = ''
+      continue
+    }
+    if (char === '\'' || char === '"')
+      quote = char
+    else if (char === '{')
+      depth++
+    else if (char === '}' && --depth === 0)
+      return i + 1
+  }
+  return -1
+}
+
+/**
+ * Returns a function that finds the end of a class continued by an
+ * interpolation at `start`, such as `${size}-500` in `globex:text-${size}-500`:
+ * past every balanced `{...}` and the class characters between them. It
+ * returns `-1` when a brace does not close, and the class is left as is.
+ *
+ * The next `}` is cached, so that a run of unclosed braces fails without
+ * scanning and costs linear time in total.
+ */
+function createInterpolationEnd(code: string) {
+  let queriedFrom = -1
+  let nextClose = -1
+  return (start: number): number => {
+    let i = start
+    while (i < code.length) {
+      const char = code[i]
+      if (char === '{') {
+        if (queriedFrom < 0 || i < queriedFrom || (nextClose !== -1 && nextClose < i)) {
+          queriedFrom = i
+          nextClose = code.indexOf('}', i)
+        }
+        if (nextClose === -1 || nextClose - i >= MAX_INTERPOLATION_LENGTH)
+          return -1
+        const close = closeBrace(code, i)
+        if (close < 0)
+          return -1
+        i = close
+        continue
+      }
+      if (char === '\\' || TERMINATORS.has(char) || isClosingTag(code, i))
+        break
+      i++
+    }
+    return i
   }
 }
 
@@ -355,19 +441,36 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
   const facets = resolveFacets(options)
   const names = facets.values.map(escapeRegExp).join('|')
   const prefixRE = new RegExp(`(?:^|[^\\w-])(?:${names}):`)
-  const checked = new WeakSet<UnoGenerator<any>>()
+  // One check per generator, awaited by every transform: a failed check keeps
+  // failing instead of passing silently from the second file on.
+  const checks = new WeakMap<UnoGenerator<any>, Promise<void>>()
 
   const transformer: SourceCodeTransformer = {
     name: TRANSFORMER_NAME,
     docs: 'https://unocss.dev/transformers/build-themes',
     enforce: 'pre',
+    // Without an `idFilter`, only files matching `pipeline.include` reach the
+    // transformer, and that excludes stylesheets. Stylesheets are accepted here
+    // like `transformerDirectives` accepts them, so that `@apply` in a `.css`
+    // file loses inactive classes before it is expanded; other files are
+    // checked against the pipeline filter in `transform`.
+    idFilter: () => true,
     codeFilter: code => prefixRE.test(code),
-    async transform(s, _id, ctx) {
+    async transform(s, id, ctx) {
+      if (ctx?.filter && !cssIdRE.test(id) && !ctx.filter(s.original, id))
+        return
+
       const uno = ctx?.uno
-      if (uno && !checked.has(uno)) {
-        checked.add(uno)
-        assertTransformerOrder(uno, transformer)
-        await assertNoVariantCollision(uno, facets.values)
+      if (uno) {
+        let check = checks.get(uno)
+        if (!check) {
+          check = (async () => {
+            assertTransformerOrder(uno, transformer)
+            await assertNoVariantCollision(uno, facets.values)
+          })()
+          checks.set(uno, check)
+        }
+        await check
       }
 
       const code = s.original
@@ -402,7 +505,9 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
       }
 
       let groupIndex = 0
-      // The end of an attribute removed whole; tokens in its value are skipped.
+      const interpolationEnd = createInterpolationEnd(code)
+      // The end of an attribute or interpolated class removed whole; tokens
+      // inside it are skipped.
       let skipUntil = 0
       for (const [start, end] of scanTokens(code)) {
         if (start < skipUntil)
@@ -416,6 +521,26 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
         const token = code.slice(start, end)
         if (!prefixRE.test(token))
           continue
+
+        // A class completed by an interpolation: `globex:text-${size}`, or
+        // `globex:text-{size}` in Svelte. An inactive class is removed with the
+        // interpolation, as removing only the static part would leave
+        // `{size}` behind; an active one loses its prefixes as usual. A token
+        // ending with `=` is a Svelte `class:` directive, left alone below.
+        if (code[end] === '{' && !token.endsWith('=')) {
+          const resolved = resolveClass(token, facets)
+          if (resolved === null) {
+            const tail = interpolationEnd(end)
+            if (tail >= 0) {
+              edits.push({ start, end: tail, value: null })
+              skipUntil = tail
+            }
+          }
+          else if (resolved !== undefined) {
+            edits.push({ start, end, value: resolved })
+          }
+          continue
+        }
 
         // An attributify attribute with facet values in its name, such as
         // `acme:text="red"`: the active values leave the name, and an inactive
@@ -439,10 +564,19 @@ export default function transformerBuildThemes(options: TransformerBuildThemesOp
           edits.push({ start, end, value: resolved })
       }
 
+      dropOverlapping(edits)
+
       await removeEmptied(code, edits, async (name) => {
-        if (!uno?.config.presets.some(preset => preset.name === '@unocss/preset-attributify'))
+        const attributify = uno?.config.presets.find(preset => preset.name === '@unocss/preset-attributify')
+        if (!attributify || attributify.options?.nonValuedAttribute === false)
           return false
-        return !!(await uno.parseToken(name))
+        // The name as it is after this transform (`acme:border` -> `border`),
+        // in the form the attributify extractor gives an empty attribute, so
+        // that its prefix options apply.
+        const resolved = resolveClass(name, facets)
+        if (resolved === null)
+          return false
+        return !!(await uno!.parseToken(`[${resolved ?? name}=""]`))
       })
 
       // Applied in source order, so that consecutive removed classes form one
@@ -473,6 +607,24 @@ interface Edit {
 }
 
 /**
+ * Keeps the outer edit where edits overlap: a group in the value of an
+ * attribute removed whole (`globex:text="acme:(a b)"`), or a class inside an
+ * interpolation removed with its class. Sorts the edits by start.
+ */
+function dropOverlapping(edits: Edit[]) {
+  edits.sort((a, b) => a.start - b.start || b.end - a.end)
+  let kept = 0
+  let reach = -1
+  for (const edit of edits) {
+    if (edit.start < reach)
+      continue
+    edits[kept++] = edit
+    reach = edit.end
+  }
+  edits.length = kept
+}
+
+/**
  * Places that hold a class list, with the list in the group named `body`:
  *
  * - quoted attribute values, only where an attribute can be: after whitespace,
@@ -483,7 +635,62 @@ interface Edit {
  *   end of the code.
  */
 const ATTRIBUTE_RE = /(?<=\s)(?<name>[^\s"'`=<>/{}()]+)=(?:"(?<double>[^"]*)"|'(?<single>[^']*)')(?=[\s/>]|$)/dg
-const STATEMENT_RE = /(?:@apply\b|--[\w-]+\s*:)(?<body>[^;{}]*)(?:;|(?=\})|$)/dg
+/**
+ * The start of a statement. A custom property name must not follow another
+ * name character, so a run of dashes is tried once, not at every dash, and the
+ * lookahead with a backreference keeps the name from backtracking.
+ */
+const STATEMENT_HEAD_RE = /@apply\b|(?<![\w-])--(?=(?<name>[\w-]+))\k<name>\s*:/g
+
+interface Container {
+  start: number
+  /** The end of the container, without trailing whitespace. */
+  end: number
+  bodyStart: number
+  bodyEnd: number
+  /** The attribute name, for attributes. */
+  name?: string
+}
+
+function* findAttributes(code: string): Generator<Container> {
+  for (const match of code.matchAll(ATTRIBUTE_RE)) {
+    const groups = match.indices!.groups!
+    const [bodyStart, bodyEnd] = (groups.double ?? groups.single)!
+    yield { start: match.index!, end: match.index! + match[0].length, bodyStart, bodyEnd, name: match.groups!.name }
+  }
+}
+
+/**
+ * Finds `@apply` statements and custom property declarations: from the head to
+ * the next `;` (included), up to a closing `}` of the block, or to the end of
+ * the code. A head followed by `{` first is not a statement. The next stop
+ * character is cached, so that many heads before one distant stop cost linear
+ * time in total.
+ */
+function* findStatements(code: string): Generator<Container> {
+  const stopRE = /[;{}]/g
+  let stop = -2
+  STATEMENT_HEAD_RE.lastIndex = 0
+  for (let match = STATEMENT_HEAD_RE.exec(code); match; match = STATEMENT_HEAD_RE.exec(code)) {
+    const bodyStart = match.index + match[0].length
+    if (stop === -2 || (stop !== -1 && stop < bodyStart)) {
+      stopRE.lastIndex = bodyStart
+      stop = stopRE.exec(code)?.index ?? -1
+    }
+    if (stop !== -1 && code[stop] === '{') {
+      STATEMENT_HEAD_RE.lastIndex = match.index + 1
+      continue
+    }
+    const bodyEnd = stop === -1 ? code.length : stop
+    let end = stop !== -1 && code[stop] === ';' ? stop + 1 : bodyEnd
+    // Whitespace before a closing `}` is left to the removal range, so that a
+    // statement at the end of a block keeps the space before it.
+    while (end > match.index && isSpace(code[end - 1]))
+      end--
+    yield { start: match.index, end, bodyStart, bodyEnd }
+    STATEMENT_HEAD_RE.lastIndex = Math.max(bodyEnd, match.index + 1)
+  }
+}
 
 /** Attribute names that bind an expression or an event rather than a value. */
 const BINDING_RE = /^(?:[:@#]|v-bind:|v-on:)/
@@ -523,10 +730,8 @@ async function removeEmptied(code: string, edits: Edit[], isUtilityAttribute: (n
 
   const replaced = new Set<Edit>()
   const removals: Edit[] = []
-  for (const re of [ATTRIBUTE_RE, STATEMENT_RE]) {
-    for (const match of code.matchAll(re)) {
-      const groups = match.indices!.groups!
-      const [bodyStart, bodyEnd] = (groups.double ?? groups.single ?? groups.body)!
+  for (const containers of [findAttributes(code), findStatements(code)]) {
+    for (const { start, end, bodyStart, bodyEnd, name } of containers) {
       const inside = editsWithin(bodyStart, bodyEnd)
       if (!inside.length || inside.some(edit => edit.value !== null || replaced.has(edit)))
         continue
@@ -541,14 +746,9 @@ async function removeEmptied(code: string, edits: Edit[], isUtilityAttribute: (n
       if (/[^\s"']/.test(remaining))
         continue
 
-      const name = match.groups!.name
       if (name !== undefined && (BINDING_RE.test(name) || !await isUtilityAttribute(name)))
         continue
 
-      // Whitespace before a closing `}` is left to the removal range, so that
-      // a statement at the end of a block keeps the space before it.
-      const start = match.index!
-      const end = start + match[0].trimEnd().length
       for (const edit of editsWithin(start, end))
         replaced.add(edit)
       removals.push({ start, end, value: null })

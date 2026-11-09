@@ -10,6 +10,7 @@ import transformerDirectives from '@unocss/transformer-directives'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
+import { defaultPipelineInclude } from '#integration/defaults'
 import { applyTransformers } from '#integration/transformers'
 
 const options: TransformerBuildThemesOptions = {
@@ -174,6 +175,25 @@ describe('transformer-build-themes', () => {
     expect(await transform('<div border="globex:2">')).toBe('<div border="">')
     // Outside a tag, only the class is removed, not the assignment.
     expect(await run('const x="globex:c-blue";')).toBe('const x="";')
+    // A group in the value of a removed attribute goes with it.
+    expect(await run('<div globex:text="acme:(red-300 sm)" p-2>')).toBe('<div p-2>')
+  })
+
+  it('removes emptied attributify attributes by the name they end up with', async () => {
+    // Facet values in the name are resolved first, even without `variantBuildThemes`.
+    const plain = await createGenerator({ presets: [presetMini(), presetAttributify()] })
+    expect(await transform('<div acme:border="globex:2" p="2">', options, plain)).toBe('<div p="2">')
+
+    // A prefixed attribute is read the way the attributify extractor reads it.
+    const prefixed = await createGenerator({ presets: [presetMini(), presetAttributify({ prefix: 'un-' })] })
+    const code = await transform('<div un-border="globex:2" un-p="2">', options, prefixed)
+    expect(code).toBe('<div un-p="2">')
+    const { css } = await prefixed.generate(code, { preflights: false })
+    expect(css).not.toContain('border')
+
+    // With valueless attributes disabled, an empty attribute is not a utility.
+    const valued = await createGenerator({ presets: [presetMini(), presetAttributify({ nonValuedAttribute: false })] })
+    expect(await transform('<div border="globex:2">', options, valued)).toBe('<div border="">')
   })
 
   it('removes @apply statements that lose all their classes', async () => {
@@ -213,6 +233,16 @@ describe('transformer-build-themes', () => {
     await expect(transform('"dark:c-red"', { facets: { edition: ['dark', 'premium'] }, active: { edition: 'premium' } }, uno))
       .rejects
       .toThrow('Facet values collide with registered variants: "dark"')
+  })
+
+  it('keeps throwing for every file after a failed check', async () => {
+    const uno = await createGenerator({ presets: [presetMini()] })
+    const transformer = transformerBuildThemes({ facets: { edition: ['dark', 'premium'] }, active: { edition: 'premium' } })
+    for (let i = 0; i < 2; i++) {
+      await expect(transformer.transform(new MagicString('"dark:c-red"'), 'a.vue', { uno } as UnocssPluginContext))
+        .rejects
+        .toThrow('Facet values collide with registered variants')
+    }
   })
 
   it('does not count its own helper variants as collisions', async () => {
@@ -310,6 +340,31 @@ describe('transformer-build-themes', () => {
         .toBe(':class="[\'c-red\', x && \'\']"')
       expect(await transform('"p-2\r\n  globex:c-blue\r\n  m-2"')).toBe('"p-2\r\n  m-2"')
       expect(await transform('"p-2\tglobex:c-blue\tm-2"')).toBe('"p-2\tm-2"')
+      // Markup inside a string, with escaped quotes.
+      expect(await transform(String.raw`el.innerHTML = "<div class=\"acme:c-red globex:c-blue\">"`))
+        .toBe(String.raw`el.innerHTML = "<div class=\"c-red\">"`)
+      expect(await transform(String.raw`'<p class=\'globex:c-blue p-2\'>'`)).toBe(String.raw`'<p class=\'p-2\'>'`)
+    })
+
+    it('handles classes completed by an interpolation', async () => {
+      /* eslint-disable no-template-curly-in-string */
+      expect(await transform('const c = `p-2 globex:text-${size}`')).toBe('const c = `p-2`')
+      expect(await transform('const c = `p-2 acme:text-${size}`')).toBe('const c = `p-2 text-${size}`')
+      expect(await transform('const c = `globex:${cls} p-2`')).toBe('const c = `p-2`')
+      expect(await transform('const c = `globex:text-${a ? `x${b}` : \'}\'}-500 p-2`')).toBe('const c = `p-2`')
+      expect(await transform('const c = `globex:bg-${a}-${b} acme:p-${n}`')).toBe('const c = `p-${n}`')
+      /* eslint-enable no-template-curly-in-string */
+      // Svelte and Astro expressions.
+      expect(await transform('<div class="p-2 globex:text-{size} m-1">')).toBe('<div class="p-2 m-1">')
+      expect(await transform('<div class="acme:text-{size}">')).toBe('<div class="text-{size}">')
+      // A brace that never closes leaves the class alone.
+      expect(await transform('"globex:text-{size p-2"')).toBe('"globex:text-{size p-2"')
+    })
+
+    it('handles classes in text', async () => {
+      expect(await transform('<p>globex:c-blue</p>')).toBe('<p></p>')
+      expect(await transform('<td>acme:c-red</td>')).toBe('<td>c-red</td>')
+      expect(await transform('<code>p-2 globex:c-blue</code> next')).toBe('<code>p-2</code> next')
     })
 
     it('handles valueless attributify attributes', async () => {
@@ -346,6 +401,13 @@ describe('transformer-build-themes', () => {
       expect(await transform(`${'a-('.repeat(100_000)} globex:c-blue`)).toBe(`${'a-('.repeat(100_000)}`)
       const large = '<div class="p-2 acme:c-red globex:c-blue premium:(m-1 p-1)"></div>\n'.repeat(20_000)
       expect((await transform(large)).includes('globex')).toBe(false)
+      // Statement lookup, which runs once a class is removed: a run of dashes,
+      // and many custom properties before a distant `{`.
+      expect(await transform(`${'-'.repeat(100_000)} globex:c-blue`)).toBe('-'.repeat(100_000))
+      const customProperties = `${'<div class="[--x:1] globex:c-blue"></div>\n'.repeat(20_000)}<script>{}</script>`
+      expect((await transform(customProperties)).includes('globex')).toBe(false)
+      // Interpolations that never close.
+      expect(await transform(`${'globex:a-{'.repeat(50_000)}`)).toBe(`${'globex:a-{'.repeat(50_000)}`)
       // About 0.3 s locally; the quadratic version took over 2.5 s for the first case alone.
       expect(performance.now() - startedAt).toBeLessThan(2_500)
     })
@@ -409,6 +471,24 @@ describe('transformer-build-themes', () => {
     ])('expands @apply with transformer-directives: %s', async (_, source, expected) => {
       const { code } = await pipeline(source, 'a.css', [transformerVariantGroup(), transformerBuildThemes(options), transformerDirectives()])
       expect(code).toBe(expected)
+    })
+
+    it('rewrites @apply in stylesheets outside pipeline.include', async () => {
+      const uno = await createGenerator({ presets: [presetMini()], variants: variantBuildThemes(options) })
+      uno.config.transformers = [transformerBuildThemes(options), transformerDirectives()]
+      const filter = (_code: string, id: string) => defaultPipelineInclude.some(re => re.test(id))
+      const ctx = { uno, filter, tokens: new Set(), invalidate: () => {} } as unknown as UnocssPluginContext
+      const run = async (code: string, id: string) => {
+        for (const enforce of ['pre', 'default', 'post'] as const)
+          code = (await applyTransformers(ctx, code, id, enforce))?.code ?? code
+        return code
+      }
+      const css = await run('.btn { @apply p-2 acme:c-red globex:c-blue; }', 'styles.css')
+      expect(css).toContain('color:rgb(248 113 113')
+      expect(css).not.toContain('96 165 250')
+      // Other files still follow the pipeline filter.
+      expect(await run('"globex:c-blue"', 'node_modules/x/a.js')).toBe('"globex:c-blue"')
+      expect(await run('"globex:c-blue p-2"', 'a.vue')).toBe('"p-2"')
     })
 
     it('resolves valueless attributes before transformer-attributify-jsx', async () => {

@@ -121,6 +121,8 @@ Facet values can appear anywhere in the variant chain, and work with [variant gr
 
 An `@apply` statement or an `--at-apply` declaration whose classes all belong to inactive values is removed whole, so no empty `@apply;` reaches the CSS.
 
+Stylesheets (`.css`, `.scss`, `.less` and the like) are transformed as well, the same files `transformerDirectives` reads, so `@apply` in a stylesheet works without adding it to [`pipeline.include`](/config/#content). Other files follow `pipeline.include` and `pipeline.exclude`.
+
 ### Attributify
 
 With [attributify mode](/presets/attributify), facet values go where variants go, in the value or in the attribute name:
@@ -207,7 +209,7 @@ export default defineConfig({
 It also keeps class order stable. The [`unocss/order`](/integrations/eslint#rules) rule sorts facet values like any other variant, so themed classes come after unprefixed ones. The helper registers every facet value whatever `active` is, so the order is the same for every build. Without it, themed classes are unknown to the sorter and stay at the front, in source order.
 
 ::: warning
-UnoCSS also extracts classes from files it does not transform, such as files outside [`pipeline.include`](/config/#content) or listed in `content.filesystem`. Facet values in those files stay, and with `variantBuildThemes` registered they generate CSS for every theme. Keep themed classes in transformed files.
+UnoCSS also extracts classes from files it does not transform, such as scripts and markup outside [`pipeline.include`](/config/#content) or files listed in `content.filesystem`. Facet values in those files stay, and with `variantBuildThemes` registered they generate CSS for every theme. Keep themed classes in transformed files.
 :::
 
 ## Name collisions
@@ -225,7 +227,7 @@ A facet value must not match a variant your config already has. A value called `
   <h1 class="acme:(standard:c-red premium:c-blue)" />
   ```
 
-- Only class names written in source are rewritten. A class assembled at runtime, such as `` `${client}:c-red` ``, is not.
+- Only class names written in source are rewritten. A class assembled at runtime, such as `` `${client}:c-red` ``, is not. A themed class completed by an interpolation, such as `` `acme:text-${size}` `` or Svelte `acme:text-{size}`, works: an active one loses its prefix, and an inactive one is removed together with the interpolation.
 - Facet values use the `:` separator. `acme-c-red` is not a themed class.
 - The transformer rewrites class-like tokens anywhere in the files UnoCSS transforms: class attributes, strings in code, `@apply`, and text. Formatted code such as `{ acme: true }`, `cond ? acme : globex`, URLs and escaped CSS selectors (`.acme\:c-red`) are left alone, but an unformatted `{acme:true}`, or text such as `acme:value`, would be read as a class. For the same reason, do not use a CSS property name as a facet value (`color:red`).
 - Svelte `class:` directives (`class:acme:c-red={on}`) and dynamic bindings such as Vue `:acme:text="color"` are not rewritten: use class names for themed styles there.
