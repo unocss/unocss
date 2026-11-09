@@ -1,3 +1,6 @@
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { createGenerator } from '@unocss/core'
 import { presetAttributify } from '@unocss/preset-attributify'
 import { presetMini } from '@unocss/preset-mini'
@@ -6,6 +9,21 @@ import { describe, expect, it } from 'vitest'
 import { runAsync, setGenerator } from '../src/worker'
 
 describe('worker', () => {
+  it('retries config loading after a failed load', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'unocss-eslint-'))
+    const id = join(root, 'index.ts')
+
+    try {
+      await expect(runAsync(undefined, 'sort', 'w-8', id)).rejects.toThrow('No config file found')
+      await writeFile(join(root, 'uno.config.mjs'), 'export default {}')
+
+      expect(await runAsync(undefined, 'sort', 'w-8', id)).toBe('w-8')
+    }
+    finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
   it('uses the default attributify prefix when the preset is absent', async () => {
     setGenerator(await createGenerator())
 
