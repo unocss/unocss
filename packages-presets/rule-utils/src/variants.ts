@@ -143,3 +143,25 @@ export function variantGetParameter(prefix: Arrayable<string>, matcher: string, 
     }
   }
 }
+
+const cssIdentifierRE = /^(?:--|-?[a-z_\u00A0-\uFFFF])[\w\u00A0-\uFFFF-]*$/i
+
+/**
+ * Quote the value of an attribute selector body when it is not a valid CSS identifier,
+ * so that `spacing=0` becomes `spacing="0"`. Bodies without a value, values that are
+ * already quoted and plain identifiers such as `state=open` are returned unchanged.
+ */
+export function quoteAttributeValue(attribute: string): string {
+  const eq = attribute.indexOf('=')
+  if (eq === -1)
+    return attribute
+  let value = attribute.slice(eq + 1)
+  let flag = ''
+  if (/\s[is]$/i.test(value)) {
+    flag = value.slice(-2)
+    value = value.slice(0, -2)
+  }
+  if (!value || /^["']/.test(value) || cssIdentifierRE.test(value))
+    return attribute
+  return `${attribute.slice(0, eq + 1)}"${value.replace(/["\\]/g, '\\$&')}"${flag}`
+}

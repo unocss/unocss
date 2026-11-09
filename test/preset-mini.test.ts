@@ -573,6 +573,25 @@ describe('preset-mini', () => {
     `)
   })
 
+  it('quotes attribute values that are not identifiers (#5449)', async () => {
+    const { css } = await uno.generate([
+      'data-[spacing=0]:ml-1',
+      'data-[spacing=\'0\']:ml-2',
+      'data-[state=open]:ml-3',
+      'aria-[level=2]:ml-4',
+      'group-data-[size^=1]:ml-5',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .aria-\\[level\\=2\\]\\:ml-4[aria-level="2"]{margin-left:1rem;}
+      .data-\\[spacing\\=\\'0\\'\\]\\:ml-2[data-spacing='0']{margin-left:0.5rem;}
+      .data-\\[spacing\\=0\\]\\:ml-1[data-spacing="0"]{margin-left:0.25rem;}
+      .data-\\[state\\=open\\]\\:ml-3[data-state=open]{margin-left:0.75rem;}
+      .group[data-size^="1"] .group-data-\\[size\\^\\=1\\]\\:ml-5{margin-left:1.25rem;}"
+    `)
+  })
+
   it('nested tagged variants', async () => {
     const uno = await createGenerator({
       presets: [

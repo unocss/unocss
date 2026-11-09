@@ -2,7 +2,7 @@ import type { Variant, VariantContext, VariantObject } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
 import { escapeRegExp, escapeSelector } from '@unocss/core'
-import { h, variantGetParameter } from '../utils'
+import { h, quoteAttributeValue, variantGetParameter } from '../utils'
 
 export const variantDataAttribute: VariantObject = {
   name: 'data',
@@ -10,7 +10,7 @@ export const variantDataAttribute: VariantObject = {
     const variant = variantGetParameter('data-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+      const dataAttribute = quoteAttributeValue(h.bracket(match) ?? ctx.theme.data?.[match] ?? '')
       if (dataAttribute) {
         return {
           matcher: rest,
@@ -29,7 +29,7 @@ function taggedData(tagName: string, combinator: string, options: PresetMiniOpti
       const variant = variantGetParameter(`${tagName}-data-`, matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest, label] = variant
-        const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+        const dataAttribute = quoteAttributeValue(h.bracket(match) ?? ctx.theme.data?.[match] ?? '')
         if (dataAttribute) {
           const attributify = !!options?.attributifyPseudo
           let firstPrefix = options?.prefix ?? ''
@@ -85,7 +85,7 @@ function taggedHasData(): Variant {
       const variant = variantGetParameter('has-data-', matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest] = variant
-        const dataAttribute = h.bracket(match) ?? ctx.theme.data?.[match] ?? ''
+        const dataAttribute = quoteAttributeValue(h.bracket(match) ?? ctx.theme.data?.[match] ?? '')
         if (dataAttribute) {
           return {
             matcher: rest,

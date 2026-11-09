@@ -697,6 +697,35 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('quotes attribute values that are not identifiers (#5449)', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'data-[spacing=0]:flex',
+      'data-[state=open]:flex',
+      'aria-[level=2]:flex',
+      'group-data-[spacing=0]:flex',
+      'not-data-[spacing=0]:flex',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .aria-\\[level\\=2\\]\\:flex[aria-level="2"],
+      .data-\\[spacing\\=0\\]\\:flex[data-spacing="0"],
+      .data-\\[state\\=open\\]\\:flex[data-state=open],
+      .not-data-\\[spacing\\=0\\]\\:flex:not([data-spacing="0"]){display:flex;}
+      .group-data-\\[spacing\\=0\\]\\:flex{
+      &:is(:where(.group)[data-spacing="0"] *){display:flex;}
+      }"
+    `)
+  })
+
   it('basic variable prefix', async () => {
     const uno = await createGenerator({
       presets: [
