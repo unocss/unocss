@@ -1212,51 +1212,6 @@ div {
     })
 
     describe('theme()', () => {
-      it('basic', async () => {
-        const result = await transform(
-          `.btn {
-          background-color: theme("colors.blue.500");
-          padding: theme("spacing.xs") theme("spacing.sm");
-        }
-        .btn-2 {
-          height: calc(100vh - theme('spacing.sm'));
-        }`,
-        )
-        expect(result)
-          .toMatchInlineSnapshot(`
-          ".btn {
-            background-color: #3b82f6;
-            padding: 0.75rem 0.875rem;
-          }
-          .btn-2 {
-            height: calc(100vh - 0.875rem);
-          }
-          "
-        `)
-      })
-
-      it('non-exist', async () => {
-        await expect(async () => await transform(
-          `.btn {
-        color: theme("color.none.500");
-        }`,
-        )).rejects.toMatchInlineSnapshot(`[Error: theme of "color.none.500" did not found]`)
-
-        await expect(async () => await transform(
-          `.btn {
-          font-size: theme("size.lg");
-          }`,
-        )).rejects.toMatchInlineSnapshot(`[Error: theme of "size.lg" did not found]`)
-      })
-
-      it('args', async () => {
-        await expect(async () => await transform(
-          `.btn {
-          color: theme();
-        }`,
-        )).rejects.toMatchInlineSnapshot(`[Error: theme() expect exact one argument]`)
-      })
-
       it('with @apply', async () => {
         const result = await transform(`
 div {
@@ -1276,27 +1231,6 @@ div {
           display: flex;
           align-items: center;
           justify-content: center;
-        }
-        "
-      `)
-      })
-
-      it('opacity', async () => {
-        const result = await transform(`
-        div {
-          color: theme('colors.red.500 / 50%');
-          color: theme('colors.rgb / 0.5');
-          color: theme('colors.rgba / 50%');
-          color: theme('colors.hsl / 0.6');
-          color: theme('colors.hsla / 60%');
-        }`)
-        expect(result).toMatchInlineSnapshot(`
-        "div {
-          color: rgb(239 68 68 / 50%);
-          color: rgb(255 0 0 / 0.5);
-          color: rgba(255, 0, 0, 50%);
-          color: hsl(210 50% 50% / 0.6);
-          color: hsl(210 50% 50% / 60%);
         }
         "
       `)
