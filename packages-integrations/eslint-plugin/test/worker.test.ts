@@ -5,7 +5,7 @@ import { createGenerator } from '@unocss/core'
 import { presetAttributify } from '@unocss/preset-attributify'
 import { presetMini } from '@unocss/preset-mini'
 import { presetWind3 } from '@unocss/preset-wind3'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { runAsync, setGenerator } from '../src/worker'
 
 describe('worker', () => {
@@ -20,6 +20,33 @@ describe('worker', () => {
       expect(await runAsync(undefined, 'sort', 'w-8', id)).toBe('w-8')
     }
     finally {
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
+  it('keeps a generator set while a failing load is pending', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'unocss-eslint-'))
+    const configPath = join(root, 'uno.config.mjs')
+    const globals = globalThis as { __unoEslintStarted?: boolean, __unoEslintRelease?: Promise<void> }
+    let release!: () => void
+    globals.__unoEslintRelease = new Promise<void>(done => release = done)
+    await writeFile(configPath, `globalThis.__unoEslintStarted = true
+await globalThis.__unoEslintRelease
+throw new Error('load failed')
+`)
+
+    try {
+      const pending = expect(runAsync(configPath, 'attributify-prefix')).rejects.toThrow('load failed')
+      await vi.waitFor(() => expect(globals.__unoEslintStarted).toBe(true))
+      setGenerator(await createGenerator({ presets: [presetAttributify({ prefix: 'set-' })] }), configPath)
+      release()
+      await pending
+
+      expect(await runAsync(configPath, 'attributify-prefix')).toBe('set-')
+    }
+    finally {
+      delete globals.__unoEslintStarted
+      delete globals.__unoEslintRelease
       await rm(root, { recursive: true, force: true })
     }
   })
