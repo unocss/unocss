@@ -61,7 +61,8 @@ export async function getGenerator(configPath?: string, id?: string) {
   let promise = promises.get(cacheKey)
   if (!promise) {
     promise = _getGenerator(configPath, id).catch((error) => {
-      promises.delete(cacheKey)
+      if (promises.get(cacheKey) === promise)
+        promises.delete(cacheKey)
       throw error
     })
     promises.set(cacheKey, promise)
