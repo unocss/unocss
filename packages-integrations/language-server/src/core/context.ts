@@ -1,6 +1,6 @@
 import type { UnocssPluginContext, UserConfig, UserConfigDefaults } from '@unocss/core'
 import type { Connection } from 'vscode-languageserver'
-import { existsSync } from 'node:fs'
+import { existsSync, realpathSync } from 'node:fs'
 import { readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { createNanoEvents, notNull } from '@unocss/core'
@@ -17,6 +17,15 @@ const excludeFileRE = /[\\/](?:node_modules|dist|\.temp|\.cache)[\\/]/
 
 type UnoContext = UnocssPluginContext<UserConfig<any>> | null | undefined
 
+function toCanonicalPath(file: string) {
+  try {
+    return realpathSync(file)
+  }
+  catch {
+    return path.resolve(file)
+  }
+}
+
 export class ContextManager {
   public ready: Promise<void>
   public contextsMap = new Map<string, UnoContext>()
@@ -26,6 +35,7 @@ export class ContextManager {
   private configExistsCache = new Map<string, string | false>()
   private loadingContexts = new Map<string, Promise<UnoContext>>()
   private discoveredConfigs = new Set<string>()
+  private cacheGeneration = 0
   private readonly defaultUnocssConfig: UserConfigDefaults = {
     presets: [presetWind3()],
   }
@@ -46,7 +56,7 @@ export class ContextManager {
     private connection: Connection,
     workspaceRoots: string[] = [cwd],
   ) {
-    this.workspaceRoots = Array.from(new Set(workspaceRoots.length ? workspaceRoots : [cwd]))
+    this.workspaceRoots = Array.from(new Set((workspaceRoots.length ? workspaceRoots : [cwd]).map(toCanonicalPath)))
     this.roots = this.workspaceRoots
     this.ready = this.reload()
   }
@@ -60,7 +70,8 @@ export class ContextManager {
   }
 
   isTarget(id: string) {
-    return Array.from(this.contextsMap.keys()).some(cwd => isSubdir(cwd, id))
+    const file = toCanonicalPath(id)
+    return Array.from(this.contextsMap.keys()).some(cwd => isSubdir(cwd, file))
   }
 
   get contexts() {
@@ -68,7 +79,7 @@ export class ContextManager {
   }
 
   async setRoots(roots: string[]) {
-    const nextRoots = Array.from(new Set(roots.length ? roots : this.workspaceRoots))
+    const nextRoots = Array.from(new Set(roots.length ? roots.map(toCanonicalPath) : this.workspaceRoots))
     const currentRoots = Array.from(this.contextsMap.keys())
     this.roots = nextRoots
 
@@ -76,6 +87,7 @@ export class ContextManager {
       currentRoots.length === nextRoots.length
       && nextRoots.every(root => currentRoots.includes(root))
     ) {
+      this.resetCaches()
       return
     }
 
@@ -132,6 +144,7 @@ export class ContextManager {
   }
 
   private resetCaches() {
+    this.cacheGeneration++
     this.fileContextCache.clear()
     this.configExistsCache.clear()
   }
@@ -306,9 +319,11 @@ export class ContextManager {
     return context
   }
 
-  async resolveClosestContext(code: string, file: string): Promise<UnoContext | undefined> {
-    if (excludeFileRE.test(file))
+  async resolveClosestContext(code: string, id: string): Promise<UnoContext | undefined> {
+    if (excludeFileRE.test(id))
       return undefined
+
+    const file = toCanonicalPath(id)
 
     // Return cached result
     if (this.fileContextCache.has(file))
@@ -344,7 +359,7 @@ export class ContextManager {
   private async discoverAndLoadConfig(file: string): Promise<UnoContext> {
     const configDir = await this.findConfigDirectory(path.dirname(file))
 
-    if (!configDir || this.contextsMap.has(configDir))
+    if (!configDir || this.contextsMap.has(configDir) || !this.isWithinRoots(configDir))
       return undefined
 
     // Log only on first discovery
@@ -363,14 +378,14 @@ export class ContextManager {
   }
 
   private async findConfigDirectory(startDir: string): Promise<string | undefined> {
-    // Check cache first
-    const cached = this.configExistsCache.get(startDir)
-    if (cached !== undefined)
-      return cached || undefined
-
+    const generation = this.cacheGeneration
     const searchBoundary = this.getWorkspaceBoundary(startDir)
     if (!searchBoundary)
       return undefined
+
+    const cached = this.configExistsCache.get(startDir)
+    if (cached !== undefined)
+      return cached || undefined
 
     const root = path.parse(startDir).root
     const searchedDirs: string[] = []
@@ -383,14 +398,14 @@ export class ContextManager {
       // Check if this directory is already cached
       const cached = this.configExistsCache.get(dir)
       if (cached !== undefined) {
-        this.cacheSearchPath(searchedDirs, cached || false)
+        this.cacheSearchPath(searchedDirs, cached || false, generation)
         return cached || undefined
       }
 
       // Check for config files
       const hasConfig = await this.hasConfigFiles(dir)
       if (hasConfig) {
-        this.cacheSearchPath(searchedDirs, dir)
+        this.cacheSearchPath(searchedDirs, dir, generation)
         return dir
       }
 
@@ -398,7 +413,7 @@ export class ContextManager {
     }
 
     // No config found
-    this.cacheSearchPath(searchedDirs, false)
+    this.cacheSearchPath(searchedDirs, false, generation)
     return undefined
   }
 
@@ -422,7 +437,9 @@ export class ContextManager {
     }
   }
 
-  private cacheSearchPath(dirs: string[], result: string | false) {
+  private cacheSearchPath(dirs: string[], result: string | false, generation: number) {
+    if (generation !== this.cacheGeneration)
+      return
     for (const dir of dirs)
       this.configExistsCache.set(dir, result)
   }

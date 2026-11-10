@@ -40,6 +40,7 @@ export declare class ContextManager {
   private configExistsCache;
   private loadingContexts;
   private discoveredConfigs;
+  private cacheGeneration;
   private readonly defaultUnocssConfig;
   private readonly workspaceRoots;
   private roots;

@@ -12,6 +12,7 @@ export class ContextManager {
   configExistsCache
   loadingContexts
   discoveredConfigs
+  cacheGeneration
   defaultUnocssConfig
   workspaceRoots
   roots
@@ -40,7 +41,7 @@ export class ContextManager {
   isWithinRoots(_) {}
   getWorkspaceBoundary(_) {}
   async hasConfigFiles(_) {}
-  cacheSearchPath(_, _) {}
+  cacheSearchPath(_, _, _) {}
 }
 // #endregion
 
