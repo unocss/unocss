@@ -31,6 +31,7 @@ export class ContextManager {
   }
 
   private readonly workspaceRoots: string[]
+  private roots: string[]
 
   public events = createNanoEvents<{
     reload: () => void
@@ -46,6 +47,7 @@ export class ContextManager {
     workspaceRoots: string[] = [cwd],
   ) {
     this.workspaceRoots = Array.from(new Set(workspaceRoots.length ? workspaceRoots : [cwd]))
+    this.roots = this.workspaceRoots
     this.ready = this.reload()
   }
 
@@ -68,6 +70,7 @@ export class ContextManager {
   async setRoots(roots: string[]) {
     const nextRoots = Array.from(new Set(roots.length ? roots : this.workspaceRoots))
     const currentRoots = Array.from(this.contextsMap.keys())
+    this.roots = nextRoots
 
     if (
       currentRoots.length === nextRoots.length
@@ -88,7 +91,7 @@ export class ContextManager {
 
   async reload() {
     const dirs = Array.from(this.contextsMap.keys())
-    const rootsToLoad = dirs.length ? dirs : this.workspaceRoots
+    const rootsToLoad = dirs.length ? dirs : this.roots
     await Promise.all(dirs.map(dir => this.unloadContext(dir)))
 
     this.resetCaches()
@@ -215,8 +218,11 @@ export class ContextManager {
     catch (e: any) {
       this.warn(`⚠️ Error on loading config. Config directory: ${dir}`)
       this.warn(String(e.stack ?? e))
-      return this.finishLoading(dir, null)
+      return this.isWithinRoots(dir) ? this.finishLoading(dir, null) : null
     }
+
+    if (!this.isWithinRoots(dir))
+      return null
 
     this.configSources = sources
 
@@ -396,8 +402,12 @@ export class ContextManager {
     return undefined
   }
 
+  private isWithinRoots(dir: string) {
+    return this.roots.some(root => root === dir || isSubdir(root, dir))
+  }
+
   private getWorkspaceBoundary(dir: string): string | undefined {
-    return [...this.workspaceRoots, ...this.contextsMap.keys()]
+    return [...this.roots, ...this.contextsMap.keys()]
       .filter(root => root === dir || isSubdir(root, dir))
       .sort((a, b) => b.length - a.length)[0]
   }

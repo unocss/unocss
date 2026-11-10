@@ -42,6 +42,7 @@ export declare class ContextManager {
   private discoveredConfigs;
   private readonly defaultUnocssConfig;
   private readonly workspaceRoots;
+  private roots;
   events: import("@unocss/core").Emitter<{
     reload: () => void;
     unload: (context: UnocssPluginContext<UserConfig<any>>) => void;
@@ -70,6 +71,7 @@ export declare class ContextManager {
   resolveClosestContext(_: string, _: string): Promise<UnoContext$1 | undefined>;
   private discoverAndLoadConfig;
   private findConfigDirectory;
+  private isWithinRoots;
   private getWorkspaceBoundary;
   private hasConfigFiles;
   private cacheSearchPath;
