@@ -16,22 +16,25 @@ export const divides: Rule<Theme>[] = [
       yield result[1]
     }
   }, { autocomplete: 'divide-$colors' }],
-  [/^divide-op(?:acity)?-?(.+)$/, function* ([match, opacity], { symbols, theme }) {
+  [/^divide-op(?:acity)?-?(.+)$/, function* ([match, opacity], ctx) {
+    const { symbols } = ctx
+
     yield {
       [symbols.variants]: [notLastChildSelectorVariant(match)],
-      '--un-divide-opacity': h.bracket.percent(opacity, theme),
+      '--un-divide-opacity': h.bracket.percent(opacity, ctx),
     }
   }, { autocomplete: ['divide-(op|opacity)', 'divide-(op|opacity)-<percent>'] }],
 
   // divides
   [/^divide-?([xy])$/, handlerDivide, { autocomplete: ['divide-(x|y)', 'divide-(x|y)-reverse'] }],
   [/^divide-?([xy])-?(.+)$/, handlerDivide],
-  [/^divide-?([xy])-reverse$/, function* ([m, d]: string[], { symbols }: RuleContext<Theme>) {
+  [/^divide-?([xy])-reverse$/, function* ([m, d]: string[], ctx: RuleContext<Theme>) {
+    const { symbols } = ctx
     yield {
       [symbols.variants]: [notLastChildSelectorVariant(m)],
       [`--un-divide-${d}-reverse`]: '1',
     }
-    yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 })
+    yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 }, ctx)
   }],
 
   // styles
@@ -43,8 +46,10 @@ export const divides: Rule<Theme>[] = [
   }, { autocomplete: borderStyles.map(i => `divide-${i}`) }],
 ]
 
-function* handlerDivide([m, d, s]: string[], { symbols, theme }: RuleContext<Theme>) {
-  let v = h.bracket.cssvar.px(s || '1', theme)
+function* handlerDivide([m, d, s]: string[], ctx: RuleContext<Theme>) {
+  const { symbols } = ctx
+
+  let v = h.bracket.cssvar.px(s || '1', ctx)
   if (v != null) {
     if (v === '0')
       v = '0px'
@@ -69,8 +74,8 @@ function* handlerDivide([m, d, s]: string[], { symbols, theme }: RuleContext<The
         [`--un-divide-${d}-reverse`]: 0,
         ...Object.fromEntries(results.flat()),
       }
-      yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 })
-      yield defineProperty(`--un-border-style`, { initialValue: 'solid' })
+      yield defineProperty(`--un-divide-${d}-reverse`, { initialValue: 0 }, ctx)
+      yield defineProperty(`--un-border-style`, { initialValue: 'solid' }, ctx)
     }
   }
 }

@@ -37,7 +37,7 @@ export const variantCustomMedia: VariantObject<Theme> = {
     if (variant) {
       const [match, rest] = variant
 
-      let media = h.bracket(match, ctx.theme) ?? ''
+      let media = h.bracket(match, ctx) ?? ''
       if (media === '')
         media = ctx.theme.media?.[match] ?? ''
 

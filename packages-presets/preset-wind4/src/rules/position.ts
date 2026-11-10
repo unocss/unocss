@@ -1,5 +1,6 @@
-import type { CSSEntries, Rule, StaticRule } from '@unocss/core'
+import type { CSSEntries, Rule, RuleContext, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
+import type { Wind4Context } from '../utils/context'
 import { globalKeywords, h, insetMap, makeGlobalStaticRules, numberResolver, themeTracking } from '../utils'
 
 export const positions: Rule<Theme>[] = [
@@ -52,7 +53,7 @@ export const justifies: StaticRule[] = [
 ]
 
 export const orders: Rule<Theme>[] = [
-  [/^order-(.+)$/, ([, v], { theme }) => ({ order: h.bracket.cssvar.number(v, theme) })],
+  [/^order-(.+)$/, ([, v], ctx) => ({ order: h.bracket.cssvar.number(v, ctx) })],
   ['order-first', { order: '-9999' }],
   ['order-last', { order: '9999' }],
   ['order-none', { order: '0' }],
@@ -142,19 +143,19 @@ export const flexGridJustifiesAlignments = [...justifies, ...alignments, ...plac
     [`grid-${k}`, v],
   ])
 
-function handleInsetValue(v: string, theme?: Theme): string | number | undefined {
+function handleInsetValue(v: string, ctx?: Wind4Context): string | number | undefined {
   const _v = numberResolver(v)
   if (_v != null) {
-    themeTracking(`spacing`)
+    themeTracking(`spacing`, undefined, ctx)
     return `calc(var(--spacing) * ${_v})`
   }
   else {
-    return h.bracket.cssvar.global.auto.fraction.rem(v, theme)
+    return h.bracket.cssvar.global.auto.fraction.rem(v, ctx)
   }
 }
 
-function handleInsetValues([, d, v]: string[], { theme }: { theme?: Theme }): CSSEntries | undefined {
-  const r = handleInsetValue(v, theme)
+function handleInsetValues([, d, v]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  const r = handleInsetValue(v, ctx)
   if (r != null && d in insetMap) {
     return insetMap[d].map(i => [i.slice(1), r])
   }
@@ -163,7 +164,7 @@ function handleInsetValues([, d, v]: string[], { theme }: { theme?: Theme }): CS
 export const insets: Rule<Theme>[] = [
   [
     /^(?:position-|pos-)?inset-(.+)$/,
-    ([, v], { theme }) => ({ inset: handleInsetValue(v, theme) }),
+    ([, v], ctx) => ({ inset: handleInsetValue(v, ctx) }),
     {
       autocomplete: [
         '(position|pos)-inset-<directions>-$spacing',
@@ -178,7 +179,7 @@ export const insets: Rule<Theme>[] = [
   [/^(?:position-|pos-)?inset-([rltbse])-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-(block|inline)-(.+)$/, handleInsetValues],
   [/^(?:position-|pos-)?inset-([bi][se])-(.+)$/, handleInsetValues],
-  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v], { theme }) => ({ [d]: handleInsetValue(v, theme) })],
+  [/^(?:position-|pos-)?(top|left|right|bottom)-(.+)$/, ([, d, v], ctx) => ({ [d]: handleInsetValue(v, ctx) })],
 ]
 
 export const floats: Rule<Theme>[] = [
@@ -202,7 +203,7 @@ export const floats: Rule<Theme>[] = [
 
 export const zIndexes: Rule<Theme>[] = [
   [/^(?:position-|pos-)?z([\d.]+)$/, ([, v]) => ({ 'z-index': h.number(v) })],
-  [/^(?:position-|pos-)?z-(.+)$/, ([, v], { theme }) => ({ 'z-index': h.bracket.cssvar.global.auto.number(v, theme) }), { autocomplete: 'z-<num>' }],
+  [/^(?:position-|pos-)?z-(.+)$/, ([, v], ctx) => ({ 'z-index': h.bracket.cssvar.global.auto.number(v, ctx) }), { autocomplete: 'z-<num>' }],
 ]
 
 export const boxSizing: Rule<Theme>[] = [

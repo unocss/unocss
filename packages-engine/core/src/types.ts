@@ -669,6 +669,13 @@ export interface Preset<Theme extends object = object> extends ConfigBase<Theme>
   meta?: Record<string, any>
 
   /**
+   * Create metadata for each configuration resolution, including reuse of an
+   * already resolved preset. Runs before theme extenders and configResolved.
+   * Only participating presets are detached; the input metadata is not mutated.
+   */
+  resolveMeta?: (meta: Record<string, any> | undefined) => Record<string, any>
+
+  /**
    * Documentation URL for the preset
    */
   docs?: string

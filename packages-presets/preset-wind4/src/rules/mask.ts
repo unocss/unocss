@@ -33,7 +33,7 @@ function handlePosition([,v = '']: string[], ctx?: RuleContext<Theme>) {
     const positions = v.split('').flatMap(c => linearMap[c]).join(' ')
     return { 'mask-position': positions }
   }
-  const _v = h.bracket.cssvar.global.position(v, ctx?.theme)
+  const _v = h.bracket.cssvar.global.position(v, ctx)
   if (_v !== null)
     return { 'mask-position': _v }
 }
@@ -42,7 +42,7 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
   const css: CSSObject = { ...baseMaskImage }
   const props: (CSSValueInput | string)[] = []
 
-  props.push(...['linear', 'radial', 'conic'].map(g => defineProperty(`--un-mask-${g}`, { initialValue: maskInitialValue })))
+  props.push(...['linear', 'radial', 'conic'].map(g => defineProperty(`--un-mask-${g}`, { initialValue: maskInitialValue }, ctx)))
 
   if (gradient in linearMap) {
     css['--un-mask-linear'] = 'var(--un-mask-left), var(--un-mask-right), var(--un-mask-bottom), var(--un-mask-top)'
@@ -51,14 +51,14 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       css[`--un-mask-${dir}`] = `linear-gradient(to ${dir}, var(--un-mask-${dir}-from-color) var(--un-mask-${dir}-from-position), var(--un-mask-${dir}-to-color) var(--un-mask-${dir}-to-position))`
 
       if (numberResolver(val) != null) {
-        themeTracking('spacing')
-        css[`--un-mask-${dir}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
+        themeTracking('spacing', undefined, ctx)
+        css[`--un-mask-${dir}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx)})`
       }
       else {
-        css[`--un-mask-${dir}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx.theme)
+        css[`--un-mask-${dir}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx)
       }
 
-      if (hasParseableColor(val, ctx.theme)) {
+      if (hasParseableColor(val, ctx)) {
         const result = colorResolver(`--un-mask-${dir}-${direction}-color`, hyphenate('colors'))([_, val], ctx)
         if (result) {
           const [c, ...p] = result
@@ -68,22 +68,22 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       }
 
       props.push(...['from', 'to'].flatMap(p => [
-        defineProperty(`--un-mask-${dir}-${p}-position`, { syntax: '<length-percentage>', initialValue: p === 'from' ? '0%' : '100%' }),
-        defineProperty(`--un-mask-${dir}-${p}-color`, { syntax: '<color>', initialValue: p === 'from' ? 'black' : 'transparent' }),
+        defineProperty(`--un-mask-${dir}-${p}-position`, { syntax: '<length-percentage>', initialValue: p === 'from' ? '0%' : '100%' }, ctx),
+        defineProperty(`--un-mask-${dir}-${p}-color`, { syntax: '<color>', initialValue: p === 'from' ? 'black' : 'transparent' }, ctx),
       ]))
     }
 
-    props.push(...['top', 'right', 'bottom', 'left'].map(d => defineProperty(`--un-mask-${d}`, { initialValue: maskInitialValue })))
+    props.push(...['top', 'right', 'bottom', 'left'].map(d => defineProperty(`--un-mask-${d}`, { initialValue: maskInitialValue }, ctx)))
   }
   else {
     if (direction == null) {
       if (gradient === 'radial') {
         css['--un-mask-radial'] = 'radial-gradient(var(--un-mask-radial-stops, var(--un-mask-radial-size)))'
-        css['--un-mask-radial-size'] = h.bracket.cssvar.rem(val, ctx.theme)
+        css['--un-mask-radial-size'] = h.bracket.cssvar.rem(val, ctx)
       }
       else {
         css[`--un-mask-${gradient}`] = `${gradient}-gradient(var(--un-mask-${gradient}-stops, var(--un-mask-${gradient}-position)))`
-        css[`--un-mask-${gradient}-position`] = numberResolver(val) ? `calc(1deg * ${h.bracket.cssvar.number(val, ctx.theme)})` : h.bracket.cssvar.fraction(val, ctx.theme)
+        css[`--un-mask-${gradient}-position`] = numberResolver(val) ? `calc(1deg * ${h.bracket.cssvar.number(val, ctx)})` : h.bracket.cssvar.fraction(val, ctx)
       }
     }
     else {
@@ -95,7 +95,7 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       css[`--un-mask-${gradient}-stops`] = `${gradientStopsPrefixMap[gradient]}var(--un-mask-${gradient}-position), var(--un-mask-${gradient}-from-color) var(--un-mask-${gradient}-from-position), var(--un-mask-${gradient}-to-color) var(--un-mask-${gradient}-to-position)`
       css[`--un-mask-${gradient}`] = `${gradient}-gradient(var(--un-mask-${gradient}-stops))`
 
-      if (hasParseableColor(val, ctx.theme)) {
+      if (hasParseableColor(val, ctx)) {
         const result = colorResolver(`--un-mask-${gradient}-${direction}-color`, hyphenate('colors'))([_, val], ctx)
         if (result) {
           const [c, ...p] = result
@@ -105,26 +105,26 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       }
       else {
         if (numberResolver(val) != null) {
-          themeTracking('spacing')
-          css[`--un-mask-${gradient}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
+          themeTracking('spacing', undefined, ctx)
+          css[`--un-mask-${gradient}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx)})`
         }
         else {
-          css[`--un-mask-${gradient}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx.theme)
+          css[`--un-mask-${gradient}-${direction}-position`] = h.bracket.cssvar.fraction.rem(val, ctx)
         }
       }
     }
 
     if (gradient === 'radial') {
       props.push(...[
-        defineProperty('--un-mask-radial-shape', { initialValue: 'ellipse' }),
-        defineProperty('--un-mask-radial-size', { initialValue: 'farthest-corner' }),
+        defineProperty('--un-mask-radial-shape', { initialValue: 'ellipse' }, ctx),
+        defineProperty('--un-mask-radial-size', { initialValue: 'farthest-corner' }, ctx),
       ])
     }
 
     props.push(...['from', 'to'].flatMap(p => [
-      defineProperty(`--un-mask-${gradient}-position`, { initialValue: gradient === 'radial' ? 'center' : '0deg' }),
-      defineProperty(`--un-mask-${gradient}-${p}-position`, { syntax: '<length-percentage>', initialValue: p === 'from' ? '0%' : '100%' }),
-      defineProperty(`--un-mask-${gradient}-${p}-color`, { syntax: '<color>', initialValue: p === 'from' ? 'black' : 'transparent' }),
+      defineProperty(`--un-mask-${gradient}-position`, { initialValue: gradient === 'radial' ? 'center' : '0deg' }, ctx),
+      defineProperty(`--un-mask-${gradient}-${p}-position`, { syntax: '<length-percentage>', initialValue: p === 'from' ? '0%' : '100%' }, ctx),
+      defineProperty(`--un-mask-${gradient}-${p}-color`, { syntax: '<color>', initialValue: p === 'from' ? 'black' : 'transparent' }, ctx),
     ]))
   }
 
@@ -132,7 +132,7 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
 }
 
 function handleSize([, v = '']: string[], ctx?: RuleContext<Theme>) {
-  const _v = h.bracket.cssvar.global.fraction.rem(v, ctx?.theme)
+  const _v = h.bracket.cssvar.global.fraction.rem(v, ctx)
   if (_v !== null)
     return { 'mask-size': _v }
 }
@@ -154,7 +154,7 @@ export const masks: Rule<Theme>[] = [
   ['mask-exclude', { 'mask-composite': 'exclude' }],
 
   // mask-image
-  [/^mask-(.+)$/, ([,v], { theme }) => ({ 'mask-image': h.bracket.cssvar(v, theme) })],
+  [/^mask-(.+)$/, ([,v], ctx) => ({ 'mask-image': h.bracket.cssvar(v, ctx) })],
   [/^mask-(linear|radial|conic|[xytblr])-(from|to)()(?:-(.+))?$/, handleImage, {
     autocomplete: [
       'mask-(linear|radial|conic)-(from|to)-$colors',

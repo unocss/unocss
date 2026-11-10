@@ -12,7 +12,7 @@ function matchDataAttribute(prefix: string, matcher: string, ctx: Readonly<Varia
   const variant = variantGetParameter(`${prefix}${negated ? 'not-' : ''}data-`, matcher, ctx.generator.config.separators)
   if (variant) {
     const [match, rest, label] = variant
-    const dataAttribute = h.bracket(match, ctx.theme) ?? ctx.theme.data?.[match] ?? ''
+    const dataAttribute = h.bracket(match, ctx) ?? ctx.theme.data?.[match] ?? ''
     if (dataAttribute) {
       const selector = `[data-${dataAttribute}]`
       return [negated ? `:not(${selector})` : selector, rest, label]

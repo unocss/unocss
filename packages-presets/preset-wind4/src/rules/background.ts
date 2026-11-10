@@ -39,9 +39,10 @@ function resolveModifier(modifier?: string) {
 }
 
 function bgGradientColorResolver() {
-  return function* ([, position, body]: string[], { theme }: RuleContext<Theme>) {
+  return function* ([, position, body]: string[], ctx: RuleContext<Theme>) {
+    const { theme } = ctx
     const css: CSSObject = {}
-    const data = parseColor(body, theme)
+    const data = parseColor(body, ctx)
 
     if (data) {
       const { color, keys, alpha } = data
@@ -55,19 +56,19 @@ function bgGradientColorResolver() {
           const value = keys ? generateThemeVariable('colors', keys) : color
           css[`--un-gradient-${position}`] = `color-mix(in oklab, ${value} var(--un-${position}-opacity), transparent)`
 
-          yield defineProperty(`--un-${position}-opacity`, { syntax: '<percentage>', initialValue: '100%' })
+          yield defineProperty(`--un-${position}-opacity`, { syntax: '<percentage>', initialValue: '100%' }, ctx)
         }
 
         if (keys) {
-          themeTracking(`colors`, keys)
+          themeTracking(`colors`, keys, ctx)
         }
         if (theme) {
-          detectThemeValue(color, theme)
+          detectThemeValue(color, ctx)
         }
       }
     }
     else {
-      css[`--un-gradient-${position}`] = h.bracket.cssvar(body, theme)
+      css[`--un-gradient-${position}`] = h.bracket.cssvar(body, ctx)
     }
 
     if (css[`--un-gradient-${position}`]) {
@@ -104,9 +105,9 @@ function bgGradientColorResolver() {
 }
 
 function bgGradientPositionResolver() {
-  return function* ([, mode, body]: string[], { theme }: RuleContext<Theme>) {
+  return function* ([, mode, body]: string[], ctx: RuleContext<Theme>) {
     yield {
-      [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body, theme)}`,
+      [`--un-gradient-${mode}-position`]: `${h.bracket.cssvar.percent(body, ctx)}`,
     }
     for (const p of Object.values(properties))
       yield p
@@ -115,14 +116,14 @@ function bgGradientPositionResolver() {
 
 export const backgroundStyles: Rule<Theme>[] = [
   // gradients
-  [/^bg-(linear|radial|conic)-([^/]+)(?:\/(.+))?$/, ([, m, d, s], { theme }) => {
+  [/^bg-(linear|radial|conic)-([^/]+)(?:\/(.+))?$/, ([, m, d, s], ctx) => {
     let v
 
     if (h.number(d) != null) {
       v = `from ${h.number(d)}deg ${resolveModifier(s)};`
     }
     else {
-      v = h.bracket(d, theme)
+      v = h.bracket(d, ctx)
     }
 
     if (v) {
@@ -136,7 +137,7 @@ export const backgroundStyles: Rule<Theme>[] = [
   }],
 
   [/^(from|via|to|stops)-(.+)$/, bgGradientColorResolver()],
-  [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity], { theme }) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity, theme) })],
+  [/^(from|via|to)-op(?:acity)?-?(.+)$/, ([, position, opacity], ctx) => ({ [`--un-${position}-opacity`]: h.bracket.percent(opacity, ctx) })],
   [/^(from|via|to)-([\d.]+%)$/, bgGradientPositionResolver()],
   // images
   [/^bg-((?:repeating-)?(?:linear|radial|conic))$/, ([, s]) => ({
@@ -164,7 +165,7 @@ export const backgroundStyles: Rule<Theme>[] = [
   ['bg-auto', { 'background-size': 'auto' }],
   ['bg-cover', { 'background-size': 'cover' }],
   ['bg-contain', { 'background-size': 'contain' }],
-  [/^bg-size-(.+)$/, ([, v], { theme }) => ({ 'background-size': h.bracket.cssvar(v, theme) })],
+  [/^bg-size-(.+)$/, ([, v], ctx) => ({ 'background-size': h.bracket.cssvar(v, ctx) })],
 
   // attachments
   ['bg-fixed', { 'background-attachment': 'fixed' }],

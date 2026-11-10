@@ -414,11 +414,12 @@ export function reset(options: PresetWind4Options): Preflight<Theme> | undefined
     return undefined
 
   return {
-    getCSS: ({ generator }) => {
-      themeTracking('font', 'sans')
-      themeTracking('font', 'mono')
-      themeTracking('default', ['font', 'family'])
-      themeTracking('default', ['monoFont', 'family'])
+    getCSS: (ctx) => {
+      const { generator } = ctx
+      themeTracking('font', 'sans', ctx)
+      themeTracking('font', 'mono', ctx)
+      themeTracking('default', ['font', 'family'], ctx)
+      themeTracking('default', ['monoFont', 'family'], ctx)
 
       return compressCSS(resetCSS, generator.config.envMode === 'dev')
     },

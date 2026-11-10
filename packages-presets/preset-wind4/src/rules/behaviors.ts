@@ -1,5 +1,6 @@
 import type { CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
+import type { Wind4Context } from '../utils/context'
 import { symbols } from '@unocss/core'
 import { colorResolver, defineProperty, globalKeywords, h, isSize, makeGlobalStaticRules } from '../utils'
 
@@ -9,10 +10,10 @@ export const outline: Rule<Theme>[] = [
 
   // color
   [/^outline-(?:color-)?(.+)$/, handleColorOrWidth, { autocomplete: 'outline-$colors' }],
-  [/^outline-op(?:acity)?-?(.+)$/, ([, opacity], { theme }) => ({ '--un-outline-opacity': h.bracket.percent.cssvar(opacity, theme) }), { autocomplete: 'outline-(op|opacity)-<percent>' }],
+  [/^outline-op(?:acity)?-?(.+)$/, ([, opacity], ctx) => ({ '--un-outline-opacity': h.bracket.percent.cssvar(opacity, ctx) }), { autocomplete: 'outline-(op|opacity)-<percent>' }],
 
   // offset
-  [/^outline-offset-(.+)$/, ([, d], { theme }) => ({ 'outline-offset': h.bracket.cssvar.global.px(d, theme) }), { autocomplete: 'outline-(offset)-<num>' }],
+  [/^outline-offset-(.+)$/, ([, d], ctx) => ({ 'outline-offset': h.bracket.cssvar.global.px(d, ctx) }), { autocomplete: 'outline-(offset)-<num>' }],
   ['outline-offset-none', { 'outline-offset': '0' }],
 
   // style
@@ -35,14 +36,14 @@ export const outline: Rule<Theme>[] = [
   ...['auto', 'dashed', 'dotted', 'double', 'solid', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords].map(v => [`outline-${v}`, { '--un-outline-style': v, 'outline-style': v }] as Rule<Theme>),
 ]
 
-function* handleWidth([, b]: string[], { theme }: RuleContext<Theme>): Generator<CSSValueInput | undefined> {
-  const v = h.bracket.cssvar.global.px(b, theme)
+function* handleWidth([, b]: string[], ctx: RuleContext<Theme>): Generator<CSSValueInput | undefined> {
+  const v = h.bracket.cssvar.global.px(b, ctx)
   if (v != null) {
     yield {
       'outline-style': 'var(--un-outline-style)',
       'outline-width': v,
     }
-    yield defineProperty('--un-outline-style', { initialValue: 'solid' })
+    yield defineProperty('--un-outline-style', { initialValue: 'solid' }, ctx)
   }
 }
 
@@ -65,8 +66,8 @@ export const appearance: Rule<Theme>[] = [
   ['appearance-none', { '-webkit-appearance': 'none', 'appearance': 'none' }],
 ]
 
-function willChangeProperty(prop: string, theme?: Theme): string | undefined {
-  const v = h.bracket(prop, theme)
+function willChangeProperty(prop: string, ctx?: Wind4Context): string | undefined {
+  const v = h.bracket(prop, ctx)
 
   if (v && h.properties(v)) {
     return v
@@ -79,7 +80,7 @@ function willChangeProperty(prop: string, theme?: Theme): string | undefined {
 }
 
 export const willChange: Rule<Theme>[] = [
-  [/^will-change-(.+)/, ([, p], { theme }) => ({ 'will-change': willChangeProperty(p, theme) })],
+  [/^will-change-(.+)/, ([, p], ctx) => ({ 'will-change': willChangeProperty(p, ctx) })],
 ]
 
 const listStyles: Record<string, string> = {
@@ -116,9 +117,9 @@ export const listStyle: Rule<Theme>[] = [
   ['list-inside', { 'list-style-position': 'inside' }],
   ['list-none', { 'list-style-type': 'none' }],
   // image
-  [/^list-image-(.+)$/, ([, d], { theme }) => {
+  [/^list-image-(.+)$/, ([, d], ctx) => {
     if (/^\[url\(.+\)\]$/.test(d))
-      return { 'list-style-image': h.bracket(d, theme) }
+      return { 'list-style-image': h.bracket(d, ctx) }
   }],
   ['list-image-none', { 'list-style-image': 'none' }],
   ...makeGlobalStaticRules('list', 'list-style-type'),
@@ -126,12 +127,12 @@ export const listStyle: Rule<Theme>[] = [
 
 export const accents: Rule<Theme>[] = [
   [/^accent-(.+)$/, colorResolver('accent-color', 'accent'), { autocomplete: 'accent-$colors' }],
-  [/^accent-op(?:acity)?-?(.+)$/, ([, d], { theme }) => ({ '--un-accent-opacity': h.bracket.percent(d, theme) }), { autocomplete: ['accent-(op|opacity)', 'accent-(op|opacity)-<percent>'] }],
+  [/^accent-op(?:acity)?-?(.+)$/, ([, d], ctx) => ({ '--un-accent-opacity': h.bracket.percent(d, ctx) }), { autocomplete: ['accent-(op|opacity)', 'accent-(op|opacity)-<percent>'] }],
 ]
 
 export const carets: Rule<Theme>[] = [
   [/^caret-(.+)$/, colorResolver('caret-color', 'caret'), { autocomplete: 'caret-$colors' }],
-  [/^caret-op(?:acity)?-?(.+)$/, ([, d], { theme }) => ({ '--un-caret-opacity': h.bracket.percent(d, theme) }), { autocomplete: ['caret-(op|opacity)', 'caret-(op|opacity)-<percent>'] }],
+  [/^caret-op(?:acity)?-?(.+)$/, ([, d], ctx) => ({ '--un-caret-opacity': h.bracket.percent(d, ctx) }), { autocomplete: ['caret-(op|opacity)', 'caret-(op|opacity)-<percent>'] }],
 ]
 
 export const imageRenderings: Rule<Theme>[] = [

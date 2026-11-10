@@ -51,7 +51,7 @@ export const borders: Rule<Theme>[] = [
 
 function borderColorResolver(direction: string) {
   return ([, body]: string[], ctx: RuleContext<Theme>): [CSSObject, ...CSSValueInput[]] | undefined => {
-    const data = parseColor(body, ctx.theme)
+    const data = parseColor(body, ctx)
     const result = colorCSSGenerator(data, `border${direction}-color`, `border${direction}`, ctx)
 
     if (result) {
@@ -69,8 +69,8 @@ function borderColorResolver(direction: string) {
   }
 }
 
-function handlerBorderSize([, a = '', b = '1']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = h.bracket.bracketOfLength.cssvar.global.px(b, theme)
+function handlerBorderSize([, a = '', b = '1']: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  const v = h.bracket.bracketOfLength.cssvar.global.px(b, ctx)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`border${i}-width`, v])
 }
@@ -80,9 +80,9 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
     if (isSize(b))
       return handlerBorderSize(['', a, b], ctx)
 
-    const bracketColor = h.bracketOfColor(b, ctx.theme)
+    const bracketColor = h.bracketOfColor(b, ctx)
     b = bracketColor ?? b
-    if (bracketColor != null || hasParseableColor(b, ctx.theme)) {
+    if (bracketColor != null || hasParseableColor(b, ctx)) {
       const directions = directionMap[a].map(i =>
         borderColorResolver(i)(['', b], ctx)
         ?? colorCSSGenerator({ color: b, name: '_' } as unknown as ReturnType<typeof parseColor>, `border${i}-color`, `border${i}`, ctx))
@@ -102,22 +102,24 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
   }
 }
 
-function handlerBorderOpacity([, a = '', opacity]: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
-  const v = h.bracket.percent.cssvar(opacity, theme)
+function handlerBorderOpacity([, a = '', opacity]: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  const v = h.bracket.percent.cssvar(opacity, ctx)
   if (a in directionMap && v != null)
     return directionMap[a].map(i => [`--un-border${i}-opacity`, v])
 }
 
-function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleContext<Theme>): CSSEntries | undefined {
+function handlerRounded([, a = '', s = 'DEFAULT']: string[], ctx: RuleContext<Theme>): CSSEntries | undefined {
+  const { theme } = ctx
+
   if (a in cornerMap) {
     if (s === 'full')
       return cornerMap[a].map(i => [`border${i}-radius`, 'calc(infinity * 1px)'])
 
-    const _v = theme.radius?.[s] ?? h.bracket.cssvar.global.fraction.rem(s, theme)
+    const _v = theme.radius?.[s] ?? h.bracket.cssvar.global.fraction.rem(s, ctx)
     if (_v != null) {
       const isVar = theme.radius && s in theme.radius
       if (isVar) {
-        themeTracking(`radius`, s)
+        themeTracking(`radius`, s, ctx)
       }
 
       return cornerMap[a].map(i => [

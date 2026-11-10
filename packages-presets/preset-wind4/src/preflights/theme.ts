@@ -4,6 +4,7 @@ import type { Theme } from '../theme/types'
 import { escapeSelector, toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
 import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
+import { getTrackingState } from '../utils/context'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -63,9 +64,8 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
       const { theme, generator } = ctx
       const safelist = uniq(generator.config.safelist.flatMap(s => typeof s === 'function' ? s(ctx) : s))
       const { mode, process } = preflightsTheme
-      if (mode === false) {
+      if (mode === false)
         return undefined
-      }
 
       if (safelist.length > 0) {
         for (const s of safelist) {
@@ -75,13 +75,14 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
             const v = getThemeByKey(theme, key as keyof Theme, props)
 
             if (typeof v === 'string') {
-              themeTracking(key, props)
-              detectThemeValue(v, theme)
+              themeTracking(key, props, ctx)
+              detectThemeValue(v, ctx)
             }
           }
         }
       }
 
+      const dependencies = getTrackingState(ctx)?.themeDeps ?? trackedTheme
       let deps: CSSEntry[]
       const generateCSS = (deps: CSSEntry[]) => {
         if (process) {
@@ -105,10 +106,10 @@ ${depCSS}
       }
 
       if (mode === 'on-demand') {
-        if (trackedTheme.size === 0)
+        if (dependencies.size === 0)
           return undefined
 
-        deps = Array.from(trackedTheme).map((k) => {
+        deps = Array.from(dependencies).map((k) => {
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 

@@ -25,9 +25,11 @@ export const transitions: Rule<Theme>[] = [
   // transition
   [
     /^transition(?:-(\D+?))?(?:-(\d+))?$/,
-    ([, prop, d], { theme }) => {
-      themeTracking('default', ['transition', 'timingFunction'])
-      themeTracking('default', ['transition', 'duration'])
+    ([, prop, d], ctx) => {
+      const { theme } = ctx
+
+      themeTracking('default', ['transition', 'timingFunction'], ctx)
+      themeTracking('default', ['transition', 'duration'], ctx)
 
       const defaultTransition = {
         'transition-property': theme.property?.DEFAULT,
@@ -65,27 +67,29 @@ export const transitions: Rule<Theme>[] = [
   // timings
   [
     /^(?:transition-)?duration-(.+)$/,
-    ([, d], { theme }) => ({
-      '--un-duration': h.bracket.cssvar.time(d, theme),
-      'transition-duration': h.bracket.cssvar.time(d, theme),
+    ([, d], ctx) => ({
+      '--un-duration': h.bracket.cssvar.time(d, ctx),
+      'transition-duration': h.bracket.cssvar.time(d, ctx),
     }),
   ],
 
   [
     /^(?:transition-)?delay-(.+)$/,
-    ([, d], { theme }) => ({ 'transition-delay': h.bracket.cssvar.time(d, theme) }),
+    ([, d], ctx) => ({ 'transition-delay': h.bracket.cssvar.time(d, ctx) }),
   ],
 
   [
     /^(?:transition-)?ease(?:-(.+))?$/,
-    ([, d = 'DEFAULT'], { theme }) => {
+    ([, d = 'DEFAULT'], ctx) => {
+      const { theme } = ctx
+
       let v
       if (theme.ease?.[d]) {
-        themeTracking('ease', d)
+        themeTracking('ease', d, ctx)
         v = generateThemeVariable('ease', d)
       }
       else {
-        v = h.bracket.cssvar(d, theme)
+        v = h.bracket.cssvar(d, ctx)
       }
 
       return [
@@ -93,7 +97,7 @@ export const transitions: Rule<Theme>[] = [
           '--un-ease': v,
           'transition-timing-function': v,
         },
-        defineProperty('--un-ease'),
+        defineProperty('--un-ease', {}, ctx),
       ]
     },
     { autocomplete: ['transition-ease-(linear|in|out|in-out)', 'ease-(linear|in|out|in-out)'] },
@@ -102,7 +106,9 @@ export const transitions: Rule<Theme>[] = [
   // props
   [
     /^(?:transition-)?property-(.+)$/,
-    ([, v], { theme }) => {
+    ([, v], ctx) => {
+      const { theme } = ctx
+
       const p = h.global(v) || resolveTransitionProperty(v, theme)
       if (p)
         return { 'transition-property': p }

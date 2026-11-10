@@ -178,7 +178,22 @@ export async function resolveConfig<Theme extends object = object>(
     ...rawPresets.filter(p => p.enforce === 'pre'),
     ...rawPresets.filter(p => !p.enforce),
     ...rawPresets.filter(p => p.enforce === 'post'),
-  ]
+  ].map((preset) => {
+    if (!preset.resolveMeta)
+      return preset
+
+    // Preserve the resolved marker and descriptors without mutating reusable
+    // inputs. Other presets retain their existing identity and metadata.
+    const descriptors = Object.getOwnPropertyDescriptors(preset)
+    const meta = preset.resolveMeta(preset.meta)
+    descriptors.meta = {
+      value: meta,
+      enumerable: descriptors.meta?.enumerable ?? true,
+      configurable: descriptors.meta?.configurable ?? true,
+      writable: descriptors.meta?.writable ?? true,
+    }
+    return Object.create(Object.getPrototypeOf(preset), descriptors) as Preset<Theme>
+  })
 
   const sources = [
     ...sortedPresets,

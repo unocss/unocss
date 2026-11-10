@@ -3,13 +3,15 @@ import type { Theme } from '../theme'
 import { generateThemeVariable, h, makeGlobalStaticRules, themeTracking } from '../utils'
 
 export const columns: Rule<Theme>[] = [
-  [/^columns-(.+)$/, ([, v], { theme }) => {
+  [/^columns-(.+)$/, ([, v], ctx) => {
+    const { theme } = ctx
+
     if (theme.container && v in theme.container) {
-      themeTracking('container', v)
+      themeTracking('container', v, ctx)
       return { columns: generateThemeVariable('container', v) }
     }
 
-    return { columns: h.bracket.numberWithUnit.number.cssvar(v, theme) }
+    return { columns: h.bracket.numberWithUnit.number.cssvar(v, ctx) }
   }, { autocomplete: ['columns-<num>', 'columns-$container'] }],
   ['columns-auto', { columns: 'auto' }],
 

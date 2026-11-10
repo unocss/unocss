@@ -14,7 +14,7 @@ export const displays: Rule<Theme>[] = [
   ['flow-root', { display: 'flow-root' }],
   ['list-item', { display: 'list-item' }],
   ['hidden', { display: 'none' }],
-  [/^display-(.+)$/, ([, c], { theme }) => ({ display: h.bracket.cssvar.global(c, theme) })],
+  [/^display-(.+)$/, ([, c], ctx) => ({ display: h.bracket.cssvar.global(c, ctx) })],
 ]
 
 export const appearances: Rule<Theme>[] = [
@@ -27,13 +27,13 @@ export const appearances: Rule<Theme>[] = [
 ]
 
 export const cursors: Rule<Theme>[] = [
-  [/^cursor-(.+)$/, ([, c], { theme }) => ({ cursor: h.bracket.cssvar.global(c, theme) })],
+  [/^cursor-(.+)$/, ([, c], ctx) => ({ cursor: h.bracket.cssvar.global(c, ctx) })],
   ...cursorValues.map((v): Rule<Theme> => [`cursor-${v}`, { cursor: v }]),
 ]
 
 export const contains: Rule<Theme>[] = [
-  [/^contain-(.*)$/, ([, d], { theme }) => {
-    const value = h.bracket(d, theme)
+  [/^contain-(.*)$/, ([, d], ctx) => {
+    const value = h.bracket(d, ctx)
     if (value != null) {
       return {
         contain: value.split(' ').map(e => h.cssvar.fraction(e) ?? e).join(' '),
@@ -47,7 +47,7 @@ export const contains: Rule<Theme>[] = [
             [`--un-contain-${key}`]: d,
             contain: containValues.map(i => `var(--un-contain-${i}, )`).join(' '),
           },
-          ...containValues.map(i => defineProperty(`--un-contain-${i}`)),
+          ...containValues.map(i => defineProperty(`--un-contain-${i}`, {}, ctx)),
         ]
       : undefined
   }],
@@ -87,14 +87,14 @@ export const whitespaces: Rule<Theme>[] = [
 ]
 
 export const contentVisibility: Rule<Theme>[] = [
-  [/^intrinsic(?:-(block|inline|w|h))?(?:-size)?-(.+)$/, ([, d, s], { theme }) => {
+  [/^intrinsic(?:-(block|inline|w|h))?(?:-size)?-(.+)$/, ([, d, s], ctx) => {
     const sizeMap = {
       block: 'block-size',
       inline: 'inline-size',
       w: 'width',
       h: 'height',
     }
-    return { [`contain-intrinsic-${sizeMap[d as keyof typeof sizeMap] ?? 'size'}`]: h.bracket.cssvar.global.fraction.rem(s, theme) }
+    return { [`contain-intrinsic-${sizeMap[d as keyof typeof sizeMap] ?? 'size'}`]: h.bracket.cssvar.global.fraction.rem(s, ctx) }
   }, { autocomplete: [
     'intrinsic-size-<num>',
     'intrinsic-<num>',
@@ -107,15 +107,15 @@ export const contentVisibility: Rule<Theme>[] = [
 ]
 
 export const contents: Rule<Theme>[] = [
-  [/^content-(.+)$/, ([, v], { theme }) => {
-    const _v = h.bracket.cssvar(v, theme)
+  [/^content-(.+)$/, ([, v], ctx) => {
+    const _v = h.bracket.cssvar(v, ctx)
     if (_v != null) {
       return [
         {
-          '--un-content': h.bracket.cssvar(v, theme),
+          '--un-content': h.bracket.cssvar(v, ctx),
           'content': 'var(--un-content)',
         },
-        defineProperty('--un-content', { initialValue: '""' }),
+        defineProperty('--un-content', { initialValue: '""' }, ctx),
       ]
     }
   }],
@@ -249,10 +249,10 @@ export const objectPositions: Rule<Theme>[] = [
   ['object-none', { 'object-fit': 'none' }],
 
   // object position
-  [/^object-(.+)$/, ([, d], { theme }) => {
+  [/^object-(.+)$/, ([, d], ctx) => {
     if (positionMap[d])
       return { 'object-position': positionMap[d] }
-    const position = h.bracketOfPosition(d, theme)
+    const position = h.bracketOfPosition(d, ctx)
     if (position != null)
       return { 'object-position': position.split(' ').map(e => h.position.fraction.auto.px.cssvar(e) ?? e).join(' ') }
   }, { autocomplete: `object-(${Object.keys(positionMap).join('|')})` }],

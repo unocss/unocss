@@ -22,12 +22,13 @@ export const margins: Rule<Theme>[] = [
 
 export const spaces: Rule<Theme>[] = [
   [/^space-([xy])-(.+)$/, handlerSpace, { autocomplete: ['space-(x|y)', 'space-(x|y)-reverse', 'space-(x|y)-$spacing'] }],
-  [/^space-([xy])-reverse$/, function* ([m, d]: string[], { symbols }: RuleContext<Theme>) {
+  [/^space-([xy])-reverse$/, function* ([m, d]: string[], ctx: RuleContext<Theme>) {
+    const { symbols } = ctx
     yield {
       [symbols.variants]: [notLastChildSelectorVariant(m)],
       [`--un-space-${d}-reverse`]: '1',
     }
-    yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 })
+    yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 }, ctx)
   }],
 ]
 
@@ -43,15 +44,17 @@ export function notLastChildSelectorVariant(s: string): VariantHandler {
   }
 }
 
-function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Theme>) {
+function* handlerSpace([m, d, s]: string[], ctx: RuleContext<Theme>) {
+  const { theme, symbols } = ctx
+
   let v: string | undefined
   const num = numberResolver(s)
   if (num != null) {
-    themeTracking(`spacing`)
+    themeTracking(`spacing`, undefined, ctx)
     v = `calc(var(--spacing) * ${num})`
   }
   else {
-    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1', theme)
+    v = theme.spacing?.[s] ?? h.bracket.cssvar.auto.fraction.rem(s || '1', ctx)
   }
 
   if (v != null) {
@@ -67,7 +70,7 @@ function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Them
         [`--un-space-${d}-reverse`]: '0',
         ...Object.fromEntries(results),
       }
-      yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 })
+      yield defineProperty(`--un-space-${d}-reverse`, { initialValue: 0 }, ctx)
     }
   }
 }
