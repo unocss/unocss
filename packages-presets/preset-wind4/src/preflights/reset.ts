@@ -1,7 +1,7 @@
 import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
-import { compressCSS, themeTracking } from '../utils'
+import { compressCSS, trackTheme } from '../utils'
 
 /*
  * Credits to Tailwind Labs for the original implementation:
@@ -414,11 +414,11 @@ export function reset(options: PresetWind4Options): Preflight<Theme> | undefined
     return undefined
 
   return {
-    getCSS: ({ generator }) => {
-      themeTracking('font', 'sans')
-      themeTracking('font', 'mono')
-      themeTracking('default', ['font', 'family'])
-      themeTracking('default', ['monoFont', 'family'])
+    getCSS: ({ generator, theme }) => {
+      trackTheme(theme, 'font', 'sans')
+      trackTheme(theme, 'font', 'mono')
+      trackTheme(theme, 'default', ['font', 'family'])
+      trackTheme(theme, 'default', ['monoFont', 'family'])
 
       return compressCSS(resetCSS, generator.config.envMode === 'dev')
     },

@@ -12,7 +12,7 @@ import {
   numberResolver,
 } from '../utils'
 import { bracketTypeRe } from '../utils/handlers/regex'
-import { generateThemeVariable, themeTracking } from '../utils/track'
+import { generateThemeVariable, trackTheme } from '../utils/track'
 
 export const fonts: Rule<Theme>[] = [
   // text
@@ -40,7 +40,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.fontWeight?.[s]) {
-        themeTracking(`fontWeight`, s)
+        trackTheme(theme, `fontWeight`, s)
         v = generateThemeVariable('fontWeight', s)
       }
       else {
@@ -67,11 +67,11 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.leading?.[s]) {
-        themeTracking('leading', s)
+        trackTheme(theme, 'leading', s)
         v = generateThemeVariable('leading', s)
       }
       else if (numberResolver(s)) {
-        themeTracking('spacing')
+        trackTheme(theme, 'spacing')
         v = `calc(var(--spacing) * ${numberResolver(s)})`
       }
       else {
@@ -105,7 +105,7 @@ export const fonts: Rule<Theme>[] = [
       let v: string | undefined
 
       if (theme.tracking?.[s]) {
-        themeTracking(`tracking`, s)
+        trackTheme(theme, `tracking`, s)
         v = generateThemeVariable('tracking', s)
       }
       else {
@@ -158,14 +158,14 @@ export const fonts: Rule<Theme>[] = [
 
       // Prefer theme font family
       if (theme.font?.[d]) {
-        themeTracking('font', d)
+        trackTheme(theme, 'font', d)
         v = generateThemeVariable('font', d)
         return { 'font-family': v }
       }
 
       // Prefer theme font weight
       if (theme.fontWeight?.[d]) {
-        themeTracking('fontWeight', d)
+        trackTheme(theme, 'fontWeight', d)
         v = generateThemeVariable('fontWeight', d)
         return { '--un-font-weight': v, 'font-weight': v }
       }
@@ -224,7 +224,7 @@ export const textIndents: Rule<Theme>[] = [
     let v: string | number | undefined = numberResolver(s)
 
     if (v != null) {
-      themeTracking(`spacing`)
+      trackTheme(theme, `spacing`)
       return { 'text-indent': `calc(var(--spacing) * ${v})` }
     }
 
@@ -240,7 +240,7 @@ export const textStrokes: Rule<Theme>[] = [
   // widths
   [/^text-stroke(?:-(.+))?$/, ([, s = 'DEFAULT'], { theme }) => {
     if (theme.textStrokeWidth?.[s]) {
-      themeTracking(`textStrokeWidth`, s)
+      trackTheme(theme, `textStrokeWidth`, s)
     }
     return {
       '-webkit-text-stroke-width': theme.textStrokeWidth?.[s]
@@ -325,7 +325,7 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
 
   if (leading) {
     if (theme.leading?.[leading]) {
-      themeTracking(`leading`, leading)
+      trackTheme(theme, `leading`, leading)
       lineHeight = generateThemeVariable('leading', leading)
     }
     else {
@@ -334,10 +334,10 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
   }
 
   if (sizePairs) {
-    themeTracking(`text`, [size, 'fontSize'])
-    themeTracking(`text`, [size, 'lineHeight'])
+    trackTheme(theme, `text`, [size, 'fontSize'])
+    trackTheme(theme, `text`, [size, 'lineHeight'])
     if (sizePairs.letterSpacing) {
-      themeTracking(`text`, [size, 'letterSpacing'])
+      trackTheme(theme, `text`, [size, 'letterSpacing'])
     }
 
     return {
@@ -360,8 +360,8 @@ function handleText([, s = 'base']: string[], { theme }: RuleContext<Theme>): CS
 
 function handleSize([, s]: string[], { theme }: RuleContext<Theme>): CSSObject | undefined {
   if (theme.text?.[s] != null) {
-    themeTracking(`text`, [s, 'fontSize'])
-    themeTracking(`text`, [s, 'lineHeight'])
+    trackTheme(theme, `text`, [s, 'fontSize'])
+    trackTheme(theme, `text`, [s, 'lineHeight'])
     return {
       'font-size': generateThemeVariable('text', [s, 'fontSize']),
       'line-height': `var(--un-leading, ${generateThemeVariable('text', [s, 'lineHeight'])})`,

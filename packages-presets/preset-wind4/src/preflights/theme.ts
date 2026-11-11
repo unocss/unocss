@@ -3,7 +3,7 @@ import type { PreflightsTheme, PresetWind4Options } from '..'
 import type { Theme } from '../theme/types'
 import { escapeSelector, toArray, uniq } from '@unocss/core'
 import { alphaPlaceholdersRE } from '@unocss/rule-utils'
-import { compressCSS, detectThemeValue, getThemeByKey, themeTracking, trackedTheme } from '../utils'
+import { compressCSS, detectThemeValue, getThemeByKey, getTrackedTheme, trackTheme } from '../utils'
 
 /** Exclude output for CSS Variables */
 const ExcludeCssVarKeys = [
@@ -75,7 +75,7 @@ export function theme(options: PresetWind4Options): Preflight<Theme> {
             const v = getThemeByKey(theme, key as keyof Theme, props)
 
             if (typeof v === 'string') {
-              themeTracking(key, props)
+              trackTheme(theme, key, props)
               detectThemeValue(v, theme)
             }
           }
@@ -105,6 +105,7 @@ ${depCSS}
       }
 
       if (mode === 'on-demand') {
+        const trackedTheme = getTrackedTheme(theme)
         if (trackedTheme.size === 0)
           return undefined
 

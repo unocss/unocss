@@ -878,7 +878,7 @@ class UnoGeneratorInternal<Theme extends object = object> {
           switch (entry[0]) {
             case symbols.variants:
               if (typeof entry[1] === 'function') {
-                variants = entry[1](variants) || variants
+                variants = entry[1](variants, context) || variants
               }
               else {
                 variants = [
