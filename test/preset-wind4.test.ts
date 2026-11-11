@@ -319,8 +319,8 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing: 4px;
       --ui-red-DEFAULT: oklch(70.4% 0.191 22.216);
+      --spacing: 4px;
       }"
     `)
   })
@@ -468,19 +468,19 @@ describe('preset-wind4', () => {
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
-      --colors-foo-bar: #fff;
+      --colors-a2b: #000;
+      --colors-baz1-DEFAULT: #000;
+      --colors-baz1-qux1: #fff;
       --colors-foo-100-bar: #000;
+      --colors-foo-bar: #fff;
       --colors-foo-baz-qux: #f00;
       --colors-foo-primary-1-DEFAULT: red;
       --colors-foo-primary-2: red;
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
-      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
-      --colors-baz1-DEFAULT: #000;
-      --colors-baz1-qux1: #fff;
       --colors-qux-2: #000;
       --colors-quxx_1: #000;
-      --colors-a2b: #000;
+      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }
       /* layer: default */
       .text-a2b{color:color-mix(in srgb, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
@@ -553,12 +553,12 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing: 0.25rem;
-      --colors-red-100: oklch(93.6% 0.032 17.717);
       --breakpoint-sm: 40rem;
-      --custom-foo: var(--custom-bar);
+      --colors-red-100: oklch(93.6% 0.032 17.717);
       --custom-bar: var(--custom-baz-DEFAULT, inherit);
       --custom-baz-DEFAULT: inherit;
+      --custom-foo: var(--custom-bar);
+      --spacing: 0.25rem;
       }"
     `)
   })
@@ -1011,7 +1011,7 @@ describe('important', () => {
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
-      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      :root, :host { --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); }
       /* layer: shortcuts */
       .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
       .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
@@ -1084,5 +1084,33 @@ describe('important', () => {
       .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
       .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
+  })
+})
+
+describe('theme preflight determinism', () => {
+  it('emits a deterministic theme preflight regardless of token order', async () => {
+    const tokens = [
+      'text-red-500',
+      'bg-blue-500',
+      'm-2',
+      'rounded-lg',
+      'p-4',
+      'border',
+      'text-sm',
+      'gap-4',
+    ]
+
+    const generate = async (list: string[]) => {
+      const uno = await createGenerator({ presets: [presetWind4()] })
+      return (await uno.generate(new Set(list), { preflights: true })).css
+    }
+
+    const forward = await generate(tokens)
+    const reversed = await generate(tokens.toReversed())
+    const rotated = await generate([...tokens.slice(4), ...tokens.slice(0, 4)])
+
+    expect(forward).toContain(':root, :host')
+    expect(reversed).toBe(forward)
+    expect(rotated).toBe(forward)
   })
 })

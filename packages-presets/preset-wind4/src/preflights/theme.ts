@@ -108,7 +108,8 @@ ${depCSS}
         if (trackedTheme.size === 0)
           return undefined
 
-        deps = Array.from(trackedTheme).map((k) => {
+        // Keep the theme block stable regardless of token resolve order.
+        deps = Array.from(trackedTheme).sort().map((k) => {
           const [key, prop] = k.split(':') as [keyof Theme, string]
           const v = getThemeByKey(theme, key, prop.split('-'))
 
