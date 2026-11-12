@@ -37,7 +37,11 @@ export function notLastChildSelectorVariant(s: string): VariantHandler {
     order: 1,
     handle: (input, next) => next({
       ...input,
-      parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
+      // Keep the whole selector, including prefixes added by variants such as
+      // `peer-*` and `group-*`, inside the `:where()`: the child combinator has
+      // to apply to the utility element, not to the prefix.
+      parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.prefix}${input.selector}`,
+      prefix: '',
       selector: ':where(&>:not(:last-child))',
     }),
   }

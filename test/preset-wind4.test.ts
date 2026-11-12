@@ -697,6 +697,83 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('peer variants on space and divide', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'peer-checked:space-x-8',
+      'peer-hover:divide-x-4',
+    ])
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or
+        ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+        *,
+        ::before,
+        ::after,
+        ::backdrop {
+          --un-border-style: solid;
+          --un-divide-x-reverse: initial;
+          --un-space-x-reverse: initial;
+        }
+      }
+      @property --un-space-x-reverse {
+        syntax: "*";
+        inherits: false;
+        initial-value: 0;
+      }
+      @property --un-border-style {
+        syntax: "*";
+        inherits: false;
+        initial-value: solid;
+      }
+      @property --un-divide-x-reverse {
+        syntax: "*";
+        inherits: false;
+        initial-value: 0;
+      }
+      /* layer: theme */
+      :root,
+      :host {
+        --spacing: 0.25rem;
+      }
+      /* layer: default */
+      .peer:checked ~ .peer-checked\\:space-x-8 {
+        :where(& > :not(:last-child)) {
+          --un-space-x-reverse: 0;
+          margin-inline-start: calc(
+            calc(var(--spacing) * 8) * var(--un-space-x-reverse)
+          );
+          margin-inline-end: calc(
+            calc(var(--spacing) * 8) * calc(1 - var(--un-space-x-reverse))
+          );
+        }
+      }
+      .peer:hover ~ .peer-hover\\:divide-x-4 {
+        :where(& > :not(:last-child)) {
+          --un-divide-x-reverse: 0;
+          border-left-width: calc(4px * var(--un-divide-x-reverse));
+          border-left-style: var(--un-border-style);
+          border-right-width: calc(4px * calc(1 - var(--un-divide-x-reverse)));
+          border-right-style: var(--un-border-style);
+        }
+      }
+      "
+    `)
+  })
+
   it('basic variable prefix', async () => {
     const uno = await createGenerator({
       presets: [
