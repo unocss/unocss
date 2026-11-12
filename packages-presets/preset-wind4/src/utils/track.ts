@@ -42,7 +42,17 @@ export function trackTheme(theme: Theme, key: string, props: Arrayable<string> =
 }
 
 /**
- * @deprecated the generator's theme is required: use `trackTheme(theme, key, props)`
+ * @deprecated No longer affects the generated CSS, it only feeds
+ * `preset.meta.themeDeps`. Pass the generator's theme instead:
+ * `trackTheme(theme, key, props)`.
+ * @example
+ * // before
+ * themeTracking('colors', 'red-500')
+ * // -> .text-red-500{color:var(--colors-red-500)}
+ * //    but no --colors-red-500 in :root
+ * // after, `theme` comes from the rule context
+ * trackTheme(ctx.theme, 'colors', 'red-500')
+ * // -> :root gets --colors-red-500 as well
  */
 export function themeTracking(key: string, props: Arrayable<string> = 'DEFAULT') {
   trackedTheme.add(`${key}:${toArray(props).join('-')}`)
@@ -105,7 +115,17 @@ export function trackProperty(theme: Theme, property: string, value: string) {
 }
 
 /**
- * @deprecated the generator's theme is required: use `trackProperty(theme, property, value)`
+ * @deprecated No longer affects the generated CSS, it only feeds
+ * `preset.meta.propertyDeps`. Pass the generator's theme instead:
+ * `trackProperty(theme, property, value)`.
+ * @example
+ * // before
+ * propertyTracking('--un-shadow', '0 0 #0000')
+ * // -> .shadow{...} references var(--un-shadow)
+ * //    but the @supports fallback never declares it
+ * // after, `theme` comes from the rule context
+ * trackProperty(ctx.theme, '--un-shadow', '0 0 #0000')
+ * // -> the @supports fallback keeps the registration
  */
 export function propertyTracking(property: string, value: string) {
   if (!trackedProperties.has(property))
