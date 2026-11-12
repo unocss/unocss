@@ -131,7 +131,8 @@ export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
   [SymbolNoMerge]: true
   [SymbolNoScope]: true
-  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
+  // `any` erases the theme generic, which this non-generic interface cannot carry
+  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[], context: RuleContext<any>) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string

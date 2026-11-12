@@ -1,7 +1,7 @@
 import type { Preflight } from '@unocss/core'
 import type { PresetWind4Options } from '..'
 import type { Theme } from '../theme'
-import { trackedProperties } from '../utils/track'
+import { getTrackedProperties } from '../utils/track'
 
 export function property(options: PresetWind4Options): Preflight<Theme> | undefined {
   if (options.preflights?.property === false)
@@ -21,7 +21,8 @@ export function property(options: PresetWind4Options): Preflight<Theme> | undefi
   const prefix = options.variablePrefix ?? 'un-'
 
   return {
-    getCSS: () => {
+    getCSS: ({ theme }) => {
+      const trackedProperties = getTrackedProperties(theme)
       if (trackedProperties.size === 0)
         return
 
