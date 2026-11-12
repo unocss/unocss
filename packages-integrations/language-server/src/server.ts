@@ -50,6 +50,8 @@ let contextManager: ContextManager
 let hasWatchedFilesCapability = false
 let serverInitialized = false
 let watcherDisposable: Disposable | undefined
+let watcherGeneration = 0
+let activeWatcherGeneration = 0
 const workspaceContext: WorkspaceContextState = {
   folderPaths: [],
 }
@@ -119,28 +121,41 @@ async function updateConfigWatchers(): Promise<void> {
   if (!hasWatchedFilesCapability || !serverInitialized || !contextManager)
     return
 
-  watcherDisposable?.dispose()
-  watcherDisposable = undefined
-
+  const generation = ++watcherGeneration
   const sourceFiles = contextManager.contexts.flatMap(ctx => ctx.getConfigFileList())
 
-  watcherDisposable = await connection.client.register(
-    DidChangeWatchedFilesNotification.type,
-    {
-      watchers: sourceFiles.length
-        ? sourceFiles.map(file => ({
-            globPattern: {
-              baseUri: pathToFileURL(path.dirname(file)).href,
-              pattern: path.basename(file),
-            },
-            kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
-          }))
-        : [{
-            globPattern: '**/{uno,unocss,vite,svelte,astro,nuxt,iles}.config.{js,mjs,cjs,ts,mts,cts}',
-            kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
-          }],
-    },
-  )
+  let disposable: Disposable
+  try {
+    disposable = await connection.client.register(
+      DidChangeWatchedFilesNotification.type,
+      {
+        watchers: sourceFiles.length
+          ? sourceFiles.map(file => ({
+              globPattern: {
+                baseUri: pathToFileURL(path.dirname(file)).href,
+                pattern: path.basename(file),
+              },
+              kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
+            }))
+          : [{
+              globPattern: '**/{uno,unocss,vite,svelte,astro,nuxt,iles}.config.{js,mjs,cjs,ts,mts,cts}',
+              kind: WatchKind.Create | WatchKind.Change | WatchKind.Delete,
+            }],
+      },
+    )
+  }
+  catch (error) {
+    connection.console.warn(`[unocss] Failed to register config file watchers: ${String(error)}`)
+    return
+  }
+
+  if (generation < activeWatcherGeneration) {
+    disposable.dispose()
+    return
+  }
+  watcherDisposable?.dispose()
+  watcherDisposable = disposable
+  activeWatcherGeneration = generation
 }
 
 // Don't crash the server.
@@ -226,9 +241,9 @@ connection.onDidChangeConfiguration(async (change) => {
   const unocssSettings = change.settings?.unocss
   if (unocssSettings) {
     mergeSettings(unocssSettings)
+    resetAutoCompleteCache()
     await applyConfiguredRoots()
     await updateConfigWatchers()
-    resetAutoCompleteCache()
   }
 })
 
