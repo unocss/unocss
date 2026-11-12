@@ -7,6 +7,7 @@ export const unocssBundle = new Map([
   ["@unocss/core", () => import('@unocss/core')] as any,
   ["@unocss/rule-utils", () => import('@unocss/rule-utils')] as any,
   ["@unocss/transformer-attributify-jsx", () => import('@unocss/transformer-attributify-jsx')] as any,
+  ["@unocss/transformer-build-themes", () => import('@unocss/transformer-build-themes')] as any,
   ["@unocss/transformer-compile-class", () => import('@unocss/transformer-compile-class')] as any,
   ["@unocss/transformer-directives", () => import('@unocss/transformer-directives')] as any,
   ["@unocss/transformer-variant-group", () => import('@unocss/transformer-variant-group')] as any,

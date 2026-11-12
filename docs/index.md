@@ -73,6 +73,11 @@ features:
     details: "Synthesizes multiple classes into one at build time"
     link: /transformers/compile-class
     linkText: "@unocss/transformer-compile-class"
+  - icon: <span class="i-carbon:color-palette"></span>
+    title: Build-time Themes
+    details: "Ship only the active theme's classes, in HTML and CSS"
+    link: /transformers/build-themes
+    linkText: "@unocss/transformer-build-themes"
   - icon: <span class="i-carbon:inspection"></span>
     title: Inspector
     details: "Inspect and debug interactively"

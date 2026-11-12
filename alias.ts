@@ -73,6 +73,7 @@ export const aliasPresets: Record<string, string> = {
   '@unocss/processor-lightningcss': r('./packages-presets/processor-lightningcss/src/'),
   '@unocss/rule-utils': r('./packages-presets/rule-utils/src/'),
   '@unocss/transformer-attributify-jsx': r('./packages-presets/transformer-attributify-jsx/src/'),
+  '@unocss/transformer-build-themes': r('./packages-presets/transformer-build-themes/src/'),
   '@unocss/transformer-compile-class': r('./packages-presets/transformer-compile-class/src/'),
   '@unocss/transformer-directives': r('./packages-presets/transformer-directives/src/'),
   '@unocss/transformer-variant-group': r('./packages-presets/transformer-variant-group/src/'),
