@@ -178,6 +178,8 @@ export const presetWind4 = definePreset<PresetWind4Options, Theme>((options = {}
     },
     options,
     configResolved() {
+      // Only the process-wide compatibility view; preflights read the
+      // per-generator state and are unaffected.
       trackedTheme.clear()
       trackedProperties.clear()
     },

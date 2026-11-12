@@ -1087,6 +1087,32 @@ describe('important', () => {
   })
 })
 
+describe('cross-generator state', () => {
+  const createUno = () => createGenerator({ presets: [presetWind4({ preflights: { reset: false } })] })
+
+  it('keeps tracked theme keys when another generator resolves its config', async () => {
+    const first = await createUno()
+    expect((await first.generate('max-w-md', { preflights: true })).css).toContain('--container-md:')
+
+    const second = await createUno()
+    expect((await second.generate('text-red-500', { preflights: true })).css).not.toContain('--container-md:')
+
+    expect((await first.generate('max-w-md', { preflights: true })).css).toContain('--container-md:')
+  })
+
+  it('keeps tracked properties when another generator resolves its config', async () => {
+    const first = await createUno()
+    expect((await first.generate('shadow', { preflights: true })).css).toContain('--un-shadow:0 0 #0000;')
+
+    const second = await createUno()
+    const secondCSS = (await second.generate('blur-sm', { preflights: true })).css
+    expect(secondCSS).toContain('--un-blur:initial;')
+    expect(secondCSS).not.toContain('--un-shadow:0 0 #0000;')
+
+    expect((await first.generate('shadow', { preflights: true })).css).toContain('--un-shadow:0 0 #0000;')
+  })
+})
+
 describe('theme preflight determinism', () => {
   it('emits a deterministic theme preflight regardless of token order', async () => {
     const tokens = [

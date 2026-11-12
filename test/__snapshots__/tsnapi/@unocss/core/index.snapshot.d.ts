@@ -92,7 +92,7 @@ export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true;
   [SymbolNoMerge]: true;
   [SymbolNoScope]: true;
-  [SymbolVariants]: VariantHandler[] | ((_: VariantHandler[]) => VariantHandler[]);
+  [SymbolVariants]: VariantHandler[] | ((_: VariantHandler[], _: RuleContext<any>) => VariantHandler[]);
   [SymbolParent]: string;
   [SymbolSelector]: (_: string) => string;
   [SymbolLayer]: string;

@@ -42,6 +42,8 @@ export declare function detectThemeValue(_: string, _: Theme): void;
 export declare function directionSize(_: string, _?: Record<string, string[]>, _?: (_: string, _: string) => string): DynamicMatcher<Theme>;
 export declare function generateThemeVariable(_: string, _: Arrayable<string>): string;
 export declare function getThemeByKey(_: Theme, _: keyof Theme, _: string[]): any;
+export declare function getTrackedProperties(_: Theme): Map<string, string>;
+export declare function getTrackedTheme(_: Theme): Set<string>;
 export declare function hasParseableColor(_: string | undefined, _: Theme): boolean;
 export declare function hyphenate(_: string): string;
 export declare function isSize(_: string): boolean;
@@ -62,6 +64,7 @@ export declare function parseThemeColor(_: Theme, _: string[]): {
   no: string | undefined;
   keys: string[] | undefined;
 } | undefined;
+/** @deprecated */
 export declare function propertyTracking(_: string, _: string): void;
 export declare function resolveBreakpoints({ theme, generator }: Readonly<VariantContext<Theme>>, _?: 'breakpoint' | 'verticalBreakpoint'): {
   point: string;
@@ -72,7 +75,10 @@ export declare function resolveVerticalBreakpoints(_: Readonly<VariantContext<Th
   size: string;
 }[] | undefined;
 export declare function splitShorthand(_: string, _: string): string[] | undefined;
+/** @deprecated */
 export declare function themeTracking(_: string, _?: Arrayable<string>): void;
+export declare function trackProperty(_: Theme, _: string, _: string): void;
+export declare function trackTheme(_: Theme, _: string, _?: Arrayable<string>): void;
 // #endregion
 
 // #region Variables
@@ -92,7 +98,9 @@ export declare const SpecialColorKey: {
   current: string;
   inherit: string;
 };
+/** @deprecated */
 export declare const trackedProperties: Map<string, string>;
+/** @deprecated */
 export declare const trackedTheme: Set<string>;
 export declare const xyzArray: string[];
 export declare const xyzMap: Record<string, string[]>;

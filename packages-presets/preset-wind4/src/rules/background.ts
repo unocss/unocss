@@ -1,6 +1,6 @@
 import type { CSSObject, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, detectThemeValue, generateThemeVariable, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey, themeTracking } from '../utils'
+import { defineProperty, detectThemeValue, generateThemeVariable, globalKeywords, h, makeGlobalStaticRules, parseColor, positionMap, SpecialColorKey, trackTheme } from '../utils'
 
 const properties = {
   'gradient-position': defineProperty('--un-gradient-position'),
@@ -59,7 +59,7 @@ function bgGradientColorResolver() {
         }
 
         if (keys) {
-          themeTracking(`colors`, keys)
+          trackTheme(theme, `colors`, keys)
         }
         if (theme) {
           detectThemeValue(color, theme)

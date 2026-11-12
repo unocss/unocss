@@ -1,6 +1,6 @@
 import type { CSSEntries, Rule, StaticRule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { globalKeywords, h, insetMap, makeGlobalStaticRules, numberResolver, themeTracking } from '../utils'
+import { globalKeywords, h, insetMap, makeGlobalStaticRules, numberResolver, trackTheme } from '../utils'
 
 export const positions: Rule<Theme>[] = [
   [/^(?:position-|pos-)?(relative|absolute|fixed|sticky)$/, ([, v]) => ({ position: v }), {
@@ -142,10 +142,10 @@ export const flexGridJustifiesAlignments = [...justifies, ...alignments, ...plac
     [`grid-${k}`, v],
   ])
 
-function handleInsetValue(v: string, theme?: Theme): string | number | undefined {
+function handleInsetValue(v: string, theme: Theme): string | number | undefined {
   const _v = numberResolver(v)
   if (_v != null) {
-    themeTracking(`spacing`)
+    trackTheme(theme, `spacing`)
     return `calc(var(--spacing) * ${_v})`
   }
   else {
@@ -153,7 +153,7 @@ function handleInsetValue(v: string, theme?: Theme): string | number | undefined
   }
 }
 
-function handleInsetValues([, d, v]: string[], { theme }: { theme?: Theme }): CSSEntries | undefined {
+function handleInsetValues([, d, v]: string[], { theme }: { theme: Theme }): CSSEntries | undefined {
   const r = handleInsetValue(v, theme)
   if (r != null && d in insetMap) {
     return insetMap[d].map(i => [i.slice(1), r])
