@@ -93,7 +93,7 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
 
   for (const entry of options.entries) {
     const { outFile, rewrite } = entry
-    const files = await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })
+    const files = (await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })).sort()
     const cssFiles = files.filter(f => f.endsWith('.css')).filter(f => f !== resolve(options.cwd, outFile))
     const otherFiles = files.filter(f => !f.endsWith('.css'))
     const singleKey = outFile.replace(/(\.css)?$/, '-merged.css')
