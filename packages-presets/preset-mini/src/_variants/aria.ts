@@ -2,7 +2,7 @@ import type { Variant, VariantContext, VariantObject } from '@unocss/core'
 import type { PresetMiniOptions } from '..'
 import type { Theme } from '../theme'
 import { escapeRegExp, escapeSelector } from '@unocss/core'
-import { h, variantGetParameter } from '../utils'
+import { h, quoteAttributeValue, variantGetParameter } from '../utils'
 
 export const variantAria: VariantObject = {
   name: 'aria',
@@ -10,7 +10,7 @@ export const variantAria: VariantObject = {
     const variant = variantGetParameter('aria-', matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest] = variant
-      const aria = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
+      const aria = quoteAttributeValue(h.bracket(match) ?? ctx.theme.aria?.[match] ?? '')
       if (aria) {
         return {
           matcher: rest,
@@ -29,7 +29,7 @@ function taggedAria(tagName: string, combinator: string, options: PresetMiniOpti
       const variant = variantGetParameter(`${tagName}-aria-`, matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest, label] = variant
-        const ariaAttribute = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
+        const ariaAttribute = quoteAttributeValue(h.bracket(match) ?? ctx.theme.aria?.[match] ?? '')
         if (ariaAttribute) {
           const attributify = !!options?.attributifyPseudo
           let firstPrefix = options?.prefix ?? ''
@@ -85,7 +85,7 @@ function taggedHasAria(): Variant {
       const variant = variantGetParameter('has-aria-', matcher, ctx.generator.config.separators)
       if (variant) {
         const [match, rest] = variant
-        const ariaAttribute = h.bracket(match) ?? ctx.theme.aria?.[match] ?? ''
+        const ariaAttribute = quoteAttributeValue(h.bracket(match) ?? ctx.theme.aria?.[match] ?? '')
         if (ariaAttribute) {
           return {
             matcher: rest,

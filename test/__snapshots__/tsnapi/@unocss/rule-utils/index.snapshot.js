@@ -20,6 +20,7 @@ export function hasThemeFn(_) {}
 export function hex2rgba(_) {}
 export function isInterpolatedMethod(_) {}
 export function parseCssColor(_) {}
+export function quoteAttributeValue(_) {}
 export function resolveBreakpoints(_, _) {}
 export function resolveScreenMediaQuery(_, _) {}
 export function resolveVerticalBreakpoints(_) {}

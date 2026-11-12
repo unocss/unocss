@@ -1,6 +1,6 @@
 import type { Variant, VariantContext, VariantObject } from '@unocss/core'
 import type { Theme } from '../theme'
-import { variantGetParameter } from '@unocss/rule-utils'
+import { quoteAttributeValue, variantGetParameter } from '@unocss/rule-utils'
 import { h } from '../utils'
 
 /**
@@ -12,7 +12,7 @@ function matchDataAttribute(prefix: string, matcher: string, ctx: Readonly<Varia
   const variant = variantGetParameter(`${prefix}${negated ? 'not-' : ''}data-`, matcher, ctx.generator.config.separators)
   if (variant) {
     const [match, rest, label] = variant
-    const dataAttribute = h.bracket(match, ctx.theme) ?? ctx.theme.data?.[match] ?? ''
+    const dataAttribute = quoteAttributeValue(h.bracket(match, ctx.theme) ?? ctx.theme.data?.[match] ?? '')
     if (dataAttribute) {
       const selector = `[data-${dataAttribute}]`
       return [negated ? `:not(${selector})` : selector, rest, label]

@@ -67,6 +67,7 @@ export declare function hasThemeFn(_: string): boolean;
 export declare function hex2rgba(_?: string): RGBAColorValue | undefined;
 export declare function isInterpolatedMethod(_?: string): boolean;
 export declare function parseCssColor(_?: string): CSSColorValue | undefined;
+export declare function quoteAttributeValue(_: string): string;
 export declare function resolveBreakpoints({ theme, generator }: BreakpointsContext, _?: BreakpointsThemeKey): {
   point: string;
   size: string;
