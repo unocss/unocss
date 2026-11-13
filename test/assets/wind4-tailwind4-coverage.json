@@ -1,0 +1,1309 @@
+{
+  "utilities": {
+    "visibility": {
+      "utility": "invisible"
+    },
+    "float": {
+      "utility": "float-start"
+    },
+    "clear": {
+      "utility": "clear-both"
+    },
+    "order": {
+      "utility": "order-3"
+    },
+    "row": {
+      "utility": "row-span-2"
+    },
+    "col-start": {
+      "utility": "col-start-2"
+    },
+    "col-end": {
+      "utility": "col-end-4"
+    },
+    "row-start": {
+      "utility": "row-start-2"
+    },
+    "row-end": {
+      "utility": "row-end-4"
+    },
+    "inset": {
+      "utility": "inset-[13px]"
+    },
+    "inset-x": {
+      "utility": "inset-x-[13px]"
+    },
+    "inset-y": {
+      "utility": "inset-y-[13px]"
+    },
+    "inset-s": {
+      "utility": "start-[13px]"
+    },
+    "inset-e": {
+      "utility": "end-[13px]"
+    },
+    "inset-bs": {
+      "utility": "inset-bs-[13px]"
+    },
+    "inset-be": {
+      "utility": "inset-be-[13px]"
+    },
+    "top": {
+      "utility": "top-[13px]"
+    },
+    "right": {
+      "utility": "right-[13px]"
+    },
+    "bottom": {
+      "utility": "bottom-[13px]"
+    },
+    "left": {
+      "utility": "left-[13px]"
+    },
+    "pointer-events": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'pointer-events-none'"
+    },
+    "position": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'sticky'"
+    },
+    "isolation": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'isolate'"
+    },
+    "z-index": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'z-[17]'"
+    },
+    "col": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'col-span-2'"
+    },
+    "display": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'block'"
+    },
+    "width": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'w-[37px]'"
+    },
+    "max-width": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'max-w-none'"
+    },
+    "min-height": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'min-h-dvh'"
+    },
+    "flex-grow": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'grow'"
+    },
+    "table-layout": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'table-fixed'"
+    },
+    "border-collapse": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'border-collapse'"
+    },
+    "cursor": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'cursor-pointer'"
+    },
+    "resize": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'resize-x'"
+    },
+    "break-inside": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'break-inside-avoid'"
+    },
+    "grid-flow": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'grid-flow-col'"
+    },
+    "grid-cols": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'grid-cols-[200px_1fr]'"
+    },
+    "flex-direction": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'flex-col'"
+    },
+    "flex-wrap": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'flex-wrap'"
+    },
+    "items": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'items-center'"
+    },
+    "justify": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'justify-between'"
+    },
+    "gap": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'gap-[13px]'"
+    },
+    "overflow": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'overflow-clip'"
+    },
+    "scroll-behavior": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'scroll-smooth'"
+    },
+    "whitespace": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'whitespace-pre-wrap'"
+    },
+    "rounded": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'rounded-[7px]'"
+    },
+    "bg-size": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'bg-cover'"
+    },
+    "bg-clip": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'bg-clip-text'"
+    },
+    "bg-blend": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'bg-blend-screen'"
+    },
+    "mix-blend": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'mix-blend-multiply'"
+    },
+    "fill": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'fill-current'"
+    },
+    "stroke": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'stroke-[3]'"
+    },
+    "object": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'object-cover'"
+    },
+    "text-align": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'text-center'"
+    },
+    "text-transform": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'uppercase'"
+    },
+    "font-style": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'italic'"
+    },
+    "text-decoration-line": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'underline'"
+    },
+    "duration": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'duration-[250ms]'"
+    },
+    "opacity": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'opacity-[0.37]'"
+    },
+    "text": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "'text-[length:19px]'"
+    },
+    "sr-only": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'sr-only'"
+    },
+    "not-sr-only": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'not-sr-only'"
+    },
+    "line-clamp": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'line-clamp-3'"
+    },
+    "size": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'size-[13px]'"
+    },
+    "truncate": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'truncate'"
+    },
+    "rounded-s": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "rounded-e": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "rounded-t": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "rounded-r": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "rounded-b": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "rounded-l": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s sets all required declarations'"
+    },
+    "border-spacing": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s composes both axes'"
+    },
+    "border-spacing-x": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s composes both axes'"
+    },
+    "border-spacing-y": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s composes both axes'"
+    },
+    "translate-x": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'translate-%s composes through registered axis variables'"
+    },
+    "translate-y": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'translate-%s composes through registered axis variables'"
+    },
+    "translate-z": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'translate-%s composes through registered axis variables'"
+    },
+    "rotate-x": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'rotate-%s does not erase the other transform components'"
+    },
+    "rotate-y": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'rotate-%s does not erase the other transform components'"
+    },
+    "rotate-z": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'rotate-%s does not erase the other transform components'"
+    },
+    "scale-x": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'scale-%s composes with other axes'"
+    },
+    "scale-y": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'scale-%s composes with other axes'"
+    },
+    "scale-z": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'scale-%s composes with other axes'"
+    },
+    "skew-x": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'skew-%s retains rotate and skew components'"
+    },
+    "skew-y": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'skew-%s retains rotate and skew components'"
+    },
+    "touch-pan": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'touch-pan and touch-pinch-zoom compose'"
+    },
+    "touch-pinch-zoom": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'touch-pan and touch-pinch-zoom compose'"
+    },
+    "scroll-snap-type": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'scroll-snap type and strictness compose'"
+    },
+    "--tw-scroll-snap-strictness": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'scroll-snap type and strictness compose'"
+    },
+    "shadow": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s retains geometry and uses its component'"
+    },
+    "inset-shadow": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s retains geometry and uses its component'"
+    },
+    "text-shadow": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'%s retains geometry and uses its component'"
+    },
+    "ring": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'ring, inset-ring, and ring-offset compose with shadows'"
+    },
+    "inset-ring": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'ring, inset-ring, and ring-offset compose with shadows'"
+    },
+    "ring-offset": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'ring, inset-ring, and ring-offset compose with shadows'"
+    },
+    "transition": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'background image URL indirection, transition shorthand, and easing theme variable'"
+    },
+    "ease": {
+      "file": "preset-wind4-tailwind4-composition.test.ts",
+      "anchor": "'background image URL indirection, transition shorthand, and easing theme variable'"
+    },
+    "accent": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'%s color alpha and emitted theme value'"
+    },
+    "caret": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'%s color alpha and emitted theme value'"
+    },
+    "bg": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'background gradient modes: %s'"
+    },
+    "space-x": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'space-%s and reverse target only non-last children'"
+    },
+    "space-y": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'space-%s and reverse target only non-last children'"
+    },
+    "space-x-reverse": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'space-%s and reverse target only non-last children'"
+    },
+    "space-y-reverse": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'space-%s and reverse target only non-last children'"
+    },
+    "divide-x": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide-%s width, reverse and style target non-last children'"
+    },
+    "divide-y": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide-%s width, reverse and style target non-last children'"
+    },
+    "divide-x-reverse": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide-%s width, reverse and style target non-last children'"
+    },
+    "divide-y-reverse": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide-%s width, reverse and style target non-last children'"
+    },
+    "divide-style": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide-%s width, reverse and style target non-last children'"
+    },
+    "divide-color": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'divide color retains the child selector and oklab enhancement'"
+    },
+    "scrollbar-thumb": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'scrollbar-%s shares both color components'"
+    },
+    "scrollbar-track": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'scrollbar-%s shares both color components'"
+    },
+    "from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'gradient %s position composes with background image'"
+    },
+    "via": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'gradient %s position composes with background image'"
+    },
+    "to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'gradient %s position composes with background image'"
+    },
+    "mask-linear-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-linear-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-radial-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-radial-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-conic-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-conic-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed its gradient'"
+    },
+    "mask-t-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-t-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-r-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-r-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-b-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-b-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-l-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-l-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-x-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-x-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-y-from": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-y-to": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask-%s from/to positions feed each directional gradient'"
+    },
+    "mask-radial-at": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'mask radial position'"
+    },
+    "animate": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'animation references emitted keyframes'"
+    },
+    "translate": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s without axis sets both x and y'"
+    },
+    "scale": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s without axis sets both x and y'"
+    },
+    "skew": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s without axis sets both x and y'"
+    },
+    "translate-3d": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s-3d'"
+    },
+    "scale-3d": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s-3d'"
+    },
+    "mask-linear": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'mask-%s gradient shape'"
+    },
+    "mask-conic": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'mask-%s gradient shape'"
+    },
+    "mask-radial": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'mask-%s gradient shape'"
+    },
+    "content": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s explicit content'"
+    },
+    "placeholder": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'placeholder utility sets the pseudo-element color'"
+    },
+    "margin sort order": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'margin sort order is independent of input order'"
+    },
+    "border with custom default border width": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s custom default border width'"
+    },
+    "divide-x with custom default border width": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s custom default border width'"
+    },
+    "divide-y with custom default border width": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s custom default border width'"
+    },
+    "box-sizing": {
+      "utility": "box-border"
+    },
+    "field-sizing": {
+      "utility": "field-sizing-content"
+    },
+    "aspect-ratio": {
+      "utility": "aspect-[3/2]"
+    },
+    "columns": {
+      "utility": "columns-3"
+    },
+    "break-before": {
+      "utility": "break-before-page"
+    },
+    "break-after": {
+      "utility": "break-after-page"
+    },
+    "caption-side": {
+      "utility": "caption-bottom"
+    },
+    "flex": {
+      "utility": "flex-auto"
+    },
+    "flex-shrink": {
+      "utility": "shrink-0"
+    },
+    "flex-basis": {
+      "utility": "basis-[13px]"
+    },
+    "auto-cols": {
+      "utility": "auto-cols-min"
+    },
+    "auto-rows": {
+      "utility": "auto-rows-max"
+    },
+    "grid-rows": {
+      "utility": "grid-rows-[20px_1fr]"
+    },
+    "place-content": {
+      "utility": "place-content-center"
+    },
+    "place-items": {
+      "utility": "place-items-center"
+    },
+    "place-self": {
+      "utility": "place-self-center"
+    },
+    "align-content": {
+      "utility": "content-center"
+    },
+    "self": {
+      "utility": "self-center"
+    },
+    "justify-items": {
+      "utility": "justify-items-center"
+    },
+    "justify-self": {
+      "utility": "justify-self-center"
+    },
+    "height": {
+      "utility": "h-[13px]"
+    },
+    "min-width": {
+      "utility": "min-w-[13px]"
+    },
+    "max-height": {
+      "utility": "max-h-[13px]"
+    },
+    "inline-size": {
+      "utility": "inline-[13px]"
+    },
+    "min-inline-size": {
+      "utility": "min-inline-[13px]"
+    },
+    "max-inline-size": {
+      "utility": "max-inline-[13px]"
+    },
+    "block-size": {
+      "utility": "block-[13px]"
+    },
+    "min-block-size": {
+      "utility": "min-block-[13px]"
+    },
+    "max-block-size": {
+      "utility": "max-block-[13px]"
+    },
+    "overflow-x": {
+      "utility": "overflow-x-auto"
+    },
+    "overflow-y": {
+      "utility": "overflow-y-hidden"
+    },
+    "overscroll": {
+      "utility": "overscroll-contain"
+    },
+    "overscroll-x": {
+      "utility": "overscroll-x-none"
+    },
+    "overscroll-y": {
+      "utility": "overscroll-y-none"
+    },
+    "text-overflow": {
+      "utility": "text-clip"
+    },
+    "hyphens": {
+      "utility": "hyphens-auto"
+    },
+    "tab": {
+      "utility": "tab-4"
+    },
+    "text-wrap": {
+      "utility": "text-balance"
+    },
+    "word-break": {
+      "utility": "break-all"
+    },
+    "overflow-wrap": {
+      "utility": "wrap-anywhere"
+    },
+    "list-style-position": {
+      "utility": "list-inside"
+    },
+    "list": {
+      "utility": "list-disc"
+    },
+    "list-image": {
+      "utility": "list-image-none"
+    },
+    "indent": {
+      "utility": "indent-[13px]"
+    },
+    "align": {
+      "utility": "align-middle"
+    },
+    "font": {
+      "utility": "font-[Arial]"
+    },
+    "font-features": {
+      "utility": "font-features-[\"smcp\"]"
+    },
+    "font-stretch": {
+      "utility": "font-stretch-condensed"
+    },
+    "decoration": {
+      "utility": "decoration-dotted"
+    },
+    "underline-offset": {
+      "utility": "underline-offset-4"
+    },
+    "leading": {
+      "utility": "leading-[1.7]"
+    },
+    "tracking": {
+      "utility": "tracking-[0.1em]"
+    },
+    "font-smoothing": {
+      "utility": "antialiased"
+    },
+    "font-variant-numeric": {
+      "utility": "normal-nums"
+    },
+    "border-style": {
+      "utility": "border-dashed"
+    },
+    "outline": {
+      "utility": "outline-dotted"
+    },
+    "outline-offset": {
+      "utility": "outline-offset-4"
+    },
+    "bg-position": {
+      "utility": "bg-bottom"
+    },
+    "bg-origin": {
+      "utility": "bg-origin-content"
+    },
+    "box-decoration": {
+      "utility": "box-decoration-clone"
+    },
+    "mask": {
+      "utility": "mask-none"
+    },
+    "mask-position": {
+      "utility": "mask-bottom"
+    },
+    "mask-size": {
+      "utility": "mask-cover"
+    },
+    "mask-clip": {
+      "utility": "mask-clip-content"
+    },
+    "mask-origin": {
+      "utility": "mask-origin-content"
+    },
+    "appearance": {
+      "utility": "appearance-none"
+    },
+    "color-scheme": {
+      "utility": "scheme-dark"
+    },
+    "select": {
+      "utility": "select-none"
+    },
+    "touch-action": {
+      "utility": "touch-none"
+    },
+    "scroll-snap-align": {
+      "utility": "snap-center"
+    },
+    "scroll-snap-stop": {
+      "utility": "snap-always"
+    },
+    "scrollbar-width": {
+      "utility": "scrollbar-thin"
+    },
+    "scrollbar-gutter": {
+      "utility": "scrollbar-gutter-stable"
+    },
+    "origin": {
+      "utility": "origin-top-left"
+    },
+    "perspective-origin": {
+      "utility": "perspective-origin-top-left"
+    },
+    "perspective": {
+      "utility": "perspective-[500px]"
+    },
+    "rotate": {
+      "utility": "rotate-45"
+    },
+    "transform": {
+      "utility": "transform-none"
+    },
+    "zoom": {
+      "utility": "zoom-125"
+    },
+    "transition-behavior": {
+      "utility": "transition-discrete"
+    },
+    "delay": {
+      "utility": "delay-150"
+    },
+    "will-change": {
+      "utility": "will-change-transform"
+    },
+    "contain": {
+      "utility": "contain-strict"
+    },
+    "forced-color-adjust": {
+      "utility": "forced-color-adjust-none"
+    },
+    "filter": {
+      "utility": "filter-none"
+    },
+    "backdrop-filter": {
+      "utility": "backdrop-filter-none"
+    },
+    "@container": {
+      "utility": "@container"
+    },
+    "margin": {
+      "utility": "m-[13px]"
+    },
+    "mx": {
+      "utility": "mx-[13px]"
+    },
+    "my": {
+      "utility": "my-[13px]"
+    },
+    "mt": {
+      "utility": "mt-[13px]"
+    },
+    "ms": {
+      "utility": "ms-[13px]"
+    },
+    "me": {
+      "utility": "me-[13px]"
+    },
+    "mbs": {
+      "utility": "mbs-[13px]"
+    },
+    "mbe": {
+      "utility": "mbe-[13px]"
+    },
+    "mr": {
+      "utility": "mr-[13px]"
+    },
+    "mb": {
+      "utility": "mb-[13px]"
+    },
+    "ml": {
+      "utility": "ml-[13px]"
+    },
+    "p": {
+      "utility": "p-[13px]"
+    },
+    "px": {
+      "utility": "px-[13px]"
+    },
+    "py": {
+      "utility": "py-[13px]"
+    },
+    "pt": {
+      "utility": "pt-[13px]"
+    },
+    "ps": {
+      "utility": "ps-[13px]"
+    },
+    "pe": {
+      "utility": "pe-[13px]"
+    },
+    "pbs": {
+      "utility": "pbs-[13px]"
+    },
+    "pbe": {
+      "utility": "pbe-[13px]"
+    },
+    "pr": {
+      "utility": "pr-[13px]"
+    },
+    "pb": {
+      "utility": "pb-[13px]"
+    },
+    "pl": {
+      "utility": "pl-[13px]"
+    },
+    "gap-x": {
+      "utility": "gap-x-[13px]"
+    },
+    "gap-y": {
+      "utility": "gap-y-[13px]"
+    },
+    "scroll-m": {
+      "utility": "scroll-m-[13px]"
+    },
+    "scroll-p": {
+      "utility": "scroll-p-[13px]"
+    },
+    "scroll-mx": {
+      "utility": "scroll-mx-[13px]"
+    },
+    "scroll-px": {
+      "utility": "scroll-px-[13px]"
+    },
+    "scroll-my": {
+      "utility": "scroll-my-[13px]"
+    },
+    "scroll-py": {
+      "utility": "scroll-py-[13px]"
+    },
+    "scroll-ms": {
+      "utility": "scroll-ms-[13px]"
+    },
+    "scroll-ps": {
+      "utility": "scroll-ps-[13px]"
+    },
+    "scroll-me": {
+      "utility": "scroll-me-[13px]"
+    },
+    "scroll-pe": {
+      "utility": "scroll-pe-[13px]"
+    },
+    "scroll-mbs": {
+      "utility": "scroll-mbs-[13px]"
+    },
+    "scroll-pbs": {
+      "utility": "scroll-pbs-[13px]"
+    },
+    "scroll-mbe": {
+      "utility": "scroll-mbe-[13px]"
+    },
+    "scroll-pbe": {
+      "utility": "scroll-pbe-[13px]"
+    },
+    "scroll-mt": {
+      "utility": "scroll-mt-[13px]"
+    },
+    "scroll-pt": {
+      "utility": "scroll-pt-[13px]"
+    },
+    "scroll-mr": {
+      "utility": "scroll-mr-[13px]"
+    },
+    "scroll-pr": {
+      "utility": "scroll-pr-[13px]"
+    },
+    "scroll-mb": {
+      "utility": "scroll-mb-[13px]"
+    },
+    "scroll-pb": {
+      "utility": "scroll-pb-[13px]"
+    },
+    "scroll-ml": {
+      "utility": "scroll-ml-[13px]"
+    },
+    "scroll-pl": {
+      "utility": "scroll-pl-[13px]"
+    },
+    "rounded-ss": {
+      "utility": "rounded-ss-[7px]"
+    },
+    "rounded-se": {
+      "utility": "rounded-se-[7px]"
+    },
+    "rounded-ee": {
+      "utility": "rounded-ee-[7px]"
+    },
+    "rounded-es": {
+      "utility": "rounded-es-[7px]"
+    },
+    "rounded-tl": {
+      "utility": "rounded-tl-[7px]"
+    },
+    "rounded-tr": {
+      "utility": "rounded-tr-[7px]"
+    },
+    "rounded-br": {
+      "utility": "rounded-br-[7px]"
+    },
+    "rounded-bl": {
+      "utility": "rounded-bl-[7px]"
+    }
+  },
+  "variants": {
+    "*": {
+      "variant": "*:flex"
+    },
+    "**": {
+      "variant": "**:flex"
+    },
+    "first-letter": {
+      "variant": "first-letter:flex"
+    },
+    "first-line": {
+      "variant": "first-line:flex"
+    },
+    "file": {
+      "variant": "file:flex"
+    },
+    "placeholder": {
+      "variant": "placeholder:flex"
+    },
+    "backdrop": {
+      "variant": "backdrop:flex"
+    },
+    "details-content": {
+      "variant": "details-content:flex"
+    },
+    "first": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['first:flex',"
+    },
+    "last": {
+      "variant": "last:flex"
+    },
+    "only": {
+      "variant": "only:flex"
+    },
+    "odd": {
+      "variant": "odd:flex"
+    },
+    "even": {
+      "variant": "even:flex"
+    },
+    "first-of-type": {
+      "variant": "first-of-type:flex"
+    },
+    "last-of-type": {
+      "variant": "last-of-type:flex"
+    },
+    "only-of-type": {
+      "variant": "only-of-type:flex"
+    },
+    "visited": {
+      "variant": "visited:flex"
+    },
+    "target": {
+      "variant": "target:flex"
+    },
+    "default": {
+      "variant": "default:flex"
+    },
+    "checked": {
+      "variant": "checked:flex"
+    },
+    "indeterminate": {
+      "variant": "indeterminate:flex"
+    },
+    "placeholder-shown": {
+      "variant": "placeholder-shown:flex"
+    },
+    "autofill": {
+      "variant": "autofill:flex"
+    },
+    "optional": {
+      "variant": "optional:flex"
+    },
+    "required": {
+      "variant": "required:flex"
+    },
+    "valid": {
+      "variant": "valid:flex"
+    },
+    "invalid": {
+      "variant": "invalid:flex"
+    },
+    "user-valid": {
+      "variant": "user-valid:flex"
+    },
+    "user-invalid": {
+      "variant": "user-invalid:flex"
+    },
+    "in-range": {
+      "variant": "in-range:flex"
+    },
+    "out-of-range": {
+      "variant": "out-of-range:flex"
+    },
+    "read-only": {
+      "variant": "read-only:flex"
+    },
+    "empty": {
+      "variant": "empty:flex"
+    },
+    "focus-within": {
+      "variant": "focus-within:flex"
+    },
+    "focus": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['focus:flex',"
+    },
+    "focus-visible": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['focus-visible:flex',"
+    },
+    "active": {
+      "variant": "active:flex"
+    },
+    "enabled": {
+      "variant": "enabled:flex"
+    },
+    "disabled": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['disabled:flex',"
+    },
+    "ltr": {
+      "variant": "ltr:flex"
+    },
+    "rtl": {
+      "variant": "rtl:flex"
+    },
+    "motion-safe": {
+      "variant": "motion-safe:flex"
+    },
+    "motion-reduce": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['motion-reduce:flex',"
+    },
+    "starting": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['starting:flex',"
+    },
+    "print": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['print:flex',"
+    },
+    "portrait": {
+      "variant": "portrait:flex"
+    },
+    "landscape": {
+      "variant": "landscape:flex"
+    },
+    "contrast-more": {
+      "variant": "contrast-more:flex"
+    },
+    "contrast-less": {
+      "variant": "contrast-less:flex"
+    },
+    "forced-colors": {
+      "variant": "forced-colors:flex"
+    },
+    "inverted-colors": {
+      "variant": "inverted-colors:flex"
+    },
+    "pointer-none": {
+      "variant": "pointer-none:flex"
+    },
+    "pointer-coarse": {
+      "variant": "pointer-coarse:flex"
+    },
+    "pointer-fine": {
+      "variant": "pointer-fine:flex"
+    },
+    "any-pointer-none": {
+      "variant": "any-pointer-none:flex"
+    },
+    "any-pointer-coarse": {
+      "variant": "any-pointer-coarse:flex"
+    },
+    "any-pointer-fine": {
+      "variant": "any-pointer-fine:flex"
+    },
+    "before": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s auto-content'"
+    },
+    "after": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s auto-content'"
+    },
+    "marker": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s covers the element and descendants'"
+    },
+    "selection": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'%s covers the element and descendants'"
+    },
+    "open": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'open and inert conditions include their alternate states'"
+    },
+    "inert": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'open and inert conditions include their alternate states'"
+    },
+    "hover": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'hover media guard'"
+    },
+    "dark": {
+      "file": "preset-wind4-tailwind4-boundaries.test.ts",
+      "anchor": "'dark default'"
+    },
+    "custom breakpoint": {
+      "file": "preset-wind4-tailwind4-values.test.ts",
+      "anchor": "'custom theme values use each engine configuration, not identical variable names'"
+    },
+    "group-[...]": {
+      "variant": "group-[.ready]:flex"
+    },
+    "group-*": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['group-hover:flex',"
+    },
+    "peer-[...]": {
+      "variant": "peer-[.ready]:flex"
+    },
+    "peer-*": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['peer-checked:flex',"
+    },
+    "default breakpoints": {
+      "variant": "md:flex"
+    },
+    "max-*": {
+      "variant": "max-[900px]:flex"
+    },
+    "min-*": {
+      "variant": "min-[500px]:flex"
+    },
+    "supports": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['supports-[display:grid]:flex',"
+    },
+    "not": {
+      "variant": "not-disabled:flex"
+    },
+    "in": {
+      "variant": "in-focus:flex"
+    },
+    "has": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['has-[input]:flex',"
+    },
+    "aria": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['aria-checked:flex',"
+    },
+    "data": {
+      "file": "preset-wind4-tailwind4.test.ts",
+      "anchor": "['data-[state=open]:flex',"
+    },
+    "scripting-none": {
+      "variant": "noscript:flex"
+    },
+    "nth": {
+      "variant": "nth-3:flex"
+    },
+    "container queries": {
+      "variants": ["@sm:flex", "@max-sm:flex", "@sm/sidebar:flex", "@sm:@max-lg:flex"]
+    },
+    "group-hover group-focus sorting": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['group-hover group-focus sorting',"
+    },
+    "sorting stacked min-* and max-* variants": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['sorting stacked min-* and max-* variants',"
+    },
+    "stacked min-* and max-* variants should come after unprefixed variants": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['stacked min-* and max-* variants should come after unprefixed variants',"
+    },
+    "min, max and unprefixed breakpoints": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['min, max and unprefixed breakpoints',"
+    },
+    "sorting `min` and `max` should sort by unit, then by value, then alphabetically": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['sorting `min` and `max` should sort by unit, then by value, then alphabetically',"
+    },
+    "variant order": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['variant order',"
+    },
+    "variants with the same root are sorted deterministically": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['variants with the same root are sorted deterministically',"
+    },
+    "move modifier of compound variant to sub-variant if its also a compound variant": {
+      "file": "preset-wind4-tailwind4-order.test.ts",
+      "anchor": "['move modifier of compound variant to sub-variant if its also a compound variant',"
+    },
+    "matchVariant sorts deterministically": {
+      "file": "preset-wind4-tailwind4-directives.test.ts",
+      "anchor": "['matchVariant sorts deterministically',"
+    }
+  }
+}
