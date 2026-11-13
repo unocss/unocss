@@ -12,8 +12,10 @@ export class ContextManager {
   configExistsCache
   loadingContexts
   discoveredConfigs
+  cacheGeneration
   defaultUnocssConfig
   workspaceRoots
+  roots
   events
   constructor(_, _, _) {}
   log(_) {}
@@ -36,9 +38,10 @@ export class ContextManager {
   async resolveClosestContext(_, _) {}
   async discoverAndLoadConfig(_) {}
   async findConfigDirectory(_) {}
+  isWithinRoots(_) {}
   getWorkspaceBoundary(_) {}
   async hasConfigFiles(_) {}
-  cacheSearchPath(_, _) {}
+  cacheSearchPath(_, _, _) {}
 }
 // #endregion
 
