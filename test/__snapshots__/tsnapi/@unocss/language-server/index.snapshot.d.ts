@@ -22,6 +22,7 @@ export interface ServerSettings {
   autocompleteMatchType: 'prefix' | 'fuzzy';
   autocompleteStrict: boolean;
   autocompleteMaxItems: number;
+  autocompleteClassAttributes: string[];
 }
 // #endregion
 

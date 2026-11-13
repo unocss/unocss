@@ -26,11 +26,12 @@ import { resolveWorkspaceRoots } from './utils/roots'
 const connection = createConnection(ProposedFeatures.all)
 const documents = new TextDocuments(TextDocument)
 
-interface UnocssSettingsInput extends Partial<Omit<ServerSettings, 'autocompleteMatchType' | 'autocompleteStrict' | 'autocompleteMaxItems'>> {
+interface UnocssSettingsInput extends Partial<Omit<ServerSettings, 'autocompleteMatchType' | 'autocompleteStrict' | 'autocompleteMaxItems' | 'autocompleteClassAttributes'>> {
   autocomplete?: {
     matchType?: ServerSettings['autocompleteMatchType']
     strict?: boolean
     maxItems?: number
+    classAttributes?: string[]
   }
 }
 
@@ -63,6 +64,7 @@ function mergeSettings(unocssSettings: UnocssSettingsInput = {}) {
     autocompleteMatchType: unocssSettings?.autocomplete?.matchType ?? defaultSettings.autocompleteMatchType,
     autocompleteStrict: unocssSettings?.autocomplete?.strict ?? defaultSettings.autocompleteStrict,
     autocompleteMaxItems: unocssSettings?.autocomplete?.maxItems ?? defaultSettings.autocompleteMaxItems,
+    autocompleteClassAttributes: unocssSettings?.autocomplete?.classAttributes ?? defaultSettings.autocompleteClassAttributes,
   }
 }
 
