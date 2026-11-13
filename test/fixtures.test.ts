@@ -4,16 +4,16 @@ import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import process from 'node:process'
 import { promisify } from 'node:util'
-import presetUno from '@unocss/preset-uno'
+import presetWind3 from '@unocss/preset-wind3'
+import UnoCSS from '@unocss/vite'
 import { glob } from 'tinyglobby'
-import { build, createBuilder } from 'vite'
 import * as vite from 'vite'
 import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
 
 const execFileAsync = promisify(execFile)
 const isWindows = process.platform === 'win32'
 const isRolldownVite = 'rolldownVersion' in vite
+const { build, createBuilder } = vite
 
 async function getGlobContent(cwd: string, pattern: string) {
   return await glob([pattern], { cwd, absolute: true, expandDirectories: false })
@@ -86,6 +86,12 @@ describe.concurrent('fixtures', () => {
     expect(aCss).not.contains('.c-red')
     expect(bCss).contains('.c-red')
     expect(bCss).not.contains('.text-red')
+
+    // `import 'uno.css'` (needed in dev) resolves on build without emitting an extra stylesheet, #3986
+    expect(aHtml.match(/rel="stylesheet"/g)).toHaveLength(1)
+    // classes from the html are injected into <head>, not after </html>
+    expect(aHtml).toMatch(/<head>[\s\S]*<style>[\s\S]*\.font-bold[\s\S]*<\/style>[\s\S]*<\/head>/)
+    expect(aHtml.trimEnd()).toMatch(/<\/html>$/)
   })
 
   // this test relies on old Astro version which requires old Vite version
@@ -221,6 +227,19 @@ describe.concurrent('fixtures', () => {
     }
   })
 
+  // https://github.com/unocss/unocss/issues/4884
+  it('vite client virtual:uno.css?inline', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-inline')
+    await rm(join(root, 'dist'), { recursive: true, force: true })
+    await build({
+      root,
+      logLevel: 'warn',
+    })
+
+    const js = await getGlobContent(root, 'dist/**/*.js')
+    expect(js).contains('.text-red')
+  })
+
   // https://github.com/unocss/unocss/issues/5323
   it.skipIf(isWindows)('vite environments with shared config build', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-environments')
@@ -274,7 +293,7 @@ describe.concurrent('fixtures', () => {
       plugins: [
         UnoCSS({
           configFile: false,
-          presets: [presetUno()],
+          presets: [presetWind3()],
         }),
       ],
     })

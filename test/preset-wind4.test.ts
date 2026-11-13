@@ -320,10 +320,58 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing: 4px;
       --ui-red-DEFAULT: oklch(70.4% 0.191 22.216);
+      --spacing: 4px;
       }"
     `)
+  })
+
+  // https://github.com/unocss/unocss/issues/5370
+  // Arbitrary var() values are complete colors and must not be wrapped in
+  // color-mix(). This matches preset-mini/preset-wind3 and Tailwind v4, where
+  // bg-[var(--x)] emits background-color: var(--x).
+  it('arbitrary css variables are not wrapped in color-mix', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'bg-[var(--h-btn-bg,color-mix(in_oklab,var(--h-info)_100%,transparent))]',
+      'bg-[var(--some-var)]',
+      'text-[var(--some-var)]',
+      'bg-[var(--some-var)]/50',
+    ].join(' '), { preflights: false })
+
+    expect(css).toContain('background-color:var(--h-btn-bg,color-mix(in oklab,var(--h-info) 100%,transparent));')
+    expect(css).toContain('background-color:var(--some-var);')
+    expect(css).toContain('color:var(--some-var);')
+    expect(css).not.toContain('color-mix(in oklab, var(--h-btn-bg')
+    // an opacity modifier still has to use color-mix()
+    expect(css).toContain('background-color:color-mix(in oklab, var(--some-var) 50%, transparent)')
+  })
+
+  // Passing a var() through must not drop the on-demand theme dependency,
+  // otherwise the utility references --colors-* while nothing defines it.
+  it('keeps the theme dependency for arbitrary css variable colors', async () => {
+    const uno = await createGenerator({
+      envMode: 'dev',
+      presets: [presetWind4()],
+      theme: {
+        colors: {
+          brand: { 500: '#123456' },
+        },
+      },
+    })
+
+    const { css } = await uno.generate('bg-[var(--colors-brand-500)] bg-$colors-brand-500', { preflights: true })
+
+    expect(css).toContain('--colors-brand-500: #123456;')
+    expect(css).toContain('background-color:var(--colors-brand-500);')
   })
 
   it('unit resolve rem to px', async () => {
@@ -421,19 +469,19 @@ describe('preset-wind4', () => {
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
       :root, :host {
-      --colors-foo-bar: #fff;
+      --colors-a2b: #000;
+      --colors-baz1-DEFAULT: #000;
+      --colors-baz1-qux1: #fff;
       --colors-foo-100-bar: #000;
+      --colors-foo-bar: #fff;
       --colors-foo-baz-qux: #f00;
       --colors-foo-primary-1-DEFAULT: red;
       --colors-foo-primary-2: red;
       --colors-foo-primary-3-kebab-value: red;
       --colors-foo-primary-veryCool-kebab-value-test: red;
-      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
-      --colors-baz1-DEFAULT: #000;
-      --colors-baz1-qux1: #fff;
       --colors-qux-2: #000;
       --colors-quxx_1: #000;
-      --colors-a2b: #000;
+      --colors-red-DEFAULT: oklch(70.4% 0.191 22.216);
       }
       /* layer: default */
       .text-a2b{color:color-mix(in srgb, var(--colors-a2b) var(--un-text-opacity), transparent) /* #000 */;}
@@ -506,12 +554,12 @@ describe('preset-wind4', () => {
     expect(css).toMatchInlineSnapshot(`
       "/* layer: theme */
       :root, :host {
-      --spacing: 0.25rem;
-      --colors-red-100: oklch(93.6% 0.032 17.717);
       --breakpoint-sm: 40rem;
-      --custom-foo: var(--custom-bar);
+      --colors-red-100: oklch(93.6% 0.032 17.717);
       --custom-bar: var(--custom-baz-DEFAULT, inherit);
       --custom-baz-DEFAULT: inherit;
+      --custom-foo: var(--custom-bar);
+      --spacing: 0.25rem;
       }"
     `)
   })
@@ -1035,6 +1083,83 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('peer variants on space and divide', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate([
+      'peer-checked:space-x-8',
+      'peer-hover:divide-x-4',
+    ])
+
+    const prettified = await prettier.format(css, {
+      parser: 'css',
+      plugins: [parserCSS],
+    })
+
+    expect(prettified).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or
+        ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
+        *,
+        ::before,
+        ::after,
+        ::backdrop {
+          --un-border-style: solid;
+          --un-divide-x-reverse: initial;
+          --un-space-x-reverse: initial;
+        }
+      }
+      @property --un-space-x-reverse {
+        syntax: "*";
+        inherits: false;
+        initial-value: 0;
+      }
+      @property --un-border-style {
+        syntax: "*";
+        inherits: false;
+        initial-value: solid;
+      }
+      @property --un-divide-x-reverse {
+        syntax: "*";
+        inherits: false;
+        initial-value: 0;
+      }
+      /* layer: theme */
+      :root,
+      :host {
+        --spacing: 0.25rem;
+      }
+      /* layer: default */
+      .peer:checked ~ .peer-checked\\:space-x-8 {
+        :where(& > :not(:last-child)) {
+          --un-space-x-reverse: 0;
+          margin-inline-start: calc(
+            calc(var(--spacing) * 8) * var(--un-space-x-reverse)
+          );
+          margin-inline-end: calc(
+            calc(var(--spacing) * 8) * calc(1 - var(--un-space-x-reverse))
+          );
+        }
+      }
+      .peer:hover ~ .peer-hover\\:divide-x-4 {
+        :where(& > :not(:last-child)) {
+          --un-divide-x-reverse: 0;
+          border-left-width: calc(4px * var(--un-divide-x-reverse));
+          border-left-style: var(--un-border-style);
+          border-right-width: calc(4px * calc(1 - var(--un-divide-x-reverse)));
+          border-right-style: var(--un-border-style);
+        }
+      }
+      "
+    `)
+  })
+
   it('basic variable prefix', async () => {
     const uno = await createGenerator({
       presets: [
@@ -1349,7 +1474,7 @@ describe('important', () => {
       @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-text-opacity:100%;}}
       @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
       /* layer: theme */
-      :root, :host { --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); }
+      :root, :host { --colors-blue-DEFAULT: oklch(70.7% 0.165 254.624); --colors-red-DEFAULT: oklch(70.4% 0.191 22.216); }
       /* layer: shortcuts */
       .dark .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
       .hover\\:btn:hover{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
@@ -1357,6 +1482,34 @@ describe('important', () => {
       .dark .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-blue-DEFAULT) var(--un-text-opacity), transparent);}
       .hover\\:btn:hover{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent);}
       }"
+    `)
+  })
+
+  it('tailwind v4 parentheses css variable syntax', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+      theme: {
+        bar: '10px',
+      } as any,
+    })
+
+    const { css } = await uno.generate([
+      'text-(--primary)',
+      'bg-(--brand-color)',
+      'w-(--sidebar-width)',
+      'text-(--primary)/50',
+    ], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @property --un-text-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+      /* layer: default */
+      .text-\\(--primary\\){color:var(--primary);}
+      .text-\\(--primary\\)\\/50{color:color-mix(in oklab, var(--primary) 50%, transparent);}
+      .bg-\\(--brand-color\\){background-color:var(--brand-color);}
+      .w-\\(--sidebar-width\\){width:var(--sidebar-width);}"
     `)
   })
 
@@ -1385,8 +1538,8 @@ describe('important', () => {
 
     expect(getLayer('default')).toMatchInlineSnapshot(`
       "/* layer: default */
-      .text-\\[--colors\\.blue\\,\\#000\\]{color:color-mix(in oklab, var(--colors-blue-DEFAULT, #000) var(--un-text-opacity), transparent);}
-      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:color-mix(in oklab, var(--colors-red-200, #fff) var(--un-text-opacity), transparent);}
+      .text-\\[--colors\\.blue\\,\\#000\\]{color:var(--colors-blue-DEFAULT, #000);}
+      .text-\\[--colors\\.red\\.200\\,\\#fff\\]{color:var(--colors-red-200, #fff);}
       .m-\\[--spacing\\(2\\)\\]{margin:calc(var(--spacing) * 2);}
       .m-\\[--spacing\\]{margin:var(--spacing);}
       .px-\\[--spacing\\.sm\\(2\\.5\\)\\]{padding-inline:calc(var(--spacing-sm) * 2.5);}
@@ -1394,5 +1547,59 @@ describe('important', () => {
       .w-\\[calc\\(var\\(--sidebar-width-icon\\)\\+--spacing\\(8\\)\\)\\]{width:calc(var(--sidebar-width-icon) + calc(var(--spacing) * 8));}
       .\\[--foo\\:--bar\\(8\\)\\]{--foo:calc(var(--bar) * 8);}"
     `)
+  })
+})
+
+describe('cross-generator state', () => {
+  const createUno = () => createGenerator({ presets: [presetWind4({ preflights: { reset: false } })] })
+
+  it('keeps tracked theme keys when another generator resolves its config', async () => {
+    const first = await createUno()
+    expect((await first.generate('max-w-md', { preflights: true })).css).toContain('--container-md:')
+
+    const second = await createUno()
+    expect((await second.generate('text-red-500', { preflights: true })).css).not.toContain('--container-md:')
+
+    expect((await first.generate('max-w-md', { preflights: true })).css).toContain('--container-md:')
+  })
+
+  it('keeps tracked properties when another generator resolves its config', async () => {
+    const first = await createUno()
+    expect((await first.generate('shadow', { preflights: true })).css).toContain('--un-shadow:0 0 #0000;')
+
+    const second = await createUno()
+    const secondCSS = (await second.generate('blur-sm', { preflights: true })).css
+    expect(secondCSS).toContain('--un-blur:initial;')
+    expect(secondCSS).not.toContain('--un-shadow:0 0 #0000;')
+
+    expect((await first.generate('shadow', { preflights: true })).css).toContain('--un-shadow:0 0 #0000;')
+  })
+})
+
+describe('theme preflight determinism', () => {
+  it('emits a deterministic theme preflight regardless of token order', async () => {
+    const tokens = [
+      'text-red-500',
+      'bg-blue-500',
+      'm-2',
+      'rounded-lg',
+      'p-4',
+      'border',
+      'text-sm',
+      'gap-4',
+    ]
+
+    const generate = async (list: string[]) => {
+      const uno = await createGenerator({ presets: [presetWind4()] })
+      return (await uno.generate(new Set(list), { preflights: true })).css
+    }
+
+    const forward = await generate(tokens)
+    const reversed = await generate(tokens.toReversed())
+    const rotated = await generate([...tokens.slice(4), ...tokens.slice(0, 4)])
+
+    expect(forward).toContain(':root, :host')
+    expect(reversed).toBe(forward)
+    expect(rotated).toBe(forward)
   })
 })

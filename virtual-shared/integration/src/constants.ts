@@ -11,3 +11,9 @@ export const VIRTUAL_ENTRY_ALIAS = [
   /^(?:virtual:)?uno(?::(.+))?\.css(\?.*)?$/,
 ]
 export const LAYER_MARK_ALL = '__ALL__'
+
+export const quotedArbitraryValuesRE
+  = /(?:[\w&:[\].(-]|\[\S{1,64}=\S{1,64}\]){1,64}\[\\?['"]?\S{1,64}?['"]\](?:\)?\])?[\w:-]{0,64}/g
+
+export const arbitraryPropertyRE
+  = /\[(\\\W|[\w-]){1,64}:[^\s:]{0,64}?("\S{1,64}?"|'\S{1,64}?'|`\S{1,64}?`|[^\s:]{1,64}?)[^\s:]{0,64}?\)?\]/g

@@ -1,11 +1,11 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { generateThemeVariable, h, makeGlobalStaticRules, themeTracking } from '../utils'
+import { generateThemeVariable, h, makeGlobalStaticRules, trackTheme } from '../utils'
 
 export const columns: Rule<Theme>[] = [
   [/^columns-(.+)$/, ([, v], { theme }) => {
     if (theme.container && v in theme.container) {
-      themeTracking('container', v)
+      trackTheme(theme, 'container', v)
       return { columns: generateThemeVariable('container', v) }
     }
 

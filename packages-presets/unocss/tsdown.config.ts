@@ -9,11 +9,6 @@ export default defineConfig([
     ],
     clean: true,
     dts: true,
-    deps: {
-      neverBundle: [
-        'webpack',
-      ],
-    },
     format: ['esm', 'cjs'],
     exports: true,
     cjsDefault: false,
@@ -39,14 +34,6 @@ export default defineConfig([
     ],
     clean: false,
     dts: true,
-    deps: {
-      neverBundle: [
-        'astro',
-        'rolldown',
-        'rollup',
-        'vite',
-      ],
-    },
     exports: true,
     failOnWarn: true,
     publint: 'ci-only',

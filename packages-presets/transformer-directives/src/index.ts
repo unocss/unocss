@@ -3,6 +3,7 @@ import type { TransformerDirectivesOptions } from './types'
 import { cssIdRE } from '@unocss/core'
 import { resolveApplyVariables, transformDirectives } from './transform'
 
+export { transformDirectives } from './transform'
 export * from './types'
 
 export default function transformerDirectives(options: TransformerDirectivesOptions = {}): SourceCodeTransformer {

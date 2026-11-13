@@ -48,16 +48,16 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
     const hashes = new Map<string, string>()
 
     let RESOLVED_ID_RE: RegExp
-    // Default matches `virtualModulePrefix || '__uno'` in getVMPRegexes.
-    // Mutated after config resolves so custom prefixes still hit `load`.
-    const virtualCssInclude: Array<string | RegExp> = [
-      /[/\\]__uno(?:_.*?)?\.css(\?.*)?$/,
-    ]
+    const virtualCssLoad = {
+      filter: { id: /[/\\]__uno(?:_.*?)?\.css(\?.*)?$/ },
+      async handler(id: string) {
+        const layer = await getLayer(ctx, id)
+        if (!layer)
+          return
 
-    async function applyVirtualCssFilter() {
-      const regexes = await ctx.getVMPRegexes()
-      RESOLVED_ID_RE = regexes.RESOLVED_ID_RE
-      virtualCssInclude[0] = regexes.RESOLVED_ID_WITH_QUERY_RE
+        const hash = hashes.get(id)
+        return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
+      },
     }
 
     const plugin = {
@@ -104,21 +104,7 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
       // #5164: unfiltered load hook registers unplugin's global load loader on all modules,
       // corrupting binary assets (unjs/unplugin#524). Only match virtual CSS module ids
       // (`virtualModulePrefix`, default `__uno`).
-      load: {
-        filter: {
-          id: {
-            include: virtualCssInclude,
-          },
-        },
-        async handler(id) {
-          const layer = await getLayer(ctx, id)
-          if (!layer)
-            return
-
-          const hash = hashes.get(id)
-          return (hash ? getHashPlaceholder(hash) : '') + getLayerPlaceholder(layer)
-        },
-      },
+      load: virtualCssLoad,
       webpack(compiler) {
         compiler.hooks.beforeCompile.tapPromise(PLUGIN_NAME, async () => {
           await ctx.ready
@@ -215,6 +201,17 @@ export function unplugin<Theme extends object>(configOrPath?: WebpackPluginOptio
         return this.webpack
       },
     } as UnpluginOptions as Required<ResolvedUnpluginOptions>
+
+    async function applyVirtualCssFilter() {
+      const regexes = await ctx.getVMPRegexes()
+      RESOLVED_ID_RE = regexes.RESOLVED_ID_RE
+      // unplugin caches filters by hook identity. Replace the hook after config
+      // resolves so a custom prefix invalidates the cached default filter.
+      plugin.load = {
+        ...virtualCssLoad,
+        filter: { id: regexes.RESOLVED_ID_WITH_QUERY_RE },
+      }
+    }
 
     let lastTokenSize = tokens.size
     async function updateModules() {

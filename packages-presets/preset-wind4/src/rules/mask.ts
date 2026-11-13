@@ -9,7 +9,7 @@ import {
   hyphenate,
   numberResolver,
   positionMap,
-  themeTracking,
+  trackTheme,
 } from '../utils'
 
 const linearMap: Record<string, string[]> = {
@@ -51,7 +51,7 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       css[`--un-mask-${dir}`] = `linear-gradient(to ${dir}, var(--un-mask-${dir}-from-color) var(--un-mask-${dir}-from-position), var(--un-mask-${dir}-to-color) var(--un-mask-${dir}-to-position))`
 
       if (numberResolver(val) != null) {
-        themeTracking('spacing')
+        trackTheme(ctx.theme, 'spacing')
         css[`--un-mask-${dir}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
       }
       else {
@@ -105,7 +105,7 @@ function handleImage([_, gradient = '', direction, val]: string[], ctx: RuleCont
       }
       else {
         if (numberResolver(val) != null) {
-          themeTracking('spacing')
+          trackTheme(ctx.theme, 'spacing')
           css[`--un-mask-${gradient}-${direction}-position`] = `calc(var(--spacing) * ${h.bracket.cssvar.fraction.number(val, ctx.theme)})`
         }
         else {

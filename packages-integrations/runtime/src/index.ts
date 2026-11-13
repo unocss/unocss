@@ -177,6 +177,10 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
   let paused = true
   const tokens = new Set<string>()
+  // Tokens that generated no CSS, so extracting them again doesn't trigger an update
+  const unmatchedTokens = new Set<string>()
+  // A new config may add rules for them, so give them another chance
+  uno.events.on('config', () => unmatchedTokens.clear())
   let inspector: RuntimeInspectorCallback | undefined
 
   let _timer: number | undefined
@@ -239,7 +243,10 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
     }, undefined)
 
     const clearTokens = currentToken.filter(i => !result.matched.has(i))
-    clearTokens.forEach(t => tokens.delete(t))
+    clearTokens.forEach((t) => {
+      tokens.delete(t)
+      unmatchedTokens.add(t)
+    })
 
     return {
       ...result,
@@ -249,9 +256,15 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
   }
 
   async function extract(str: string) {
-    const tokenSize = tokens.size
-    await uno.applyExtractors(str, undefined, tokens)
-    if (tokenSize !== tokens.size)
+    const extracted = await uno.applyExtractors(str)
+    let changed = false
+    for (const token of extracted) {
+      if (tokens.has(token) || unmatchedTokens.has(token))
+        continue
+      tokens.add(token)
+      changed = true
+    }
+    if (changed)
       await scheduleUpdate()
   }
 

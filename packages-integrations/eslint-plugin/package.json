@@ -1,7 +1,7 @@
 {
   "name": "@unocss/eslint-plugin",
   "type": "module",
-  "version": "66.11.0",
+  "version": "66.13.0",
   "description": "ESLint plugin for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -45,20 +45,22 @@
   "scripts": {
     "build": "tsdown --config-loader unrun",
     "prepack": "turbo build --filter=.",
-    "typecheck": "tsgo --noEmit",
-    "lint": "nr build && cd ./fixtures && eslint ./src"
+    "lint": "nr build && cd ./test/fixtures/lint && eslint ./src"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0"
   },
   "dependencies": {
+    "@typescript-eslint/types": "catalog:typescript",
     "@typescript-eslint/utils": "catalog:typescript",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
-    "@unocss/rule-utils": "workspace:*",
     "magic-string": "catalog:utils",
     "synckit": "catalog:utils"
   },
   "devDependencies": {
-    "@typescript/native-preview": "catalog:typescript",
     "svelte-eslint-parser": "catalog:eslint",
+    "unocss": "workspace:*",
     "vue-eslint-parser": "catalog:vue"
   }
 }

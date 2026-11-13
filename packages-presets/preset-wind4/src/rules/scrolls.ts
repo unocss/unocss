@@ -6,7 +6,7 @@ import {
   directionSize,
   generateThemeVariable,
   h,
-  themeTracking,
+  trackTheme,
 } from '../utils'
 
 export const scrolls: Rule<Theme>[] = [
@@ -44,7 +44,7 @@ export const scrolls: Rule<Theme>[] = [
     ([, w, v], { theme, symbols }) => {
       let value: string | undefined
       if (h.number(v) != null) {
-        themeTracking('spacing')
+        trackTheme(theme, 'spacing')
         value = `calc(var(--spacing) * ${h.number(v)})`
       }
       else {
@@ -68,7 +68,7 @@ export const scrolls: Rule<Theme>[] = [
         value = 'calc(infinity * 1px)'
       }
       else if (theme.radius && v in theme.radius) {
-        themeTracking('radius', v)
+        trackTheme(theme, 'radius', v)
         value = generateThemeVariable('radius', v)
       }
       else {

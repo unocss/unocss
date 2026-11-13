@@ -59,12 +59,12 @@ The rule prefix depends on the ESLint configuration style:
 
 Available rules:
 
-- `order` - Enforce a specific order for class selectors.
+- `order` - Enforce a specific order for class selectors, including the values of prefixed attributify attributes (e.g. `un-before="..."`).
 - `order-attributify` - Enforce a specific order for attributify selectors.
 - `blocklist` - Disallow specific class selectors [Optional].
 - `enforce-class-compile` - Enforce class compile [Optional].
 
-`order-attributify` orders attributify attributes themselves. It does not sort utilities inside attributify values such as `un-before="text-center font-sans color-gray"`.
+`order-attributify` orders attributify attributes themselves. The utilities inside the value of prefixed attributes, such as `un-before="text-center font-sans color-gray"`, are sorted by `order`. The prefix is read from the `prefix` option of `presetAttributify` in your UnoCSS configuration, defaulting to `un-`. An empty prefix disables sorting of attribute values other than `class`. Other attributify values are not sorted yet.
 
 ### Rule options
 
@@ -132,6 +132,72 @@ Options:
 - `enableFix` (boolean) - can be used for gradual migration when `false`. Default: `true`
 
 **Note**: currently only Vue supported. _Contribute a PR_ if you want this in JSX. If you're looking for this in Svelte, you might be looking for [`svelte-scoped`](https://unocss.dev/integrations/svelte-scoped) mode.
+
+## Usage with Oxlint
+
+The plugin can also run in [Oxlint](https://oxc.rs/docs/guide/usage/linter) through its [JS plugins](https://oxc.rs/docs/guide/usage/linter/js-plugins) support. Install `@unocss/eslint-plugin` directly:
+
+::: code-group
+
+```bash [pnpm]
+pnpm add -D oxlint @unocss/eslint-plugin
+```
+
+```bash [yarn]
+yarn add -D oxlint @unocss/eslint-plugin
+```
+
+```bash [npm]
+npm install -D oxlint @unocss/eslint-plugin
+```
+
+```bash [bun]
+bun add -D oxlint @unocss/eslint-plugin
+```
+
+:::
+
+::: tip
+With Yarn Berry, set `nodeLinker: node-modules` in `.yarnrc.yml`. Oxlint can't load JS plugins under Yarn Plug'n'Play.
+:::
+
+Then enable the rules in your Oxlint config. The rule prefix is `unocss/`:
+
+```json [.oxlintrc.json]
+{
+  "jsPlugins": ["@unocss/eslint-plugin"],
+  "rules": {
+    "unocss/order": "warn",
+    "unocss/blocklist": "error"
+  }
+}
+```
+
+To use a custom UnoCSS config path, set it in `settings`. The path is resolved from the directory where Oxlint runs, not from the config file:
+
+```json [.oxlintrc.json]
+{
+  "jsPlugins": ["@unocss/eslint-plugin"],
+  "settings": {
+    "unocss": {
+      "configPath": "./config/uno.config.ts"
+    }
+  }
+}
+```
+
+::: warning
+JS plugins in Oxlint are still experimental. Autofix with `oxlint --fix` is supported.
+
+Only script code is linted: JS, TS, JSX and TSX files, plus `<script>` blocks in Vue and Svelte files and Astro frontmatter. Vue, Svelte and Astro templates are not linted yet, because Oxlint doesn't support custom parsers ([oxc#15761](https://github.com/oxc-project/oxc/issues/15761)).
+
+Rule coverage in script code:
+
+- `unocss/order`: class attributes, `clsx()`-like calls, and `cls*` and `*className(s)` variables (configurable through `unoVariables`). In those variables, strings and template literals are checked, including object values, function return values and call arguments, but not ternaries
+- `unocss/blocklist`: string literals in JSX `class` and `className` attributes only
+- `unocss/order-attributify` and `unocss/enforce-class-compile`: not supported, they only work in Vue templates
+
+:::
 
 ## Prior Arts
 

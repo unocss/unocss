@@ -8,15 +8,16 @@ import { parse as parseYaml } from 'yaml'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const appDir = path.join(__dirname, '../app')
 
-mkdirSync(path.join(__dirname, '../app/guides/vendor/'), { recursive: true })
-mkdirSync(path.join(__dirname, '../app/data/'), { recursive: true })
+mkdirSync(path.join(appDir, 'guides/vendor/'), { recursive: true })
+mkdirSync(path.join(appDir, 'data/'), { recursive: true })
 
 const code = genArrayFromRaw(
-  globSync([path.join(__dirname, '../app/guides/**/*.{md,vue}')], { expandDirectories: false })
+  globSync(['guides/**/*.{md,vue}'], { cwd: appDir, expandDirectories: false })
     .map((file) => {
       const ext = parse(file).ext
-      const yml = `${file.slice(0, -ext.length)}.yml`
+      const yml = path.join(appDir, `${file.slice(0, -ext.length)}.yml`)
       const data: any = existsSync(yml)
         ? parseYaml(readFileSync(yml, 'utf-8'))
         : {}
@@ -27,12 +28,12 @@ const code = genArrayFromRaw(
           title: basename(file, ext),
           ...data,
         }, (k, v) => [k, JSON.stringify(v)]),
-        component: `() => import('../${file}')`,
+        component: `() => import('../${file.replaceAll('\\', '/')}')`,
       })
     }),
 )
 
-writeFileSync(path.join(__dirname, '../app/data/guides.ts'), `
+writeFileSync(path.join(appDir, 'data/guides.ts'), `
 import type { GuideItem } from '~/types'
 
 export const guideIndex: GuideItem[] = ${code}

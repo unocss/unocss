@@ -12,6 +12,7 @@ import { hasThemeFn } from '@unocss/rule-utils'
 import postcss from 'postcss'
 import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '#integration/defaults'
+import { normalizeFilesystemGlob } from '#integration/glob'
 import { parseApply } from './apply'
 import { parseScreen } from './screen'
 import { parseTheme } from './theme'
@@ -102,7 +103,7 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
       throw new Error (`UnoCSS config not found: ${error.message}`)
     }
 
-    const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
+    const globs = (uno.config.content?.filesystem ?? defaultFilesystemGlobs).map(normalizeFilesystemGlob)
     const needCheckNodeMoudules = globs.some(i => i.includes('node_modules'))
     const plainContent = uno.config.content?.inline ?? []
 

@@ -104,21 +104,29 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
 
   const pipelineIncludes: FilterPattern[] = []
   const pipelineExcludes: FilterPattern[] = []
+  let pipelineIncludesDeclared = false
+  let pipelineExcludesDeclared = false
   let pipelineDisabled = false
   const filesystem: ContentOptions['filesystem'][] = []
   const inline: ContentOptions['inline'][] = []
 
   for (const options of optionsArray) {
     if (options.pipeline === false) {
+      // Disables extraction only; other content sources are still collected.
       pipelineDisabled = true
-      break
     }
     else {
-      if (options.pipeline?.include) {
-        pipelineIncludes.push(options.pipeline.include)
+      // Falsy non-pattern values (`''`, `null`) are treated as undeclared; an
+      // explicitly empty list is truthy and means "no constraint".
+      const include = options.pipeline?.include
+      const exclude = options.pipeline?.exclude
+      if (include) {
+        pipelineIncludesDeclared = true
+        pipelineIncludes.push(include)
       }
-      if (options.pipeline?.exclude) {
-        pipelineExcludes.push(options.pipeline.exclude)
+      if (exclude) {
+        pipelineExcludesDeclared = true
+        pipelineExcludes.push(exclude)
       }
     }
 
@@ -130,14 +138,22 @@ function mergeContentOptions(optionsArray: ContentOptions[]): ContentOptions {
     }
   }
 
-  const mergedContent: ContentOptions = {
-    pipeline: pipelineDisabled
-      ? false
-      : {
-          include: uniq(mergeFilterPatterns(...pipelineIncludes)),
-          exclude: uniq(mergeFilterPatterns(...pipelineExcludes)),
-        },
+  const mergedContent: ContentOptions = {}
+
+  if (pipelineDisabled) {
+    mergedContent.pipeline = false
   }
+  else {
+    // Emit only declared keys so integrations can fall back to their defaults;
+    // an explicit `[]` is meaningful and must not become the defaults (#5414).
+    if (pipelineIncludesDeclared || pipelineExcludesDeclared) {
+      mergedContent.pipeline = {
+        ...(pipelineIncludesDeclared ? { include: uniq(mergeFilterPatterns(...pipelineIncludes)) } : {}),
+        ...(pipelineExcludesDeclared ? { exclude: uniq(mergeFilterPatterns(...pipelineExcludes)) } : {}),
+      }
+    }
+  }
+
   if (filesystem.length) {
     mergedContent.filesystem = uniq(filesystem.flat()) as ContentOptions['filesystem']
   }
@@ -194,7 +210,7 @@ export async function resolveConfig<Theme extends object = object>(
   const rules = getMerged('rules')
   const rulesSize = rules.length
   const rulesStaticMap: ResolvedConfig<Theme>['rulesStaticMap'] = {}
-  const rulesDynamic: ResolvedConfig<Theme>['rulesDynamic'] = []
+  const rulesDynamic: DynamicRule<Theme>[] = []
 
   for (const [index, rule] of rules.entries()) {
     const meta = rule[2] ?? (rule[2] = {})
@@ -208,9 +224,11 @@ export async function resolveConfig<Theme extends object = object>(
       })
     }
     else {
-      (rulesDynamic as DynamicRule<Theme>[]).unshift(rule)
+      rulesDynamic.push(rule)
     }
   }
+
+  rulesDynamic.reverse()
 
   const autocomplete = {
     templates: uniq(sources.flatMap(p => toArray(p.autocomplete?.templates))),

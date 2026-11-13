@@ -32,6 +32,73 @@ export interface ReplResult {
   matched: string[]
 }
 
+/**
+ * How a utility was produced: a shortcut expansion, a variant chain, or a
+ * static/dynamic (regex) rule.
+ */
+export type DocsItemKind = 'shortcut' | 'variant' | 'static' | 'dynamic'
+
+export interface DocsSearchItem {
+  class: string
+  /**
+   * CSS declarations the utility generates, `prop: value; ` joined.
+   */
+  body: string
+  kind: DocsItemKind
+  /**
+   * First color found in the generated CSS, for the result swatch.
+   */
+  color?: string
+}
+
+export interface DocsRuleSource {
+  /**
+   * The rule matcher: a static class name or a stringified RegExp.
+   */
+  matcher: string
+  static: boolean
+  /**
+   * Name of the preset that ships the rule; `undefined` for rules defined in
+   * the project config itself.
+   */
+  preset?: string
+}
+
+export interface DocsShortcutSource {
+  from: string
+  to: string
+}
+
+export interface DocsVariantStep {
+  name?: string
+  preset?: string
+  /**
+   * Selector after this step, handed to the next round of matching.
+   */
+  result: string
+}
+
+export interface DocsItem extends DocsSearchItem {
+  css: string
+  layers: string[]
+  colors: string[]
+  /**
+   * Standard CSS properties set by the utility.
+   */
+  properties: string[]
+  rules: DocsRuleSource[]
+  shortcuts: DocsShortcutSource[]
+  variants: DocsVariantStep[]
+  /**
+   * Other known utilities generating the same CSS body.
+   */
+  aliases: string[]
+  /**
+   * Other known utilities matched by the same rules.
+   */
+  sameRule: string[]
+}
+
 export interface ModuleUpdate {
   path: string
 }
@@ -57,6 +124,11 @@ export interface MatchedSelector {
   variants?: string[]
   modules: string[]
   body: string
+  /**
+   * CSS declarations the utility generates, independent of its selector and variants.
+   * Utilities with equal declarations are aliases of each other.
+   */
+  declarations?: string
   alias?: Record<string, number>
 }
 

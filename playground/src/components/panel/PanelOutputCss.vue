@@ -29,7 +29,7 @@ defineProps<{ index: number }>()
       </div>
     </TitleBar>
     <CodeMirror
-      :model-value="cssFormatted" flex-auto mode="css" border="l main" class="scrolls"
+      :model-value="cssFormatted ?? ''" flex-auto mode="css" border="l main" class="scrolls"
       :read-only="true"
     />
   </Pane>

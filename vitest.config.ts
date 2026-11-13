@@ -1,12 +1,12 @@
 import { defaultExclude, defineConfig } from 'vitest/config'
-import { alias } from './alias'
+import { alias, aliasSource } from './alias.ts'
 
 export default defineConfig({
   optimizeDeps: {
     entries: [],
   },
   resolve: {
-    alias,
+    alias: { ...aliasSource, ...alias },
   },
   test: {
     testTimeout: 30_000,
@@ -16,6 +16,7 @@ export default defineConfig({
     projects: [
       'vitest.config.ts',
       'packages-integrations/svelte-scoped/vitest.config.ts',
+      'packages-integrations/svelte-scoped/test/fixtures/vite/vitest.config.ts',
       'packages-integrations/runtime/vitest.config.ts',
     ],
   },

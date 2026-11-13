@@ -4,10 +4,13 @@
 // #region Functions
 export function ChunkModeBuildPlugin(_) {}
 export function defineConfig(_) {}
+export function fromViteVirtualId(_) {}
 export function GlobalModeBuildPlugin(_) {}
 export function GlobalModeDevPlugin(_) {}
 export function GlobalModePlugin(_) {}
 export function PerModuleModePlugin(_) {}
+export function toViteClientPath(_) {}
+export function toViteVirtualId(_) {}
 export function VueScopedPlugin(_) {}
 // #endregion
 

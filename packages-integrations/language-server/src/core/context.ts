@@ -7,8 +7,8 @@ import { createNanoEvents, notNull } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import { sourceObjectFields, sourcePluginFactory } from 'unconfig/presets'
 import { createContext } from '#integration/context'
+import { resolveNuxtOptions } from '#integration/nuxt-options'
 import { isCssId } from '#integration/utils'
-import { resolveOptions as resolveNuxtOptions } from '../../../nuxt/src/options'
 import { isSubdir } from '../utils/position'
 
 const frameworkConfigRE = /^(?:vite|svelte|astro|iles|nuxt|unocss|uno)\.config/

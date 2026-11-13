@@ -1,8 +1,9 @@
-import { resolve } from 'node:path'
+import { mkdtemp, realpath, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join, resolve } from 'node:path'
+import UnoCSS, { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '@unocss/vite'
 import * as vite from 'vite'
-import { describe, expect, it } from 'vitest'
-import UnoCSS from '../packages-integrations/vite/src/index'
-import { toViteClientPath } from '../packages-integrations/vite/src/virtual'
+import { describe, expect, it, vi } from 'vitest'
 
 describe('vite virtual module ids', () => {
   async function createServer(mode: 'global' | 'per-module') {
@@ -15,25 +16,85 @@ describe('vite virtual module ids', () => {
     })
   }
 
-  it('uses internal ids for global CSS', async () => {
+  it('serves global CSS through a path id', async () => {
     const server = await createServer('global')
 
     try {
-      expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
-        .toBe('\0/__uno.css?inline')
+      expect((await server.pluginContainer.resolveId('uno.css'))?.id)
+        .toBe('/__uno.css')
       expect((await server.pluginContainer.resolveId('virtual:uno.css'))?.id)
-        .toBe('\0/__uno.css')
+        .toBe('/__uno.css')
+      expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
+        .toBe('/__uno.css?inline')
+      expect((await server.pluginContainer.resolveId('uno:icons.css'))?.id)
+        .toBe('/__uno_icons.css')
+
+      // Frameworks may resolve `uno.css` through a srcDir and hand back an
+      // absolute file path.
+      expect((await server.pluginContainer.resolveId('D:/tmp/app/__uno.css'))?.id)
+        .toBe('/__uno.css')
+
+      // Vite keys its dev style by this id; Nuxt writes the same url into
+      // `<link>`, so the de-duplication selector matches (#5406).
+      const wrapper = await server.transformRequest('/__uno.css')
+      expect(/(?:const|let|var) __vite__id = "([^"]+)"/.exec(wrapper?.code ?? '')?.[1])
+        .toBe('/__uno.css')
+
+      // HMR invalidates the module by the id stored in `entries`.
+      expect(server.moduleGraph.getModuleById('/__uno.css')?.url)
+        .toBe('/__uno.css')
     }
     finally {
       await server.close()
     }
   })
 
-  it('converts internal ids to public client paths', () => {
+  it('converts ids to and from virtual ids', () => {
+    expect(toViteVirtualId('/src/main.ts'))
+      .toBe('\0/src/main.ts')
+    expect(toViteVirtualId('\0/src/main.ts'))
+      .toBe('\0/src/main.ts')
+    expect(fromViteVirtualId('\0/src/main.ts'))
+      .toBe('/src/main.ts')
+    expect(fromViteVirtualId('/src/main.ts'))
+      .toBe('/src/main.ts')
+  })
+
+  it('wraps virtual ids into browser paths', () => {
     expect(toViteClientPath('\0/__uno.css'))
       .toBe('/@id/__x00__/__uno.css')
     expect(toViteClientPath('/src/main.ts'))
       .toBe('/src/main.ts')
+  })
+
+  it('reloads a config discovered from a Vite root outside the cwd', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-config-root-')))
+    const configFile = resolve(root, 'uno.config.ts')
+    const source = (color: string) => `export default { rules: [['probe', { color: '${color}' }]] }`
+    await writeFile(configFile, source('red'))
+    const server = await vite.createServer({
+      root,
+      configFile: false,
+      logLevel: 'error',
+      server: { host: '127.0.0.1', port: 0, watch: { usePolling: true, interval: 20 } },
+      plugins: [UnoCSS({ inspector: false })],
+    })
+    await server.listen()
+    const ctx = server.config.plugins.find(plugin => plugin.name === 'unocss:api')!.api.getContext()
+
+    try {
+      await vi.waitFor(() => expect(Object.values(server.watcher.getWatched()).flat()).toContain('uno.config.ts'), { timeout: 5000 })
+      expect(ctx.getConfigFileList().map(vite.normalizePath)).toEqual([vite.normalizePath(configFile)])
+      await writeFile(configFile, source('blue'))
+
+      await vi.waitFor(async () => {
+        expect((await ctx.uno.generate('probe', { preflights: false })).css).toContain('color:blue')
+      }, { timeout: 5000 })
+    }
+    finally {
+      await server.close()
+      await rm(root, { recursive: true, force: true })
+    }
   })
 
   it('uses internal ids for per-module CSS', async () => {

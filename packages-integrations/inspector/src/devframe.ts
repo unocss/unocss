@@ -9,10 +9,9 @@ import { fileURLToPath } from 'node:url'
 import { defineDevframe } from 'devframe'
 import { glob } from 'tinyglobby'
 import { createContext } from '#integration/context'
+import { applyTransformers } from '#integration/transformers'
 import { version } from '../package.json'
 import { createRpcFunctions, INSPECTOR_RPC_SCOPE } from './rpc'
-
-export * from './rpc'
 
 const _dirname = typeof __dirname !== 'undefined'
   ? __dirname
@@ -164,7 +163,13 @@ export async function createStandaloneInspectorDevframe(options: StandaloneInspe
   await Promise.all(files.map(async (file) => {
     try {
       const code = readFileSync(file, 'utf-8')
-      await ctx.extract(code, file)
+      // Same order as the bundler hosts: tokens are extracted after the `pre`
+      // transformers (e.g. variant groups), the later ones run for their side
+      // effects on the context
+      const preTransform = await applyTransformers(ctx, code, file, 'pre')
+      const defaultTransform = await applyTransformers(ctx, preTransform?.code || code, file)
+      await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || code, file, 'post')
+      await ctx.extract(preTransform?.code || code, file)
     }
     catch {}
   }))

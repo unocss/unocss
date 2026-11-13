@@ -4,14 +4,20 @@ import type { TokenInfo } from './tokens'
 import { getSelectorCategory } from '../utils'
 import { parseMatchedIcon } from './icons'
 
+function getDeclarations(data: TokenInfo['data']) {
+  return data.map(rule => rule[2]).join('\n---\n')
+}
+
 function toOtherSelector(rawSelector: string, { data, count, modules }: TokenInfo): MatchedSelector {
+  const declarations = getDeclarations(data)
   return {
     name: rawSelector,
     rawSelector,
     category: 'other',
     count,
     modules,
-    body: data.map(rule => rule[2]).join('\n---\n'),
+    body: declarations,
+    declarations,
   }
 }
 
@@ -41,5 +47,6 @@ export async function toMatchedSelector(rawSelector: string, { data, count, modu
     body: baseSelector
       .replace(/^ring-offset|outline-solid|outline-dotted/, 'head')
       .replace(/^\w+-/, ''),
+    declarations: icon ? undefined : getDeclarations(data),
   }
 }

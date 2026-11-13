@@ -13,5 +13,8 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "globalDependencies": [
+    "virtual-shared/**"
+  ]
 }

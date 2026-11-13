@@ -7,10 +7,14 @@ export interface WebpackPluginOptions<Theme extends object = object> extends Use
 }
 // #endregion
 
+// #region Types
+export type UnoCSSWebpackPlugin = WebpackPluginInstance;
+// #endregion
+
 // #region Functions
-export declare function WebpackPlugin<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): WebpackPluginInstance;
+export declare function WebpackPlugin<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): UnoCSSWebpackPlugin;
 // #endregion
 
 // #region Default Export
-export default function WebpackPlugin<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): WebpackPluginInstance;
+export default function WebpackPlugin<Theme extends object>(_?: WebpackPluginOptions<Theme> | string, _?: UserConfigDefaults): UnoCSSWebpackPlugin;
 // #endregion
