@@ -1,5 +1,5 @@
 import type { GenerateResult, UnocssPluginContext } from '@unocss/core'
-import type { Plugin, Update, ViteDevServer } from 'vite'
+import type { EnvironmentModuleGraph, EnvironmentModuleNode, HotUpdateOptions, Plugin, ViteDevServer } from 'vite'
 import type { VitePluginConfig } from '../../types'
 import process from 'node:process'
 import MagicString from 'magic-string'
@@ -7,33 +7,41 @@ import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath, splitEntryId } from '#integration/utils'
-import { toViteClientPath } from '../../virtual'
+import { consumeConfigSource, isConfigSource } from '../../config-hmr'
+import { toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
-const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
+const REFRESH_EVENT = 'unocss:refresh'
+const READY_EVENT = 'unocss:ready'
 
-/** Serve the entry through a path id so prerendered `<link>` urls round-trip (#5406). */
-function toServeId(id: string) {
-  const { filename, query } = splitEntryId(id)
-  return `/${filename}${query}`
-}
+const REFRESH_SNIPPET = `
+if (import.meta.hot) {
+  import.meta.hot.on('${REFRESH_EVENT}', async () => {
+    const url = new URL(import.meta.url)
+    url.searchParams.set('t', Date.now())
+    try {
+      await import(/* @vite-ignore */ url.href)
+    } catch (e) {
+      console.warn('[unocss-hmr]', e)
+    }
+  })
+}`
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
 export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
-  const { tokens, tasks, flushTasks, affectedModules, onInvalidate, extract, filter, getConfig } = ctx
-  const servers: ViteDevServer[] = []
+  const { tokens, tasks, flushTasks, extract, filter, getConfig, onInvalidate } = ctx
   const entries = new Set<string>()
 
-  let invalidateTimer: TimeoutTimer
-  const lastServedHash = new Map<string, string>()
-  let lastServedTime = Date.now()
+  const lastUpdateHash = new Map<string, string>()
   let resolved = false
+  let server: ViteDevServer | undefined
   let resolvedWarnTimer: TimeoutTimer
+  let refreshTimer: TimeoutTimer
 
-  async function generateCSS(layer: string) {
+  async function generateResult() {
     await flushTasks()
     let result: GenerateResult
     let tokensSize = tokens.size
@@ -41,55 +49,79 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       result = await ctx.uno.generate(tokens)
       // to capture new tokens created during generation
       if (tokensSize === tokens.size)
-        break
+        return result
       tokensSize = tokens.size
     } while (true)
+  }
 
-    const css = layer === LAYER_MARK_ALL
-      ? result.getLayers(undefined, await Promise.all(Array.from(entries)
-          .map(i => resolveLayer(ctx, i))).then(layers => layers.filter((i): i is string => !!i)))
-      : result.getLayer(layer)
+  async function generateCSS(layer: string, result?: GenerateResult) {
+    result ??= await generateResult()
+    const css
+      = layer === LAYER_MARK_ALL
+        ? result.getLayers(
+            undefined,
+            await Promise.all(
+              Array.from(entries).map(i => resolveLayer(ctx, getPath(i))),
+            ).then(layers => layers.filter((i): i is string => !!i)),
+          )
+        : result.getLayer(layer)
     const hash = getHash(css || '', HASH_LENGTH)
-    lastServedHash.set(layer, hash)
-    lastServedTime = Date.now()
     return { hash, css }
   }
 
-  function invalidate(timer = 10, ids: Set<string> = entries) {
-    for (const server of servers) {
-      for (const id of ids) {
-        const mod = server.moduleGraph.getModuleById(id)
-        if (!mod)
-          continue
-        server!.moduleGraph.invalidateModule(mod)
+  async function regenerateChangedModules(moduleGraph: EnvironmentModuleGraph) {
+    const changed: EnvironmentModuleNode[] = []
+    const result = await generateResult()
+    const generatedCSS = new Map<string, { hash: string }>()
+    for (const id of entries) {
+      const mod = moduleGraph.getModuleById(id)
+      if (!mod)
+        continue
+      const layer = await resolveLayer(ctx, getPath(id))
+      if (!layer)
+        continue
+      const previousHash = lastUpdateHash.get(id)
+      let css = generatedCSS.get(layer)
+      if (!css) {
+        css = await generateCSS(layer, result)
+        generatedCSS.set(layer, css)
+      }
+      if (css.hash !== previousHash) {
+        changed.push(mod)
+        lastUpdateHash.set(id, css.hash)
       }
     }
-    clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(() => {
-      lastServedHash.clear()
-      sendUpdate(ids)
-    }, timer)
+    return changed
   }
 
-  function sendUpdate(ids: Set<string>) {
-    for (const server of servers) {
-      server.ws.send({
-        type: 'update',
-        updates: Array.from(ids).flatMap((id) => {
-          const mod = server.moduleGraph.getModuleById(id)
-          if (!mod)
-            return []
-          // Vite < 8.3 keys the client module registry by the wrapped
-          // `/@id/__x00__` form, >= 8.3 by the raw module URL (vitejs/vite#23172).
-          // Send both; the client silently ignores paths it doesn't know.
-          return [...new Set([mod.url, toViteClientPath(mod.url)])].map(path => ({
-            acceptedPath: path,
-            path,
-            timestamp: lastServedTime,
-            type: 'js-update',
-          } as Update))
-        }),
-      })
+  function scheduleRefresh() {
+    clearTimeout(refreshTimer)
+    refreshTimer = setTimeout(() => {
+      void refresh()
+    }, 10)
+  }
+
+  onInvalidate(scheduleRefresh)
+
+  async function refresh() {
+    try {
+      if (!server)
+        return
+      const environment = server.environments.client
+      const changed = await regenerateChangedModules(environment.moduleGraph)
+      if (!changed.length)
+        return
+
+      for (const module of changed) {
+        if (module.type === 'css' || module.isSelfAccepting === false)
+          await environment.reloadModule(module)
+        else
+          environment.moduleGraph.invalidateModule(module)
+      }
+      environment.hot.send({ type: 'custom', event: REFRESH_EVENT })
+    }
+    catch (error) {
+      console.warn('[unocss-hmr]', error)
     }
   }
 
@@ -97,17 +129,17 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     if (
       !resolved
       && !resolvedWarnTimer
-      && (await getConfig() as VitePluginConfig).checkImport
+      && ((await getConfig()) as VitePluginConfig).checkImport
     ) {
       resolvedWarnTimer = setTimeout(() => {
         if (process.env.TEST || process.env.NODE_ENV === 'test')
           return
         if (!resolved) {
           console.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
-          servers.forEach(({ ws }) => ws.send({
+          server?.environments.client.hot.send({
             type: 'error',
             err: { message: MESSAGE_UNOCSS_ENTRY_NOT_FOUND, stack: '' },
-          }))
+          })
         }
       }, WARN_TIMEOUT)
     }
@@ -120,23 +152,73 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     }
   }
 
-  onInvalidate(() => {
-    invalidate(10, new Set([...entries, ...affectedModules]))
-  })
+  async function prepareHotUpdate({
+    file,
+    modules,
+    read,
+    type,
+  }: HotUpdateOptions) {
+    if (type === 'delete') {
+      let removed = false
+      for (const id of ctx.modules.keys()) {
+        if (getPath(id) === file) {
+          ctx.modules.delete(id)
+          removed = true
+        }
+      }
+      if (removed) {
+        await flushTasks()
+        tokens.clear()
+        await Promise.all(ctx.modules.map((code, id) => extract(code, id)))
+        ctx.invalidate()
+      }
+      return true
+    }
+
+    if (file.endsWith('.html'))
+      return false
+
+    if (isConfigSource(ctx, file))
+      return true
+
+    if (modules.length === 0 && !filter('', file))
+      return false
+
+    let code: string
+    try {
+      code = await read()
+    }
+    catch {
+      return false
+    }
+    if (!filter(code, file))
+      return false
+    await extract(code, file)
+    return true
+  }
 
   return [
     {
       name: 'unocss:global',
       apply: 'serve',
       enforce: 'pre',
-      async configureServer(_server) {
-        servers.push(_server)
-
-        _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {
-          const preHash = lastServedHash.get(layer)
-          await generateCSS(layer)
-          if (lastServedHash.get(layer) !== preHash)
-            sendUpdate(entries)
+      configureServer(_server) {
+        server = _server
+        const environment = server.environments.client
+        const { hot, moduleGraph } = environment
+        hot.on(READY_EVENT, async ({ id, hash }: { id: string, hash: string }, client) => {
+          const module = moduleGraph.getModuleById(id)
+          if (!module)
+            return
+          if (module.isSelfAccepting === false) {
+            const layer = await resolveLayer(ctx, getPath(id))
+            if (layer && (await generateCSS(layer)).hash !== hash)
+              await environment.reloadModule(module)
+          }
+          else {
+            moduleGraph.invalidateModule(module)
+            client.send({ type: 'custom', event: REFRESH_EVENT })
+          }
         })
       },
       buildStart() {
@@ -154,14 +236,19 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
           setWarnTimer()
           tasks.push(extract(code, filename))
         },
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-ignore Compatibility with Legacy Vite
-        enforce: 'pre',
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-ignore Compatibility with Legacy Vite
-        transform(code, { filename }) {
-          setWarnTimer()
-          tasks.push(extract(code, filename))
+      },
+      hotUpdate: {
+        order: 'post',
+        async handler(options) {
+          if (this.environment.name !== 'client' || !(await prepareHotUpdate(options)))
+            return
+
+          consumeConfigSource(ctx, options.file)
+          const changed = await regenerateChangedModules(this.environment.moduleGraph)
+          if (!changed.length)
+            return
+
+          return [...new Set([...options.modules, ...changed])]
         },
       },
       async resolveId(id) {
@@ -169,7 +256,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          const serveId = toServeId(entry)
+          const { filename, query } = splitEntryId(entry)
+          const serveId = query ? toViteVirtualId(`/${filename}${query}`) : `/${filename}`
           entries.add(serveId)
           return serveId
         }
@@ -179,20 +267,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (!layer)
           return null
 
-        // Integrations (e.g. `@unocss/astro`) may resolve the entry to a plain
-        // path id instead of the virtual id returned from `resolveId`, so track
-        // every id that is actually served for HMR invalidation.
         entries.add(id)
 
-        const { hash, css } = await generateCSS(layer)
+        const { css, hash } = await generateCSS(layer)
+        if (!lastUpdateHash.has(id))
+          lastUpdateHash.set(id, hash)
         return {
-          // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
-          code: `${css}__uno_hash_${hash}{--:'';}`,
+          code: css ?? '',
           map: { mappings: '' },
+          meta: { unocssHash: hash },
         }
       },
       closeBundle() {
         clearWarnTimer()
+        clearTimeout(refreshTimer)
       },
     },
     {
@@ -203,32 +291,18 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       enforce: 'post',
       async transform(code, id) {
         const layer = await resolveLayer(ctx, getPath(id))
-
-        // inject css modules to send callback on css load
-        if (layer && code.includes('import.meta.hot')) {
-          let hmr = `
-try {
-  let hash = __vite__css.match(/__uno_hash_(\\w{${HASH_LENGTH}})/)
-  hash = hash && hash[1]
-  if (!hash)
-    console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
-  else
-    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
-} catch (e) {
-  console.warn('[unocss-hmr]', e)
-}
-if (!import.meta.url.includes('?'))
-  await new Promise(resolve => setTimeout(resolve, 100))`
-
-          const config = await getConfig() as VitePluginConfig
-
-          if (config.hmrTopLevelAwait === false)
-            hmr = `;(async function() {${hmr}\n})()`
-          hmr = `\nif (import.meta.hot) {${hmr}}`
-
+        const hasRefreshListener = code.includes('import.meta.hot')
+        const inline = new URLSearchParams(splitEntryId(id).query).has('inline')
+        if (layer && (hasRefreshListener || inline)) {
           const s = new MagicString(code)
-          s.append(hmr)
-
+          if (hasRefreshListener)
+            s.append(REFRESH_SNIPPET)
+          const hash = this.getModuleInfo(id)?.meta.unocssHash
+          s.append(`
+if (import.meta.hot && !import.meta.hot.data.unocssReady) {
+  import.meta.hot.data.unocssReady = true
+  import.meta.hot.send('${READY_EVENT}', ${JSON.stringify({ id, hash })})
+}`)
           return {
             code: s.toString(),
             map: s.generateMap() as any,
