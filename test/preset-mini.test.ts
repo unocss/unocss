@@ -37,6 +37,41 @@ const uno = await createGenerator({
 })
 
 describe('preset-mini', () => {
+  it('keeps the body transforms pipeline in `left-to-right` variant apply order', async () => {
+    const uno = await createGenerator({
+      mergeSelectors: false,
+      presets: [presetMini()],
+      variantApplyOrder: 'left-to-right',
+    })
+    const { css } = await uno.generate([
+      '!-m-2',
+      '-m-2!',
+      '-m-[theme(spacing.sm)]',
+      'hover:!-m-2',
+      'group-hover:dark:m-2',
+      'dark:group-hover:m-2',
+      'dark:group-data-[x]:m-2',
+      'scope-[.foo]:[&>*]:m-2',
+      'group-hover:group-data-[x]:m-2',
+      'md:starting:m-2',
+    ], { preflights: false })
+
+    // `theme()` substitution, then negation, then `!important`, regardless of the variant apply order
+    expect(css).toContain(`.${escapeSelector('!-m-2')}{margin:-0.5rem !important;}`)
+    expect(css).toContain(`.${escapeSelector('-m-2!')}{margin:-0.5rem !important;}`)
+    expect(css).toContain(`.${escapeSelector('-m-[theme(spacing.sm)]')}{margin:-0.875rem;}`)
+    expect(css).toContain(`.${escapeSelector('hover:!-m-2')}:hover{margin:-0.5rem !important;}`)
+    // the prefixes keep the written ancestor order
+    expect(css).toContain(`.group:hover .dark .${escapeSelector('group-hover:dark:m-2')}{`)
+    expect(css).toContain(`.dark .group:hover .${escapeSelector('dark:group-hover:m-2')}{`)
+    expect(css).toContain(`.dark .group[data-x] .${escapeSelector('dark:group-data-[x]:m-2')}{`)
+    // the scope placeholder survives the replacement of `&`
+    expect(css).toContain(`.foo .${escapeSelector('scope-[.foo]:[&>*]:m-2')}>*{`)
+    expect(css).toContain(`.group:hover .group[data-x] .${escapeSelector('group-hover:group-data-[x]:m-2')}{`)
+    // `starting:` keeps the preceding at-rules
+    expect(css).toContain('@media (min-width: 768px){@starting-style{')
+  })
+
   it('dark customizing selector', async () => {
     const uno = await createGenerator({
       presets: [

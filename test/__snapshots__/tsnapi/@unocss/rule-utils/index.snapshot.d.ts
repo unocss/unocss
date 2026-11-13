@@ -81,8 +81,9 @@ export declare function transformThemeString(_: string, _: Record<string, any>, 
 export declare function variantBreakpoints(_?: 'breakpoint' | 'breakpoints'): VariantObject;
 export declare function variantGetBracket(_: string, _: string, _: string[]): string[] | undefined;
 export declare function variantGetParameter(_: Arrayable<string>, _: string, _: string[]): string[] | undefined;
-export declare function variantMatcher<T extends object = object>(_: string, _: Arrayable<(input: VariantHandlerContext) => Record<string, any>>, _?: Omit<VariantObject<T>, 'match'>): VariantObject<T>;
+export declare function variantMatcher<T extends object = object>(_: string, _: Arrayable<(input: VariantHandlerContext, ctx: VariantContext<T>) => Record<string, any>>, _?: Omit<VariantObject<T>, 'match'>): VariantObject<T>;
 export declare function variantParentMatcher<T extends object = object>(_: string, _: string): VariantObject<T>;
+export declare function variantPrefix<T extends object = object>(_: VariantHandlerContext, _: string, _: VariantContext<T>): string;
 // #endregion
 
 // #region Variables
