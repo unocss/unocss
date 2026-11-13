@@ -2203,9 +2203,6 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .lt-sm\:m1,
 .max-sm\:m1{margin:calc(var(--spacing) * 1);}
 }
-@media (max-width: calc(64rem - 0.1px)){@media (min-width: 40rem){
-.sm\:lt-lg\:p-10{padding:calc(var(--spacing) * 10);}
-}}
 @media (min-width: 40rem){
 .sm\:m-1,
 .sm\:m1{margin:calc(var(--spacing) * 1);}
@@ -2215,6 +2212,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\~sm\:m1,
 .at-sm\:m1{margin:calc(var(--spacing) * 1);}
 }
+@media (max-width: calc(64rem - 0.1px)){@media (min-width: 40rem){
+.sm\:lt-lg\:p-10{padding:calc(var(--spacing) * 10);}
+}}
 @media (min-width: 48rem){
 .md\:m-1{margin:calc(var(--spacing) * 1);}
 .md\:\!hidden{display:none !important;}
