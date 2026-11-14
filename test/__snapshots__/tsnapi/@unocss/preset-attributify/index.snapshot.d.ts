@@ -14,7 +14,9 @@ export interface AttributifyOptions extends PresetOptions {
 // #endregion
 
 // #region Types
-export type AttributifyNames<Prefix extends string = ''> = `${Prefix}${BasicAttributes}` | `${Prefix}${BasicAttributes}${number}` | `${Prefix}${BasicAttributes}${number}${LengthUnit}` | `${Prefix}${PseudoPrefix}:${BasicAttributes}`;
+export type AttributifyAttributesWithNumericValues<Prefix extends string = ''> = Partial<Record<AttributifyNamesWithNumericValues<Prefix>, string | boolean>>;
+export type AttributifyNames<Prefix extends string = ''> = `${Prefix}${BasicAttributes}` | `${Prefix}${PseudoPrefix}:${BasicAttributes}`;
+export type AttributifyNamesWithNumericValues<Prefix extends string = ''> = AttributifyNames<Prefix> | `${Prefix}${BasicAttributes}${number}` | `${Prefix}${BasicAttributes}${number}${LengthUnit}`;
 export type BasicAttributes = SpecialSingleWord | TwoStringsComposition | SeparateEnabled;
 export type LengthUnit = 'px' | 'rem' | 'em' | 'ex' | 'ch' | 'vw' | 'vh' | 'vmin' | 'vmax' | '%' | 'pt' | 'pc' | 'in' | 'cm' | 'mm' | 'q' | 's' | 'ms' | 'deg';
 export type PseudoPrefix = 'active' | 'before' | 'after' | 'dark' | 'light' | 'first' | 'last' | 'focus' | 'hover' | 'link' | 'print' | 'root' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'enabled' | 'disabled' | 'all' | 'children';

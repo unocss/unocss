@@ -154,6 +154,8 @@ Create `shims.d.ts` with the following content:
 
 > By default, the type includes common attributes from `@unocss/preset-wind3`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
 
+Numeric length-unit names such as `m10px` are available through the opt-in `AttributifyAttributesWithNumericValues` type. The default `AttributifyAttributes` intentionally omits these broad template-literal patterns to keep JSX type checking fast. If your project uses numeric length-unit attributes, extend your framework's attributes with the opt-in type instead.
+
 ### Vue
 
 Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/johnsoncodehk/volar/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
@@ -182,11 +184,20 @@ declare module 'react' {
 }
 ```
 
+For numeric length-unit attributes, use the opt-in type:
+
+```ts
+import type { AttributifyAttributesWithNumericValues } from '@unocss/preset-attributify'
+
+declare module 'react' {
+  interface HTMLAttributes<T> extends AttributifyAttributesWithNumericValues {}
+}
+```
+
 ### Vue 3
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
 declare module '@vue/runtime-dom' {
   interface HTMLAttributes extends AttributifyAttributes {}
 }
@@ -196,7 +207,6 @@ declare module '@vue/runtime-dom' {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
 declare module 'solid-js' {
   namespace JSX {
     interface HTMLAttributes<T> extends AttributifyAttributes {}
@@ -209,7 +219,6 @@ declare module 'solid-js' {
 ```ts
 declare namespace svelteHTML {
   import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
   type HTMLAttributes = AttributifyAttributes
 }
 ```
@@ -218,7 +227,6 @@ declare namespace svelteHTML {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
 declare global {
   namespace astroHTML.JSX {
     interface HTMLAttributes extends AttributifyAttributes { }
@@ -230,7 +238,6 @@ declare global {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
 declare module 'preact' {
   namespace JSX {
     interface HTMLAttributes extends AttributifyAttributes {}
@@ -242,7 +249,6 @@ declare module 'preact' {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
-
 declare global {
   namespace Marko {
     interface HTMLAttributes extends AttributifyAttributes {}
@@ -254,11 +260,11 @@ declare global {
 
 ```ts
 import type { AttributifyNames } from '@unocss/preset-attributify'
-
 type Prefix = 'uno:' // change it to your prefix
-
 interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
+
+For numeric length-unit attributes with a prefix, use `AttributifyNamesWithNumericValues<Prefix>` instead.
 
 ## Options
 
