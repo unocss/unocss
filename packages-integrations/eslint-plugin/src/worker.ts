@@ -75,6 +75,28 @@ async function actionSort(configPath: string | undefined, classes: string, id?: 
   return await sortRules(classes, await getGenerator(configPath, id))
 }
 
+async function actionSortAttributify(configPath: string | undefined, name: string, classes: string, id?: string): Promise<string | undefined> {
+  const uno = await getGenerator(configPath, id)
+
+  if (!uno.config.details)
+    uno.config.details = true
+
+  const sorted: Array<[number, string]> = []
+  for (const token of classes.trim().split(/\s+/).filter(Boolean)) {
+    const parsed = await uno.parseToken(`[${name}~="${token}"]`)
+    if (!parsed?.length)
+      return
+
+    const variantRank = (parsed[0][5]?.variantHandlers?.length || 0) * 100_000
+    sorted.push([parsed[0][0] + variantRank, token])
+  }
+
+  return sorted
+    .sort((a, b) => a[0] - b[0] || a[1].localeCompare(b[1]))
+    .map(([, token]) => token)
+    .join(' ')
+}
+
 async function actionAttributifyPrefix(configPath: string | undefined, id?: string): Promise<string> {
   const uno = await getGenerator(configPath, id)
   const preset = uno.config.presets.find(p => p.name === '@unocss/preset-attributify')
@@ -123,6 +145,7 @@ async function actionBlocklist(configPath: string | undefined, classes: string, 
 }
 
 export function runAsync(configPath: string | undefined, action: 'sort', classes: string, id?: string): Promise<string>
+export function runAsync(configPath: string | undefined, action: 'sort-attributify', name: string, classes: string, id?: string): Promise<string | undefined>
 export function runAsync(configPath: string | undefined, action: 'attributify-prefix', id?: string): Promise<string>
 export function runAsync(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): Promise<[string, BlocklistMeta | undefined][]>
 export async function runAsync(configPath: string | undefined, action: string, ...args: any[]): Promise<any> {
@@ -130,6 +153,9 @@ export async function runAsync(configPath: string | undefined, action: string, .
     case 'sort':
       // @ts-expect-error cast
       return actionSort(configPath, ...args)
+    case 'sort-attributify':
+      // @ts-expect-error cast
+      return actionSortAttributify(configPath, ...args)
     case 'attributify-prefix':
       return actionAttributifyPrefix(configPath, ...args)
     case 'blocklist':
@@ -139,6 +165,7 @@ export async function runAsync(configPath: string | undefined, action: string, .
 }
 
 export function run(configPath: string | undefined, action: 'sort', classes: string, id?: string): string
+export function run(configPath: string | undefined, action: 'sort-attributify', name: string, classes: string, id?: string): string | undefined
 export function run(configPath: string | undefined, action: 'attributify-prefix', id?: string): string
 export function run(configPath: string | undefined, action: 'blocklist', classes: string, id?: string): [string, BlocklistMeta | undefined][]
 export function run(configPath: string | undefined, action: string, ...args: any[]): any {

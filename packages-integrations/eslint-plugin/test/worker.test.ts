@@ -57,6 +57,31 @@ describe('worker', () => {
     expect(rs).toMatchInlineSnapshot(`"w-8 text-red-300"`)
   })
 
+  it('sort attributify', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3(),
+        presetAttributify(),
+      ],
+    })
+    setGenerator(uno, undefined)
+
+    expect(await runAsync(undefined, 'sort-attributify', 'text', 'lg center')).toBe('center lg')
+    expect(await runAsync(undefined, 'sort-attributify', 'p', 'y-2 x-4')).toBe('x-4 y-2')
+  })
+
+  it('leaves non-attributify attributes untouched', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3(),
+        presetAttributify(),
+      ],
+    })
+    setGenerator(uno, undefined)
+
+    expect(await runAsync(undefined, 'sort-attributify', 'title', 'flex block')).toBeUndefined()
+  })
+
   it('sort presetMini should be same as presetWind3', async () => {
     const uno1 = await createGenerator({
       presets: [
