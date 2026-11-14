@@ -173,6 +173,18 @@ describe('postcss', () => {
         expect(css).toMatchSnapshot()
       })
 
+      it('gives the hoisted @property declarations a source', async () => {
+        const root = (await pcssWind4().process(`.a { @apply border-black; }`, processOptions)).root
+
+        root.walkAtRules('property', (rule) => {
+          rule.walkDecls((declaration) => {
+            expect(declaration.source?.input.file).toBe(root.source?.input.file)
+          })
+        })
+        expect(root.source?.input.file).toBeDefined()
+        expect(root.toString()).toContain('@property')
+      })
+
       it('keeps a registration already in the file', async () => {
         const { css } = await pcssWind4().process(`@property --un-border-opacity{syntax:"<percentage>";inherits:false;initial-value:100%}
 .a { @apply border-black; }`, processOptions)

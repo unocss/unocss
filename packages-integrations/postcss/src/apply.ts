@@ -1,6 +1,6 @@
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { Rule, Selector, SelectorList } from 'css-tree'
-import type { ChildNode, Rule as PostcssRule, Root } from 'postcss'
+import type { ChildNode, Rule as PostcssRule, Root, Source } from 'postcss'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import { clone, generate, parse } from 'css-tree'
 import postcss from 'postcss'
@@ -44,7 +44,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         }, [] as Writeable<StringifiedUtil>[])
 
       if (properties.size)
-        insertProperties(rule.root(), properties)
+        insertProperties(rule.root(), properties, source)
 
       if (!utils.length)
         return
@@ -109,8 +109,9 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
 /**
  * Adds the `@property` rules the applied utilities depend on to the root, after any
  * leading `@charset` and `@import`, skipping a property the root already registers.
+ * Their declarations take the `@apply` rule's source, like every other node spliced in.
  */
-function insertProperties(root: Root, properties: Map<string, string>) {
+function insertProperties(root: Root, properties: Map<string, string>, source: Source | undefined) {
   const existing = new Set<string>()
   root.each((node) => {
     if (node.type === 'atrule' && node.name === 'property')
@@ -120,7 +121,13 @@ function insertProperties(root: Root, properties: Map<string, string>) {
   const nodes = [...properties]
     .filter(([property]) => !existing.has(property.replace(/^@property\s+/, '')))
     .sort(([a], [b]) => a.localeCompare(b))
-    .flatMap(([property, body]) => postcss.parse(`${property}{${body}}`).nodes)
+    .flatMap(([property, body]) => {
+      const css = postcss.parse(`${property}{${body}}`)
+      css.walkDecls((declaration) => {
+        declaration.source = source
+      })
+      return css.nodes
+    })
   if (!nodes.length)
     return
 
