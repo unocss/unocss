@@ -1,6 +1,6 @@
 import type { StringifiedUtil, UnoGenerator } from '@unocss/core'
 import type { Rule, Selector, SelectorList } from 'css-tree'
-import type { ChildNode, Root } from 'postcss'
+import type { ChildNode, Rule as PostcssRule, Root } from 'postcss'
 import { expandVariantGroup, notNull, regexScopePlaceholder } from '@unocss/core'
 import { clone, generate, parse } from 'css-tree'
 import postcss from 'postcss'
@@ -15,6 +15,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         return
 
       const source = rule.source
+      const properties = new Map<string, string>()
       const classNames = expandVariantGroup(rule.params)
         .split(/\s+/g)
         .map(className => className.trim().replace(/\\/, ''))
@@ -26,6 +27,13 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         .sort((a, b) => a[0] - b[0])
         .sort((a, b) => (a[3] ? uno.getParentOrder(a[3]) ?? 0 : 0) - (b[3] ? uno.getParentOrder(b[3]) ?? 0 : 0))
         .reduce((acc, item) => {
+          // `@property` registrations are emitted at the root, not merged into the rule.
+          if (item[4]?.layer === 'properties') {
+            if (item[1])
+              properties.set(item[1], item[2])
+            return acc
+          }
+
           const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
           if (target)
             target[2] += item[2]
@@ -34,6 +42,9 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
             acc.push([...item] as Writeable<StringifiedUtil>)
           return acc
         }, [] as Writeable<StringifiedUtil>[])
+
+      if (properties.size)
+        insertProperties(rule.root(), properties)
 
       if (!utils.length)
         return
@@ -44,7 +55,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
         const [, _selector, body, parent] = i
         const selector = _selector?.replace(regexScopePlaceholder, ' ') || _selector
 
-        if (parent || (selector && selector !== '.\\-' && !selector.startsWith('@property'))) {
+        if (parent || (selector && selector !== '.\\-')) {
           const node = parse(rule.parent.toString(), {
             context: 'rule',
           }) as Rule
@@ -67,7 +78,11 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
             newSelector = generate(prelude)
           }
           let css = `${newSelector}{${body}}`
-          if (parent)
+          // A nested selector such as `:where(&>:not(:last-child))` (`space-y-*`) has the
+          // rule itself as its parent.
+          if (parent === '.\\-')
+            css = `${(rule.parent as PostcssRule).selector}{${css}}`
+          else if (parent)
             css = `${parent}{${css}}`
 
           const css_parsed = postcss.parse(css)
@@ -89,4 +104,35 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
     })())
   })
   await Promise.all(promises)
+}
+
+/**
+ * Adds the `@property` rules the applied utilities depend on to the root, after any
+ * leading `@charset` and `@import`, skipping a property the root already registers.
+ */
+function insertProperties(root: Root, properties: Map<string, string>) {
+  const existing = new Set<string>()
+  root.each((node) => {
+    if (node.type === 'atrule' && node.name === 'property')
+      existing.add(node.params.trim())
+  })
+
+  const nodes = [...properties]
+    .filter(([property]) => !existing.has(property.replace(/^@property\s+/, '')))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .flatMap(([property, body]) => postcss.parse(`${property}{${body}}`).nodes)
+  if (!nodes.length)
+    return
+
+  let last: ChildNode | undefined
+  root.each((node) => {
+    if (node.type === 'atrule' && ['charset', 'import'].includes(node.name))
+      last = node
+    else if (node.type !== 'comment')
+      return false
+  })
+  if (last)
+    last.after(nodes)
+  else
+    root.prepend(nodes)
 }
