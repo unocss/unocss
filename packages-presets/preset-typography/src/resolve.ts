@@ -31,19 +31,25 @@ export function getCSS(preflights: TypographyCSSObject, options: TypographyOptio
   const selectorName = options.selectorName || 'prose'
   const notProseSelector = `:not(:where([class~="not-${selectorName}"],[class~="not-${selectorName}"] *))`
   const important = options.important === true
+  // The default CSS object reads `--un-prose-*`; rename those reads to match the
+  // variables declared with `cssVarPrefix`.
+  const cssVarPrefix = options.cssVarPrefix ?? '--un-prose'
+  const prefixVars = (value: unknown): string => cssVarPrefix === '--un-prose'
+    ? `${value}`
+    : `${value}`.replaceAll('--un-prose-', `${cssVarPrefix}-`)
 
   let css = ''
 
   for (const [selectorOrKey, cssObjectOrValue] of Object.entries(preflights)) {
     if (typeof cssObjectOrValue !== 'object') {
-      css += `${selectorOrKey}:${cssObjectOrValue}${important ? ' !important' : ''};`
+      css += `${prefixVars(selectorOrKey)}:${prefixVars(cssObjectOrValue)}${important ? ' !important' : ''};`
     }
     else {
       const [selectorOrGroup, pseudo] = selectorOrKey.split('::')
       const _selector = `:where(${selectorOrGroup})${notProseSelector}${pseudo ? `::${pseudo}` : ''}`
       css += `${_selector} {`
       for (const [key, value] of Object.entries(cssObjectOrValue)) {
-        css += `${key}:${value}${important ? ' !important' : ''};`
+        css += `${prefixVars(key)}:${prefixVars(value)}${important ? ' !important' : ''};`
       }
       css += `}`
     }

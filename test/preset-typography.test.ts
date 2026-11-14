@@ -263,3 +263,22 @@ describe('autocomplete for typography', async () => {
     `)
   })
 })
+
+describe('typography cssVarPrefix', () => {
+  it('reads the variables it declares', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind3({ preflight: false }),
+        presetTypography({ cssVarPrefix: '--custom-prose' }),
+      ],
+    })
+
+    const { css } = await uno.generate('prose prose-gray prose-invert', { preflights: false })
+    const declared = new Set([...css.matchAll(/(--custom-prose-[\w-]+):/g)].map(m => m[1]))
+    const read = new Set([...css.matchAll(/var\((--custom-prose-[\w-]+)\)/g)].map(m => m[1]))
+
+    expect(css).not.toContain('--un-prose')
+    expect(read).toContain('--custom-prose-body')
+    expect([...read].filter(name => !declared.has(name))).toEqual([])
+  })
+})
