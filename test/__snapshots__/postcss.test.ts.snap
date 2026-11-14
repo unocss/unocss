@@ -6,6 +6,23 @@ exports[`postcss > @apply > media 1`] = `"div{}@media (min-width: 640px){div{--u
 
 exports[`postcss > @apply > order 1`] = `".test {--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity)); @supports (color: color-mix(in oklab, black, black)) {background: green;} }"`;
 
+exports[`postcss > @apply > wind4 > nests space-y and divide under the rule 1`] = `
+"@property --un-border-style{syntax:"*";inherits:false;initial-value:solid;}@property --un-divide-y-reverse{syntax:"*";inherits:false;initial-value:0;}
+@property --un-space-y-reverse{syntax:"*";inherits:false;initial-value:0;}
+.a { }
+.a{:where(&>:not(:last-child)){--un-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing) * 2) * var(--un-space-y-reverse));margin-block-end:calc(calc(var(--spacing) * 2) * calc(1 - var(--un-space-y-reverse)));}}
+.b { }
+.b{:where(&>:not(:last-child)){--un-divide-y-reverse:0;border-top-width:calc(1px * var(--un-divide-y-reverse));border-top-style:var(--un-border-style);border-bottom-width:calc(1px * calc(1 - var(--un-divide-y-reverse)));border-bottom-style:var(--un-border-style);}}"
+`;
+
+exports[`postcss > @apply > wind4 > registers @property at the root 1`] = `
+"@import "foo.css";@property --un-border-opacity{syntax:"<percentage>";inherits:false;initial-value:100%;}
+.a {border-width:1px;border-color:color-mix(in srgb, var(--colors-black) var(--un-border-opacity), transparent);--un-border-style:solid;border-style:solid; }
+@supports (color: color-mix(in lab, red, red)){.a{border-color:color-mix(in oklab, var(--colors-black) var(--un-border-opacity), transparent);}}
+.b {border-color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-border-opacity), transparent); }
+@supports (color: color-mix(in lab, red, red)){.b{border-color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-border-opacity), transparent);}}"
+`;
+
 exports[`postcss > @screen 1`] = `
 "@media (min-width: 768px) and (max-width: 1023.9px) {
       div{--un-bg-opacity:1;background-color:rgb(248 113 113 / var(--un-bg-opacity));}.dark div>:focus:hover{font-size:20px;}div:hover{--un-text-opacity:1;color:rgb(255 255 255 / var(--un-text-opacity));}
