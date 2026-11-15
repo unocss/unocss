@@ -51,6 +51,27 @@ export default defineConfig({
 
 Refer to [Tailwind Compatibility](https://tailwindcss.com/docs/compatibility) to learn about browser support and compatibility.
 
+## Variant stacking order
+
+Like Tailwind CSS v4, `presetWind4` applies stacked variants from left to right: the leftmost variant is the outermost one.
+
+```html
+<div class="*:last:p-2 last:*:p-2"></div>
+```
+
+```css
+.\*\:last\:p-2 > *:last-child {
+  padding: calc(var(--spacing) * 2);
+}
+.last\:\*\:p-2:last-child > * {
+  padding: calc(var(--spacing) * 2);
+}
+```
+
+This is controlled by the [`variantApplyOrder`](/config/#variantapplyorder) option, which `presetWind4` sets to `'left-to-right'`. Set it to `'right-to-left'` in your config to restore the order used by `presetWind3` and `presetMini`, where the rightmost variant is applied first.
+
+The variants adding a prefix to the selector (`dark:`, `rtl:`, `group-*`, `peer-*`, ...) and the pseudo elements (`before:`, `after:`, ...) apply to the whole selector wherever they are written, as they did before.
+
 ## Theme
 
 `PresetWind4`'s theme is almost identical to `PresetWind3`'s theme, but some theme keys have been adjusted.
