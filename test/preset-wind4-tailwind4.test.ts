@@ -123,6 +123,8 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
     ['[&>span]:flex', />\s*span/],
     ['motion-reduce:flex', /@media.*prefers-reduced-motion:\s*reduce/],
     ['print:flex', /@media print/],
+    ['md:pointer-coarse:flex', /^@media \((?:width >= 48rem|min-width: 48rem)\) @media \(pointer: coarse\) &$/],
+    ['pointer-fine:hover:flex', /^@media \(pointer: fine\) (?:@media \(hover: hover\) )?&:hover$/],
     ['supports-[display:grid]:flex', /@supports.*display:\s*grid/],
     ['starting:flex', /@starting-style/],
   ])('variant condition: %s', (candidate, condition) => {

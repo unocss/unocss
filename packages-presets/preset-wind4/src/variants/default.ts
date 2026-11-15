@@ -11,7 +11,7 @@ import { variantDataAttribute, variantTaggedDataAttributes } from './data'
 import { variantLanguageDirections } from './directions'
 import { variantImportant } from './important'
 import { variantInert } from './inert'
-import { variantContrasts, variantCustomMedia, variantForcedColors, variantMotions, variantNoscript, variantOrientations, variantPrint, variantScripting } from './media'
+import { variantContrasts, variantCustomMedia, variantForcedColors, variantInvertedColors, variantMotions, variantNoscript, variantOrientations, variantPointers, variantPrint, variantScripting } from './media'
 import {
   variantCssLayer,
   variantImplicitGroup,
@@ -48,6 +48,8 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     ...variantMotions,
     ...variantOrientations,
     ...variantForcedColors,
+    ...variantInvertedColors,
+    ...variantPointers,
     variantBreakpoints(),
     ...variantCombinators,
     ...variantSvgCombinators,

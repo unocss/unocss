@@ -23,7 +23,7 @@ Source anchors identify assertion blocks. They do not measure assertion quality 
 The upstream groups include directional forms, compound variants, sorting, and configuration cases.
 Related groups can share a parameterized assertion block. No group is omitted because Wind4 does not support it.
 Skipped Wind4 tests retain their assertions. Their Tailwind reference checks remain active.
-The focused suite has 741 passing tests and 46 skipped Wind4 contracts.
+The focused suite has 752 passing tests and 39 skipped Wind4 contracts.
 
 ## Coverage matrix
 
@@ -64,7 +64,6 @@ No implementation changes are part of this suite.
 | Missing utility                | `font-features-["smcp"]`                                          | Wind4 does not emit `font-feature-settings` for this utility. An arbitrary CSS property remains available.                              |
 | Syntax difference              | `scroll-ms`, `scroll-me`, `scroll-ps`, `scroll-pe`                | Wind4 uses `scroll-mis`, `scroll-mie`, `scroll-pis`, and `scroll-pie`. Active tests cover those equivalents.                            |
 | Syntax difference              | `only:flex`                                                       | Wind4 uses `only-child` instead of Tailwind's `only` alias.                                                                             |
-| Missing variants               | `inverted-colors` and all six `pointer-*` / `any-pointer-*` forms | Wind4 does not emit the requested media conditions.                                                                                     |
 | Boundary difference            | `max-[900px]`                                                     | Wind4 includes 900px through `max-width`. Tailwind excludes it through `width < 900px`.                                                 |
 | Missing composition utilities  | `translate-3d`, `scale-3d`                                        | Wind4 does not emit the three-axis consumer. Individual axis utilities have active tests.                                               |
 | Pseudo-element difference      | `before:flex`, `after:flex`                                       | Wind4 does not insert default content. Explicit content has active tests.                                                               |
