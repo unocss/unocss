@@ -57,6 +57,10 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
     ['flex', 'grow', 'flex-grow', '1'],
     ['flex', 'items-center', 'align-items', 'center'],
     ['flex', 'justify-between', 'justify-content', 'space-between'],
+    ['flex', 'flex-0', 'flex', '0'],
+    ['flex', 'flex-2', 'flex', '2'],
+    ['flex', 'flex-12', 'flex', '12'],
+    ['flex', 'flex-13', 'flex', '13'],
     ['grid', 'grid', 'display', 'grid'],
     ['grid', 'grid-flow-col', 'grid-auto-flow', 'column'],
     ['grid', 'grid-cols-[200px_1fr]', 'grid-template-columns', '200px 1fr'],
@@ -67,12 +71,21 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
     ['size', 'w-[37px]', 'width', '37px'],
     ['size', 'min-h-dvh', 'min-height', '100dvh'],
     ['size', 'max-w-none', 'max-width', 'none'],
+    ['size', 'h-lh', 'height', '1lh'],
+    ['size', 'min-h-lh', 'min-height', '1lh'],
+    ['size', 'max-h-lh', 'max-height', '1lh'],
+    ['size', 'block-lh', 'block-size', '1lh'],
+    ['size', 'min-block-lh', 'min-block-size', '1lh'],
+    ['size', 'max-block-lh', 'max-block-size', '1lh'],
     ['typography', 'text-center', 'text-align', 'center'],
     ['typography', 'italic', 'font-style', 'italic'],
     ['typography', 'uppercase', 'text-transform', 'uppercase'],
     ['typography', 'underline', 'text-decoration-line', 'underline'],
     ['typography', 'whitespace-pre-wrap', 'white-space', 'pre-wrap'],
     ['typography', 'text-[length:19px]', 'font-size', '19px'],
+    ['typography', 'font-stretch-50%', 'font-stretch', '50%'],
+    ['typography', 'font-stretch-125%', 'font-stretch', '125%'],
+    ['typography', 'font-stretch-200%', 'font-stretch', '200%'],
     ['background', 'bg-fixed', 'background-attachment', 'fixed'],
     ['background', 'bg-cover', 'background-size', 'cover'],
     ['background', 'bg-clip-text', 'background-clip', 'text'],
@@ -107,6 +120,25 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
           expect(actual).toMatch(value)
       })
     }
+  })
+
+  describe.each([
+    'w-lh',
+    'size-lh',
+    'inline-lh',
+    'min-w-lh',
+    'flex-01',
+    'flex-2.5',
+    '-flex-2',
+    'font-stretch-49%',
+    'font-stretch-201%',
+    'font-stretch-50.5%',
+    'font-stretch-60',
+  ])('rejected utility: %s', (candidate) => {
+    it.each(['tailwind', 'wind'] as const)('%s emits no declarations', async (engine) => {
+      const output = await generate(candidate)
+      expect(declarations(output[engine], candidate)).toEqual({})
+    })
   })
 
   describe.each([

@@ -80,6 +80,12 @@ export const sizes: Rule<Theme>[] = [
       '(min|max)-w-screen-$breakpoint',
     ],
   }],
+  ['h-lh', { height: '1lh' }],
+  ['min-h-lh', { 'min-height': '1lh' }],
+  ['max-h-lh', { 'max-height': '1lh' }],
+  ['block-lh', { 'block-size': '1lh' }],
+  ['min-block-lh', { 'min-block-size': '1lh' }],
+  ['max-block-lh', { 'max-block-size': '1lh' }],
 ]
 
 function handleBreakpoint(context: Readonly<RuleContext<Theme>>, point: string, key: 'breakpoint' | 'verticalBreakpoint' = 'breakpoint') {
