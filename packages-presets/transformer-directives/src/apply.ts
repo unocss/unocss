@@ -65,7 +65,9 @@ export async function parseApply({ code, uno, applyVariable }: TransformerDirect
 
       const target = acc.find(i => i[1] === item[1] && i[3] === item[3])
       if (target) {
-        if (!target[2].includes(item[2]))
+        // Skip a body already merged, matching on declaration boundaries: a plain substring
+        // check drops `width:100%;` because it appears inside `max-width:100%;`.
+        if (!`;${target[2]};`.includes(`;${item[2].replace(/;?$/, ';')}`))
           target[2] += item[2]
       }
       else {

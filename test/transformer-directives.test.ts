@@ -1537,6 +1537,30 @@ describe('wind4', () => {
       await expect(transform(`.foo { color: theme('not.exists' #fff) }`)).rejects.toThrow('comma')
     })
 
+    it('keeps a body that appears inside an earlier one', async () => {
+      const result = await transform(
+        `.a {
+          @apply max-w-full w-full;
+        }
+        .b {
+          @apply min-h-0 h-0;
+        }`,
+      )
+
+      expect(result)
+        .toMatchInlineSnapshot(`
+          ".a {
+            max-width: 100%;
+            width: 100%;
+          }
+          .b {
+            min-height: calc(var(--spacing) * 0);
+            height: calc(var(--spacing) * 0);
+          }
+          "
+        `)
+    })
+
     it('border opacity', async () => {
       const result = await transform(
         `.btn {
