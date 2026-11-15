@@ -108,7 +108,7 @@ export async function parseApply(root: Root, uno: UnoGenerator, directiveName: s
 
 /**
  * Adds the `@property` rules the applied utilities depend on to the root, after any
- * leading `@charset` and `@import`, skipping a property the root already registers.
+ * leading `@charset`, `@import` and `@layer` statements, skipping a property the root already registers.
  * Their declarations take the `@apply` rule's source, like every other node spliced in.
  */
 function insertProperties(root: Root, properties: Map<string, string>, source: Source | undefined) {
@@ -133,7 +133,7 @@ function insertProperties(root: Root, properties: Map<string, string>, source: S
 
   let last: ChildNode | undefined
   root.each((node) => {
-    if (node.type === 'atrule' && ['charset', 'import'].includes(node.name))
+    if (node.type === 'atrule' && (['charset', 'import'].includes(node.name) || (node.name === 'layer' && !node.nodes)))
       last = node
     else if (node.type !== 'comment')
       return false

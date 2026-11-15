@@ -171,6 +171,13 @@ describe('postcss', () => {
         expect(css.match(/@property --un-border-opacity/g)).toHaveLength(1)
         expect(css.indexOf('@import')).toBeLessThan(css.indexOf('@property'))
         expect(css).toMatchSnapshot()
+
+        const { css: layered } = await pcssWind4().process(`@layer base;
+@import "foo.css";
+.a { @apply border-black; }`, processOptions)
+
+        expect(layered.indexOf('@layer base;')).toBeLessThan(layered.indexOf('@import'))
+        expect(layered.indexOf('@import')).toBeLessThan(layered.indexOf('@property'))
       })
 
       it('gives the hoisted @property declarations a source', async () => {
