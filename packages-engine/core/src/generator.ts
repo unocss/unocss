@@ -1205,6 +1205,26 @@ class UnoGeneratorInternal<Theme extends object = object> {
         mapItem[0].push([entries, !!(noMerge ?? item[3]?.noMerge), sort ?? 0])
       }
     }
+
+    // A block takes the index of its lowest utility, so `active:scale` could place `.btn:active`
+    // before `.btn:hover`. Keep the blocks of one parent in variant sort order, as for the same
+    // utilities used directly, by raising a block to the index of the block before it.
+    for (const selectorMap of layerMap.values()) {
+      const blocksByParent = new BetterMap<string | undefined, { block: [unknown, number], sort: number }[]>()
+      selectorMap.map((block, _, parent) => blocksByParent.getFallback(parent, []).push({
+        block,
+        sort: Math.max(...block[0].map(([, , sort]) => sort)),
+      }))
+      for (const blocks of blocksByParent.values()) {
+        let index = Number.NEGATIVE_INFINITY
+        blocks
+          .sort((a, b) => a.sort - b.sort || (a.block[1] < b.block[1] ? -1 : a.block[1] > b.block[1] ? 1 : 0))
+          .forEach(({ block }) => {
+            block[1] = index = Math.max(block[1], index)
+          })
+      }
+    }
+
     return rawStringifiedUtil.concat(layerMap
       .flatMap((selectorMap, layer) =>
         selectorMap
