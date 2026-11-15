@@ -67,3 +67,42 @@ jobs:
       - name: Typecheck
         if: matrix.typecheck
         run: pnpm typecheck
+
+  vite-compat:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        vite_version: [6, 7, 8]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Install Vite ${{ matrix.vite_version }}
+        run: |
+          pnpm add -Dw vite@${{ matrix.vite_version }} --ignore-scripts
+          pnpm --filter @unocss/vite add -D vite@${{ matrix.vite_version }} --ignore-scripts
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Test Vite ${{ matrix.vite_version }} compatibility
+        run: |
+          pnpm exec vite --version
+          VITE_COMPAT=true BROWSER_TESTS=true pnpm exec vitest run test/virtual-modules.test.ts test/vite-hmr.browser.test.ts

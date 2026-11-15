@@ -59,6 +59,7 @@
     "magic-string": "catalog:utils",
     "msw": "catalog:testing",
     "pathe": "catalog:utils",
+    "playwright": "catalog:testing",
     "pnpm": "catalog:utils",
     "postcss": "catalog:css",
     "prettier": "catalog:utils",
