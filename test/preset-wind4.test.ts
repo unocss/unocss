@@ -787,8 +787,8 @@ describe('preset-wind4', () => {
       /* layer: theme */
       :root,
       :host {
-        --spacing: 0.25rem;
         --colors-red-500: oklch(63.7% 0.237 25.331);
+        --spacing: 0.25rem;
       }
       /* layer: shortcuts */
       .hover\\:child-pad:hover > * {
