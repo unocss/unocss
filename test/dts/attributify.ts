@@ -4,10 +4,10 @@ import type {
 } from '@unocss/preset-attributify'
 
 const defaultAttributes: AttributifyAttributes = {
-  m: '2',
+  'm': '2',
   'hover:bg': 'blue',
   // @ts-expect-error Numeric length-unit names are opt-in.
-  m10px: '2',
+  'm10px': '2',
 }
 
 const numericAttributes: AttributifyAttributesWithNumericValues = {

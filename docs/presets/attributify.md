@@ -198,6 +198,7 @@ declare module 'react' {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
 declare module '@vue/runtime-dom' {
   interface HTMLAttributes extends AttributifyAttributes {}
 }
@@ -207,6 +208,7 @@ declare module '@vue/runtime-dom' {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
 declare module 'solid-js' {
   namespace JSX {
     interface HTMLAttributes<T> extends AttributifyAttributes {}
@@ -219,6 +221,7 @@ declare module 'solid-js' {
 ```ts
 declare namespace svelteHTML {
   import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
   type HTMLAttributes = AttributifyAttributes
 }
 ```
@@ -227,6 +230,7 @@ declare namespace svelteHTML {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
 declare global {
   namespace astroHTML.JSX {
     interface HTMLAttributes extends AttributifyAttributes { }
@@ -238,6 +242,7 @@ declare global {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
 declare module 'preact' {
   namespace JSX {
     interface HTMLAttributes extends AttributifyAttributes {}
@@ -249,6 +254,7 @@ declare module 'preact' {
 
 ```ts
 import type { AttributifyAttributes } from '@unocss/preset-attributify'
+
 declare global {
   namespace Marko {
     interface HTMLAttributes extends AttributifyAttributes {}
@@ -260,6 +266,7 @@ declare global {
 
 ```ts
 import type { AttributifyNames } from '@unocss/preset-attributify'
+
 type Prefix = 'uno:' // change it to your prefix
 interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
