@@ -284,6 +284,22 @@ it('matches a root written through a symlink', async () => {
   await expect(manager.resolveClosestContext(sourceCode, sourceFile)).resolves.toBeTruthy()
 })
 
+it('matches an unsaved file addressed through a symlinked root', async () => {
+  const tempDir = await createTempWorkspace()
+  const real = path.join(tempDir, 'real')
+  const link = path.join(tempDir, 'link')
+  await mkdir(real, { recursive: true })
+  await writeFile(path.join(real, 'uno.config.mjs'), 'export default {}\n')
+  await symlink(real, link)
+  const unsavedFile = path.join(link, 'src', 'Unsaved.tsx')
+
+  const manager = new ContextManager(real, connection)
+  await manager.ready
+
+  expect(manager.isTarget(unsavedFile)).toBe(true)
+  await expect(manager.resolveClosestContext('<div className="p-1" />', unsavedFile)).resolves.toBeTruthy()
+})
+
 it('matches a root with a trailing separator', async () => {
   const tempDir = await createTempWorkspace()
   const root = path.join(tempDir, 'ws')

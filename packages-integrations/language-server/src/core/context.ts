@@ -17,12 +17,14 @@ const excludeFileRE = /[\\/](?:node_modules|dist|\.temp|\.cache)[\\/]/
 
 type UnoContext = UnocssPluginContext<UserConfig<any>> | null | undefined
 
-function toCanonicalPath(file: string) {
+function toCanonicalPath(file: string): string {
+  const resolved = path.resolve(file)
   try {
-    return realpathSync(file)
+    return realpathSync(resolved)
   }
   catch {
-    return path.resolve(file)
+    const parent = path.dirname(resolved)
+    return parent === resolved ? resolved : path.join(toCanonicalPath(parent), path.basename(resolved))
   }
 }
 
