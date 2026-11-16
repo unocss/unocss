@@ -26,12 +26,14 @@ export var variantForcedColors /* const */
 export var variantImplicitGroup /* const */
 export var variantInert /* const */
 export var variantInternalLayer /* const */
+export var variantInvertedColors /* const */
 export var variantLanguageDirections /* const */
 export var variantMotions /* const */
 export var variantNegative /* const */
 export var variantNoscript /* const */
 export var variantOrientations /* const */
 export var variantPartClasses /* const */
+export var variantPointers /* const */
 export var variantPrint /* const */
 export var variantScope /* const */
 export var variantScripting /* const */

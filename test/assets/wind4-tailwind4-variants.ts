@@ -67,14 +67,7 @@ export const variantContracts: [candidate: string, condition: RegExp][] = [
 export const variantGaps: Record<string, string> = {
   '@max-sm:flex': 'Missing maximum-width container query variant',
   '@sm:@max-lg:flex': 'Missing maximum-width container query in a stacked range',
-  'inverted-colors:flex': 'Missing inverted-colors media variant',
   'only:flex': 'Syntax difference: Wind4 uses only-child, not Tailwind only',
-  'pointer-none:flex': 'Missing pointer media variants',
-  'pointer-coarse:flex': 'Missing pointer media variants',
-  'pointer-fine:flex': 'Missing pointer media variants',
-  'any-pointer-none:flex': 'Missing any-pointer media variants',
-  'any-pointer-coarse:flex': 'Missing any-pointer media variants',
-  'any-pointer-fine:flex': 'Missing any-pointer media variants',
   'max-[900px]:flex': 'Boundary gap: Wind4 max-width includes 900px; Tailwind width < 900px excludes it',
 }
 
