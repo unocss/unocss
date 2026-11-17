@@ -12,7 +12,7 @@ import { hasThemeFn } from '@unocss/rule-utils'
 import postcss from 'postcss'
 import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '#integration/defaults'
-import { normalizeFilesystemGlob } from '#integration/glob'
+import { groupFilesystemGlobs, nodeModulesGlobIgnore, normalizeFilesystemGlob } from '#integration/glob'
 import { parseApply } from './apply'
 import { parseScreen } from './screen'
 import { parseTheme } from './theme'
@@ -104,15 +104,31 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
     }
 
     const globs = (uno.config.content?.filesystem ?? defaultFilesystemGlobs).map(normalizeFilesystemGlob)
-    const needCheckNodeMoudules = globs.some(i => i.includes('node_modules'))
+    const globGroups = groupFilesystemGlobs(globs)
     const plainContent = uno.config.content?.inline ?? []
 
-    const entries = await glob(isScanTarget ? globs : [from], {
-      cwd,
-      absolute: true,
-      ignore: needCheckNodeMoudules ? undefined : ['**/node_modules/**'],
-      expandDirectories: false,
-    })
+    async function globEntries(patterns: string[], ignore?: string) {
+      if (!patterns.length)
+        return []
+      return glob(patterns, {
+        cwd,
+        absolute: true,
+        expandDirectories: false,
+        ignore,
+      })
+    }
+
+    const entries = [...new Set(
+      isScanTarget
+        ? (await Promise.all([
+            globEntries(globGroups.regular, nodeModulesGlobIgnore),
+            globEntries(globGroups.nodeModules),
+          ])).flat()
+        : await globEntries(
+            [from],
+            globGroups.nodeModules.length ? undefined : nodeModulesGlobIgnore,
+          ),
+    )]
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)

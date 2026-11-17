@@ -1,13 +1,13 @@
 import type { Rollup } from 'vite'
 import { Buffer } from 'node:buffer'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mergeConfigs } from '@unocss/core'
 import presetWind3 from '@unocss/preset-wind3'
 import UnoCSS from '@unocss/vite'
 import { build } from 'vite'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('vite filesystem content', () => {
   let root: string
@@ -55,5 +55,62 @@ describe('vite filesystem content', () => {
     expect(css).toContain('justify-content:space-between')
     expect(css).toContain('.text-red-500')
     expect(css).toContain('.p-8')
+  })
+
+  it('ignores node_modules unless a filesystem glob explicitly includes it', async () => {
+    await mkdir(join(root, 'node_modules/@foo/lib/src'), { recursive: true })
+    await mkdir(join(root, 'node_modules/@bar/lib/src'), { recursive: true })
+    await writeFile(
+      join(root, 'node_modules/@foo/lib/src/Card.vue'),
+      '<template><div class="bg-green-500">card</div></template>',
+    )
+    await writeFile(
+      join(root, 'node_modules/@bar/lib/src/Button.vue'),
+      '<template><button class="bg-blue-500">button</button></template>',
+    )
+
+    const cwd = vi.spyOn(process, 'cwd').mockReturnValue(root)
+
+    async function buildCss(filesystem: string[]) {
+      const result = await build({
+        root,
+        configFile: false,
+        publicDir: false,
+        logLevel: 'silent',
+        plugins: [
+          UnoCSS({
+            configFile: false,
+            presets: [presetWind3()],
+            content: { filesystem },
+          }),
+        ],
+        build: {
+          write: false,
+          minify: false,
+          cssMinify: false,
+          rollupOptions: {
+            input: join(root, 'entry.js'),
+          },
+        },
+      }) as Rollup.RollupOutput
+
+      return result.output
+        .filter((asset): asset is Rollup.OutputAsset => asset.type === 'asset' && asset.fileName.endsWith('.css'))
+        .map(asset => Buffer.from(asset.source).toString())
+        .join('\n')
+    }
+
+    try {
+      const defaultCss = await buildCss(['**/*.vue'])
+      expect(defaultCss).not.toContain('.bg-green-500')
+      expect(defaultCss).not.toContain('.bg-blue-500')
+
+      const explicitCss = await buildCss(['**/*.vue', 'node_modules/@foo/lib/**/*.vue'])
+      expect(explicitCss).toContain('.bg-green-500')
+      expect(explicitCss).not.toContain('.bg-blue-500')
+    }
+    finally {
+      cwd.mockRestore()
+    }
   })
 })

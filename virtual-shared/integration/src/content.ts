@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { resolve } from 'node:path'
 import process from 'node:process'
 import { glob } from 'tinyglobby'
-import { normalizeFilesystemGlob } from './glob'
+import { groupFilesystemGlobs, nodeModulesGlobIgnore, normalizeFilesystemGlob } from './glob'
 import { applyTransformers } from './transformers'
 
 /**
@@ -13,10 +13,20 @@ import { applyTransformers } from './transformers'
  */
 export async function resolveFilesystemGlobs(globs: string[], bases: string[]): Promise<string[]> {
   const patterns = [...new Set(globs.map(normalizeFilesystemGlob))]
+  const groups = groupFilesystemGlobs(patterns)
+
+  async function match(base: string, patterns: string[], ignore?: string) {
+    if (!patterns.length)
+      return []
+    return (await glob(patterns, { cwd: base, expandDirectories: false, ignore }))
+      .map(file => resolve(base, file))
+  }
+
   const matched = await Promise.all(
-    [...new Set(bases)].map(async base =>
-      (await glob(patterns, { cwd: base, expandDirectories: false })).map(file => resolve(base, file)),
-    ),
+    [...new Set(bases)].flatMap(base => [
+      match(base, groups.regular, nodeModulesGlobIgnore),
+      match(base, groups.nodeModules),
+    ]),
   )
   return [...new Set(matched.flat())]
 }
@@ -58,11 +68,10 @@ export async function setupContentExtractor(
 
     if (shouldWatch) {
       const { watch } = await import('chokidar')
-      const ignored = ['**/{.git,node_modules}/**']
 
       const watcher = watch(files, {
         ignorePermissionErrors: true,
-        ignored,
+        ignored: path => path.split(/[\\/]/).includes('.git'),
         cwd: root,
         ignoreInitial: true,
       })
