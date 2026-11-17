@@ -11,3 +11,29 @@ import { sep } from 'node:path'
 export function normalizeFilesystemGlob(glob: string): string {
   return sep === '\\' ? glob.replaceAll('\\', '/') : glob
 }
+
+export const nodeModulesGlobIgnore = '**/node_modules/**'
+
+/**
+ * Split patterns so broad globs can ignore `node_modules` while explicitly
+ * configured `node_modules` globs still scan it. Negated patterns apply to both.
+ */
+export function groupFilesystemGlobs(globs: string[]) {
+  const regular: string[] = []
+  const nodeModules: string[] = []
+  const negated: string[] = []
+
+  for (const glob of globs) {
+    if (glob.startsWith('!'))
+      negated.push(glob)
+    else if (glob.includes('node_modules'))
+      nodeModules.push(glob)
+    else
+      regular.push(glob)
+  }
+
+  return {
+    regular: regular.length ? [...regular, ...negated] : [],
+    nodeModules: nodeModules.length ? [...nodeModules, ...negated] : [],
+  }
+}
