@@ -50,7 +50,7 @@ git push origin my-new-branch-or-feature
 
 ## Documentation
 
-UnoCSS documentation is built using [VitePress](https://vitepress.vuejs.org/),you can find the documentation in the `docs` folder: the documentation is written in Markdown and Vue components.
+UnoCSS documentation is built using [VitePress](https://vitepress.vuejs.org/), you can find the documentation in the `docs` folder: the documentation is written in Markdown and Vue components.
 
 If you're working on fixing or enhancing the documentation, follow previous 1, 2 and 5 steps and then run `pnpm docs` to start the VitePress dev server.
 
