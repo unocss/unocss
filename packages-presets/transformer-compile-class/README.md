@@ -25,7 +25,7 @@ export default defineConfig({
 
 ## Usage
 
-At the beginning of your class strings, **add `:uno:` at the begin of the strings** to mark them for compilation. For example:
+At the beginning of your class strings, **add `:uno:` at the beginning of the strings** to mark them for compilation. For example:
 
 ```html
 <div class=":uno: text-center sm:text-left">
