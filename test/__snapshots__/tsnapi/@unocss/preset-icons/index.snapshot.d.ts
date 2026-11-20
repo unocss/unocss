@@ -23,6 +23,7 @@ export interface IconsOptions {
   cdn?: string;
   customFetch?: (_: string) => Promise<any>;
   processor?: (_: CSSObject, _: Required<IconMeta>) => void;
+  dedupe?: boolean;
 }
 // #endregion
 
