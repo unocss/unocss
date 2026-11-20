@@ -86,8 +86,8 @@ Outputs the layers to CSS Cascade Layers.
 
 Specifies the name of the CSS layer the internal layer should be output to (can be a sublayer e.g. "mylayer.mysublayer").
 
-If `undefined` is return, the internal layer name wil be used as the CSS layer name.
-If `null` is return, the internal layer will not be output to a CSS layer.
+If `undefined` is returned, the internal layer name will be used as the CSS layer name.
+If `null` is returned, the internal layer will not be output to a CSS layer.
 
 #### allLayers
 
