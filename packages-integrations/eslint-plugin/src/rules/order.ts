@@ -11,7 +11,7 @@ export default createRule({
     type: 'layout',
     fixable: 'code',
     docs: {
-      description: 'Order of UnoCSS utilities in class attribute',
+      description: 'Order of UnoCSS utilities in class and attributify attributes',
     },
     messages: {
       'invalid-order': 'UnoCSS utilities are not ordered',
@@ -94,6 +94,36 @@ export default createRule({
           },
         })
       }
+    }
+
+    function checkAttributifyLiteral(node: TSESTree.Literal | SvelteLiteral, name: string) {
+      if (typeof node.value !== 'string' || !node.value.trim())
+        return
+      const input = node.value
+      const sorted = syncAction(
+        context.settings.unocss?.configPath,
+        'sort-attributify',
+        name,
+        input,
+        context.filename,
+      )
+
+      if (sorted == null || sorted === input)
+        return
+
+      const nodeOrToken: TSESTree.Token | TSESTree.Node = node.type === 'SvelteLiteral' ? { type: AST_TOKEN_TYPES.String, value: node.value, loc: node.loc, range: node.range } : node
+
+      context.report({
+        node: nodeOrToken,
+        loc: node.loc,
+        messageId: 'invalid-order',
+        fix(fixer) {
+          if (AST_NODES_WITH_QUOTES.includes(node.type))
+            return fixer.replaceTextRange([node.range[0] + 1, node.range[1] - 1], sorted)
+          else
+            return fixer.replaceText(nodeOrToken, sorted)
+        },
+      })
     }
 
     function checkTemplateElement(quasi: TSESTree.TemplateElement) {
@@ -352,7 +382,9 @@ export default createRule({
           context.filename,
         )
         if (attributifyPrefix && name.startsWith(attributifyPrefix))
-          checkLiteral(node.value)
+          return checkLiteral(node.value)
+
+        checkAttributifyLiteral(node.value, name)
       },
     }
 
