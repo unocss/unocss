@@ -110,6 +110,11 @@ describe('transformer-variant-group', () => {
     `)
   })
 
+  it('keeps tailwind v4 css variable shorthand', async () => {
+    const { transformed } = await transform('<div class="w-30 bg-(--primary) hover:(bg-(--accent) text-red)"></div>')
+    expect(transformed).toBe('<div class="w-30 bg-(--primary) hover:bg-(--accent) hover:text-red"></div>')
+  })
+
   it('ignore regex', async () => {
     const result = await transform(`
       word.replace(/-(\w)/g)
