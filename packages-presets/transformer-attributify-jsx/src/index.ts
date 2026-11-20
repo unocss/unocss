@@ -113,7 +113,7 @@ export default function transformerAttributifyJsx(options: TransformerAttributif
     enforce: 'pre',
     idFilter: filter.idFilter,
     async transform(code, id, { uno }) {
-      // Skip if running in VSCode extension context
+      // Skip if running in the VS Code extension host (not the integrated terminal)
       try {
         if (getEnvFlags().isVSCode)
           return
