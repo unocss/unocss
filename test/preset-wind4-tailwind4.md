@@ -23,7 +23,7 @@ Source anchors identify assertion blocks. They do not measure assertion quality 
 The upstream groups include directional forms, compound variants, sorting, and configuration cases.
 Related groups can share a parameterized assertion block. No group is omitted because Wind4 does not support it.
 Skipped Wind4 tests retain their assertions. Their Tailwind reference checks remain active.
-The focused suite has 752 passing tests and 39 skipped Wind4 contracts.
+The focused suite has 753 passing tests and 38 skipped Wind4 contracts.
 
 ## Coverage matrix
 
@@ -60,7 +60,6 @@ No implementation changes are part of this suite.
 | Kind                           | Cases                                                             | Reason                                                                                                                                  |
 | ------------------------------ | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | Missing container variants     | `@max-sm:flex`, `@sm:@max-lg:flex`                                | Wind4 emits no CSS for the maximum-width query or the range that contains it.                                                           |
-| Invalid gradient angle         | `bg-linear-45`                                                    | Wind4 emits `from 45deg in oklab`. A linear gradient angle requires `45deg in oklab`, without `from`.                                   |
 | Missing utility                | `font-features-["smcp"]`                                          | Wind4 does not emit `font-feature-settings` for this utility. An arbitrary CSS property remains available.                              |
 | Syntax difference              | `scroll-ms`, `scroll-me`, `scroll-ps`, `scroll-pe`                | Wind4 uses `scroll-mis`, `scroll-mie`, `scroll-pis`, and `scroll-pie`. Active tests cover those equivalents.                            |
 | Syntax difference              | `only:flex`                                                       | Wind4 uses `only-child` instead of Tailwind's `only` alias.                                                                             |

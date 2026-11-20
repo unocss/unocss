@@ -119,7 +119,7 @@ export const backgroundStyles: Rule<Theme>[] = [
     let v
 
     if (h.number(d) != null) {
-      v = `from ${h.number(d)}deg ${resolveModifier(s)};`
+      v = `${m === 'conic' ? 'from ' : ''}${h.number(d)}deg ${resolveModifier(s)};`
     }
     else {
       v = h.bracket(d, theme)

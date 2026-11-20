@@ -125,8 +125,7 @@ describe('wind4 / Tailwind values and nested utilities', () => {
     ['bg-conic-45', 'conic', 'from 45deg in oklab'],
   ])('background gradient modes: %s', (candidate, mode, position) => {
     for (const [engine, prefix] of [['tailwind', 'tw'], ['wind', 'un']] as const) {
-      const gap = engine === 'wind' && mode === 'linear'
-      it.skipIf(gap)(`${engine}: ${gap ? 'Wind4 emits invalid from keyword for a linear gradient angle' : 'shape and color-stop composition'}`, async () => {
+      it(`${engine}: shape and color-stop composition`, async () => {
         const output = await generate([candidate, 'from-[#ff0000]', 'via-[#00ff00]', 'to-[#0000ff]'])
         const root = output[engine]
         expect(declarationPaths(root, `--${prefix}-gradient-position`, position)).toHaveLength(1)
