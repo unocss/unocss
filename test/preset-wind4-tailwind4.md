@@ -23,7 +23,8 @@ Source anchors identify assertion blocks. They do not measure assertion quality 
 The upstream groups include directional forms, compound variants, sorting, and configuration cases.
 Related groups can share a parameterized assertion block. No group is omitted because Wind4 does not support it.
 Skipped Wind4 tests retain their assertions. Their Tailwind reference checks remain active.
-The focused suite has 753 passing tests and 38 skipped Wind4 contracts.
+Rejected-utility cases require that both compilers emit no declarations for values that Tailwind rejects.
+The focused suite has 801 passing tests and 38 skipped Wind4 contracts.
 
 ## Coverage matrix
 

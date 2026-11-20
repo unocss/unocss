@@ -10,6 +10,8 @@ export const flex: Rule<Theme>[] = [
 
   // flex
   [/^flex-(.*)$/, ([, d], { theme }) => {
+    if (/^(?:0|[1-9]\d*)$/.test(d))
+      return { flex: d }
     const value = h.bracket(d, theme)
     return { flex: value != null ? value.split(' ').map(e => h.cssvar.fraction(e) ?? e).join(' ') : h.cssvar.fraction(d) }
   }],

@@ -146,7 +146,12 @@ export const fonts: Rule<Theme>[] = [
   ['font-stretch-ultra-expanded', { 'font-stretch': 'ultra-expanded' }],
   [
     /^font-stretch-(.+)$/,
-    ([, s], { theme }) => ({ 'font-stretch': h.bracket.cssvar.fraction.global(s, theme) }),
+    ([, s], { theme }) => {
+      const percentage = Number(s.slice(0, -1))
+      if (s.endsWith('%') && Number.isInteger(percentage) && percentage >= 50 && percentage <= 200)
+        return { 'font-stretch': s }
+      return { 'font-stretch': h.bracket.cssvar.fraction.global(s, theme) }
+    },
     { autocomplete: 'font-stretch-<percentage>' },
   ],
 
