@@ -32,8 +32,16 @@ function negateMathFunction(value: string) {
   }
 }
 
-const negateFunctionBodyRE = /\b(hue-rotate)\s*(\(.*)/
+const negateFunctionBodyRE = /^(hue-rotate|rotate[XYZ]|skew[XY])\s*(\(.*)/
 function negateFunctionBody(value: string) {
+  value = value.trimStart()
+  while (value.startsWith('/*')) {
+    const end = value.indexOf('*/', 2)
+    if (end === -1)
+      return
+    value = value.slice(end + 2).trimStart()
+  }
+
   const match = value.match(negateFunctionBodyRE)
   if (match) {
     const [fnBody, rest] = getStringComponent(match[2], '(', ')', ' ') ?? []
