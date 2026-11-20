@@ -204,7 +204,7 @@ Will generate multiple CSS rules:
 ## Fully controlled rules
 
 ::: tip
-This is an advanced feature, in most situtations it won't be needed.
+This is an advanced feature, in most situations it won't be needed.
 :::
 
 When you really need some advanced rules that aren't covered by the combination of [Dynamic Rules](#dynamic-rules) and [Variants](/config/variants), UnoCSS also provides a way to give you full control to generate the CSS.
