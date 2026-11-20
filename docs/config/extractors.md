@@ -12,7 +12,7 @@ export default defineConfig({
 })
 ```
 
-By default [extractorSplit](https://github.com/unocss/unocss/blob/main/packages-engine/core/src/extractors/split.ts) will always be applied, which splits the source code into tokens and directly feed to the engine.
+By default [extractorSplit](https://github.com/unocss/unocss/blob/main/packages-engine/core/src/extractors/split.ts) will always be applied, which splits the source code into tokens and directly feeds to the engine.
 
 To override the default extractors, you can use `extractorDefault` option.
 
