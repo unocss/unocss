@@ -130,6 +130,30 @@ interface WebFontMeta {
 }
 ```
 
+### providers
+
+- **Type:** `Partial<Record<BuiltinWebFontsProviders, { fonts: Record<string, WebFontMeta | string | (WebFontMeta | string)[]> }>>`
+
+Fonts grouped by provider. Each font uses the provider it is listed under, while the other options stay global. Fonts with the same key are merged, with the fonts from the `fonts` option first.
+
+```ts
+presetWebFonts({
+  inlineImports: true,
+  providers: {
+    google: {
+      fonts: {
+        sans: 'Inter',
+      },
+    },
+    fontshare: {
+      fonts: {
+        display: 'Satoshi:400,700',
+      },
+    },
+  },
+})
+```
+
 ### extendTheme
 
 - **Type:** `boolean`

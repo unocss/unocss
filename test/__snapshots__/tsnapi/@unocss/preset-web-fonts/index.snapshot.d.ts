@@ -34,6 +34,9 @@ export interface WebFontProcessor {
 export interface WebFontsOptions {
   provider?: WebFontsProviders;
   fonts?: Record<string, WebFontMeta | string | (WebFontMeta | string)[]>;
+  providers?: Partial<Record<BuiltinWebFontsProviders, {
+    fonts: WebFontsOptions['fonts'];
+  }>>;
   extendTheme?: boolean;
   themeKey?: string;
   inlineImports?: boolean;
@@ -47,6 +50,7 @@ export interface WebFontsOptions {
 // #endregion
 
 // #region Types
+export type BuiltinWebFontsProviders = Exclude<WebFontsProviders, Provider>;
 export type WebFontsProviders = 'google' | 'bunny' | 'fontshare' | 'fontsource' | 'coollabs' | 'zeoseven' | 'none' | Provider;
 // #endregion
 

@@ -57,10 +57,17 @@ export function createWebFontPreset(fetcher: (url: string) => Promise<any>) {
     const layerName = inlineImports ? fontLayer : LAYER_IMPORTS
     const processors = toArray(options.processors || [])
 
-    const fontObject = Object.fromEntries(
-      Object.entries(options.fonts || {})
-        .map(([name, meta]) => [name, toArray(meta).map(m => normalizedFontMeta(m, defaultProvider))]),
-    )
+    const fontGroups = [
+      { provider: defaultProvider, fonts: options.fonts },
+      ...Object.entries(options.providers || {})
+        .map(([provider, group]) => ({ provider: provider as WebFontsProviders, fonts: group?.fonts })),
+    ]
+
+    const fontObject: Record<string, ResolvedWebFontMeta[]> = {}
+    for (const { provider, fonts } of fontGroups) {
+      for (const [name, meta] of Object.entries(fonts || {}))
+        (fontObject[name] ||= []).push(...toArray(meta).map(m => normalizedFontMeta(m, provider)))
+    }
     const fonts = Object.values(fontObject).flatMap(i => i)
 
     const importCache: Record<string, Promise<string>> = {}
