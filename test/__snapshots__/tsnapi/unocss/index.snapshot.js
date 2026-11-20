@@ -21,7 +21,9 @@ export { presetWind }
 export { presetWind3 }
 export { presetWind4 }
 export { transformerAttributifyJsx }
+export { transformerBuildThemes }
 export { transformerCompileClass }
 export { transformerDirectives }
 export { transformerVariantGroup }
+export { variantBuildThemes }
 // #endregion

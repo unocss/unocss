@@ -73,6 +73,7 @@ const Transformers = [
   { text: 'Directives', link: '/transformers/directives' },
   { text: 'Compile Class', link: '/transformers/compile-class' },
   { text: 'Attributify JSX', link: '/transformers/attributify-jsx' },
+  { text: 'Build Themes', link: '/transformers/build-themes' },
 ] satisfies DefaultTheme.NavItemWithLink[]
 
 const Extractors = [

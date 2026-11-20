@@ -29,6 +29,7 @@
 | [@unocss/transformer-directives](/transformers/directives)           | Transformer for CSS directives like `@apply`      |
 | [@unocss/transformer-compile-class](/transformers/compile-class)     | Compile group of classes into one class           |
 | [@unocss/transformer-attributify-jsx](/transformers/attributify-jsx) | Support valueless attributify in JSX/TSX          |
+| [@unocss/transformer-build-themes](/transformers/build-themes)       | Build-time themes that tree-shake HTML and CSS    |
 
 ## Extractors
 

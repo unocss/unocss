@@ -13,6 +13,7 @@ export { default as presetWind, type Theme as PresetWindTheme } from '@unocss/pr
 export { default as presetWind3, type Theme as PresetWind3Theme } from '@unocss/preset-wind3'
 export { default as presetWind4, type Theme as PresetWind4Theme } from '@unocss/preset-wind4'
 export { default as transformerAttributifyJsx } from '@unocss/transformer-attributify-jsx'
+export { default as transformerBuildThemes, variantBuildThemes } from '@unocss/transformer-build-themes'
 export { default as transformerCompileClass } from '@unocss/transformer-compile-class'
 export { default as transformerDirectives } from '@unocss/transformer-directives'
 export { default as transformerVariantGroup } from '@unocss/transformer-variant-group'

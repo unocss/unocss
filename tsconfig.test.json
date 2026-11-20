@@ -213,6 +213,12 @@
       "@unocss/transformer-attributify-jsx/*": [
         "./packages-presets/transformer-attributify-jsx/src/*"
       ],
+      "@unocss/transformer-build-themes": [
+        "./packages-presets/transformer-build-themes/src/"
+      ],
+      "@unocss/transformer-build-themes/*": [
+        "./packages-presets/transformer-build-themes/src/*"
+      ],
       "@unocss/transformer-compile-class": [
         "./packages-presets/transformer-compile-class/src/"
       ],
