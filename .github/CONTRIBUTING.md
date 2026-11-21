@@ -32,7 +32,7 @@ git checkout -b my-new-branch-or-feature
 
 3. Add new tests when adding new features or fixing bugs (not always necessary, but it's a good practice): you can reuse existing tests or create new ones in the `test` folder. UnoCSS uses [Vitest](https://vitest.dev/) as the test runner.
 
-4. Test locally your changes by running the playground in your local environment
+4. Test your changes locally by running the playground in your local environment
 
 5. Run `pnpm stub` or `pnpm build` to stub/build the packages: the playground will use the built packages
 
