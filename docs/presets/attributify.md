@@ -154,6 +154,8 @@ Create `shims.d.ts` with the following content:
 
 > By default, the type includes common attributes from `@unocss/preset-wind3`. If you need custom attributes, refer to the [type source](https://github.com/unocss/unocss/blob/main/packages-presets/preset-attributify/src/jsx.ts) to implement your own type.
 
+Numeric length-unit names such as `m10px` are available through the opt-in `AttributifyAttributesWithNumericValues` type. The default `AttributifyAttributes` intentionally omits these broad template-literal patterns to keep JSX type checking fast. If your project uses numeric length-unit attributes, extend your framework's attributes with the opt-in type instead.
+
 ### Vue
 
 Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/johnsoncodehk/volar/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
@@ -179,6 +181,16 @@ import type { AttributifyAttributes } from '@unocss/preset-attributify'
 
 declare module 'react' {
   interface HTMLAttributes<T> extends AttributifyAttributes {}
+}
+```
+
+For numeric length-unit attributes, use the opt-in type:
+
+```ts
+import type { AttributifyAttributesWithNumericValues } from '@unocss/preset-attributify'
+
+declare module 'react' {
+  interface HTMLAttributes<T> extends AttributifyAttributesWithNumericValues {}
 }
 ```
 
@@ -256,9 +268,10 @@ declare global {
 import type { AttributifyNames } from '@unocss/preset-attributify'
 
 type Prefix = 'uno:' // change it to your prefix
-
 interface HTMLAttributes extends Partial<Record<AttributifyNames<Prefix>, string>> {}
 ```
+
+For numeric length-unit attributes with a prefix, use `AttributifyNamesWithNumericValues<Prefix>` instead.
 
 ## Options
 
