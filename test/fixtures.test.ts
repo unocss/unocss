@@ -253,6 +253,41 @@ describe.concurrent('fixtures', () => {
     expect(css).contains('.text-red')
   })
 
+  it('does not warn about the same UnoCSS entry in parallel Vite environments', async () => {
+    const root = resolve(import.meta.dirname, 'fixtures/vite-environments')
+    const input = resolve(root, 'src/main.ts')
+    const warnings: string[] = []
+    const logger = vite.createLogger('warn')
+    logger.warn = (message) => {
+      warnings.push(message)
+    }
+
+    const builder = await createBuilder({
+      root,
+      configFile: false,
+      customLogger: logger,
+      environments: {
+        client: { build: { write: false, outDir: 'dist-parallel-client', rollupOptions: { input } } },
+        ssr: { build: { write: false, outDir: 'dist-parallel-ssr', rollupOptions: { input } } },
+      },
+      plugins: [UnoCSS({ configFile: false, presets: [presetWind3()] })],
+    })
+    const [client] = await Promise.all([
+      builder.build(builder.environments.client),
+      builder.build(builder.environments.ssr),
+    ])
+
+    expect(warnings.join('\n')).not.toContain('is being imported multiple times in different files')
+    expect(client).toMatchObject({
+      output: expect.arrayContaining([
+        expect.objectContaining({
+          fileName: expect.stringMatching(/\.css$/),
+          source: expect.stringContaining('.text-red'),
+        }),
+      ]),
+    })
+  })
+
   // https://github.com/unocss/unocss/issues/5329
   it.skipIf(isWindows)('vite environments with per-environment configs', async () => {
     const root = resolve(import.meta.dirname, 'fixtures/vite-environments-isolated')
