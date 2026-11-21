@@ -54,7 +54,7 @@ UnoCSS documentation is built using [VitePress](https://vitepress.vuejs.org/), y
 
 If you're working on fixing or enhancing the documentation, follow previous 1, 2 and 5 steps and then run `pnpm docs` to start the VitePress dev server.
 
-UnoCSS also has a package for the interactive documentation, can be found in the `interactive` folder. If you're working on fixing or enhancing the interactive documentation, follow previous 1, 2 and 5 steps and then run `pnpm interactive` to start the dev server.
+UnoCSS also has a package for the interactive documentation which can be found in the `interactive` folder. If you're working on fixing or enhancing the interactive documentation, follow previous 1, 2 and 5 steps and then run `pnpm interactive` to start the dev server.
 
 Finally, commit your changes and create a pull request to the `main` branch of the UnoCSS repository (check the previous step 8).
 
