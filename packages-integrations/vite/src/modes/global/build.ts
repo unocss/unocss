@@ -103,9 +103,11 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             if (!modules)
               vfsLayers.set(layer, modules = new Map())
             const query = entry.slice(getPath(entry).length)
-            if (modules.has(query)) {
-              this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(modules.get(query))}`)
-              return modules.get(query)
+            const existing = modules.get(query)
+            if (existing) {
+              if (existing !== entry)
+                this.warn(`[unocss] ${JSON.stringify(id)} is being imported multiple times in different files, using the first occurrence: ${JSON.stringify(existing)}`)
+              return existing
             }
             modules.set(query, entry)
             resolveContexts.set(entry, this)
