@@ -32,7 +32,7 @@ git checkout -b my-new-branch-or-feature
 
 3. Add new tests when adding new features or fixing bugs (not always necessary, but it's a good practice): you can reuse existing tests or create new ones in the `test` folder. UnoCSS uses [Vitest](https://vitest.dev/) as the test runner.
 
-4. Test locally your changes by running the playground in your local environment
+4. Test your changes locally by running the playground in your local environment
 
 5. Run `pnpm stub` or `pnpm build` to stub/build the packages: the playground will use the built packages
 
@@ -54,7 +54,7 @@ UnoCSS documentation is built using [VitePress](https://vitepress.vuejs.org/), y
 
 If you're working on fixing or enhancing the documentation, follow previous 1, 2 and 5 steps and then run `pnpm docs` to start the VitePress dev server.
 
-UnoCSS also has a package for the interactive documentation, can be found in the `interactive` folder. If you're working on fixing or enhancing the interactive documentation, follow previous 1, 2 and 5 steps and then run `pnpm interactive` to start the dev server.
+UnoCSS also has a package for the interactive documentation which can be found in the `interactive` folder. If you're working on fixing or enhancing the interactive documentation, follow previous 1, 2 and 5 steps and then run `pnpm interactive` to start the dev server.
 
 Finally, commit your changes and create a pull request to the `main` branch of the UnoCSS repository (check the previous step 8).
 
