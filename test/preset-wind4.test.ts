@@ -1268,6 +1268,29 @@ describe('preset-wind4', () => {
       .w-screen-sm{width:640px;}"
     `)
   })
+
+  it('gradient angles keep a single declaration terminator', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false, property: false },
+        }),
+      ],
+    })
+
+    const { getLayer } = await uno.generate([
+      'bg-linear-45',
+      'bg-conic-90/srgb',
+      '!bg-radial-30',
+    ])
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .\\!bg-radial-30{--un-gradient-position:30deg in oklab !important;background-image:radial-gradient(var(--un-gradient-stops)) !important;}
+      .bg-conic-90\\/srgb{--un-gradient-position:from 90deg in srgb;background-image:conic-gradient(var(--un-gradient-stops));}
+      .bg-linear-45{--un-gradient-position:45deg in oklab;background-image:linear-gradient(var(--un-gradient-stops));}"
+    `)
+  })
 })
 
 describe('important', () => {
