@@ -156,12 +156,14 @@ describe('wind4 / Tailwind composition contracts', () => {
   })
 
   it('touch-pan and touch-pinch-zoom compose', async () => {
-    const { wind, tailwind } = await generate(['touch-pan-x', 'touch-pinch-zoom'])
+    const { wind, tailwind } = await generate(['touch-pan-x', 'touch-pan-y', 'touch-pinch-zoom'])
     for (const [root, prefix] of [[tailwind, 'tw'], [wind, 'un']] as const) {
+      const expected = `var(--${prefix}-pan-x,) var(--${prefix}-pan-y,) var(--${prefix}-pinch-zoom,)`
       expect(declarations(root, 'touch-pan-x')[`--${prefix}-pan-x`]).toBe('pan-x')
+      expect(declarations(root, 'touch-pan-y')[`--${prefix}-pan-y`]).toBe('pan-y')
       expect(declarations(root, 'touch-pinch-zoom')[`--${prefix}-pinch-zoom`]).toBe('pinch-zoom')
-      for (const part of ['pan-x', 'pan-y', 'pinch-zoom'])
-        expect(declarations(root, 'touch-pan-x')['touch-action']).toContain(`var(--${prefix}-${part}`)
+      for (const token of ['touch-pan-x', 'touch-pan-y', 'touch-pinch-zoom'])
+        expect(declarations(root, token)['touch-action']).toBe(expected)
     }
   })
 
