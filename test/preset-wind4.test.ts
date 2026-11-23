@@ -1269,6 +1269,32 @@ describe('preset-wind4', () => {
     `)
   })
 
+  it('resolves lh and numeric flex through the shared value handlers', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false, property: false },
+        }),
+      ],
+    })
+
+    const { css } = await uno.generate(['h-lh', 'w-lh', 'size-lh', 'p-lh', 'h-2lh', 'flex-2', 'flex-2.5', 'flex-2/3', 'flex-1', 'flex-[1_1_0%]'], { preflights: false })
+
+    expect(css).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .p-lh{padding:1lh;}
+      .flex-\\[1_1_0\\%\\],
+      .flex-1{flex:1 1 0%;}
+      .flex-2{flex:2;}
+      .flex-2\\.5{flex:2.5;}
+      .flex-2\\/3{flex:66.6666666667%;}
+      .size-lh{width:1lh;height:1lh;}
+      .h-2lh{height:2lh;}
+      .h-lh{height:1lh;}
+      .w-lh{width:1lh;}"
+    `)
+  })
+
   it('gradient angles keep a single declaration terminator', async () => {
     const uno = await createGenerator({
       presets: [

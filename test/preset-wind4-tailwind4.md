@@ -23,7 +23,8 @@ Source anchors identify assertion blocks. They do not measure assertion quality 
 The upstream groups include directional forms, compound variants, sorting, and configuration cases.
 Related groups can share a parameterized assertion block. No group is omitted because Wind4 does not support it.
 Skipped Wind4 tests retain their assertions. Their Tailwind reference checks remain active.
-The focused suite has 753 passing tests and 38 skipped Wind4 contracts.
+Rejected-utility cases require that both compilers emit no declarations for values that Tailwind rejects.
+The focused suite has 789 passing tests and 38 skipped Wind4 contracts.
 
 ## Coverage matrix
 
@@ -88,6 +89,8 @@ File discovery through `@source` is tested as Tailwind compiler metadata. Uno's 
 The suite does not require complete CSS text equality.
 It permits explicit equivalent spellings such as `auto` versus `1 1 auto`, slash whitespace, and `currentColor` case.
 It also permits `top left` versus `0 0`, and equivalent minimum-width media syntax.
+Wind4 resolves values through shared handlers, so it accepts some candidates that Tailwind rejects, such as `lh` on every size and spacing utility (`w-lh`, `p-lh`) and decimal `flex-2.5`.
+`test/preset-wind4.test.ts` covers these forms.
 
 Separate assertions cover known output forms instead of replacing all variable names or evaluating CSS.
 Examples include `--tw-*` versus `--un-*`, `--color-*` versus `--colors-*`, URL variables, animation variables, and transition shorthands.
