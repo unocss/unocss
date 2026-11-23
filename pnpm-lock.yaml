@@ -386,6 +386,9 @@ catalogs:
     msw:
       specifier: ^2.7.0
       version: 2.15.0
+    tailwindcss:
+      specifier: 4.3.3
+      version: 4.3.3
     vitest:
       specifier: ^5.0.5
       version: 5.0.5
@@ -414,6 +417,9 @@ catalogs:
       version: 2.2.6
   typescript:
     '@typescript-eslint/rule-tester':
+      specifier: ^8.72.0
+      version: 8.72.1
+    '@typescript-eslint/types':
       specifier: ^8.72.0
       version: 8.72.1
     '@typescript-eslint/utils':
@@ -742,6 +748,9 @@ importers:
       svelte-eslint-parser:
         specifier: catalog:eslint
         version: 1.10.0(svelte@5.57.3)
+      tailwindcss:
+        specifier: catalog:testing
+        version: 4.3.3
       taze:
         specifier: catalog:utils
         version: 21.3.0
@@ -1066,13 +1075,12 @@ importers:
 
   packages-engine/autocomplete:
     dependencies:
-      fzf:
-        specifier: catalog:utils
-        version: 0.5.2
-    devDependencies:
       '@unocss/core':
         specifier: workspace:*
         version: link:../core
+      fzf:
+        specifier: catalog:utils
+        version: 0.5.2
 
   packages-engine/cli:
     dependencies:
@@ -1142,7 +1150,6 @@ importers:
       magic-string:
         specifier: catalog:utils
         version: 1.4.4
-    devDependencies:
       unconfig:
         specifier: catalog:utils
         version: 7.5.0
@@ -1174,6 +1181,9 @@ importers:
 
   packages-integrations/eslint-plugin:
     dependencies:
+      '@typescript-eslint/types':
+        specifier: catalog:typescript
+        version: 8.72.1
       '@typescript-eslint/utils':
         specifier: catalog:typescript
         version: 8.72.1(eslint@10.13.0)(supports-color@10.2.2)(typescript@6.0.3)
@@ -1183,6 +1193,9 @@ importers:
       '@unocss/core':
         specifier: workspace:*
         version: link:../../packages-engine/core
+      eslint:
+        specifier: ^8.57.0 || ^9.0.0 || ^10.0.0
+        version: 10.13.0(jiti@2.7.0)(supports-color@10.2.2)
       magic-string:
         specifier: catalog:utils
         version: 1.4.4
@@ -1202,6 +1215,9 @@ importers:
 
   packages-integrations/inspector:
     dependencies:
+      '@jridgewell/remapping':
+        specifier: catalog:build
+        version: 2.3.5
       '@unocss/autocomplete':
         specifier: workspace:*
         version: link:../../packages-engine/autocomplete
@@ -1220,12 +1236,18 @@ importers:
       devframe:
         specifier: catalog:devtools
         version: 1.2.6(cac@7.1.0)(srvx@1.0.7)
+      magic-string:
+        specifier: catalog:utils
+        version: 1.4.4
       tinyglobby:
         specifier: catalog:utils
         version: 0.2.17
       unplugin-utils:
         specifier: catalog:utils
         version: 0.3.2
+      vite:
+        specifier: ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
+        version: 8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
     devDependencies:
       '@codemirror/autocomplete':
         specifier: catalog:docs
@@ -1537,6 +1559,9 @@ importers:
       pathe:
         specifier: catalog:utils
         version: 2.0.3
+      vite:
+        specifier: ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
+        version: 8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
       zimmerframe:
         specifier: catalog:utils
         version: 1.1.5
@@ -1547,6 +1572,18 @@ importers:
       svelte:
         specifier: catalog:svelte
         version: 5.57.3(@typescript-eslint/types@8.72.1)
+
+  packages-integrations/svelte-scoped/test/fixtures/vite:
+    devDependencies:
+      '@sveltejs/kit':
+        specifier: catalog:svelte
+        version: 2.70.3(@sveltejs/vite-plugin-svelte@7.3.1)(svelte@5.57.3)(typescript@6.0.3)(vite@8.3.5)
+      '@unocss/svelte-scoped':
+        specifier: workspace:*
+        version: link:../../..
+      '@unocss/transformer-directives':
+        specifier: workspace:*
+        version: link:../../../../../packages-presets/transformer-directives
 
   packages-integrations/twoslash:
     dependencies:
@@ -1696,6 +1733,9 @@ importers:
 
   packages-presets/preset-icons:
     dependencies:
+      '@iconify/types':
+        specifier: catalog:icons
+        version: 2.0.0
       '@iconify/utils':
         specifier: catalog:icons
         version: 3.1.7
@@ -1705,10 +1745,6 @@ importers:
       ofetch:
         specifier: catalog:utils
         version: 1.5.1
-    devDependencies:
-      '@iconify/types':
-        specifier: catalog:icons
-        version: 2.0.0
 
   packages-presets/preset-legacy-compat:
     dependencies:

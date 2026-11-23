@@ -2,7 +2,7 @@ import type { Theme } from '../../theme'
 import { escapeSelector } from '@unocss/core'
 import { transformThemeFn } from '@unocss/rule-utils'
 import { globalKeywords } from '../mappings'
-import { themeTracking } from '../track'
+import { trackTheme } from '../track'
 import { getThemeByKey } from '../utilities'
 import { bracketTypeRe, cssVarsRE, numberRE, numberWithUnitRE, unitOnlyMap, unitOnlyRE } from './regex'
 
@@ -175,7 +175,7 @@ function processThemeVariable(theme: Theme, themeKey: string, themeKeyPaths: str
   const varKey = hasDefault && themeKey !== 'spacing' ? `${varPaths}.DEFAULT` : varPaths
 
   if (val != null)
-    themeTracking(themeKey, themeKeyPaths.length ? themeKeyPaths : undefined)
+    trackTheme(theme, themeKey, themeKeyPaths.length ? themeKeyPaths : undefined)
 
   return { val, varKey }
 }

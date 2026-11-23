@@ -137,4 +137,30 @@ describe('runtime dom manipulation', async () => {
     expect(cssOnFirstScan).toContain('.\\[\\&_th\\]\\:sticky th{position:sticky;}')
     expect(cssForLateElement).toBe(cssOnFirstScan)
   })
+
+  it('runtime skips regenerating when only known tokens are extracted again', async () => {
+    const runtime = await initRuntime()
+
+    await runtime?.extract('m-1 my-custom-class')
+    await runtime?.update()
+
+    const generate = vi.spyOn(runtime!.uno, 'generate')
+    await runtime?.extract('m-1 my-custom-class')
+
+    expect(generate).not.toHaveBeenCalled()
+  })
+
+  it('runtime picks up unmatched tokens after config change', async () => {
+    const runtime = await initRuntime()
+
+    await runtime?.extract('late-rule')
+    expect((await runtime?.update())?.css).not.toContain('.late-rule')
+
+    await runtime!.uno.setConfig({
+      rules: [['late-rule', { color: 'red' }]],
+    })
+
+    await runtime?.extract('late-rule')
+    expect((await runtime?.update())?.css).toContain('.late-rule{color:red;}')
+  })
 })

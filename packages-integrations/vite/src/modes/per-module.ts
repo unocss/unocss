@@ -65,7 +65,7 @@ export function PerModuleModePlugin(ctx: UnocssPluginContext): Plugin[] {
         const hasScope = SCOPE_IMPORT_RE.test(code)
 
         const { css } = await ctx.uno.generate(code, { id, scope: hasScope ? `.${hash}` : undefined, preflights: false })
-        if (!css && !hasScope)
+        if (!css && !hasScope && !moduleMap.has(hash))
           return null
         if (hasScope)
           code = code.replace(SCOPE_IMPORT_RE, ` from 'data:text/javascript;base64,${Buffer.from(`export default () => "${hash}"`).toString('base64')}'`)

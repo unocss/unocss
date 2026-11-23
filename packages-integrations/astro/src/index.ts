@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import VitePlugin from '@unocss/vite'
 import { normalizePath } from 'vite'
+import { splitEntryId } from '#integration/utils'
 
 const UNO_INJECT_ID = 'uno-astro'
 const WIND3_RESET_CSS = '@unocss/reset/tailwind.css'
@@ -30,10 +31,8 @@ const UNO_ENTRY_ALIAS_RE = /^(?:virtual:)?uno(?::.+)?\.css(?:\?.*)?$/
  * A path id under the root is stable in both environments.
  */
 function toAstroPathId(id: string, root: string) {
-  const [pathname, ...query] = id.split('?')
-  const filename = pathname.split(/[/\\]/).pop() || ''
-  const file = normalizePath(join(root, filename))
-  return query.length ? `${file}?${query.join('?')}` : file
+  const { filename, query } = splitEntryId(id)
+  return `${normalizePath(join(root, filename))}${query}`
 }
 
 /**

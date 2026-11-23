@@ -43,7 +43,9 @@ const mergedSelectors = computed(() => {
 
   const map = new Map<string, MatchedSelector>()
   selectors.value.forEach((item) => {
-    const key = item.body
+    // `body` only strips the utility prefix (`z-2` and `mb-2` both become `2`),
+    // so aliases are matched by the CSS they generate instead
+    const key = item.declarations ?? item.body
     const target = map.get(key)
     if (target) {
       target.alias ||= {

@@ -6,13 +6,19 @@ import MagicString from 'magic-string'
 import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
-import { getPath } from '#integration/utils'
-import { toViteClientPath, toViteVirtualId } from '../../virtual'
+import { getPath, splitEntryId } from '#integration/utils'
+import { toViteClientPath } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
+
+/** Serve the entry through a path id so prerendered `<link>` urls round-trip (#5406). */
+function toServeId(id: string) {
+  const { filename, query } = splitEntryId(id)
+  return `/${filename}${query}`
+}
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
 
@@ -163,9 +169,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          const virtualId = toViteVirtualId(entry)
-          entries.add(virtualId)
-          return virtualId
+          const serveId = toServeId(entry)
+          entries.add(serveId)
+          return serveId
         }
       },
       async load(id) {

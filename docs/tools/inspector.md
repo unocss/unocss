@@ -10,6 +10,8 @@ Ships with `unocss` and `@unocss/vite`.
 
 The inspector allows you to inspect the generated CSS rules and the applied classes for each file. It also provides a REPL to test your utilities based on your current configuration.
 
+The **Docs** tab brings the [Interactive Docs](https://unocss.dev/interactive/) into the inspector, generated from your project's own configuration: search utilities by class name or by the CSS they produce, and see the rule, preset, shortcut and variant chain behind each one — custom rules, shortcuts and theme included, with no config to paste. Every utility in the Analyzer links to its page there.
+
 Built on top of [devframe](https://devfra.me/), the inspector can be hosted in several ways.
 
 ## Vite DevTools (recommended)

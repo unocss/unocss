@@ -11,7 +11,6 @@ export default defineConfig({
   deps: {
     neverBundle: [
       'vite',
-      '@unocss/core',
     ],
   },
   alias: aliasVirtual,

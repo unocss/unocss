@@ -1,7 +1,7 @@
 {
   "name": "@unocss/inspector",
   "type": "module",
-  "version": "66.12.0",
+  "version": "66.13.0",
   "description": "The inspector UI for UnoCSS",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -41,20 +41,30 @@
   ],
   "scripts": {
     "build": "tsdown --config-loader unrun",
-    "prepack": "turbo build --filter=.",
+    "prepack": "turbo build-post --filter=.",
     "build-post": "vite build",
     "dev": "tsdown --config-loader unrun --watch",
     "dev:client": "vite",
     "update-post": "vite build",
     "typecheck:vue": "vue-tsc --noEmit -p tsconfig.vue.json"
   },
+  "peerDependencies": {
+    "vite": "^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  },
   "dependencies": {
+    "@jridgewell/remapping": "catalog:build",
     "@unocss/autocomplete": "workspace:*",
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-mini": "workspace:*",
     "@unocss/rule-utils": "workspace:*",
     "devframe": "catalog:devtools",
+    "magic-string": "catalog:utils",
     "tinyglobby": "catalog:utils",
     "unplugin-utils": "catalog:utils"
   },

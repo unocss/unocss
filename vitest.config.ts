@@ -16,6 +16,7 @@ export default defineConfig({
     projects: [
       'vitest.config.ts',
       'packages-integrations/svelte-scoped/vitest.config.ts',
+      'packages-integrations/svelte-scoped/test/fixtures/vite/vitest.config.ts',
       'packages-integrations/runtime/vitest.config.ts',
     ],
   },

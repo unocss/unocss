@@ -93,7 +93,7 @@ async function parseEntries(options: ResolvedCliOptions, cache: Map<string, File
 
   for (const entry of options.entries) {
     const { outFile, rewrite } = entry
-    const files = await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })
+    const files = (await glob(entry.patterns, { cwd: options.cwd, absolute: true, expandDirectories: false })).sort()
     const cssFiles = files.filter(f => f.endsWith('.css')).filter(f => f !== resolve(options.cwd, outFile))
     const otherFiles = files.filter(f => !f.endsWith('.css'))
     const singleKey = outFile.replace(/(\.css)?$/, '-merged.css')
@@ -172,6 +172,10 @@ export async function build(_options: CliOptions) {
     return await generate(options)
   }
 
+  // Build once up front; the watcher ignores initial events to avoid
+  // re-parsing every entry for each file it discovers on startup.
+  await generate(options).catch(handleError)
+
   const debouncedBuild = debounce(
     async () => {
       generate(options).catch(handleError)
@@ -217,15 +221,7 @@ export async function build(_options: CliOptions) {
 
         if (type === 'change')
           logger.info(`${cyan(basename(file))} changed, setting new config`)
-        logger.info(
-          `Watching for changes in ${
-            [
-              ...options.entries.flatMap(i => i.patterns),
-              ...configSources,
-            ]
-              .map(cyan)
-              .join(', ')}`,
-        )
+        logWatching()
       }
       else {
         if (type === 'change') {
@@ -259,6 +255,20 @@ export async function build(_options: CliOptions) {
 
       debouncedBuild()
     })
+
+    logWatching()
+  }
+
+  function logWatching() {
+    logger.info(
+      `Watching for changes in ${
+        [
+          ...options.entries.flatMap(i => i.patterns),
+          ...options.ctx.getConfigFileList().map(normalize),
+        ]
+          .map(cyan)
+          .join(', ')}`,
+    )
   }
 }
 

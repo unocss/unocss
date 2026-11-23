@@ -1,6 +1,6 @@
 import type { Rule, RuleContext, VariantHandler } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, directionMap, directionSize, h, numberResolver, themeTracking } from '../utils'
+import { defineProperty, directionMap, directionSize, h, numberResolver, trackTheme } from '../utils'
 
 export const paddings: Rule<Theme>[] = [
   [/^pa?()-?(.+)$/, directionSize('padding'), { autocomplete: ['(m|p)<num>', '(m|p)-<num>'] }],
@@ -37,7 +37,11 @@ export function notLastChildSelectorVariant(s: string): VariantHandler {
     order: 1,
     handle: (input, next) => next({
       ...input,
-      parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.selector}`,
+      // Keep the whole selector, including prefixes added by variants such as
+      // `peer-*` and `group-*`, inside the `:where()`: the child combinator has
+      // to apply to the utility element, not to the prefix.
+      parent: `${input.parent ? `${input.parent} $$ ` : ''}${input.prefix}${input.selector}`,
+      prefix: '',
       selector: ':where(&>:not(:last-child))',
     }),
   }
@@ -47,7 +51,7 @@ function* handlerSpace([m, d, s]: string[], { theme, symbols }: RuleContext<Them
   let v: string | undefined
   const num = numberResolver(s)
   if (num != null) {
-    themeTracking(`spacing`)
+    trackTheme(theme, `spacing`)
     v = `calc(var(--spacing) * ${num})`
   }
   else {

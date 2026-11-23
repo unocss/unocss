@@ -1,6 +1,12 @@
-import type { UnoGenerator } from '@unocss/core'
-import { collapseVariantGroup, notNull, parseVariantGroup, splitVariantGroupBody } from '@unocss/core'
+import type { UnoGenerator } from '../generator'
+import { notNull } from './helpers'
+import { collapseVariantGroup, parseVariantGroup, splitVariantGroupBody } from './variant-group'
 
+/**
+ * Sort space-separated utilities in the order they appear in the generated CSS.
+ * Unknown utilities are kept at the front, in their original order.
+ * Used by the ESLint `order` rule.
+ */
 export async function sortRules(rules: string, uno: UnoGenerator) {
   const unknown: string[] = []
 

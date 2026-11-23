@@ -1,5 +1,6 @@
 import type { LoadConfigResult, LoadConfigSource } from '@unocss/config'
 import type { FilterPattern, UnocssPluginContext, UnoGenerator, UserConfig, UserConfigDefaults } from '@unocss/core'
+import { resolve } from 'node:path'
 import process from 'node:process'
 import { createRecoveryConfigLoader } from '@unocss/config'
 import { BetterMap, createGenerator } from '@unocss/core'
@@ -7,6 +8,37 @@ import { createFilter } from 'unplugin-utils'
 import { CSS_PLACEHOLDER, IGNORE_COMMENT, INCLUDE_COMMENT, SKIP_COMMENT_RE } from './constants'
 import { defaultPipelineExclude, defaultPipelineInclude } from './defaults'
 import { deprecationCheck } from './deprecation'
+
+/** A pattern list that is absent or empty imposes no constraint. */
+function isEmptyFilter(pattern: FilterPattern | undefined): boolean {
+  return pattern == null || (Array.isArray(pattern) && pattern.length === 0)
+}
+
+/**
+ * Create the filter for `pipeline.include` / `pipeline.exclude`.
+ *
+ * Patterns are resolved against every base — the build root and `process.cwd()` —
+ * since they may be written relative to either (Nuxt reports `srcDir` as its root).
+ * `include` matches when any base matches, `exclude` when any base excludes. An
+ * empty list imposes no constraint, and virtual ids never match.
+ */
+export function createPipelineFilter(
+  include: FilterPattern,
+  exclude: FilterPattern,
+  bases: string[],
+): (id: unknown) => boolean {
+  const uniqueBases = [...new Set(bases)]
+  const includeFilters = isEmptyFilter(include) ? [] : uniqueBases.map(base => createFilter(include, [], { resolve: base }))
+  const excludeFilters = isEmptyFilter(exclude) ? [] : uniqueBases.map(base => createFilter(exclude, [], { resolve: base }))
+
+  return (id: unknown) => {
+    // Virtual module ids never match, even when no pattern was given.
+    if (typeof id !== 'string' || id.includes('\0'))
+      return false
+    return (!includeFilters.length || includeFilters.some(filter => filter(id)))
+      && !(excludeFilters.length && excludeFilters.some(filter => filter(id)))
+  }
+}
 
 export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
   configOrPath?: Config | string,
@@ -23,10 +55,10 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
       uno = r
       return r
     })
-  let rollupFilter = createFilter(
+  let rollupFilter = createPipelineFilter(
     defaultPipelineInclude,
     defaultPipelineExclude,
-    { resolve: typeof configOrPath === 'string' ? configOrPath : root },
+    [root, process.cwd()],
   )
 
   const invalidations: Array<() => void> = []
@@ -39,9 +71,16 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
 
   const loadConfig = createRecoveryConfigLoader<Config>()
 
+  let lastReload: Promise<unknown> = Promise.resolve()
   let ready = reloadConfig()
 
-  async function reloadConfig() {
+  function reloadConfig() {
+    const reload = lastReload.catch(() => {}).then(performReload)
+    lastReload = reload
+    return reload
+  }
+
+  async function performReload() {
     await _uno
     const result = await loadConfig(root, configOrPath, extraConfigSources, defaults)
     resolveConfigResult(result)
@@ -52,9 +91,13 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     await uno.setConfig(rawConfig)
     rollupFilter = rawConfig.content?.pipeline === false
       ? () => false
+      // An explicitly empty list is meaningful ("no constraint") and has to be
+      // passed through; an absent or falsy non-pattern value falls back to the
+      // defaults.
       : createPipelineFilter(
           rawConfig.content?.pipeline?.include || defaultPipelineInclude,
           rawConfig.content?.pipeline?.exclude || defaultPipelineExclude,
+          [root, process.cwd()],
         )
     tokens.clear()
     await Promise.all(modules.map((code, id) => uno.applyExtractors(code.replace(SKIP_COMMENT_RE, ''), id, tokens)))
@@ -64,41 +107,11 @@ export function createContext<Config extends UserConfig<any> = UserConfig<any>>(
     return result
   }
 
-  /**
-   * Create a filter for the pipeline `include`/`exclude` patterns.
-   *
-   * The patterns are resolved against the context root, which is updated from the
-   * build tool's root directory. In some setups that directory is not the one the
-   * patterns are written relative to — Nuxt, for example, reports `srcDir` as the
-   * Vite root, so `app/composables/**` would be resolved to `<root>/app/app/...`
-   * and never match. Resolving against `process.cwd()` as well keeps those
-   * patterns working.
-   *
-   * `include` is a union across the bases (matching either one is enough), while
-   * `exclude` stays an intersection (being excluded by either one is enough).
-   * Taking the union of the complete filters instead would let a file that one
-   * base excludes slip through whenever another base does not match it.
-   */
-  function createPipelineFilter(
-    include: FilterPattern,
-    exclude: FilterPattern,
-  ) {
-    const bases = [...new Set([
-      typeof configOrPath === 'string' ? configOrPath : root,
-      process.cwd(),
-    ])]
-    const includeFilters = bases.map(base => createFilter(include, [], { resolve: base }))
-    const excludeFilters = bases.map(base => createFilter(exclude, [], { resolve: base }))
-    return (id: unknown) =>
-      includeFilters.some(filter => filter(id))
-      && !excludeFilters.some(filter => filter(id))
-  }
-
   async function updateRoot(newRoot: string) {
-    if (newRoot !== root) {
-      root = newRoot
+    const rootChanged = resolve(newRoot) !== resolve(root)
+    root = newRoot
+    if (rootChanged)
       ready = reloadConfig()
-    }
     return await ready
   }
 

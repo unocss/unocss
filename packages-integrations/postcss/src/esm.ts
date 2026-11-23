@@ -12,6 +12,7 @@ import { hasThemeFn } from '@unocss/rule-utils'
 import postcss from 'postcss'
 import { glob } from 'tinyglobby'
 import { defaultFilesystemGlobs } from '#integration/defaults'
+import { groupFilesystemGlobs, nodeModulesGlobIgnore, normalizeFilesystemGlob } from '#integration/glob'
 import { parseApply } from './apply'
 import { parseScreen } from './screen'
 import { parseTheme } from './theme'
@@ -34,11 +35,12 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
   const classes = new Set<string>()
   const targetCache = new Set<string>()
   const loadConfig = createRecoveryConfigLoader()
+  // The config path is unknown until it loads, so edits are detected from the load start.
+  let last_config_mtime = Date.now()
   const config = loadConfig(cwd, configOrPath)
 
   let uno: UnoGenerator
   let promises: Promise<void>[] = []
-  let last_config_mtime = 0
   const targetRE = new RegExp(Object.values(directiveMap).join('|'))
 
   return async function plugin(root: Root, result: Result) {
@@ -87,31 +89,45 @@ export function createPlugin(options: UnoPostcssPluginOptions) {
 
     try {
       const cfg = await config
-      if (!uno) {
-        uno = await createGenerator(cfg.config)
-      }
-      else if (cfg.sources.length) {
-        const config_mtime = (await stat(cfg.sources[0])).mtimeMs
+      if (cfg.sources.length) {
+        const config_mtime = Math.floor((await stat(cfg.sources[0])).mtimeMs)
         if (config_mtime > last_config_mtime) {
-          uno = await createGenerator((await loadConfig()).config)
+          uno = await createGenerator((await loadConfig(cwd, configOrPath)).config)
           last_config_mtime = config_mtime
         }
       }
+      uno ??= await createGenerator(cfg.config)
     }
     catch (error: any) {
       throw new Error (`UnoCSS config not found: ${error.message}`)
     }
 
-    const globs = uno.config.content?.filesystem ?? defaultFilesystemGlobs
-    const needCheckNodeMoudules = globs.some(i => i.includes('node_modules'))
+    const globs = (uno.config.content?.filesystem ?? defaultFilesystemGlobs).map(normalizeFilesystemGlob)
+    const globGroups = groupFilesystemGlobs(globs)
     const plainContent = uno.config.content?.inline ?? []
 
-    const entries = await glob(isScanTarget ? globs : [from], {
-      cwd,
-      absolute: true,
-      ignore: needCheckNodeMoudules ? undefined : ['**/node_modules/**'],
-      expandDirectories: false,
-    })
+    async function globEntries(patterns: string[], ignore?: string) {
+      if (!patterns.length)
+        return []
+      return glob(patterns, {
+        cwd,
+        absolute: true,
+        expandDirectories: false,
+        ignore,
+      })
+    }
+
+    const entries = [...new Set(
+      isScanTarget
+        ? (await Promise.all([
+            globEntries(globGroups.regular, nodeModulesGlobIgnore),
+            globEntries(globGroups.nodeModules),
+          ])).flat()
+        : await globEntries(
+            [from],
+            globGroups.nodeModules.length ? undefined : nodeModulesGlobIgnore,
+          ),
+    )]
 
     await parseApply(root, uno, directiveMap.apply)
     await parseTheme(root, uno)

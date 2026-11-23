@@ -6,7 +6,7 @@ import { SpecialColorKey } from './constant'
 import { h } from './handlers'
 import { bracketTypeRe, numberWithUnitRE } from './handlers/regex'
 import { cssMathFnRE, directionMap, globalKeywords } from './mappings'
-import { detectThemeValue, generateThemeVariable, propertyTracking, themeTracking } from './track'
+import { detectThemeValue, generateThemeVariable, trackProperty, trackTheme } from './track'
 
 // #region Number Resolver
 export function numberResolver(size: string, defaultValue?: string | number): number | undefined {
@@ -47,11 +47,11 @@ export function directionSize(
       v = numberResolver(size)
 
       if (v != null && !Number.isNaN(v)) {
-        themeTracking('spacing')
+        trackTheme(theme, 'spacing')
         return map[direction].map(i => [formatter(property, i), `calc(var(--spacing) * ${isNegative ? '-' : ''}${v})`])
       }
       else if (theme.spacing && size in theme.spacing) {
-        themeTracking('spacing', size)
+        trackTheme(theme, 'spacing', size)
         return map[direction].map(i => [formatter(property, i), isNegative ? `calc(var(--${escapeSelector(`spacing-${size}`)}) * -1)` : `var(--${escapeSelector(`spacing-${size}`)})`])
       }
 
@@ -286,8 +286,8 @@ export function colorCSSGenerator(
     result.push(defineProperty(alphaKey, { syntax: '<percentage>', initialValue: '100%' }))
 
     if (!isSpecial) {
-      if (keys && !isCSSVar) {
-        themeTracking(`colors`, keys)
+      if (keys && !isCSSVar && ctx?.theme) {
+        trackTheme(ctx.theme, `colors`, keys)
         if (!modifier) {
           const colorValue = ['shadow', 'inset-shadow', 'text-shadow', 'drop-shadow'].includes(varName)
             ? `${alpha ? `color-mix(in oklab, ${value} ${alpha}, transparent)` : `${value}`} var(${alphaKey})`
@@ -395,20 +395,23 @@ export function defineProperty(
     [symbols.shortcutsNoMerge]: true,
     [symbols.noMerge]: true,
     [symbols.noScope]: true,
-    [symbols.variants]: () => [
-      {
-        parent: '',
-        layer: 'properties',
-        selector: () => `@property ${property}`,
-      },
-    ],
+    [symbols.variants]: (_handlers, ctx) => {
+      if (ctx?.theme)
+        trackProperty(ctx.theme, property, initialValue ? String(initialValue) : 'initial')
+      return [
+        {
+          parent: '',
+          layer: 'properties',
+          selector: () => `@property ${property}`,
+        },
+      ]
+    },
     syntax: JSON.stringify(syntax),
     inherits: inherits ? 'true' : 'false',
   }
   if (initialValue != null) {
     value['initial-value'] = initialValue as keyof CSSObjectInput
   }
-  propertyTracking(property, initialValue ? String(initialValue) : 'initial')
   return value
 }
 // #endregion

@@ -13,13 +13,9 @@ describe('countableSet', () => {
       }
     `)
 
-    expect(s._map).toMatchInlineSnapshot(`
-      Map {
-        "bar1" => 1,
-        "bar2" => 2,
-        "bar3" => 1,
-      }
-    `)
+    expect(s.getCount('bar1')).toBe(1)
+    expect(s.getCount('bar2')).toBe(2)
+    expect(s.getCount('bar3')).toBe(1)
   })
 
   it('add', () => {
@@ -36,12 +32,8 @@ describe('countableSet', () => {
       }
     `)
 
-    expect(s._map).toMatchInlineSnapshot(`
-      Map {
-        "bar1" => 1,
-        "bar2" => 2,
-      }
-    `)
+    expect(s.getCount('bar1')).toBe(1)
+    expect(s.getCount('bar2')).toBe(2)
   })
 
   it('getCount', () => {
@@ -64,11 +56,7 @@ describe('countableSet', () => {
       }
     `)
 
-    expect(s._map).toMatchInlineSnapshot(`
-      Map {
-        "bar1" => 2,
-        "bar2" => 1,
-      }
-    `)
+    expect(s.getCount('bar1')).toBe(2)
+    expect(s.getCount('bar2')).toBe(1)
   })
 })

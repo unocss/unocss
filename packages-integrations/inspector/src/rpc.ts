@@ -1,12 +1,14 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
-import type { ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import type { DocsItem, DocsSearchItem, ModuleInfo, OverviewInfo, ProjectInfo, ReplResult } from '../types'
+import type { DocsEngine } from './docs'
 import { gzipSync } from 'node:zlib'
 import { createAutocomplete } from '@unocss/autocomplete'
 import { BetterMap, CountableSet, toArray } from '@unocss/core'
 import { defineRpcFunction } from 'devframe/rpc'
 import { SKIP_COMMENT_RE } from '#integration/constants'
 import { analyzer } from './analyzer'
+import { createDocsEngine } from './docs'
 
 export const INSPECTOR_RPC_SCOPE = 'unocss'
 
@@ -19,6 +21,16 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
   let autocomplete: ReturnType<typeof createAutocomplete> | undefined
   let autocompleteConfig: UnocssPluginContext['uno']['config'] | undefined
   const generatedCssCache = new Map<string, string>()
+  let docs: DocsEngine | undefined
+  let docsConfig: UnocssPluginContext['uno']['config'] | undefined
+
+  function getDocs() {
+    if (!docs || docsConfig !== ctx.uno.config) {
+      docs = createDocsEngine(ctx.uno)
+      docsConfig = ctx.uno.config
+    }
+    return docs
+  }
 
   function getAutocomplete() {
     if (!autocomplete || autocompleteConfig !== ctx.uno.config) {
@@ -31,6 +43,8 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
   ctx.onReload(() => {
     autocomplete = undefined
     autocompleteConfig = undefined
+    docs = undefined
+    docsConfig = undefined
     generatedCssCache.clear()
   })
 
@@ -173,6 +187,32 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     }),
   })
 
+  const searchDocs = defineRpcFunction({
+    name: 'search-docs',
+    type: 'query',
+    setup: () => ({
+      handler: async (input: string): Promise<DocsSearchItem[] | null> => {
+        await ctx.ready
+        return await getDocs().search(input)
+      },
+    }),
+    // Searching needs the live generator. A live server always answers with a
+    // list, so `null` tells the client it is reading a static dump
+    dump: { fallback: null },
+  })
+
+  const getDocsItem = defineRpcFunction({
+    name: 'get-docs-item',
+    type: 'query',
+    setup: () => ({
+      handler: async (token: string): Promise<DocsItem | null> => {
+        await ctx.ready
+        return await getDocs().getItem(token)
+      },
+    }),
+    dump: { fallback: null },
+  })
+
   return [
     getProjectInfo,
     getModuleInfo,
@@ -180,6 +220,8 @@ export function createRpcFunctions(ctx: UnocssPluginContext) {
     getAutocompleteSuggestions,
     getGeneratedCss,
     getOverview,
+    searchDocs,
+    getDocsItem,
   ] as const
 }
 

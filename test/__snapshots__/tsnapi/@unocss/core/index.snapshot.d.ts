@@ -37,6 +37,7 @@ export interface CliOptions {
 export interface ConfigBase<Theme extends object = object> {
   rules?: Rule<Theme>[];
   separators?: Arrayable<string>;
+  variantApplyOrder?: 'right-to-left' | 'left-to-right';
   variants?: Variant<Theme>[];
   shortcuts?: UserShortcuts<Theme>;
   blocklist?: BlocklistRule[];
@@ -92,7 +93,7 @@ export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true;
   [SymbolNoMerge]: true;
   [SymbolNoScope]: true;
-  [SymbolVariants]: VariantHandler[] | ((_: VariantHandler[]) => VariantHandler[]);
+  [SymbolVariants]: VariantHandler[] | ((_: VariantHandler[], _: RuleContext<any>) => VariantHandler[]);
   [SymbolParent]: string;
   [SymbolSelector]: (_: string) => string;
   [SymbolLayer]: string;
@@ -180,7 +181,7 @@ export interface Replacement {
   end: number;
   replacement: string;
 }
-export interface ResolvedConfig<Theme extends object = object> extends Omit<RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>, 'rules' | 'shortcuts' | 'autocomplete' | 'presets'> {
+export interface ResolvedConfig<Theme extends object = object> extends Omit<RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'variantApplyOrder'>, 'rules' | 'shortcuts' | 'autocomplete' | 'presets'> {
   presets: Preset<Theme>[];
   shortcuts: Shortcut<Theme>[];
   variants: VariantObject<Theme>[];
@@ -324,6 +325,7 @@ export interface VariantHandlerContext {
   layer?: string;
   sort?: number;
   noMerge?: boolean;
+  application?: object;
 }
 export interface VariantObject<Theme extends object = object> {
   name?: string;
@@ -465,6 +467,7 @@ export declare function resolveConfig<Theme extends object = object>(_?: UserCon
 export declare function resolvePreset<Theme extends object = object>(_: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>>;
 export declare function resolvePresets<Theme extends object = object>(_: PresetOrFactoryAwaitable<Theme>): Promise<Preset<Theme>[]>;
 export declare function resolveShortcuts<Theme extends object = object>(_: UserShortcuts<Theme>): Shortcut<Theme>[];
+export declare function sortRules(_: string, _: UnoGenerator): Promise<string>;
 export declare function splitVariantGroupBody(_: string): {
   index: number;
   value: string;

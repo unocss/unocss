@@ -70,15 +70,13 @@ function openEditor(id: string) {
             </button>
           </Copy>
           <span class="border-main h-4 border-l" aria-hidden="true" />
-          <a
+          <RouterLink
             class="inline-flex min-h-7 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-xs font-medium text-inherit no-underline transition-colors hover:bg-active focus-visible:outline focus-visible:outline-blue5"
-            :href="`https://unocss.dev/interactive/?s=${encodeURIComponent(item.name)}`"
-            target="_blank"
-            rel="noopener noreferrer"
+            :to="{ path: '/docs', query: { s: item.name } }"
           >
-            <span i-carbon-launch aria-hidden="true" />
-            Playground
-          </a>
+            <span i-carbon-book aria-hidden="true" />
+            Docs
+          </RouterLink>
         </div>
 
         <div v-if="aliases.length" class="border-main border-t px-3 py-2.5">

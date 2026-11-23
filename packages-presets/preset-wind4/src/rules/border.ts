@@ -1,7 +1,7 @@
 import type { CSSEntries, CSSObject, CSSValueInput, Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { notNull } from '@unocss/core'
-import { colorCSSGenerator, cornerMap, directionMap, generateThemeVariable, globalKeywords, h, hasParseableColor, isSize, parseColor, SpecialColorKey, themeTracking } from '../utils'
+import { colorCSSGenerator, cornerMap, directionMap, generateThemeVariable, globalKeywords, h, hasParseableColor, isSize, parseColor, SpecialColorKey, trackTheme } from '../utils'
 
 export const borderStyles = ['solid', 'dashed', 'dotted', 'double', 'hidden', 'none', 'groove', 'ridge', 'inset', 'outset', ...globalKeywords]
 
@@ -83,6 +83,7 @@ function handlerBorderColorOrSize([, a = '', b]: string[], ctx: RuleContext<Them
     const bracketColor = h.bracketOfColor(b, ctx.theme)
     b = bracketColor ?? b
     if (bracketColor != null || hasParseableColor(b, ctx.theme)) {
+      // SAFETY: parseColor failed but hasParseableColor above guarantees a resolvable color
       const directions = directionMap[a].map(i =>
         borderColorResolver(i)(['', b], ctx)
         ?? colorCSSGenerator({ color: b, name: '_' } as unknown as ReturnType<typeof parseColor>, `border${i}-color`, `border${i}`, ctx))
@@ -117,7 +118,7 @@ function handlerRounded([, a = '', s = 'DEFAULT']: string[], { theme }: RuleCont
     if (_v != null) {
       const isVar = theme.radius && s in theme.radius
       if (isVar) {
-        themeTracking(`radius`, s)
+        trackTheme(theme, `radius`, s)
       }
 
       return cornerMap[a].map(i => [

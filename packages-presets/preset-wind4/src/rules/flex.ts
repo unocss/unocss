@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { generateThemeVariable, h, numberResolver, themeTracking } from '../utils'
+import { generateThemeVariable, h, numberResolver, trackTheme } from '../utils'
 
 export const flex: Rule<Theme>[] = [
   // display
@@ -23,12 +23,12 @@ export const flex: Rule<Theme>[] = [
   [/^(?:flex-)?grow(?:-(.*))?$/, ([, d = ''], { theme }) => ({ 'flex-grow': h.bracket.cssvar.number(d, theme) ?? 1 }), { autocomplete: ['flex-grow-<num>', 'grow-<num>'] }],
   [/^(?:flex-)?basis-(.+)$/, ([, d], { theme }) => {
     if (theme.container?.[d]) {
-      themeTracking('container', d)
+      trackTheme(theme, 'container', d)
       return { 'flex-basis': generateThemeVariable('container', d) }
     }
     const v = numberResolver(d)
     if (v != null) {
-      themeTracking(`spacing`)
+      trackTheme(theme, `spacing`)
       return { 'flex-basis': `calc(var(--spacing) * ${v})` }
     }
     return { 'flex-basis': h.bracket.cssvar.auto.fraction.rem(d, theme) }

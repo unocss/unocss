@@ -40,6 +40,41 @@ describe('vue-scoped fixtures', () => {
     expect(brandIndex).toBeLessThan(blueIndex)
   })
 
+  // The vue-scoped mode shares `createPipelineFilter()` and resolves patterns
+  // against the Vite root as well as `process.cwd()`.
+  it('applies pipeline string patterns against the Vite root', async () => {
+    await rm(join(root, 'dist-pipeline'), { recursive: true, force: true })
+    await build({
+      root,
+      configFile: false,
+      logLevel: 'warn',
+      plugins: [
+        Vue(),
+        UnoCSS({
+          mode: 'vue-scoped',
+          presets: [presetWind4()],
+          content: {
+            pipeline: {
+              include: ['src/**/*.vue'],
+              exclude: ['src/Child.vue'],
+            },
+          },
+        }),
+      ],
+      build: {
+        outDir: 'dist-pipeline',
+        emptyOutDir: true,
+        minify: false,
+      },
+    })
+
+    const css = await getGlobContent(root, 'dist-pipeline/**/*.css')
+    // `src/**` only matches when resolved against the Vite root.
+    expect(css).contains('.p-4[data-v-')
+    // The explicit exclude filters the second SFC out.
+    expect(css).not.contains('.text-blue-500[data-v-')
+  })
+
   it('vite vue-scoped layer order', async () => {
     await rm(join(root, 'dist-layers'), { recursive: true, force: true })
     await build({

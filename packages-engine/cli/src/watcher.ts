@@ -24,7 +24,7 @@ export async function getWatcher(options?: ResolvedCliOptions) {
   })
   // cli may create multiple watchers
   const newWatcher = watch(patterns, {
-    ignoreInitial: false,
+    ignoreInitial: true,
     ignorePermissionErrors: true,
     ignored,
     usePolling: true,

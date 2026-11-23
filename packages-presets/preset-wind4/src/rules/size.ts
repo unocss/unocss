@@ -1,7 +1,7 @@
 import type { Rule, RuleContext } from '@unocss/core'
 import type { Theme } from '../theme'
 import { resolveBreakpoints } from '@unocss/rule-utils'
-import { generateThemeVariable, h, themeTracking } from '../utils'
+import { generateThemeVariable, h, trackTheme } from '../utils'
 
 const sizeMapping: Record<string, string> = {
   h: 'height',
@@ -19,8 +19,8 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
 
   const keys: (keyof Theme)[] = ['container', 'spacing']
   for (const key of keys) {
-    if ((theme[key] as Record<string, any>)?.[prop]) {
-      themeTracking(key, prop)
+    if ((theme[key] as Record<string, unknown>)?.[prop]) {
+      trackTheme(theme, key, prop)
       v = generateThemeVariable(key, prop)
       break
     }
@@ -43,7 +43,7 @@ function getSizeValue(theme: Theme, hw: string, prop: string) {
   }
 
   if (!v && h.number(prop) != null) {
-    themeTracking(`spacing`)
+    trackTheme(theme, `spacing`)
     v = `calc(var(--spacing) * ${h.number(prop)})`
   }
 

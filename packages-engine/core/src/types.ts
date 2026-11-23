@@ -131,7 +131,8 @@ export interface ControlSymbolsValue {
   [SymbolShortcutsNoMerge]: true
   [SymbolNoMerge]: true
   [SymbolNoScope]: true
-  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[]) => VariantHandler[])
+  // `any` erases the theme generic, which this non-generic interface cannot carry
+  [SymbolVariants]: VariantHandler[] | ((handlers: VariantHandler[], context: RuleContext<any>) => VariantHandler[])
   [SymbolParent]: string
   [SymbolSelector]: (selector: string) => string
   [SymbolLayer]: string
@@ -333,6 +334,12 @@ export interface VariantHandlerContext {
    * @default false
    */
   noMerge?: boolean
+  /**
+   * Identifies the application of the variants to a utility. It is unique for each utility and
+   * kept across the handlers, so a variant can use it as a `WeakMap` key to share state with
+   * the handlers applied after it.
+   */
+  application?: object
 }
 
 export interface VariantHandler {
@@ -419,6 +426,22 @@ export interface ConfigBase<Theme extends object = object> {
    * @default [':', '-']
    */
   separators?: Arrayable<string>
+
+  /**
+   * The order in which stacked variants are applied to a utility.
+   *
+   * - `right-to-left`: the rightmost variant is applied to the selector first,
+   *   e.g. `hover:*:p-2` generates `.hover\:\*\:p-2 > *:hover`.
+   * - `left-to-right`: variants are applied in the order they are written, like Tailwind CSS v4,
+   *   e.g. `hover:*:p-2` generates `.hover\:\*\:p-2:hover > *`.
+   *
+   * The handlers injected by the rules (`symbols.parent`, `symbols.variants`, ...) are applied
+   * before the variants of the utility in both orders.
+   * Presets can set this option, the user config takes precedence.
+   *
+   * @default 'right-to-left'
+   */
+  variantApplyOrder?: 'right-to-left' | 'left-to-right'
 
   /**
    * Variants that preprocess the selectors,
@@ -867,6 +890,9 @@ export interface ContentOptions {
   /**
    * Glob patterns to extract from the file system, in addition to other content sources.
    *
+   * Resolved against both the project root and the build tool root; backslashes
+   * (for example from `path.join()`) are normalized to `/`.
+   *
    * In dev mode, the files will be watched and trigger HMR.
    *
    * @default []
@@ -881,7 +907,10 @@ export interface ContentOptions {
   /**
    * Filters to determine whether to extract certain modules from the build tools' transformation pipeline.
    *
-   * Currently only works for Vite and Webpack integration.
+   * Used by the Vite (all modes), Webpack and Rollup integrations and the language server.
+   *
+   * Undeclared `include`/`exclude` options fall back to their defaults, also
+   * after configs are merged with `mergeConfigs()`.
    *
    * Set `false` to disable.
    */
@@ -889,6 +918,9 @@ export interface ContentOptions {
     /**
      * Patterns that filter the files being extracted.
      * Supports regular expressions and `picomatch` glob patterns.
+     *
+     * Replaces the defaults instead of extending them; an empty array imposes no
+     * constraint.
      *
      * By default, `.ts` and `.js` files are NOT extracted.
      *
@@ -901,7 +933,9 @@ export interface ContentOptions {
      * Patterns that filter the files NOT being extracted.
      * Supports regular expressions and `picomatch` glob patterns.
      *
-     * By default, `node_modules` and `dist` are also extracted.
+     * Replaces the defaults instead of extending them; an empty array excludes
+     * nothing. By default only CSS files are excluded — `node_modules` and `dist`
+     * are still extracted.
      *
      * @see https://www.npmjs.com/package/picomatch
      * @default [/\.(css|postcss|sass|scss|less|stylus|styl)($|\?)/]
@@ -948,7 +982,7 @@ export interface UserConfig<Theme extends object = object> extends ConfigBase<Th
 export interface UserConfigDefaults<Theme extends object = object> extends ConfigBase<Theme>, UserOnlyOptions<Theme> { }
 
 export interface ResolvedConfig<Theme extends object = object> extends Omit<
-  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers'>,
+  RequiredByKey<UserConfig<Theme>, 'mergeSelectors' | 'theme' | 'rules' | 'variants' | 'layers' | 'extractors' | 'blocklist' | 'safelist' | 'preflights' | 'sortLayers' | 'variantApplyOrder'>,
   'rules' | 'shortcuts' | 'autocomplete' | 'presets'
 > {
   presets: Preset<Theme>[]

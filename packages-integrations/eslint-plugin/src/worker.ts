@@ -2,9 +2,8 @@ import type { BlocklistMeta, UnoGenerator } from '@unocss/core'
 import { dirname } from 'node:path'
 import process from 'node:process'
 import { loadConfig } from '@unocss/config'
-import { createGenerator } from '@unocss/core'
+import { createGenerator, sortRules } from '@unocss/core'
 import { runAsWorker } from 'synckit'
-import { sortRules } from '#integration/sort-rules'
 
 const promises = new Map<string, Promise<UnoGenerator<any>> | undefined>()
 
@@ -61,7 +60,11 @@ export async function getGenerator(configPath?: string, id?: string) {
   const cacheKey = getCacheKey(configPath, id)
   let promise = promises.get(cacheKey)
   if (!promise) {
-    promise = _getGenerator(configPath, id)
+    promise = _getGenerator(configPath, id).catch((error) => {
+      if (promises.get(cacheKey) === promise)
+        promises.delete(cacheKey)
+      throw error
+    })
     promises.set(cacheKey, promise)
   }
   return await promise

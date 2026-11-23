@@ -45,11 +45,11 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/defaults-ide': r('./virtual-shared/integration/src/defaults-ide.ts'),
   '#integration/defaults': r('./virtual-shared/integration/src/defaults.ts'),
   '#integration/env': r('./virtual-shared/integration/src/env.ts'),
+  '#integration/glob': r('./virtual-shared/integration/src/glob.ts'),
   '#integration/hash': r('./virtual-shared/integration/src/hash.ts'),
   '#integration/layers': r('./virtual-shared/integration/src/layers.ts'),
   '#integration/match-positions': r('./virtual-shared/integration/src/match-positions.ts'),
   '#integration/nuxt-options': r('./virtual-shared/integration/src/nuxt-options.ts'),
-  '#integration/sort-rules': r('./virtual-shared/integration/src/sort-rules.ts'),
   '#integration/transformers': r('./virtual-shared/integration/src/transformers.ts'),
   '#integration/utils': r('./virtual-shared/integration/src/utils.ts'),
 }

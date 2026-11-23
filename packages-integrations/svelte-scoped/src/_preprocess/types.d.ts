@@ -1,3 +1,4 @@
+import type { UserConfig } from '@unocss/core'
 import type { TransformApplyOptions, TransformClassesOptions, TransformDirectivesOptions } from '../types'
 
 export interface UnocssSveltePreprocessOptions extends TransformClassesOptions, TransformApplyOptions, TransformDirectivesOptions {

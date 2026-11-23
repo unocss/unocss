@@ -6,12 +6,6 @@ export default defineConfig({
   clean: true,
   dts: true,
   alias: aliasVirtual,
-  deps: {
-    neverBundle: [
-      'rolldown',
-      'rollup',
-    ],
-  },
   exports: true,
   failOnWarn: true,
   publint: 'ci-only',

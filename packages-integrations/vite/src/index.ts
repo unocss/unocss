@@ -1,6 +1,6 @@
 import type { UnocssPluginContext, UserConfigDefaults } from '@unocss/core'
 import type { Plugin } from 'vite'
-import type { VitePluginConfig } from './types'
+import type { UnoCSSVitePlugin, VitePluginConfig } from './types'
 import process from 'node:process'
 import UnocssInspector from '@unocss/inspector'
 import { createContext } from '#integration/context'
@@ -32,7 +32,7 @@ export interface UnocssVitePluginAPI {
 export default function UnocssPlugin<Theme extends object>(
   configOrPath?: VitePluginConfig<Theme> | string,
   defaults: UserConfigDefaults = {},
-): Plugin[] {
+): UnoCSSVitePlugin {
   const ctx = createContext<VitePluginConfig>(
     configOrPath as any,
     {

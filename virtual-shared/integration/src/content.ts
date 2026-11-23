@@ -1,8 +1,35 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import fs from 'node:fs/promises'
-import { isAbsolute, resolve } from 'node:path'
+import { resolve } from 'node:path'
+import process from 'node:process'
 import { glob } from 'tinyglobby'
+import { groupFilesystemGlobs, nodeModulesGlobIgnore, normalizeFilesystemGlob } from './glob'
 import { applyTransformers } from './transformers'
+
+/**
+ * Resolve `content.filesystem` globs against every base and return absolute,
+ * de-duplicated paths. Globs are normalized first (separators), and matches are
+ * de-duplicated across bases and equivalent spellings.
+ */
+export async function resolveFilesystemGlobs(globs: string[], bases: string[]): Promise<string[]> {
+  const patterns = [...new Set(globs.map(normalizeFilesystemGlob))]
+  const groups = groupFilesystemGlobs(patterns)
+
+  async function match(base: string, patterns: string[], ignore?: string) {
+    if (!patterns.length)
+      return []
+    return (await glob(patterns, { cwd: base, expandDirectories: false, ignore }))
+      .map(file => resolve(base, file))
+  }
+
+  const matched = await Promise.all(
+    [...new Set(bases)].flatMap(base => [
+      match(base, groups.regular, nodeModulesGlobIgnore),
+      match(base, groups.nodeModules),
+    ]),
+  )
+  return [...new Set(matched.flat())]
+}
 
 export async function setupContentExtractor(
   ctx: UnocssPluginContext,
@@ -26,10 +53,9 @@ export async function setupContentExtractor(
 
   // filesystem
   if (content?.filesystem) {
-    const files = await glob(content.filesystem, { cwd: root, expandDirectories: false })
+    const files = await resolveFilesystemGlobs(content.filesystem, [resolve(root), resolve(process.cwd())])
 
     async function extractFile(file: string) {
-      file = isAbsolute(file) ? file : resolve(root, file)
       const code = await fs.readFile(file, 'utf-8')
       if (!filter(code, file))
         return
@@ -42,11 +68,10 @@ export async function setupContentExtractor(
 
     if (shouldWatch) {
       const { watch } = await import('chokidar')
-      const ignored = ['**/{.git,node_modules}/**']
 
       const watcher = watch(files, {
         ignorePermissionErrors: true,
-        ignored,
+        ignored: path => path.split(/[\\/]/).includes('.git'),
         cwd: root,
         ignoreInitial: true,
       })

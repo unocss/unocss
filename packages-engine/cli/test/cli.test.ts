@@ -308,6 +308,27 @@ describe.skipIf(process.version.startsWith('v20'))('cli watch mode', () => {
     (await getWatcher()).close()
   })
 
+  it('picks up files added after startup', async () => {
+    const { output, testDir } = await runCli({
+      'views/index.html': '<div class="bg-blue"></div>',
+    }, { args: ['-w'] })
+
+    expect(output).toContain('.bg-blue')
+
+    await outputFile(resolve(testDir!, 'views/added.html'), '<div class="bg-green"></div>')
+
+    while (true) {
+      await sleep(100)
+      const output = await readFile(testDir!)
+      if (output.includes('.bg-green')) {
+        expect(output).toContain('.bg-blue')
+        break
+      }
+    }
+
+    (await getWatcher()).close()
+  })
+
   it('supports uno.config.ts changed rebuild', async () => {
     const { output, testDir } = await runCli({
       'views/index.html': '<div class="bg-foo"></div>',

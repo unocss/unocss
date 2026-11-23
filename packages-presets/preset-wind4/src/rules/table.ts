@@ -1,6 +1,6 @@
 import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
-import { defineProperty, h, numberResolver, themeTracking } from '../utils'
+import { defineProperty, h, numberResolver, trackTheme } from '../utils'
 
 export const tables: Rule<Theme>[] = [
   // displays
@@ -59,7 +59,7 @@ function resolveValue(s: string, theme: Theme) {
   if (!v) {
     const num = numberResolver(s)
     if (num != null) {
-      themeTracking(`spacing`)
+      trackTheme(theme, `spacing`)
       v = `calc(var(--spacing) * ${num})`
     }
     else {

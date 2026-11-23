@@ -3,7 +3,7 @@ import type { GetMatchedPositionsOptions } from '#integration/match-positions'
 import { defaultIdeMatchExclude, defaultIdeMatchInclude } from '#integration/defaults-ide'
 import { getMatchedPositionsFromCode } from '#integration/match-positions'
 
-const cache = new Map<string, ReturnType<typeof getMatchedPositionsFromCode>>()
+const cache = new Map<string, { uno: UnoGenerator, strict: boolean, positions: ReturnType<typeof getMatchedPositionsFromCode> }>()
 
 export function clearDocumentCache(uri: string) {
   cache.delete(uri)
@@ -20,11 +20,9 @@ export function getMatchedPositionsFromDoc(
   strictAnnotationMatch = false,
   force = false,
 ) {
-  if (force)
-    cache.delete(id)
-
-  if (cache.has(id))
-    return cache.get(id)!
+  const cached = cache.get(id)
+  if (!force && cached?.uno === uno && cached.strict === strictAnnotationMatch)
+    return cached.positions
 
   const options: GetMatchedPositionsOptions | undefined = strictAnnotationMatch
     ? {
@@ -40,6 +38,6 @@ export function getMatchedPositionsFromDoc(
     options,
   )
 
-  cache.set(id, result)
+  cache.set(id, { uno, strict: strictAnnotationMatch, positions: result })
   return result
 }

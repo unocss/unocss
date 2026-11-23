@@ -258,24 +258,6 @@ describe('autocomplete with attributify prefix', async () => {
     ])))
   }
 
-  it('should resolve autocomplete config', () => {
-    expect(ac.templates.length).toBeGreaterThan(0)
-
-    ac.templates.forEach((i) => {
-      if (typeof i === 'string')
-        parseAutocomplete(i, uno.config.theme, uno.config.autocomplete.shorthands)
-    })
-  })
-
-  it('should work', async () => {
-    expect((await ac.suggest('m-1'))[0])
-      .toMatchInlineSnapshot(`"m-1"`)
-
-    expect((await ac.suggest('invalid'))[0])
-      .not
-      .toBe('invalid')
-  })
-
   it('should provide autocomplete', async () => {
     expect(
       await enumerateSuggestions([

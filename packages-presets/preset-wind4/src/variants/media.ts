@@ -74,3 +74,16 @@ export const variantOrientations: Variant<Theme>[] = [
 export const variantForcedColors: Variant<Theme>[] = [
   variantParentMatcher('forced-colors', '@media (forced-colors: active)'),
 ]
+
+export const variantInvertedColors: Variant<Theme>[] = [
+  variantParentMatcher('inverted-colors', '@media (inverted-colors: inverted)'),
+]
+
+export const variantPointers: Variant<Theme>[] = [
+  variantParentMatcher('pointer-none', '@media (pointer: none)'),
+  variantParentMatcher('pointer-coarse', '@media (pointer: coarse)'),
+  variantParentMatcher('pointer-fine', '@media (pointer: fine)'),
+  variantParentMatcher('any-pointer-none', '@media (any-pointer: none)'),
+  variantParentMatcher('any-pointer-coarse', '@media (any-pointer: coarse)'),
+  variantParentMatcher('any-pointer-fine', '@media (any-pointer: fine)'),
+]

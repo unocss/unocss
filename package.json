@@ -1,7 +1,7 @@
 {
   "name": "@unocss/monorepo",
   "type": "module",
-  "version": "66.12.0",
+  "version": "66.13.0",
   "private": true,
   "packageManager": "pnpm@12.16.1",
   "engines": {
@@ -26,8 +26,7 @@
     "typecheck": "tsgo --noEmit && tsgo --noEmit -p tsconfig.test.json && pnpm run typecheck:vue",
     "test": "vitest",
     "test:update": "vitest -u",
-    "test:integration": "pnpm -F svelte-scoped test:integration",
-    "test:ci": "nr build && nr typecheck && nr lint && nr test && nr test:integration",
+    "test:ci": "nr build && nr typecheck && nr lint && nr test",
     "check:attw": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec attw --pack . --profile esm-only --ignore-rules cjs-resolves-to-esm",
     "check:publint": "pnpm -r --filter='./packages-*/*' --filter='!*vscode' exec publint --strict",
     "update:iconify-collections": "tsx scripts/update-iconify-collections.ts",
@@ -69,6 +68,7 @@
     "rollup": "catalog:build",
     "simple-git-hooks": "catalog:utils",
     "svelte-eslint-parser": "catalog:eslint",
+    "tailwindcss": "catalog:testing",
     "taze": "catalog:utils",
     "tinyexec": "catalog:utils",
     "tinyglobby": "catalog:utils",
