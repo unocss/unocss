@@ -1,5 +1,5 @@
 import type { ResolvedConfig, UnoGenerator } from '@unocss/core'
-import type { ChildNode, Container } from 'postcss'
+import type { AtRule, ChildNode, Container, Root } from 'postcss'
 import postcss from 'postcss'
 
 type CssVariables = Map<string, string>
@@ -7,12 +7,16 @@ type CssVariables = Map<string, string>
 interface VariableTable {
   variables: CssVariables
   missing: Set<string>
+  loaded: boolean
+  refresh?: Promise<void>
 }
 
 const rootSelectors = new Set([':root', ':host'])
-const varNameRE = /var\(\s*(--[\w-]+)/g
+const varNameRE = /var\(\s*(--(?:[\w-]|\\.)+)/g
 const remRE = /^(-?(?:\d+(?:\.\d+)?|\.\d+))rem$/
 const numberRE = /^(-?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?)([a-z%]*)/i
+// a resolved value longer than this is not useful in a hover, and chained variables can grow it exponentially
+const maxValueLength = 200
 
 const tables = new WeakMap<ResolvedConfig, VariableTable>()
 
@@ -21,52 +25,119 @@ export function getVariableNames(css: string): string[] {
 }
 
 /**
- * Custom properties that apply to every element: declarations in top-level `:root`/`:host` rules,
- * then `@property` initial values. Declarations under a condition (`.dark :root`, `@media`) are
- * not unconditional, so they are skipped.
+ * Custom properties that apply to every element, from top-level `:root`/`:host` rules (also inside
+ * `@layer`) and `@property` initial values, ranked like the cascade: important over normal, and
+ * unlayered over layered with later layers winning (the reverse for important declarations).
+ * Declarations under a condition (`.dark :root`, `@media`, `@supports`) are skipped.
  */
 function collectRootVariables(css: string): CssVariables {
-  const declared: CssVariables = new Map()
-  const initial: CssVariables = new Map()
-  postcss.parse(css).each((node) => {
-    if (node.type === 'rule' && node.selectors.every(s => rootSelectors.has(s.trim())))
-      collectDeclarations(node, declared)
-    else if (node.type === 'atrule' && node.name === 'property' && node.params.trim().startsWith('--'))
-      node.walkDecls('initial-value', decl => void initial.set(node.params.trim(), decl.value.trim()))
+  const root = postcss.parse(css)
+  const layerName = (node: AtRule, name: string) => {
+    for (let parent = node.parent; parent && parent.type === 'atrule'; parent = parent.parent) {
+      if ((parent as AtRule).name === 'layer')
+        name = `${(parent as AtRule).params.trim()}.${name}`
+    }
+    return name
+  }
+  const layers: string[] = []
+  root.walkAtRules('layer', (node) => {
+    for (const name of node.params.split(',').map(n => layerName(node, n.trim()))) {
+      if (!layers.includes(name))
+        layers.push(name)
+    }
   })
-  return new Map([...initial, ...declared])
-}
 
-function collectDeclarations(node: Container, into: CssVariables) {
-  node.each((child: ChildNode) => {
-    if (child.type === 'decl' && child.prop.startsWith('--'))
-      into.set(child.prop, child.value.trim())
-  })
+  const ranked = new Map<string, { value: string, rank: number }>()
+  const initial: CssVariables = new Map()
+  const visit = (container: Container, layer: string | undefined) => {
+    const layerIndex = layer == null ? layers.length + 1 : layers.indexOf(layer) + 1
+    container.each((node) => {
+      if (node.type === 'rule' && node.selectors.every(s => rootSelectors.has(s.trim()))) {
+        node.each((child) => {
+          if (child.type !== 'decl' || !child.prop.startsWith('--'))
+            return
+          const rank = child.important ? 2 * (layers.length + 2) - layerIndex : layerIndex
+          const current = ranked.get(child.prop)
+          if (!current || rank >= current.rank)
+            ranked.set(child.prop, { value: child.value.trim(), rank })
+        })
+      }
+      else if (node.type === 'atrule' && node.name === 'layer' && node.nodes) {
+        visit(node, layerName(node, node.params.trim()))
+      }
+      else if (node.type === 'atrule' && node.name === 'property' && node.params.trim().startsWith('--')) {
+        node.walkDecls('initial-value', decl => void initial.set(node.params.trim(), decl.value.trim()))
+      }
+    })
+  }
+  visit(root, undefined)
+  return new Map([...initial, ...Array.from(ranked, ([name, { value }]) => [name, value] as const)])
 }
 
 /**
  * The root variables of the generator's current config. Preflights run again only when a requested
- * name was neither in the table nor already missing after the last run, so an on-demand theme
- * variable is picked up once and an unknown name does not rerun them on every request.
+ * name was neither in the table nor already missing, and concurrent requests share one run. A
+ * preflight that throws or returns CSS that does not parse leaves the table empty.
  */
 export async function getRootVariables(uno: UnoGenerator, names: Iterable<string>): Promise<CssVariables> {
-  let table = tables.get(uno.config)
-  const unseen = [...names].filter(name => !table?.variables.has(name) && !table?.missing.has(name))
-  if (!table || unseen.length) {
-    const { css } = await uno.generate(new Set(), { preflights: true, safelist: false })
-    table = { variables: collectRootVariables(css), missing: new Set(table?.missing) }
-    tables.set(uno.config, table)
+  const config = uno.config
+  let table = tables.get(config)
+  if (!table) {
+    table = { variables: new Map(), missing: new Set(), loaded: false }
+    tables.set(config, table)
   }
-  for (const name of unseen) {
-    if (!table.variables.has(name))
-      table.missing.add(name)
+  const requested = [...names]
+  while (true) {
+    if (table.refresh) {
+      await table.refresh
+      continue
+    }
+    const unseen = requested.filter(name => !table.variables.has(name) && !table.missing.has(name))
+    if (table.loaded && !unseen.length)
+      return table.variables
+    const current = table
+    current.refresh = (async () => {
+      try {
+        const { css } = await uno.generate(new Set(), { preflights: true, safelist: false })
+        current.variables = collectRootVariables(css)
+      }
+      catch {}
+      current.loaded = true
+      for (const name of unseen) {
+        if (!current.variables.has(name))
+          current.missing.add(name)
+      }
+    })().finally(() => current.refresh = undefined)
   }
-  return table.variables
 }
 
+interface VarReference {
+  start: number
+  end: number
+  name: string
+  fallback?: string
+}
+
+/** The end index (exclusive) of the quoted string or escape at `index`, or `index + 1`. */
+function skipToken(value: string, index: number) {
+  const char = value[index]
+  if (char === '\\')
+    return index + 2
+  if (char !== '"' && char !== '\'')
+    return index + 1
+  for (let i = index + 1; i < value.length; i++) {
+    if (value[i] === '\\')
+      i++
+    else if (value[i] === char)
+      return i + 1
+  }
+  return value.length
+}
+
+/** The index of the `)` that closes the `(` at `open`, outside strings, or `-1`. */
 function closingParen(value: string, open: number) {
   let depth = 0
-  for (let i = open; i < value.length; i++) {
+  for (let i = open; i < value.length; i = skipToken(value, i)) {
     if (value[i] === '(')
       depth++
     else if (value[i] === ')' && --depth === 0)
@@ -79,7 +150,7 @@ function splitTopLevel(value: string) {
   const parts: string[] = []
   let depth = 0
   let start = 0
-  for (let i = 0; i < value.length; i++) {
+  for (let i = 0; i < value.length; i = skipToken(value, i)) {
     if (value[i] === '(') {
       depth++
     }
@@ -95,31 +166,106 @@ function splitTopLevel(value: string) {
   return parts
 }
 
-function substituteVars(value: string, variables: CssVariables, resolving: Set<string>): string | undefined {
+/** Each whitespace run outside strings as one space. */
+function collapseWhitespace(value: string) {
   let output = ''
-  let index = 0
-  while (true) {
-    const start = value.indexOf('var(', index)
-    if (start === -1)
-      return output + value.slice(index)
-    const end = closingParen(value, start + 3)
+  for (let i = 0; i < value.length;) {
+    const next = skipToken(value, i)
+    output += /\s/.test(value[i]) ? (output.endsWith(' ') ? '' : ' ') : value.slice(i, next)
+    i = next
+  }
+  return output.trim()
+}
+
+/** The top-level `var()` references of `value`; the ones in fallbacks are found by recursion. */
+function findVarReferences(value: string): VarReference[] | undefined {
+  const references: VarReference[] = []
+  for (let i = 0; i < value.length; i = skipToken(value, i)) {
+    if (!value.startsWith('var(', i) || /[\w-]/.test(value[i - 1] ?? ''))
+      continue
+    const end = closingParen(value, i + 3)
     if (end === -1)
       return
-    const [name, ...rest] = splitTopLevel(value.slice(start + 4, end))
-    const fallback = rest.length ? rest.join(', ') : undefined
-    let resolved: string | undefined
-    const own = variables.get(name)
-    if (own != null && !resolving.has(name)) {
-      resolving.add(name)
-      resolved = substituteVars(own, variables, resolving)
-      resolving.delete(name)
+    const [name, ...rest] = splitTopLevel(value.slice(i + 4, end))
+    references.push({ start: i, end: end + 1, name, fallback: rest.length ? rest.join(', ') : undefined })
+    i = end
+  }
+  return references
+}
+
+function referencedNames(value: string): string[] {
+  return (findVarReferences(value) ?? []).flatMap(ref => [ref.name, ...(ref.fallback ? referencedNames(ref.fallback) : [])])
+}
+
+/**
+ * The names in a dependency cycle. Per CSS, every custom property in a cycle (references in
+ * fallbacks included) has no value.
+ */
+function findCycles(variables: CssVariables): Set<string> {
+  const cyclic = new Set<string>()
+  const index = new Map<string, number>()
+  const low = new Map<string, number>()
+  const stack: string[] = []
+  const visit = (name: string) => {
+    index.set(name, index.size)
+    low.set(name, index.get(name)!)
+    stack.push(name)
+    const dependencies = referencedNames(variables.get(name)!).filter(d => variables.has(d))
+    for (const dependency of dependencies) {
+      if (!index.has(dependency)) {
+        visit(dependency)
+        low.set(name, Math.min(low.get(name)!, low.get(dependency)!))
+      }
+      else if (stack.includes(dependency)) {
+        low.set(name, Math.min(low.get(name)!, index.get(dependency)!))
+      }
     }
-    if (resolved == null && fallback != null)
-      resolved = substituteVars(fallback, variables, resolving)
-    if (resolved == null)
+    if (low.get(name) === index.get(name)) {
+      const component = stack.splice(stack.indexOf(name))
+      if (component.length > 1 || dependencies.includes(name))
+        component.forEach(n => cyclic.add(n))
+    }
+  }
+  for (const name of variables.keys()) {
+    if (!index.has(name))
+      visit(name)
+  }
+  return cyclic
+}
+
+class Substitution {
+  private readonly cyclic: Set<string>
+  private readonly resolved = new Map<string, string | undefined>()
+
+  constructor(private readonly variables: CssVariables) {
+    this.cyclic = findCycles(variables)
+  }
+
+  private variable(name: string) {
+    if (!this.resolved.has(name)) {
+      const value = this.variables.get(name)
+      this.resolved.set(name, value == null || this.cyclic.has(name) ? undefined : this.value(value))
+    }
+    return this.resolved.get(name)
+  }
+
+  value(value: string): string | undefined {
+    const references = findVarReferences(value)
+    if (!references)
       return
-    output += value.slice(index, start) + resolved
-    index = end + 1
+    let output = ''
+    let index = 0
+    for (const { start, end, name, fallback } of references) {
+      const substituted = this.variable(name) ?? (fallback == null ? undefined : this.value(fallback))
+      if (substituted == null)
+        return
+      output += value.slice(index, start) + substituted
+      if (output.length > maxValueLength)
+        return
+      index = end
+    }
+    output += value.slice(index)
+    return output.length > maxValueLength ? undefined : output
   }
 }
 
@@ -178,9 +324,7 @@ function evaluateMath(expression: string): Dimension | undefined {
         return left
       index++
       const right = product()
-      if (!right)
-        return
-      if (left.unit !== right.unit)
+      if (!right || left.unit !== right.unit)
         return
       left = { value: op === '+' ? left.value + right.value : left.value - right.value, unit: left.unit }
     }
@@ -197,38 +341,36 @@ function formatNumber(value: number) {
 function simplifyCalc(value: string): string {
   let output = ''
   let index = 0
-  while (true) {
-    const start = value.indexOf('calc(', index)
-    if (start === -1)
-      return output + value.slice(index)
-    const end = closingParen(value, start + 4)
+  for (let i = 0; i < value.length; i = skipToken(value, i)) {
+    if (!value.startsWith('calc(', i))
+      continue
+    const end = closingParen(value, i + 4)
     if (end === -1)
-      return output + value.slice(index)
-    const result = evaluateMath(value.slice(start, end + 1))
-    output += value.slice(index, start) + (result ? `${formatNumber(result.value)}${result.unit}` : `calc(${simplifyCalc(value.slice(start + 5, end))})`)
+      break
+    const result = evaluateMath(value.slice(i, end + 1))
+    output += value.slice(index, i) + (result ? `${formatNumber(result.value)}${result.unit}` : `calc(${simplifyCalc(value.slice(i + 5, end))})`)
     index = end + 1
+    i = end
   }
+  return output + value.slice(index)
 }
 
 function simplifyColorMix(value: string): string {
-  const start = value.indexOf('color-mix(')
-  if (start === -1)
-    return value
-  const end = closingParen(value, start + 9)
-  if (end === -1)
-    return value
-  const [, color, other] = splitTopLevel(value.slice(start + 10, end))
-  const opaque = other === 'transparent' && /\s100%$/.test(color ?? '') ? color!.slice(0, -4).trimEnd() : undefined
-  return value.slice(0, start) + (opaque ?? value.slice(start, end + 1)) + simplifyColorMix(value.slice(end + 1))
-}
-
-/**
- * The value of `value` after substituting `variables` and evaluating `calc()`, or `undefined` when a
- * variable has no value (an unknown name without a fallback, or a cycle).
- */
-function resolveCssValue(value: string, variables: CssVariables): string | undefined {
-  const substituted = substituteVars(value, variables, new Set())
-  return substituted == null ? undefined : simplifyColorMix(simplifyCalc(substituted)).trim()
+  let output = ''
+  let index = 0
+  for (let i = 0; i < value.length; i = skipToken(value, i)) {
+    if (!value.startsWith('color-mix(', i))
+      continue
+    const end = closingParen(value, i + 9)
+    if (end === -1)
+      break
+    const [, color = '', other] = splitTopLevel(value.slice(i + 10, end))
+    const opaque = other === 'transparent' && /\s100%$/.test(color) ? color.slice(0, -4).trimEnd() : undefined
+    output += value.slice(index, i) + (opaque ?? value.slice(i, end + 1))
+    index = end + 1
+    i = end
+  }
+  return output + value.slice(index)
 }
 
 function formatComment(resolved: string, remToPxRatio: number) {
@@ -239,24 +381,36 @@ function formatComment(resolved: string, remToPxRatio: number) {
 /**
  * Adds a `/* resolved value *\/` comment after each declaration of `css` that reads a CSS variable.
  * A rule's own custom properties take precedence over root variables, and the `:root` and `@property`
- * rules in `css` itself over the ones of the generator's preflights.
+ * rules in `css` itself over the ones of the generator's preflights. When `css` does not parse, it is
+ * returned unchanged.
  */
 export async function addCssVariableComments(uno: UnoGenerator, css: string, remToPxRatio: number): Promise<string> {
   if (!css.includes('var('))
     return css
-  const root = postcss.parse(css)
-  const roots = new Map([
-    ...await getRootVariables(uno, getVariableNames(css)),
-    ...collectRootVariables(css),
-  ])
+  let root: Root
+  let local: CssVariables
+  try {
+    root = postcss.parse(css)
+    local = collectRootVariables(css)
+  }
+  catch {
+    return css
+  }
+  const roots = new Map([...await getRootVariables(uno, getVariableNames(css)), ...local])
   root.walkRules((rule) => {
     const variables = new Map(roots)
-    collectDeclarations(rule, variables)
+    rule.each((child: ChildNode) => {
+      if (child.type === 'decl' && child.prop.startsWith('--'))
+        variables.set(child.prop, child.value.trim())
+    })
+    const substitution = new Substitution(variables)
     rule.each((node) => {
       if (node.type !== 'decl' || !node.value.includes('var('))
         return
-      const resolved = resolveCssValue(node.value, variables)
-      if (resolved && resolved !== node.value.trim())
+      const value = collapseWhitespace(node.value)
+      const substituted = substitution.value(value)
+      const resolved = substituted == null ? undefined : simplifyColorMix(simplifyCalc(collapseWhitespace(substituted)))
+      if (resolved && resolved !== value)
         node.after(postcss.comment({ text: formatComment(resolved, remToPxRatio), raws: { before: ' ' } }))
     })
   })

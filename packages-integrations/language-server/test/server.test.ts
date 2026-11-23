@@ -179,3 +179,37 @@ it('resolves root CSS variables for hovers and color swatches', async () => {
   const colors = await client.sendRequest<{ color: { red: number, blue: number } }[]>('textDocument/documentColor', { textDocument })
   expect(colors.map(({ color }) => [color.red, color.blue])).toEqual([[1, 0]])
 })
+
+it('answers documentColor for cyclic root variables', async () => {
+  const { client, root } = await startServer(undefined, `export default {
+  preflights: [{ getCSS: () => ':root{--a:var(--b);--b:var(--a)}' }],
+  rules: [['cyc', { color: 'var(--a)' }], ['plain', { color: '#00ff00' }]],
+}\n`)
+  const uri = await openDocument(client, root, '<div className="cyc plain" />')
+  const colors = await Promise.race([
+    client.sendRequest<{ color: { green: number } }[]>('textDocument/documentColor', { textDocument: { uri } }),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error('documentColor timed out')), 5000)),
+  ])
+  expect(colors.map(({ color }) => color.green)).toEqual([1])
+})
+
+it('keeps hover, completion, and colors when a preflight throws', async () => {
+  const { client, root } = await startServer(undefined, `export default {
+  preflights: [{ getCSS: () => { throw new Error('preflight failed') } }],
+  rules: [['brand', { color: 'var(--brand, #ff0000)' }], ['plain', { color: '#00ff00' }]],
+}\n`)
+  const text = '<div className="brand plain" />'
+  const uri = await openDocument(client, root, text)
+  const textDocument = { uri }
+
+  await vi.waitFor(async () => {
+    const hover = await client.sendRequest<{ contents: { value: string } } | null>('textDocument/hover', { textDocument, position: { line: 0, character: 18 } })
+    expect(hover?.contents.value).toContain('color: var(--brand, #ff0000);')
+  }, { timeout: 10_000 })
+
+  const resolved = await client.sendRequest<{ documentation?: { value: string } }>('completionItem/resolve', { label: 'brand', data: { uri, value: 'brand' } })
+  expect(resolved.documentation?.value).toContain('color: var(--brand, #ff0000);')
+
+  const colors = await client.sendRequest<unknown[]>('textDocument/documentColor', { textDocument })
+  expect(colors).toHaveLength(2)
+})

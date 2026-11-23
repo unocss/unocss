@@ -71,7 +71,113 @@ describe('resolved CSS variable values in hover CSS', () => {
   })
 })
 
+describe('resolution edge cases', () => {
+  const resolve = (preflight: string, rules: UserConfig['rules'], util: string, remToPxRatio = -1) =>
+    hover({ preflights: [{ getCSS: () => preflight }], rules }, util, remToPxRatio)
+
+  it('gives no value to a cycle, even through a fallback inside it', async () => {
+    expect(await resolve(':root{--a:var(--b);--b:var(--a, red)}', [['probe', { color: 'var(--a)' }]], 'probe'))
+      .toContain('color: var(--a);\n')
+  })
+
+  it('uses the fallback of the reading declaration when a variable is cyclic', async () => {
+    expect(await resolve(':root{--a:var(--b);--b:var(--a)}', [['probe', { color: 'var(--a, red)' }]], 'probe'))
+      .toContain('/* red */')
+  })
+
+  it('keeps an important declaration over a later normal one', async () => {
+    expect(await resolve(':root{--brand:red!important}:root{--brand:blue}', [['probe', { color: 'var(--brand)' }]], 'probe'))
+      .toContain('/* red */')
+  })
+
+  it('reads root rules inside @layer, with unlayered rules winning', async () => {
+    const rules: UserConfig['rules'] = [['probe', { color: 'var(--x)' }]]
+    expect(await resolve('@layer a{:root{--x:red}}', rules, 'probe')).toContain('/* red */')
+    expect(await resolve('@layer a{:root{--x:red}}:root{--x:blue}', rules, 'probe')).toContain('/* blue */')
+    expect(await resolve(':root{--x:blue}@layer a{:root{--x:red}}', rules, 'probe')).toContain('/* blue */')
+    expect(await resolve('@layer a{:root{--x:red}}@layer b{:root{--x:green}}', rules, 'probe')).toContain('/* green */')
+    expect(await resolve('@media (min-width:1px){@layer a{:root{--x:red}}}', rules, 'probe')).toContain('color: var(--x);\n')
+  })
+
+  it('keeps parentheses inside quoted fallbacks', async () => {
+    expect(await resolve('', [['probe', { content: 'var(--missing, "a)b")' }]], 'probe'))
+      .toContain('content: var(--missing, "a)b"); /* "a)b" */')
+  })
+
+  it('resolves escaped names spelled the same way', async () => {
+    expect(await resolve(':root{--a\\.b:2px}', [['probe', { margin: 'var(--a\\.b)' }]], 'probe')).toContain('/* 2px */')
+  })
+
+  it('stays fast on long variable chains and skips oversized values', async () => {
+    const chain = Array.from({ length: 24 }, (_, i) => `--v${i}:var(--v${i + 1}) var(--v${i + 1});`).join('')
+    const start = performance.now()
+    const css = await resolve(`:root{${chain}--v24:1px}`, [['probe', { margin: 'var(--v0)' }]], 'probe')
+    expect(performance.now() - start).toBeLessThan(1000)
+    expect(css).toContain('margin: var(--v0);\n')
+  })
+
+  it('evaluates calc() that prettier wrapped', async () => {
+    const css = await hover(wind4, 'space-x-4')
+    expect(css).toContain('/* 0rem = 0px */')
+    expect(css).toContain('/* 1rem = 16px */')
+  })
+
+  it('reads the wind4 theme with outputToCssLayers', async () => {
+    expect(await hover({ presets: [presetWind4()], outputToCssLayers: true }, 'p-4')).toContain('/* 1rem = 16px */')
+  })
+
+  it.each([
+    ['throws', () => { throw new Error('boom') }],
+    ['returns CSS that does not parse', () => 'a{color:red'],
+  ])('keeps the hover when a preflight %s', async (_, getCSS) => {
+    const css = await hover({ preflights: [{ getCSS }], rules: [['probe', { color: 'var(--brand, red)' }]] }, 'probe')
+    expect(css).toContain('color: var(--brand, red);')
+  })
+})
+
 describe('getRootVariables', () => {
+  it('shares one preflight run between concurrent requests', async () => {
+    let calls = 0
+    const uno = await createGenerator({
+      preflights: [{
+        getCSS: async () => {
+          calls++
+          await Promise.resolve()
+          return ':root{--brand:red}'
+        },
+      }],
+      rules: [['probe', { color: 'var(--brand)' }]],
+    })
+    await Promise.all(Array.from({ length: 5 }, () => getPrettiedCSS(uno, 'probe', -1)))
+    expect(calls).toBe(1)
+  })
+
+  it('does not store a preflight result under a config loaded while it ran', async () => {
+    let release!: () => void
+    let entered!: () => void
+    const waiting = new Promise<void>(done => release = done)
+    const started = new Promise<void>(done => entered = done)
+    const uno = await createGenerator({
+      preflights: [{
+        getCSS: async () => {
+          entered()
+          await waiting
+          return ':root{--brand:red}'
+        },
+      }],
+      rules: [['probe', { color: 'var(--brand)' }]],
+    })
+    const pending = getRootVariables(uno, ['--brand'])
+    await started
+    await uno.setConfig({
+      preflights: [{ getCSS: () => ':root{--brand:blue}' }],
+      rules: [['probe', { color: 'var(--brand)' }]],
+    })
+    release()
+    await pending
+    expect((await getPrettiedCSS(uno, 'probe', -1)).prettified).toContain('/* blue */')
+  })
+
   it('runs preflights again only for a variable it has not seen', async () => {
     let calls = 0
     const uno = await createGenerator({

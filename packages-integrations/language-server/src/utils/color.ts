@@ -28,6 +28,7 @@ export function getCssVariables(code: string) {
 
 function resolveVarToken(value: string, cssVars: Map<string, string>) {
   let nextValue = value.trim()
+  const seen = new Set<string>()
 
   while (nextValue.startsWith('var(')) {
     const varMatch = nextValue.match(varFnRE)
@@ -36,7 +37,8 @@ function resolveVarToken(value: string, cssVars: Map<string, string>) {
 
     const varName = varMatch[1]
     const fallback = varMatch[2]?.trim()
-    const cssVarValue = cssVars.get(varName)?.trim()
+    const cssVarValue = seen.has(varName) ? undefined : cssVars.get(varName)?.trim()
+    seen.add(varName)
     if (cssVarValue) {
       nextValue = cssVarValue
       continue
