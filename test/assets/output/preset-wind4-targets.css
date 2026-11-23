@@ -1784,9 +1784,9 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .table-auto{table-layout:auto;}
 .table-empty-cells-visible{empty-cells:show;}
 .table-empty-cells-hidden{empty-cells:hide;}
-.touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
-.touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
-.touch-pinch-zoom{--un-pinch-zoom:pinch-zoom;touch-action:var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom);}
+.touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+.touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+.touch-pinch-zoom{--un-pinch-zoom:pinch-zoom;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
 .touch-manipulation{touch-action:manipulation;}
 .touch-none{touch-action:none;}
 .touch-initial{touch-action:initial;}

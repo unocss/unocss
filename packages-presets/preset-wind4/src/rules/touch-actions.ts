@@ -2,7 +2,7 @@ import type { Rule } from '@unocss/core'
 import type { Theme } from '../theme'
 import { defineProperty, makeGlobalStaticRules } from '../utils'
 
-const touchActionValue = 'var(--un-pan-x) var(--un-pan-y) var(--un-pinch-zoom)'
+const touchActionValue = 'var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,)'
 const touchActionProperties = ['pan-x', 'pan-y', 'pinch-zoom'].map(d => defineProperty(`--un-${d}`))
 
 export const touchActions: Rule<Theme>[] = [

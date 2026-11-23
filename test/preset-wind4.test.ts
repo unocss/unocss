@@ -1316,6 +1316,90 @@ describe('preset-wind4', () => {
       .bg-radial{--un-gradient-position: in oklab;background-image:radial-gradient(var(--un-gradient-stops));}"
     `)
   })
+
+  it('touch-action utilities use empty fallbacks for custom properties', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false },
+        }),
+      ],
+    })
+
+    const { getLayer } = await uno.generate([
+      'touch-pan-x',
+      'touch-pan-left',
+      'touch-pan-right',
+      'touch-pan-y',
+      'touch-pan-up',
+      'touch-pan-down',
+      'touch-pinch-zoom',
+      '!touch-pan-x',
+    ])
+
+    expect(getLayer('properties')).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--un-pan-x:initial;--un-pan-y:initial;--un-pinch-zoom:initial;}}
+      @property --un-pan-x{syntax:"*";inherits:false;}
+      @property --un-pan-y{syntax:"*";inherits:false;}
+      @property --un-pinch-zoom{syntax:"*";inherits:false;}"
+    `)
+
+    expect(getLayer('default')).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .\\!touch-pan-x{--un-pan-x:pan-x !important;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,) !important;}
+      .touch-pan-left{--un-pan-x:pan-left;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pan-right{--un-pan-x:pan-right;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pan-x{--un-pan-x:pan-x;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pan-down{--un-pan-y:pan-down;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pan-up{--un-pan-y:pan-up;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pan-y{--un-pan-y:pan-y;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}
+      .touch-pinch-zoom{--un-pinch-zoom:pinch-zoom;touch-action:var(--un-pan-x,) var(--un-pan-y,) var(--un-pinch-zoom,);}"
+    `)
+
+    const staticUno = await createGenerator({
+      presets: [
+        presetWind4({
+          preflights: { reset: false, theme: false },
+        }),
+      ],
+    })
+
+    const { css: staticCSS } = await staticUno.generate([
+      'touch-auto',
+      'touch-manipulation',
+      'touch-none',
+      'touch-inherit',
+    ])
+
+    expect(staticCSS).toMatchInlineSnapshot(`
+      "/* layer: default */
+      .touch-auto{touch-action:auto;}
+      .touch-manipulation{touch-action:manipulation;}
+      .touch-none{touch-action:none;}
+      .touch-inherit{touch-action:inherit;}"
+    `)
+
+    const prefixedUno = await createGenerator({
+      presets: [
+        presetWind4({
+          variablePrefix: 'custom-',
+          preflights: { reset: false, theme: false },
+        }),
+      ],
+    })
+
+    const { css: prefixedCSS } = await prefixedUno.generate(['touch-pan-x'])
+    expect(prefixedCSS).toMatchInlineSnapshot(`
+      "/* layer: properties */
+      @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))){*, ::before, ::after, ::backdrop{--custom-pan-x:initial;--custom-pan-y:initial;--custom-pinch-zoom:initial;}}
+      @property --custom-pan-x{syntax:"*";inherits:false;}
+      @property --custom-pan-y{syntax:"*";inherits:false;}
+      @property --custom-pinch-zoom{syntax:"*";inherits:false;}
+      /* layer: default */
+      .touch-pan-x{--custom-pan-x:pan-x;touch-action:var(--custom-pan-x,) var(--custom-pan-y,) var(--custom-pinch-zoom,);}"
+    `)
+  })
 })
 
 describe('important', () => {
