@@ -54,7 +54,7 @@ describe('dist verification', () => {
   it.each([
     ['CJS declaration', 'index.d.cts', 'import uno = require("@unocss/core")\nexport = uno'],
     ['CJS declaration with default export', 'index.d.cts', 'import uno = require("@unocss/core")\nexport { uno as default }'],
-  ])('rejects a forbidden import in %s even with a default export', async (_, file, content) => {
+  ])('rejects a forbidden import in %s', async (_, file, content) => {
     const root = await createFixture({ [file]: content })
 
     const result = await runChecker(root)
