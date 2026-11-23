@@ -2,6 +2,7 @@ import type { UnoGenerator } from '@unocss/core'
 import { toArray } from '@unocss/core'
 import parserCSS from 'prettier/parser-postcss'
 import prettier from 'prettier/standalone'
+import { addCssVariableComments } from './css-variables'
 
 const remUnitRE = /(-?[\d.]+)rem(\s+!important)?;/
 
@@ -42,10 +43,12 @@ export async function getCSS(uno: UnoGenerator, utilName: string | string[]) {
 export async function getPrettiedCSS(uno: UnoGenerator, util: string | string[], remToPxRatio: number) {
   const result = (await uno.generate(new Set(toArray(util)), { preflights: false, safelist: false }))
   const css = addRemToPxComment(result.css, remToPxRatio)
-  const prettified = await prettier.format(css, {
+  const formatted = await prettier.format(css, {
     parser: 'css',
     plugins: [parserCSS],
   })
+  // after formatting, so that the comments do not make prettier wrap the declarations
+  const prettified = await addCssVariableComments(uno, formatted, remToPxRatio)
 
   return {
     ...result,

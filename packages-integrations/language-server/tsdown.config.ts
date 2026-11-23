@@ -20,6 +20,7 @@ export default defineConfig([
         '@colordx/core',
         /^@unocss\//,
         /^unconfig/,
+        /^postcss/,
         /^prettier/,
         /^vscode-languageserver/,
       ],

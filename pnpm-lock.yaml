@@ -1348,6 +1348,9 @@ importers:
       '@unocss/preset-wind3':
         specifier: workspace:*
         version: link:../../packages-presets/preset-wind3
+      postcss:
+        specifier: catalog:css
+        version: 8.5.32
       prettier:
         specifier: catalog:utils
         version: 3.9.10

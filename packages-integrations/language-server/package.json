@@ -45,6 +45,7 @@
     "@unocss/config": "workspace:*",
     "@unocss/core": "workspace:*",
     "@unocss/preset-wind3": "workspace:*",
+    "postcss": "catalog:css",
     "prettier": "catalog:utils",
     "unconfig": "catalog:utils",
     "vscode-languageserver": "catalog:vscode",

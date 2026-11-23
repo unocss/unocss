@@ -23,9 +23,11 @@ afterEach(async () => {
   vi.resetModules()
 })
 
-async function startServer(register: (index: number) => 'accept' | 'reject' | 'hang' = () => 'accept') {
+const defaultConfig = `export default { rules: [['probe', { color: 'red' }], ['zorblet', { color: 'blue' }]] }\n`
+
+async function startServer(register: (index: number) => 'accept' | 'reject' | 'hang' = () => 'accept', config = defaultConfig) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'unocss-language-server-'))
-  await writeFile(path.join(root, 'uno.config.mjs'), `export default { rules: [['probe', { color: 'red' }], ['zorblet', { color: 'blue' }]] }\n`)
+  await writeFile(path.join(root, 'uno.config.mjs'), config)
   const toServer = new PassThrough()
   const toClient = new PassThrough()
   transport.reader = new StreamMessageReader(toServer)
@@ -158,4 +160,22 @@ it('applies settings and keeps a watcher when a registration is rejected', async
     expect(watchers.active.size).toBe(1)
     expect(await fuzzyLabels(client, uri, text.indexOf('zrbt"') + 4)).toContain('zorblet')
   }, { timeout: 5000 })
+})
+
+it('resolves root CSS variables for hovers and color swatches', async () => {
+  const { client, root } = await startServer(undefined, `export default {
+  preflights: [{ getCSS: () => ':root{--brand:#ff0000}.dark :root{--brand:#0000ff}' }],
+  rules: [['brand', { color: 'var(--brand)' }]],
+}\n`)
+  const text = '<div className="brand" />'
+  const uri = await openDocument(client, root, text)
+  const textDocument = { uri }
+
+  await vi.waitFor(async () => {
+    const hover = await client.sendRequest<{ contents: { value: string } } | null>('textDocument/hover', { textDocument, position: { line: 0, character: 18 } })
+    expect(hover?.contents.value).toContain('color: var(--brand); /* #ff0000 */')
+  }, { timeout: 10_000 })
+
+  const colors = await client.sendRequest<{ color: { red: number, blue: number } }[]>('textDocument/documentColor', { textDocument })
+  expect(colors.map(({ color }) => [color.red, color.blue])).toEqual([[1, 0]])
 })
