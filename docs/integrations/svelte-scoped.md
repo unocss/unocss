@@ -289,7 +289,7 @@ const config = {
 
 When using Svelte Scoped in a normal app, the Vite plugin will automatically detect `dev` vs `build`. In development, classes will be kept distinct and hashed in place for ease of toggling on/off in your browser's developer tools. `class="mb-1 mr-1"` will turn into something like `class="_mb-1_9hwi32 _mr-1_84jfy4`. In production, these will be compiled into a single class name using your desired prefix, `uno-` by default, and a hash based on the filename + class names, e.g. `class="uno-84dke3`.
 
-If you want this same behavior when using the preprocessor, you must manually set the the `combine` option based on environemnt. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
+If you want this same behavior when using the preprocessor, you must manually set the `combine` option based on environment. One way to do this is to install [cross-env](https://www.npmjs.com/package/cross-env) and update your dev script to this:
 
 ```json
 {

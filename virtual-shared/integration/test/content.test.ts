@@ -6,7 +6,7 @@ import process from 'node:process'
 import { describe, expect, it, vi } from 'vitest'
 import { resolveFilesystemGlobs, setupContentExtractor } from '#integration/content'
 import { createContext } from '#integration/context'
-import { normalizeFilesystemGlob } from '#integration/glob'
+import { groupFilesystemGlobs, normalizeFilesystemGlob } from '#integration/glob'
 
 describe('resolveFilesystemGlobs', () => {
   it('unions the globs of every base and dedupes the matches', async () => {
@@ -22,6 +22,43 @@ describe('resolveFilesystemGlobs', () => {
 
       expect(files.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
         .toEqual(['app/only-app.md', 'slides.md'])
+    }
+    finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('ignores node_modules unless a glob explicitly includes it', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'unocss-node-modules-'))
+    try {
+      await mkdir(join(dir, 'content'), { recursive: true })
+      await mkdir(join(dir, 'node_modules', 'pkg'), { recursive: true })
+      await mkdir(join(dir, 'node_modules', 'other'), { recursive: true })
+      await mkdir(join(dir, 'node_modules-cache'), { recursive: true })
+      await writeFile(join(dir, 'content', 'app.md'), '# app')
+      await writeFile(join(dir, 'node_modules', 'pkg', 'linked.md'), '# linked')
+      await writeFile(join(dir, 'node_modules', 'other', 'extra.md'), '# extra')
+      await writeFile(join(dir, 'node_modules-cache', 'cache.md'), '# cache')
+
+      const ignored = await resolveFilesystemGlobs(['**/*.md'], [dir])
+      expect(ignored.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
+        .toEqual(['content/app.md', 'node_modules-cache/cache.md'])
+
+      const lookalike = await resolveFilesystemGlobs(['**/*.md', 'node_modules-cache/**'], [dir])
+      expect(lookalike.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
+        .toEqual(['content/app.md', 'node_modules-cache/cache.md'])
+
+      const negated = await resolveFilesystemGlobs(['**/*.md', '!**/node_modules/**'], [dir])
+      expect(negated.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
+        .toEqual(['content/app.md', 'node_modules-cache/cache.md'])
+
+      const scoped = await resolveFilesystemGlobs(['**/*.md', 'node_modules/pkg/**/*.md'], [dir])
+      expect(scoped.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
+        .toEqual(['content/app.md', 'node_modules-cache/cache.md', 'node_modules/pkg/linked.md'])
+
+      const included = await resolveFilesystemGlobs(['{node_modules,content}/**/*.md'], [dir])
+      expect(included.map(file => relative(dir, file).replace(/\\/g, '/')).sort())
+        .toEqual(['content/app.md', 'node_modules/other/extra.md', 'node_modules/pkg/linked.md'])
     }
     finally {
       await rm(dir, { recursive: true, force: true })
@@ -133,5 +170,23 @@ describe('normalizeFilesystemGlob', () => {
   it.runIf(process.platform === 'win32')('converts Windows separators', () => {
     expect(normalizeFilesystemGlob('content\\**\\*.md')).toBe('content/**/*.md')
     expect(normalizeFilesystemGlob('//server/share/**/*.md')).toBe('//server/share/**/*.md')
+  })
+})
+
+describe('groupFilesystemGlobs', () => {
+  it('applies negated patterns to both groups', () => {
+    expect(groupFilesystemGlobs([
+      '**/*.md',
+      '{node_modules,content}/**/*.md',
+      '!**/dist/**',
+    ])).toEqual({
+      regular: ['**/*.md', '!**/dist/**'],
+      nodeModules: ['{node_modules,content}/**/*.md', '!**/dist/**'],
+    })
+
+    expect(groupFilesystemGlobs(['!**/node_modules/**'])).toEqual({
+      regular: [],
+      nodeModules: [],
+    })
   })
 })
