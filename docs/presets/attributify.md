@@ -156,7 +156,7 @@ Create `shims.d.ts` with the following content:
 
 ### Vue
 
-Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/johnsoncodehk/volar/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
+Since Volar 0.36, [it's now strict to unknown attributes](https://github.com/vuejs/language-tools/issues/1077#issuecomment-1145361472). To opt-out, you can add the following file to your project:
 
 ```ts [html.d.ts]
 declare module '@vue/runtime-dom' {
