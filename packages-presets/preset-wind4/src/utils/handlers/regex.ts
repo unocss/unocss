@@ -1,8 +1,9 @@
 export const numberWithUnitRE = /^(-?\d*(?:\.\d+)?)(px|pt|pc|%|r?(?:em|ex|lh|cap|ch|ic)|(?:[sld]?v|cq)(?:[whib]|min|max)|in|cm|mm|rpx)?$/i
 export const numberRE = /^(-?\d*(?:\.\d+)?)$/
-export const unitOnlyRE = /^(px|[sld]?v[wh])$/i
+export const unitOnlyRE = /^(px|lh|[sld]?v[wh])$/i
 export const unitOnlyMap: Record<string, number> = {
   px: 1,
+  lh: 1,
   vw: 100,
   vh: 100,
   svw: 100,

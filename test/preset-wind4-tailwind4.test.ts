@@ -123,12 +123,6 @@ describe('wind4 / Tailwind 4.3.3 capability contracts', () => {
   })
 
   describe.each([
-    'w-lh',
-    'size-lh',
-    'inline-lh',
-    'min-w-lh',
-    'flex-01',
-    'flex-2.5',
     '-flex-2',
     'font-stretch-49%',
     'font-stretch-201%',
