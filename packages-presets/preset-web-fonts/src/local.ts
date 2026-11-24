@@ -10,6 +10,15 @@ import { fetch } from 'ofetch'
 const fontUrlRegex = /[-\w@:%+.~#?&/=]+\.(?:woff2?|eot|ttf|otf|svg)/gi
 const urlProtocolRegex = /^[\s\w\0+.-]{2,}:[/\\]{1,2}/
 
+/**
+ * Fonts downloaded during a build are registered here, keyed by their
+ * output-relative path, so bundler plugins can emit them into the build
+ * output. Files written to `fontAssetsDir` (usually `public/`) while the
+ * bundle is being generated may miss the bundler's own public dir copy,
+ * which can run before the CSS is transformed.
+ */
+export const downloadedFontsRegistryKey = Symbol.for('unocss.preset-web-fonts.downloaded-fonts')
+
 export interface LocalFontProcessorOptions {
   /**
    * Current working directory
@@ -68,6 +77,10 @@ export function createLocalFontProcessor(options?: LocalFontProcessorOptions): W
     await options?.onDownload?.(filename, buf)
     await fsp.mkdir(fontAssetsDir, { recursive: true })
     await fsp.writeFile(assetPath, buf)
+    if (!urlProtocolRegex.test(fontServeBaseUrl)) {
+      const registry: Map<string, Buffer> = (globalThis as any)[downloadedFontsRegistryKey] ??= new Map()
+      registry.set(`${fontServeBaseUrl.replace(/^\/+/, '')}/${filename}`, buf)
+    }
   }
 
   const cache = new Map<string, Promise<void>>()

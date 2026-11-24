@@ -1,8 +1,9 @@
 import type { WebFontsOptions } from '@unocss/preset-web-fonts'
+import { rm } from 'node:fs/promises'
 import { createGenerator } from '@unocss/core'
 import presetMini from '@unocss/preset-mini'
 import presetWebFonts from '@unocss/preset-web-fonts'
-import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import { createLocalFontProcessor, downloadedFontsRegistryKey } from '@unocss/preset-web-fonts/local'
 import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 
@@ -149,6 +150,39 @@ it('createLocalFontProcessor', async () => {
 
   await expect(css)
     .toMatchFileSnapshot('./assets/output/preset-web-fonts-local.css')
+})
+
+it('createLocalFontProcessor registers downloaded fonts for build output emit', async () => {
+  const registry: Map<string, Uint8Array> = (globalThis as any)[downloadedFontsRegistryKey] ??= new Map()
+  registry.clear()
+  await rm('test/assets/fonts/registry', { recursive: true, force: true })
+
+  const uno = await createGenerator({
+    presets: [
+      presetMini({ preflight: false }),
+      presetWebFonts({
+        provider: 'google',
+        fonts: {
+          mono: 'Fira Mono',
+        },
+        processors: [
+          createLocalFontProcessor({
+            cacheDir: 'test/.cache/fonts-registry',
+            fontAssetsDir: 'test/assets/fonts/registry',
+            fontServeBaseUrl: '/assets/fonts',
+            fetch: async () => new Response(new Uint8Array([1, 2, 3])),
+          }),
+        ],
+      }),
+    ],
+  })
+
+  await uno.generate('font-mono')
+
+  const fileNames = [...registry.keys()]
+  expect(fileNames.length).toBeGreaterThan(0)
+  for (const fileName of fileNames)
+    expect(fileName).toMatch(/^assets\/fonts\/.+\.woff2$/)
 })
 
 describe('fontsource provider', async () => {

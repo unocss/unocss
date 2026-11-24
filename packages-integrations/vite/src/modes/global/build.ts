@@ -24,6 +24,14 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
   const cssPostPlugins = new Map<string | undefined, Plugin | undefined>()
   const cssPlugins = new Map<string | undefined, Plugin | undefined>()
 
+  // Fonts downloaded by `@unocss/preset-web-fonts/local` while the CSS is
+  // rendered during `bundle.write()` miss Vite's public dir copy, which runs
+  // earlier. They are registered here and emitted as bundle assets instead.
+  const downloadedFontsRegistryKey = Symbol.for('unocss.preset-web-fonts.downloaded-fonts')
+  function getDownloadedFonts() {
+    return (globalThis as any)[downloadedFontsRegistryKey] as Map<string, Uint8Array> | undefined
+  }
+
   async function applyCssTransform(css: string, id: string, dir: string | undefined, ctx: Rollup.PluginContext) {
     const {
       postcss = true,
@@ -72,6 +80,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
         tasks.length = 0
         lastTokenSize = 0
         lastResult = undefined
+        getDownloadedFonts()?.clear()
       },
       transform(code, id) {
         if (filter(code, id))
@@ -283,6 +292,13 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
             map: s.generateMap({ hires: true }),
           }
         },
+      },
+      generateBundle() {
+        const downloadedFonts = getDownloadedFonts()
+        if (!downloadedFonts?.size)
+          return
+        for (const [fileName, source] of downloadedFonts)
+          this.emitFile({ type: 'asset', fileName, source })
       },
       async buildEnd() {
         if (!vfsLayers.size) {

@@ -28,6 +28,7 @@ interactive/public/shiki
 vite.config.ts.timestamp-*
 
 test/assets/fonts
+test/fixtures/vite-web-fonts/public
 test/**/vite-environments/dist-?*?
 test/**/vite-environments-isolated/dist-?*?
 

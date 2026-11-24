@@ -256,7 +256,9 @@ This feature is Node.js specific and will not work in the browser.
 
 ## Emit Fonts to Build Output
 
-In CI environments or during the first build, fonts downloaded to the `public` directory might not be copied to `dist` before the build finishes. To ensure fonts are always included in the production build, use the `onDownload` callback with a custom Vite plugin.
+In CI environments or during the first build, fonts downloaded to the `public` directory might not be copied to `dist` before the build finishes. The UnoCSS Vite plugin emits fonts downloaded during the build as bundle assets automatically, so they always reach the output directory.
+
+For other bundlers or custom setups, use the `onDownload` callback with a custom plugin.
 
 **vite.config.ts**
 
