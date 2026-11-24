@@ -1,9 +1,11 @@
 import type { Rollup } from 'vite'
 import { Buffer } from 'node:buffer'
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mergeConfigs } from '@unocss/core'
+import presetWebFonts from '@unocss/preset-web-fonts'
+import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 import presetWind3 from '@unocss/preset-wind3'
 import UnoCSS from '@unocss/vite'
 import { build } from 'vite'
@@ -112,5 +114,54 @@ describe('vite filesystem content', () => {
     finally {
       cwd.mockRestore()
     }
+  })
+
+  it('copies fonts downloaded during the build to the output directory', async () => {
+    const publicDir = join(root, 'public')
+    const outDir = join(root, 'dist')
+    await mkdir(publicDir, { recursive: true })
+
+    await build({
+      root,
+      configFile: false,
+      publicDir,
+      logLevel: 'silent',
+      plugins: [
+        UnoCSS(mergeConfigs([
+          {
+            configFile: false,
+            presets: [
+              presetWind3(),
+              presetWebFonts({
+                provider: 'bunny',
+                fonts: { sans: 'Inter' },
+                customFetch: async () => [
+                  '@font-face{',
+                  'font-family:Inter;',
+                  'font-style:normal;',
+                  'font-weight:400;',
+                  'src:url(https://fonts.bunny.net/inter/files/inter-latin-400-normal.woff2) format("woff2");',
+                  '}',
+                ].join(''),
+                processors: createLocalFontProcessor({
+                  cwd: root,
+                  fetch: (async () => ({ arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer })) as any,
+                }),
+              }),
+            ],
+          },
+          { content: { filesystem: ['slides.md'] } },
+        ])),
+      ],
+      build: {
+        rollupOptions: {
+          input: join(root, 'entry.js'),
+        },
+        outDir,
+      },
+    })
+
+    const fonts = await readdir(join(outDir, 'assets/fonts')).catch(() => [] as string[])
+    expect(fonts.some(name => name.endsWith('.woff2'))).toBe(true)
   })
 })
