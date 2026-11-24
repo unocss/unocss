@@ -62,11 +62,11 @@ export const variantContracts: [candidate: string, condition: RegExp][] = [
   ['@max-sm:flex', /^@container \(width < 24rem\) &$/],
   ['@sm/sidebar:flex', /^@container sidebar \((?:width >= 24rem|min-width: 24rem)\) &$/],
   ['@sm:@max-lg:flex', /^@container \(width >= 24rem\) @container \(width < 32rem\) &$/],
+  ['@max-[500px]:flex', /^@container \(width < 500px\) &$/],
+  ['@max-sm/sidebar:flex', /^@container sidebar \(width < 24rem\) &$/],
 ]
 
 export const variantGaps: Record<string, string> = {
-  '@max-sm:flex': 'Missing maximum-width container query variant',
-  '@sm:@max-lg:flex': 'Missing maximum-width container query in a stacked range',
   'only:flex': 'Syntax difference: Wind4 uses only-child, not Tailwind only',
   'max-[900px]:flex': 'Boundary gap: Wind4 max-width includes 900px; Tailwind width < 900px excludes it',
 }

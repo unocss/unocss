@@ -50,6 +50,7 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     ...variantForcedColors,
     ...variantInvertedColors,
     ...variantPointers,
+    variantContainerQuery,
     variantBreakpoints(),
     ...variantCombinators,
     ...variantSvgCombinators,
@@ -67,7 +68,6 @@ export function variants(options: PresetWind4Options): Variant<Theme>[] {
     ...variantChildren,
     variantInert,
 
-    variantContainerQuery,
     variantVariables,
     ...variantTaggedDataAttributes,
     ...variantTaggedAriaAttributes,
