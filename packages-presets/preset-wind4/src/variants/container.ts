@@ -9,29 +9,23 @@ export const variantContainerQuery: VariantObject<Theme> = {
     if (matcher.startsWith('@container'))
       return
 
-    const variant = variantGetParameter('@', matcher, ctx.generator.config.separators)
+    const variant = variantGetParameter(['@max-', '@min-', '@'], matcher, ctx.generator.config.separators)
     if (variant) {
       const [match, rest, label] = variant
+      const isMax = matcher.startsWith('@max-')
       const unbracket = h.bracket(match, ctx.theme)
-      let container: string | undefined
-      if (unbracket) {
-        container = h.numberWithUnit(unbracket)
-      }
-      else {
-        container = ctx.theme.container?.[match] ?? ''
-      }
-
+      const container = unbracket ? h.numberWithUnit(unbracket) : ctx.theme.container?.[match]
       if (container) {
-        let order = 1000 + Object.keys(ctx.theme.container ?? {}).indexOf(match)
-
+        const keys = Object.keys(ctx.theme.container ?? {})
+        const index = keys.indexOf(match)
+        let order = isMax ? 999 - keys.length - index : 1000 + index
         if (label)
           order += 1000
-
         return {
           matcher: rest,
           handle: (input, next) => next({
             ...input,
-            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}(min-width: ${container})`,
+            parent: `${input.parent ? `${input.parent} $$ ` : ''}@container${label ? ` ${label} ` : ' '}(width ${isMax ? '<' : '>='} ${container})`,
             parentOrder: order,
           }),
         }

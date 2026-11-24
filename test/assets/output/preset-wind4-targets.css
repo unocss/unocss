@@ -2170,34 +2170,34 @@ unocss .scope-\[unocss\]\:block{display:block;}
 .\[\@supports\(display\:grid\)\]\:bg-red\/33{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) 33%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 *+.\[\@supports\(display\:grid\)\]\:\[\*\+\&\]\:bg-red\/34{background-color:color-mix(in oklab, var(--colors-red-DEFAULT) 34%, transparent) /* oklch(70.4% 0.191 22.216) */;}
 }}
-@container (min-width: 10.5rem){
+@container (width >= 10.5rem){
 .\@\[10\.5rem\]-text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }
-@supports (color: color-mix(in lab, red, red)){@container (min-width: 10.5rem){
+@supports (color: color-mix(in lab, red, red)){@container (width >= 10.5rem){
 .\@\[10\.5rem\]-text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }}
-@container (min-width: 24rem){
+@container (width >= 24rem){
 .\@sm\:text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }
-@supports (color: color-mix(in lab, red, red)){@container (min-width: 24rem){
+@supports (color: color-mix(in lab, red, red)){@container (width >= 24rem){
 .\@sm\:text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }}
-@container (min-width: 32rem){
+@container (width >= 32rem){
 .\@lg-text-red{color:color-mix(in srgb, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }
-@supports (color: color-mix(in lab, red, red)){@container (min-width: 32rem){
+@supports (color: color-mix(in lab, red, red)){@container (width >= 32rem){
 .\@lg-text-red{color:color-mix(in oklab, var(--colors-red-DEFAULT) var(--un-text-opacity), transparent) /* oklch(70.4% 0.191 22.216) */;}
 }}
-@container label (min-width: 100px){
+@container label (width >= 100px){
 .\@\[100px\]\/label\:text-green{color:color-mix(in srgb, var(--colors-green-DEFAULT) var(--un-text-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 }
-@supports (color: color-mix(in lab, red, red)){@container label (min-width: 100px){
+@supports (color: color-mix(in lab, red, red)){@container label (width >= 100px){
 .\@\[100px\]\/label\:text-green{color:color-mix(in oklab, var(--colors-green-DEFAULT) var(--un-text-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 }}
-@container label (min-width: 20rem){
+@container label (width >= 20rem){
 .\@xs\/label\:text-green{color:color-mix(in srgb, var(--colors-green-DEFAULT) var(--un-text-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 }
-@supports (color: color-mix(in lab, red, red)){@container label (min-width: 20rem){
+@supports (color: color-mix(in lab, red, red)){@container label (width >= 20rem){
 .\@xs\/label\:text-green{color:color-mix(in oklab, var(--colors-green-DEFAULT) var(--un-text-opacity), transparent) /* oklch(79.2% 0.209 151.711) */;}
 }}
 @media (max-width: calc(64rem - 0.1px)){

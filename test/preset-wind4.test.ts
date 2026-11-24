@@ -142,6 +142,41 @@ describe('preset-wind4', () => {
     expect(css).toContain('mix-blend-mode:unset')
   })
 
+  it('sorts max-width container queries before min-width ones, with theme keys largest first', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('@lg:flex @sm:flex @max-sm:flex @min-md:flex @max-lg:flex @max-[500px]:flex', { preflights: false })
+
+    const blocks = [
+      '@container (width < 32rem){',
+      '@container (width < 24rem){',
+      '@container (width < 500px){',
+      '@container (width >= 24rem){',
+      '@container (width >= 28rem){',
+      '@container (width >= 32rem){',
+    ].map(block => css.indexOf(block))
+    expect(blocks).not.toContain(-1)
+    expect(blocks).toEqual([...blocks].sort((a, b) => a - b))
+  })
+
+  it('keeps max-[...] as a media query when container queries are matched first', async () => {
+    const uno = await createGenerator({
+      presets: [
+        presetWind4({ preflights: { reset: false } }),
+      ],
+    })
+
+    const { css } = await uno.generate('max-[500px]:flex hover:max-[500px]:flex', { preflights: false })
+
+    expect(css).toContain('@media (max-width: 500px){')
+    expect(css).toContain(`.${escapeSelector('hover:max-[500px]:flex')}:hover{display:flex;}`)
+    expect(css).not.toContain('@container')
+  })
+
   it('scrollbar gutter utilities', async () => {
     const uno = await createGenerator({
       envMode: 'dev',
