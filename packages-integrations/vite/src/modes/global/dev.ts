@@ -7,17 +7,23 @@ import { LAYER_MARK_ALL } from '#integration/constants'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath, splitEntryId } from '#integration/utils'
-import { toViteClientPath } from '../../virtual'
+import { toViteClientPath, toViteVirtualId } from '../../virtual'
 import { MESSAGE_UNOCSS_ENTRY_NOT_FOUND } from './shared'
 
 const WARN_TIMEOUT = 20000
 const WS_EVENT_PREFIX = 'unocss:hmr'
 const HASH_LENGTH = 6
 
-/** Serve the entry through a path id so prerendered `<link>` urls round-trip (#5406). */
+/**
+ * Serve normal entries through a path id so prerendered `<link>` URLs round-trip (#5406),
+ * but keep inline requests virtual so Vite skips filesystem checks (#5494).
+ */
 function toServeId(id: string) {
   const { filename, query } = splitEntryId(id)
-  return `/${filename}${query}`
+  const serveId = `/${filename}${query}`
+  return new URLSearchParams(query).has('inline')
+    ? toViteVirtualId(serveId)
+    : serveId
 }
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined

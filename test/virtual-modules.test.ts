@@ -25,7 +25,7 @@ describe('vite virtual module ids', () => {
       expect((await server.pluginContainer.resolveId('virtual:uno.css'))?.id)
         .toBe('/__uno.css')
       expect((await server.pluginContainer.resolveId('/__uno.css?inline'))?.id)
-        .toBe('/__uno.css?inline')
+        .toBe('\0/__uno.css?inline')
       expect((await server.pluginContainer.resolveId('uno:icons.css'))?.id)
         .toBe('/__uno_icons.css')
 
@@ -43,6 +43,25 @@ describe('vite virtual module ids', () => {
       // HMR invalidates the module by the id stored in `entries`.
       expect(server.moduleGraph.getModuleById('/__uno.css')?.url)
         .toBe('/__uno.css')
+    }
+    finally {
+      await server.close()
+    }
+  })
+
+  it('keeps inline CSS virtual in every dev environment', async () => {
+    const server = await createServer('global')
+
+    try {
+      const environments = server.environments
+        ? Object.values(server.environments)
+        : [server]
+      for (const environment of environments) {
+        expect((await environment.pluginContainer.resolveId('/__uno.css?inline'))?.id)
+          .toBe('\0/__uno.css?inline')
+        expect((await environment.pluginContainer.resolveId('/__uno.css'))?.id)
+          .toBe('/__uno.css')
+      }
     }
     finally {
       await server.close()
