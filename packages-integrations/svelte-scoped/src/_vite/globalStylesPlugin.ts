@@ -10,13 +10,21 @@ export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: Unocs
   let unoCssFileReferenceId: string
   let unoCssGlobalFileName: string
 
-  return {
+  const plugin: Plugin = {
     name: 'unocss:svelte-scoped:global-styles',
 
-    async configResolved(_viteConfig) {
-      viteConfig = _viteConfig
-      await ctx.ready
-      isSvelteKit = viteConfig.plugins.some(p => p.name.includes('sveltekit'))
+    configResolved: {
+      // Runs before SvelteKit's own `configResolved`, which warns about any plugin that defines `transformIndexHtml`
+      order: 'pre',
+      async handler(_viteConfig) {
+        viteConfig = _viteConfig
+        isSvelteKit = viteConfig.plugins.some(p => p.name.includes('sveltekit'))
+        // SvelteKit never runs `transformIndexHtml`, so drop it. This has to happen before the `await`,
+        // since Vite runs all `configResolved` hooks in parallel.
+        if (isSvelteKit)
+          delete plugin.transformIndexHtml
+        await ctx.ready
+      },
     },
 
     // serve
@@ -90,4 +98,6 @@ export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: Unocs
       }
     },
   }
+
+  return plugin
 }
