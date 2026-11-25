@@ -21,9 +21,13 @@ const HASH_LENGTH = 6
 function toServeId(id: string) {
   const { filename, query } = splitEntryId(id)
   const serveId = `/${filename}${query}`
-  return new URLSearchParams(query).has('inline')
+  return isInlineId(serveId)
     ? toViteVirtualId(serveId)
     : serveId
+}
+
+function isInlineId(id: string) {
+  return new URLSearchParams(splitEntryId(id).query).has('inline')
 }
 
 type TimeoutTimer = ReturnType<typeof setTimeout> | undefined
@@ -35,11 +39,21 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
 
   let invalidateTimer: TimeoutTimer
   const lastServedHash = new Map<string, string>()
+  // `?inline` modules are plain JS strings that cannot accept HMR themselves,
+  // so their importers are reloaded when the served CSS changes.
+  const inlineServedHash = new Map<string, string>()
   let lastServedTime = Date.now()
   let resolved = false
   let resolvedWarnTimer: TimeoutTimer
 
   async function generateCSS(layer: string) {
+    const { hash, css } = await renderLayer(layer)
+    lastServedHash.set(layer, hash)
+    lastServedTime = Date.now()
+    return { hash, css }
+  }
+
+  async function renderLayer(layer: string) {
     await flushTasks()
     let result: GenerateResult
     let tokensSize = tokens.size
@@ -55,10 +69,24 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       ? result.getLayers(undefined, await Promise.all(Array.from(entries)
           .map(i => resolveLayer(ctx, i))).then(layers => layers.filter((i): i is string => !!i)))
       : result.getLayer(layer)
-    const hash = getHash(css || '', HASH_LENGTH)
-    lastServedHash.set(layer, hash)
-    lastServedTime = Date.now()
-    return { hash, css }
+    return { hash: getHash(css || '', HASH_LENGTH), css }
+  }
+
+  async function reloadInline(ids: Set<string>) {
+    for (const id of ids) {
+      const servedHash = inlineServedHash.get(id)
+      if (!servedHash)
+        continue
+      const layer = await resolveLayer(ctx, getPath(id))
+      if (!layer || (await renderLayer(layer)).hash === servedHash)
+        continue
+      inlineServedHash.delete(id)
+      for (const server of servers) {
+        const mod = server.moduleGraph.getModuleById(id)
+        if (mod)
+          await server.reloadModule(mod)
+      }
+    }
   }
 
   function invalidate(timer = 10, ids: Set<string> = entries) {
@@ -71,8 +99,9 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       }
     }
     clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(() => {
+    invalidateTimer = setTimeout(async () => {
       lastServedHash.clear()
+      await reloadInline(ids)
       sendUpdate(ids)
     }, timer)
   }
@@ -82,6 +111,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       server.ws.send({
         type: 'update',
         updates: Array.from(ids).flatMap((id) => {
+          if (isInlineId(id))
+            return []
           const mod = server.moduleGraph.getModuleById(id)
           if (!mod)
             return []
@@ -191,6 +222,8 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         entries.add(id)
 
         const { hash, css } = await generateCSS(layer)
+        if (isInlineId(id))
+          inlineServedHash.set(id, hash)
         return {
           // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
           code: `${css}__uno_hash_${hash}{--:'';}`,

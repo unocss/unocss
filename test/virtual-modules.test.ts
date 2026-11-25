@@ -68,6 +68,49 @@ describe('vite virtual module ids', () => {
     }
   })
 
+  it('updates importers of inline CSS when later modules add utilities', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-inline-dev-')))
+    await writeFile(join(root, 'main.js'), 'import "virtual:uno.css"\nimport css from "virtual:uno.css?inline"\nexport default css\nimport.meta.hot.accept()\n')
+    await writeFile(join(root, 'noise.jsx'), 'export const word = "plain"\n')
+    await writeFile(join(root, 'late.jsx'), 'export const className = "probe"\n')
+    const server = await vite.createServer({
+      root,
+      configFile: false,
+      logLevel: 'error',
+      server: { middlewareMode: true, ws: false },
+      plugins: [UnoCSS({ configFile: false, inspector: false, rules: [['probe', { color: 'red' }]] })],
+    })
+    const paths: string[] = []
+    const send = server.ws.send.bind(server.ws)
+    server.ws.send = ((payload: any) => {
+      if (payload?.type === 'update')
+        paths.push(...payload.updates.map((update: { path: string }) => update.path))
+      if (payload?.type === 'full-reload')
+        paths.push('full-reload')
+      return send(payload)
+    }) as typeof server.ws.send
+
+    try {
+      await server.transformRequest('/main.js')
+      const inlineUrl = server.moduleGraph.getModuleById('\0/__uno.css?inline')!.url
+      expect((await server.transformRequest(inlineUrl))?.code).not.toContain('.probe')
+      await server.transformRequest('/__uno.css')
+
+      await server.transformRequest('/noise.jsx')
+      await vi.waitFor(() => expect(paths).toContain('/__uno.css'))
+      expect(paths).not.toContain('/main.js')
+      expect(paths).not.toContain('full-reload')
+
+      await server.transformRequest('/late.jsx')
+      await vi.waitFor(() => expect(paths).toContain('/main.js'))
+      expect((await server.transformRequest(inlineUrl))?.code).toContain('.probe{color:red;}')
+    }
+    finally {
+      await server.close()
+      await rm(root, { recursive: true, force: true })
+    }
+  })
+
   it('converts ids to and from virtual ids', () => {
     expect(toViteVirtualId('/src/main.ts'))
       .toBe('\0/src/main.ts')
