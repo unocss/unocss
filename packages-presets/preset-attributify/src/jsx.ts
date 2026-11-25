@@ -152,8 +152,18 @@ export type BasicAttributes = SpecialSingleWord | TwoStringsComposition | Separa
 
 export type AttributifyNames<Prefix extends string = ''>
   = | `${Prefix}${BasicAttributes}`
-    | `${Prefix}${BasicAttributes}${number}`
-    | `${Prefix}${BasicAttributes}${number}${LengthUnit}`
     | `${Prefix}${PseudoPrefix}:${BasicAttributes}`
 
+/**
+ * Extended attributify names for projects that need numeric length-unit attributes
+ * such as `m10px`. Keep this opt-in to avoid expensive JSX type checking for all users.
+ */
+export type AttributifyNamesWithNumericValues<Prefix extends string = ''>
+  = | AttributifyNames<Prefix>
+    | `${Prefix}${BasicAttributes}${number}`
+    | `${Prefix}${BasicAttributes}${number}${LengthUnit}`
+
 export interface AttributifyAttributes extends Partial<Record<AttributifyNames, string | boolean>> {}
+
+export type AttributifyAttributesWithNumericValues<Prefix extends string = ''>
+  = Partial<Record<AttributifyNamesWithNumericValues<Prefix>, string | boolean>>
