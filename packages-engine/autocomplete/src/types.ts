@@ -6,6 +6,13 @@ export type AutoCompleteMatchType = 'prefix' | 'fuzzy'
 export interface AutocompleteOptions {
   matchType?: AutoCompleteMatchType
   throwErrors?: boolean
+  /**
+   * Extra attribute names whose values are treated as class lists, in addition to `class` and `className`.
+   * Names are matched exactly. Not needed with `@unocss/preset-attributify`, which suggests in every attribute.
+   *
+   * @default []
+   */
+  classAttributes?: string[]
 }
 
 export type AutocompleteTemplatePart = AutocompleteTemplateStatic | AutocompleteTemplateGroup | AutocompleteTemplateTheme

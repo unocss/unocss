@@ -22,6 +22,26 @@ describe('searchUsageBoundary', () => {
     expect(searchUsageBoundary('<div p-1 p-2>', 10, false)?.content)
       .toBe(undefined)
   })
+
+  it('classAttributes', () => {
+    const search = (html: string, classAttributes?: string[]) =>
+      searchUsageBoundary(html, html.indexOf('p-1') + 1, false, classAttributes)?.content
+
+    // not a class attribute by default
+    expect(search('<Box classes="p-1 p-2')).toBe(undefined)
+    expect(search('<Box classes="p-1 p-2', ['css'])).toBe(undefined)
+
+    expect(search('<Box classes="p-1 p-2', ['classes'])).toBe('p-1')
+    expect(search('<Box :classes="`p-1 p-2', [':classes'])).toBe('p-1')
+    expect(search(`<Box ngClass='p-1 p-2`, ['ngClass'])).toBe('p-1')
+
+    // names are matched exactly
+    expect(search('<Box myclasses="p-1 p-2', ['classes'])).toBe(undefined)
+
+    // `class` and `className` keep working
+    expect(search('<div class="p-1 p-2', ['classes'])).toBe('p-1')
+    expect(search('<div className="p-1 p-2', ['classes'])).toBe('p-1')
+  })
 })
 
 it('cartesian', () => {

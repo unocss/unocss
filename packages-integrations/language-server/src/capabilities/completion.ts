@@ -14,13 +14,14 @@ import { isVueWithPug, shouldProvideAutocomplete } from '../utils/position'
 
 const autoCompletes = new Map<UnocssPluginContext, UnocssAutocomplete>()
 
-function getAutocomplete(ctx: UnocssPluginContext, matchType: 'prefix' | 'fuzzy') {
+function getAutocomplete(ctx: UnocssPluginContext, matchType: 'prefix' | 'fuzzy', classAttributes: string[]) {
   const cached = autoCompletes.get(ctx)
   if (cached)
     return cached
 
   const autocomplete = createAutocomplete(ctx.uno, {
     matchType,
+    classAttributes,
     throwErrors: false,
   })
 
@@ -41,18 +42,20 @@ async function getSuggestionResult({
   id,
   offset,
   matchType,
+  classAttributes,
 }: {
   ctx: UnocssPluginContext
   code: string
   id: string
   offset: number
   matchType: 'prefix' | 'fuzzy'
+  classAttributes: string[]
 }) {
   const isPug = isVueWithPug(code, id)
   if (!ctx.filter(code, id) && !isCssId(id) && !isPug)
     return null
 
-  const autoComplete = getAutocomplete(ctx, matchType)
+  const autoComplete = getAutocomplete(ctx, matchType, classAttributes)
 
   let result: SuggestResult | undefined
 
@@ -126,6 +129,7 @@ export function registerCompletion(
         id,
         offset,
         matchType: settings.autocompleteMatchType,
+        classAttributes: settings.autocompleteClassAttributes,
       })
 
       if (!result || !result.suggestions.length)
