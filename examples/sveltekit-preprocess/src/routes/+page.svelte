@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from "$lib/Button.svelte";
+  import "virtual:uno.css";
 </script>
 
 <div class="p-3">

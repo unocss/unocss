@@ -52,6 +52,7 @@ export const aliasVirtual: Record<string, string> = {
   '#integration/nuxt-options': r('./virtual-shared/integration/src/nuxt-options.ts'),
   '#integration/transformers': r('./virtual-shared/integration/src/transformers.ts'),
   '#integration/utils': r('./virtual-shared/integration/src/utils.ts'),
+  '#integration/vite': r('./virtual-shared/integration/src/vite'),
 }
 
 // @keep-sorted

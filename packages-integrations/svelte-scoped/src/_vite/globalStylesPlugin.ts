@@ -1,93 +1,148 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin, ResolvedConfig } from 'vite'
+import type { BaseVitePluginConfig } from '#integration/vite/types'
 import type { UnocssSvelteScopedViteOptions } from './types'
-import { DEV_GLOBAL_STYLES_DATA_TITLE, GLOBAL_STYLES_CSS_FILE_NAME, PLACEHOLDER_USER_SETS_IN_INDEX_HTML } from './constants'
-import { checkTransformPageChunkHook, generateGlobalCss } from './global'
+import MagicString from 'magic-string'
+import { LAYER_MARK_ALL } from '#integration/constants'
+import { getHash } from '#integration/hash'
+import { resolveId, resolveLayer } from '#integration/layers'
+import { getPath } from '#integration/utils'
+import { buildGlobalModeDevPlugin } from '#integration/vite/global/dev'
+import { generateGlobalCss } from './global'
 
-export function GlobalStylesPlugin(ctx: UnocssPluginContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
-  let isSvelteKit: boolean
-  let viteConfig: ResolvedConfig
-  let unoCssFileReferenceId: string
-  let unoCssGlobalFileName: string
+const MESSAGE_UNOCSS_ENTRY_NOT_FOUND
+  = '[unocss] Entry module not found. Did you add `import \'virtual:uno.css\'` in your main entry?'
+
+const HASH_LENGTH = 6
+
+export function GlobalStylesDevPlugin(ctx: UnocssPluginContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin[] {
+  const entries = new Set<string>()
+
+  const lastServedHashes = new Map<string, string>()
+  let lastServedTime = Date.now()
+
+  async function generateCSS(layer: string) {
+    if (layer !== LAYER_MARK_ALL) {
+      // We are only responsible for global styles.
+      return
+    }
+
+    const css = await generateGlobalCss(ctx.uno, injectReset)
+    const hash = getHash(css, HASH_LENGTH)
+
+    lastServedHashes.set(layer, hash)
+    lastServedTime = Date.now()
+
+    return { hash, css }
+  }
+
+  return buildGlobalModeDevPlugin(
+    ctx,
+    generateCSS,
+    lastServedHashes,
+    () => lastServedTime,
+    entries,
+    HASH_LENGTH,
+    async (entry) => {
+      const layer = await resolveLayer(ctx, getPath(entry))
+      // We only care about the global styles.
+      return layer === LAYER_MARK_ALL
+    },
+    MESSAGE_UNOCSS_ENTRY_NOT_FOUND,
+  )
+}
+
+export function GlobalStylesBuildPlugin(ctx: UnocssPluginContext, injectReset?: UnocssSvelteScopedViteOptions['injectReset']): Plugin {
+  let generatedGlobalCss = false
 
   return {
     name: 'unocss:svelte-scoped:global-styles',
+    apply: 'build',
+
+    async resolveId(id, importer) {
+      return await resolveId(ctx, id, importer)
+    },
+
+    async load(id) {
+      const layer = await resolveLayer(ctx, getPath(id))
+      if (layer === LAYER_MARK_ALL) {
+        generatedGlobalCss = true
+
+        return {
+          code: await generateGlobalCss(ctx.uno, injectReset),
+          map: null,
+          moduleSideEffects: true,
+        }
+      }
+    },
+
+    buildStart() {
+      generatedGlobalCss = false
+    },
+
+    async buildEnd() {
+      if (!generatedGlobalCss) {
+        if (
+          ((await ctx.getConfig()) as BaseVitePluginConfig).checkImport
+          !== false
+        ) {
+          this.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
+        }
+      }
+    },
+  }
+}
+
+export function GlobalStylesWarnOutdatedPlugin(): Plugin {
+  let isSvelteKit: boolean
+  let viteConfig: ResolvedConfig
+
+  function replaceHtmlPlaceholder(this: { warn: (msg: string) => void }, html: string) {
+    // Check for outdated setup: the placeholder in index.html/app.html is no longer used. Replace it with an empty string to make it disappear.
+    if (html.includes('%unocss-svelte-scoped.global%')) {
+      this.warn(
+        `[unocss] You are probably using an outdated setup for your ${isSvelteKit ? 'sveltekit' : 'svelte'} app. Remove the placeholder from ${isSvelteKit ? 'app.html' : 'index.html'} and import 'virtual:uno.css' in your ${isSvelteKit ? 'root layout' : 'main entry'}.`,
+      )
+
+      const s = new MagicString(html)
+      s.replace('%unocss-svelte-scoped.global%', '')
+
+      return {
+        code: s.toString(),
+        map: s.generateMap(),
+      }
+    }
+  }
+
+  return {
+    name: 'unocss:svelte-scoped:global-styles:outdated',
 
     async configResolved(_viteConfig) {
       viteConfig = _viteConfig
-      await ctx.ready
       isSvelteKit = viteConfig.plugins.some(p => p.name.includes('sveltekit'))
     },
 
-    // serve
-    configureServer: (server) => {
-      checkTransformPageChunkHook(server, isSvelteKit)
-
-      server.middlewares.use(`${viteConfig.base ?? '/'}${GLOBAL_STYLES_CSS_FILE_NAME}`, async (_req, res) => {
-        res.appendHeader('Content-Type', 'text/css')
-        res.end(await generateGlobalCss(ctx.uno, injectReset))
-      })
-    },
-
-    // serve
     async transform(code, id) {
-      await ctx.ready
+      // Check for outdated setup: in the first version of the integration the user needed to supply a hook that replaced a placeholder with the final <style/> / <link/> tag.
+      if (isSvelteKit && id.includes('hooks') && id.includes('server') && code.includes('unocss_svelte_scoped_global_styles')) {
+        this.warn(
+          `[unocss] You are probably using an outdated setup for your sveltekit app. Remove the replacement logic in your server handle hook.`,
+        )
+      }
 
-      if (isSvelteKit) {
-        // Check for outdated setup.
-        if (id.includes('hooks') && id.includes('server') && code.includes('unocss_svelte_scoped_global_styles')) {
-          this.warn(`[unocss] You are probably using an outdated setup for your sveltekit app. The server hook to handle an unocss styles placeholder is no longer needed.`)
-        }
-
-        if (viteConfig.command === 'serve' && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
-          // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping.
-          const tag = `<link href=\\"${viteConfig.base ?? '/'}${GLOBAL_STYLES_CSS_FILE_NAME}\\" rel=\\"stylesheet\\" data-title=\\"${DEV_GLOBAL_STYLES_DATA_TITLE}\\" />`
-
-          return {
-            code: code.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, tag),
-          }
-        }
+      const replaced = replaceHtmlPlaceholder.call(this, code)
+      if (replaced) {
+        return replaced.code
       }
     },
 
-    // build end - runs after all module transforms complete, so on-demand theme tokens are fully tracked
-    async buildEnd() {
-      if (viteConfig.command === 'build') {
-        const css = await generateGlobalCss(ctx.uno, injectReset)
-        unoCssFileReferenceId = this.emitFile({
-          type: 'asset',
-          name: GLOBAL_STYLES_CSS_FILE_NAME,
-          source: css,
-        })
-      }
-    },
-
-    // build
-    renderStart() {
-      unoCssGlobalFileName = this.getFileName(unoCssFileReferenceId)
-    },
-
-    // build
-    renderChunk(code) {
-      if (isSvelteKit && code.includes(PLACEHOLDER_USER_SETS_IN_INDEX_HTML)) {
-        // This replaces inside a file generated from the `app.html`. The placeholder is wrapped inside double quotes, thus the escaping. The href is concatenated with SvelteKit's `assets` template variable, as the vite base of the server build does not carry `kit.paths`.
-        const tag = `<link href=\\"" + assets + "/${unoCssGlobalFileName}\\" rel=\\"stylesheet\\" />`
-
-        return code.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, tag)
-      }
-    },
-
-    // serve and build
     async transformIndexHtml(html) {
-      // SvelteKit ignores this hook, so we use the `renderChunk` and `transform` hooks instead for SvelteKit, but if they ever support running this hook inside their hooks.server.js file we can simplify to just using this hook.
-      if (!isSvelteKit) {
-        if (viteConfig.command === 'build')
-          return html.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, `<link href="${viteConfig.base ?? '/'}${unoCssGlobalFileName}" rel="stylesheet" />`)
-
-        if (viteConfig.command === 'serve') {
-          return html.replace(PLACEHOLDER_USER_SETS_IN_INDEX_HTML, `<link href="${viteConfig.base ?? '/'}${GLOBAL_STYLES_CSS_FILE_NAME}" rel="stylesheet" data-title="${DEV_GLOBAL_STYLES_DATA_TITLE}" />`)
-        }
+      const replaced = replaceHtmlPlaceholder.call(this, html)
+      if (replaced) {
+        return replaced.code
       }
+
+      return html
     },
   }
 }

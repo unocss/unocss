@@ -1,4 +1,5 @@
 <script>
+  import "virtual:uno.css";
   import "../app.css";
   import DarkModeToggle from "$lib/DarkModeToggle.svelte";
 </script>

@@ -6,15 +6,13 @@ export interface UnocssVitePluginAPI {
   getContext: () => UnocssPluginContext<VitePluginConfig>;
   getMode: () => VitePluginConfig['mode'];
 }
-export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
+export interface VitePluginConfig<Theme extends object = object> extends BaseVitePluginConfig, UserConfig<Theme> {
   inspector?: boolean;
   mode?: 'global' | 'per-module' | 'vue-scoped' | 'dist-chunk' | 'shadow-dom';
   vueScoped?: VueScopedOptions;
   transformCSS?: boolean | 'pre' | 'post';
   postcss?: boolean;
-  hmrTopLevelAwait?: boolean;
   fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin';
-  checkImport?: boolean;
 }
 export interface VueScopedOptions {
   styleOrder?: 'before' | 'after';
@@ -40,4 +38,11 @@ export declare function VueScopedPlugin(_: UnocssPluginContext): Plugin;
 
 // #region Default Export
 export default function UnocssPlugin<Theme extends object>(_?: VitePluginConfig<Theme> | string, _?: UserConfigDefaults): UnoCSSVitePlugin;
+// #endregion
+
+// #region Referenced (internal)
+interface BaseVitePluginConfig {
+  hmrTopLevelAwait?: boolean;
+  checkImport?: boolean;
+}
 // #endregion
