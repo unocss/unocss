@@ -257,6 +257,23 @@ describe('shortcuts', async () => {
   })
 
   it.each([
+    ['wind3', 'bg-gray-200 hover:bg-gray-300 active:bg-blue active:scale-95', presetWind3],
+    ['wind3', 'bg-gray-200 hover:bg-gray-300 hover:text-white active:bg-blue', presetWind3],
+    ['wind4', 'bg-gray-200 hover:bg-gray-300 active:bg-blue active:text-white', presetWind4],
+    ['wind4', 'bg-gray-200 hover:bg-gray-300 hover:text-white active:bg-blue', presetWind4],
+  ])('%s: a shortcut keeps base, hover, then active in variant order: %s', async (_, classes, preset) => {
+    const uno = await createGenerator({ presets: [preset() as any], shortcuts: { btn: classes } })
+    const { css } = await uno.generate('btn', { preflights: false })
+    const base = css.indexOf('.btn{')
+    const hover = css.indexOf('.btn:hover{')
+    const active = css.indexOf('.btn:active{')
+
+    expect(base).toBeGreaterThan(-1)
+    expect(hover).toBeGreaterThan(base)
+    expect(active).toBeGreaterThan(hover)
+  })
+
+  it.each([
     ['[&[aria-selected=true]]:(bg-red/oklab text-blue/oklab)', '[&[aria-selected=true]]:bg-red/oklab [&[aria-selected=true]]:text-blue/oklab'],
     ['hover:([&[aria-selected=true]]:bg-red/oklab text-blue/oklab)', 'hover:[&[aria-selected=true]]:bg-red/oklab hover:text-blue/oklab'],
     ['[&[aria-selected=true]]:(bg-accent/9/oklab text-accent-strong/oklab)', '[&[aria-selected=true]]:bg-accent/9/oklab [&[aria-selected=true]]:text-accent-strong/oklab'],
