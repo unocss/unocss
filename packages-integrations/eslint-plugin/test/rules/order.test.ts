@@ -117,6 +117,22 @@ run({
         { messageId: 'invalid-order' },
       ],
     },
+    {
+      code: html`
+        <template>
+          <div text="lg center" p="y-2 x-4" title="mx1 m1 mr-1"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div text="center lg" p="x-4 y-2" title="mx1 m1 mr-1"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
   ],
 })
 
@@ -134,7 +150,7 @@ run({
   valid: [
     html`
       <template>
-        <div title="mx1 m1 mr-1" before="mx1 m1 mr-1" un-before="mx1 m1 mr-1"></div>
+        <div title="mx1 m1 mr-1" un-before="mx1 m1 mr-1"></div>
       </template>
     `,
   ],
@@ -151,6 +167,81 @@ run({
         </template>"
       `),
       errors: [
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: html`
+        <template>
+          <div before="mx1 m1 mr-1" text="lg center"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div before="m1 mx1 mr-1" text="center lg"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+  ],
+})
+
+run({
+  name: 'order-attributify-default-prefix',
+  rule,
+  languageOptions: {
+    parser: vueParser,
+  },
+  settings: {
+    unocss: {
+      configPath: fileURLToPath(new URL('./fixtures/uno-attributify-default.config.ts', import.meta.url)),
+    },
+  },
+  valid: [
+    html`
+      <template>
+        <div un-before="m1 mx1 mr-1" text="center lg" title="mx1 m1 mr-1"></div>
+      </template>
+    `,
+    html`
+      <template>
+        <div title="flex block"></div>
+      </template>
+    `,
+  ],
+  invalid: [
+    {
+      code: html`
+        <template>
+          <div un-before="mx1 m1 mr-1" text="lg center"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div un-before="m1 mx1 mr-1" text="center lg"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
+        { messageId: 'invalid-order' },
+      ],
+    },
+    {
+      code: html`
+        <template>
+          <div p="y-2 x-4" bg="hover:blue-500 blue-400"></div>
+        </template>
+      `,
+      output: output => expect(output).toMatchInlineSnapshot(`
+        "<template>
+          <div p="x-4 y-2" bg="blue-400 hover:blue-500"></div>
+        </template>"
+      `),
+      errors: [
+        { messageId: 'invalid-order' },
         { messageId: 'invalid-order' },
       ],
     },
