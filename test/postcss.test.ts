@@ -154,6 +154,63 @@ describe('postcss', () => {
       const { css } = await pcssLite().process('.test {@apply bg-red; @supports (color: color-mix(in oklab, black, black)) {background: green;} }', processOptions)
       expect(css).toMatchSnapshot()
     })
+
+    describe('wind4', () => {
+      function pcssWind4() {
+        return postcss(postcssPlugin({
+          configOrPath: {
+            content: { filesystem: [], inline: [] },
+            presets: [presetWind4()],
+          },
+        }))
+      }
+
+      it('registers @property at the root', async () => {
+        const { css } = await pcssWind4().process(`@import "foo.css";
+.a { @apply border-1 border-solid border-black; }
+.b { @apply border-red; }`, processOptions)
+
+        expect(css.replace(/@property[^{]*\{[^}]*\}/g, '')).not.toContain('syntax:')
+        expect(css.match(/@property --un-border-opacity/g)).toHaveLength(1)
+        expect(css.indexOf('@import')).toBeLessThan(css.indexOf('@property'))
+        expect(css).toMatchSnapshot()
+
+        const { css: layered } = await pcssWind4().process(`@layer base;
+@import "foo.css";
+.a { @apply border-black; }`, processOptions)
+
+        expect(layered.indexOf('@layer base;')).toBeLessThan(layered.indexOf('@import'))
+        expect(layered.indexOf('@import')).toBeLessThan(layered.indexOf('@property'))
+      })
+
+      it('gives the hoisted @property declarations a source', async () => {
+        const root = (await pcssWind4().process(`.a { @apply border-black; }`, processOptions)).root
+
+        root.walkAtRules('property', (rule) => {
+          rule.walkDecls((declaration) => {
+            expect(declaration.source?.input.file).toBe(root.source?.input.file)
+          })
+        })
+        expect(root.source?.input.file).toBeDefined()
+        expect(root.toString()).toContain('@property')
+      })
+
+      it('keeps a registration already in the file', async () => {
+        const { css } = await pcssWind4().process(`@property --un-border-opacity{syntax:"<percentage>";inherits:false;initial-value:100%}
+.a { @apply border-black; }`, processOptions)
+
+        expect(css.match(/@property --un-border-opacity/g)).toHaveLength(1)
+      })
+
+      it('nests space-y and divide under the rule', async () => {
+        const { css } = await pcssWind4().process(`.a { @apply space-y-2; }
+.b { @apply divide-y; }`, processOptions)
+
+        expect(css).not.toContain('.\\-')
+        expect(css.replace(/@property[^{]*\{[^}]*\}/g, '')).not.toContain('syntax:')
+        expect(css).toMatchSnapshot()
+      })
+    })
   })
 
   it('theme()', async () => {
