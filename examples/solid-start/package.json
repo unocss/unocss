@@ -1,0 +1,30 @@
+{
+  "name": "solid-start",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview",
+    "start": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@solidjs/router": "^1.0.0",
+    "@solidjs/start": "^2.0.0",
+    "nitro": "^3.0.260610-beta",
+    "solid-js": "^1.9.15"
+  },
+  "devDependencies": {
+    "@unocss/preset-wind4": "link:../../packages-presets/preset-wind4",
+    "@unocss/vite": "link:../../packages-integrations/vite",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.8"
+  },
+  "stackblitz": {
+    "installDependencies": false,
+    "startCommand": "node .stackblitz.mjs && npm install && npm run dev"
+  }
+}
