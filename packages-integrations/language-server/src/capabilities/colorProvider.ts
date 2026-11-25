@@ -6,8 +6,9 @@ import { fileURLToPath } from 'node:url'
 import { INCLUDE_COMMENT_IDE } from '#integration/constants'
 import { isCssId } from '#integration/utils'
 import { getMatchedPositionsFromDoc } from '../core/cache'
-import { getColorString, getCssVariables, parseColorToRGBA } from '../utils/color'
+import { getColorString, parseColorToRGBA } from '../utils/color'
 import { getCSS } from '../utils/css'
+import { getRootVariables, getVariableNames } from '../utils/css-variables'
 
 export function registerColorProvider(
   connection: Connection,
@@ -56,19 +57,17 @@ export function registerColorProvider(
     )
 
     const isAttributify = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-attributify')
-    const isWind4 = ctx.uno.config.presets.some(i => i.name === '@unocss/preset-wind4')
+    const utilities = await Promise.all(positions.map(async ([start, end, className]) => ({
+      start,
+      end,
+      css: await getCSS(ctx.uno, isAttributify ? [className, `[${className}=""]`] : className).catch(() => ''),
+    })))
+    const rootVariables = await getRootVariables(ctx.uno, utilities.flatMap(({ css }) => getVariableNames(css)))
+
     const colors: ColorInformation[] = []
-
-    let themeCssVars: Map<string, string> | undefined
-    if (isWind4) {
-      const { css: preflightCss } = await ctx.uno.generate(new Set(), { preflights: true, safelist: false })
-      themeCssVars = getCssVariables(preflightCss)
-    }
-
-    for (const [start, end, className] of positions) {
+    for (const { start, end, css } of utilities) {
       try {
-        const css = await getCSS(ctx.uno, isAttributify ? [className, `[${className}=""]`] : className)
-        const colorString = getColorString(css, themeCssVars)
+        const colorString = getColorString(css, rootVariables)
         if (!colorString)
           continue
 
