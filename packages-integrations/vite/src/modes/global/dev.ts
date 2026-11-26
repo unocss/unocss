@@ -17,13 +17,17 @@ const HASH_LENGTH = 6
 /**
  * Serve normal entries through a path id so prerendered `<link>` URLs round-trip (#5406),
  * but keep inline requests virtual so Vite skips filesystem checks (#5494).
+ * Vite 5 checks the `?inline` request URL against `server.fs.allow` instead and
+ * answers a `\0` id with the SPA fallback, so there the id lives in the root.
  */
-function toServeId(id: string) {
+function toServeId(id: string, vite5Root?: string) {
   const { filename, query } = splitEntryId(id)
   const serveId = `/${filename}${query}`
-  return isInlineId(serveId)
-    ? toViteVirtualId(serveId)
-    : serveId
+  if (!isInlineId(serveId))
+    return serveId
+  return vite5Root
+    ? `${vite5Root.replace(/\/$/, '')}${serveId}`
+    : toViteVirtualId(serveId)
 }
 
 function isInlineId(id: string) {
@@ -39,9 +43,10 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
 
   let invalidateTimer: TimeoutTimer
   const lastServedHash = new Map<string, string>()
-  // `?inline` modules are plain JS strings that cannot accept HMR themselves,
-  // so their importers are reloaded when the served CSS changes.
-  const inlineServedHash = new Map<string, string>()
+  // `?inline` modules are JS strings that cannot accept HMR, so the browser
+  // reports the hash it runs and the importers reload when the CSS moves on.
+  const inlineClientHash = new Map<string, string>()
+  let root = process.cwd()
   let lastServedTime = Date.now()
   let resolved = false
   let resolvedWarnTimer: TimeoutTimer
@@ -72,15 +77,25 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
     return { hash: getHash(css || '', HASH_LENGTH), css }
   }
 
-  async function reloadInline(ids: Set<string>) {
+  function logError(error: unknown) {
+    const logger = servers[0]?.config.logger
+    if (logger)
+      logger.error(`[unocss] ${error instanceof Error ? error.stack || error.message : String(error)}`)
+    else
+      console.error('[unocss]', error)
+  }
+
+  async function reloadInline(ids: Iterable<string>) {
     for (const id of ids) {
-      const servedHash = inlineServedHash.get(id)
-      if (!servedHash)
+      const clientHash = inlineClientHash.get(id)
+      const layer = clientHash && await resolveLayer(ctx, getPath(id))
+      if (!layer)
         continue
-      const layer = await resolveLayer(ctx, getPath(id))
-      if (!layer || (await renderLayer(layer)).hash === servedHash)
+      // A failed generation reloads too, so the next `load` reports the error.
+      const hash = await renderLayer(layer).then(r => r.hash, () => undefined)
+      if (hash === clientHash)
         continue
-      inlineServedHash.delete(id)
+      inlineClientHash.delete(id)
       for (const server of servers) {
         const mod = server.moduleGraph.getModuleById(id)
         if (mod)
@@ -99,10 +114,10 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       }
     }
     clearTimeout(invalidateTimer)
-    invalidateTimer = setTimeout(async () => {
+    invalidateTimer = setTimeout(() => {
       lastServedHash.clear()
-      await reloadInline(ids)
       sendUpdate(ids)
+      reloadInline(ids).catch(logError)
     }, timer)
   }
 
@@ -169,12 +184,27 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
       async configureServer(_server) {
         servers.push(_server)
 
-        _server.ws.on(WS_EVENT_PREFIX, async ([layer]: string[]) => {
-          const preHash = lastServedHash.get(layer)
-          await generateCSS(layer)
-          if (lastServedHash.get(layer) !== preHash)
-            sendUpdate(entries)
+        _server.ws.on(WS_EVENT_PREFIX, async ([layer, hash, id]: string[]) => {
+          try {
+            if (id) {
+              if (!entries.has(id) || !isInlineId(id) || typeof hash !== 'string')
+                return
+              inlineClientHash.set(id, hash)
+              await reloadInline([id])
+              return
+            }
+            const preHash = lastServedHash.get(layer)
+            await generateCSS(layer)
+            if (lastServedHash.get(layer) !== preHash)
+              sendUpdate(entries)
+          }
+          catch (error) {
+            logError(error)
+          }
         })
+      },
+      configResolved(config) {
+        root = config.root
       },
       buildStart() {
         // warm up for preflights
@@ -206,7 +236,7 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         if (entry) {
           resolved = true
           clearWarnTimer()
-          const serveId = toServeId(entry)
+          const serveId = toServeId(entry, this.environment ? undefined : root)
           entries.add(serveId)
           return serveId
         }
@@ -222,8 +252,6 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         entries.add(id)
 
         const { hash, css } = await generateCSS(layer)
-        if (isInlineId(id))
-          inlineServedHash.set(id, hash)
         return {
           // add hash to the chunk of CSS that it will send back to client to check if there is new CSS generated
           code: `${css}__uno_hash_${hash}{--:'';}`,
@@ -240,8 +268,20 @@ export function GlobalModeDevPlugin(ctx: UnocssPluginContext): Plugin[] {
         return env.command === 'serve' && !config.build?.ssr
       },
       enforce: 'post',
-      async transform(code, id) {
+      async transform(code, id, options) {
         const layer = await resolveLayer(ctx, getPath(id))
+
+        if (layer && isInlineId(id)) {
+          const hash = /__uno_hash_(\w+)/.exec(code)?.[1]
+          if (!hash || options?.ssr)
+            return
+          const s = new MagicString(code)
+          s.append(`\nif (import.meta.hot) import.meta.hot.send('${WS_EVENT_PREFIX}', ${JSON.stringify([layer, hash, id])})`)
+          return {
+            code: s.toString(),
+            map: s.generateMap() as any,
+          }
+        }
 
         // inject css modules to send callback on css load
         if (layer && code.includes('import.meta.hot')) {

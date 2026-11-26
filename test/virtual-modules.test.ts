@@ -68,47 +68,153 @@ describe('vite virtual module ids', () => {
     }
   })
 
-  it('updates importers of inline CSS when later modules add utilities', async () => {
-    const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-inline-dev-')))
-    await writeFile(join(root, 'main.js'), 'import "virtual:uno.css"\nimport css from "virtual:uno.css?inline"\nexport default css\nimport.meta.hot.accept()\n')
-    await writeFile(join(root, 'noise.jsx'), 'export const word = "plain"\n')
-    await writeFile(join(root, 'late.jsx'), 'export const className = "probe"\n')
-    const server = await vite.createServer({
-      root,
-      configFile: false,
-      logLevel: 'error',
-      server: { middlewareMode: true, ws: false },
-      plugins: [UnoCSS({ configFile: false, inspector: false, rules: [['probe', { color: 'red' }]] })],
+  describe('inline CSS in dev', () => {
+    async function createInlineServer(files: Record<string, string>, rules: any[] = [['probe', { color: 'red' }]]) {
+      const root = await realpath(await mkdtemp(join(tmpdir(), 'unocss-inline-dev-')))
+      for (const [name, content] of Object.entries(files))
+        await writeFile(join(root, name), content)
+      const server = await vite.createServer({
+        root,
+        configFile: false,
+        logLevel: 'silent',
+        server: { host: '127.0.0.1', port: 0, watch: null },
+        plugins: [UnoCSS({ configFile: false, inspector: false, rules })],
+      })
+      await server.listen()
+      const { port } = server.httpServer!.address() as { port: number }
+      const socket = new WebSocket(`ws://127.0.0.1:${port}/?token=${server.config.webSocketToken}`, 'vite-hmr')
+      const events: string[] = []
+      socket.addEventListener('message', ({ data }) => {
+        const payload = JSON.parse(String(data))
+        if (payload.type === 'update')
+          events.push(...payload.updates.map((update: { path: string }) => update.path))
+        if (payload.type === 'full-reload')
+          events.push('full-reload')
+      })
+      await new Promise(resolve => socket.addEventListener('open', resolve, { once: true }))
+
+      const inlineUrl = () => server.moduleGraph.getModuleById('\0/__uno.css?inline')!.url
+      return {
+        server,
+        events,
+        inlineUrl,
+        async fetchInline() {
+          const code = (await server.transformRequest(inlineUrl()))!.code
+          const data = JSON.parse(/import\.meta\.hot\.send\('unocss:hmr', (.+)\)/.exec(code)![1])
+          return { code, run: () => socket.send(JSON.stringify({ type: 'custom', event: 'unocss:hmr', data })) }
+        },
+        async runInline() {
+          const inline = await this.fetchInline()
+          inline.run()
+          return inline.code
+        },
+        async close() {
+          socket.close()
+          await server.close()
+          await rm(root, { recursive: true, force: true })
+        },
+      }
+    }
+
+    it('updates importers when a later module changes the CSS, and only then', async () => {
+      const dev = await createInlineServer({
+        'main.js': 'import "virtual:uno.css"\nimport css from "virtual:uno.css?inline"\nexport default css\nimport.meta.hot.accept()\n',
+        'noise.jsx': 'export const word = "plain"\n',
+        'late.jsx': 'export const className = "probe"\n',
+      })
+
+      try {
+        await dev.server.transformRequest('/main.js')
+        expect(await dev.runInline()).not.toContain('.probe')
+        await dev.server.transformRequest('/__uno.css')
+
+        await dev.server.transformRequest('/noise.jsx')
+        await vi.waitFor(() => expect(dev.events).toContain('/__uno.css'))
+        expect(dev.events).not.toContain('/main.js')
+
+        await dev.server.transformRequest('/late.jsx')
+        await vi.waitFor(() => expect(dev.events).toContain('/main.js'))
+        expect((await dev.server.transformRequest(dev.inlineUrl()))?.code).toContain('.probe{color:red;}')
+      }
+      finally {
+        await dev.close()
+      }
     })
-    const paths: string[] = []
-    const send = server.ws.send.bind(server.ws)
-    server.ws.send = ((payload: any) => {
-      if (payload?.type === 'update')
-        paths.push(...payload.updates.map((update: { path: string }) => update.path))
-      if (payload?.type === 'full-reload')
-        paths.push('full-reload')
-      return send(payload)
-    }) as typeof server.ws.send
 
-    try {
-      await server.transformRequest('/main.js')
-      const inlineUrl = server.moduleGraph.getModuleById('\0/__uno.css?inline')!.url
-      expect((await server.transformRequest(inlineUrl))?.code).not.toContain('.probe')
-      await server.transformRequest('/__uno.css')
+    it('updates importers when the later module imports the inline CSS too', async () => {
+      const dev = await createInlineServer({
+        'main.js': 'import css from "virtual:uno.css?inline"\nexport default css\n',
+        'late.jsx': 'import css from "virtual:uno.css?inline"\nexport const className = "probe"\nexport default css\n',
+      })
 
-      await server.transformRequest('/noise.jsx')
-      await vi.waitFor(() => expect(paths).toContain('/__uno.css'))
-      expect(paths).not.toContain('/main.js')
-      expect(paths).not.toContain('full-reload')
+      try {
+        await dev.server.transformRequest('/main.js')
+        await dev.runInline()
+        await dev.server.transformRequest('/late.jsx')
+        await vi.waitFor(() => expect(dev.events).toContain('full-reload'))
+      }
+      finally {
+        await dev.close()
+      }
+    })
 
-      await server.transformRequest('/late.jsx')
-      await vi.waitFor(() => expect(paths).toContain('/main.js'))
-      expect((await server.transformRequest(inlineUrl))?.code).toContain('.probe{color:red;}')
-    }
-    finally {
-      await server.close()
-      await rm(root, { recursive: true, force: true })
-    }
+    it('updates importers when the CSS changed before the browser ran the inline module', async () => {
+      const dev = await createInlineServer({
+        'main.js': 'import css from "virtual:uno.css?inline"\nexport default css\n',
+        'late.jsx': 'export const className = "probe"\n',
+      })
+
+      try {
+        await dev.server.transformRequest('/main.js')
+        const inline = await dev.fetchInline()
+        await dev.server.transformRequest('/late.jsx')
+        inline.run()
+        await vi.waitFor(() => expect(dev.events).toContain('full-reload'))
+      }
+      finally {
+        await dev.close()
+      }
+    })
+
+    it('keeps the server alive and reports a failing rule through the inline module', async () => {
+      const dev = await createInlineServer({
+        'main.js': 'import "virtual:uno.css"\nimport css from "virtual:uno.css?inline"\nexport default css\n',
+        'bad.jsx': 'export const className = "boom"\n',
+      }, [[/^boom$/, () => { throw new Error('rule boom') }]])
+
+      try {
+        await dev.server.transformRequest('/main.js')
+        await dev.runInline()
+        await dev.server.transformRequest('/__uno.css')
+        await dev.server.transformRequest('/bad.jsx')
+        await vi.waitFor(() => expect(dev.events).toEqual(expect.arrayContaining(['/__uno.css', 'full-reload'])))
+        await expect(dev.server.transformRequest(dev.inlineUrl())).rejects.toThrow('rule boom')
+      }
+      finally {
+        await dev.close()
+      }
+    })
+
+    it('does not reload the page for inline CSS that only SSR loads', async () => {
+      const dev = await createInlineServer({
+        'main.js': 'import "virtual:uno.css"\n',
+        'server.js': 'import css from "virtual:uno.css?inline"\nexport default css\n',
+        'late.jsx': 'export const className = "probe"\n',
+      })
+
+      try {
+        await dev.server.transformRequest('/main.js')
+        await dev.server.transformRequest('/__uno.css')
+        await dev.server.ssrLoadModule('/server.js')
+        await dev.server.transformRequest('/late.jsx')
+        await vi.waitFor(() => expect(dev.events).toContain('/__uno.css'))
+        expect(dev.events).not.toContain('full-reload')
+        expect((await dev.server.ssrLoadModule('/server.js')).default).toContain('.probe{color:red;}')
+      }
+      finally {
+        await dev.close()
+      }
+    })
   })
 
   it('converts ids to and from virtual ids', () => {
