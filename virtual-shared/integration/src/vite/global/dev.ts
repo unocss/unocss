@@ -215,11 +215,13 @@ export function buildGlobalModeDevPlugin(
           let hmr = `
 try {
   let hash = __vite__css.match(/__uno_hash_(\\w{${hashLength}})/)
-  hash = hash && hash[1]
-  if (!hash)
-    console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
-  else
-    await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
+  if (hash) {
+    hash = hash && hash[1]
+    if (!hash)
+      console.warn('[unocss-hmr]', 'failed to get unocss hash, hmr might not work')
+    else
+      await import.meta.hot.send('${WS_EVENT_PREFIX}', ['${layer}']);
+  }
 } catch (e) {
   console.warn('[unocss-hmr]', e)
 }
