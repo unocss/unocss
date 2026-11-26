@@ -1,7 +1,7 @@
 import type { UnocssPluginContext } from '@unocss/core'
 import type { Plugin } from 'vite'
 import { resolveId } from '#integration/layers'
-import { toViteVirtualId } from '../virtual'
+import { toViteVirtualId } from '#integration/vite/virtual'
 
 const EMPTY_ENTRY_ID = toViteVirtualId('unocss:chunk-empty-entry')
 
@@ -32,7 +32,9 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
       return null
     },
     async renderChunk(_, chunk) {
-      const chunks = Object.keys(chunk.modules).map(i => files[i]).filter(Boolean)
+      const chunks = Object.keys(chunk.modules)
+        .map(i => files[i])
+        .filter(Boolean)
 
       if (!chunks.length)
         return null
@@ -40,7 +42,9 @@ export function ChunkModeBuildPlugin(ctx: UnocssPluginContext): Plugin {
       await ctx.ready
 
       const tokens = new Set<string>()
-      await Promise.all(chunks.map(c => ctx.uno.applyExtractors(c, undefined, tokens)))
+      await Promise.all(
+        chunks.map(c => ctx.uno.applyExtractors(c, undefined, tokens)),
+      )
       const { css } = await ctx.uno.generate(tokens, { minify: true })
 
       // Emit the CSS as an asset and register it on the chunk's metadata.

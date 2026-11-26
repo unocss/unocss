@@ -213,12 +213,35 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
           const fakeCssId = `${viteConfig.root}/${chunk.fileName}-unocss-hash.css`
           const preflightLayers = ctx.uno.config.preflights?.map(i => i.layer).concat(LAYER_PREFLIGHTS).filter(Boolean)
 
-          await Promise.all(preflightLayers.map(i => result.setLayer(i!, async (layerContent) => {
-            const preTransform = await applyTransformers(ctx, layerContent, fakeCssId, 'pre')
-            const defaultTransform = await applyTransformers(ctx, preTransform?.code || layerContent, fakeCssId)
-            const postTransform = await applyTransformers(ctx, defaultTransform?.code || preTransform?.code || layerContent, fakeCssId, 'post')
-            return postTransform?.code || defaultTransform?.code || preTransform?.code || layerContent
-          })))
+          await Promise.all(
+            preflightLayers.map(i =>
+              result.setLayer(i!, async (layerContent) => {
+                const preTransform = await applyTransformers(
+                  ctx,
+                  layerContent,
+                  fakeCssId,
+                  'pre',
+                )
+                const defaultTransform = await applyTransformers(
+                  ctx,
+                  preTransform?.code || layerContent,
+                  fakeCssId,
+                )
+                const postTransform = await applyTransformers(
+                  ctx,
+                  defaultTransform?.code || preTransform?.code || layerContent,
+                  fakeCssId,
+                  'post',
+                )
+                return (
+                  postTransform?.code
+                  || defaultTransform?.code
+                  || preTransform?.code
+                  || layerContent
+                )
+              }),
+            ),
+          )
 
           const cssPost = cssPostPlugins.get(options.dir)
           if (!cssPost)
@@ -286,7 +309,7 @@ export function GlobalModeBuildPlugin(ctx: UnocssPluginContext<VitePluginConfig>
       },
       async buildEnd() {
         if (!vfsLayers.size) {
-          if ((await getConfig() as VitePluginConfig).checkImport) {
+          if ((await getConfig() as VitePluginConfig).checkImport !== false) {
             this.warn(MESSAGE_UNOCSS_ENTRY_NOT_FOUND)
           }
         }

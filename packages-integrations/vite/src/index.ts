@@ -13,12 +13,12 @@ import { ShadowDomModuleModePlugin } from './modes/shadow-dom'
 import { VueScopedPlugin } from './modes/vue-scoped'
 import { createTransformerPlugins } from './transformers'
 
+export * from '#integration/vite/virtual'
 export * from './modes/chunk-build'
 export * from './modes/global'
 export * from './modes/per-module'
 export * from './modes/vue-scoped'
 export * from './types'
-export * from './virtual'
 
 export function defineConfig<Theme extends object>(config: VitePluginConfig<Theme>) {
   return config

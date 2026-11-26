@@ -7,15 +7,11 @@ function isViteVirtualId(id: string) {
 }
 
 export function toViteVirtualId(id: string) {
-  return isViteVirtualId(id)
-    ? id
-    : `${VITE_VIRTUAL_ID_PREFIX}${id}`
+  return isViteVirtualId(id) ? id : `${VITE_VIRTUAL_ID_PREFIX}${id}`
 }
 
 export function fromViteVirtualId(id: string) {
-  return isViteVirtualId(id)
-    ? id.slice(VITE_VIRTUAL_ID_PREFIX.length)
-    : id
+  return isViteVirtualId(id) ? id.slice(VITE_VIRTUAL_ID_PREFIX.length) : id
 }
 
 export function toViteClientPath(id: string) {

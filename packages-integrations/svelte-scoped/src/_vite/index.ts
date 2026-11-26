@@ -4,7 +4,11 @@ import presetUno from '@unocss/preset-uno'
 import { createContext } from '#integration/context'
 import { ConfigHMRPlugin } from './config-hmr'
 import { createCssTransformerPlugins } from './createCssTransformerPlugins'
-import { GlobalStylesPlugin } from './globalStylesPlugin'
+import {
+  GlobalStylesBuildPlugin,
+  GlobalStylesDevPlugin,
+  GlobalStylesWarnOutdatedPlugin,
+} from './globalStylesPlugin'
 import { transformPlugin } from './transform'
 
 export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = {}): Plugin[] {
@@ -21,7 +25,9 @@ export function UnocssSvelteScopedVite(options: UnocssSvelteScopedViteOptions = 
     options.classPrefix = 'uno-'
 
   const plugins: Plugin[] = [
-    GlobalStylesPlugin(context, options.injectReset),
+    ...GlobalStylesDevPlugin(context, options.injectReset),
+    GlobalStylesBuildPlugin(context, options.injectReset),
+    GlobalStylesWarnOutdatedPlugin(),
     ConfigHMRPlugin(context),
   ]
 

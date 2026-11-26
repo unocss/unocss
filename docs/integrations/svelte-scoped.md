@@ -224,18 +224,7 @@ Setup your `uno.config.ts` file as described [below](#configuration).
 
 While almost all styles are placed into individual components, there are still a few that must be placed into a global stylesheet: preflights, safelist, and an optional reset (if you use the `injectReset` option).
 
-Add the `%unocss-svelte-scoped.global%` placeholder into your `<head>` tag. In Svelte this is `index.html`. In SvelteKit this will be in `app.html` before `%sveltekit.head%`:
-
-<!-- eslint-skip -->
-
-```html [index.html]
-<head>
-  <!-- ... -->
-  <title>SvelteKit using UnoCSS Svelte Scoped</title>
-  %unocss-svelte-scoped.global%
-  %sveltekit.head%
-</head>
-```
+To do this import `uno.css` in your main entry (or the root `+layout.svelte` in SvelteKit).
 
 ## Svelte Preprocessor
 

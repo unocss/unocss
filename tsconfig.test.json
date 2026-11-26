@@ -306,6 +306,9 @@
       "#integration/utils": [
         "./virtual-shared/integration/src/utils.ts"
       ],
+      "#integration/vite": [
+        "./virtual-shared/integration/src/vite/"
+      ],
       "unocss": [
         "./packages-presets/unocss/src/"
       ],

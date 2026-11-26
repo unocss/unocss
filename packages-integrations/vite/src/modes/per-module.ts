@@ -4,7 +4,7 @@ import { Buffer } from 'node:buffer'
 import { getHash } from '#integration/hash'
 import { resolveId, resolveLayer } from '#integration/layers'
 import { getPath } from '#integration/utils'
-import { toViteVirtualId } from '../virtual'
+import { toViteVirtualId } from '#integration/vite/virtual'
 
 const VIRTUAL_PREFIX = '/@unocss/'
 const VIRTUAL_ID_PREFIX = toViteVirtualId(VIRTUAL_PREFIX)

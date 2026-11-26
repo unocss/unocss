@@ -1,5 +1,6 @@
 import type { UserConfig } from '@unocss/core'
 import type { Plugin } from 'vite'
+import type { BaseVitePluginConfig } from '#integration/vite/types'
 
 export type UnoCSSVitePlugin = Plugin[]
 
@@ -17,7 +18,7 @@ export interface VueScopedOptions {
   styleOrder?: 'before' | 'after'
 }
 
-export interface VitePluginConfig<Theme extends object = object> extends UserConfig<Theme> {
+export interface VitePluginConfig<Theme extends object = object> extends BaseVitePluginConfig, UserConfig<Theme> {
   /**
    * Enable UnoCSS inspector
    *
@@ -59,18 +60,6 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
   postcss?: boolean
 
   /**
-   * Use top level await in HMR code to avoid FOUC on dev time.
-   *
-   * You usually don't need to disable this, unless you are developing on
-   * a browser that does not support top level await.
-   *
-   * This will only affect on dev time.
-   *
-   * @default true
-   */
-  hmrTopLevelAwait?: boolean
-
-  /**
    * Fetch mode in devtools.
    *
    * Some server does not configure its CORS and you may want to set this to 'no-cors'.
@@ -79,11 +68,4 @@ export interface VitePluginConfig<Theme extends object = object> extends UserCon
    * @default 'cors'
    */
   fetchMode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
-
-  /**
-   * Disable `import 'uno.css'` existing check.
-   *
-   * @default true
-   */
-  checkImport?: boolean
 }

@@ -6,7 +6,7 @@ import { LAYER_PREFLIGHTS } from '@unocss/core'
 import { createPipelineFilter } from '#integration/context'
 import { defaultPipelineExclude } from '#integration/defaults'
 import { getHash } from '#integration/hash'
-import { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '../virtual'
+import { fromViteVirtualId, toViteClientPath, toViteVirtualId } from '#integration/vite/virtual'
 
 const GLOBAL_LAYER_ORDER_ID = 'virtual:unocss-vue-scoped-layers.css'
 const GLOBAL_LAYER_ORDER_RESOLVED_ID = toViteVirtualId(GLOBAL_LAYER_ORDER_ID)
