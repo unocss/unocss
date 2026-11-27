@@ -3,7 +3,7 @@ import presetAttributify from '@unocss/preset-attributify'
 import presetWind3 from '@unocss/preset-wind3'
 import transformerAttributifyJsx from '@unocss/transformer-attributify-jsx'
 import MagicString from 'magic-string'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 const originalCode = `
 <div h-full text-center flex select-none className={red ? 'text-red': 'text-green'}>
@@ -328,5 +328,36 @@ describe('transformerAttributifyJsx', async () => {
     await transformerAttributifyJsx().transform(code, 'app.tsx', { uno: unoWithPrefix, tokens: new Set() } as any)
 
     expect(code.toString()).toMatchInlineSnapshot(`"<div uno-hidden="" uno-text-red=""></div>"`)
+  })
+})
+
+describe('transformerAttributifyJsx VS Code env', () => {
+  const minimalCode = `<div flex text-red></div>`
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    delete process.env.VSCODE_CWD
+    delete process.env.ELECTRON_RUN_AS_NODE
+  })
+
+  it('transforms when only VSCODE_CWD is set (integrated terminal)', async () => {
+    vi.stubEnv('VSCODE_CWD', '/workspace/project')
+    const uno = await createGenerator({
+      presets: [presetWind3(), presetAttributify()],
+    })
+    const code = new MagicString(minimalCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+    expect(code.toString()).toContain('flex=""')
+    expect(code.toString()).toContain('text-red=""')
+  })
+
+  it('skips transform in extension host (ELECTRON_RUN_AS_NODE)', async () => {
+    vi.stubEnv('ELECTRON_RUN_AS_NODE', '1')
+    const uno = await createGenerator({
+      presets: [presetWind3(), presetAttributify()],
+    })
+    const code = new MagicString(minimalCode)
+    await transformerAttributifyJsx().transform(code, 'app.tsx', { uno, tokens: new Set() } as any)
+    expect(code.toString()).toBe(minimalCode)
   })
 })
