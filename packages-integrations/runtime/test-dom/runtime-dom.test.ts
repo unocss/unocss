@@ -163,4 +163,35 @@ describe('runtime dom manipulation', async () => {
     await runtime?.extract('late-rule')
     expect((await runtime?.update())?.css).toContain('.late-rule{color:red;}')
   })
+
+  it.each(['init', 'global'])('runtime sets the %s nonce before inserting every style layer', async (source) => {
+    const nonce = 'test-nonce'
+    const root = document.documentElement
+    const insertBefore = root.insertBefore.bind(root)
+    const insertions: [string | null, string][] = []
+    const insert = vi.spyOn(root, 'insertBefore').mockImplementation((node, reference) => {
+      if (node instanceof HTMLStyleElement)
+        insertions.push([node.getAttribute('data-unocss-runtime-layer'), node.nonce])
+      return insertBefore(node, reference)
+    })
+
+    try {
+      if (source === 'global')
+        window.__unocss = { runtime: { nonce } }
+
+      await initUnocssRuntime({
+        ...(source === 'init' ? { nonce } : {}),
+        defaults: { presets: [presetWind3()] },
+        inject: style => root.insertBefore(style, root.firstChild),
+        ready: () => false,
+      })
+
+      await window.__unocss_runtime!.extract('ring-red')
+      expect(insertions).toEqual([['preflights', nonce], ['default', nonce]])
+    }
+    finally {
+      insert.mockRestore()
+      delete window.__unocss
+    }
+  })
 })
