@@ -126,6 +126,12 @@ export default defineConfig({
 })
 ```
 
+## Content Security Policy
+
+If your Content Security Policy requires a nonce for inline styles, pass the nonce from your `style-src` policy to the runtime to have it applied to every generated `<style>` element before insertion.
+
+For bundler usage, pass `initUnocssRuntime({ nonce })`. For CDN usage, set `window.__unocss.runtime.nonce` before loading the runtime.
+
 ## Preventing FOUC
 
 Since UnoCSS runs after the DOM is ready, there can be a "flash of unstyled content" (FOUC) which may leads the user to see the page as unstyled.

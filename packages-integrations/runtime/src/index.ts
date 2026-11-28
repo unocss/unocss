@@ -44,6 +44,10 @@ export interface RuntimeOptions {
    */
   cloakAttribute?: string
   /**
+   * Content Security Policy nonce for generated style elements
+   */
+  nonce?: string
+  /**
    * Callback to modify config
    */
   configResolved?: (config: UserConfig, defaults: UserConfigDefaults) => void
@@ -214,6 +218,8 @@ export default async function init(inlineConfig: RuntimeOptions = {}): Promise<v
 
     if (!styleElement) {
       styleElement = defaultDocument.createElement('style')
+      if (runtimeOptions.nonce != null)
+        styleElement.nonce = runtimeOptions.nonce
       styleElement.setAttribute('data-unocss-runtime-layer', layer)
       styleElements.set(layer, styleElement)
 
